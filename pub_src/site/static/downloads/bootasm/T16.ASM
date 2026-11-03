@@ -1,0 +1,4 @@
+MOV AL,[BX]
+MOV [BX],AL
+MOV AX,[200H]
+MOV [200H],AX

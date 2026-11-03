@@ -1,0 +1,3 @@
+# Preserve the exact DOS line endings in the reader's source files.
+pub_src/workbench/bootasm/** -text
+pub_src/site/static/downloads/bootasm/** -text

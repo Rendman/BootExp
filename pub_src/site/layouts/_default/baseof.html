@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ if not .IsHome }}{{ .Title }} · {{ end }}The Bootstrap Project</title>
+<meta name="description" content="{{ .Description | default .Site.Params.description }}">
+<link rel="stylesheet" href="{{ "css/course.css" | relURL }}">
+</head>
+<body>
+<a class="skip" href="#reading">Skip to article</a>
+<header class="masthead"><a href="{{ "bootstrap/index.html" | relURL }}">THE BOOTSTRAP PROJECT</a><span>A PRACTICAL COURSE IN SMALL-SYSTEM SOFTWARE</span></header>
+<div class="page-grid">
+<aside class="sidebar" aria-label="Course navigation">
+<a class="experiment-link{{ if eq .RelPermalink "/bootstrap/" }} current{{ end }}" href="{{ "bootstrap/index.html" | relURL }}">The experiment</a>
+{{ $current := . }}
+{{ with .Site.GetPage "/bootstrap" }}
+{{ range .Sections.ByWeight }}
+<details {{ if or (eq $current.RelPermalink .RelPermalink) (.IsAncestor $current) }}open{{ end }}>
+<summary><a href="{{ .RelPermalink }}index.html"{{ if eq $current.RelPermalink .RelPermalink }} aria-current="page"{{ end }}>{{ .Title }}</a>{{ if .Params.planned }}<small>Planned</small>{{ end }}</summary>
+{{ if .RegularPages }}<ol>{{ range .RegularPages.ByWeight }}<li><a href="{{ .RelPermalink }}index.html"{{ if eq $current.RelPermalink .RelPermalink }} class="current" aria-current="page"{{ end }}>{{ .Title }}</a></li>{{ end }}</ol>{{ end }}
+</details>
+{{ end }}{{ end }}
+<p class="nav-note">8086 / 8088<br>MS-DOS · GW-BASIC<br>One working step at a time.</p>
+</aside>
+<main id="reading">
+<nav class="breadcrumbs" aria-label="Breadcrumb">{{ range .Ancestors.Reverse }}<a href="{{ .RelPermalink }}index.html">{{ if .IsHome }}Home{{ else }}{{ .Title }}{{ end }}</a><span aria-hidden="true">/</span>{{ end }}<span>{{ .Title }}</span></nav>
+{{ $download := .Params.checkpoint | default .Params.download }}
+{{ if $download }}<a class="source-link" href="{{ printf "downloads/bootasm/%s" $download | relURL }}" download><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h8l4 4v14H5V3h2m7 0v5h5M9 12l-3 3 3 3m6-6 3 3-3 3m-2-7-2 13"/></svg><span>{{ if eq $download "BOOTASM.ZIP" }}Disk sources{{ else }}Complete source{{ end }}<small>{{ $download }}</small></span></a>{{ end }}
+{{ block "main" . }}{{ end }}
+<footer class="article-footer"><span>THE BOOTSTRAP PROJECT</span><span>A practical course · 8088 workbench</span></footer>
+</main>
+</div>
+</body>
+</html>

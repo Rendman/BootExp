@@ -1,0 +1,76 @@
+name: Publish Bootstrap Experiment
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: read
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+env:
+  HUGO_VERSION: 0.169.0
+  TZ: America/Chicago
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out the project
+        uses: actions/checkout@v7
+
+      - name: Read GitHub Pages settings
+        uses: actions/configure-pages@v6
+
+      - name: Install Hugo
+        run: |
+          curl --fail --show-error --location --retry 3 \
+            --output "$RUNNER_TEMP/hugo.tar.gz" \
+            "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_linux-amd64.tar.gz"
+          mkdir -p "$RUNNER_TEMP/hugo-bin"
+          tar -xzf "$RUNNER_TEMP/hugo.tar.gz" -C "$RUNNER_TEMP/hugo-bin" hugo
+          echo "$RUNNER_TEMP/hugo-bin" >> "$GITHUB_PATH"
+
+      - name: Refresh the source downloads
+        run: python3 pub_src/tools/package_sources.py
+
+      - name: Build the website
+        # The configured root base URL and relativeURLs produce portable links.
+        run: hugo --source pub_src/site --cleanDestinationDir
+
+      - name: Check pages, links, and source listings
+        run: |
+          python3 -m venv "$RUNNER_TEMP/site-qa"
+          "$RUNNER_TEMP/site-qa/bin/pip" install --disable-pip-version-check beautifulsoup4==4.15.0
+          "$RUNNER_TEMP/site-qa/bin/python" pub_src/qa/validate_site.py
+
+      - name: Upload the published directory
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: public
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publish to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

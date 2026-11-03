@@ -1,0 +1,3 @@
+HERE:
+DB 1
+DW HERE

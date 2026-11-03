@@ -1,0 +1,13 @@
+{
+  "collection": "BOOTASM",
+  "installments": 18,
+  "assembler_basic_lines": 213,
+  "max_required_patch_lines": 45,
+  "basic_test_groups_passed": 64,
+  "dos_310_program_checks_passed": 7,
+  "html_pages_checked": 25,
+  "packaged_source_files": 59,
+  "original_basic_311_verified": false,
+  "original_basic_311_limit": "The archival COMPAQ BASIC 3.11 interpreter reports error 52 on independent OPEN statements in the generic QEMU/SeaBIOS workbench. Cause not established.",
+  "browser_visual_qa": "Unavailable: no connected browser."
+}

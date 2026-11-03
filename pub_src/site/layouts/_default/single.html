@@ -1,0 +1,10 @@
+{{ define "main" }}
+<header class="article-heading"><p class="eyebrow">BOOTASM · THE BASIC CONSTRUCTION</p><h1>{{ .Title }}</h1><p class="deck">{{ .Description }}</p></header>
+{{ if .Params.checkpoint }}<p class="checkpoint-note">Stopping point: <code>{{ .Params.checkpoint }}</code> · Save before testing.</p>{{ end }}
+<article class="prose">{{ .Content }}</article>
+{{ if eq .Weight 1 }}<figure class="cartoon"><img src="{{ "images/inspect-bytes.png" | relURL }}" alt="A programmer and a curious cat inspect tiny tiles with a large magnifying glass." loading="lazy"><figcaption>It pays to look at what is actually there.</figcaption></figure>{{ end }}
+{{ if eq .Weight 10 }}<figure class="cartoon"><img src="{{ "images/two-passes.png" | relURL }}" alt="A librarian counts spaces on a shelf before placing the waiting books." loading="lazy"><figcaption>First find the places. Then fill them.</figcaption></figure>{{ end }}
+{{ if eq .Weight 18 }}<figure class="cartoon"><img src="{{ "images/one-step.png" | relURL }}" alt="A hobbyist adds one stair tread beside a desktop computer." loading="lazy"><figcaption>Another sound step underfoot.</figcaption></figure>{{ end }}
+{{ $pages := .CurrentSection.RegularPages.ByWeight }}{{ $self := . }}
+<nav class="chapter-nav" aria-label="Installment navigation">{{ range $i,$p := $pages }}{{ if eq $p.RelPermalink $self.RelPermalink }}{{ if gt $i 0 }}{{ with index $pages (sub $i 1) }}<a href="{{ .RelPermalink }}index.html">← {{ .Title }}</a>{{ end }}{{ else }}<a href="{{ $self.CurrentSection.RelPermalink }}index.html">← Collection contents</a>{{ end }}{{ if lt (add $i 1) (len $pages) }}{{ with index $pages (add $i 1) }}<a href="{{ .RelPermalink }}index.html">{{ .Title }} →</a>{{ end }}{{ end }}{{ end }}{{ end }}</nav>
+{{ end }}
