@@ -2,7 +2,7 @@
 
 BOOTASM's first collection and the local Hugo site are implemented here. The only project reference used was the current `BOOTSTRAP_Rules_and_Plan.md` and the decisions in this conversation.
 
-GitHub Pages publication is configured in `../.github/workflows/pages.yml`. It builds and checks the site, then deploys the root `public/` directory after pushes to `main`. See the project-root [README](../README.md) for the one-time repository and Pages setup.
+GitHub Pages publication is configured in `../.github/workflows/pages.yml`. It builds and checks the site, then deploys the root `public/` directory after pushes to the repository's default branch. See the project-root [README](../README.md) for the one-time repository and Pages setup.
 
 The published hierarchy is:
 
