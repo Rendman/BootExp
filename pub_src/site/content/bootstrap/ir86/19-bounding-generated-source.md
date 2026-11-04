@@ -7,7 +7,7 @@ download = "IR19.ASM"
 
 A translator should respect the assembler's source and name limits as well as its byte-image limit.
 
-## How it works
+## Operation and backend
 
 DEFS begins at one for I_ENTRY. NEWDEF counts each emitted user definition and refuses a count above 256. EMITCHAR now counts line feeds in OUTLINES and refuses more than 4000 assembly lines. The check happens before a successful output file is reported.
 

@@ -1,0 +1,314 @@
+{
+  "operations": {
+    "NOP": {
+      "bytes": 1,
+      "template": "NOP\n"
+    },
+    "HALT": {
+      "bytes": 5,
+      "template": "MOV AX,4C00H\nINT 21H\n"
+    },
+    "LABEL": {
+      "bytes": 0,
+      "template": "U_@:\n"
+    },
+    "LIT": {
+      "bytes": 3,
+      "template": "MOV AX,#\n"
+    },
+    "EXIT": {
+      "bytes": 4,
+      "template": "MOV AH,4CH\nINT 21H\n"
+    },
+    "WORD": {
+      "bytes": 2,
+      "template": "U_@:\nDW #\n"
+    },
+    "LD": {
+      "bytes": 4,
+      "template": "MOV AX,[U_@]\n"
+    },
+    "ST": {
+      "bytes": 4,
+      "template": "MOV [U_@],AX\n"
+    },
+    "BYTE": {
+      "bytes": 1,
+      "template": "U_@:\nDB #\n"
+    },
+    "LDB": {
+      "bytes": 6,
+      "template": "MOV AL,[U_@]\nMOV AH,0\n"
+    },
+    "STB": {
+      "bytes": 4,
+      "template": "MOV [U_@],AL\n"
+    },
+    "PUSH": {
+      "bytes": 1,
+      "template": "PUSH AX\n"
+    },
+    "POP": {
+      "bytes": 1,
+      "template": "POP AX\n"
+    },
+    "ADD": {
+      "bytes": 3,
+      "template": "POP BX\nADD AX,BX\n"
+    },
+    "SUB": {
+      "bytes": 5,
+      "template": "POP BX\nSUB BX,AX\nMOV AX,BX\n"
+    },
+    "AND": {
+      "bytes": 3,
+      "template": "POP BX\nAND AX,BX\n"
+    },
+    "OR": {
+      "bytes": 3,
+      "template": "POP BX\nOR AX,BX\n"
+    },
+    "XOR": {
+      "bytes": 3,
+      "template": "POP BX\nXOR AX,BX\n"
+    },
+    "ADDR": {
+      "bytes": 3,
+      "template": "MOV AX,U_@\n"
+    },
+    "FETCH": {
+      "bytes": 4,
+      "template": "MOV BX,AX\nMOV AX,[BX]\n"
+    },
+    "FETCHB": {
+      "bytes": 6,
+      "template": "MOV BX,AX\nMOV AL,[BX]\nMOV AH,0\n"
+    },
+    "PUT": {
+      "bytes": 3,
+      "template": "POP BX\nMOV [BX],AX\n"
+    },
+    "PUTB": {
+      "bytes": 3,
+      "template": "POP BX\nMOV [BX],AL\n"
+    },
+    "BUFFER": {
+      "bytes": 0,
+      "template": ""
+    },
+    "JMP": {
+      "bytes": 3,
+      "template": "JMP U_@\n"
+    },
+    "JZ": {
+      "bytes": 9,
+      "template": "CMP AX,0\nJNE I?\nJMP U_@\nI?:\n"
+    },
+    "JNZ": {
+      "bytes": 9,
+      "template": "CMP AX,0\nJE I?\nJMP U_@\nI?:\n"
+    },
+    "EQ": {
+      "bytes": 8,
+      "template": "POP BX\nCMP BX,AX\nJNE I?\nJMP U_@\nI?:\n"
+    },
+    "NE": {
+      "bytes": 8,
+      "template": "POP BX\nCMP BX,AX\nJE I?\nJMP U_@\nI?:\n"
+    },
+    "ULT": {
+      "bytes": 8,
+      "template": "POP BX\nCMP BX,AX\nJAE I?\nJMP U_@\nI?:\n"
+    },
+    "ULE": {
+      "bytes": 8,
+      "template": "POP BX\nCMP BX,AX\nJA I?\nJMP U_@\nI?:\n"
+    },
+    "UGT": {
+      "bytes": 8,
+      "template": "POP BX\nCMP BX,AX\nJBE I?\nJMP U_@\nI?:\n"
+    },
+    "UGE": {
+      "bytes": 8,
+      "template": "POP BX\nCMP BX,AX\nJB I?\nJMP U_@\nI?:\n"
+    },
+    "SLT": {
+      "bytes": 8,
+      "template": "POP BX\nCMP BX,AX\nJGE I?\nJMP U_@\nI?:\n"
+    },
+    "SLE": {
+      "bytes": 8,
+      "template": "POP BX\nCMP BX,AX\nJG I?\nJMP U_@\nI?:\n"
+    },
+    "SGT": {
+      "bytes": 8,
+      "template": "POP BX\nCMP BX,AX\nJLE I?\nJMP U_@\nI?:\n"
+    },
+    "SGE": {
+      "bytes": 8,
+      "template": "POP BX\nCMP BX,AX\nJL I?\nJMP U_@\nI?:\n"
+    },
+    "CALL": {
+      "bytes": 3,
+      "template": "CALL U_@\n"
+    },
+    "RET": {
+      "bytes": 1,
+      "template": "RET\n"
+    },
+    "STATUS": {
+      "bytes": 4,
+      "template": "MOV AX,[R_STATUS]\n"
+    },
+    "PUTC": {
+      "bytes": 3,
+      "template": "CALL R_PUTC\n"
+    },
+    "GETC": {
+      "bytes": 3,
+      "template": "CALL R_GETC\n"
+    },
+    "OPEN": {
+      "bytes": 3,
+      "template": "CALL R_OPEN\n"
+    },
+    "CREATE": {
+      "bytes": 3,
+      "template": "CALL R_CREATE\n"
+    },
+    "READ": {
+      "bytes": 5,
+      "template": "POP DX\nPOP BX\nCALL R_READ\n"
+    },
+    "WRITE": {
+      "bytes": 5,
+      "template": "POP DX\nPOP BX\nCALL R_WRITE\n"
+    },
+    "CLOSE": {
+      "bytes": 3,
+      "template": "CALL R_CLOSE\n"
+    }
+  },
+  "profiles": {
+    "1": {
+      "bytes": 0,
+      "definitions": 0
+    },
+    "2": {
+      "bytes": 0,
+      "definitions": 0
+    },
+    "3": {
+      "bytes": 0,
+      "definitions": 0
+    },
+    "4": {
+      "bytes": 0,
+      "definitions": 0
+    },
+    "5": {
+      "bytes": 0,
+      "definitions": 0
+    },
+    "6": {
+      "bytes": 0,
+      "definitions": 0
+    },
+    "7": {
+      "bytes": 0,
+      "definitions": 0
+    },
+    "8": {
+      "bytes": 0,
+      "definitions": 0
+    },
+    "9": {
+      "bytes": 0,
+      "definitions": 0
+    },
+    "10": {
+      "bytes": 0,
+      "definitions": 0
+    },
+    "11": {
+      "bytes": 0,
+      "definitions": 0
+    },
+    "12": {
+      "bytes": 0,
+      "definitions": 0
+    },
+    "13": {
+      "bytes": 0,
+      "definitions": 0
+    },
+    "14": {
+      "bytes": 0,
+      "definitions": 0
+    },
+    "15": {
+      "bytes": 0,
+      "definitions": 0
+    },
+    "16": {
+      "bytes": 0,
+      "definitions": 0
+    },
+    "17": {
+      "bytes": 0,
+      "definitions": 0
+    },
+    "18": {
+      "bytes": 0,
+      "definitions": 0
+    },
+    "19": {
+      "bytes": 0,
+      "definitions": 0
+    },
+    "20": {
+      "bytes": 0,
+      "definitions": 0
+    },
+    "21": {
+      "bytes": 0,
+      "definitions": 0
+    },
+    "22": {
+      "bytes": 0,
+      "definitions": 0
+    },
+    "23": {
+      "bytes": 2,
+      "definitions": 1
+    },
+    "24": {
+      "bytes": 59,
+      "definitions": 8
+    },
+    "25": {
+      "bytes": 101,
+      "definitions": 11
+    },
+    "26": {
+      "bytes": 235,
+      "definitions": 24
+    },
+    "27": {
+      "bytes": 241,
+      "definitions": 25
+    },
+    "28": {
+      "bytes": 350,
+      "definitions": 34
+    },
+    "29": {
+      "bytes": 413,
+      "definitions": 39
+    },
+    "30": {
+      "bytes": 448,
+      "definitions": 42
+    }
+  }
+}

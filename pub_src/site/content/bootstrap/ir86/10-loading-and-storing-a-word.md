@@ -1,19 +1,19 @@
 +++
 title = "10 \u00b7 Loading and storing a word"
 weight = 10
-description = "Move between AX and a named word without changing its address."
+description = "Move between A and a named word without changing its address."
 download = "IR10.ASM"
 +++
 
 A declaration becomes useful when the program can read it and replace its value.
 
-## How it works
+## Operation and backend
 
-LD name emits MOV AX,[U_name]. ST name emits MOV [U_name],AX and retains the accumulator. Both transfer a word at DS:offset; a word occupies two consecutive bytes. The name operand is checked by NAMEARG and resolved by ASM86.
+LD reads a word from named storage into A. ST writes A to that storage and retains A. A word occupies two consecutive bytes in the IR low-byte-first order. The programmer must provide enough storage; access width is selected by the operation, not inferred from a declaration.
 
-These templates use direct memory operands, so BX is not required to hold the address. They do not imply that the translator tracks a declaration's type. The programmer must pair a word access with storage large enough for a word.
+The 8086 backend emits MOV AX,[U_name] and MOV [U_name],AX. These direct memory forms need no address in BX. NAMEARG checks the name and ASM86 resolves it. The program-segment offset and AX are backend choices.
 
-The test stores zero into a word initialized to seven, then loads it after replacing AX with 99. EXIT must receive zero. This distinguishes a working load from an unchanged accumulator and a working store from the original initializer.
+The test stores zero into a word initialized to seven, then loads it after replacing A with 99. EXIT must receive zero. This distinguishes a working load from an unchanged accumulator and a working store from the original initializer.
 
 ## Source changes
 

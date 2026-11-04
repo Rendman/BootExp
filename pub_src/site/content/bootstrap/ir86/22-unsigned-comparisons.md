@@ -1,17 +1,17 @@
 +++
 title = "22 \u00b7 Unsigned comparisons"
 weight = 22
-description = "Compare a saved left word with AX and branch on the result."
+description = "Compare a saved left word with A and branch on the result."
 download = "IR22.ASM"
 +++
 
 A comparison needs the same two-operand order as subtraction and a clear choice of signedness.
 
-## How it works
+## Operation and backend
 
-The comparison patterns pop the left word into BX, execute CMP BX,AX, then use an opposite short condition around a near JMP. EQ and NE compare equality; ULT, ULE, UGT, and UGE interpret both words as unsigned. AX retains the right operand rather than becoming a Boolean value.
+EQ and NE compare the saved left word with A for equality or inequality. ULT, ULE, UGT, and UGE compare them as unsigned words. Each consumes the left word, branches on its stated relation, and retains the right operand in A rather than producing a Boolean value.
 
-Effect four consumes a saved word and then requires the expression stack to be empty. Thus a conditional edge and its fall-through edge agree on depth zero. A comparison cannot discard an unrelated saved expression value. BX and flags are scratch.
+Effect four consumes one saved word and then requires the expression stack to be empty. Thus both outgoing edges have depth zero, and a comparison cannot discard an unrelated expression temporary. The backend implements the relation with POP BX, CMP BX,AX, and an opposite short condition around a near JMP.
 
 The test compares 65535 with one and takes the unsigned greater-than branch. A signed interpretation of those bits would produce a different result. Missing operands remain translation-time stack errors.
 
@@ -212,4 +212,4 @@ An unexpected PASS is a failed rejection test. Require a fresh OK before using a
 
 ## If the result differs
 
-Check operand order and the opposite short condition in the pattern. All occurrences of ? in one pattern must use the same branch number. A DOS carry branch must immediately follow DOS apart from empty or comment lines.
+Check operand order and the opposite short condition in the pattern. All occurrences of ? in one pattern must use the same branch number. Read runtime STATUS as an ordinary word; comparisons and arithmetic must not change it.

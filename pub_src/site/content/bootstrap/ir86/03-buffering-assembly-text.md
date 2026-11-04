@@ -7,7 +7,7 @@ download = "IR03.ASM"
 
 We shall collect text in memory, then write one .ASM file only after the input has been accepted.
 
-## How it works
+## Operation and backend
 
 OUTPTR begins at 6000H. EMITCHAR takes one character in AL and advances that pointer, preserving AX and BX. It checks the E000H upper bound before a store. OUTTEXT walks a zero-terminated string from SI and sends each character through EMITCHAR; SI, AL, and flags are scratch.
 

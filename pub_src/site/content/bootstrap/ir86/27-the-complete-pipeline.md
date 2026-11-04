@@ -1,32 +1,30 @@
 +++
-title = "27 · The complete translation pipeline"
-weight = 27
-description = "Build the translator with ASM86, then translate, assemble, and run a file-copy program."
+title = "33 \u00b7 The complete translation pipeline"
+weight = 33
+description = "Use the portable file interface, then build and run its DOS binding."
 download = "IR86.ASM"
 +++
 
-The completed IR86 translator is the saved IR26 program. This installment adds no translator source. It checks the complete route from a source program to a DOS executable which reads and writes files.
+The completed translator is the saved IR32 program. This installment adds no translator source. It follows a portable file-copy program through the current backend and assembler to an executable.
 
-## Preserve a working translator
-
-At DOS:
+## Preserve the translator
 
 ```dos
-COPY IR26.ASM IR86.ASM
+COPY IR32.ASM IR86.ASM
 CHECK ASMKEEP
 ```
 
-Enter IR86 at the assembler prompt. Require `OK 03871 bytes` and PASS. Then preserve the executable:
+Enter IR86. Require `OK 06407 bytes` and PASS, then preserve the result:
 
 ```dos
 COPY IR86.COM IRKEEP.COM
 ```
 
-ASMKEEP is the completed ASM86 preserved in the workbench guide. Its executable comes from BOOTASM; it directly assembles this translator's source. No other assembler or runtime library participates.
+ASMKEEP is the completed ASM86 from the workbench. Its executable comes from BOOTASM and directly assembles this translator. The runtime binding is emitted as source by IR86 and assembled by the same ASM86.
 
-## A program that copies a file
+## A portable file copier
 
-Save the following as COPYFILE.IR. IN0 and OUT0 begin consecutive zero-terminated filename bytes. INPUT and OUTPUT retain DOS handles; DATA is the one-byte transfer buffer.
+Save COPYFILE.IR:
 
 ```ir
 BYTE IN0 73
@@ -46,92 +44,84 @@ BYTE OUT6 84
 BYTE OUT7 0
 WORD INPUT 0
 WORD OUTPUT 0
+WORD COUNT 0
+WORD WRITTEN 0
 BUFFER DATA 1
 LABEL MAIN
 ADDR IN0
-TODX
-LIT 3D00H
-DOS
-JC FAILURE
+OPEN
 ST INPUT
+STATUS
+JNZ FAILURE
 ADDR OUT0
-TODX
-LIT 0
-TOCX
-LIT 3C00H
-DOS
-JC FAILURE
+CREATE
 ST OUTPUT
+STATUS
+JNZ FAILURE
 LABEL AGAIN
 LD INPUT
-TOBX
-LIT 1
-TOCX
+PUSH
 ADDR DATA
-TODX
-LIT 3F00H
-DOS
-JC FAILURE
-JZ FINISH
-LD OUTPUT
-TOBX
-LIT 1
-TOCX
-ADDR DATA
-TODX
-LIT 4000H
-DOS
-JC FAILURE
 PUSH
 LIT 1
+READ
+ST COUNT
+STATUS
+JNZ FAILURE
+LD COUNT
+JZ FINISH
+LD OUTPUT
+PUSH
+ADDR DATA
+PUSH
+LD COUNT
+WRITE
+ST WRITTEN
+STATUS
+JNZ FAILURE
+LD WRITTEN
+PUSH
+LD COUNT
 NE FAILURE
 JMP AGAIN
 LABEL FINISH
 LD INPUT
-TOBX
-LIT 3E00H
-DOS
-JC FAILURE
+CLOSE
+STATUS
+JNZ FAILURE
 LD OUTPUT
-TOBX
-LIT 3E00H
-DOS
-JC FAILURE
+CLOSE
+STATUS
+JNZ FAILURE
 HALT
 LABEL FAILURE
 LIT 1
 EXIT
 ```
 
-The names spell IN.TXT and OUT.TXT. Function 3DH opens input read-only. Function 3CH creates or truncates output with ordinary attributes in CX. Both return a handle in AX or set carry on failure. Each JC is the next nonempty instruction after DOS, and ST saves the successful handle before another operation changes AX.
+IN0 and OUT0 begin consecutive, zero-terminated filename bytes. INPUT and OUTPUT hold opaque tokens, not operating-system descriptors. COUNT and WRITTEN retain service results before STATUS is inspected. DATA is the transfer buffer.
 
-Function 3FH reads one byte into DATA. A zero count means end of file, so JZ selects the closing path. A successful nonempty read is followed by a one-byte write with function 40H. The program checks both carry and the returned count; a short write is a failure even when carry is clear. The comparison consumes the saved count before transferring.
+OPEN requests readable input. CREATE requests writable output and replaces its contents. Each service is followed by an ordinary STATUS/JNZ check. No physical register or interrupt number appears in the program.
 
-Both handles are closed with function 3EH before HALT returns zero. FAILURE returns one; DOS closes remaining process handles on termination. A failure after output creation can leave an incomplete OUT.TXT. This program copies bytes without treating Ctrl-Z as a file terminator.
+READ takes two saved arguments: the handle, then the buffer pointer. A supplies the requested count. Its returned count is stored before STATUS is read; a zero count with successful status means EOF. WRITE uses the same argument order. Both its status and its actual count are checked. The comparison cannot destroy the stored service status.
+
+CLOSE releases each handle and its status is checked. FAILURE returns one; the environment releases remaining program resources on termination. Failure after creation can leave partial output. The copier treats all file bytes as data, including zero and Control-Z.
 
 ## Translate and assemble
 
-```dos
-CHECK IRKEEP
-```
+Run CHECK IRKEEP and enter COPYFILE. Require `OK COPYFILE.ASM 03855 text bytes` and PASS. TYPE COPYFILE.ASM shows how this backend represents the virtual operations and appends its runtime.
 
-Enter COPYFILE. Require `OK COPYFILE.ASM 01242 text bytes` and PASS. TYPE COPYFILE.ASM to inspect the generated header, prefixed names, and DOS-call sequences. Then:
+Run CHECK ASMKEEP and enter COPYFILE. Require `OK 00687 bytes` and PASS. This second OK confirms assembly and address resolution; the translator's OK alone is insufficient.
 
-```dos
-CHECK ASMKEEP
-```
+## Exercise the binding
 
-Enter COPYFILE again. Require `OK 00198 bytes` and PASS. IR86 produced text; ASM86 produced the machine file. A successful first step cannot substitute for a successful second step.
-
-## Copy and compare
-
-Use COPY CON IN.TXT to enter:
+Use COPY CON IN.TXT to enter this sentence, finishing with Ctrl-Z and Enter:
 
 ```text
 An IR86 file copy.
 ```
 
-Finish with Ctrl-Z and Enter. Run:
+Then run:
 
 ```dos
 CHECK COPYFILE
@@ -139,9 +129,9 @@ TYPE OUT.TXT
 COMP IN.TXT OUT.TXT
 ```
 
-Require PASS, the same displayed sentence, and the DOS COMP matching-files report with no differing bytes. Answer N when COMP asks whether to compare more files. DOS 3.10 may report `Eof mark not found` for a file without a text end marker; the comparison must still report `Files compare ok`. Comparing displayed text alone would miss differences in undisplayed bytes.
+Require PASS, the same sentence, and the COMP matching-files report with no differing bytes. Answer N when asked whether to compare more files. DOS 3.10 may report `Eof mark not found` for a file without its text marker; the comparison must still report `Files compare ok`.
 
-For a failure check, rename the input before running the program:
+For the missing-input test, use HOLD.TXT only if that name is free:
 
 ```dos
 REN IN.TXT HOLD.TXT
@@ -149,6 +139,6 @@ CHECK COPYFILE
 REN HOLD.TXT IN.TXT
 ```
 
-Use HOLD.TXT only if that name is free. CHECK must report FAIL for the missing input. The earlier OUT.TXT is not replaced because input opening precedes output creation. An unexpected PASS means this rejection check did not behave as specified.
+Require FAIL. The earlier OUT.TXT is not replaced because input is opened before output is created. An unexpected PASS is a failed rejection check.
 
-The program exercises declarations, pointers, word storage, loops, comparisons, register transfers, and checked file services. If it differs, inspect the generated assembly before changing the source: verify filename zeroes, handle stores, and the placement of each carry branch. Keep ASMKEEP and IRKEEP intact while diagnosing a failed program.
+This same IR program can be given to another backend with the defined file services and corresponding input files. Only the generated code and binding implementation change. If a DOS result differs, inspect the generated call sequences and the private handle lookup; do not add register setup to the IR source.

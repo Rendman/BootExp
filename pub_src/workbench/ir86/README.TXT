@@ -7,13 +7,14 @@ Read The IR workbench before the construction installments.
 BOOTASM.BAS The identical published BASIC bootstrap assembler.
 ASM86.ASM   The identical published native assembler source.
 AS07.ASM    The published reader used as the first source base.
-IR01.ASM through IR26.ASM: complete construction checkpoints.
-IR86.ASM    Completed translator, identical to IR26.ASM.
-T01.IR through T26.IR: accepted input fixtures.
-X01.IR through X26.IR: rejected input fixtures.
+IR01.ASM through IR32.ASM: complete construction checkpoints.
+IR86.ASM    Completed translator, identical to IR32.ASM.
+T01.IR through T32.IR: accepted input fixtures.
+X01.IR through X32.IR: rejected input fixtures.
 T-prefixed ASM files: expected text produced by the translator tests.
 VIEW.BAS and CHECK.BAT: the unchanged published workbench helpers.
-HELLO.IR, COUNT.IR, BYTES.IR: complete console example programs.
+HELLO.IR, COUNT.IR, BYTES.IR, ECHOIR.IR: complete portable examples.
+RUNTIME.ASM: the 8086/DOS binding fragment; do not run it alone.
 COPYFILE.IR: the complete file-copy pipeline program.
 Matching example ASM files were produced by the translator.
 
@@ -37,11 +38,12 @@ path or extension. Use ordinary disk files, not DOS devices.
 Source errors leave older assembly output untouched; I/O failures
 during writing may leave partial output. Require a fresh OK.
 
-IR86 uses a word accumulator and a bounded expression stack.
-Labels, transfers, calls, returns, DOS, and exits require empty
-expression depth. JC/JNC must immediately follow DOS apart from
-empty lines and comments. Consult the complete language reference
-for syntax, register effects, segment use, diagnostics, and limits.
+IR86 defines virtual accumulator A and sixteen-bit word semantics.
+Its source does not expose processor registers or flags. Runtime
+services use opaque file handles, byte streams, and normalized STATUS.
+Ordinary computations do not replace that status. READ/WRITE consume
+a saved handle and buffer pointer, with the count in A. Consult the
+language reference and its separate target-profile section.
 
 COPYFILE reads IN.TXT and creates or truncates OUT.TXT. Test it in
 the work directory with the supplied sentence and compare the files.

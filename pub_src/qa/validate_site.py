@@ -58,5 +58,5 @@ if errors:
  print('\n'.join(errors));raise SystemExit(1)
 asm_count=len(json.loads((ROOT/'qa/asm86/package-files.json').read_text()))
 ir_count=len(json.loads((ROOT/'qa/ir86/package-files.json').read_text()))
-text=f'PASS: {count} HTML pages; all local links, assets and anchors; 59 BOOTASM + {asm_count} ASM86 + {ir_count} IR86 archive sources; ASCII/CRLF/8.3; all 17 BASIC, 29 ASM86, and 26 IR86 printed edits reconstruct exact checkpoints; editorial exclusions.'
+text=f'PASS: {count} HTML pages; all local links, assets and anchors; 59 BOOTASM + {asm_count} ASM86 + {ir_count} IR86 archive sources; ASCII/CRLF/8.3; all 17 BASIC, 29 ASM86, and 32 IR86 printed edits reconstruct exact checkpoints; editorial exclusions.'
 print(text);(ROOT/'qa/site-results.txt').write_text(text+'\n')

@@ -5,15 +5,15 @@ description = "Form an address and fetch through the accumulator."
 download = "IR15.ASM"
 +++
 
-A loop needs to advance a pointer instead of naming every byte separately. ADDR produces an offset as an ordinary word.
+A loop needs to advance a pointer instead of naming every byte separately. ADDR produces a pointer whose representation belongs to the backend.
 
-## How it works
+## Operation and backend
 
-ADDR name emits MOV AX,U_name. FETCH copies that offset to BX and reads a word through [BX]. FETCHB reads one byte and clears AH. Both replace the address in AX with the fetched value; BX and flags are scratch.
+ADDR supplies a pointer to named declared storage. FETCH replaces that pointer in A with a word from the storage; FETCHB returns a zero-extended byte. A pointer may be copied, compared for equality, and advanced by valid byte offsets. Its numeric representation is chosen by the backend.
 
-All addresses are offsets in DS, which remains the DOS program segment. No segment value or far pointer is introduced. A pointer can be advanced with the existing word arithmetic. The programmer must keep it within allocated storage and allow two bytes for a word fetch.
+The IR storage model has no segment concept. Keep accesses within allocated storage and allow two consecutive bytes for a word. Do not use absolute address constants or depend on a pointer bit pattern.
 
-The test fetches a declared word and a byte through their addresses, adds the two zero values, and returns zero. The emitted target uses exactly the BX-based memory form already accepted by ASM86.
+This backend emits MOV AX,U_name, then copies an indirect address to BX for access through [BX]. FETCHB clears AH after the byte load. The test fetches a declared word and byte through ADDR, adds their zero values, and returns zero.
 
 ## Source changes
 

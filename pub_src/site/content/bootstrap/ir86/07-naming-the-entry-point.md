@@ -7,7 +7,7 @@ download = "IR07.ASM"
 
 A source needs an entry point and a namespace which cannot collide with registers or translator labels.
 
-## How it works
+## Operation and backend
 
 NAMEARG scans and validates a name, then copies it to 2500H while preserving the line cursor. Names begin with a letter or underscore and contain letters, digits, or underscores. Their limit is fourteen characters: the emitted U_ prefix must still fit ASM86's sixteen-character label limit. Register spellings can be IR names because the prefix keeps them distinct.
 

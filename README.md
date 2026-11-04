@@ -2,9 +2,9 @@
 
 An original, gradual course in building an 8086/8088 software workbench, starting with an assembler written in GW-BASIC.
 
-The Hugo site lives in `pub_src/site`. Its published output goes to `public/` at the project root. BOOTASM contains eighteen construction installments, a workbench guide, a language reference, and complete example programs. ASM86 sits beside it with twenty-nine assembly construction checkpoints and a thirtieth installment proving self-assembly. IR86 is the third collection, with twenty-six translator checkpoints, a complete translation pipeline, a language reference, and examples. Each collection has its own workbench guide and source downloads.
+The Hugo site lives in `pub_src/site`. Its published output goes to `public/` at the project root. BOOTASM contains eighteen construction installments, a workbench guide, a language reference, and complete example programs. ASM86 sits beside it with twenty-nine assembly construction checkpoints and a thirtieth installment proving self-assembly. IR86 is the third collection, with thirty-two translator checkpoints, a complete translation pipeline, a language reference, and examples. Each collection has its own workbench guide and source downloads.
 
-ASM86's first executable is built directly by the completed BOOTASM.BAS. Two native generations reproduce that executable byte for byte. ASM86 directly builds the 3,871-byte IR86 translator, whose assembly output is assembled by that same ASM86. Native DOS 3.10 checks cover the translator, its generated console programs, and a file copier. RILL is the next tool and is not implemented here.
+ASM86's first executable is built directly by the completed BOOTASM.BAS. Two native generations reproduce that executable byte for byte. ASM86 directly builds the 6,407-byte IR86 translator, whose assembly output is assembled by that same ASM86. IR programs use a processor-independent virtual machine and portable runtime services. An independent interpreter and the 8086 backend agree on unchanged sources; native DOS 3.10 checks cover the binding, byte streams, and a file copier. RILL is the next tool and is not implemented here.
 
 ## Publish with GitHub Pages
 

@@ -1,19 +1,19 @@
 +++
-title = "25 \u00b7 Preparing DOS registers"
+title = "25 \u00b7 A portable runtime status"
 weight = 25
-description = "Move words between AX and the three DOS argument registers."
+description = "Observe an ordinary word result without exposing processor flags."
 download = "IR25.ASM"
 +++
 
-DOS handle services take arguments in BX, CX, and DX. Small register-transfer operations connect the accumulator model to that interface.
+Input and output need a defined failure result which remains meaningful on different processors and operating systems.
 
-## How it works
+## Operation and backend
 
-TOBX, TOCX, and TODX copy AX into the named register. FROMBX, FROMCX, and FROMDX copy it back into AX. Each lowers to one ordinary word MOV, changes no expression-stack depth, and leaves arithmetic flags unchanged.
+STATUS replaces virtual accumulator A with the result of the most recent runtime service: zero means success and one means failure. At program entry that value is zero. Ordinary arithmetic, storage, and comparisons do not change it. A procedure can change it by performing a service.
 
-These registers are not independent IR variables. Binary operators and pointer operations use BX as scratch. Prepare DOS argument registers after any computation which might disturb them, then load AX with the service number and call DOS. Values which must survive arbitrary procedures belong in named storage.
+The 8086 binding stores this word in R_STATUS. Its STATUS pattern is a word load; the compiler appends runtime data after the program exit. Target-byte and definition accounting reserve that data before user operations. R_ names belong to the binding, separate from U_ program names.
 
-No segment register or SP transfer is provided. DS remains the program segment, pointers are offsets within it, and the expression/call-stack convention remains intact. The test saves zero in DX, disturbs AX, then retrieves the saved value for EXIT.
+The language exposes neither a CPU flag nor an operating-system error number. Another backend can represent the status differently while preserving the returned word. The test disturbs A and then observes the initial zero.
 
 ## Source changes
 
@@ -35,26 +35,33 @@ Insert this source:
 
 ```asm
 
-T_TOBX:
-DB 77,79,86,32,66,88,44,65,88,13,10,0
-
-T_TOCX:
-DB 77,79,86,32,67,88,44,65,88,13,10,0
-
-T_TODX:
-DB 77,79,86,32,68,88,44,65,88,13,10,0
-
-T_FROMBX:
-DB 77,79,86,32,65,88,44,66,88,13,10,0
-
-T_FROMCX:
-DB 77,79,86,32,65,88,44,67,88,13,10,0
-
-T_FROMDX:
-DB 77,79,86,32,65,88,44,68,88,13,10,0
+T_STATUS:
+DB 77,79,86,32,65,88,44,91,82,95,83,84,65,84,85,83
+DB 93,13,10,0
 ```
 
-### Change 2: following `OPTAB:`
+### Change 2: following `ZERONEXT:`
+
+Unchanged code immediately before the edit:
+
+```asm
+
+ZERONEXT:
+DB 44,48,0
+```
+
+Insert after old physical line 1093, before the following old line.
+
+Insert this source:
+
+```asm
+
+T_RTSTATUS:
+DB 82,95,83,84,65,84,85,83,58,13,10,68,87,32,48,13
+DB 10,0
+```
+
+### Change 3: following `OPTAB:`
 
 Unchanged code immediately before the edit:
 
@@ -69,21 +76,11 @@ Insert after old physical line 979, before the following old line.
 Insert this source:
 
 ```asm
-DB 84,79,66,88,0,0,0,0,0,0,2,0
-DW T_TOBX
-DB 84,79,67,88,0,0,0,0,0,0,2,0
-DW T_TOCX
-DB 84,79,68,88,0,0,0,0,0,0,2,0
-DW T_TODX
-DB 70,82,79,77,66,88,0,0,0,0,2,0
-DW T_FROMBX
-DB 70,82,79,77,67,88,0,0,0,0,2,0
-DW T_FROMCX
-DB 70,82,79,77,68,88,0,0,0,0,2,0
-DW T_FROMDX
+DB 83,84,65,84,85,83,0,0,0,0,4,0
+DW T_STATUS
 ```
 
-### Change 3: following `STATWORD:`
+### Change 4: following `STATWORD:`
 
 Unchanged code immediately before the edit:
 
@@ -102,7 +99,70 @@ MOV CX,39
 Put this source in their place:
 
 ```asm
-MOV CX,45
+MOV CX,40
+```
+
+### Change 5: following `MAINPRESENT:`
+
+Unchanged code immediately before the edit:
+
+```asm
+MAINPRESENT:
+CALL BALANCED
+CALL FINISHOUTPUT
+```
+
+Insert after old physical line 35, before the following old line.
+
+Insert this source:
+
+```asm
+MOV SI,T_RTSTATUS
+CALL OUTTEXT
+```
+
+### Change 6: following `ROOM:`
+
+Unchanged code immediately before the edit:
+
+```asm
+MOV [OUTPTR],AX
+MOV AX,15
+MOV [TARGETSIZE],AX
+```
+
+Remove these exact old lines (physical positions 14–14 in `IR24.ASM`):
+
+```asm
+MOV AX,1
+```
+
+Put this source in their place:
+
+```asm
+MOV AX,2
+```
+
+### Change 7: following `ROOM:`
+
+Unchanged code immediately before the edit:
+
+```asm
+CALL GETNAME
+MOV AX,6000H
+MOV [OUTPTR],AX
+```
+
+Remove these exact old lines (physical positions 12–12 in `IR24.ASM`):
+
+```asm
+MOV AX,15
+```
+
+Put this source in their place:
+
+```asm
+MOV AX,17
 ```
 
 ## Build the checkpoint
@@ -111,16 +171,14 @@ MOV CX,45
 CHECK ASMKEEP
 ```
 
-Enter `IR25` at ASM86's `Source name:` prompt. Require `OK 03736 bytes` followed by PASS. This builds `IR25.COM` directly with the completed assembler. Save the source and executable before running the test.
+Enter `IR25` at ASM86's `Source name:` prompt. Require `OK 03638 bytes` followed by PASS. This builds `IR25.COM` directly with the completed assembler. Save the source and executable before running the test.
 
 Create `T25.IR` with `COPY CON T25.IR`, enter this text, and finish with Ctrl-Z and Enter. The Ctrl-Z keystroke ends console input; it is not a printed language token.
 
 ```ir
 LABEL MAIN
-LIT 0
-TODX
 LIT 99
-FROMDX
+STATUS
 EXIT
 ```
 
@@ -132,11 +190,11 @@ Enter `T25` at `IR source name:`. Apart from DOS echo and the checker's separati
 
 ```text
 IR source name: T25
-OK T25.ASM 00150 text bytes
+OK T25.ASM 00154 text bytes
 PASS
 ```
 
-Run `TYPE T25.ASM`. Its complete text must be:
+Run `TYPE T25.ASM`. The program prefix must be as follows; the backend runtime follows it.
 
 ```asm
 CLD
@@ -147,21 +205,21 @@ INT 21H
 I_ENTRY:
 JMP U_MAIN
 U_MAIN:
-MOV AX,0
-MOV DX,AX
 MOV AX,99
-MOV AX,DX
+MOV AX,[R_STATUS]
 MOV AH,4CH
 INT 21H
 ```
 
-Assemble that generated source with `CHECK ASMKEEP`, entering `T25`. Require `OK 00029 bytes` and PASS. The text-byte count above includes CR/LF and is distinct from this machine-image count.
+Assemble that generated source with `CHECK ASMKEEP`, entering `T25`. Require `OK 00028 bytes` and PASS. The text-byte count above includes CR/LF and is distinct from this machine-image count.
 
-Run `GWBASIC VIEW.BAS`, enter `T25.COM`, and require length **29 bytes** with these hexadecimal bytes. Use `SYSTEM` afterward to return to DOS.
+Run `GWBASIC VIEW.BAS`, enter `T25.COM`, and require length **28 bytes** with these hexadecimal bytes. Use `SYSTEM` afterward to return to DOS.
+
+This checkpoint includes the runtime fragments introduced so far. The reference lists the complete final binding. Compare the leading bytes below; the viewer must still report the full file length.
 
 ```text
 FC 81 FC FE FF 74 05 B8 07 4C CD 21 E9 00 00 B8
-00 00 8B D0 B8 63 00 8B C2 B4 4C CD 21
+63 00 8B 06 1A 01 B4 4C CD 21 00 00
 ```
 
 `T25.COM` is a complete program. Run `CHECK T25`. It returns zero and the checker reports PASS.
@@ -172,7 +230,7 @@ Enter this separate input as `X25.IR` using COPY CON and the same end-of-input k
 
 ```ir
 LABEL MAIN
-TOCX EXTRA
+STATUS EXTRA
 ```
 
 Run `CHECK IR25` and enter `X25`. Require this diagnostic and FAIL:
@@ -186,4 +244,4 @@ An unexpected PASS is a failed rejection test. Require a fresh OK before using a
 
 ## If the result differs
 
-Check operand order and the opposite short condition in the pattern. All occurrences of ? in one pattern must use the same branch number. A DOS carry branch must immediately follow DOS apart from empty or comment lines.
+Check operand order and the opposite short condition in the pattern. All occurrences of ? in one pattern must use the same branch number. Read runtime STATUS as an ordinary word; comparisons and arithmetic must not change it.

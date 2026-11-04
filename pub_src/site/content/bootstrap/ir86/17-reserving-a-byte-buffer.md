@@ -7,13 +7,13 @@ download = "IR17.ASM"
 
 BUFFER names a run of consecutive bytes which pointer operations can traverse.
 
-## How it works
+## Operation and backend
 
 BUFFER takes a name and a count from one through 256. NUMV retains that count. ZEROBUFFER first expands the name definition, then emits DB rows of at most sixteen zero values. CX counts bytes still required and BP counts the current row. OUTTEXT and EMITCHAR preserve those counters.
 
 Grouping the zeroes keeps each assembly line short and avoids spending one source line per byte. The final row may be partial. Each row ends with CR/LF, and no extra alignment byte is inserted.
 
-The count is deliberately bounded so a declaration remains easy to inspect. Larger working areas can be addressed explicitly within the allocated segment, but that requires a memory plan; BUFFER itself reserves bytes in the emitted image. The test crosses a row boundary and fetches its initial zero byte.
+The count is deliberately bounded so a declaration remains easy to inspect. Larger working areas require multiple declarations and a plan for valid pointer offsets. This backend reserves BUFFER bytes in the emitted image. The test crosses a row boundary and fetches its initial zero byte.
 
 ## Source changes
 

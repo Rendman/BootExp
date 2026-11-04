@@ -1,159 +1,376 @@
 +++
-title = "IR86 language and translator reference"
-weight = 28
-description = "Every operation, its stack contract, the assembly interface, resource bounds, and diagnostics."
+title = "IR86 language and runtime reference"
+weight = 34
+description = "A processor-independent contract, followed by the separate 8086/DOS binding."
 download = "IR86.ASM"
 +++
 
-This reference describes the completed IR86.COM, assembled from IR86.ASM by the completed ASM86. Earlier construction checkpoints accept only their introduced operations. IR86 translates text into text; ASM86 encodes that assembly into an 8086/8088 DOS `.COM` file.
+IR86 defines a virtual machine and a runtime-service interface. A backend implements that contract for a processor and environment. The language does not specify CPU registers, processor flags, interrupts, segments, or a native calling convention. The backend constructed in this collection emits assembly accepted by ASM86 and supplies a DOS binding.
 
-## Invocation and results
+## Values and storage
 
-Run CHECK IRKEEP, or CHECK IR86 if using the final tool under its original name. At `IR source name:` supply one through eight letters, digits, or underscores, without path or extension. IR86 reads NAME.IR and, after successful validation, writes NAME.ASM in the current directory. Use ordinary disk names; DOS device names are excluded from the workbench even with an extension.
+The virtual accumulator **A** holds an unsigned sixteen-bit word. Arithmetic wraps modulo 65536, independently of the processor's native arithmetic width. Signed comparisons interpret the same bits as two's-complement values from -32768 through 32767. A byte is eight bits. The initial value of A is unspecified; load it before use. These are IR data definitions, not requirements for a sixteen-bit processor.
 
-Success prints `OK NAME.ASM nnnnn text bytes` and returns zero; CHECK prints PASS. The count includes every CR/LF byte. Failure prints `IR ERROR nnnnn CODE n` and returns one; CHECK prints FAIL. The first number is the one-based physical input line, or zero before a source line has been read. Output is not created for a rejected source. An I/O error during final creation, writing, or closing can leave partial output; require a fresh OK.
+Declared storage is a consecutive sequence of bytes without alignment padding. WORD stores its low byte first: this byte order is part of the IR contract. A backend on another byte order must preserve it. LDB and FETCHB return zero-extended byte values. STB and PUTB store the low eight bits of A and retain the complete A value.
 
-Then run CHECK ASMKEEP and enter NAME. Require its own OK and PASS before using NAME.COM. ASM86 reports undefined or duplicate names and resolves all addresses. An older machine file can remain after an assembly failure and must not be mistaken for new output.
+A pointer identifies declared storage; its numeric representation is chosen by the backend. Obtain it with ADDR. Pointers may be saved, compared for equality, and advanced by valid byte offsets within declared storage. Do not assume an absolute address, inspect a pointer's bit pattern, depend on signed pointer ordering, or access memory outside declared storage. Zero is not a valid storage pointer. The backend need not detect an invalid access.
 
-## Source grammar and program shape
+Code labels and storage names share a namespace, but have different uses. Branches and CALL require code labels. ADDR and named memory accesses require storage. Wrong-kind references, an invalid pointer, or RET without an active call are invalid program behavior; the small translator does not prove all such properties.
 
-- Each nonempty line contains one operation followed by its whitespace-separated arguments. Commas, colons, quoted strings, character constants, and expressions are not argument syntax.
-- Semicolon starts a comment. Tabs become spaces and ASCII case is ignored. Normal line endings are CR/LF; bare CR, bare LF, a final unterminated line, and Control-Z end-of-input are also recognized.
-- Names contain one through fourteen letters, digits, or underscores, starting with a letter or underscore. The translator prefixes U_ when emitting a name. Register and operation spellings may be names. Names for storage and code share one namespace.
-- Numeric tokens are unsigned decimal or hexadecimal ending in H, beginning with a decimal digit: use 0FFH, not FFH. Values range from zero through 65535. A numeric token, like any token, may not exceed sixteen characters. LIT does not take a label; ADDR forms a named address.
-- BYTE, WORD, and BUFFER declarations precede the first executable label. That label must be LABEL MAIN. Subsequent LABEL operations identify code locations. There are no segment, alignment, import, external, macro, or include directives.
-- An executable statement before MAIN or a declaration after MAIN is rejected. Missing MAIN is rejected at end of source. The translator checks name spelling; ASM86 checks duplicate definitions and undefined references. Neither tool proves that a branch or memory access uses a name of the intended kind.
+## Text form
 
-The generated header clears direction, requires entry SP=FFFEH, and jumps over declarations to U_MAIN. A failed entry-stack check returns DOS status seven without an IR source diagnostic. If the final statement can fall through, the translator appends a zero-status HALT. A final HALT, EXIT, JMP, or RET needs no appended exit. A label does not prevent execution from falling into its body.
+- Each nonempty line is one operation followed by whitespace-separated arguments. Semicolon begins a comment. Case is ignored and tabs act as spaces.
+- Names contain one through fourteen letters, digits, or underscores, beginning with a letter or underscore. Operation spellings may also be names.
+- Numbers are unsigned decimal, or hexadecimal ending in H and beginning with a decimal digit: 0FFH is valid. Values are 0–65535; BYTE initializers narrow this to 0–255. Tokens may not exceed sixteen characters.
+- Numeric tokens are values, not expressions. No signs, quoted strings, character constants, commas, macros, includes, or segment directives are defined. LIT takes a number; ADDR forms a named pointer.
+- BYTE, WORD, and BUFFER declarations precede the first executable label, LABEL MAIN. Subsequent LABEL operations define code positions. A declaration after MAIN or executable operation before MAIN is rejected.
+- MAIN is required. The normal end of a program terminates with status zero if control can fall through its last operation. HALT, EXIT, JMP, and RET are already terminal operations.
 
-## Accumulator and expression stack
+Normal CR/LF, bare CR, bare LF, a final line without a terminator, and Control-Z end-of-input are recognized by the text reader. Empty and comment-only lines have no runtime effect.
 
-AX holds one sixteen-bit accumulator. PUSH saves its current word; POP restores the most recently saved word. Binary operations consume a saved left operand and use AX as their right operand. Arithmetic wraps modulo 65536. The same bit pattern can be interpreted as signed or unsigned when a comparison explicitly selects its ordering.
+## Expression and call semantics
 
-The expression stack has at most thirty-two saved words within a basic block. It must be empty at every label, branch, procedure call, return, DOS operation, termination, and end of source. A comparison consumes its left word before checking that boundary. Every source statement is checked, including unreachable statements; this is a linear stack discipline, not a reachability analysis.
+PUSH saves A on an abstract stack; POP retrieves the most recent saved word. A binary operation consumes one saved **left** operand and uses A as its **right** operand. SUB therefore computes left minus A.
 
-The emitted stack uses SS:SP. CALL return addresses share that stack, so expression words cannot be procedure arguments or cross a call. AX and named storage carry values between procedures. A procedure may use its own balanced expressions. There is no automatic local frame, parameter list, or runtime recursion-depth check. Keep native call nesting modest and the upper 4 KB clear for stack use.
+The expression stack is empty at a label, transfer, call, return, service boundary, termination, and end of source. A comparison consumes its left operand before checking the empty boundary. READ and WRITE consume both their arguments before that check. Every source statement is checked, including unreachable code. The current translator supports thirty-two saved words within a basic block.
 
-## Storage and value operations
+CALL passes A to a named procedure; RET returns its A value. Named storage holds persistent state. There is no implicit parameter list or local-variable frame. A procedure's own expressions must be balanced. No physical registers are part of this calling contract, and no processor call-stack layout is promised.
 
-Here `name` is a checked name, `n` an unsigned word, and `count` a byte-buffer length. A stack change of -1 requires an existing saved word; zero leaves its depth unchanged.
+## Data and value operations
 
-| Source | Stack change | Meaning |
+| Form | Stack effect | Defined action |
 |---|---|---|
-| BYTE name n | 0 | Declare one byte, initialized from 0–255 |
-| WORD name n | 0 | Declare one word, low byte first |
-| BUFFER name count | 0 | Declare 1–256 consecutive zero bytes |
-| LABEL name | Empty required | Define the current code position; first code label is MAIN |
-| LIT n | 0 | AX = n |
-| LD name | 0 | AX = word at DS:U_name |
-| ST name | 0 | Store AX as a word at DS:U_name; retain AX |
-| LDB name | 0 | Load one byte and zero-extend it into AX |
-| STB name | 0 | Store AL as one byte; retain AX |
-| ADDR name | 0 | AX = offset U_name |
-| FETCH | 0 | AX = word at the address in AX |
-| FETCHB | 0 | AX = zero-extended byte at the address in AX |
-| PUT | -1 | Pop an address, store AX there as a word, retain AX |
-| PUTB | -1 | Pop an address, store AL there as a byte, retain AX |
-| PUSH | +1 | Save AX |
-| POP | -1 | Replace AX with the saved top word |
+| BYTE name n | None | Declare one initialized byte |
+| WORD name n | None | Declare one initialized word in IR byte order |
+| BUFFER name count | None | Declare 1–256 consecutive zero bytes |
+| LABEL name | Empty | Define a code position; the first is MAIN |
+| LIT n | Unchanged | A = n |
+| LD name | Unchanged | A = word in named storage |
+| ST name | Unchanged | Store A as a word; retain A |
+| LDB name | Unchanged | Load a byte and zero-extend it into A |
+| STB name | Unchanged | Store the low byte; retain A |
+| ADDR name | Unchanged | A = pointer to named storage |
+| FETCH / FETCHB | Unchanged | Replace the pointer in A with its word/byte value |
+| PUT / PUTB | Consume one | Pop a pointer and store A's word/byte there; retain A |
+| PUSH | Add one | Save A |
+| POP | Consume one | Replace A with the saved word |
 
-Declarations occupy bytes in the emitted image and have no automatic alignment. A word access needs two consecutive bytes; an unaligned word is permitted by the processor. Operation width is explicit and is not inferred from declaration names. FETCH and PUT use BX as a scratch address register. The programmer is responsible for valid pointers and sufficient storage.
+Slashes in tables separate alternatives. Type one operation per line. Width belongs to the operation, not an inferred declaration type. A word access requires two valid consecutive bytes.
 
-All pointers are offsets in DS. There are no far pointers, segment transfers, allocator, or runtime memory checks. The header requires a full segment, but unused memory is not automatically initialized. An explicitly chosen working area must be initialized and kept clear of the loaded image, the PSP, and the high stack.
+## Arithmetic and comparisons
 
-## Arithmetic and bit operations
+ADD, SUB, AND, OR, and XOR each consume one saved left word and put the word result in A. ADD and SUB wrap modulo 65536; the others operate on all sixteen bits. There is no multiply, divide, remainder, shift, floating-point, or overflow-trapping operation. Such computations can be expressed by explicit procedures within the available operations.
 
-Each operation below consumes one saved left word, leaves the result in AX, and uses BX and arithmetic flags as scratch. Slashes in the tables separate alternatives; type one operation per line.
-
-| Operation | Result |
+| Form | Condition or result |
 |---|---|
-| ADD | left + AX, modulo 65536 |
-| SUB | left - AX, modulo 65536 |
-| AND | Bitwise AND of left and AX |
-| OR | Bitwise OR of left and AX |
-| XOR | Bitwise XOR of left and AX |
+| NOP | No observable operation |
+| JMP name | Transfer unconditionally |
+| JZ name / JNZ name | Transfer if A is zero / nonzero; retain A |
+| EQ name / NE name | Compare left and A for equality / inequality |
+| ULT name / ULE name | Unsigned left less than / less than or equal to A |
+| UGT name / UGE name | Unsigned left greater than / greater than or equal to A |
+| SLT name / SLE name | Signed left less than / less than or equal to A |
+| SGT name / SGE name | Signed left greater than / greater than or equal to A |
+| CALL name | Call a procedure with A |
+| RET | Return its A value |
+| HALT | Terminate with program status zero |
+| EXIT | Terminate with program status A modulo 256 |
 
-No multiply, divide, remainder, shift, floating-point, or overflow-trapping operation is defined. These would require additional target support or explicit routines. Unsigned literal 65535 supplies the signed bit pattern -1; 32768 supplies -32768. There is no signed literal syntax.
+Comparisons consume one saved word, require the remaining expression stack to be empty, and branch on their stated relation. They retain the **right operand** in A; they do not produce a Boolean word. All other transfers and terminations require an already empty expression stack. The conditions describe values, not hardware flags.
 
-## Transfers and comparisons
+## Portable runtime services
 
-| Source | Stack condition | Effect |
+Services operate on the program's byte streams and file environment. They set a persistent status word: **zero means success, one means failure**. STATUS copies that word into A and does not clear it. Its initial value is zero. Arithmetic, comparisons, loads, stores, and procedures without a service do not change it. A service inside a procedure can change it.
+
+| Service | Arguments | Value returned in A |
 |---|---|---|
-| NOP | Unchanged | Emit one native NOP |
-| JMP name | Empty | Near transfer to U_name |
-| JZ name | Empty | Transfer if AX is zero; retain AX |
-| JNZ name | Empty | Transfer if AX is nonzero; retain AX |
-| EQ name / NE name | Consume one, then empty | Compare left with AX for equality or inequality |
-| ULT name / ULE name | Consume one, then empty | Unsigned left less than / less than or equal to AX |
-| UGT name / UGE name | Consume one, then empty | Unsigned left greater than / greater than or equal to AX |
-| SLT name / SLE name | Consume one, then empty | Signed left less than / less than or equal to AX |
-| SGT name / SGE name | Consume one, then empty | Signed left greater than / greater than or equal to AX |
-| CALL name | Empty | Near procedure call; AX carries a value by convention |
-| RET | Empty | Near return; AX is retained |
-| HALT | Empty | Terminate with DOS status zero |
-| EXIT | Empty | Terminate with the low byte of AX as the DOS status |
+| PUTC | Low eight bits of A | 1 after writing a byte, otherwise 0 |
+| GETC | None | Byte 0–255, or 65535 for EOF/error |
+| OPEN | A = pointer to zero-terminated ASCII name | Opaque readable handle, or 0 |
+| CREATE | A = pointer to name | Opaque writable handle, or 0 |
+| READ | Saved handle, then saved buffer pointer; A = requested count | Actual count; 0 for EOF or failure |
+| WRITE | Same argument order as READ | Actual count, including partial progress |
+| CLOSE | A = handle | 0; inspect STATUS |
+| STATUS | None | Most recent service status, 0 or 1 |
 
-Comparisons branch; they do not produce a Boolean value in AX. They retain the right operand there and use BX and flags as scratch. Signed ordering uses two's-complement values from -32768 through 32767; unsigned ordering uses zero through 65535. Equality has the same meaning for both.
+All services except STATUS are empty-expression boundaries after consuming their arguments. STATUS is an ordinary value operation and may be used within an expression.
 
-Every conditional transfer uses a nearby opposite short condition around a near JMP. The target remains U_name for ASM86 to resolve. A generated skip name such as I0001 is reserved to the translator and counts toward the assembler's symbol limit. Conditional targets can span the bounded image without exceeding short-branch reach.
+PUTC performs no newline conversion. GETC's EOF is successful: A is 65535 and STATUS is zero. An input error returns 65535 with STATUS one. Every byte value, including 255, remains distinct from EOF. Terminal buffering and echoing belong to the environment; redirected byte streams provide reproducible input.
 
-## DOS interface
+OPEN opens an existing file for reading. CREATE prepares a write-only file and replaces its contents with an empty sequence on success. Handles are opaque tokens: save and pass them, test for zero, but do not perform arithmetic on them or treat them as operating-system descriptors. CLOSE invalidates a token after success. Its numeric value may be reused for a new file. Remaining program resources are released on termination.
 
-| Source | Stack condition | Effect |
-|---|---|---|
-| TOBX / TOCX / TODX | Unchanged | Copy AX into BX, CX, or DX |
-| FROMBX / FROMCX / FROMDX | Unchanged | Copy BX, CX, or DX into AX |
-| DOS | Empty | Execute INT 21H with the prepared registers |
-| JC name / JNC name | Empty | Branch on carry set / clear from the immediately preceding DOS |
+READ returns a short count successfully when fewer bytes are available. Zero with STATUS zero is EOF; zero with STATUS one is failure. WRITE succeeds only for the requested complete count; a short write returns its partial count with STATUS one. Other file-service errors return zero with STATUS one. Zero-count READ and WRITE validate the handle, do not access the buffer, and return zero successfully; WRITE does not change the file in that case.
 
-JC or JNC must be the next nonempty statement after DOS. Comments and blank lines are permitted between them. Another operation or label consumes the pending carry context, and a carry branch consumes it too. This prevents an unrelated computation from accidentally supplying the tested flags.
+File names resolve in the binding's file environment. Available name forms, file availability, terminal policy, and resource capacity are environment properties. The examples use ordinary ASCII names IN.TXT and OUT.TXT. An error is reported through the normalized status, not an environment error number. A failure after creation can leave a partial output file.
 
-AX supplies AH's service number and any AL parameter. BX, CX, and DX supply the service's documented arguments. DOS result registers are available through AX and the FROM operations. Ordinary IR computations use BX as scratch where stated; procedures and DOS may change other registers. Prepare DOS arguments after computations which could disturb them and save needed results in named storage.
+## Current translator and target profile
 
-There is no segment-register or SP bridge. Use services compatible with the common program segment and check the DOS manual for each call's arguments, results, and carry convention. The translator does not validate a service number or a handle. An INT 21H service which terminates the program does not return to the following IR operation.
+This section describes the **8086/DOS implementation**, separately from the language above. Another backend must preserve the language and service results while choosing its own representation and environmental requirements.
 
-## Translation representation
+Run CHECK IRKEEP or CHECK IR86. At `IR source name:` enter a one-to-eight-character DOS base name of letters, digits, or underscores. The tool reads NAME.IR and writes NAME.ASM in the current directory. Use ordinary disk names, excluding DOS devices such as CON and NUL even with an extension. These prompt restrictions do not define the IR runtime file-name interface.
 
-The native translator uses the published ASM86 reader, scanner, numeric reader, table search, and DOS reporting conventions. A fourteen-byte instruction record contains an eight-byte zero-padded name, argument class, expression/control effect, emitted machine-byte count, a padding byte, and a word template pointer.
+Success prints `OK NAME.ASM nnnnn text bytes` and returns zero. Failure prints `IR ERROR nnnnn CODE n` and returns one. CHECK reports PASS or FAIL immediately. The line number is one-based physical input, or zero before reading. Source rejection leaves old assembly untouched; a write/close failure may leave partial output. Require a fresh OK, then a separate ASM86 OK before using NAME.COM.
 
-EXPAND reads zero-terminated assembly text. @ inserts the saved name from 2500H; # inserts the checked numeric spelling from 2520H; ? inserts the current four-digit branch number. It saves the template cursor while a substitution is emitted. Templates contain source text only; ASM86 alone supplies machine encodings.
+This backend maps A to AX and uses a native stack for expression words and return addresses. The generated DOS header clears direction and checks the normal full-segment entry SP=FFFEH. Its failure status seven and its segment arrangement are target requirements, not language semantics. DS, ES, and SS retain the DOS program segment. Keep the upper 4 KB clear for native stack use; native call depth is not dynamically checked.
 
-Argument classes are zero=no arguments, one=numeric value, two=name reference, three=label definition, four=byte declaration, five=word declaration, six=buffer declaration, and seven=conditional target. Effects are zero=ordinary, one=push, two=consume, three=empty boundary, four=consume then empty, five=terminal empty boundary, six=DOS boundary, and seven=carry boundary. FLOW uses these effects independently of argument spelling.
+User names are prefixed U_. Conditional transfers use an opposite short condition around a near JMP, with I0001-style skip labels. I_ENTRY belongs to the entry header. R_ names and storage belong to the runtime. The backend appends that runtime after the program's terminating path.
 
-NAMEARG and NUMARG preserve the line cursor while copying their saved tokens. VALUE preserves SI but uses the other work registers. OUTTEXT advances SI; EMITCHAR preserves AX and BX, updates OUTPTR, counts generated line feeds, and changes flags. FOUR preserves all word registers while emitting its digits. SIZEADD updates TARGETSIZE from the record count or a buffer's length. NEWDEF bounds generated definitions. WRITEOUT uses the checked output pointer to write the buffered text. ERROR reports LINENO and terminates without returning.
+The final DOS runtime reserves 448 machine bytes and 42 definitions. Its eight slots map opaque tokens to private descriptors. A slot stores the descriptor plus one, reserving zero for an unused entry, and a permission bit distinguishes readable and writable handles. R_FIND validates and translates a token. The program cannot obtain the descriptor through any IR operation.
 
-## Resource bounds
+The binding uses DOS handle reads and writes for byte streams, preserving all byte values under redirection. It converts service errors, EOF, short writes, and close results to the portable interface. Zero-count paths are handled explicitly. Ordinary DOS disk names are required in this environment, and resource exhaustion can occur before the runtime's maximum capacity is reached.
 
-| Resource | Bound or requirement | Reason |
-|---|---|---|
-| Input physical lines | 4,000 | Bounded source processing and reports |
-| Input physical width | 120 characters, including comments and tabs | Fixed line buffer |
-| Token width | 16 characters | Fixed token and numeric-spelling buffers |
-| IR name width | 14 characters | U_ must fit ASM86's name limit |
-| Numeric value | 0–65535 | Unsigned word; BYTE narrows it to 0–255 |
-| BUFFER count | 1–256 bytes | Compact, inspectable declarations |
-| Expression words | 32 within a basic block | Bounded temporary use and simple stack checking |
-| Assembly-text bytes | 32,768, including CR/LF | Buffer at 6000H–DFFFH |
-| Generated assembly lines | 4,000 | ASM86's source bound |
-| Generated definitions | 256 total | Includes I_ENTRY, every user definition, and conditional skip labels |
-| Generated machine image | 8,192 bytes | Includes header, declarations, code, and any appended HALT |
-| Program memory | Full 64 KB segment, entry SP=FFFEH | Fixed translator buffers and generated-program memory convention |
-| Stack reservation | Upper 4 KB kept free | Separates native calls and expression words from data |
+### Translation records
 
-With no conditional skip labels, at most 255 user definitions fit beside I_ENTRY. Duplicate definitions still consume the translator's accounting and are then rejected by ASM86. Generated template lines fit within ASM86's physical-width bound. No new assembler instruction form or executable format is required.
+The native translator reuses the published ASM86 readers and table search. A fourteen-byte record contains an eight-byte zero-padded operation name, argument class, expression effect, this backend's machine-byte count, padding, and a template pointer. Machine-byte counts and templates are backend data, not definitions of IR meaning.
 
-## Diagnostics
+EXPAND substitutes @ with a saved name, # with a checked numeric spelling, and ? with a generated branch number. Runtime fragments are emitted as assembly text. ASM86 alone encodes the instructions. Each appended fragment remains separately identifiable in the translator's data, so a new service need not replace unrelated text.
+
+FLOW handles ordinary operations, push, consume-one, empty boundary, consume-one-then-empty, terminal boundary, and consume-two-then-empty effects (codes 0 through 6). There is no hardware-flag state in the IR parser. SIZEADD and NEWDEF account for the selected backend, including its reserved runtime. OUTTEXT advances its text cursor; EMITCHAR preserves its byte argument and counts generated lines. WRITEOUT writes the accepted text only after validation.
+
+### Implementation limits
+
+| Resource | Current limit |
+|---|---|
+| Physical input | 4,000 lines, 120 characters per line |
+| Tokens / names | 16 / 14 characters |
+| BUFFER declaration | 1–256 bytes |
+| Expression temporaries | 32 words within a basic block |
+| Assembly text | 32,768 bytes including CR/LF |
+| Generated assembly | 4,000 lines and 256 definitions |
+| Generated machine image | 8,192 bytes, including header and runtime |
+| Open files in this binding | At most eight opaque handles; services still report environment failures |
+| Native memory arrangement | Full 64 KB DOS segment, normal entry stack |
+
+The final header and runtime consume 43 of the definition entries, leaving 213 for user definitions and conditional skip labels. Duplicates and undefined names are diagnosed by ASM86. These finite implementation limits do not make the language's operations processor instructions.
+
+### Diagnostics
 
 | Code | Meaning |
 |---|---|
-| 1 | Syntax or context: unknown operation, extra token, misplaced declaration/executable statement, token too long, or invalid source base name |
-| 2 | Numeric spelling or value above 65535 |
-| 3 | Malformed or overlong name, or missing/incorrect initial MAIN label |
-| 4 | Byte/buffer range, expression underflow, nonempty control boundary, or carry branch without its DOS context |
-| 5 | Input, output-text, generated-line, definition, target-image, or expression-depth capacity exceeded |
-| 6 | DOS file failure, short write, or invalid source byte |
-| 7 | Translator entry stack differs from FFFEH |
+| 1 | Syntax/context: unknown operation, extra token, misplaced statement/declaration, overlong token, or bad tool base name |
+| 2 | Numeric spelling or word overflow |
+| 3 | Malformed/overlong name or missing/incorrect first MAIN label |
+| 4 | Byte/buffer range, expression underflow, or nonempty control boundary |
+| 5 | Input, text, line, definition, image, or expression capacity exceeded |
+| 6 | Translator file failure, short write, or invalid source byte |
+| 7 | Native translator entry stack differs from its target requirement |
 
-The line report counts physical input lines, including blank and comment lines. End-of-source checks refer to the last completed physical line. ASM86's separate diagnostics refer to physical lines in the generated .ASM file, which need not correspond one for one with .IR lines.
+A runtime service failure is different: it sets the portable STATUS word in the generated program. The translator's diagnostic codes concern building that program. ASM86's later line reports refer to generated assembly, not directly to IR source lines.
 
-For instruction encodings and signed conditions consult Intel Corporation, *The 8086 Family User's Manual*, October 1979. For handles, console services, and process termination consult the MS-DOS 3.10 programmer's reference supplied with the machine, particularly INT 21H functions 02H, 09H, 0AH, 3CH–3FH, 40H, and 4CH. Check each service's documented result and carry behavior rather than treating all DOS calls alike.
+## Complete DOS binding source
+
+The following fragment is appended by this backend. It implements the services above; it is not a standalone executable to run. Its physical registers, interrupt numbers, and descriptor representation do not occur in IR programs.
+
+```asm
+R_OK:
+MOV DX,0
+MOV [R_STATUS],DX
+RET
+R_ERROR:
+MOV DX,1
+MOV [R_STATUS],DX
+RET
+R_FAIL:
+MOV AX,0
+JMP R_ERROR
+
+R_PUTC:
+MOV [R_BYTE],AL
+MOV BX,1
+MOV CX,1
+MOV DX,R_BYTE
+MOV AH,40H
+INT 21H
+JAE R_PUTCOUNT
+JMP R_FAIL
+R_PUTCOUNT:
+CMP AX,1
+JE R_PUTGOOD
+JMP R_ERROR
+R_PUTGOOD:
+JMP R_OK
+
+R_GETC:
+MOV BX,0
+MOV CX,1
+MOV DX,R_BYTE
+MOV AH,3FH
+INT 21H
+JAE R_GETCOUNT
+MOV AX,65535
+JMP R_ERROR
+R_GETCOUNT:
+CMP AX,0
+JNE R_GETBYTE
+MOV AX,65535
+JMP R_OK
+R_GETBYTE:
+MOV AL,[R_BYTE]
+MOV AH,0
+JMP R_OK
+
+R_OPEN:
+MOV DX,3D00H
+JMP R_FILE
+
+R_CREATE:
+MOV DX,3C00H
+JMP R_FILE
+
+R_FILE:
+MOV [R_MODE],DX
+MOV [R_NAME],AX
+CALL R_FREE
+CMP BX,0
+JNE R_HAVESLOT
+JMP R_FAIL
+R_HAVESLOT:
+MOV DX,[R_NAME]
+MOV CX,0
+MOV AX,[R_MODE]
+INT 21H
+JAE R_FILEGOOD
+JMP R_FAIL
+R_FILEGOOD:
+INC AX
+MOV DX,[R_MODE]
+CMP DX,3C00H
+JNE R_READSLOT
+ADD AX,8000H
+R_READSLOT:
+MOV BX,[R_SLOT]
+MOV [BX],AX
+MOV AX,[R_NUMBER]
+JMP R_OK
+R_FREE:
+MOV BX,R_HANDLES
+MOV CX,1
+R_NEXTSLOT:
+MOV AX,[BX]
+CMP AX,0
+JE R_SLOTFOUND
+ADD BX,2
+INC CX
+CMP CX,9
+JB R_NEXTSLOT
+MOV BX,0
+RET
+R_SLOTFOUND:
+MOV [R_SLOT],BX
+MOV [R_NUMBER],CX
+RET
+
+R_FIND:
+CMP BX,1
+JB R_BADHANDLE
+CMP BX,8
+JA R_BADHANDLE
+DEC BX
+ADD BX,BX
+ADD BX,R_HANDLES
+MOV [R_SLOT],BX
+MOV BX,[BX]
+CMP BX,0
+JE R_BADHANDLE
+MOV AX,1
+CMP BX,8000H
+JB R_HANDLEKIND
+AND BX,7FFFH
+MOV AX,2
+R_HANDLEKIND:
+DEC BX
+RET
+R_BADHANDLE:
+MOV AX,0
+RET
+
+R_READ:
+MOV [R_COUNT],AX
+MOV [R_BUFFER],DX
+CALL R_FIND
+CMP AX,1
+JE R_READVALID
+JMP R_FAIL
+R_READVALID:
+MOV CX,[R_COUNT]
+CMP CX,0
+JNE R_READMORE
+MOV AX,0
+JMP R_OK
+R_READMORE:
+MOV DX,[R_BUFFER]
+MOV AH,3FH
+INT 21H
+JAE R_READGOOD
+JMP R_FAIL
+R_READGOOD:
+JMP R_OK
+
+R_WRITE:
+MOV [R_COUNT],AX
+MOV [R_BUFFER],DX
+CALL R_FIND
+CMP AX,2
+JE R_WRITEVALID
+JMP R_FAIL
+R_WRITEVALID:
+MOV CX,[R_COUNT]
+CMP CX,0
+JNE R_WRITEMORE
+MOV AX,0
+JMP R_OK
+R_WRITEMORE:
+MOV DX,[R_BUFFER]
+MOV AH,40H
+INT 21H
+JAE R_WRITECOUNT
+JMP R_FAIL
+R_WRITECOUNT:
+MOV DX,[R_COUNT]
+CMP AX,DX
+JE R_WRITEGOOD
+JMP R_ERROR
+R_WRITEGOOD:
+JMP R_OK
+
+R_CLOSE:
+MOV BX,AX
+CALL R_FIND
+CMP AX,0
+JNE R_CLOSEVALID
+JMP R_FAIL
+R_CLOSEVALID:
+MOV AH,3EH
+INT 21H
+JAE R_CLOSEGOOD
+JMP R_FAIL
+R_CLOSEGOOD:
+MOV BX,[R_SLOT]
+MOV AX,0
+MOV [BX],AX
+JMP R_OK
+
+R_STATUS:
+DW 0
+
+R_BYTE:
+DB 0
+
+R_MODE:
+DW 0
+R_NAME:
+DW 0
+R_SLOT:
+DW 0
+R_NUMBER:
+DW 0
+R_HANDLES:
+DW 0,0,0,0,0,0,0,0
+
+R_COUNT:
+DW 0
+R_BUFFER:
+DW 0
+```
+
+For this binding consult Intel Corporation, *The 8086 Family User's Manual*, October 1979, and the MS-DOS 3.10 programmer's reference supplied with the machine, particularly INT 21H handle services and process termination. These document the implementation target; the portable service contract above remains the interface used by IR source.

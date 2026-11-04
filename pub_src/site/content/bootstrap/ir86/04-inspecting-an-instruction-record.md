@@ -7,7 +7,7 @@ download = "IR04.ASM"
 
 Before using an instruction record to select target text, we can inspect the result of its lookup directly.
 
-## How it works
+## Operation and backend
 
 LOOK is the published ASM86 table search. BX supplies the table address, CX its count, and AX a record stride of fourteen bytes. It returns a record in BX or zero and preserves the source cursor SI. The record begins with a zero-padded name.
 

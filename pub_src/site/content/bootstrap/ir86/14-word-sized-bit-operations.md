@@ -7,11 +7,11 @@ download = "IR14.ASM"
 
 Bit masks and packed fields need logical operations on the complete word.
 
-## How it works
+## Operation and backend
 
-Each pattern pops the saved word into BX and applies the selected word operation to AX and BX. AND retains bits set in both, OR retains bits set in either, and XOR retains bits which differ. AX receives the word result; BX and flags are scratch.
+AND retains bits set in both the saved left word and A. OR retains bits set in either, and XOR retains bits which differ. Each consumes one saved expression word and leaves the sixteen-bit result in A.
 
-The table supplies the same consume-one stack effect as ADD. There is no separate parser for each mnemonic. A missing left operand is still a stack error, not a zero value silently supplied by the translator.
+The backend pops the saved word into BX and combines it with AX. The instruction table supplies the same consume-one effect as ADD, so no separate parser is needed for each mnemonic. A missing left operand is a stack error, not a zero silently supplied by the translator.
 
 The test forms (15 AND 10) XOR 3 OR 1, which is nine, then subtracts nine. Unsigned decimal spelling is used for the masks; equivalent hexadecimal spelling is accepted by the existing numeric reader.
 

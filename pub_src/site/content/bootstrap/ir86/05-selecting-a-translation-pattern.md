@@ -7,7 +7,7 @@ download = "IR05.ASM"
 
 Repeated target sequences belong in a table. We shall recognize NOP and HALT and emit their fixed assembly patterns.
 
-## How it works
+## Operation and backend
 
 LOOK is the published fixed-record search. BX is the table base, CX the record count, and AX the stride. It returns a record in BX or zero, preserving the source cursor SI. Each IR record reserves eight bytes for its zero-padded name, then argument class, stack effect, target byte count, one padding byte, and a word template pointer. The stride is fourteen.
 

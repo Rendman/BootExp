@@ -1,8 +1,10 @@
 """Prepare authored IR86 source checkpoints and manuscript facts, never COM bytes."""
 from pathlib import Path
 import re,json
+from ir86_runtime_text import runtime,part_names,PARTS
 ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/ir86';Q=ROOT/'qa/ir86'
 W.mkdir(parents=True,exist_ok=True);Q.mkdir(parents=True,exist_ok=True)
+PROFILES=json.loads((Q/'runtime-sizes.json').read_text())
 def dos(p,s):p.write_bytes((s.rstrip()+'\n').replace('\r\n','\n').replace('\n','\r\n').encode('ascii'))
 def parts(text,starts):
  positions={n:text.index('\n'+n+':\n')+1 for n in starts}
@@ -22,7 +24,7 @@ def textfield(name,s):fields[name]=name+':\n'+''.join('DB '+','.join(str(x) for 
 textfield('PROMPT','IR source name: $');textfield('ERRMSG','IR ERROR $');textfield('IREXT','.IR\0');textfield('ASMEXT','.ASM\0');textfield('BYTEMSG',' text bytes\r\n$');textfield('SPACE',' $');textfield('CRLF','\r\n\0')
 fields['FOURDIV']='FOURDIV:\nDW 1000,100,10,1\n';fields['FOUREND']='FOUREND:\n'
 for name in ['NUMV','TPL','DEPTH','TARGETSIZE','DEFS','OUTLINES','BRANCHNO']:fields[name]=name+':\nDW 0\n'
-for name in ['CLASS','EFFECT','INSIZE','CODE','LAST','HASCARRY']:fields[name]=name+':\nDB 0\n'
+for name in ['CLASS','EFFECT','INSIZE','CODE','LAST']:fields[name]=name+':\nDB 0\n'
 textfield('ZEROSTART','DB 0\0');textfield('ZERONEXT',',0\0')
 # The strings below are authored assembly TEXT. Only the project assembler encodes instructions.
 TEMPLATES={'HEADER':'CLD\nCMP SP,0FFFEH\nJE I_ENTRY\nMOV AX,4C07H\nINT 21H\nI_ENTRY:\nJMP U_MAIN\n',
@@ -33,14 +35,14 @@ TEMPLATES={'HEADER':'CLD\nCMP SP,0FFFEH\nJE I_ENTRY\nMOV AX,4C07H\nINT 21H\nI_EN
 'ADDR':'MOV AX,U_@\n','FETCH':'MOV BX,AX\nMOV AX,[BX]\n','FETCHB':'MOV BX,AX\nMOV AL,[BX]\nMOV AH,0\n',
 'PUT':'POP BX\nMOV [BX],AX\n','PUTB':'POP BX\nMOV [BX],AL\n','BUFFER':'',
 'JMP':'JMP U_@\n','JZ':'CMP AX,0\nJNE I?\nJMP U_@\nI?:\n','JNZ':'CMP AX,0\nJE I?\nJMP U_@\nI?:\n',
-'CALL':'CALL U_@\n','RET':'RET\n','DOS':'INT 21H\n','JC':'JAE I?\nJMP U_@\nI?:\n','JNC':'JB I?\nJMP U_@\nI?:\n'}
+'CALL':'CALL U_@\n','RET':'RET\n','STATUS':'MOV AX,[R_STATUS]\n','PUTC':'CALL R_PUTC\n','GETC':'CALL R_GETC\n','OPEN':'CALL R_OPEN\n','CREATE':'CALL R_CREATE\n','READ':'POP DX\nPOP BX\nCALL R_READ\n','WRITE':'POP DX\nPOP BX\nCALL R_WRITE\n','CLOSE':'CALL R_CLOSE\n'}
 for op,opposite in [('EQ','JNE'),('NE','JE'),('ULT','JAE'),('ULE','JA'),('UGT','JBE'),('UGE','JB'),('SLT','JGE'),('SLE','JG'),('SGT','JLE'),('SGE','JL')]:TEMPLATES[op]='POP BX\nCMP BX,AX\n'+opposite+' I?\nJMP U_@\nI?:\n'
-for r in ['BX','CX','DX']:TEMPLATES['TO'+r]='MOV '+r+',AX\n';TEMPLATES['FROM'+r]='MOV AX,'+r+'\n'
+for part in PARTS:textfield('T_RT'+part,PARTS[part]+'\n\0')
 for key,value in TEMPLATES.items():textfield('T_'+key,value.replace('\n','\r\n')+'\0')
 # name -> (argument class, expression/control effect, emitted machine-byte count)
-OPS={'NOP':(0,0,1),'HALT':(0,5,5),'LABEL':(3,3,0),'LIT':(1,0,3),'EXIT':(0,5,4),'WORD':(5,0,2),'LD':(2,0,4),'ST':(2,0,4),'BYTE':(4,0,1),'LDB':(2,0,6),'STB':(2,0,4),'PUSH':(0,1,1),'POP':(0,2,1),'ADD':(0,2,3),'SUB':(0,2,5),'AND':(0,2,3),'OR':(0,2,3),'XOR':(0,2,3),'ADDR':(2,0,3),'FETCH':(0,0,4),'FETCHB':(0,0,6),'PUT':(0,2,3),'PUTB':(0,2,3),'BUFFER':(6,0,0),'JMP':(2,5,3),'JZ':(7,3,9),'JNZ':(7,3,9),'CALL':(2,3,3),'RET':(0,5,1),'DOS':(0,6,2),'JC':(7,7,5),'JNC':(7,7,5)}
+OPS={'NOP':(0,0,1),'HALT':(0,5,5),'LABEL':(3,3,0),'LIT':(1,0,3),'EXIT':(0,5,4),'WORD':(5,0,2),'LD':(2,0,4),'ST':(2,0,4),'BYTE':(4,0,1),'LDB':(2,0,6),'STB':(2,0,4),'PUSH':(0,1,1),'POP':(0,2,1),'ADD':(0,2,3),'SUB':(0,2,5),'AND':(0,2,3),'OR':(0,2,3),'XOR':(0,2,3),'ADDR':(2,0,3),'FETCH':(0,0,4),'FETCHB':(0,0,6),'PUT':(0,2,3),'PUTB':(0,2,3),'BUFFER':(6,0,0),'JMP':(2,5,3),'JZ':(7,3,9),'JNZ':(7,3,9),'CALL':(2,3,3),'RET':(0,5,1),'STATUS':(0,0,4),'PUTC':(0,3,3),'GETC':(0,3,3),'OPEN':(0,3,3),'CREATE':(0,3,3),'READ':(0,6,5),'WRITE':(0,6,5),'CLOSE':(0,3,3)}
 for op in ['EQ','NE','ULT','ULE','UGT','UGE','SLT','SLE','SGT','SGE']:OPS[op]=(7,4,8)
-for r in ['BX','CX','DX']:OPS['TO'+r]=(0,0,2);OPS['FROM'+r]=(0,0,2)
+
 ORDER=[n for n in starts[1:-1] if n in ['FILEBAD','OPENFILE','CLOSEFILE','GETNAME','NEXTBYTE','READLINE','SCAN','LOOK','VALIDNAME','VALUE','FINISH','COPYZ','TEXT','NUMBER','ERROR']]+['ZTEXT','STATEMENT']+list(core)
 fields.pop('OPTAB',None)
 BASEORDER=list(fields)
@@ -49,8 +51,8 @@ CLOSE='JMP DRIVERLINE\nDRIVERDONE:\nCALL CLOSEFILE\n'
 def main(level):
  s='START:\nCLD\nCMP SP,0FFFEH\nJE ROOM\nMOV AX,7\nJMP ERROR\nROOM:\nCALL GETNAME\n'
  if level>=3:s+='MOV AX,6000H\nMOV [OUTPTR],AX\n'
- if level>=16:s+='MOV AX,15\nMOV [TARGETSIZE],AX\n'
- if level>=17:s+='MOV AX,1\nMOV [DEFS],AX\n'
+ if level>=16:s+=f'MOV AX,{15+PROFILES[str(level)]["bytes"]}\nMOV [TARGETSIZE],AX\n'
+ if level>=17:s+=f'MOV AX,{1+PROFILES[str(level)]["definitions"]}\nMOV [DEFS],AX\n'
  if level>=5:s+='MOV SI,T_HEADER\nCALL OUTTEXT\n'
  if level==1:s+=READ+'CALL ZTEXT\nMOV DX,NEWLINE\nCALL TEXT\n'+CLOSE
  elif level==2:s+=READ+'''TRACETOKEN:
@@ -79,7 +81,9 @@ CALL CLOSEFILE
   s+=READ+'CALL STATEMENT\n'+CLOSE
   if level>=5:s+='MOV AL,[CODE]\nCMP AL,1\nJE MAINPRESENT\nMOV AX,3\nJMP ERROR\nMAINPRESENT:\n'
   if level>=10:s+='CALL BALANCED\n'
-  s+='CALL FINISHOUTPUT\nCALL WRITEOUT\n'
+  s+='CALL FINISHOUTPUT\n'
+  for part in part_names(level):s+='MOV SI,T_RT'+part+'\nCALL OUTTEXT\n'
+  s+='CALL WRITEOUT\n'
  return s+'MOV AX,4C00H\nINT 21H\n'
 def statement(level,names):
  s=f'''STATEMENT:
@@ -144,11 +148,13 @@ def variants(level,names):
   s=core['ARGUMENTS'];a=s.index('MOV AL,[CLASS]\nCMP AL,4\nJNE ARGBUFFER',s.index('CALL NUMARG\n',s.index('ARGNAME:')));b=s.index('ARGDONE:\n',a);result['ARGUMENTS']=s[:a]+s[b:]
  elif level<15:
   s=core['ARGUMENTS'];a=s.index('ARGBUFFER:\n');b=s.index('ARGDONE:\n',a);result['ARGUMENTS']=s[:a]+s[b:];result['ARGUMENTS']=result['ARGUMENTS'].replace('JNE ARGBUFFER','JNE ARGDONE')
- if level<24:
-  s=core['FLOW'];a=s.index('FLOWORDINARY:\n');result['FLOW']='FLOW:\nMOV AL,[EFFECT]\n'+s[a:]
+ if level<28:
+  s=core['FLOW'].replace('CMP AL,6\nJE STACKTWO\n','');a=s.index('STACKTWO:\n');b=s.index('STACKFULL:\n',a);result['FLOW']=s[:a]+s[b:]
  if level<16:result['FINISHOUTPUT']=core['FINISHOUTPUT'].replace('MOV AL,0\nMOV [CLASS],AL\nMOV AL,5\nMOV [INSIZE],AL\nCALL SIZEADD\n','')
  return result
 def render(level,names,mode=None):
+ selected=part_names(level)
+ for i,part in enumerate(selected):textfield('T_RT'+part,(PARTS[part]+('\n' if i+1<len(selected) else '')).replace('\n','\r\n')+'\0')
  available={**lib,**core,**variants(level,names)}
  if mode=='lookup':
   body='''CALL SCAN
@@ -218,5 +224,6 @@ for spec in specs:
  manifest.append({**spec,'source':filename,'names':names.copy()})
 dos(W/'IR86.ASM',source)
 (Q/'checkpoints.json').write_text(json.dumps(manifest,indent=2)+'\n')
-(Q/'language.json').write_text(json.dumps({n:{'class':OPS[n][0],'effect':OPS[n][1],'bytes':OPS[n][2],'template':TEMPLATES[n]} for n in names},indent=2)+'\n')
+(Q/'language.json').write_text(json.dumps({n:{'class':OPS[n][0],'effect':OPS[n][1]} for n in names},indent=2)+'\n')
+(Q/'backend-8086.json').write_text(json.dumps({'operations':{n:{'bytes':OPS[n][2],'template':TEMPLATES[n]} for n in names},'profiles':PROFILES},indent=2)+'\n')
 print('Prepared IR86 construction source and language records.')

@@ -7,13 +7,13 @@ download = "IR23.ASM"
 
 Signed ordering differs from unsigned ordering when the high bit is set. It must be requested explicitly.
 
-## How it works
+## Operation and backend
 
-SLT, SLE, SGT, and SGE use the 8086 signed comparison conditions after CMP BX,AX. Words with bit fifteen set represent -32768 through -1; other words represent zero through 32767. LIT still uses unsigned spelling, so 65535 supplies the bit pattern for -1.
+SLT, SLE, SGT, and SGE compare the saved left word with A as signed values. Words with bit fifteen set represent -32768 through -1; the others represent zero through 32767. LIT still uses unsigned spelling, so 65535 supplies the bit pattern for -1.
 
-The operand order, consumed stack word, generated skip name, and retained AX are the same as for unsigned comparisons. Equality needs no signed variant because equal bit patterns compare equal either way.
+Operand order, the consumed expression word, and the retained right operand in A match the unsigned comparisons. Equality needs no signed variant because equal bit patterns compare equal either way. The backend implements the relations with 8086 signed conditions after CMP BX,AX.
 
-The test takes -1 less than one. It contrasts with the unsigned test while using the same numeric literal spellings. No signed arithmetic overflow exception is added: ordinary ADD and SUB still wrap as words.
+The test takes -1 less than one. It contrasts with the unsigned test while using the same numeric literal spellings. No signed arithmetic overflow exception is added: ADD and SUB still wrap as words.
 
 ## Source changes
 
@@ -198,4 +198,4 @@ An unexpected PASS is a failed rejection test. Require a fresh OK before using a
 
 ## If the result differs
 
-Check operand order and the opposite short condition in the pattern. All occurrences of ? in one pattern must use the same branch number. A DOS carry branch must immediately follow DOS apart from empty or comment lines.
+Check operand order and the opposite short condition in the pattern. All occurrences of ? in one pattern must use the same branch number. Read runtime STATUS as an ordinary word; comparisons and arithmetic must not change it.

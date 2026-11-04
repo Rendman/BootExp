@@ -13,14 +13,14 @@ assert selfbuild.exitcode==0 and selfbuild.files['SELF.COM']==assembler,selfbuil
 built=assemble(assembler,(W/'IR86.ASM').read_bytes(),'IR86')
 assert built.exitcode==0,built.output
 image=built.files['IR86.COM']
-if (W/'IR26.COM').exists():
- assert image==(W/'IR26.COM').read_bytes(),'Standalone translator differs from final checkpoint'
+if (W/'IR32.COM').exists():
+ assert image==(W/'IR32.COM').read_bytes(),'Standalone translator differs from final checkpoint'
 (W/'IR86.COM').write_bytes(image)
-translated=DosMachine({'PROBE.IR':(W/'T26.IR').read_bytes()},['PROBE']).run(image)
+translated=DosMachine({'PROBE.IR':(W/'HELLO.IR').read_bytes()},['PROBE']).run(image)
 assert translated.exitcode==0,translated.output
 program=assemble(assembler,translated.files['PROBE.ASM'],'PROBE')
 assert program.exitcode==0,program.output
 run=DosMachine().run(program.files['PROBE.COM'])
-assert run.exitcode==0 and run.output==b'I',run.output
-text=f'PASS published BOOTASM.BAS builds ASM86.COM ({len(assembler)} bytes).\nPASS ASM86 self-assembly matches the BASIC-produced executable.\nPASS that ASM86 builds IR86.COM ({len(image)} bytes) directly.\nPASS IR86 emits ASM86-accepted assembly; the resulting COM displays I and returns zero.\n'
+assert run.exitcode==0 and run.output==b'HI',run.output
+text=f'PASS published BOOTASM.BAS builds ASM86.COM ({len(assembler)} bytes).\nPASS ASM86 self-assembly matches the BASIC-produced executable.\nPASS that ASM86 builds IR86.COM ({len(image)} bytes) directly.\nPASS IR86 emits ASM86-accepted assembly; the resulting COM displays HI and returns zero.\n'
 (Q/'bootstrap-results.txt').write_text(text);print(text)

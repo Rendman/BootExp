@@ -2,25 +2,36 @@
   {
     "name": "HELLO",
     "output": "HI",
-    "text_bytes": 197,
-    "binary_bytes": 40
+    "stdin": "",
+    "text_bytes": 2594,
+    "binary_bytes": 480
   },
   {
     "name": "COUNT",
     "output": "012",
-    "text_bytes": 383,
-    "binary_bytes": 68
+    "stdin": "",
+    "text_bytes": 2800,
+    "binary_bytes": 512
   },
   {
     "name": "BYTES",
     "output": "OK",
-    "text_bytes": 451,
-    "binary_bytes": 76
+    "stdin": "",
+    "text_bytes": 2868,
+    "binary_bytes": 520
+  },
+  {
+    "name": "ECHOIR",
+    "output": "IR86 echo.\r\n",
+    "stdin": "IR86 echo.\r\n",
+    "text_bytes": 2930,
+    "binary_bytes": 536
   },
   {
     "name": "COPYFILE",
     "output": "",
-    "text_bytes": 1242,
-    "binary_bytes": 198
+    "stdin": "",
+    "text_bytes": 3855,
+    "binary_bytes": 687
   }
 ]

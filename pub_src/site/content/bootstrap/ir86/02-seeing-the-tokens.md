@@ -7,7 +7,7 @@ download = "IR02.ASM"
 
 A physical line is not yet an instruction. The scanner can show exactly which tokens a parser receives.
 
-## How it works
+## Operation and backend
 
 SCAN is the published ASM86 scanner. SI is its source cursor; the result is a zero-terminated token at 2300H and a word length in TOKLEN. AX and DI are scratch registers. Spaces are skipped, comma and brackets are individual tokens, and semicolon ends the statement.
 

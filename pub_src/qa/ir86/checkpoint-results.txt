@@ -24,3 +24,9 @@ PASS IR23: ASM86 build; accepted input; exact visible result; rejection preserve
 PASS IR24: ASM86 build; accepted input; exact visible result; rejection preserves output; generated target assembles and runs
 PASS IR25: ASM86 build; accepted input; exact visible result; rejection preserves output; generated target assembles and runs
 PASS IR26: ASM86 build; accepted input; exact visible result; rejection preserves output; generated target assembles and runs
+PASS IR27: ASM86 build; accepted input; exact visible result; rejection preserves output; generated target assembles and runs
+PASS IR28: ASM86 build; accepted input; exact visible result; rejection preserves output; generated target assembles and runs
+PASS IR29: ASM86 build; accepted input; exact visible result; rejection preserves output; generated target assembles and runs
+PASS IR30: ASM86 build; accepted input; exact visible result; rejection preserves output; generated target assembles and runs
+PASS IR31: ASM86 build; accepted input; exact visible result; rejection preserves output; generated target assembles and runs
+PASS IR32: ASM86 build; accepted input; exact visible result; rejection preserves output; generated target assembles and runs

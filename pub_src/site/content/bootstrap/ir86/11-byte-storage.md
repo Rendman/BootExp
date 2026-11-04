@@ -1,19 +1,19 @@
 +++
 title = "11 \u00b7 Byte storage"
 weight = 11
-description = "Check byte initializers and clear the high half of a byte load."
+description = "Declare bytes and return a zero-extended value when loading them."
 download = "IR11.ASM"
 +++
 
 Text and file input are bytes. BYTE, LDB, and STB make that width explicit without changing the word accumulator.
 
-## How it works
+## Operation and backend
 
-BYTE declares one initialized byte and refuses an initializer above 255. The common number reader still returns a word; the declaration handler applies the narrower range. STB writes AL and retains AX. LDB loads AL and then clears AH, returning a value from zero through 255.
+BYTE declares one initialized byte and refuses an initializer above 255. STB stores the low eight bits of A while retaining its full word value. LDB returns the byte as a zero-extended word from zero through 255. Width belongs to the operation, not a type inferred from the storage name.
 
-The same U_ namespace is used for byte and word storage. Width belongs to the operation, not a type inferred from the name. A word access to the last byte of a buffer can reach adjacent storage; the translator cannot protect such a runtime access.
+The backend implements STB with a store from AL. LDB loads AL and then clears AH. The common number reader returns a word; the declaration handler applies the narrower initializer range. BYTE and WORD use the same U_ namespace.
 
-The test replaces the initialized byte with zero, disturbs AX, and loads the byte again. Inspect the emitted MOV AH,0 as well as the zero exit status: it is the operation which makes a byte load an unsigned word result.
+A word access needs two valid bytes; the translator cannot protect an invalid runtime access. The test replaces a byte with zero, disturbs A, and loads the byte again. In this backend the emitted MOV AH,0 supplies the required zero extension.
 
 ## Source changes
 

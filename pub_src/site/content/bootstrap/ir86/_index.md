@@ -1,18 +1,20 @@
 +++
 title = "IR86"
 weight = 3
-description = "A word-oriented intermediate language translated into assembly by a tool we can build."
-cover = true
+description = "A processor-independent language with defined word operations and a portable runtime interface."
 download = "IR86.ASM"
+cover = true
 download_group = "ir86"
 +++
 
-BOOTASM supplied the BASIC foundation, and ASM86 gave us an assembler written in assembly language. This collection uses the completed ASM86 directly to build **IR86**, a translator from a small intermediate language into the assembly that ASM86 accepts.
+BOOTASM supplied the BASIC foundation, and ASM86 gave us an assembler written in assembly language. IR86 adds a processor-independent intermediate language. This collection builds its first translator and backend in the assembly accepted by the completed ASM86.
 
-The intermediate language describes values and operations without requiring a register choice for every computation. AX holds a word value; a small expression stack retains a left operand; named storage holds persistent state. The translator expands these operations into ordinary 8086/8088 instructions. ASM86 resolves the resulting labels and produces the DOS `.COM` file.
+The language describes a virtual accumulator A, fixed-width values, an expression stack, declared storage, comparisons, and procedures. Its meaning does not depend on a physical register, instruction flag, segment, or operating-system interrupt. A backend chooses how to implement those operations. The backend constructed here produces 8086/8088 assembly; ASM86 resolves its labels and makes a DOS .COM file.
 
-We begin with the source reader already constructed in ASM86. Diagnostic stops expose physical lines, tokens, and table records before translation depends on them. The construction then adds text patterns, names, values, storage, expression operations, control transfers, procedures, and the DOS interface. Each checkpoint is assembled with the completed ASM86. The final pipeline exercise copies a file using a program written in IR86.
+Input and output use a separate runtime contract. GETC and PUTC transfer bytes; OPEN, CREATE, READ, WRITE, and CLOSE use opaque handles; STATUS returns an ordinary success or failure value. The DOS binding supplies these services for our current workbench. The same IR source can be implemented by another backend and environment binding.
 
-IR86 is the intended implementation language for the initial RILL compiler. Its present contract is deliberately modest: unsigned word spelling, explicit storage and pointers, word arithmetic and bit operations, signed and unsigned comparisons, and a defined bridge to DOS. It supplies neither a complete high-level language nor automatic memory safety. Those boundaries matter when writing a program which emits IR86.
+Construction begins with the published ASM86 source reader. Diagnostic stops expose lines, tokens, and lookup records before translation depends on them. Small additions build the word operations, storage, control flow, procedures, and runtime services. Every native checkpoint is assembled directly by the completed ASM86. The final pipeline exercise translates and runs a complete file copier.
 
-Read **The IR workbench** before entering the construction. The complete-source icon opens the finished translator's assembly source. The [disk source collection](../../downloads/ir86/IR86.ZIP) includes the saved checkpoints, tests, expected assembly text, examples, and the published bootstrap sources, without preassembled programs.
+IR86 is the intended implementation language for the initial RILL compiler. Its fixed sixteen-bit values are a property of this virtual machine, not a request for a sixteen-bit CPU. Another processor must preserve those semantics, even if it uses different registers, wider instructions, or several instructions per operation.
+
+Read **The IR workbench** first. The complete-source icon opens the translator. The [disk source collection](../../downloads/ir86/IR86.ZIP) contains the saved checkpoints, tests, expected assembly, runtime source, complete examples, and published bootstrap sources without preassembled programs.

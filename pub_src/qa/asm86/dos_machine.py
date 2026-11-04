@@ -8,10 +8,11 @@ sys.path.insert(0,str(ROOT/'tools/python'))
 from unicorn import Uc, UC_ARCH_X86, UC_MODE_16, UC_HOOK_INTR
 from unicorn.x86_const import *
 class DosMachine:
- def __init__(self,files=None,inputs=(),sp=0xfffe):
+ def __init__(self,files=None,inputs=(),sp=0xfffe,stdin=b''):
   self.files={k.upper():bytes(v) for k,v in (files or {}).items()}
   self.inputs=list(inputs);self.output=bytearray();self.exitcode=None
   self.handles={};self.next_handle=5;self.operations=[];self.sp=sp
+  self.stdin=bytes(stdin);self.stdin_position=0
  def run(self,image,limit=100_000_000):
   c=Uc(UC_ARCH_X86,UC_MODE_16);self.cpu=c;c.mem_map(0,0x100000)
   self.base=0x10000
@@ -70,6 +71,10 @@ class DosMachine:
     c.reg_write(UC_X86_REG_AX,6);self.carry(True);return
    del self.handles[bx];self.carry(False);return
   if ah in [0x3f,0x40]:
+   if ah==0x3f and bx==0:
+    raw=self.stdin[self.stdin_position:self.stdin_position+cx]
+    if raw:c.mem_write(address,raw)
+    self.stdin_position+=len(raw);c.reg_write(UC_X86_REG_AX,len(raw));self.carry(False);return
    if ah==0x40 and bx in [1,2]:
     self.output.extend(c.mem_read(address,cx));c.reg_write(UC_X86_REG_AX,cx);self.carry(False);return
    if bx not in self.handles:

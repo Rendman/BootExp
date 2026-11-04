@@ -87,27 +87,17 @@ PASS JZ 0
 PASS JZ 65535
 PASS JNZ 0
 PASS JNZ 65535
-PASS register bridge BX
-PASS register bridge CX
-PASS register bridge DX
 PASS LIFO order
-PASS wrap to zero
 PASS word fetch/store
-PASS zero-extended LDB DATA
-PASS zero-extended ADDR DATA
+PASS canonical word byte order
+PASS zero extension LDB DATA
+PASS zero extension ADDR DATA
 FETCHB
-PASS byte store retains AX
-PASS pointer byte store retains AX
-PASS native procedure and AX result
-PASS implicit normal exit
-PASS empty MAIN body
-PASS register spelling is a user name
-PASS lowercase tabs and comments
+PASS byte store retains value
+PASS nested abstract calls
+PASS empty body and initial status
+PASS case tabs and EOF
 PASS full name length
-PASS word literal boundary
-PASS DOS carry JC
-PASS DOS carry JNC
-PASS DOS clear carry
 PASS 32 expression words
 PASS 33 expression words
 PASS nonempty boundary HALT
@@ -117,20 +107,36 @@ PASS nonempty boundary JMP MAIN
 PASS nonempty boundary CALL MAIN
 PASS nonempty boundary JZ MAIN
 PASS nonempty boundary JNZ MAIN
-PASS nonempty boundary DOS
+PASS nonempty boundary PUTC
+PASS nonempty boundary GETC
+PASS nonempty boundary OPEN
+PASS nonempty boundary CREATE
+PASS nonempty boundary CLOSE
 PASS nonempty boundary LABEL MORE
-PASS comparison leaves an unrelated temporary
-PASS unclosed expression at EOF
-PASS missing expression word POP
-PASS missing expression word ADD
-PASS missing expression word SUB
-PASS missing expression word AND
-PASS missing expression word OR
-PASS missing expression word XOR
-PASS missing expression word PUT
-PASS missing expression word PUTB
-PASS missing expression word EQ MAIN
-PASS missing expression word SLT MAIN
+PASS underflow POP
+PASS underflow ADD
+PASS underflow SUB
+PASS underflow AND
+PASS underflow OR
+PASS underflow XOR
+PASS underflow PUT
+PASS underflow PUTB
+PASS underflow EQ MAIN
+PASS underflow SLT MAIN
+PASS underflow READ
+PASS underflow WRITE
+PASS transfer leaves unrelated temporary
+PASS no processor escape TOBX
+PASS no processor escape TOCX
+PASS no processor escape TODX
+PASS no processor escape FROMBX
+PASS no processor escape FROMCX
+PASS no processor escape FROMDX
+PASS no processor escape DOS
+PASS no processor escape JC MAIN
+PASS no processor escape JNC MAIN
+PASS no processor escape INT 21H
+PASS no processor escape MOV AX,1
 PASS reject ''
 PASS reject 'HALT'
 PASS reject 'LABEL ELSE'
@@ -138,11 +144,9 @@ PASS reject 'WORD X 0'
 PASS reject 'LABEL MAIN\nWORD X 0'
 PASS reject 'LABEL MAIN\nNOP 1'
 PASS reject 'LABEL MAIN\nLIT 65536'
-PASS reject 'LABEL MAIN\nLIT 10000H'
 PASS reject 'LABEL MAIN\nLIT -1'
 PASS reject 'LABEL MAIN\nLIT X'
 PASS reject 'LABEL MAIN\nLIT 0GH'
-PASS reject 'LABEL MAIN\nLIT FFH'
 PASS reject 'LABEL MAIN\nLIT 1+2'
 PASS reject 'BYTE X 256'
 PASS reject 'BUFFER X 0'
@@ -150,35 +154,53 @@ PASS reject 'BUFFER X 257'
 PASS reject 'WORD 1BAD 0'
 PASS reject 'WORD ABCDEFGHIJKLMNO 0'
 PASS reject 'LABEL MAIN\nLD A+B'
-PASS reject 'LABEL MAIN\nLABEL X EXTRA'
-PASS reject 'LABEL MAIN\nJC MAIN'
-PASS reject 'LABEL MAIN\nLIT 65535\nTOBX\nLIT 3E00H\nDOS\nNOP\nJC MAIN'
-PASS reject 'LABEL MAIN\nLIT 65535\nTOBX\nLIT 3E00H\nDOS\nLABEL X\nJC MAIN'
-PASS reject 'LABEL MAIN\nUNKNOWN'
-PASS invalid input byte 0
-PASS invalid input byte 1
-PASS invalid input byte 27
-PASS invalid input byte 127
-PASS invalid input byte 128
-PASS invalid input byte 255
+PASS invalid source byte 0
+PASS invalid source byte 1
+PASS invalid source byte 27
+PASS invalid source byte 127
+PASS invalid source byte 128
+PASS invalid source byte 255
 PASS 120 physical characters
 PASS 121 physical characters
 PASS 4001 source lines
-PASS 4000 generated assembly lines
-PASS 4001 generated assembly lines
 PASS assembly-text capacity
-PASS 256 generated definitions
-PASS 257 generated definitions
-PASS generated branch names count toward symbol budget
-PASS generated branch budget overflow
-PASS exact 8192-byte target
-PASS 8193-byte target
-PASS delegated assembler symbol error
-PASS delegated assembler symbol error
-PASS translator memory guard
-PASS generated program memory guard
-PASS DOS error 3D
-PASS DOS error 3F
-PASS DOS error 3E
-PASS DOS error 3C
-PASS DOS error 40 (short write)
+PASS exact generated line capacity
+PASS generated line capacity overflow
+PASS exact backend definition capacity
+PASS backend definition capacity overflow
+PASS conditional skip accounting
+PASS exact native image capacity including runtime
+PASS native image overflow
+PASS byte stream b''
+PASS byte stream b'Q'
+PASS byte stream b'\x00\x01\x02\x03\x04\x05\x06\x07'
+PASS byte stream b'A\r\nB\x00\xff'
+PASS portable file copy 0
+PASS portable file copy 5
+PASS portable file copy 256
+PASS missing input normalized
+PASS status survives arithmetic PRESENT
+PASS status survives arithmetic MISSING
+PASS access mode WRITE
+PASS access mode READ
+PASS invalid handle CLOSE
+PASS invalid handle READ
+PASS invalid handle WRITE
+PASS closed handle invalid
+PASS handle exhaustion OPEN
+PASS handle exhaustion CREATE
+PASS zero count READ
+PASS zero count WRITE
+PASS normalized binding failure PUTC
+PASS normalized binding failure GETC
+PASS normalized binding failure OPEN
+PASS normalized binding failure CREATE
+PASS short write retains partial count and normalized failure status
+PASS compiler I/O failure 3D
+PASS compiler I/O failure 3F
+PASS compiler I/O failure 3E
+PASS compiler I/O failure 3C
+PASS compiler I/O failure 40
+PASS delegated symbol error
+PASS delegated symbol error
+PASS 8086 profile entry guards, separate from portable machine

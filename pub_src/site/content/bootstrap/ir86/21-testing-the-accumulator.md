@@ -1,20 +1,20 @@
 +++
 title = "21 \u00b7 Testing the accumulator"
 weight = 21
-description = "Lower a conditional transfer through a nearby opposite branch."
+description = "Branch on a zero or nonzero virtual accumulator."
 download = "IR21.ASM"
 cartoon = "ir86-lock.png"
 +++
 
-A conditional transfer must reach any label in the bounded image, even though an 8088 conditional branch is short.
+A conditional transfer tests A as a value. Its target is a named code label; the language promises no particular processor branch instruction.
 
-## How it works
+## Operation and backend
 
-JZ compares AX with zero, branches around a near JMP when the condition is false, and otherwise takes that near JMP. JNZ uses the opposite short condition. AX is retained, the expression stack must be empty, and arithmetic flags are scratch.
+JZ transfers when A is zero; JNZ transfers when A is nonzero. Both retain A and require an empty expression stack. They test the word value, not a remembered processor flag.
 
-A ? in the template inserts the current branch number as four decimal digits. FOUR preserves all word registers while sending those digits through EMITCHAR. BRANCHNO advances once per conditional statement, and every repeated ? in that pattern uses the same value. Labels I0001 and so forth are separate from all U_ names.
+The backend compares AX with zero and uses an opposite short condition around a near JMP. A ? in the template inserts the current branch number as four decimal digits. FOUR preserves its word registers while emitting those digits. BRANCHNO advances once per conditional statement, and repeated ? markers in that pattern use the same number.
 
-NEWDEF counts the generated skip label as well as user definitions. The only short displacement is across the near JMP itself, so a distant user target cannot overflow that short branch. The test takes its zero branch and avoids a nonzero exit.
+NEWDEF counts each generated I0001-style skip label as well as user definitions. I_ names are separate from U_ program names. The only short displacement crosses the near JMP, so a distant user label cannot overflow that short branch. The test takes its zero branch and avoids a nonzero exit.
 
 ## Source changes
 
@@ -334,4 +334,4 @@ An unexpected PASS is a failed rejection test. Require a fresh OK before using a
 
 ## If the result differs
 
-Check operand order and the opposite short condition in the pattern. All occurrences of ? in one pattern must use the same branch number. A DOS carry branch must immediately follow DOS apart from empty or comment lines.
+Check operand order and the opposite short condition in the pattern. All occurrences of ? in one pattern must use the same branch number. Read runtime STATUS as an ordinary word; comparisons and arithmetic must not change it.

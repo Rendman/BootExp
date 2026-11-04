@@ -1,13 +1,13 @@
 +++
 title = "20 \u00b7 An unconditional transfer"
 weight = 20
-description = "Use a near jump to a prefixed symbolic target."
+description = "Transfer to a named code label with an empty expression stack."
 download = "IR20.ASM"
 +++
 
-JMP lets one basic block transfer to another without depending on a short displacement.
+JMP lets one basic block transfer to another. The backend must implement the named transfer within its target limits.
 
-## How it works
+## Operation and backend
 
 JMP name emits the near form JMP U_name. Its displacement is resolved by ASM86 from the following instruction to the named label. The target can be forward or backward within the program segment.
 

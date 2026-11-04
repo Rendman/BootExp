@@ -4,6 +4,7 @@ import json,sys
 ROOT=Path(__file__).resolve().parents[2];W=ROOT/'workbench/ir86';Q=ROOT/'qa/ir86'
 sys.path.insert(0,str(ROOT/'qa/asm86'))
 from dos_machine import DosMachine,assemble
+from portable_machine import Machine
 ASM=(ROOT/'workbench/asm86/ASM86.COM').read_bytes()
 cases=json.loads((Q/'checkpoints.json').read_text());results=[]
 def check(test,message):
@@ -48,8 +49,13 @@ for case in cases:
    demand=int.from_bytes(run.cpu.mem_read(run.base+mapping['TARGETSIZE'],2),'little')
    check(demand==len(code),f'{name} target accounting {demand} != {len(code)}')
   if case.get('executable',True):
-   child=DosMachine().run(code)
+   childfiles={k:v.encode('ascii') for k,v in case.get('input_files',{}).items()}
+   child=DosMachine(childfiles,stdin=case.get('stdin','').encode()).run(code)
    check(child.exitcode==case['exit'] and child.output.decode('ascii')==case['output'],f'{name} generated runtime: {child.output!r}, status {child.exitcode}')
+   for file,value in case.get('output_files',{}).items():check(child.files[file]==value.encode(),f'{name} file result')
+   if level>=5 and not case.get('mode'):
+    portable=Machine(childfiles,case.get('stdin','').encode()).run((W/(test+'.IR')).read_bytes())
+    check((portable.exitcode,portable.output,portable.files)==(child.exitcode,child.output,child.files),f'{name} portable/native behavior differs')
   else:check(code==b'A',name+' data fixture differs')
  rejected=DosMachine({bad+'.IR':(W/(bad+'.IR')).read_bytes(),bad+'.ASM':b'OLD TEXT'},[bad]).run(image)
  b=case['bad'];diagnostic=f'IR ERROR {b["line"]:05} CODE {b["code"]}'.encode()

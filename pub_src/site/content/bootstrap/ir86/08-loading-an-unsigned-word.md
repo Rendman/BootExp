@@ -1,19 +1,19 @@
 +++
 title = "08 \u00b7 Loading an unsigned word"
 weight = 8
-description = "Validate numeric spelling before inserting it in a MOV."
+description = "Load a checked word into the virtual accumulator."
 download = "IR08.ASM"
 +++
 
-The accumulator needs a value. LIT supplies an unsigned word, and EXIT makes its low byte observable as a DOS status.
+The accumulator needs a value. LIT supplies an unsigned word, and EXIT makes its low byte observable as a program status.
 
-## How it works
+## Operation and backend
 
-AX is the IR accumulator. LIT emits MOV AX,value. NUMARG uses the published unsigned decimal and hexadecimal reader, saves the numeric result in NUMV, and copies its checked spelling to 2520H. The # template marker inserts that spelling. VALUE preserves SI; AX, BX, CX, DX, DI, BP, and flags are scratch.
+A is the virtual IR accumulator. This backend represents A in AX. LIT emits MOV AX,value. NUMARG uses the published unsigned decimal and hexadecimal reader, saves the numeric result in NUMV, and copies its checked spelling to 2520H. The # template marker inserts that spelling. VALUE preserves SI; AX, BX, CX, DX, DI, BP, and flags are scratch.
 
 Numbers range from zero through 65535. Hexadecimal ends in H and begins with a decimal digit, as in 0FFH. Signs, expressions, and character literals are excluded so the translator can validate one token without evaluating a language expression.
 
-EXIT emits a DOS termination using the low byte of AX. HALT always returns zero. EXIT is therefore suitable for testing a computed zero result; a nonzero low byte deliberately produces the checker's FAIL report. Arithmetic words and DOS status bytes have different widths.
+EXIT returns A modulo 256 as the program status. HALT returns zero. The DOS binding implements these operations with its termination service. EXIT is therefore suitable for testing a computed zero result; a nonzero low byte deliberately produces the checker's FAIL report. Arithmetic words and DOS status bytes have different widths.
 
 ## Source changes
 

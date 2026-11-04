@@ -1,5 +1,4 @@
 PASS published BOOTASM.BAS builds ASM86.COM (2622 bytes).
 PASS ASM86 self-assembly matches the BASIC-produced executable.
-PASS that ASM86 builds IR86.COM (3871 bytes) directly.
-PASS IR86 emits ASM86-accepted assembly; the resulting COM displays I and returns zero.
-PASS fresh bootstrap with no prebuilt project executable in the build path.
+PASS that ASM86 builds IR86.COM (6407 bytes) directly.
+PASS IR86 emits ASM86-accepted assembly; the resulting COM displays HI and returns zero.

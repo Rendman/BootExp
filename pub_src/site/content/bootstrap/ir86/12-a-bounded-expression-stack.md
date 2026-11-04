@@ -1,18 +1,18 @@
 +++
 title = "12 \u00b7 A bounded expression stack"
 weight = 12
-description = "Save AX and retrieve it with an explicit stack effect."
+description = "Save A and retrieve it with an explicit stack effect."
 download = "IR12.ASM"
 cartoon = "ir86-plates.png"
 +++
 
 One accumulator cannot retain both sides of an expression. PUSH saves its word; POP restores the latest saved word.
 
-## How it works
+## Operation and backend
 
-The expression stack uses native PUSH AX and POP AX. DEPTH is a translation-time count, initially zero. FLOW checks each table effect before emitting it: PUSH adds one, POP requires a saved word and removes one, and a control boundary requires an empty expression stack. BALANCED performs that common boundary check.
+The expression stack is an abstract stack of IR words. This backend implements it with native PUSH AX and POP AX. DEPTH is a translation-time count, initially zero. FLOW checks each table effect before emitting it: PUSH adds one, POP requires a saved word and removes one, and a control boundary requires an empty expression stack. BALANCED performs that common boundary check.
 
-The bound is thirty-two saved words. It limits expression bookkeeping and temporary stack demand without pretending to limit the CPU's stack. Native call return addresses also use SS:SP, so an expression may not cross a label, branch, procedure call, return, or termination. Each basic block starts and ends with an empty expression stack.
+The bound is thirty-two saved words. It limits expression bookkeeping and temporary stack demand without pretending to limit the CPU's stack. The IR verification rule requires an empty expression stack at a label, branch, procedure call, return, or termination. It applies independently of the target calling convention. Each basic block starts and ends with an empty expression stack.
 
 This simple rule avoids a control-flow analysis of different stack depths arriving at one label. It permits straight expressions within a block and makes an unmatched POP a translation error. AX and arithmetic flags are scratch state in FLOW; its counters belong to the translator, not the emitted program.
 

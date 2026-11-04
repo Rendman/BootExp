@@ -2,6 +2,7 @@ PASS DOS 3.10 ASM86 builds IR86.COM matching every byte of the bootstrap-built t
 PASS DOS 3.10 HELLO: native IR translation, native ASM86 assembly, expected runtime and PASS status
 PASS DOS 3.10 COUNT: native IR translation, native ASM86 assembly, expected runtime and PASS status
 PASS DOS 3.10 BYTES: native IR translation, native ASM86 assembly, expected runtime and PASS status
+PASS DOS 3.10 ECHOIR: native IR translation, native ASM86 assembly, expected runtime and PASS status
 PASS DOS 3.10 COPYFILE: native IR translation, native ASM86 assembly, expected runtime and PASS status
-PASS DOS file copy preserves text and all 256 byte values; missing input reports FAIL
+PASS DOS file and stream bindings preserve text and all 256 byte values; missing input reports FAIL
 PASS DOS IR rejection reports exact diagnostic, FAIL, and preserves old assembly output

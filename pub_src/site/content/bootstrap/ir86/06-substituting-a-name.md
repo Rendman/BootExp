@@ -7,7 +7,7 @@ download = "IR06.ASM"
 
 A fixed text pattern cannot name a program location. We shall give a template a checked name to insert.
 
-## How it works
+## Operation and backend
 
 NAMEARG scans and validates a name, then copies it to 2500H while preserving the source cursor. A name begins with a letter or underscore and continues with letters, digits, or underscores. Its maximum is fourteen characters, leaving room for U_ within ASM86's name bound.
 

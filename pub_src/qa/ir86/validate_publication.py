@@ -12,13 +12,18 @@ for stage in json.loads((ROOT/'qa/ir86/article-patches.json').read_text()):
   program[a:b]=change['new']
  assert program==(W/f'IR{stage["number"]:02}.ASM').read_text().splitlines(),stage['page']+' source differs'
  assert f'CHECK IR{stage["number"]:02}' in text
-assert (W/'IR86.ASM').read_bytes()==(W/'IR26.ASM').read_bytes()
+assert (W/'IR86.ASM').read_bytes()==(W/'IR32.ASM').read_bytes()
+import sys
+sys.path.insert(0,str(ROOT/'tools'))
+from ir86_runtime_text import runtime
+assert (W/'RUNTIME.ASM').read_text()==runtime(30)
+assert '```asm\n'+runtime(30).rstrip()+'\n```' in (C/'28-reference.md').read_text()
 for name,folder in [('BOOTASM.BAS','bootasm'),('ASM86.ASM','asm86'),('AS07.ASM','asm86')]:assert (W/name).read_bytes()==(ROOT/'workbench'/folder/name).read_bytes()
 pipeline=(C/'27-the-complete-pipeline.md').read_text()
 assert re.search(r'```ir\n(.*?)\n```',pipeline,re.S)[1]+'\n'==(W/'COPYFILE.IR').read_text()
 blocks=re.findall(r'```ir\n(.*?)\n```',(C/'29-programs.md').read_text(),re.S)
-for name,block in zip(['HELLO','COUNT','BYTES'],blocks):assert block+'\n'==(W/(name+'.IR')).read_text(),name+' printed example differs'
-assert len(blocks)==3
+for name,block in zip(['HELLO','COUNT','BYTES','ECHOIR'],blocks):assert block+'\n'==(W/(name+'.IR')).read_text(),name+' printed example differs'
+assert len(blocks)==4
 files=json.loads((ROOT/'qa/ir86/package-files.json').read_text())
 with zipfile.ZipFile(D/'IR86.ZIP') as z:
  assert z.namelist()==files
@@ -27,4 +32,4 @@ with zipfile.ZipFile(D/'IR86.ZIP') as z:
   assert not name.endswith(('.COM','.EXE')),name
   b=(W/name).read_bytes();b.decode('ascii');assert b'\n' not in b.replace(b'\r\n',b''),name
   assert b==z.read(name)==(D/name).read_bytes(),name+' publication differs'
-print(f'PASS IR86: 26 printed edits reconstruct source; four complete printed programs; {len(files)} ASCII/CRLF/8.3 archive sources; canonical bootstrap sources')
+print(f'PASS IR86: 32 printed edits reconstruct source; five complete printed programs; {len(files)} ASCII/CRLF/8.3 archive sources; canonical bootstrap sources')

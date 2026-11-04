@@ -1,19 +1,19 @@
 +++
 title = "24 \u00b7 Calling a procedure"
 weight = 24
-description = "Balance expression temporaries before native calls and returns."
+description = "Pass A to a procedure and balance its expression temporaries."
 download = "IR24.ASM"
 +++
 
 A repeated computation can be placed under a label and called by name.
 
-## How it works
+## Operation and backend
 
-CALL emits a near CALL U_name and RET emits the matching near return. AX carries an input and a returned result by convention. Other ordinary registers and flags are scratch unless the procedure explicitly preserves them through its own program logic.
+CALL transfers to a named procedure with A as its input. RET returns to that call with the procedure result in A. Both require an empty expression stack. No physical registers or native call-stack layout belong to the language contract. Named storage holds any persistent state.
 
-Both operations require expression depth zero. Native CALL puts a return offset on SS:SP; the called block may use balanced expression temporaries above that offset. The static empty-boundary rule prevents POP from treating the return address as an expression operand. There is no parameter list or automatic local-variable frame.
+This backend uses near CALL and RET, keeps A in AX, and places the return offset on SS:SP. Balanced expression temporaries are above that offset. The empty-boundary rule prevents an IR POP from treating a return address as an expression operand. There is no implicit parameter list or automatic local-variable frame.
 
-Place procedure bodies after a terminating main path or jump around them. A label alone does not prevent fall-through. Native call depth and recursion are not bounded by DEPTH; keep the reserved high stack area clear and call nesting modest. The test returns a zero result from ANSWER to the main EXIT.
+Place procedure bodies after a terminating main path or jump around them. A label alone does not prevent fall-through. Native call depth and recursion are not bounded by DEPTH; this backend requires modest nesting within its reserved high stack area. The test returns zero from ANSWER to the main EXIT.
 
 ## Source changes
 
@@ -168,4 +168,4 @@ An unexpected PASS is a failed rejection test. Require a fresh OK before using a
 
 ## If the result differs
 
-Check operand order and the opposite short condition in the pattern. All occurrences of ? in one pattern must use the same branch number. A DOS carry branch must immediately follow DOS apart from empty or comment lines.
+Check operand order and the opposite short condition in the pattern. All occurrences of ? in one pattern must use the same branch number. Read runtime STATUS as an ordinary word; comparisons and arithmetic must not change it.

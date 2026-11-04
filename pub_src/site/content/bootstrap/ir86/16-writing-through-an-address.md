@@ -5,15 +5,15 @@ description = "Consume a saved pointer and retain the value being stored."
 download = "IR16.ASM"
 +++
 
-A buffer writer needs a pointer and a value at the same time. The expression stack can retain the pointer while AX receives the value.
+A buffer writer needs a pointer and a value at the same time. The expression stack retains the pointer while A receives the value.
 
-## How it works
+## Operation and backend
 
-PUT pops the address into BX and writes AX through [BX]. PUTB writes AL instead. AX retains the stored word in either case, while the expression stack loses the saved pointer. The width of the operation determines how many bytes are written.
+PUT consumes a saved pointer and stores the word in A through it. PUTB stores only the low byte. Both retain the complete A value. The operation determines how many valid storage bytes are required.
 
-The order is address, PUSH, value, PUT. It differs from an arithmetic left operand only in the meaning of the saved word. FLOW applies the same consume-one check, so a missing address cannot accidentally pop a native return address.
+The order is address, PUSH, value, PUT. It differs from an arithmetic left operand only in the meaning of the saved word. FLOW applies the same consume-one check, so an absent pointer is rejected during translation.
 
-These operations perform no runtime bounds check. The test uses declared storage, replaces nonzero initializers with zero through pointers, then reads the named locations and adds their values before EXIT.
+This backend pops the pointer into BX and stores AX or AL through [BX]. No runtime bounds check is supplied. The test uses declared storage, replaces nonzero initializers with zero through pointers, then reads the named locations and adds their values before EXIT.
 
 ## Source changes
 

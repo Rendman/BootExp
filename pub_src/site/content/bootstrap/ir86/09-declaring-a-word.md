@@ -7,7 +7,7 @@ download = "IR09.ASM"
 
 WORD gives a value a named place in memory, separate from the accumulator.
 
-## How it works
+## Operation and backend
 
 WORD takes a name and an unsigned initializer. ARGUMENTS retains the name before scanning its value, since both use the same token buffer. Its template emits U_name followed by DW value. ASM86 writes the initializer low byte first.
 

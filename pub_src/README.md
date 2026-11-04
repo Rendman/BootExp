@@ -21,10 +21,10 @@ The Bootstrap Experiment
 │   └── Three complete programs
 └── IR86
     ├── The IR workbench
-    ├── 01–26: translator construction checkpoints
-    ├── 27: complete translation pipeline and file copier
+    ├── 01–32: translator construction checkpoints
+    ├── 33: complete translation pipeline and file copier
     ├── IR86 language and translator reference
-    └── Three complete programs
+    └── Four complete console/stream programs
 ```
 
 `site/` is the Hugo source. `../public/` (at the project root) is the generated static website. `workbench/bootasm/` contains the ASCII/CRLF period sources. `site/static/downloads/bootasm/BOOTASM.ZIP` is the 59-file reader source collection, without prebuilt executables or an interpreter.
@@ -86,20 +86,25 @@ python3 pub_src/qa/validate_site.py
 
 Where Python 3.11 is managed by uv, `uv run --python 3.11 --no-project python` can replace `python3.11`. To regenerate source checkpoints first, run `tools/build_asm86.py` before this sequence. Regeneration clears measured image sizes; run the verification before rendering articles. The bootstrap command executes the published BOOTASM.BAS, making the first native ASM86.COM. The native checks then build/run every checkpoint and prove two identical self-assembly generations. The BASIC checkpoint check independently executes BOOTASM for every checkpoint and requires exact agreement with those native-built files. No outside assembler, compiler, linker, or machine-code generator supplies executable bytes.
 
-The retained `qa/asm86/*-results.txt` records show all 29 construction checks, all 29 BASIC/native byte comparisons, 149 independent encoding/grammar/resource/I/O checks, and the three complete example tests passing. `validate_site.py` reconstructs the BASIC, ASM86, and IR86 checkpoints from their exact printed edits, validates all three archives (261 sources in total), and checks links, assets, anchors, editorial exclusions, and all 89 HTML pages.
+The retained `qa/asm86/*-results.txt` records show all 29 construction checks, all 29 BASIC/native byte comparisons, 149 independent encoding/grammar/resource/I/O checks, and the three complete example tests passing. `validate_site.py` reconstructs the BASIC, ASM86, and IR86 checkpoints from their exact printed edits, validates all three archives (288 sources in total), and checks links, assets, anchors, editorial exclusions, and all 95 HTML pages.
 
 `tools/verify_asm86_dos.py` uses local historical DOS media, mtools, and QEMU for a separate DOS 3.10 check. The BASIC-produced ASM86 assembles SELF; SELF assembles AGAIN; both output files match the initial executable byte for byte. DOS COMP reports matching files, CHECK reports PASS for successful builds, and a bad register-width source reports the expected diagnostic and FAIL. Results are in `qa/asm86/dos-results.txt`; local disk images and raw logs are excluded from Git and publication. This verifies native DOS execution, not the unresolved original BASIC file-I/O environment described below.
 
 ## IR86 production and verification
 
-IR86 lives in `workbench/ir86` and `site/content/bootstrap/ir86`, beside the two assembler collections. Its final native image is 3,871 bytes and directly fits the completed ASM86. The language has 48 operations covering accumulator/stack computation, storage, pointers, control flow, procedures, and DOS. Its archive contains 116 source files, including identical published bootstrap sources, all 26 native construction checkpoints, accepted/rejected IR inputs, native-produced expected assembly, helpers, three console examples, and the complete file-copy program. No executable, external runtime, or historical interpreter is packaged.
+IR86 lives in `workbench/ir86` and `site/content/bootstrap/ir86`. Its 6,407-byte native translator fits the completed ASM86 directly. The language defines virtual A, fixed sixteen-bit values, a value stack, declared storage, and processor-independent control flow. Its portable service API exposes byte streams, opaque handles, and ordinary STATUS values. There are no register-transfer, interrupt, or carry-flag operations in the language.
 
-`tools/ir86_core.asm` holds the authored translator routines. `tools/ir86_installments.json` holds the authored explanations, fixtures, and checkpoint specifications. `tools/build_ir86.py` arranges those routines and the existing published ASM86 helpers into source checkpoints; its template data is ASCII assembly text, not encoded instructions. Only the published native assemblers emit machine code. `tools/write_ir86_articles.py` lays out exact bottom-up source edits, native-produced target text, and measured counts after verification. The cover, workbench, pipeline article, and reference are maintained directly. Example IR sources live in the workbench; the example article is rendered from those tested sources.
+The 8086/DOS backend and runtime binding implement that contract. `tools/ir86_runtime.asm` holds the authored runtime fragments; `ir86_runtime_text.py` selects them. `qa/ir86/measure_runtime.py` uses the actual published ASM86 to measure their code/data sizes. The complete binding is 448 bytes and 42 definitions. Those resources are included in target accounting. No host assembler or instruction encoder supplies bytes.
 
-For a fresh verification run, use the same Python 3.11/PC-BASIC and native-execution dependencies documented above. Native executables must be rebuilt from the source chain before use:
+`tools/ir86_core.asm` and `tools/ir86_installments.json` hold translator routines and authored manuscript/test specifications. `tools/build_ir86.py` prepares source checkpoints and backend text constants. `tools/write_ir86_articles.py` prints exact edits and actual native-produced results. `qa/ir86/language.json` records the portable operation forms; `backend-8086.json` keeps machine-byte and assembly-pattern details separate. The reference distinguishes the language from the target profile and includes the full binding source. The archive contains 143 ASCII/CRLF/8.3 sources, with identical bootstrap sources, all 32 checkpoints, fixtures, expected assembly, runtime source, four portable console/stream examples, and a file copier. No executable or historical interpreter is packaged.
+
+The processor-independent reference interpreter in `qa/ir86/portable_machine.py` models A, byte storage, an expression stack, calls, streams, and file services without processor registers, flags, or DOS. Tests move its data to 4000H and 8000H and allocate handle tokens starting at 101 and 301, deliberately unlike the native layout. Identical source must produce matching output, status, and files. The interpreter never emits assembly or machine code and is not part of the reader bootstrap.
+
+From the project root, use the dependencies above:
 
 ```sh
 python3.11 pub_src/qa/asm86/bootstrap.py
+python3 pub_src/qa/ir86/measure_runtime.py
 python3 pub_src/tools/build_ir86.py
 python3 pub_src/qa/ir86/test_checkpoints.py
 python3.11 pub_src/qa/ir86/bootstrap_chain.py
@@ -111,9 +116,9 @@ python3 pub_src/tools/hugo.py --source pub_src/site --cleanDestinationDir
 python3 pub_src/qa/validate_site.py
 ```
 
-The checkpoint test executes ASM86 to build every translator, executes each translator, and assembles its actual output with ASM86. Only complete generated programs are executed. Each acceptance/rejection test checks visible output and preservation of an older assembly file on rejection. The independent suite passes 183 semantics, grammar, capacity, memory, and DOS-I/O cases, including all comparison orders, word wrapping, expression boundaries, generated-name accounting, exact image capacity, source/text limits, delegated assembler errors, and short writes. The printed example rejection edits are tested too. Results are retained under `qa/ir86`.
+All 32 native checkpoints pass their acceptance/rejection and output-preservation checks. Valid complete-language fixtures also agree with the portable model. The independent suite passes 205 portable-contract and binding checks: word arithmetic and comparisons, pointer-based storage, stack boundaries, source/target resources, rejection of physical-register escapes, opaque handles, access modes, persistent status, EOF, zero counts, partial writes, and normalized errors. Each complete example runs unchanged in both models, including empty and binary stream/file cases. The printed example rejection edits are checked too.
 
-`bootstrap_chain.py` separately executes the canonical BOOTASM.BAS to build ASM86, verifies that assembler's self-assembly, builds IR86 directly with it, and runs an IR86-generated target. `tools/verify_ir86_dos.py` runs the native ASM86 → IR86 → assembly → program sequence under the original local DOS 3.10 system in QEMU. The DOS-built translator, generated assembly, and executable programs match every byte of the bootstrap-tested versions. Console/procedure/pointer programs display the expected output. The file copier preserves text and all 256 byte values, and a missing input reports FAIL. The IR underflow rejection reports its exact diagnostic and leaves old assembly untouched. This native DOS evidence is separate from original BASIC interpreter compatibility.
+`bootstrap_chain.py` executes canonical BOOTASM.BAS, verifies ASM86 self-assembly, builds the translator directly, and runs its generated output. `tools/verify_ir86_dos.py` separately rebuilds the translator and programs under local DOS 3.10 in QEMU. It compares the DOS-built code with the bootstrap-built code, checks all example displays/statuses, copies every byte value through the stream/file binding, checks missing-input failure, and checks preservation of rejected assembly output. These are native DOS checks, separate from the original BASIC interpreter limitation below. Results are retained in `qa/ir86/*-results.txt`.
 
 Three new pencil cartoons were generated with the built-in Imagegen tool, inspected, and saved as `site/static/images/ir86-patterns.png`, `ir86-plates.png`, and `ir86-lock.png`. Their final prompts and original paths are in [qa/ir86/image-prompts.md](qa/ir86/image-prompts.md). The dressmaker, waiter, and canal keeper are distinct from the earlier collection's characters and settings.
 

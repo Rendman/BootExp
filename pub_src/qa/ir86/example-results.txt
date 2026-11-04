@@ -1,4 +1,5 @@
-PASS HELLO: native IR translation, ASM86 assembly, expected runtime
-PASS COUNT: native IR translation, ASM86 assembly, expected runtime
-PASS BYTES: native IR translation, ASM86 assembly, expected runtime
-PASS COPYFILE: native IR translation, ASM86 assembly, expected runtime; empty/text/binary copy and missing-input failure
+PASS HELLO: identical IR source; portable VM and native backend agree on status, output, and files
+PASS COUNT: identical IR source; portable VM and native backend agree on status, output, and files
+PASS BYTES: identical IR source; portable VM and native backend agree on status, output, and files
+PASS ECHOIR: identical IR source; portable VM and native backend agree on status, output, and files
+PASS COPYFILE: identical IR source; portable VM and native backend agree on status, output, and files

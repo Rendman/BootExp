@@ -7,7 +7,7 @@ download = "IR01.ASM"
 
 A translator begins by reading its source reliably. We shall use the file reader already constructed in ASM86, with an IR filename and a diagnostic display.
 
-## How it works
+## Operation and backend
 
 Begin with the saved AS07.ASM program from the ASM86 collection. Its GETNAME, OPENFILE, NEXTBYTE, READLINE, and CLOSEFILE routines provide the complete input path. The source extension is .IR; the DOS output strings still end in a dollar sign, and file extensions end in a zero byte.
 

@@ -5,15 +5,15 @@ description = "Combine a saved left operand with the accumulator right operand."
 download = "IR13.ASM"
 +++
 
-An arithmetic operation can consume the saved left operand and leave its result in AX.
+An arithmetic operation consumes the saved left operand and leaves its result in A.
 
-## How it works
+## Operation and backend
 
-ADD pops the left word into BX and adds it to AX. SUB must retain operand order: it pops BX, subtracts AX from BX, and copies BX to AX. Thus LIT 7, PUSH, LIT 3, SUB computes seven minus three.
+ADD adds the saved left word to A. SUB computes the saved left word minus A. Both consume one expression word and leave the result in A. Thus LIT 7, PUSH, LIT 3, SUB computes seven minus three.
 
-Both operations require one saved word and reduce DEPTH by one. Their arithmetic wraps modulo 65536; there is no overflow exception or signed-literal syntax. The same word bits can be interpreted as unsigned or signed when an operation explicitly says which comparison to make.
+Arithmetic wraps modulo 65536. There is no overflow exception or signed-literal syntax. The same word bits can be interpreted as unsigned or signed when an operation explicitly selects a comparison. FLOW requires a saved word and reduces DEPTH by one.
 
-BX and arithmetic flags are scratch registers for these emitted operations. AX is the result. The test combines subtraction and addition and finally subtracts the known result, so CHECK can report a visible PASS for a computed zero.
+The backend pops the left operand into BX. ADD combines BX with AX; SUB subtracts AX from BX and copies the result to AX. These native register and flag choices do not expose additional IR state. The test combines subtraction and addition and finally subtracts the known result, giving a visible PASS for a computed zero.
 
 ## Source changes
 

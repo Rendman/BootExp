@@ -7,7 +7,7 @@ download = "IR18.ASM"
 
 The assembly text and the program it describes have different sizes. Both need their own bounds.
 
-## How it works
+## Operation and backend
 
 Each instruction record carries its emitted machine-byte count. SIZEADD adds that count to TARGETSIZE; BUFFER contributes NUMV instead. The fixed header begins the count at fifteen bytes. An appended HALT contributes five, just as an explicit HALT does.
 
