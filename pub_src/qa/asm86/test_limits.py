@@ -58,8 +58,7 @@ for function in [0x3d,0x3f,0x3e,0x3c,0x40]:
  m=FaultMachine(function).run(IMAGE)
  assert m.exitcode==1 and b'CODE 6' in m.output,(function,m.output)
  results.append(f'PASS DOS failure {function:02X}'+(' (short write)' if function==0x40 else ''))
-basic=(ROOT/'workbench/bootasm/BOOTASM.BAS').read_text().splitlines();wide=(W/'BAWIDE.BAS').read_text().splitlines()
-assert [(a,b) for a,b in zip(basic,wide) if a!=b]==[('22 DIM SY$(127), SV(127)','22 DIM SY$(255), SV(255)'),('7030 IF SC=128 THEN E$="Too many labels": GOTO 9000','7030 IF SC=256 THEN E$="Too many labels": GOTO 9000')]
-results.append('PASS BAWIDE differs from BOOTASM in exactly the two published lines')
+assert (ROOT/'workbench/bootasm/BOOTASM.BAS').read_bytes()==(W/'BOOTASM.BAS').read_bytes()
+results.append('PASS canonical BOOTASM source is identical in both collections')
 (Q/'limit-results.txt').write_text('\n'.join(results)+'\n')
 print(f'PASS {len(results)} independent encoding, grammar, resource, and I/O cases')

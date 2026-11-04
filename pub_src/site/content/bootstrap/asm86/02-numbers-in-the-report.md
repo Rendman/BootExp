@@ -117,7 +117,7 @@ MOV DX,NEWLINE
 Use the BASIC assembler prepared in the workbench guide:
 
 ```dos
-GWBASIC BAWIDE.BAS
+GWBASIC BOOTASM.BAS
 ```
 
 Enter `AS02` at its source prompt. Require `OK AS02.COM 110 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.

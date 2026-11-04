@@ -7,9 +7,10 @@ sys.path.insert(0,str(ROOT/'tools/python-pcbasic207'))
 import pcbasic
 WORK=ROOT/'workbench/asm86'
 def basic_build(stem='ASM86'):
+ assert (WORK/'BOOTASM.BAS').read_bytes()==(ROOT/'workbench/bootasm/BOOTASM.BAS').read_bytes(), 'Bootstrap source differs between collections'
  out=io.BytesIO()
  with pcbasic.Session(input_streams=io.BytesIO((stem+'\r\n').encode()),output_streams=out,devices={'A':str(WORK)},current_device='A:') as session:
-  session.execute('LOAD "BAWIDE.BAS"')
+  session.execute('LOAD "BOOTASM.BAS"')
   session.execute('RUN')
   log=out.getvalue().decode('ascii',errors='replace')
   symbols={}

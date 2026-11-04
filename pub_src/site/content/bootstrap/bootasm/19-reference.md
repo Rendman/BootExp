@@ -137,8 +137,8 @@ Variables are shared BASIC program state. Callers save values which their callee
 |---|---|---|
 | Output image | 4,096 bytes | Bounds the BASIC byte array and keeps initial programs small |
 | Byte-array storage | 8,192 bytes | One BASIC integer per output byte |
-| Labels | 128, each at most 16 characters | Bounds the symbol arrays and string storage |
-| Symbol values | 128 ordinary BASIC numeric entries, 512 bytes | Addresses use nonnegative values; no signed-integer address conversion |
+| Labels | 256, each at most 16 characters | Bounds the symbol arrays and string storage |
+| Symbol values | 256 ordinary BASIC numeric entries, 1,024 bytes | Addresses use nonnegative values; no signed-integer address conversion |
 | Source lines | 2,000 | Bounds work per pass and gives a clear diagnostic |
 | Source line width | 120 characters before normalization | Limits the line a reader must enter and inspect |
 | Numeric values | 0 through 65,535 | An unsigned word; byte contexts impose 255 |
@@ -169,7 +169,7 @@ An empty source is accepted as a zero-byte output for inspection. It is not a ru
 | Register sizes differ | A byte register paired with a word register |
 | Bad label / Reserved label | Name spelling or use of a register name |
 | Duplicate label / Undefined label | Repeated definition or missing definition |
-| Too many labels | The 128-entry table is full |
+| Too many labels | The 256-entry table is full |
 | Bad memory operand | Missing closing bracket; other malformed offsets may report Bad label or Bad number |
 | Branch out of range | A conditional target outside -128 through +127 bytes from the following instruction |
 | Program too large | Output exceeds 4,096 bytes |

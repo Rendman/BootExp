@@ -4,10 +4,7 @@ import json,re,shutil,zipfile
 ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/asm86';D=ROOT/'site/static/downloads/asm86'
 D.mkdir(parents=True,exist_ok=True)
 def dos(name,text):(W/name).write_bytes((text.rstrip()+'\n').replace('\r\n','\n').replace('\n','\r\n').encode('ascii'))
-for name in ['VIEW.BAS','CHECK.BAT']:shutil.copyfile(ROOT/'workbench/bootasm'/name,W/name)
-source=(ROOT/'workbench/bootasm/BOOTASM.BAS').read_text()
-source=source.replace('22 DIM SY$(127), SV(127)','22 DIM SY$(255), SV(255)').replace('7030 IF SC=128 THEN','7030 IF SC=256 THEN')
-dos('BAWIDE.BAS',source)
+for name in ['BOOTASM.BAS','VIEW.BAS','CHECK.BAT']:shutil.copyfile(ROOT/'workbench/bootasm'/name,W/name)
 examples=ROOT/'site/content/bootstrap/asm86/32-programs.md'
 blocks=re.findall(r'```asm\n(.*?)\n```',examples.read_text(),re.S)
 for name,block in zip(['HELLO','MEMORY','COUNT'],blocks):dos(name+'.ASM',block)
@@ -17,7 +14,7 @@ A practical course in small-system software
 Begin with the completed BOOTASM collection and its BASIC workbench.
 Read The assembly workbench before the construction installments.
 
-BAWIDE.BAS  BOOTASM with the printed symbol-table changes.
+BOOTASM.BAS The completed BASIC assembler from the BOOTASM collection.
 AS01.ASM through AS29.ASM: complete saved construction checkpoints.
 ASM86.ASM   Completed native assembler, identical to AS29.ASM.
 VIEW.BAS    The unchanged BOOTASM length and hexadecimal byte viewer.
@@ -28,7 +25,7 @@ HELLO.ASM, MEMORY.ASM, COUNT.ASM: three complete example programs.
 
 Use your own DOS and period GW-BASIC interpreter. GWBASIC is the name
 used in the articles; substitute the actual name on your disk.
-GWBASIC BAWIDE.BAS builds a checkpoint. Enter AS01, for example.
+GWBASIC BOOTASM.BAS builds a checkpoint. Enter AS01, for example.
 Require BASIC's OK and byte count; SYSTEM returns to DOS.
 CHECK AS01 executes that complete checkpoint and prints PASS or FAIL.
 Keep BOOTKEEP.BAS and a tested BASIC-built ASMKEEP.COM separately.
@@ -50,7 +47,7 @@ Its limits are 8192 output bytes, 4000 lines, 120 characters per line,
 All source is ASCII with DOS line endings and 8.3 filenames.
 This collection contains no preassembled programs or interpreter.
 ''')
-files=['BAWIDE.BAS','ASM86.ASM','VIEW.BAS','CHECK.BAT','README.TXT','HELLO.ASM','MEMORY.ASM','COUNT.ASM']
+files=['BOOTASM.BAS','ASM86.ASM','VIEW.BAS','CHECK.BAT','README.TXT','HELLO.ASM','MEMORY.ASM','COUNT.ASM']
 for case in json.loads((ROOT/'qa/asm86/checkpoints.json').read_text()):
  n=case['number'];files.append(case['source'])
  if case['fixture'] is not None:files.append(f'T{n:02}.ASM')

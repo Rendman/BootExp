@@ -4,7 +4,7 @@ A practical course in small-system software
 Begin with the completed BOOTASM collection and its BASIC workbench.
 Read The assembly workbench before the construction installments.
 
-BAWIDE.BAS  BOOTASM with the printed symbol-table changes.
+BOOTASM.BAS The completed BASIC assembler from the BOOTASM collection.
 AS01.ASM through AS29.ASM: complete saved construction checkpoints.
 ASM86.ASM   Completed native assembler, identical to AS29.ASM.
 VIEW.BAS    The unchanged BOOTASM length and hexadecimal byte viewer.
@@ -15,7 +15,7 @@ HELLO.ASM, MEMORY.ASM, COUNT.ASM: three complete example programs.
 
 Use your own DOS and period GW-BASIC interpreter. GWBASIC is the name
 used in the articles; substitute the actual name on your disk.
-GWBASIC BAWIDE.BAS builds a checkpoint. Enter AS01, for example.
+GWBASIC BOOTASM.BAS builds a checkpoint. Enter AS01, for example.
 Require BASIC's OK and byte count; SYSTEM returns to DOS.
 CHECK AS01 executes that complete checkpoint and prints PASS or FAIL.
 Keep BOOTKEEP.BAS and a tested BASIC-built ASMKEEP.COM separately.

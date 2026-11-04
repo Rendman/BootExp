@@ -4,7 +4,7 @@ An original, gradual course in building an 8086/8088 software workbench, startin
 
 The Hugo site lives in `pub_src/site`. Its published output goes to `public/` at the project root. BOOTASM contains eighteen construction installments, a workbench guide, a language reference, and complete example programs. ASM86 sits beside it with twenty-nine assembly construction checkpoints, a thirtieth installment proving self-assembly, its own workbench guide, reference, and three complete examples.
 
-ASM86's first executable comes from the published BASIC assembler with a symbol-table expansion. Two native generations reproduce that executable byte for byte, including under DOS 3.10. The native language stays within the documented 8086/8088 subset; IR86 is the next tool in the experiment and is not implemented here.
+ASM86's first executable is built directly by the completed BOOTASM.BAS. Two native generations reproduce that executable byte for byte, including under DOS 3.10. The native language stays within the documented 8086/8088 subset; IR86 is the next tool in the experiment and is not implemented here.
 
 ## Publish with GitHub Pages
 

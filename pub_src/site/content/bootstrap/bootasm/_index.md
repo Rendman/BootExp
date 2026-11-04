@@ -16,7 +16,7 @@ Begin with **The workbench**, then follow the eighteen numbered installments in 
 
 BOOTASM accepts `DB` and `DW`, decimal and hexadecimal values, labels, and a selected set of 8086/8088 instructions. It understands the eight ordinary word registers and eight byte registers, direct memory offsets and `[BX]`, near calls and jumps, and ten short conditional branches. The reference at the end lists every accepted form.
 
-It is intentionally small: 4,096 output bytes, 128 labels, and 2,000 source lines, each at most 120 characters. It does not include macros, expression arithmetic, segment directives, object modules, or every addressing form of the processor. Those omissions keep the listing and the work of typing it manageable. They are limits of BOOTASM, not limits of the 8088.
+It is intentionally small: 4,096 output bytes, 256 labels, and 2,000 source lines, each at most 120 characters. It does not include macros, expression arithmetic, segment directives, object modules, or every addressing form of the processor. Those omissions keep the listing and the work of typing it manageable. They are limits of BOOTASM, not limits of the 8088.
 
 ## Keep the stopping points
 

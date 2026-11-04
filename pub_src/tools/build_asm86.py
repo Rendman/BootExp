@@ -205,7 +205,7 @@ The line number is zero when no source line has been read. Codes 1 through 7 dis
 
 The entry check requires SP=FFFEH, the normal stack pointer for a .COM program given a full 64 KB segment. Our working buffers will use fixed offsets within that segment. Refusing a smaller segment is simpler than relocating all those buffers. Code 7 is a real workbench limit, not a claim that every DOS program needs 64 KB.
 
-To exercise the rejection exit on an otherwise roomy machine, save a separate copy as SMALL.ASM and insert MOV SP,8000H immediately before CMP SP,0FFFEH. This leaves ample stack space for the report but deliberately fails the entry check. Build SMALL with BAWIDE and run CHECK SMALL: it must display ERROR 00000 CODE 7 and FAIL. Keep the normal checkpoint unchanged.''',
+To exercise the rejection exit on an otherwise roomy machine, save a separate copy as SMALL.ASM and insert MOV SP,8000H immediately before CMP SP,0FFFEH. This leaves ample stack space for the report but deliberately fails the entry check. Build SMALL with BOOTASM and run CHECK SMALL: it must display ERROR 00000 CODE 7 and FAIL. Keep the normal checkpoint unchanged.''',
  driver('MOV DX,READYMSG\nCALL TEXT',name=False),payload='READY\r\n',bad={'kind':'stack','line':0,'code':7})
 add('Choosing the source name','Read, check, and uppercase a short DOS base name.',
 'We shall ask for a source name once and construct its .ASM filename in a bounded buffer.',

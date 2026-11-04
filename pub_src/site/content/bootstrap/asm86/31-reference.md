@@ -148,7 +148,7 @@ A symbol record occupies twenty bytes: up to sixteen name characters and a zero,
 | Source handles | One input at a time, reopened each pass | No source copy or seek state in memory |
 | Output handles | One, after both source passes | Avoids replacing a good file for a source error |
 
-The workbench guide gives the exact buffer map. These bounds belong to ASM86, not to the CPU. BAWIDE's separate output limit remains 4,096 bytes and its source limit 2,000 lines; the completed ASM86 source and image fit both. BAWIDE has the 256-label expansion described in the guide.
+The workbench guide gives the exact buffer map. These bounds belong to ASM86, not to the CPU. BOOTASM accepts 256 labels, at most 4,096 output bytes, and at most 2,000 source lines. The completed ASM86 source and image fit those bounds.
 
 ASM86 checks emitted length, source bounds, symbol bounds, and its own entry stack. It does not check the assembled program's later memory accesses, stack depth, or DOS-call correctness. An emitted program shares code, data, and stack in one segment and must respect its own allocated storage. PUSH SP has the original 8086/8088 behavior: the pushed value reflects the decremented SP. Avoid treating it as an ordinary saved-register value.
 

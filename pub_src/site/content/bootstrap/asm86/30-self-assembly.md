@@ -15,7 +15,7 @@ At DOS:
 
 ```dos
 COPY AS29.ASM ASM86.ASM
-GWBASIC BAWIDE.BAS
+GWBASIC BOOTASM.BAS
 ```
 
 Enter `ASM86`. Require `OK ASM86.COM 2622 bytes`, allowing BASIC's extra numeric spaces. Return with `SYSTEM`, then preserve the result:
@@ -73,4 +73,4 @@ Run `CHECK SELF`, enter `BAD`, and require `ERROR 00001 CODE 1` followed by FAIL
 
 If a comparison differs, first check that SELF.ASM and AGAIN.ASM were plain copies of the exact source assembled by BASIC. Then compare the instruction and register tables, label storage, and pass resets. Do not copy a mismatching executable over the known working tool.
 
-The result establishes agreement between the BASIC assembler and two native generations on this complete source. It does not establish support for instructions absent from the reference or prove that every possible input is correct. Keep ASMKEEP.COM, BOOTKEEP.BAS, BAWIDE.BAS, and the sources together; a useful bootstrap retains the means to recover its tools.
+The result establishes agreement between the BASIC assembler and two native generations on this complete source. It does not establish support for instructions absent from the reference or prove that every possible input is correct. Keep ASMKEEP.COM, BOOTKEEP.BAS, BOOTASM.BAS, and the sources together; a useful bootstrap retains the means to recover its tools.

@@ -283,13 +283,13 @@ Nothing is written to disk until both passes finish. The file is reopened rather
 
 The output loop uses the second pass's byte count. There is still only one OK report and one output file. Do not edit the source while an assembly is running. The test below must produce exactly the same result as a one-pass assembly.''',
 'MOV AX,4C00H\nINT 21H','B8 00 4C CD 21','DB 256','Byte out of range',run='')
-stage('Giving positions names','''22 DIM SY$(127), SV(127)
+stage('Giving positions names','''22 DIM SY$(255), SV(255)
 65 SC=0
 158 IF RIGHT$(S$,1)=":" THEN T$=LEFT$(S$,LEN(S$)-1): GOSUB 7000: GOTO 100
 7000 GOSUB 7100: GOSUB 7200
 7010 IF PS=2 THEN RETURN
 7020 IF SI>=0 THEN E$="Duplicate label": GOTO 9000
-7030 IF SC=128 THEN E$="Too many labels": GOTO 9000
+7030 IF SC=256 THEN E$="Too many labels": GOTO 9000
 7040 SY$(SC)=T$: SV(SC)=256+P: SC=SC+1
 7050 RETURN
 7100 IF LEN(T$)<1 OR LEN(T$)>16 THEN E$="Bad label": GOTO 9000
@@ -312,7 +312,7 @@ stage('Giving positions names','''22 DIM SY$(127), SV(127)
 
 Routine 7100 checks `T$`. Names contain one to sixteen uppercase letters, digits, or underscores; the first character cannot be a digit. Normalization makes lowercase spelling equivalent. Register names are reserved because they would be ambiguous in operands. The validator changes `K`, `C$`, and the register reader's scratch variables; it preserves `T$`.
 
-Routine 7200 searches the first `SC` entries and returns the matching index `SI`, or -1. Routine 7000 enters a definition only in pass one, using parallel arrays `SY$` for names and `SV` for values. A repeated name is an error, even if its value would be unchanged. The table holds 128 names, a deliberate storage bound. Pass two validates definitions without entering them again.
+Routine 7200 searches the first `SC` entries and returns the matching index `SI`, or -1. Routine 7000 enters a definition only in pass one, using parallel arrays `SY$` for names and `SV` for values. A repeated name is an error, even if its value would be unchanged. The table holds 256 names, a deliberate storage bound. The arrays run from zero through 255; the full-table test prevents a write beyond that allocation. Pass two validates definitions without entering them again.
 
 At this checkpoint names are recorded, but numeric operands are still required. A label line should make no difference to the bytes collected.''',
 'START:\nDB 41H\nFINISH:\nDB 42H','41 42','AGAIN:\nDB 1\nAGAIN:','Duplicate label')
@@ -594,4 +594,4 @@ Check the changed line numbers first, then compare the test source with the list
 
 dos(WORK/'BOOTASM.BAS','\n'.join(f'{n} {body}' for n,body in sorted(program.items())))
 (ROOT/'qa/checkpoints.json').write_text(json.dumps(manifest,indent=2))
-print(f'{len(stages)} construction patches, {len(program)} final BASIC lines; largest patch {max(len(s["patch"]) for s in stages)} lines')
+print('Prepared BOOTASM source checkpoints and construction articles.')

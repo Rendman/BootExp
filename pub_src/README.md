@@ -45,10 +45,10 @@ Open `http://localhost:8096/bootstrap/`. Relative resource URLs and explicit ind
 
 `tools/build_bootasm.py` maintains the authored BASIC patches, complete checkpoint copies, matching fixtures, and seventeen construction articles. The articles print exact source changes and the old surrounding lines. Run `tools/package_sources.py` after changing source or the printed examples, then rebuild Hugo. The other content pages are maintained directly as Markdown.
 
-For production checks, the local Python dependencies are retained in `tools/python` (PC-BASIC 2.0.8, Unicorn 2.1.4, Beautiful Soup 4.15.0). They are verification tools, not a way to build any reader executable outside BASIC:
+Production checks use Python 3.11 with PC-BASIC 2.0.7 in `tools/python-pcbasic207`, plus Unicorn 2.1.4 and Beautiful Soup 4.15.0 in `tools/python`. These execute and inspect the published tools; they do not replace a reader assembler:
 
 ```sh
-python3 pub_src/qa/test_bootasm.py
+python3.11 pub_src/qa/test_bootasm.py
 python3 pub_src/qa/validate_site.py
 ```
 
@@ -58,11 +58,11 @@ BOOTASM's results are in `qa/test-results.txt`: 64 BASIC/encoding/runtime/bounda
 
 ## ASM86 production and verification
 
-ASM86 lives in `workbench/asm86` and `site/content/bootstrap/asm86`, as a sibling collection. Its archive contains 86 source files, including BAWIDE.BAS, all 29 assembly checkpoints, accepted/rejected fixtures, the unchanged viewer/checker, and three examples. It contains no executable or interpreter. The native assembler is 2,622 bytes. BAWIDE expands BOOTASM's symbol table, doubling the label capacity; the old output/source limits are sufficient.
+ASM86 lives in `workbench/asm86` and `site/content/bootstrap/asm86`, as a sibling collection. Its archive contains 86 source files, including BOOTASM.BAS, all 29 assembly checkpoints, accepted/rejected fixtures, the unchanged viewer/checker, and three examples. It contains no executable or interpreter. The native assembler is 2,622 bytes. The completed BOOTASM directly builds every ASM86 checkpoint within its published capacity. Both collections supply the identical BOOTASM.BAS source.
 
 `tools/asm86_template.asm` holds the authored native routines. `tools/build_asm86.py` arranges the authored source fragments into checkpoints and the explanation manifest. It prepares source text, not machine code. `tools/write_asm86_articles.py` prints exact edits and context after checkpoint verification has recorded the real image sizes. The workbench, self-assembly article, reference, and examples are maintained directly. `tools/package_sources.py` refreshes both source collections without changing an archive whose contents already match. The publishing workflow packages and builds checked-in material; it does not reconstruct the assembler or rewrite articles.
 
-ASM86 bootstrap verification uses Python 3.11 and PC-BASIC 2.0.7, installed locally under `tools/python-pcbasic207`. PC-BASIC 2.0.8's string collector fails on the larger program with `Dereferencing detached string`; that verification-interpreter defect is not patched into the reader's BASIC source. Keep the 2.0.7 dependency directory separate from the existing BOOTASM dependencies. Install `pcbasic==2.0.7` into that directory with a Python 3.11 pip if reproducing these checks. Unicorn and Beautiful Soup remain in `tools/python`.
+Both BASIC verification scripts use Python 3.11 and PC-BASIC 2.0.7, installed locally under `tools/python-pcbasic207`. Install `pcbasic==2.0.7` into that directory with a Python 3.11 pip if reproducing these checks. Unicorn and Beautiful Soup remain in `tools/python`.
 
 From the project root, using a Python 3.11 executable for the first command:
 
@@ -78,7 +78,7 @@ python3 pub_src/tools/hugo.py --source pub_src/site --cleanDestinationDir
 python3 pub_src/qa/validate_site.py
 ```
 
-Where Python 3.11 is managed by uv, `uv run --python 3.11 --no-project python` can replace `python3.11`. To regenerate source checkpoints first, run `tools/build_asm86.py` before this sequence. Regeneration clears measured image sizes; run the verification before rendering articles. The bootstrap command executes the published BAWIDE.BAS, making the first native ASM86.COM. The native checks then build/run every checkpoint and prove two identical self-assembly generations. The BASIC checkpoint check independently executes BAWIDE for every checkpoint and requires exact agreement with those native-built files. No outside assembler, compiler, linker, or machine-code generator supplies executable bytes.
+Where Python 3.11 is managed by uv, `uv run --python 3.11 --no-project python` can replace `python3.11`. To regenerate source checkpoints first, run `tools/build_asm86.py` before this sequence. Regeneration clears measured image sizes; run the verification before rendering articles. The bootstrap command executes the published BOOTASM.BAS, making the first native ASM86.COM. The native checks then build/run every checkpoint and prove two identical self-assembly generations. The BASIC checkpoint check independently executes BOOTASM for every checkpoint and requires exact agreement with those native-built files. No outside assembler, compiler, linker, or machine-code generator supplies executable bytes.
 
 The retained `qa/asm86/*-results.txt` records show all 29 construction checks, all 29 BASIC/native byte comparisons, 149 independent encoding/grammar/resource/I/O checks, and the three complete example tests passing. `validate_site.py` also reconstructs all assembly checkpoints from the exact printed edits, validates both archives (145 sources in total), and checks links, assets, anchors, editorial exclusions, and all 58 HTML pages.
 

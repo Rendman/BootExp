@@ -146,4 +146,4 @@ PASS DOS failure 3F
 PASS DOS failure 3E
 PASS DOS failure 3C
 PASS DOS failure 40 (short write)
-PASS BAWIDE differs from BOOTASM in exactly the two published lines
+PASS canonical BOOTASM source is identical in both collections

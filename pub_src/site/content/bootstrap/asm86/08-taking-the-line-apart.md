@@ -192,7 +192,7 @@ MOV SI,2300H
 Use the BASIC assembler prepared in the workbench guide:
 
 ```dos
-GWBASIC BAWIDE.BAS
+GWBASIC BOOTASM.BAS
 ```
 
 Enter `AS08` at its source prompt. Require `OK AS08.COM 742 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.

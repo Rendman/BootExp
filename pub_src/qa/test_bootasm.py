@@ -5,6 +5,7 @@ from pathlib import Path
 import io,json,sys,shutil, tempfile
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'tools/python'))
+sys.path.insert(0,str(ROOT/'tools/python-pcbasic207'))
 import pcbasic
 from unicorn import Uc,UC_ARCH_X86,UC_MODE_16,UC_HOOK_INTR
 from unicorn.x86_const import *
@@ -90,7 +91,7 @@ valid=[
 valid=[v for v in valid if v[0] not in ('MAXIMUM','JMINUS')]+[
  ('MAXIMUM','\n'.join(['DB '+','.join(['0']*32)]*128),bytes(4096)),
  ('JMINUS','\n'.join(['DB '+','.join(['0']*32)]*3+['DB '+','.join(['0']*30),'JE 100H']),bytes(126)+bytes.fromhex('74 80')),
- ('LABELS','\n'.join(f'L{i}:\nDB 0' for i in range(128)),bytes(128)),
+ ('LABELS','\n'.join(f'L{i}:\nDB 0' for i in range(256)),bytes(256)),
  ('LINES','\n'.join([';']*2000),b''),
 ]
 for name,text,expected in valid:
@@ -111,7 +112,7 @@ invalid=[
  ('BADMEM','MOV AL,[BX','Bad memory operand'),('NEWCPU','PUSHA','Unknown instruction'),
  ('JTOOFAR','JE 182H','Branch out of range'),('NEGJUMP','\n'.join(['DB '+','.join(['0']*32)]*3+['DB '+','.join(['0']*31),'JE 100H']),'Branch out of range'),
  ('OVERFLOW','\n'.join(['DB '+','.join(['0']*32)]*128+['DB 0']),'Program too large'),
- ('MANYLAB','\n'.join(f'L{i}:' for i in range(129)),'Too many labels'),
+ ('MANYLAB','\n'.join(f'L{i}:' for i in range(257)),'Too many labels'),
  ('MANYLINE','\n'.join([';']*2001),'Too many source lines'),
 ]
 for name,text,diagnostic in invalid:

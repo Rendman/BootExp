@@ -38,7 +38,7 @@ for case in CASES:
    else:text+='No replacement lines are needed.\n\n'
    changes.append(dict(tag=tag,a1=a1,a2=a2,old=old,new=new,context=context))
  text+='## Build and stop\n\n'
- text+=f'Use the BASIC assembler prepared in the workbench guide:\n\n'+fence('dos','GWBASIC BAWIDE.BAS')
+ text+=f'Use the BASIC assembler prepared in the workbench guide:\n\n'+fence('dos','GWBASIC BOOTASM.BAS')
  text+=f'Enter `{name}` at its source prompt. Require `OK {name}.COM {case["binary_bytes"]} bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.\n\n'
  if case['fixture'] is not None:
   text+=f'Use `COPY CON {test}.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:\n\n'+fence('asm',case['fixture'].replace('\r\n','\n'))
@@ -61,7 +61,7 @@ for case in CASES:
    text+=f'Run `CHECK {name}` and enter `{x}`.\n\n'
   elif bad['kind']=='missing':text+=f'Choose `{x}` as a fresh name with **no** `{x}.ASM` on disk. Run `CHECK {name}` and enter `{x}`.\n\n'
   elif bad['kind']=='console':text+=f'Run `CHECK {name}` and enter `{bad["input"]}` as the base name. The dot is forbidden.\n\n'
-  elif bad['kind']=='stack':text+='Use the separate SMALL.ASM experiment described above; build it with BAWIDE, then run `CHECK SMALL`.\n\n'
+  elif bad['kind']=='stack':text+='Use the separate SMALL.ASM experiment described above; build it with BOOTASM, then run `CHECK SMALL`.\n\n'
   text+='Require this diagnostic followed by the checker\'s `FAIL`:\n\n'+fence('text',f'ERROR {bad["line"]:05} CODE {bad["code"]}\nFAIL')
   text+='`PASS` here means the rejection did not happen. Do not use an older output file as evidence of acceptance; require a new `OK` before inspecting output.\n\n'
  text+='## If the result differs\n\n'

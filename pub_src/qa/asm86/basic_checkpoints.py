@@ -1,4 +1,4 @@
-"""Build every published assembly checkpoint by executing BAWIDE.BAS."""
+"""Build every published assembly checkpoint by executing BOOTASM.BAS."""
 from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 from bootstrap import basic_build,WORK,ROOT

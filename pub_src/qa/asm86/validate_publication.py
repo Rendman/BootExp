@@ -16,6 +16,7 @@ for stage in json.loads((ROOT/'qa/asm86/article-patches.json').read_text()):
  assert program==expected,(stage['page'],'printed edits do not reconstruct source')
  assert f'CHECK AS{stage["number"]:02}' in text
 assert (W/'ASM86.ASM').read_bytes()==(W/'AS29.ASM').read_bytes()
+assert (W/'BOOTASM.BAS').read_bytes()==(ROOT/'workbench/bootasm/BOOTASM.BAS').read_bytes()
 files=json.loads((ROOT/'qa/asm86/package-files.json').read_text())
 with zipfile.ZipFile(D/'ASM86.ZIP') as z:
  assert z.namelist()==files,'archive manifest differs'
