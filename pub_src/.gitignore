@@ -38,3 +38,10 @@
 /qa/asm86/dos/
 /qa/asm86/basic-*-symbols.json
 /qa/asm86/basic-symbols.json
+/workbench/ir86/*.COM
+/workbench/ir86/*.LOG
+/qa/ir86/*.COM
+/qa/ir86/*.img
+/qa/ir86/*.log
+/qa/ir86/build-symbols.json
+/qa/ir86/dos/

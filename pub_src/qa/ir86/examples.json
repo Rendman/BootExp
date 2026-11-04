@@ -1,0 +1,26 @@
+[
+  {
+    "name": "HELLO",
+    "output": "HI",
+    "text_bytes": 197,
+    "binary_bytes": 40
+  },
+  {
+    "name": "COUNT",
+    "output": "012",
+    "text_bytes": 383,
+    "binary_bytes": 68
+  },
+  {
+    "name": "BYTES",
+    "output": "OK",
+    "text_bytes": 451,
+    "binary_bytes": 76
+  },
+  {
+    "name": "COPYFILE",
+    "output": "",
+    "text_bytes": 1242,
+    "binary_bytes": 198
+  }
+]

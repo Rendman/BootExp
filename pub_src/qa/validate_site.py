@@ -49,6 +49,7 @@ for i in range(2,19):
 if (WORK/'BOOTASM.BAS').read_bytes()!=(WORK/'BA18.BAS').read_bytes():errors.append('Final source differs from final checkpoint')
 import runpy
 runpy.run_path(str(ROOT/'qa/asm86/validate_publication.py'),run_name='__main__')
+runpy.run_path(str(ROOT/'qa/ir86/validate_publication.py'),run_name='__main__')
 for p in CONTENT.rglob('*.md'):
  text=p.read_text().lower()
  for forbidden in ('checksum','unicorn','python','automated regression','ai-generated','ai tools'):
@@ -56,5 +57,6 @@ for p in CONTENT.rglob('*.md'):
 if errors:
  print('\n'.join(errors));raise SystemExit(1)
 asm_count=len(json.loads((ROOT/'qa/asm86/package-files.json').read_text()))
-text=f'PASS: {count} HTML pages; all local links, assets and anchors; 59 BOOTASM + {asm_count} ASM86 archive sources; ASCII/CRLF/8.3; all 17 BASIC and 29 assembly printed edits reconstruct exact checkpoints; editorial exclusions.'
+ir_count=len(json.loads((ROOT/'qa/ir86/package-files.json').read_text()))
+text=f'PASS: {count} HTML pages; all local links, assets and anchors; 59 BOOTASM + {asm_count} ASM86 + {ir_count} IR86 archive sources; ASCII/CRLF/8.3; all 17 BASIC, 29 ASM86, and 26 IR86 printed edits reconstruct exact checkpoints; editorial exclusions.'
 print(text);(ROOT/'qa/site-results.txt').write_text(text+'\n')

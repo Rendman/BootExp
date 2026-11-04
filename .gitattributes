@@ -3,3 +3,5 @@ pub_src/workbench/bootasm/** -text
 pub_src/site/static/downloads/bootasm/** -text
 pub_src/workbench/asm86/** -text
 pub_src/site/static/downloads/asm86/** -text
+pub_src/workbench/ir86/** -text
+pub_src/site/static/downloads/ir86/** -text

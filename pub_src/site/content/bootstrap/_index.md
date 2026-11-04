@@ -25,6 +25,6 @@ The BASIC construction proceeds through small additions and replacements. Existi
 
 ## The collections
 
-BOOTASM and ASM86 occupy the same level in this course. Open a collection to find its individual installments. BOOTASM builds the BASIC foundation; ASM86 builds an assembler in assembly language and finishes by assembling its own source twice.
+BOOTASM, ASM86, and IR86 occupy the same level in this course. Open a collection to find its individual installments. BOOTASM builds the BASIC foundation; ASM86 builds an assembler in assembly language and finishes by assembling its own source twice. IR86 uses that assembler to build a translator, then follows its output through assembly to working DOS programs.
 
 This is an original practical course with a 1986 technical setting. It is not a reproduction of, or affiliated with, a historical magazine.

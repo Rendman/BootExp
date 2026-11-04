@@ -1,0 +1,290 @@
+{
+  "NOP": {
+    "class": 0,
+    "effect": 0,
+    "bytes": 1,
+    "template": "NOP\n"
+  },
+  "HALT": {
+    "class": 0,
+    "effect": 5,
+    "bytes": 5,
+    "template": "MOV AX,4C00H\nINT 21H\n"
+  },
+  "LABEL": {
+    "class": 3,
+    "effect": 3,
+    "bytes": 0,
+    "template": "U_@:\n"
+  },
+  "LIT": {
+    "class": 1,
+    "effect": 0,
+    "bytes": 3,
+    "template": "MOV AX,#\n"
+  },
+  "EXIT": {
+    "class": 0,
+    "effect": 5,
+    "bytes": 4,
+    "template": "MOV AH,4CH\nINT 21H\n"
+  },
+  "WORD": {
+    "class": 5,
+    "effect": 0,
+    "bytes": 2,
+    "template": "U_@:\nDW #\n"
+  },
+  "LD": {
+    "class": 2,
+    "effect": 0,
+    "bytes": 4,
+    "template": "MOV AX,[U_@]\n"
+  },
+  "ST": {
+    "class": 2,
+    "effect": 0,
+    "bytes": 4,
+    "template": "MOV [U_@],AX\n"
+  },
+  "BYTE": {
+    "class": 4,
+    "effect": 0,
+    "bytes": 1,
+    "template": "U_@:\nDB #\n"
+  },
+  "LDB": {
+    "class": 2,
+    "effect": 0,
+    "bytes": 6,
+    "template": "MOV AL,[U_@]\nMOV AH,0\n"
+  },
+  "STB": {
+    "class": 2,
+    "effect": 0,
+    "bytes": 4,
+    "template": "MOV [U_@],AL\n"
+  },
+  "PUSH": {
+    "class": 0,
+    "effect": 1,
+    "bytes": 1,
+    "template": "PUSH AX\n"
+  },
+  "POP": {
+    "class": 0,
+    "effect": 2,
+    "bytes": 1,
+    "template": "POP AX\n"
+  },
+  "ADD": {
+    "class": 0,
+    "effect": 2,
+    "bytes": 3,
+    "template": "POP BX\nADD AX,BX\n"
+  },
+  "SUB": {
+    "class": 0,
+    "effect": 2,
+    "bytes": 5,
+    "template": "POP BX\nSUB BX,AX\nMOV AX,BX\n"
+  },
+  "AND": {
+    "class": 0,
+    "effect": 2,
+    "bytes": 3,
+    "template": "POP BX\nAND AX,BX\n"
+  },
+  "OR": {
+    "class": 0,
+    "effect": 2,
+    "bytes": 3,
+    "template": "POP BX\nOR AX,BX\n"
+  },
+  "XOR": {
+    "class": 0,
+    "effect": 2,
+    "bytes": 3,
+    "template": "POP BX\nXOR AX,BX\n"
+  },
+  "ADDR": {
+    "class": 2,
+    "effect": 0,
+    "bytes": 3,
+    "template": "MOV AX,U_@\n"
+  },
+  "FETCH": {
+    "class": 0,
+    "effect": 0,
+    "bytes": 4,
+    "template": "MOV BX,AX\nMOV AX,[BX]\n"
+  },
+  "FETCHB": {
+    "class": 0,
+    "effect": 0,
+    "bytes": 6,
+    "template": "MOV BX,AX\nMOV AL,[BX]\nMOV AH,0\n"
+  },
+  "PUT": {
+    "class": 0,
+    "effect": 2,
+    "bytes": 3,
+    "template": "POP BX\nMOV [BX],AX\n"
+  },
+  "PUTB": {
+    "class": 0,
+    "effect": 2,
+    "bytes": 3,
+    "template": "POP BX\nMOV [BX],AL\n"
+  },
+  "BUFFER": {
+    "class": 6,
+    "effect": 0,
+    "bytes": 0,
+    "template": ""
+  },
+  "JMP": {
+    "class": 2,
+    "effect": 5,
+    "bytes": 3,
+    "template": "JMP U_@\n"
+  },
+  "JZ": {
+    "class": 7,
+    "effect": 3,
+    "bytes": 9,
+    "template": "CMP AX,0\nJNE I?\nJMP U_@\nI?:\n"
+  },
+  "JNZ": {
+    "class": 7,
+    "effect": 3,
+    "bytes": 9,
+    "template": "CMP AX,0\nJE I?\nJMP U_@\nI?:\n"
+  },
+  "EQ": {
+    "class": 7,
+    "effect": 4,
+    "bytes": 8,
+    "template": "POP BX\nCMP BX,AX\nJNE I?\nJMP U_@\nI?:\n"
+  },
+  "NE": {
+    "class": 7,
+    "effect": 4,
+    "bytes": 8,
+    "template": "POP BX\nCMP BX,AX\nJE I?\nJMP U_@\nI?:\n"
+  },
+  "ULT": {
+    "class": 7,
+    "effect": 4,
+    "bytes": 8,
+    "template": "POP BX\nCMP BX,AX\nJAE I?\nJMP U_@\nI?:\n"
+  },
+  "ULE": {
+    "class": 7,
+    "effect": 4,
+    "bytes": 8,
+    "template": "POP BX\nCMP BX,AX\nJA I?\nJMP U_@\nI?:\n"
+  },
+  "UGT": {
+    "class": 7,
+    "effect": 4,
+    "bytes": 8,
+    "template": "POP BX\nCMP BX,AX\nJBE I?\nJMP U_@\nI?:\n"
+  },
+  "UGE": {
+    "class": 7,
+    "effect": 4,
+    "bytes": 8,
+    "template": "POP BX\nCMP BX,AX\nJB I?\nJMP U_@\nI?:\n"
+  },
+  "SLT": {
+    "class": 7,
+    "effect": 4,
+    "bytes": 8,
+    "template": "POP BX\nCMP BX,AX\nJGE I?\nJMP U_@\nI?:\n"
+  },
+  "SLE": {
+    "class": 7,
+    "effect": 4,
+    "bytes": 8,
+    "template": "POP BX\nCMP BX,AX\nJG I?\nJMP U_@\nI?:\n"
+  },
+  "SGT": {
+    "class": 7,
+    "effect": 4,
+    "bytes": 8,
+    "template": "POP BX\nCMP BX,AX\nJLE I?\nJMP U_@\nI?:\n"
+  },
+  "SGE": {
+    "class": 7,
+    "effect": 4,
+    "bytes": 8,
+    "template": "POP BX\nCMP BX,AX\nJL I?\nJMP U_@\nI?:\n"
+  },
+  "CALL": {
+    "class": 2,
+    "effect": 3,
+    "bytes": 3,
+    "template": "CALL U_@\n"
+  },
+  "RET": {
+    "class": 0,
+    "effect": 5,
+    "bytes": 1,
+    "template": "RET\n"
+  },
+  "TOBX": {
+    "class": 0,
+    "effect": 0,
+    "bytes": 2,
+    "template": "MOV BX,AX\n"
+  },
+  "TOCX": {
+    "class": 0,
+    "effect": 0,
+    "bytes": 2,
+    "template": "MOV CX,AX\n"
+  },
+  "TODX": {
+    "class": 0,
+    "effect": 0,
+    "bytes": 2,
+    "template": "MOV DX,AX\n"
+  },
+  "FROMBX": {
+    "class": 0,
+    "effect": 0,
+    "bytes": 2,
+    "template": "MOV AX,BX\n"
+  },
+  "FROMCX": {
+    "class": 0,
+    "effect": 0,
+    "bytes": 2,
+    "template": "MOV AX,CX\n"
+  },
+  "FROMDX": {
+    "class": 0,
+    "effect": 0,
+    "bytes": 2,
+    "template": "MOV AX,DX\n"
+  },
+  "DOS": {
+    "class": 0,
+    "effect": 6,
+    "bytes": 2,
+    "template": "INT 21H\n"
+  },
+  "JC": {
+    "class": 7,
+    "effect": 7,
+    "bytes": 5,
+    "template": "JAE I?\nJMP U_@\nI?:\n"
+  },
+  "JNC": {
+    "class": 7,
+    "effect": 7,
+    "bytes": 5,
+    "template": "JB I?\nJMP U_@\nI?:\n"
+  }
+}

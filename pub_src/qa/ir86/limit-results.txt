@@ -1,0 +1,184 @@
+PASS ADD word semantics 7,3
+PASS ADD word semantics 0,1
+PASS ADD word semantics 65535,1
+PASS ADD word semantics 32768,32768
+PASS ADD word semantics 21845,43690
+PASS SUB word semantics 7,3
+PASS SUB word semantics 0,1
+PASS SUB word semantics 65535,1
+PASS SUB word semantics 32768,32768
+PASS SUB word semantics 21845,43690
+PASS AND word semantics 7,3
+PASS AND word semantics 0,1
+PASS AND word semantics 65535,1
+PASS AND word semantics 32768,32768
+PASS AND word semantics 21845,43690
+PASS OR word semantics 7,3
+PASS OR word semantics 0,1
+PASS OR word semantics 65535,1
+PASS OR word semantics 32768,32768
+PASS OR word semantics 21845,43690
+PASS XOR word semantics 7,3
+PASS XOR word semantics 0,1
+PASS XOR word semantics 65535,1
+PASS XOR word semantics 32768,32768
+PASS XOR word semantics 21845,43690
+PASS EQ 0,1
+PASS EQ 1,0
+PASS EQ 65535,0
+PASS EQ 32768,32767
+PASS EQ 32767,32768
+PASS EQ 65535,65535
+PASS NE 0,1
+PASS NE 1,0
+PASS NE 65535,0
+PASS NE 32768,32767
+PASS NE 32767,32768
+PASS NE 65535,65535
+PASS ULT 0,1
+PASS ULT 1,0
+PASS ULT 65535,0
+PASS ULT 32768,32767
+PASS ULT 32767,32768
+PASS ULT 65535,65535
+PASS ULE 0,1
+PASS ULE 1,0
+PASS ULE 65535,0
+PASS ULE 32768,32767
+PASS ULE 32767,32768
+PASS ULE 65535,65535
+PASS UGT 0,1
+PASS UGT 1,0
+PASS UGT 65535,0
+PASS UGT 32768,32767
+PASS UGT 32767,32768
+PASS UGT 65535,65535
+PASS UGE 0,1
+PASS UGE 1,0
+PASS UGE 65535,0
+PASS UGE 32768,32767
+PASS UGE 32767,32768
+PASS UGE 65535,65535
+PASS SLT 0,1
+PASS SLT 1,0
+PASS SLT 65535,0
+PASS SLT 32768,32767
+PASS SLT 32767,32768
+PASS SLT 65535,65535
+PASS SLE 0,1
+PASS SLE 1,0
+PASS SLE 65535,0
+PASS SLE 32768,32767
+PASS SLE 32767,32768
+PASS SLE 65535,65535
+PASS SGT 0,1
+PASS SGT 1,0
+PASS SGT 65535,0
+PASS SGT 32768,32767
+PASS SGT 32767,32768
+PASS SGT 65535,65535
+PASS SGE 0,1
+PASS SGE 1,0
+PASS SGE 65535,0
+PASS SGE 32768,32767
+PASS SGE 32767,32768
+PASS SGE 65535,65535
+PASS JZ 0
+PASS JZ 65535
+PASS JNZ 0
+PASS JNZ 65535
+PASS register bridge BX
+PASS register bridge CX
+PASS register bridge DX
+PASS LIFO order
+PASS wrap to zero
+PASS word fetch/store
+PASS zero-extended LDB DATA
+PASS zero-extended ADDR DATA
+FETCHB
+PASS byte store retains AX
+PASS pointer byte store retains AX
+PASS native procedure and AX result
+PASS implicit normal exit
+PASS empty MAIN body
+PASS register spelling is a user name
+PASS lowercase tabs and comments
+PASS full name length
+PASS word literal boundary
+PASS DOS carry JC
+PASS DOS carry JNC
+PASS DOS clear carry
+PASS 32 expression words
+PASS 33 expression words
+PASS nonempty boundary HALT
+PASS nonempty boundary EXIT
+PASS nonempty boundary RET
+PASS nonempty boundary JMP MAIN
+PASS nonempty boundary CALL MAIN
+PASS nonempty boundary JZ MAIN
+PASS nonempty boundary JNZ MAIN
+PASS nonempty boundary DOS
+PASS nonempty boundary LABEL MORE
+PASS comparison leaves an unrelated temporary
+PASS unclosed expression at EOF
+PASS missing expression word POP
+PASS missing expression word ADD
+PASS missing expression word SUB
+PASS missing expression word AND
+PASS missing expression word OR
+PASS missing expression word XOR
+PASS missing expression word PUT
+PASS missing expression word PUTB
+PASS missing expression word EQ MAIN
+PASS missing expression word SLT MAIN
+PASS reject ''
+PASS reject 'HALT'
+PASS reject 'LABEL ELSE'
+PASS reject 'WORD X 0'
+PASS reject 'LABEL MAIN\nWORD X 0'
+PASS reject 'LABEL MAIN\nNOP 1'
+PASS reject 'LABEL MAIN\nLIT 65536'
+PASS reject 'LABEL MAIN\nLIT 10000H'
+PASS reject 'LABEL MAIN\nLIT -1'
+PASS reject 'LABEL MAIN\nLIT X'
+PASS reject 'LABEL MAIN\nLIT 0GH'
+PASS reject 'LABEL MAIN\nLIT FFH'
+PASS reject 'LABEL MAIN\nLIT 1+2'
+PASS reject 'BYTE X 256'
+PASS reject 'BUFFER X 0'
+PASS reject 'BUFFER X 257'
+PASS reject 'WORD 1BAD 0'
+PASS reject 'WORD ABCDEFGHIJKLMNO 0'
+PASS reject 'LABEL MAIN\nLD A+B'
+PASS reject 'LABEL MAIN\nLABEL X EXTRA'
+PASS reject 'LABEL MAIN\nJC MAIN'
+PASS reject 'LABEL MAIN\nLIT 65535\nTOBX\nLIT 3E00H\nDOS\nNOP\nJC MAIN'
+PASS reject 'LABEL MAIN\nLIT 65535\nTOBX\nLIT 3E00H\nDOS\nLABEL X\nJC MAIN'
+PASS reject 'LABEL MAIN\nUNKNOWN'
+PASS invalid input byte 0
+PASS invalid input byte 1
+PASS invalid input byte 27
+PASS invalid input byte 127
+PASS invalid input byte 128
+PASS invalid input byte 255
+PASS 120 physical characters
+PASS 121 physical characters
+PASS 4001 source lines
+PASS 4000 generated assembly lines
+PASS 4001 generated assembly lines
+PASS assembly-text capacity
+PASS 256 generated definitions
+PASS 257 generated definitions
+PASS generated branch names count toward symbol budget
+PASS generated branch budget overflow
+PASS exact 8192-byte target
+PASS 8193-byte target
+PASS delegated assembler symbol error
+PASS delegated assembler symbol error
+PASS translator memory guard
+PASS generated program memory guard
+PASS DOS error 3D
+PASS DOS error 3F
+PASS DOS error 3E
+PASS DOS error 3C
+PASS DOS error 40 (short write)

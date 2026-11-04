@@ -1,0 +1,26 @@
+PASS IR01: ASM86 build; accepted input; exact visible result; rejection preserves output
+PASS IR02: ASM86 build; accepted input; exact visible result; rejection preserves output
+PASS IR03: ASM86 build; accepted input; exact visible result; rejection preserves output
+PASS IR04: ASM86 build; accepted input; exact visible result; rejection preserves output
+PASS IR05: ASM86 build; accepted input; exact visible result; rejection preserves output; generated target assembles and runs
+PASS IR06: ASM86 build; accepted input; exact visible result; rejection preserves output; generated target assembles and runs
+PASS IR07: ASM86 build; accepted input; exact visible result; rejection preserves output; generated target assembles and runs
+PASS IR08: ASM86 build; accepted input; exact visible result; rejection preserves output; generated target assembles and runs
+PASS IR09: ASM86 build; accepted input; exact visible result; rejection preserves output; generated target assembles and runs
+PASS IR10: ASM86 build; accepted input; exact visible result; rejection preserves output; generated target assembles and runs
+PASS IR11: ASM86 build; accepted input; exact visible result; rejection preserves output; generated target assembles and runs
+PASS IR12: ASM86 build; accepted input; exact visible result; rejection preserves output; generated target assembles and runs
+PASS IR13: ASM86 build; accepted input; exact visible result; rejection preserves output; generated target assembles and runs
+PASS IR14: ASM86 build; accepted input; exact visible result; rejection preserves output; generated target assembles and runs
+PASS IR15: ASM86 build; accepted input; exact visible result; rejection preserves output; generated target assembles and runs
+PASS IR16: ASM86 build; accepted input; exact visible result; rejection preserves output; generated target assembles and runs
+PASS IR17: ASM86 build; accepted input; exact visible result; rejection preserves output; generated target assembles and runs
+PASS IR18: ASM86 build; accepted input; exact visible result; rejection preserves output; generated target assembles and runs
+PASS IR19: ASM86 build; accepted input; exact visible result; rejection preserves output; generated target assembles and runs
+PASS IR20: ASM86 build; accepted input; exact visible result; rejection preserves output; generated target assembles and runs
+PASS IR21: ASM86 build; accepted input; exact visible result; rejection preserves output; generated target assembles and runs
+PASS IR22: ASM86 build; accepted input; exact visible result; rejection preserves output; generated target assembles and runs
+PASS IR23: ASM86 build; accepted input; exact visible result; rejection preserves output; generated target assembles and runs
+PASS IR24: ASM86 build; accepted input; exact visible result; rejection preserves output; generated target assembles and runs
+PASS IR25: ASM86 build; accepted input; exact visible result; rejection preserves output; generated target assembles and runs
+PASS IR26: ASM86 build; accepted input; exact visible result; rejection preserves output; generated target assembles and runs

@@ -54,3 +54,4 @@ if not unchanged:
 print(f'Packaged {len(files)} source files')
 import runpy
 runpy.run_path(str(ROOT/'tools/package_asm86.py'),run_name='__main__')
+runpy.run_path(str(ROOT/'tools/package_ir86.py'),run_name='__main__')

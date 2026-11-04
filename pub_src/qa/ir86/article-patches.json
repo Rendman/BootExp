@@ -1,0 +1,3253 @@
+[
+  {
+    "number": 1,
+    "page": "01-reading-an-ir-source.md",
+    "base": "AS07.ASM",
+    "changes": [
+      {
+        "a1": 307,
+        "a2": 307,
+        "old": [],
+        "new": [
+          "",
+          "IREXT:",
+          "DB 46,73,82,0"
+        ],
+        "context": [
+          "",
+          "ERRCODE:",
+          "DB 0"
+        ]
+      },
+      {
+        "a1": 281,
+        "a2": 282,
+        "old": [
+          ""
+        ],
+        "new": [],
+        "context": [
+          "",
+          "DIVISORS:",
+          "DW 10000,1000,100,10,1"
+        ]
+      },
+      {
+        "a1": 276,
+        "a2": 279,
+        "old": [
+          "ASMEXT:",
+          "DB 46,65,83,77,0",
+          ""
+        ],
+        "new": [],
+        "context": [
+          "NEWLINE:",
+          "DB 13,10,36",
+          ""
+        ]
+      },
+      {
+        "a1": 268,
+        "a2": 269,
+        "old": [
+          "DB 69,82,82,79,82,32,36"
+        ],
+        "new": [
+          "DB 73,82,32,69,82,82,79,82,32,36"
+        ],
+        "context": [
+          "DB 83,111,117,114,99,101,32,110,97,109,101,58,32,36",
+          "",
+          "ERRMSG:"
+        ]
+      },
+      {
+        "a1": 265,
+        "a2": 266,
+        "old": [
+          "DB 83,111,117,114,99,101,32,110,97,109,101,58,32,36"
+        ],
+        "new": [
+          "DB 73,82,32,115,111,117,114,99,101,32,110,97,109,101,58,32",
+          "DB 36"
+        ],
+        "context": [
+          "RET",
+          "",
+          "PROMPT:"
+        ]
+      },
+      {
+        "a1": 91,
+        "a2": 92,
+        "old": [
+          "MOV SI,ASMEXT"
+        ],
+        "new": [
+          "MOV SI,IREXT"
+        ],
+        "context": [
+          "DEC CX",
+          "JNE NAMELOOP",
+          "MOV [EXTP],DI"
+        ]
+      },
+      {
+        "a1": 22,
+        "a2": 23,
+        "old": [
+          "GOOD:"
+        ],
+        "new": [],
+        "context": [
+          "JMP DRIVERLINE",
+          "DRIVERDONE:",
+          "CALL CLOSEFILE"
+        ]
+      },
+      {
+        "a1": 15,
+        "a2": 16,
+        "old": [
+          "MOV SI,2200H"
+        ],
+        "new": [],
+        "context": [
+          "CMP AX,0",
+          "JE DRIVERDONE",
+          "MOV SI,2200H"
+        ]
+      },
+      {
+        "a1": 0,
+        "a2": 1,
+        "old": [
+          "; ASM86 construction checkpoint. Plain BOOTASM source."
+        ],
+        "new": [
+          "; IR86 construction source. Assemble with ASM86."
+        ],
+        "context": []
+      }
+    ]
+  },
+  {
+    "number": 2,
+    "page": "02-seeing-the-tokens.md",
+    "base": "IR01.ASM",
+    "changes": [
+      {
+        "a1": 291,
+        "a2": 291,
+        "old": [],
+        "new": [
+          "TOKLEN:",
+          "DW 0",
+          ""
+        ],
+        "context": [
+          "LINENO:",
+          "DW 0",
+          ""
+        ]
+      },
+      {
+        "a1": 189,
+        "a2": 189,
+        "old": [],
+        "new": [
+          "SCAN:",
+          "MOV DI,2300H",
+          "SCANSPACE:",
+          "LODSB",
+          "CMP AL,32",
+          "JE SCANSPACE",
+          "CMP AL,0",
+          "JE SCANEND",
+          "CMP AL,59",
+          "JE SCANEND",
+          "STOSB",
+          "CMP AL,44",
+          "JE SCANDONE",
+          "CMP AL,58",
+          "JE SCANDONE",
+          "CMP AL,91",
+          "JE SCANDONE",
+          "CMP AL,93",
+          "JE SCANDONE",
+          "SCANMORE:",
+          "LODSB",
+          "CMP AL,0",
+          "JE SCANBACK",
+          "CMP AL,32",
+          "JE SCANBACK",
+          "CMP AL,59",
+          "JE SCANBACK",
+          "CMP AL,44",
+          "JE SCANBACK",
+          "CMP AL,58",
+          "JE SCANBACK",
+          "CMP AL,91",
+          "JE SCANBACK",
+          "CMP AL,93",
+          "JE SCANBACK",
+          "CMP DI,2310H",
+          "JAE TOKENBAD",
+          "STOSB",
+          "JMP SCANMORE",
+          "SCANBACK:",
+          "DEC SI",
+          "SCANDONE:",
+          "MOV AX,DI",
+          "SUB AX,2300H",
+          "MOV [TOKLEN],AX",
+          "MOV AL,0",
+          "STOSB",
+          "RET",
+          "SCANEND:",
+          "DEC SI",
+          "JMP SCANDONE",
+          "TOKENBAD:",
+          "MOV AX,1",
+          "JMP ERROR",
+          ""
+        ],
+        "context": [
+          "MOV [LINENO],DX",
+          "JMP ERROR",
+          ""
+        ]
+      },
+      {
+        "a1": 18,
+        "a2": 19,
+        "old": [
+          "JMP DRIVERLINE"
+        ],
+        "new": [
+          "JMP TRACETOKEN"
+        ],
+        "context": [
+          "CALL ZTEXT",
+          "MOV DX,NEWLINE",
+          "CALL TEXT"
+        ]
+      },
+      {
+        "a1": 16,
+        "a2": 16,
+        "old": [],
+        "new": [
+          "POP SI",
+          "MOV DL,93",
+          "MOV AH,2",
+          "INT 21H"
+        ],
+        "context": [
+          "JE DRIVERDONE",
+          "MOV SI,2200H",
+          "CALL ZTEXT"
+        ]
+      },
+      {
+        "a1": 15,
+        "a2": 15,
+        "old": [],
+        "new": [
+          "TRACETOKEN:",
+          "CALL SCAN",
+          "MOV AL,[2300H]",
+          "CMP AL,0",
+          "JE DRIVERLINE",
+          "MOV DL,91",
+          "MOV AH,2",
+          "INT 21H",
+          "PUSH SI",
+          "MOV SI,2300H"
+        ],
+        "context": [
+          "CMP AX,0",
+          "JE DRIVERDONE",
+          "MOV SI,2200H"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 3,
+    "page": "03-buffering-assembly-text.md",
+    "base": "IR02.ASM",
+    "changes": [
+      {
+        "a1": 377,
+        "a2": 377,
+        "old": [],
+        "new": [
+          "",
+          "SPACE:",
+          "DB 32,36",
+          "",
+          "CRLF:",
+          "DB 13,10,0"
+        ],
+        "context": [
+          "",
+          "IREXT:",
+          "DB 46,73,82,0"
+        ]
+      },
+      {
+        "a1": 360,
+        "a2": 362,
+        "old": [
+          "TOKLEN:",
+          "DW 0"
+        ],
+        "new": [
+          "OUTPTR:",
+          "DW 24576"
+        ],
+        "context": [
+          "LINENO:",
+          "DW 0",
+          ""
+        ]
+      },
+      {
+        "a1": 343,
+        "a2": 343,
+        "old": [],
+        "new": [
+          "",
+          "ASMEXT:",
+          "DB 46,65,83,77,0"
+        ],
+        "context": [
+          "",
+          "NEWLINE:",
+          "DB 13,10,36"
+        ]
+      },
+      {
+        "a1": 334,
+        "a2": 334,
+        "old": [],
+        "new": [
+          "",
+          "OKMSG:",
+          "DB 79,75,32,36",
+          "",
+          "BYTEMSG:",
+          "DB 32,116,101,120,116,32,98,121,116,101,115,13,10,36"
+        ],
+        "context": [
+          "PROMPT:",
+          "DB 73,82,32,115,111,117,114,99,101,32,110,97,109,101,58,32",
+          "DB 36"
+        ]
+      },
+      {
+        "a1": 331,
+        "a2": 331,
+        "old": [],
+        "new": [
+          "WRITEOUT:",
+          "MOV DI,[EXTP]",
+          "MOV SI,ASMEXT",
+          "CALL COPYZ",
+          "MOV DX,FNAME",
+          "MOV CX,0",
+          "MOV AH,3CH",
+          "INT 21H",
+          "JAE OUTPUTOPEN",
+          "JMP FILEBAD",
+          "OUTPUTOPEN:",
+          "MOV [HANDLE],AX",
+          "MOV BX,AX",
+          "MOV CX,[OUTPTR]",
+          "SUB CX,6000H",
+          "MOV DX,6000H",
+          "MOV AH,40H",
+          "INT 21H",
+          "JAE OUTPUTCHECK",
+          "JMP FILEBAD",
+          "OUTPUTCHECK:",
+          "CMP AX,CX",
+          "JE OUTPUTCLOSE",
+          "JMP FILEBAD",
+          "OUTPUTCLOSE:",
+          "CALL CLOSEFILE",
+          "MOV DX,OKMSG",
+          "CALL TEXT",
+          "MOV SI,FNAME",
+          "CALL ZTEXT",
+          "MOV DX,SPACE",
+          "CALL TEXT",
+          "MOV AX,[OUTPTR]",
+          "SUB AX,6000H",
+          "CALL NUMBER",
+          "MOV DX,BYTEMSG",
+          "CALL TEXT",
+          "RET",
+          "",
+          "EMITCHAR:",
+          "PUSH BX",
+          "MOV BX,[OUTPTR]",
+          "CMP BX,0E000H",
+          "JB CHARROOM",
+          "JMP TEXTFULL",
+          "CHARROOM:",
+          "MOV [BX],AL",
+          "INC BX",
+          "MOV [OUTPTR],BX",
+          "CHARDONE:",
+          "POP BX",
+          "RET",
+          "TEXTFULL:",
+          "MOV AX,5",
+          "JMP ERROR",
+          "",
+          "OUTTEXT:",
+          "LODSB",
+          "CMP AL,0",
+          "JE OUTDONE",
+          "CALL EMITCHAR",
+          "JMP OUTTEXT",
+          "OUTDONE:",
+          "RET",
+          ""
+        ],
+        "context": [
+          "ZDONE:",
+          "RET",
+          ""
+        ]
+      },
+      {
+        "a1": 203,
+        "a2": 258,
+        "old": [
+          "SCAN:",
+          "MOV DI,2300H",
+          "SCANSPACE:",
+          "LODSB",
+          "CMP AL,32",
+          "JE SCANSPACE",
+          "CMP AL,0",
+          "JE SCANEND",
+          "CMP AL,59",
+          "JE SCANEND",
+          "STOSB",
+          "CMP AL,44",
+          "JE SCANDONE",
+          "CMP AL,58",
+          "JE SCANDONE",
+          "CMP AL,91",
+          "JE SCANDONE",
+          "CMP AL,93",
+          "JE SCANDONE",
+          "SCANMORE:",
+          "LODSB",
+          "CMP AL,0",
+          "JE SCANBACK",
+          "CMP AL,32",
+          "JE SCANBACK",
+          "CMP AL,59",
+          "JE SCANBACK",
+          "CMP AL,44",
+          "JE SCANBACK",
+          "CMP AL,58",
+          "JE SCANBACK",
+          "CMP AL,91",
+          "JE SCANBACK",
+          "CMP AL,93",
+          "JE SCANBACK",
+          "CMP DI,2310H",
+          "JAE TOKENBAD",
+          "STOSB",
+          "JMP SCANMORE",
+          "SCANBACK:",
+          "DEC SI",
+          "SCANDONE:",
+          "MOV AX,DI",
+          "SUB AX,2300H",
+          "MOV [TOKLEN],AX",
+          "MOV AL,0",
+          "STOSB",
+          "RET",
+          "SCANEND:",
+          "DEC SI",
+          "JMP SCANDONE",
+          "TOKENBAD:",
+          "MOV AX,1",
+          "JMP ERROR",
+          ""
+        ],
+        "new": [],
+        "context": [
+          "MOV [LINENO],DX",
+          "JMP ERROR",
+          ""
+        ]
+      },
+      {
+        "a1": 35,
+        "a2": 35,
+        "old": [],
+        "new": [
+          "CALL WRITEOUT"
+        ],
+        "context": [
+          "JMP TRACETOKEN",
+          "DRIVERDONE:",
+          "CALL CLOSEFILE"
+        ]
+      },
+      {
+        "a1": 15,
+        "a2": 33,
+        "old": [
+          "TRACETOKEN:",
+          "CALL SCAN",
+          "MOV AL,[2300H]",
+          "CMP AL,0",
+          "JE DRIVERLINE",
+          "MOV DL,91",
+          "MOV AH,2",
+          "INT 21H",
+          "PUSH SI",
+          "MOV SI,2300H",
+          "CALL ZTEXT",
+          "POP SI",
+          "MOV DL,93",
+          "MOV AH,2",
+          "INT 21H",
+          "MOV DX,NEWLINE",
+          "CALL TEXT",
+          "JMP TRACETOKEN"
+        ],
+        "new": [
+          "CALL OUTTEXT",
+          "MOV SI,CRLF",
+          "CALL OUTTEXT",
+          "JMP DRIVERLINE"
+        ],
+        "context": [
+          "CMP AX,0",
+          "JE DRIVERDONE",
+          "MOV SI,2200H"
+        ]
+      },
+      {
+        "a1": 9,
+        "a2": 9,
+        "old": [],
+        "new": [
+          "MOV AX,6000H",
+          "MOV [OUTPTR],AX"
+        ],
+        "context": [
+          "JMP ERROR",
+          "ROOM:",
+          "CALL GETNAME"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 4,
+    "page": "04-inspecting-an-instruction-record.md",
+    "base": "IR03.ASM",
+    "changes": [
+      {
+        "a1": 389,
+        "a2": 391,
+        "old": [
+          "CRLF:",
+          "DB 13,10,0"
+        ],
+        "new": [
+          "T_NOP:",
+          "DB 78,79,80,13,10,0",
+          "",
+          "T_HALT:",
+          "DB 77,79,86,32,65,88,44,52,67,48,48,72,13,10,73,78",
+          "DB 84,32,50,49,72,13,10,0"
+        ],
+        "context": [
+          "SPACE:",
+          "DB 32,36",
+          ""
+        ]
+      },
+      {
+        "a1": 371,
+        "a2": 371,
+        "old": [],
+        "new": [
+          "TOKLEN:",
+          "DW 0",
+          "",
+          "STRIDE:",
+          "DW 0",
+          ""
+        ],
+        "context": [
+          "OUTPTR:",
+          "DW 24576",
+          ""
+        ]
+      },
+      {
+        "a1": 330,
+        "a2": 330,
+        "old": [],
+        "new": [
+          "OPTAB:",
+          "DB 78,79,80,0,0,0,0,0,0,0,1,0",
+          "DW T_NOP",
+          "DB 72,65,76,84,0,0,0,0,0,5,5,0",
+          "DW T_HALT",
+          ""
+        ],
+        "context": [
+          "OUTDONE:",
+          "RET",
+          ""
+        ]
+      },
+      {
+        "a1": 192,
+        "a2": 192,
+        "old": [],
+        "new": [
+          "SCAN:",
+          "MOV DI,2300H",
+          "SCANSPACE:",
+          "LODSB",
+          "CMP AL,32",
+          "JE SCANSPACE",
+          "CMP AL,0",
+          "JE SCANEND",
+          "CMP AL,59",
+          "JE SCANEND",
+          "STOSB",
+          "CMP AL,44",
+          "JE SCANDONE",
+          "CMP AL,58",
+          "JE SCANDONE",
+          "CMP AL,91",
+          "JE SCANDONE",
+          "CMP AL,93",
+          "JE SCANDONE",
+          "SCANMORE:",
+          "LODSB",
+          "CMP AL,0",
+          "JE SCANBACK",
+          "CMP AL,32",
+          "JE SCANBACK",
+          "CMP AL,59",
+          "JE SCANBACK",
+          "CMP AL,44",
+          "JE SCANBACK",
+          "CMP AL,58",
+          "JE SCANBACK",
+          "CMP AL,91",
+          "JE SCANBACK",
+          "CMP AL,93",
+          "JE SCANBACK",
+          "CMP DI,2310H",
+          "JAE TOKENBAD",
+          "STOSB",
+          "JMP SCANMORE",
+          "SCANBACK:",
+          "DEC SI",
+          "SCANDONE:",
+          "MOV AX,DI",
+          "SUB AX,2300H",
+          "MOV [TOKLEN],AX",
+          "MOV AL,0",
+          "STOSB",
+          "RET",
+          "SCANEND:",
+          "DEC SI",
+          "JMP SCANDONE",
+          "TOKENBAD:",
+          "MOV AX,1",
+          "JMP ERROR",
+          "",
+          "LOOK:",
+          "MOV [STRIDE],AX",
+          "PUSH SI",
+          "MOV BP,BX",
+          "LOOKNEXT:",
+          "CMP CX,0",
+          "JE LOOKMISS",
+          "MOV DI,BP",
+          "MOV SI,2300H",
+          "LOOKCHAR:",
+          "LODSB",
+          "MOV BX,DI",
+          "MOV DL,[BX]",
+          "CMP AL,DL",
+          "JNE LOOKSTEP",
+          "CMP AL,0",
+          "JE LOOKFOUND",
+          "INC DI",
+          "JMP LOOKCHAR",
+          "LOOKSTEP:",
+          "MOV AX,[STRIDE]",
+          "ADD BP,AX",
+          "DEC CX",
+          "JMP LOOKNEXT",
+          "LOOKFOUND:",
+          "MOV BX,BP",
+          "POP SI",
+          "RET",
+          "LOOKMISS:",
+          "MOV BX,0",
+          "POP SI",
+          "RET",
+          "",
+          "FINISH:",
+          "CALL SCAN",
+          "MOV AL,[2300H]",
+          "CMP AL,0",
+          "JE FINISHED",
+          "MOV AX,1",
+          "JMP ERROR",
+          "FINISHED:",
+          "RET",
+          ""
+        ],
+        "context": [
+          "MOV [LINENO],DX",
+          "JMP ERROR",
+          ""
+        ]
+      },
+      {
+        "a1": 23,
+        "a2": 24,
+        "old": [
+          "CALL WRITEOUT"
+        ],
+        "new": [],
+        "context": [
+          "JMP DRIVERLINE",
+          "DRIVERDONE:",
+          "CALL CLOSEFILE"
+        ]
+      },
+      {
+        "a1": 17,
+        "a2": 20,
+        "old": [
+          "CALL OUTTEXT",
+          "MOV SI,CRLF",
+          "CALL OUTTEXT"
+        ],
+        "new": [
+          "CALL SCAN",
+          "MOV BX,OPTAB",
+          "MOV CX,2",
+          "MOV AX,14",
+          "CALL LOOK",
+          "CMP BX,0",
+          "JNE RECORDOK",
+          "MOV AX,1",
+          "JMP ERROR",
+          "RECORDOK:",
+          "ADD BX,10",
+          "MOV AL,[BX]",
+          "MOV AH,0",
+          "PUSH AX",
+          "CALL FINISH",
+          "POP AX",
+          "CALL NUMBER",
+          "MOV DX,NEWLINE",
+          "CALL TEXT"
+        ],
+        "context": [
+          "CMP AX,0",
+          "JE DRIVERDONE",
+          "MOV SI,2200H"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 5,
+    "page": "05-selecting-a-translation-pattern.md",
+    "base": "IR04.ASM",
+    "changes": [
+      {
+        "a1": 520,
+        "a2": 520,
+        "old": [],
+        "new": [
+          "",
+          "T_NOP:",
+          "DB 78,79,80,13,10,0"
+        ],
+        "context": [
+          "T_HALT:",
+          "DB 77,79,86,32,65,88,44,52,67,48,48,72,13,10,73,78",
+          "DB 84,32,50,49,72,13,10,0"
+        ]
+      },
+      {
+        "a1": 514,
+        "a2": 516,
+        "old": [
+          "T_NOP:",
+          "DB 78,79,80,13,10,0"
+        ],
+        "new": [
+          "TPL:",
+          "DW 0",
+          "",
+          "CLASS:",
+          "DB 0",
+          "",
+          "EFFECT:",
+          "DB 0",
+          "",
+          "INSIZE:",
+          "DB 0",
+          "",
+          "LAST:",
+          "DB 0"
+        ],
+        "context": [
+          "SPACE:",
+          "DB 32,36",
+          ""
+        ]
+      },
+      {
+        "a1": 439,
+        "a2": 441,
+        "old": [
+          "JMP OUTTEXT",
+          "OUTDONE:"
+        ],
+        "new": [
+          "JMP EXPAND",
+          "EXPANDDONE:",
+          "RET",
+          "",
+          "FINISHOUTPUT:",
+          "MOV AL,[LAST]",
+          "CMP AL,1",
+          "JE OUTPUTDONE",
+          "MOV SI,T_HALT",
+          "CALL EXPAND",
+          "OUTPUTDONE:"
+        ],
+        "context": [
+          "CMP AL,0",
+          "JE OUTDONE",
+          "CALL EMITCHAR"
+        ]
+      },
+      {
+        "a1": 437,
+        "a2": 438,
+        "old": [
+          "JE OUTDONE"
+        ],
+        "new": [
+          "JE EXPANDDONE"
+        ],
+        "context": [
+          "OUTTEXT:",
+          "LODSB",
+          "CMP AL,0"
+        ]
+      },
+      {
+        "a1": 434,
+        "a2": 435,
+        "old": [
+          "OUTTEXT:"
+        ],
+        "new": [
+          "EXPAND:"
+        ],
+        "context": [
+          "MOV AX,5",
+          "JMP ERROR",
+          ""
+        ]
+      },
+      {
+        "a1": 378,
+        "a2": 378,
+        "old": [],
+        "new": [
+          "STATEMENT:",
+          "CALL SCAN",
+          "MOV AL,[2300H]",
+          "CMP AL,0",
+          "JNE STATWORD",
+          "RET",
+          "STATWORD:",
+          "MOV BX,OPTAB",
+          "MOV CX,2",
+          "MOV AX,14",
+          "CALL LOOK",
+          "CMP BX,0",
+          "JNE STATFOUND",
+          "MOV AX,1",
+          "JMP ERROR",
+          "STATFOUND:",
+          "ADD BX,8",
+          "MOV AL,[BX]",
+          "MOV [CLASS],AL",
+          "INC BX",
+          "MOV AL,[BX]",
+          "MOV [EFFECT],AL",
+          "INC BX",
+          "MOV AL,[BX]",
+          "MOV [INSIZE],AL",
+          "ADD BX,2",
+          "MOV AX,[BX]",
+          "MOV [TPL],AX",
+          "MOV AL,[EFFECT]",
+          "CMP AL,5",
+          "MOV AL,0",
+          "JNE STATLAST",
+          "MOV AL,1",
+          "STATLAST:",
+          "MOV [LAST],AL",
+          "CALL FINISH",
+          "MOV SI,[TPL]",
+          "CALL EXPAND",
+          "RET",
+          ""
+        ],
+        "context": [
+          "ZDONE:",
+          "RET",
+          ""
+        ]
+      },
+      {
+        "a1": 39,
+        "a2": 39,
+        "old": [],
+        "new": [
+          "CALL FINISHOUTPUT",
+          "CALL WRITEOUT"
+        ],
+        "context": [
+          "JMP DRIVERLINE",
+          "DRIVERDONE:",
+          "CALL CLOSEFILE"
+        ]
+      },
+      {
+        "a1": 17,
+        "a2": 36,
+        "old": [
+          "CALL SCAN",
+          "MOV BX,OPTAB",
+          "MOV CX,2",
+          "MOV AX,14",
+          "CALL LOOK",
+          "CMP BX,0",
+          "JNE RECORDOK",
+          "MOV AX,1",
+          "JMP ERROR",
+          "RECORDOK:",
+          "ADD BX,10",
+          "MOV AL,[BX]",
+          "MOV AH,0",
+          "PUSH AX",
+          "CALL FINISH",
+          "POP AX",
+          "CALL NUMBER",
+          "MOV DX,NEWLINE",
+          "CALL TEXT"
+        ],
+        "new": [
+          "CALL STATEMENT"
+        ],
+        "context": [
+          "CMP AX,0",
+          "JE DRIVERDONE",
+          "MOV SI,2200H"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 6,
+    "page": "06-substituting-a-name.md",
+    "base": "IR05.ASM",
+    "changes": [
+      {
+        "a1": 568,
+        "a2": 568,
+        "old": [],
+        "new": [
+          "",
+          "T_LABEL:",
+          "DB 85,95,64,58,13,10,0"
+        ],
+        "context": [
+          "",
+          "T_NOP:",
+          "DB 78,79,80,13,10,0"
+        ]
+      },
+      {
+        "a1": 481,
+        "a2": 481,
+        "old": [],
+        "new": [
+          "DB 76,65,66,69,76,0,0,0,3,3,0,0",
+          "DW T_LABEL"
+        ],
+        "context": [
+          "DW T_NOP",
+          "DB 72,65,76,84,0,0,0,0,0,5,5,0",
+          "DW T_HALT"
+        ]
+      },
+      {
+        "a1": 465,
+        "a2": 465,
+        "old": [],
+        "new": [
+          "RET",
+          "",
+          "NAMEARG:",
+          "CALL SCAN",
+          "MOV AX,[TOKLEN]",
+          "CMP AX,14",
+          "JBE NAMELENGTH",
+          "JMP BADIRNAME",
+          "NAMELENGTH:",
+          "CALL VALIDNAME",
+          "PUSH SI",
+          "MOV SI,2300H",
+          "MOV DI,2500H",
+          "CALL COPYZ",
+          "POP SI",
+          "RET",
+          "BADIRNAME:",
+          "MOV AX,3",
+          "JMP ERROR",
+          "",
+          "ARGUMENTS:",
+          "MOV AL,[CLASS]",
+          "CMP AL,0",
+          "JE ARGZERO",
+          "CALL NAMEARG",
+          "ARGZERO:"
+        ],
+        "context": [
+          "CALL EMITCHAR",
+          "JMP EXPAND",
+          "EXPANDDONE:"
+        ]
+      },
+      {
+        "a1": 464,
+        "a2": 464,
+        "old": [],
+        "new": [
+          "EXPANDNAME:",
+          "PUSH SI",
+          "MOV SI,2500H",
+          "CALL OUTTEXT",
+          "POP SI",
+          "JMP EXPAND"
+        ],
+        "context": [
+          "JE EXPANDDONE",
+          "CALL EMITCHAR",
+          "JMP EXPAND"
+        ]
+      },
+      {
+        "a1": 462,
+        "a2": 462,
+        "old": [],
+        "new": [
+          "CMP AL,64",
+          "JE EXPANDNAME"
+        ],
+        "context": [
+          "LODSB",
+          "CMP AL,0",
+          "JE EXPANDDONE"
+        ]
+      },
+      {
+        "a1": 458,
+        "a2": 458,
+        "old": [],
+        "new": [
+          "OUTTEXT:",
+          "LODSB",
+          "CMP AL,0",
+          "JE OUTDONE",
+          "CALL EMITCHAR",
+          "JMP OUTTEXT",
+          "OUTDONE:",
+          "RET",
+          ""
+        ],
+        "context": [
+          "MOV AX,5",
+          "JMP ERROR",
+          ""
+        ]
+      },
+      {
+        "a1": 397,
+        "a2": 397,
+        "old": [],
+        "new": [
+          "CALL ARGUMENTS"
+        ],
+        "context": [
+          "MOV AL,1",
+          "STATLAST:",
+          "MOV [LAST],AL"
+        ]
+      },
+      {
+        "a1": 370,
+        "a2": 371,
+        "old": [
+          "MOV CX,2"
+        ],
+        "new": [
+          "MOV CX,3"
+        ],
+        "context": [
+          "RET",
+          "STATWORD:",
+          "MOV BX,OPTAB"
+        ]
+      },
+      {
+        "a1": 279,
+        "a2": 279,
+        "old": [],
+        "new": [
+          "VALIDNAME:",
+          "PUSH SI",
+          "MOV SI,2300H",
+          "LODSB",
+          "CMP AL,95",
+          "JE NAMEVALID",
+          "CMP AL,65",
+          "JB SYMBOLBAD",
+          "CMP AL,90",
+          "JA SYMBOLBAD",
+          "NAMEVALID:",
+          "LODSB",
+          "CMP AL,0",
+          "JE NAMEVALIDEND",
+          "CMP AL,95",
+          "JE NAMEVALID",
+          "CMP AL,48",
+          "JB SYMBOLBAD",
+          "CMP AL,57",
+          "JBE NAMEVALID",
+          "CMP AL,65",
+          "JB SYMBOLBAD",
+          "CMP AL,90",
+          "JBE NAMEVALID",
+          "JMP SYMBOLBAD",
+          "NAMEVALIDEND:",
+          "POP SI",
+          "RET",
+          "SYMBOLBAD:",
+          "MOV AX,3",
+          "JMP ERROR",
+          ""
+        ],
+        "context": [
+          "POP SI",
+          "RET",
+          ""
+        ]
+      }
+    ]
+  },
+  {
+    "number": 7,
+    "page": "07-naming-the-entry-point.md",
+    "base": "IR06.ASM",
+    "changes": [
+      {
+        "a1": 639,
+        "a2": 639,
+        "old": [],
+        "new": [
+          "",
+          "T_HEADER:",
+          "DB 67,76,68,13,10,67,77,80,32,83,80,44,48,70,70,70",
+          "DB 69,72,13,10,74,69,32,73,95,69,78,84,82,89,13,10",
+          "DB 77,79,86,32,65,88,44,52,67,48,55,72,13,10,73,78",
+          "DB 84,32,50,49,72,13,10,73,95,69,78,84,82,89,58,13",
+          "DB 10,74,77,80,32,85,95,77,65,73,78,13,10,0"
+        ],
+        "context": [
+          "",
+          "LAST:",
+          "DB 0"
+        ]
+      },
+      {
+        "a1": 637,
+        "a2": 637,
+        "old": [],
+        "new": [
+          "CODE:",
+          "DB 0",
+          ""
+        ],
+        "context": [
+          "INSIZE:",
+          "DB 0",
+          ""
+        ]
+      },
+      {
+        "a1": 543,
+        "a2": 543,
+        "old": [],
+        "new": [
+          "CONTEXT:",
+          "MOV AL,[CLASS]",
+          "CMP AL,4",
+          "JB CODECONTEXT",
+          "CMP AL,6",
+          "JA CODECONTEXT",
+          "MOV AL,[CODE]",
+          "CMP AL,0",
+          "JE CONTEXTDONE",
+          "JMP BADCONTEXT",
+          "CODECONTEXT:",
+          "MOV AL,[CLASS]",
+          "CMP AL,3",
+          "JE LABELCONTEXT",
+          "MOV AL,[CODE]",
+          "CMP AL,1",
+          "JE CONTEXTDONE",
+          "JMP BADCONTEXT",
+          "LABELCONTEXT:",
+          "MOV AL,[CODE]",
+          "CMP AL,1",
+          "JE CONTEXTDONE",
+          "MOV AX,[2500H]",
+          "CMP AX,414DH",
+          "JNE MAINBAD",
+          "MOV AX,[2502H]",
+          "CMP AX,4E49H",
+          "JNE MAINBAD",
+          "MOV AL,[2504H]",
+          "CMP AL,0",
+          "JNE MAINBAD",
+          "MOV AL,1",
+          "MOV [CODE],AL",
+          "CONTEXTDONE:",
+          "RET",
+          "BADCONTEXT:",
+          "MOV AX,1",
+          "JMP ERROR",
+          "MAINBAD:",
+          "MOV AX,3",
+          "JMP ERROR",
+          ""
+        ],
+        "context": [
+          "ARGZERO:",
+          "RET",
+          ""
+        ]
+      },
+      {
+        "a1": 431,
+        "a2": 431,
+        "old": [],
+        "new": [
+          "CALL CONTEXT"
+        ],
+        "context": [
+          "MOV [LAST],AL",
+          "CALL ARGUMENTS",
+          "CALL FINISH"
+        ]
+      },
+      {
+        "a1": 21,
+        "a2": 21,
+        "old": [],
+        "new": [
+          "MOV AL,[CODE]",
+          "CMP AL,1",
+          "JE MAINPRESENT",
+          "MOV AX,3",
+          "JMP ERROR",
+          "MAINPRESENT:"
+        ],
+        "context": [
+          "JMP DRIVERLINE",
+          "DRIVERDONE:",
+          "CALL CLOSEFILE"
+        ]
+      },
+      {
+        "a1": 11,
+        "a2": 11,
+        "old": [],
+        "new": [
+          "MOV SI,T_HEADER",
+          "CALL OUTTEXT"
+        ],
+        "context": [
+          "CALL GETNAME",
+          "MOV AX,6000H",
+          "MOV [OUTPTR],AX"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 8,
+    "page": "08-loading-an-unsigned-word.md",
+    "base": "IR07.ASM",
+    "changes": [
+      {
+        "a1": 710,
+        "a2": 710,
+        "old": [],
+        "new": [
+          "",
+          "T_LIT:",
+          "DB 77,79,86,32,65,88,44,35,13,10,0",
+          "",
+          "T_EXIT:",
+          "DB 77,79,86,32,65,72,44,52,67,72,13,10,73,78,84,32",
+          "DB 50,49,72,13,10,0"
+        ],
+        "context": [
+          "",
+          "T_LABEL:",
+          "DB 85,95,64,58,13,10,0"
+        ]
+      },
+      {
+        "a1": 676,
+        "a2": 676,
+        "old": [],
+        "new": [
+          "NUMV:",
+          "DW 0",
+          ""
+        ],
+        "context": [
+          "SPACE:",
+          "DB 32,36",
+          ""
+        ]
+      },
+      {
+        "a1": 610,
+        "a2": 610,
+        "old": [],
+        "new": [
+          "DB 76,73,84,0,0,0,0,0,1,0,3,0",
+          "DW T_LIT",
+          "DB 69,88,73,84,0,0,0,0,0,5,4,0",
+          "DW T_EXIT"
+        ],
+        "context": [
+          "DW T_HALT",
+          "DB 76,65,66,69,76,0,0,0,3,3,0,0",
+          "DW T_LABEL"
+        ]
+      },
+      {
+        "a1": 548,
+        "a2": 548,
+        "old": [],
+        "new": [
+          "CMP AL,1",
+          "JNE ARGONE",
+          "CALL NUMARG",
+          "RET",
+          "ARGONE:"
+        ],
+        "context": [
+          "MOV AL,[CLASS]",
+          "CMP AL,0",
+          "JE ARGZERO"
+        ]
+      },
+      {
+        "a1": 544,
+        "a2": 544,
+        "old": [],
+        "new": [
+          "NUMARG:",
+          "CALL SCAN",
+          "CALL VALUE",
+          "MOV [NUMV],AX",
+          "PUSH SI",
+          "MOV SI,2300H",
+          "MOV DI,2520H",
+          "CALL COPYZ",
+          "POP SI",
+          "RET",
+          ""
+        ],
+        "context": [
+          "MOV AX,3",
+          "JMP ERROR",
+          ""
+        ]
+      },
+      {
+        "a1": 520,
+        "a2": 520,
+        "old": [],
+        "new": [
+          "CALL OUTTEXT",
+          "POP SI",
+          "JMP EXPAND",
+          "EXPANDNUMBER:",
+          "PUSH SI",
+          "MOV SI,2520H"
+        ],
+        "context": [
+          "EXPANDNAME:",
+          "PUSH SI",
+          "MOV SI,2500H"
+        ]
+      },
+      {
+        "a1": 515,
+        "a2": 515,
+        "old": [],
+        "new": [
+          "CMP AL,35",
+          "JE EXPANDNUMBER"
+        ],
+        "context": [
+          "JE EXPANDDONE",
+          "CMP AL,64",
+          "JE EXPANDNAME"
+        ]
+      },
+      {
+        "a1": 410,
+        "a2": 411,
+        "old": [
+          "MOV CX,3"
+        ],
+        "new": [
+          "MOV CX,5"
+        ],
+        "context": [
+          "RET",
+          "STATWORD:",
+          "MOV BX,OPTAB"
+        ]
+      },
+      {
+        "a1": 319,
+        "a2": 319,
+        "old": [],
+        "new": [
+          "VALUE:",
+          "MOV AL,[2300H]",
+          "CMP AL,48",
+          "JB WORDVALUE",
+          "CMP AL,57",
+          "JBE LITERAL",
+          "WORDVALUE:",
+          "JMP NUMBERBAD",
+          "LITERAL:",
+          "PUSH SI",
+          "MOV SI,2300H",
+          "MOV DI,[TOKLEN]",
+          "ADD DI,2300H",
+          "MOV BX,DI",
+          "DEC BX",
+          "MOV AL,[BX]",
+          "MOV BP,10",
+          "CMP AL,72",
+          "JNE NUMBERSTART",
+          "MOV BP,16",
+          "DEC DI",
+          "NUMBERSTART:",
+          "CMP SI,DI",
+          "JE NUMBERBAD",
+          "MOV CX,0",
+          "DIGIT:",
+          "LODSB",
+          "SUB AL,48",
+          "CMP AL,9",
+          "JBE DIGITOK",
+          "SUB AL,7",
+          "CMP AL,10",
+          "JB NUMBERBAD",
+          "CMP AL,15",
+          "JA NUMBERBAD",
+          "DIGITOK:",
+          "MOV AH,0",
+          "MOV DX,AX",
+          "CMP DX,BP",
+          "JAE NUMBERBAD",
+          "CMP BP,16",
+          "JE HEXDIGIT",
+          "CMP CX,6553",
+          "JA NUMBERBAD",
+          "JB DECDIGIT",
+          "CMP DX,5",
+          "JA NUMBERBAD",
+          "DECDIGIT:",
+          "MOV AX,CX",
+          "ADD CX,CX",
+          "ADD AX,AX",
+          "ADD AX,AX",
+          "ADD AX,AX",
+          "ADD CX,AX",
+          "JMP ADDDIGIT",
+          "HEXDIGIT:",
+          "CMP CX,4095",
+          "JA NUMBERBAD",
+          "ADD CX,CX",
+          "ADD CX,CX",
+          "ADD CX,CX",
+          "ADD CX,CX",
+          "ADDDIGIT:",
+          "ADD CX,DX",
+          "CMP SI,DI",
+          "JB DIGIT",
+          "MOV AX,CX",
+          "POP SI",
+          "RET",
+          "NUMBERBAD:",
+          "MOV AX,2",
+          "JMP ERROR",
+          ""
+        ],
+        "context": [
+          "MOV AX,3",
+          "JMP ERROR",
+          ""
+        ]
+      }
+    ]
+  },
+  {
+    "number": 9,
+    "page": "09-declaring-a-word.md",
+    "base": "IR08.ASM",
+    "changes": [
+      {
+        "a1": 821,
+        "a2": 821,
+        "old": [],
+        "new": [
+          "",
+          "T_WORD:",
+          "DB 85,95,64,58,13,10,68,87,32,35,13,10,0"
+        ],
+        "context": [
+          "T_EXIT:",
+          "DB 77,79,86,32,65,72,44,52,67,72,13,10,73,78,84,32",
+          "DB 50,49,72,13,10,0"
+        ]
+      },
+      {
+        "a1": 711,
+        "a2": 711,
+        "old": [],
+        "new": [
+          "DB 87,79,82,68,0,0,0,0,5,0,2,0",
+          "DW T_WORD"
+        ],
+        "context": [
+          "DW T_LIT",
+          "DB 69,88,73,84,0,0,0,0,0,5,4,0",
+          "DW T_EXIT"
+        ]
+      },
+      {
+        "a1": 648,
+        "a2": 648,
+        "old": [],
+        "new": [
+          "ARGRANGE:",
+          "MOV AX,4",
+          "JMP ERROR"
+        ],
+        "context": [
+          "CALL NAMEARG",
+          "ARGZERO:",
+          "RET"
+        ]
+      },
+      {
+        "a1": 646,
+        "a2": 647,
+        "old": [
+          "ARGZERO:"
+        ],
+        "new": [
+          "MOV AL,[CLASS]",
+          "CMP AL,4",
+          "JB ARGDONE",
+          "CMP AL,6",
+          "JA ARGDONE",
+          "CALL NUMARG",
+          "ARGDONE:"
+        ],
+        "context": [
+          "RET",
+          "ARGONE:",
+          "CALL NAMEARG"
+        ]
+      },
+      {
+        "a1": 644,
+        "a2": 645,
+        "old": [
+          "ARGONE:"
+        ],
+        "new": [
+          "ARGNAME:"
+        ],
+        "context": [
+          "JNE ARGONE",
+          "CALL NUMARG",
+          "RET"
+        ]
+      },
+      {
+        "a1": 641,
+        "a2": 642,
+        "old": [
+          "JNE ARGONE"
+        ],
+        "new": [
+          "JNE ARGNAME"
+        ],
+        "context": [
+          "CMP AL,0",
+          "JE ARGZERO",
+          "CMP AL,1"
+        ]
+      },
+      {
+        "a1": 639,
+        "a2": 640,
+        "old": [
+          "JE ARGZERO"
+        ],
+        "new": [
+          "JE ARGDONE"
+        ],
+        "context": [
+          "ARGUMENTS:",
+          "MOV AL,[CLASS]",
+          "CMP AL,0"
+        ]
+      },
+      {
+        "a1": 483,
+        "a2": 484,
+        "old": [
+          "MOV CX,5"
+        ],
+        "new": [
+          "MOV CX,6"
+        ],
+        "context": [
+          "RET",
+          "STATWORD:",
+          "MOV BX,OPTAB"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 10,
+    "page": "10-loading-and-storing-a-word.md",
+    "base": "IR09.ASM",
+    "changes": [
+      {
+        "a1": 835,
+        "a2": 835,
+        "old": [],
+        "new": [
+          "",
+          "T_LD:",
+          "DB 77,79,86,32,65,88,44,91,85,95,64,93,13,10,0",
+          "",
+          "T_ST:",
+          "DB 77,79,86,32,91,85,95,64,93,44,65,88,13,10,0"
+        ],
+        "context": [
+          "",
+          "T_WORD:",
+          "DB 85,95,64,58,13,10,68,87,32,35,13,10,0"
+        ]
+      },
+      {
+        "a1": 722,
+        "a2": 722,
+        "old": [],
+        "new": [
+          "DB 76,68,0,0,0,0,0,0,2,0,4,0",
+          "DW T_LD",
+          "DB 83,84,0,0,0,0,0,0,2,0,4,0",
+          "DW T_ST"
+        ],
+        "context": [
+          "DW T_EXIT",
+          "DB 87,79,82,68,0,0,0,0,5,0,2,0",
+          "DW T_WORD"
+        ]
+      },
+      {
+        "a1": 483,
+        "a2": 484,
+        "old": [
+          "MOV CX,6"
+        ],
+        "new": [
+          "MOV CX,8"
+        ],
+        "context": [
+          "RET",
+          "STATWORD:",
+          "MOV BX,OPTAB"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 11,
+    "page": "11-byte-storage.md",
+    "base": "IR10.ASM",
+    "changes": [
+      {
+        "a1": 845,
+        "a2": 845,
+        "old": [],
+        "new": [
+          "",
+          "T_BYTE:",
+          "DB 85,95,64,58,13,10,68,66,32,35,13,10,0",
+          "",
+          "T_LDB:",
+          "DB 77,79,86,32,65,76,44,91,85,95,64,93,13,10,77,79",
+          "DB 86,32,65,72,44,48,13,10,0",
+          "",
+          "T_STB:",
+          "DB 77,79,86,32,91,85,95,64,93,44,65,76,13,10,0"
+        ],
+        "context": [
+          "",
+          "T_ST:",
+          "DB 77,79,86,32,91,85,95,64,93,44,65,88,13,10,0"
+        ]
+      },
+      {
+        "a1": 726,
+        "a2": 726,
+        "old": [],
+        "new": [
+          "DB 66,89,84,69,0,0,0,0,4,0,1,0",
+          "DW T_BYTE",
+          "DB 76,68,66,0,0,0,0,0,2,0,6,0",
+          "DW T_LDB",
+          "DB 83,84,66,0,0,0,0,0,2,0,4,0",
+          "DW T_STB"
+        ],
+        "context": [
+          "DW T_LD",
+          "DB 83,84,0,0,0,0,0,0,2,0,4,0",
+          "DW T_ST"
+        ]
+      },
+      {
+        "a1": 652,
+        "a2": 652,
+        "old": [],
+        "new": [
+          "MOV AL,[CLASS]",
+          "CMP AL,4",
+          "JNE ARGDONE",
+          "MOV AX,[NUMV]",
+          "CMP AX,255",
+          "JBE ARGDONE",
+          "JMP ARGRANGE"
+        ],
+        "context": [
+          "CMP AL,6",
+          "JA ARGDONE",
+          "CALL NUMARG"
+        ]
+      },
+      {
+        "a1": 483,
+        "a2": 484,
+        "old": [
+          "MOV CX,8"
+        ],
+        "new": [
+          "MOV CX,11"
+        ],
+        "context": [
+          "RET",
+          "STATWORD:",
+          "MOV BX,OPTAB"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 12,
+    "page": "12-a-bounded-expression-stack.md",
+    "base": "IR11.ASM",
+    "changes": [
+      {
+        "a1": 868,
+        "a2": 868,
+        "old": [],
+        "new": [
+          "",
+          "T_PUSH:",
+          "DB 80,85,83,72,32,65,88,13,10,0",
+          "",
+          "T_POP:",
+          "DB 80,79,80,32,65,88,13,10,0"
+        ],
+        "context": [
+          "",
+          "T_STB:",
+          "DB 77,79,86,32,91,85,95,64,93,44,65,76,13,10,0"
+        ]
+      },
+      {
+        "a1": 811,
+        "a2": 811,
+        "old": [],
+        "new": [
+          "DEPTH:",
+          "DW 0",
+          ""
+        ],
+        "context": [
+          "TPL:",
+          "DW 0",
+          ""
+        ]
+      },
+      {
+        "a1": 739,
+        "a2": 739,
+        "old": [],
+        "new": [
+          "DB 80,85,83,72,0,0,0,0,0,1,1,0",
+          "DW T_PUSH",
+          "DB 80,79,80,0,0,0,0,0,0,2,1,0",
+          "DW T_POP"
+        ],
+        "context": [
+          "DW T_LDB",
+          "DB 83,84,66,0,0,0,0,0,2,0,4,0",
+          "DW T_STB"
+        ]
+      },
+      {
+        "a1": 707,
+        "a2": 707,
+        "old": [],
+        "new": [
+          "FLOW:",
+          "MOV AL,[EFFECT]",
+          "FLOWORDINARY:",
+          "CMP AL,0",
+          "JE FLOWDONE",
+          "CMP AL,1",
+          "JE STACKPUSH",
+          "CMP AL,2",
+          "JE STACKPOP",
+          "CMP AL,4",
+          "JE STACKPOP",
+          "JMP BALANCED",
+          "STACKPUSH:",
+          "MOV AX,[DEPTH]",
+          "CMP AX,32",
+          "JAE STACKFULL",
+          "INC AX",
+          "MOV [DEPTH],AX",
+          "RET",
+          "STACKPOP:",
+          "MOV AX,[DEPTH]",
+          "CMP AX,0",
+          "JE STACKBAD",
+          "DEC AX",
+          "MOV [DEPTH],AX",
+          "MOV AL,[EFFECT]",
+          "CMP AL,4",
+          "JE BALANCED",
+          "FLOWDONE:",
+          "RET",
+          "STACKFULL:",
+          "MOV AX,5",
+          "JMP ERROR",
+          "",
+          "BALANCED:",
+          "MOV AX,[DEPTH]",
+          "CMP AX,0",
+          "JNE STACKBAD",
+          "RET",
+          "STACKBAD:",
+          "MOV AX,4",
+          "JMP ERROR",
+          ""
+        ],
+        "context": [
+          "MOV AX,3",
+          "JMP ERROR",
+          ""
+        ]
+      },
+      {
+        "a1": 513,
+        "a2": 513,
+        "old": [],
+        "new": [
+          "CALL FLOW"
+        ],
+        "context": [
+          "CALL ARGUMENTS",
+          "CALL FINISH",
+          "CALL CONTEXT"
+        ]
+      },
+      {
+        "a1": 483,
+        "a2": 484,
+        "old": [
+          "MOV CX,11"
+        ],
+        "new": [
+          "MOV CX,13"
+        ],
+        "context": [
+          "RET",
+          "STATWORD:",
+          "MOV BX,OPTAB"
+        ]
+      },
+      {
+        "a1": 29,
+        "a2": 29,
+        "old": [],
+        "new": [
+          "CALL BALANCED"
+        ],
+        "context": [
+          "MOV AX,3",
+          "JMP ERROR",
+          "MAINPRESENT:"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 13,
+    "page": "13-adding-and-subtracting.md",
+    "base": "IR12.ASM",
+    "changes": [
+      {
+        "a1": 926,
+        "a2": 926,
+        "old": [],
+        "new": [
+          "",
+          "T_ADD:",
+          "DB 80,79,80,32,66,88,13,10,65,68,68,32,65,88,44,66",
+          "DB 88,13,10,0",
+          "",
+          "T_SUB:",
+          "DB 80,79,80,32,66,88,13,10,83,85,66,32,66,88,44,65",
+          "DB 88,13,10,77,79,86,32,65,88,44,66,88,13,10,0"
+        ],
+        "context": [
+          "",
+          "T_POP:",
+          "DB 80,79,80,32,65,88,13,10,0"
+        ]
+      },
+      {
+        "a1": 788,
+        "a2": 788,
+        "old": [],
+        "new": [
+          "DB 65,68,68,0,0,0,0,0,0,2,3,0",
+          "DW T_ADD",
+          "DB 83,85,66,0,0,0,0,0,0,2,5,0",
+          "DW T_SUB"
+        ],
+        "context": [
+          "DW T_PUSH",
+          "DB 80,79,80,0,0,0,0,0,0,2,1,0",
+          "DW T_POP"
+        ]
+      },
+      {
+        "a1": 484,
+        "a2": 485,
+        "old": [
+          "MOV CX,13"
+        ],
+        "new": [
+          "MOV CX,15"
+        ],
+        "context": [
+          "RET",
+          "STATWORD:",
+          "MOV BX,OPTAB"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 14,
+    "page": "14-word-sized-bit-operations.md",
+    "base": "IR13.ASM",
+    "changes": [
+      {
+        "a1": 938,
+        "a2": 938,
+        "old": [],
+        "new": [
+          "",
+          "T_AND:",
+          "DB 80,79,80,32,66,88,13,10,65,78,68,32,65,88,44,66",
+          "DB 88,13,10,0",
+          "",
+          "T_OR:",
+          "DB 80,79,80,32,66,88,13,10,79,82,32,65,88,44,66,88",
+          "DB 13,10,0",
+          "",
+          "T_XOR:",
+          "DB 80,79,80,32,66,88,13,10,88,79,82,32,65,88,44,66",
+          "DB 88,13,10,0"
+        ],
+        "context": [
+          "T_SUB:",
+          "DB 80,79,80,32,66,88,13,10,83,85,66,32,66,88,44,65",
+          "DB 88,13,10,77,79,86,32,65,88,44,66,88,13,10,0"
+        ]
+      },
+      {
+        "a1": 792,
+        "a2": 792,
+        "old": [],
+        "new": [
+          "DB 65,78,68,0,0,0,0,0,0,2,3,0",
+          "DW T_AND",
+          "DB 79,82,0,0,0,0,0,0,0,2,3,0",
+          "DW T_OR",
+          "DB 88,79,82,0,0,0,0,0,0,2,3,0",
+          "DW T_XOR"
+        ],
+        "context": [
+          "DW T_ADD",
+          "DB 83,85,66,0,0,0,0,0,0,2,5,0",
+          "DW T_SUB"
+        ]
+      },
+      {
+        "a1": 484,
+        "a2": 485,
+        "old": [
+          "MOV CX,15"
+        ],
+        "new": [
+          "MOV CX,18"
+        ],
+        "context": [
+          "RET",
+          "STATWORD:",
+          "MOV BX,OPTAB"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 15,
+    "page": "15-addresses-as-word-values.md",
+    "base": "IR14.ASM",
+    "changes": [
+      {
+        "a1": 956,
+        "a2": 956,
+        "old": [],
+        "new": [
+          "",
+          "T_ADDR:",
+          "DB 77,79,86,32,65,88,44,85,95,64,13,10,0",
+          "",
+          "T_FETCH:",
+          "DB 77,79,86,32,66,88,44,65,88,13,10,77,79,86,32,65",
+          "DB 88,44,91,66,88,93,13,10,0",
+          "",
+          "T_FETCHB:",
+          "DB 77,79,86,32,66,88,44,65,88,13,10,77,79,86,32,65",
+          "DB 76,44,91,66,88,93,13,10,77,79,86,32,65,72,44,48",
+          "DB 13,10,0"
+        ],
+        "context": [
+          "T_XOR:",
+          "DB 80,79,80,32,66,88,13,10,88,79,82,32,65,88,44,66",
+          "DB 88,13,10,0"
+        ]
+      },
+      {
+        "a1": 798,
+        "a2": 798,
+        "old": [],
+        "new": [
+          "DB 65,68,68,82,0,0,0,0,2,0,3,0",
+          "DW T_ADDR",
+          "DB 70,69,84,67,72,0,0,0,0,0,4,0",
+          "DW T_FETCH",
+          "DB 70,69,84,67,72,66,0,0,0,0,6,0",
+          "DW T_FETCHB"
+        ],
+        "context": [
+          "DW T_OR",
+          "DB 88,79,82,0,0,0,0,0,0,2,3,0",
+          "DW T_XOR"
+        ]
+      },
+      {
+        "a1": 484,
+        "a2": 485,
+        "old": [
+          "MOV CX,18"
+        ],
+        "new": [
+          "MOV CX,21"
+        ],
+        "context": [
+          "RET",
+          "STATWORD:",
+          "MOV BX,OPTAB"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 16,
+    "page": "16-writing-through-an-address.md",
+    "base": "IR15.ASM",
+    "changes": [
+      {
+        "a1": 974,
+        "a2": 974,
+        "old": [],
+        "new": [
+          "",
+          "T_PUT:",
+          "DB 80,79,80,32,66,88,13,10,77,79,86,32,91,66,88,93",
+          "DB 44,65,88,13,10,0",
+          "",
+          "T_PUTB:",
+          "DB 80,79,80,32,66,88,13,10,77,79,86,32,91,66,88,93",
+          "DB 44,65,76,13,10,0"
+        ],
+        "context": [
+          "DB 77,79,86,32,66,88,44,65,88,13,10,77,79,86,32,65",
+          "DB 76,44,91,66,88,93,13,10,77,79,86,32,65,72,44,48",
+          "DB 13,10,0"
+        ]
+      },
+      {
+        "a1": 804,
+        "a2": 804,
+        "old": [],
+        "new": [
+          "DB 80,85,84,0,0,0,0,0,0,2,3,0",
+          "DW T_PUT",
+          "DB 80,85,84,66,0,0,0,0,0,2,3,0",
+          "DW T_PUTB"
+        ],
+        "context": [
+          "DW T_FETCH",
+          "DB 70,69,84,67,72,66,0,0,0,0,6,0",
+          "DW T_FETCHB"
+        ]
+      },
+      {
+        "a1": 484,
+        "a2": 485,
+        "old": [
+          "MOV CX,21"
+        ],
+        "new": [
+          "MOV CX,23"
+        ],
+        "context": [
+          "RET",
+          "STATWORD:",
+          "MOV BX,OPTAB"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 17,
+    "page": "17-reserving-a-byte-buffer.md",
+    "base": "IR16.ASM",
+    "changes": [
+      {
+        "a1": 986,
+        "a2": 986,
+        "old": [],
+        "new": [
+          "",
+          "T_BUFFER:",
+          "DB 0"
+        ],
+        "context": [
+          "T_PUTB:",
+          "DB 80,79,80,32,66,88,13,10,77,79,86,32,91,66,88,93",
+          "DB 44,65,76,13,10,0"
+        ]
+      },
+      {
+        "a1": 911,
+        "a2": 914,
+        "old": [
+          "",
+          "T_LABEL:",
+          "DB 85,95,64,58,13,10,0"
+        ],
+        "new": [],
+        "context": [
+          "",
+          "T_NOP:",
+          "DB 78,79,80,13,10,0"
+        ]
+      },
+      {
+        "a1": 909,
+        "a2": 909,
+        "old": [],
+        "new": [
+          "T_LABEL:",
+          "DB 85,95,64,58,13,10,0",
+          ""
+        ],
+        "context": [
+          "DB 77,79,86,32,65,88,44,52,67,48,48,72,13,10,73,78",
+          "DB 84,32,50,49,72,13,10,0",
+          ""
+        ]
+      },
+      {
+        "a1": 898,
+        "a2": 898,
+        "old": [],
+        "new": [
+          "ZEROSTART:",
+          "DB 68,66,32,48,0",
+          "",
+          "ZERONEXT:",
+          "DB 44,48,0",
+          ""
+        ],
+        "context": [
+          "LAST:",
+          "DB 0",
+          ""
+        ]
+      },
+      {
+        "a1": 874,
+        "a2": 874,
+        "old": [],
+        "new": [
+          "CRLF:",
+          "DB 13,10,0",
+          ""
+        ],
+        "context": [
+          "SPACE:",
+          "DB 32,36",
+          ""
+        ]
+      },
+      {
+        "a1": 808,
+        "a2": 808,
+        "old": [],
+        "new": [
+          "DB 66,85,70,70,69,82,0,0,6,0,0,0",
+          "DW T_BUFFER"
+        ],
+        "context": [
+          "DW T_PUT",
+          "DB 80,85,84,66,0,0,0,0,0,2,3,0",
+          "DW T_PUTB"
+        ]
+      },
+      {
+        "a1": 752,
+        "a2": 752,
+        "old": [],
+        "new": [
+          "ZEROBUFFER:",
+          "MOV SI,T_LABEL",
+          "CALL EXPAND",
+          "MOV CX,[NUMV]",
+          "ZEROLINE:",
+          "MOV SI,ZEROSTART",
+          "CALL OUTTEXT",
+          "MOV BP,1",
+          "ZEROMORE:",
+          "DEC CX",
+          "JE ZEROEND",
+          "CMP BP,16",
+          "JE ZEROBREAK",
+          "MOV SI,ZERONEXT",
+          "CALL OUTTEXT",
+          "INC BP",
+          "JMP ZEROMORE",
+          "ZEROBREAK:",
+          "MOV SI,CRLF",
+          "CALL OUTTEXT",
+          "JMP ZEROLINE",
+          "ZEROEND:",
+          "MOV SI,CRLF",
+          "CALL OUTTEXT",
+          "RET",
+          ""
+        ],
+        "context": [
+          "MOV AX,4",
+          "JMP ERROR",
+          ""
+        ]
+      },
+      {
+        "a1": 661,
+        "a2": 661,
+        "old": [],
+        "new": [
+          "ARGBUFFER:",
+          "CMP AL,6",
+          "JNE ARGDONE",
+          "MOV AX,[NUMV]",
+          "CMP AX,1",
+          "JB ARGRANGE",
+          "CMP AX,256",
+          "JA ARGRANGE"
+        ],
+        "context": [
+          "CMP AX,255",
+          "JBE ARGDONE",
+          "JMP ARGRANGE"
+        ]
+      },
+      {
+        "a1": 656,
+        "a2": 657,
+        "old": [
+          "JNE ARGDONE"
+        ],
+        "new": [
+          "JNE ARGBUFFER"
+        ],
+        "context": [
+          "CALL NUMARG",
+          "MOV AL,[CLASS]",
+          "CMP AL,4"
+        ]
+      },
+      {
+        "a1": 515,
+        "a2": 515,
+        "old": [],
+        "new": [
+          "MOV AL,[CLASS]",
+          "CMP AL,6",
+          "JNE STATORDINARY",
+          "CALL ZEROBUFFER",
+          "RET",
+          "STATORDINARY:"
+        ],
+        "context": [
+          "CALL FINISH",
+          "CALL CONTEXT",
+          "CALL FLOW"
+        ]
+      },
+      {
+        "a1": 484,
+        "a2": 485,
+        "old": [
+          "MOV CX,23"
+        ],
+        "new": [
+          "MOV CX,24"
+        ],
+        "context": [
+          "RET",
+          "STATWORD:",
+          "MOV BX,OPTAB"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 18,
+    "page": "18-counting-the-target-image.md",
+    "base": "IR17.ASM",
+    "changes": [
+      {
+        "a1": 928,
+        "a2": 928,
+        "old": [],
+        "new": [
+          "TARGETSIZE:",
+          "DW 0",
+          ""
+        ],
+        "context": [
+          "DEPTH:",
+          "DW 0",
+          ""
+        ]
+      },
+      {
+        "a1": 796,
+        "a2": 796,
+        "old": [],
+        "new": [
+          "MOV AL,0",
+          "MOV [CLASS],AL",
+          "MOV AL,5",
+          "MOV [INSIZE],AL",
+          "CALL SIZEADD"
+        ],
+        "context": [
+          "MOV AL,[LAST]",
+          "CMP AL,1",
+          "JE OUTPUTDONE"
+        ]
+      },
+      {
+        "a1": 766,
+        "a2": 766,
+        "old": [],
+        "new": [
+          "SIZEADD:",
+          "MOV AL,[INSIZE]",
+          "MOV AH,0",
+          "MOV DL,[CLASS]",
+          "CMP DL,6",
+          "JNE ADDSIZE",
+          "MOV AX,[NUMV]",
+          "ADDSIZE:",
+          "MOV DX,[TARGETSIZE]",
+          "ADD AX,DX",
+          "CMP AX,8192",
+          "JBE SIZEGOOD",
+          "MOV AX,5",
+          "JMP ERROR",
+          "SIZEGOOD:",
+          "MOV [TARGETSIZE],AX",
+          "RET",
+          ""
+        ],
+        "context": [
+          "MOV AX,4",
+          "JMP ERROR",
+          ""
+        ]
+      },
+      {
+        "a1": 515,
+        "a2": 515,
+        "old": [],
+        "new": [
+          "CALL SIZEADD"
+        ],
+        "context": [
+          "CALL FINISH",
+          "CALL CONTEXT",
+          "CALL FLOW"
+        ]
+      },
+      {
+        "a1": 11,
+        "a2": 11,
+        "old": [],
+        "new": [
+          "MOV AX,15",
+          "MOV [TARGETSIZE],AX"
+        ],
+        "context": [
+          "CALL GETNAME",
+          "MOV AX,6000H",
+          "MOV [OUTPTR],AX"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 19,
+    "page": "19-bounding-generated-source.md",
+    "base": "IR18.ASM",
+    "changes": [
+      {
+        "a1": 957,
+        "a2": 957,
+        "old": [],
+        "new": [
+          "DEFS:",
+          "DW 0",
+          "",
+          "OUTLINES:",
+          "DW 0",
+          ""
+        ],
+        "context": [
+          "TARGETSIZE:",
+          "DW 0",
+          ""
+        ]
+      },
+      {
+        "a1": 787,
+        "a2": 787,
+        "old": [],
+        "new": [
+          "NEWDEF:",
+          "MOV AX,[DEFS]",
+          "CMP AX,256",
+          "JB DEFROOM",
+          "MOV AX,5",
+          "JMP ERROR",
+          "DEFROOM:",
+          "INC AX",
+          "MOV [DEFS],AX",
+          "RET",
+          ""
+        ],
+        "context": [
+          "MOV [TARGETSIZE],AX",
+          "RET",
+          ""
+        ]
+      },
+      {
+        "a1": 577,
+        "a2": 577,
+        "old": [],
+        "new": [
+          "CMP AL,10",
+          "JNE CHARDONE",
+          "MOV BX,[OUTLINES]",
+          "INC BX",
+          "CMP BX,4000",
+          "JBE LINEROOM",
+          "JMP TEXTFULL",
+          "LINEROOM:",
+          "MOV [OUTLINES],BX"
+        ],
+        "context": [
+          "MOV [BX],AL",
+          "INC BX",
+          "MOV [OUTPTR],BX"
+        ]
+      },
+      {
+        "a1": 519,
+        "a2": 519,
+        "old": [],
+        "new": [
+          "CMP AL,3",
+          "JB STATNODEF",
+          "CMP AL,6",
+          "JA STATNODEF",
+          "CALL NEWDEF",
+          "STATNODEF:",
+          "MOV AL,[CLASS]"
+        ],
+        "context": [
+          "CALL FLOW",
+          "CALL SIZEADD",
+          "MOV AL,[CLASS]"
+        ]
+      },
+      {
+        "a1": 13,
+        "a2": 13,
+        "old": [],
+        "new": [
+          "MOV AX,1",
+          "MOV [DEFS],AX"
+        ],
+        "context": [
+          "MOV [OUTPTR],AX",
+          "MOV AX,15",
+          "MOV [TARGETSIZE],AX"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 20,
+    "page": "20-an-unconditional-transfer.md",
+    "base": "IR19.ASM",
+    "changes": [
+      {
+        "a1": 1104,
+        "a2": 1104,
+        "old": [],
+        "new": [
+          "",
+          "T_JMP:",
+          "DB 74,77,80,32,85,95,64,13,10,0"
+        ],
+        "context": [
+          "",
+          "T_BUFFER:",
+          "DB 0"
+        ]
+      },
+      {
+        "a1": 905,
+        "a2": 905,
+        "old": [],
+        "new": [
+          "DB 74,77,80,0,0,0,0,0,2,5,3,0",
+          "DW T_JMP"
+        ],
+        "context": [
+          "DW T_PUTB",
+          "DB 66,85,70,70,69,82,0,0,6,0,0,0",
+          "DW T_BUFFER"
+        ]
+      },
+      {
+        "a1": 488,
+        "a2": 489,
+        "old": [
+          "MOV CX,24"
+        ],
+        "new": [
+          "MOV CX,25"
+        ],
+        "context": [
+          "RET",
+          "STATWORD:",
+          "MOV BX,OPTAB"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 21,
+    "page": "21-testing-the-accumulator.md",
+    "base": "IR20.ASM",
+    "changes": [
+      {
+        "a1": 1109,
+        "a2": 1109,
+        "old": [],
+        "new": [
+          "",
+          "T_JZ:",
+          "DB 67,77,80,32,65,88,44,48,13,10,74,78,69,32,73,63",
+          "DB 13,10,74,77,80,32,85,95,64,13,10,73,63,58,13,10",
+          "DB 0",
+          "",
+          "T_JNZ:",
+          "DB 67,77,80,32,65,88,44,48,13,10,74,69,32,73,63,13",
+          "DB 10,74,77,80,32,85,95,64,13,10,73,63,58,13,10,0"
+        ],
+        "context": [
+          "",
+          "T_JMP:",
+          "DB 74,77,80,32,85,95,64,13,10,0"
+        ]
+      },
+      {
+        "a1": 992,
+        "a2": 992,
+        "old": [],
+        "new": [
+          "DW 0",
+          "",
+          "BRANCHNO:"
+        ],
+        "context": [
+          "DW 0",
+          "",
+          "OUTLINES:"
+        ]
+      },
+      {
+        "a1": 976,
+        "a2": 976,
+        "old": [],
+        "new": [
+          "FOURDIV:",
+          "DW 1000,100,10,1",
+          "FOUREND:",
+          ""
+        ],
+        "context": [
+          "CRLF:",
+          "DB 13,10,0",
+          ""
+        ]
+      },
+      {
+        "a1": 907,
+        "a2": 907,
+        "old": [],
+        "new": [
+          "DB 74,90,0,0,0,0,0,0,7,3,9,0",
+          "DW T_JZ",
+          "DB 74,78,90,0,0,0,0,0,7,3,9,0",
+          "DW T_JNZ"
+        ],
+        "context": [
+          "DW T_BUFFER",
+          "DB 74,77,80,0,0,0,0,0,2,5,3,0",
+          "DW T_JMP"
+        ]
+      },
+      {
+        "a1": 634,
+        "a2": 634,
+        "old": [],
+        "new": [
+          "RET",
+          "",
+          "FOUR:",
+          "PUSH AX",
+          "PUSH BX",
+          "PUSH CX",
+          "PUSH DX",
+          "PUSH SI",
+          "MOV CX,AX",
+          "MOV SI,FOURDIV",
+          "FOURPLACE:",
+          "MOV BX,SI",
+          "MOV DX,[BX]",
+          "MOV AL,48",
+          "FOURSUB:",
+          "CMP CX,DX",
+          "JB FOURDIGIT",
+          "SUB CX,DX",
+          "ADD AL,1",
+          "JMP FOURSUB",
+          "FOURDIGIT:",
+          "CALL EMITCHAR",
+          "ADD SI,2",
+          "CMP SI,FOUREND",
+          "JB FOURPLACE",
+          "POP SI",
+          "POP DX",
+          "POP CX",
+          "POP BX",
+          "POP AX"
+        ],
+        "context": [
+          "POP SI",
+          "JMP EXPAND",
+          "EXPANDDONE:"
+        ]
+      },
+      {
+        "a1": 633,
+        "a2": 633,
+        "old": [],
+        "new": [
+          "EXPANDBRANCH:",
+          "MOV AX,[BRANCHNO]",
+          "CALL FOUR",
+          "JMP EXPAND"
+        ],
+        "context": [
+          "CALL OUTTEXT",
+          "POP SI",
+          "JMP EXPAND"
+        ]
+      },
+      {
+        "a1": 619,
+        "a2": 619,
+        "old": [],
+        "new": [
+          "CMP AL,63",
+          "JE EXPANDBRANCH"
+        ],
+        "context": [
+          "JE EXPANDNAME",
+          "CMP AL,35",
+          "JE EXPANDNUMBER"
+        ]
+      },
+      {
+        "a1": 527,
+        "a2": 527,
+        "old": [],
+        "new": [
+          "MOV AL,[CLASS]",
+          "CMP AL,7",
+          "JNE STATNOBRANCH",
+          "CALL NEWDEF",
+          "MOV AX,[BRANCHNO]",
+          "INC AX",
+          "MOV [BRANCHNO],AX",
+          "STATNOBRANCH:"
+        ],
+        "context": [
+          "JA STATNODEF",
+          "CALL NEWDEF",
+          "STATNODEF:"
+        ]
+      },
+      {
+        "a1": 488,
+        "a2": 489,
+        "old": [
+          "MOV CX,25"
+        ],
+        "new": [
+          "MOV CX,27"
+        ],
+        "context": [
+          "RET",
+          "STATWORD:",
+          "MOV BX,OPTAB"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 22,
+    "page": "22-unsigned-comparisons.md",
+    "base": "IR21.ASM",
+    "changes": [
+      {
+        "a1": 1173,
+        "a2": 1173,
+        "old": [],
+        "new": [
+          "",
+          "T_EQ:",
+          "DB 80,79,80,32,66,88,13,10,67,77,80,32,66,88,44,65",
+          "DB 88,13,10,74,78,69,32,73,63,13,10,74,77,80,32,85",
+          "DB 95,64,13,10,73,63,58,13,10,0",
+          "",
+          "T_NE:",
+          "DB 80,79,80,32,66,88,13,10,67,77,80,32,66,88,44,65",
+          "DB 88,13,10,74,69,32,73,63,13,10,74,77,80,32,85,95",
+          "DB 64,13,10,73,63,58,13,10,0",
+          "",
+          "T_ULT:",
+          "DB 80,79,80,32,66,88,13,10,67,77,80,32,66,88,44,65",
+          "DB 88,13,10,74,65,69,32,73,63,13,10,74,77,80,32,85",
+          "DB 95,64,13,10,73,63,58,13,10,0",
+          "",
+          "T_ULE:",
+          "DB 80,79,80,32,66,88,13,10,67,77,80,32,66,88,44,65",
+          "DB 88,13,10,74,65,32,73,63,13,10,74,77,80,32,85,95",
+          "DB 64,13,10,73,63,58,13,10,0",
+          "",
+          "T_UGT:",
+          "DB 80,79,80,32,66,88,13,10,67,77,80,32,66,88,44,65",
+          "DB 88,13,10,74,66,69,32,73,63,13,10,74,77,80,32,85",
+          "DB 95,64,13,10,73,63,58,13,10,0",
+          "",
+          "T_UGE:",
+          "DB 80,79,80,32,66,88,13,10,67,77,80,32,66,88,44,65",
+          "DB 88,13,10,74,66,32,73,63,13,10,74,77,80,32,85,95",
+          "DB 64,13,10,73,63,58,13,10,0"
+        ],
+        "context": [
+          "T_JNZ:",
+          "DB 67,77,80,32,65,88,44,48,13,10,74,69,32,73,63,13",
+          "DB 10,74,77,80,32,85,95,64,13,10,73,63,58,13,10,0"
+        ]
+      },
+      {
+        "a1": 955,
+        "a2": 955,
+        "old": [],
+        "new": [
+          "DB 69,81,0,0,0,0,0,0,7,4,8,0",
+          "DW T_EQ",
+          "DB 78,69,0,0,0,0,0,0,7,4,8,0",
+          "DW T_NE",
+          "DB 85,76,84,0,0,0,0,0,7,4,8,0",
+          "DW T_ULT",
+          "DB 85,76,69,0,0,0,0,0,7,4,8,0",
+          "DW T_ULE",
+          "DB 85,71,84,0,0,0,0,0,7,4,8,0",
+          "DW T_UGT",
+          "DB 85,71,69,0,0,0,0,0,7,4,8,0",
+          "DW T_UGE"
+        ],
+        "context": [
+          "DW T_JZ",
+          "DB 74,78,90,0,0,0,0,0,7,3,9,0",
+          "DW T_JNZ"
+        ]
+      },
+      {
+        "a1": 488,
+        "a2": 489,
+        "old": [
+          "MOV CX,27"
+        ],
+        "new": [
+          "MOV CX,33"
+        ],
+        "context": [
+          "RET",
+          "STATWORD:",
+          "MOV BX,OPTAB"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 23,
+    "page": "23-signed-comparisons.md",
+    "base": "IR22.ASM",
+    "changes": [
+      {
+        "a1": 1215,
+        "a2": 1215,
+        "old": [],
+        "new": [
+          "",
+          "T_SLT:",
+          "DB 80,79,80,32,66,88,13,10,67,77,80,32,66,88,44,65",
+          "DB 88,13,10,74,71,69,32,73,63,13,10,74,77,80,32,85",
+          "DB 95,64,13,10,73,63,58,13,10,0",
+          "",
+          "T_SLE:",
+          "DB 80,79,80,32,66,88,13,10,67,77,80,32,66,88,44,65",
+          "DB 88,13,10,74,71,32,73,63,13,10,74,77,80,32,85,95",
+          "DB 64,13,10,73,63,58,13,10,0",
+          "",
+          "T_SGT:",
+          "DB 80,79,80,32,66,88,13,10,67,77,80,32,66,88,44,65",
+          "DB 88,13,10,74,76,69,32,73,63,13,10,74,77,80,32,85",
+          "DB 95,64,13,10,73,63,58,13,10,0",
+          "",
+          "T_SGE:",
+          "DB 80,79,80,32,66,88,13,10,67,77,80,32,66,88,44,65",
+          "DB 88,13,10,74,76,32,73,63,13,10,74,77,80,32,85,95",
+          "DB 64,13,10,73,63,58,13,10,0"
+        ],
+        "context": [
+          "DB 80,79,80,32,66,88,13,10,67,77,80,32,66,88,44,65",
+          "DB 88,13,10,74,66,32,73,63,13,10,74,77,80,32,85,95",
+          "DB 64,13,10,73,63,58,13,10,0"
+        ]
+      },
+      {
+        "a1": 967,
+        "a2": 967,
+        "old": [],
+        "new": [
+          "DB 83,76,84,0,0,0,0,0,7,4,8,0",
+          "DW T_SLT",
+          "DB 83,76,69,0,0,0,0,0,7,4,8,0",
+          "DW T_SLE",
+          "DB 83,71,84,0,0,0,0,0,7,4,8,0",
+          "DW T_SGT",
+          "DB 83,71,69,0,0,0,0,0,7,4,8,0",
+          "DW T_SGE"
+        ],
+        "context": [
+          "DW T_UGT",
+          "DB 85,71,69,0,0,0,0,0,7,4,8,0",
+          "DW T_UGE"
+        ]
+      },
+      {
+        "a1": 488,
+        "a2": 489,
+        "old": [
+          "MOV CX,33"
+        ],
+        "new": [
+          "MOV CX,37"
+        ],
+        "context": [
+          "RET",
+          "STATWORD:",
+          "MOV BX,OPTAB"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 24,
+    "page": "24-calling-a-procedure.md",
+    "base": "IR23.ASM",
+    "changes": [
+      {
+        "a1": 1243,
+        "a2": 1243,
+        "old": [],
+        "new": [
+          "",
+          "T_CALL:",
+          "DB 67,65,76,76,32,85,95,64,13,10,0",
+          "",
+          "T_RET:",
+          "DB 82,69,84,13,10,0"
+        ],
+        "context": [
+          "DB 80,79,80,32,66,88,13,10,67,77,80,32,66,88,44,65",
+          "DB 88,13,10,74,76,32,73,63,13,10,74,77,80,32,85,95",
+          "DB 64,13,10,73,63,58,13,10,0"
+        ]
+      },
+      {
+        "a1": 975,
+        "a2": 975,
+        "old": [],
+        "new": [
+          "DB 67,65,76,76,0,0,0,0,2,3,3,0",
+          "DW T_CALL",
+          "DB 82,69,84,0,0,0,0,0,0,5,1,0",
+          "DW T_RET"
+        ],
+        "context": [
+          "DW T_SGT",
+          "DB 83,71,69,0,0,0,0,0,7,4,8,0",
+          "DW T_SGE"
+        ]
+      },
+      {
+        "a1": 488,
+        "a2": 489,
+        "old": [
+          "MOV CX,37"
+        ],
+        "new": [
+          "MOV CX,39"
+        ],
+        "context": [
+          "RET",
+          "STATWORD:",
+          "MOV BX,OPTAB"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 25,
+    "page": "25-preparing-dos-registers.md",
+    "base": "IR24.ASM",
+    "changes": [
+      {
+        "a1": 1253,
+        "a2": 1253,
+        "old": [],
+        "new": [
+          "",
+          "T_TOBX:",
+          "DB 77,79,86,32,66,88,44,65,88,13,10,0",
+          "",
+          "T_TOCX:",
+          "DB 77,79,86,32,67,88,44,65,88,13,10,0",
+          "",
+          "T_TODX:",
+          "DB 77,79,86,32,68,88,44,65,88,13,10,0",
+          "",
+          "T_FROMBX:",
+          "DB 77,79,86,32,65,88,44,66,88,13,10,0",
+          "",
+          "T_FROMCX:",
+          "DB 77,79,86,32,65,88,44,67,88,13,10,0",
+          "",
+          "T_FROMDX:",
+          "DB 77,79,86,32,65,88,44,68,88,13,10,0"
+        ],
+        "context": [
+          "",
+          "T_RET:",
+          "DB 82,69,84,13,10,0"
+        ]
+      },
+      {
+        "a1": 979,
+        "a2": 979,
+        "old": [],
+        "new": [
+          "DB 84,79,66,88,0,0,0,0,0,0,2,0",
+          "DW T_TOBX",
+          "DB 84,79,67,88,0,0,0,0,0,0,2,0",
+          "DW T_TOCX",
+          "DB 84,79,68,88,0,0,0,0,0,0,2,0",
+          "DW T_TODX",
+          "DB 70,82,79,77,66,88,0,0,0,0,2,0",
+          "DW T_FROMBX",
+          "DB 70,82,79,77,67,88,0,0,0,0,2,0",
+          "DW T_FROMCX",
+          "DB 70,82,79,77,68,88,0,0,0,0,2,0",
+          "DW T_FROMDX"
+        ],
+        "context": [
+          "DW T_CALL",
+          "DB 82,69,84,0,0,0,0,0,0,5,1,0",
+          "DW T_RET"
+        ]
+      },
+      {
+        "a1": 488,
+        "a2": 489,
+        "old": [
+          "MOV CX,39"
+        ],
+        "new": [
+          "MOV CX,45"
+        ],
+        "context": [
+          "RET",
+          "STATWORD:",
+          "MOV BX,OPTAB"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 26,
+    "page": "26-calling-dos-and-testing-carry.md",
+    "base": "IR25.ASM",
+    "changes": [
+      {
+        "a1": 1283,
+        "a2": 1283,
+        "old": [],
+        "new": [
+          "",
+          "T_DOS:",
+          "DB 73,78,84,32,50,49,72,13,10,0",
+          "",
+          "T_JC:",
+          "DB 74,65,69,32,73,63,13,10,74,77,80,32,85,95,64,13",
+          "DB 10,73,63,58,13,10,0",
+          "",
+          "T_JNC:",
+          "DB 74,66,32,73,63,13,10,74,77,80,32,85,95,64,13,10",
+          "DB 73,63,58,13,10,0"
+        ],
+        "context": [
+          "",
+          "T_FROMDX:",
+          "DB 77,79,86,32,65,88,44,68,88,13,10,0"
+        ]
+      },
+      {
+        "a1": 1098,
+        "a2": 1098,
+        "old": [],
+        "new": [
+          "DB 0",
+          "",
+          "HASCARRY:"
+        ],
+        "context": [
+          "DB 0",
+          "",
+          "LAST:"
+        ]
+      },
+      {
+        "a1": 991,
+        "a2": 991,
+        "old": [],
+        "new": [
+          "DB 68,79,83,0,0,0,0,0,0,6,2,0",
+          "DW T_DOS",
+          "DB 74,67,0,0,0,0,0,0,7,7,5,0",
+          "DW T_JC",
+          "DB 74,78,67,0,0,0,0,0,7,7,5,0",
+          "DW T_JNC"
+        ],
+        "context": [
+          "DW T_FROMCX",
+          "DB 70,82,79,77,68,88,0,0,0,0,2,0",
+          "DW T_FROMDX"
+        ]
+      },
+      {
+        "a1": 790,
+        "a2": 790,
+        "old": [],
+        "new": [
+          "MOV DL,[HASCARRY]",
+          "MOV AH,0",
+          "MOV [HASCARRY],AH",
+          "CMP AL,6",
+          "JNE FLOWCARRY",
+          "MOV AH,1",
+          "MOV [HASCARRY],AH",
+          "JMP BALANCED",
+          "FLOWCARRY:",
+          "CMP AL,7",
+          "JNE FLOWORDINARY",
+          "CMP DL,1",
+          "JNE STACKBAD",
+          "JMP BALANCED"
+        ],
+        "context": [
+          "",
+          "FLOW:",
+          "MOV AL,[EFFECT]"
+        ]
+      },
+      {
+        "a1": 488,
+        "a2": 489,
+        "old": [
+          "MOV CX,45"
+        ],
+        "new": [
+          "MOV CX,48"
+        ],
+        "context": [
+          "RET",
+          "STATWORD:",
+          "MOV BX,OPTAB"
+        ]
+      }
+    ]
+  }
+]

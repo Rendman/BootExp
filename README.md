@@ -2,9 +2,9 @@
 
 An original, gradual course in building an 8086/8088 software workbench, starting with an assembler written in GW-BASIC.
 
-The Hugo site lives in `pub_src/site`. Its published output goes to `public/` at the project root. BOOTASM contains eighteen construction installments, a workbench guide, a language reference, and complete example programs. ASM86 sits beside it with twenty-nine assembly construction checkpoints, a thirtieth installment proving self-assembly, its own workbench guide, reference, and three complete examples.
+The Hugo site lives in `pub_src/site`. Its published output goes to `public/` at the project root. BOOTASM contains eighteen construction installments, a workbench guide, a language reference, and complete example programs. ASM86 sits beside it with twenty-nine assembly construction checkpoints and a thirtieth installment proving self-assembly. IR86 is the third collection, with twenty-six translator checkpoints, a complete translation pipeline, a language reference, and examples. Each collection has its own workbench guide and source downloads.
 
-ASM86's first executable is built directly by the completed BOOTASM.BAS. Two native generations reproduce that executable byte for byte, including under DOS 3.10. The native language stays within the documented 8086/8088 subset; IR86 is the next tool in the experiment and is not implemented here.
+ASM86's first executable is built directly by the completed BOOTASM.BAS. Two native generations reproduce that executable byte for byte. ASM86 directly builds the 3,871-byte IR86 translator, whose assembly output is assembled by that same ASM86. Native DOS 3.10 checks cover the translator, its generated console programs, and a file copier. RILL is the next tool and is not implemented here.
 
 ## Publish with GitHub Pages
 
@@ -31,7 +31,7 @@ These example commands create a new `main` branch. For an existing repository, u
 
 The deployment reports the live address in the `github-pages` environment. The build keeps the site's portable relative URLs, which work both under a project path such as `https://USERNAME.github.io/REPOSITORY/` and at an account site's root. Keep the existing `baseURL = '/'` and `relativeURLs = true` settings together; adding a repository prefix to this portable build would duplicate it in the generated links. No username, repository name, or personal access token needs to be embedded in the workflow.
 
-Edit articles under `pub_src/site/content/`, commit, and push to the default branch to update the site. For generated construction articles, update the corresponding manuscript/source generator too; see `pub_src/README.md`. The publishing workflow builds the checked-in articles; it does not overwrite them by running the article generators. Both source collections are refreshed and checked before publication.
+Edit articles under `pub_src/site/content/`, commit, and push to the default branch to update the site. For generated construction articles, update the corresponding manuscript/source generator too; see `pub_src/README.md`. The publishing workflow builds the checked-in articles; it does not overwrite them by running the article generators. All three source collections are refreshed and checked before publication.
 
 See GitHub's [custom Pages workflow guide](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages) and Hugo's [GitHub Pages deployment guide](https://gohugo.io/host-and-deploy/deploy-to-github-pages/) for the hosting requirements.
 
