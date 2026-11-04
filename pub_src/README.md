@@ -1,6 +1,6 @@
 # Bootstrap Experiment v2
 
-BOOTASM's first collection and the local Hugo site are implemented here. The only project reference used was the current `BOOTSTRAP_Rules_and_Plan.md` and the decisions in this conversation.
+BOOTASM, ASM86, and the local Hugo site are implemented here, following the current `BOOTSTRAP_Rules_and_Plan.md` and the decisions for this experiment.
 
 GitHub Pages publication is configured in `../.github/workflows/pages.yml`. It builds and checks the site, then deploys the root `public/` directory after pushes to the repository's default branch. See the project-root [README](../README.md) for the one-time repository and Pages setup.
 
@@ -13,10 +13,15 @@ The Bootstrap Experiment
 │   ├── 01–18: construction installments
 │   ├── BOOTASM reference
 │   └── Three complete programs
-└── ASM86 (reserved introduction; implementation not started)
+└── ASM86
+    ├── The assembly workbench
+    ├── 01–29: construction checkpoints
+    ├── 30: two generations of self-assembly
+    ├── ASM86 reference
+    └── Three complete programs
 ```
 
-`site/` is the Hugo source. `../public/` (at the project root) is the generated static website. `workbench/bootasm/` contains the ASCII/CRLF period sources. `site/static/downloads/bootasm/BOOTASM.ZIP` is the 59-file reader source collection, without prebuilt executables or an interpreter. The final assembler has 213 BASIC lines. Its largest construction patch has 45 required BASIC lines; the initial byte exercise and viewer together have 39.
+`site/` is the Hugo source. `../public/` (at the project root) is the generated static website. `workbench/bootasm/` contains the ASCII/CRLF period sources. `site/static/downloads/bootasm/BOOTASM.ZIP` is the 59-file reader source collection, without prebuilt executables or an interpreter.
 
 From the project root, build with an installed Hugo:
 
@@ -49,13 +54,41 @@ python3 pub_src/qa/validate_site.py
 
 The first runs the actual published BASIC source in a GW-BASIC-compatible interpreter and compares output to independently specified machine bytes. It runs only fixtures identified as complete executable programs in the CPU execution checks. The second reconstructs every checkpoint from its printed changes and checks the site, links, assets, archive, line endings, filenames, and editorial exclusions.
 
-The final results are in `qa/test-results.txt` and `qa/site-results.txt`: 64 BASIC/encoding/runtime/boundary test groups pass, and all 25 HTML pages and 59 packaged sources pass the structural checks. Seven complete BASIC-produced programs were also run under the original COMPAQ DOS 3.10 system in QEMU, using the published CHECK.BAT. Their displayed text and PASS/FAIL reports match, including the deliberately nonzero FAIL program; see `qa/dos-program-results.txt`. This validates those executable outputs and the batch helper independently of BASIC interpreter compatibility.
+BOOTASM's results are in `qa/test-results.txt`: 64 BASIC/encoding/runtime/boundary test groups pass. Seven complete BASIC-produced programs were also run under the original COMPAQ DOS 3.10 system in QEMU, using the published CHECK.BAT. Their displayed text and PASS/FAIL reports match, including the deliberately nonzero FAIL program; see `qa/dos-program-results.txt`. This validates those executable outputs and the batch helper independently of BASIC interpreter compatibility.
+
+## ASM86 production and verification
+
+ASM86 lives in `workbench/asm86` and `site/content/bootstrap/asm86`, as a sibling collection. Its archive contains 86 source files, including BAWIDE.BAS, all 29 assembly checkpoints, accepted/rejected fixtures, the unchanged viewer/checker, and three examples. It contains no executable or interpreter. The native assembler is 2,622 bytes. BAWIDE expands BOOTASM's symbol table, doubling the label capacity; the old output/source limits are sufficient.
+
+`tools/asm86_template.asm` holds the authored native routines. `tools/build_asm86.py` arranges the authored source fragments into checkpoints and the explanation manifest. It prepares source text, not machine code. `tools/write_asm86_articles.py` prints exact edits and context after checkpoint verification has recorded the real image sizes. The workbench, self-assembly article, reference, and examples are maintained directly. `tools/package_sources.py` refreshes both source collections without changing an archive whose contents already match. The publishing workflow packages and builds checked-in material; it does not reconstruct the assembler or rewrite articles.
+
+ASM86 bootstrap verification uses Python 3.11 and PC-BASIC 2.0.7, installed locally under `tools/python-pcbasic207`. PC-BASIC 2.0.8's string collector fails on the larger program with `Dereferencing detached string`; that verification-interpreter defect is not patched into the reader's BASIC source. Keep the 2.0.7 dependency directory separate from the existing BOOTASM dependencies. Install `pcbasic==2.0.7` into that directory with a Python 3.11 pip if reproducing these checks. Unicorn and Beautiful Soup remain in `tools/python`.
+
+From the project root, using a Python 3.11 executable for the first command:
+
+```sh
+python3.11 pub_src/qa/asm86/bootstrap.py
+python3 pub_src/qa/asm86/test_asm86.py
+python3.11 pub_src/qa/asm86/basic_checkpoints.py
+python3 pub_src/qa/asm86/test_limits.py
+python3 pub_src/tools/write_asm86_articles.py
+python3 pub_src/tools/package_sources.py
+python3 pub_src/qa/asm86/test_examples.py
+python3 pub_src/tools/hugo.py --source pub_src/site --cleanDestinationDir
+python3 pub_src/qa/validate_site.py
+```
+
+Where Python 3.11 is managed by uv, `uv run --python 3.11 --no-project python` can replace `python3.11`. To regenerate source checkpoints first, run `tools/build_asm86.py` before this sequence. Regeneration clears measured image sizes; run the verification before rendering articles. The bootstrap command executes the published BAWIDE.BAS, making the first native ASM86.COM. The native checks then build/run every checkpoint and prove two identical self-assembly generations. The BASIC checkpoint check independently executes BAWIDE for every checkpoint and requires exact agreement with those native-built files. No outside assembler, compiler, linker, or machine-code generator supplies executable bytes.
+
+The retained `qa/asm86/*-results.txt` records show all 29 construction checks, all 29 BASIC/native byte comparisons, 149 independent encoding/grammar/resource/I/O checks, and the three complete example tests passing. `validate_site.py` also reconstructs all assembly checkpoints from the exact printed edits, validates both archives (145 sources in total), and checks links, assets, anchors, editorial exclusions, and all 58 HTML pages.
+
+`tools/verify_asm86_dos.py` uses local historical DOS media, mtools, and QEMU for a separate DOS 3.10 check. The BASIC-produced ASM86 assembles SELF; SELF assembles AGAIN; both output files match the initial executable byte for byte. DOS COMP reports matching files, CHECK reports PASS for successful builds, and a bad register-width source reports the expected diagnostic and FAIL. Results are in `qa/asm86/dos-results.txt`; local disk images and raw logs are excluded from Git and publication. This verifies native DOS execution, not the unresolved original BASIC file-I/O environment described below.
 
 Browser QA was unavailable: the computer-use inventory had no browser, and starting the in-app browser returned “Browser is not available: iab.” No visual browser inspection is claimed.
 
 The original-interpreter check is not yet passed. A historical COMPAQ MS-DOS 3.10 disk supplied COMPAQ BASIC 3.11 (verified from its startup screen), but in the generic QEMU/SeaBIOS workbench that interpreter reports error 52 even for independent, minimal OPEN tests. The cause is not established. The same problem occurs with and without output redirection and with the supplied loader or standalone interpreter; it is not attributed to BOOTASM without evidence. Do not describe the collection as verified on original BASIC or period hardware. Diagnostic scripts and results remain under `qa/` and `tools/` so this compatibility check can be continued with the intended interpreter/workbench.
 
-Three original pencil cartoons were generated with the built-in Imagegen tool and copied into `site/static/images/`. Their retained prompts and paths are in `qa/image-prompts.md`. Production provenance and modern tooling details belong here, outside the magazine prose.
+Three original pencil cartoons per collection were generated with the built-in Imagegen tool and copied into `site/static/images/`. Their retained prompts and paths are in `qa/image-prompts.md` and `qa/asm86/image-prompts.md`. ASM86 uses a machinist's workshop, a postal sorting room, and a railway siding, with different characters from BOOTASM. Production provenance and modern tooling details belong here, outside the magazine prose.
 
 Historical technical references inspected during production:
 
@@ -64,4 +97,4 @@ Historical technical references inspected during production:
 - Original COMPAQ DOS distribution contents: https://www.pcjs.org/software/pcx86/sys/dos/compaq/3.10/
 - Hugo configuration: https://gohugo.io/configuration/all/
 
-None of the historical interpreter or DOS copies under QA is included in the website or the reader source archive. No outside assembler, compiler, linker, or machine-code generator was used to produce a reader executable. The bytes tested as programs came from executing the published BASIC listings.
+None of the historical interpreter or DOS copies under QA is included in the website or the reader source archive. No outside assembler, compiler, linker, or machine-code generator was used to produce a reader executable. The bytes tested as programs came from executing the published BASIC and native assembler sources.

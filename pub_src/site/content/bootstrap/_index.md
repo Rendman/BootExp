@@ -21,10 +21,10 @@ All executable output is in DOS `.COM` format. The instruction baseline is the 8
 
 Read the explanation before entering a listing. Save a working copy at every stopping point. A source listing is not proved by its appearance on paper: use the supplied input, inspect the result, and try the rejection case as well.
 
-The BASIC construction is divided into additions and replacements of no more than fifty required BASIC lines each. Most are much smaller. Existing lines retain their numbers; the instructions identify every replacement. The complete listings and saved stopping points provide a second way to compare your work.
+The BASIC construction proceeds through small additions and replacements. Existing lines retain their numbers; the instructions identify every replacement. The complete listings and saved stopping points provide a second way to compare your work.
 
 ## The collections
 
-BOOTASM and ASM86 occupy the same level in this course. Open a collection to find its individual installments. BOOTASM is the complete first collection; ASM86 has a place reserved for its introduction and construction.
+BOOTASM and ASM86 occupy the same level in this course. Open a collection to find its individual installments. BOOTASM builds the BASIC foundation; ASM86 builds an assembler in assembly language and finishes by assembling its own source twice.
 
 This is an original practical course with a 1986 technical setting. It is not a reproduction of, or affiliated with, a historical magazine.

@@ -11,7 +11,7 @@ Indentation and a note in the margin should not spoil a source line. We can impr
 
 Load the preceding checkpoint, `BA02.BAS`. Keep its working copy. Replace lines 180. Insert the other numbered lines in their numeric positions; leave all unlisted lines in place. New-line locations in the preceding listing: 30 / 80; 120 / 160; 180 / 200; 390 / 2000; 4140 / 9000. Each pair gives the existing lines on either side.
 
-This block contains **23 required BASIC lines**. BASIC line numbers are part of the source. Enter a whole numbered line when replacing it.
+BASIC line numbers are part of the source. Enter a whole numbered line when replacing it.
 
 ```basic
 40 GOSUB 8000
@@ -62,7 +62,7 @@ Save the result before running it:
 SAVE "BA03.BAS",A
 ```
 
-The saved checkpoint contains 67 BASIC lines in total. Keep this filename for the stopping point; it is not a second program to type.
+Keep this filename for the stopping point; it is not a second program to type.
 
 ## How it works
 

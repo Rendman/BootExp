@@ -11,7 +11,7 @@ A recorded address can replace a hand-counted constant. We shall allow a name wh
 
 Load the preceding checkpoint, `BA11.BAS`. Keep its working copy. Insert the other numbered lines in their numeric positions; leave all unlisted lines in place. New-line locations in the preceding listing: 2000 / 2020; 2110 / 3000. Each pair gives the existing lines on either side.
 
-This block contains **5 required BASIC lines**. BASIC line numbers are part of the source. Enter a whole numbered line when replacing it.
+BASIC line numbers are part of the source. Enter a whole numbered line when replacing it.
 
 ```basic
 2010 IF LEFT$(T$,1)<"0" OR LEFT$(T$,1)>"9" THEN GOSUB 2200: RETURN
@@ -37,7 +37,7 @@ Save the result before running it:
 SAVE "BA12.BAS",A
 ```
 
-The saved checkpoint contains 146 BASIC lines in total. Keep this filename for the stopping point; it is not a second program to type.
+Keep this filename for the stopping point; it is not a second program to type.
 
 ## How it works
 

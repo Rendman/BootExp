@@ -35,6 +35,7 @@ Later work will cover a linker, libraries, larger programs, expanded language an
 - Do not insert web addresses, online archives, or digital-transcription references into the period magazine narrative. Cite appropriate printed manuals by title, publisher, date, and relevant section when needed.
 - Do not replace modern testing disclosures with invented claims of testing on period hardware. Give the reader reproducible DOS/GW-BASIC checks and expected results.
 - Use clear, patient language suitable for a beginner. Explain unfamiliar terms where they are used.
+- Do not announce how many source lines a listing, patch, or completed checkpoint contains in published prose. Keep typing-size budgets as internal authoring constraints. Retain line numbers needed to locate edits and source limits needed to explain program behavior.
 - Keep real limitations explicit. Distinguish CPU capabilities from the smaller language our assembler accepts. Do not imply support for full C merely because the assembler can support a small compiler.
 - Explain all limitations fully, including why each limitation was chosen.
 - Use natural, concrete prose consistent with the 1986 setting. Avoid formulaic or AI-sounding language.
@@ -170,10 +171,20 @@ If a reader reports a type-in error, inspect the actual supplied source or disk 
 
 ## 9. Publication hierarchy and BOOTASM scope
 
-The overall Bootstrap Experiment introduction is the parent of the tool collections. BOOTASM and ASM86 are siblings; each tool's installments belong beneath its own collection. Reserve ASM86's place without beginning its implementation during BOOTASM construction.
+The overall Bootstrap Experiment introduction is the parent of the tool collections. BOOTASM and ASM86 are siblings; each tool's installments belong beneath its own collection. BOOTASM construction precedes ASM86 construction; both collections are now authorized.
 
-The first BOOTASM collection contains a workbench guide, eighteen construction installments, a complete language reference, and three complete example programs. The BASIC construction begins with a one-byte disk exercise, then grows through seventeen assembler checkpoints. Each required BASIC construction block stays within the fifty-line limit.
+The first BOOTASM collection contains a workbench guide, eighteen construction installments, a complete language reference, and three complete example programs. The BASIC construction begins with a one-byte disk exercise, then grows through seventeen assembler checkpoints.
 
 The initial assembler produces DOS `.COM` images of at most 4,096 bytes. It supports byte and word data, unsigned decimal and hexadecimal values, two-pass labels, selected register operations, direct and BX-based memory transfers, near calls and jumps, and short conditional branches. Keep the exact accepted forms and resource limits in its published reference. Its purpose is to provide a small working assembler and the starting vocabulary for ASM86; expanded instruction and addressing support must be introduced gradually when needed.
 
 Keep publication sources in `pub_src/site`, period workbench sources in `pub_src/workbench/bootasm`, and generated HTML in `public` at the project root. Keep production procedures and verification records separate from the reader-facing articles, under `pub_src/tools` and `pub_src/qa`.
+
+## 10. ASM86 construction scope
+
+ASM86 begins with a short DOS message program, then adds decimal reporting, errors, filename input, file handles, byte reading, physical lines, tokens, lookup tables, values, output buffering, data directives, two passes, registers, labels, and instruction families. Twenty-nine buildable source checkpoints precede a thirtieth installment that compares two native self-assembly generations with the BASIC-produced original. A workbench guide, a complete reference, and three short executable examples accompany them. Keep new collection artwork distinct from BOOTASM's.
+
+Preserve BOOTASM.BAS unchanged. Prepare BAWIDE.BAS by changing only its symbol array bounds and full-table test from 128 to 256 entries. All ASM86 construction sources must fit this tool's unchanged 4,096-byte output and 2,000-line source limits and use only its accepted instructions. The final native image is 2,622 bytes. Keep each assembly addition coherent and modest enough to type. Printed edits identify exact old context and are applied from the bottom upward to preserve physical line locators.
+
+The native accepted instruction forms remain the small BOOTASM subset, with token boundaries made explicit. ASM86's limits are 8,192 output bytes, 4,000 source lines, 120 physical characters per line, sixteen-character tokens/names, and 256 symbols. It uses DOS handle services, buffers output until two passes succeed, returns a DOS status, and requires a full 64 KB segment with entry SP=FFFEH. Fixed memory locations, routine interfaces, exact encodings, limitations, and error codes belong in the reference. This language is the initial target contract for IR86; it does not imply a complete Intel assembler.
+
+Keep ASM86 workbench sources in `pub_src/workbench/asm86`, source downloads beneath `pub_src/site/static/downloads/asm86`, and verification evidence in `pub_src/qa/asm86`. Source archives contain no prebuilt executable or historical interpreter. Production scripts may prepare and verify manuscript/source text; they must not translate assembly into machine code. Reader executable bytes must come from executing the published BASIC or native assemblers.

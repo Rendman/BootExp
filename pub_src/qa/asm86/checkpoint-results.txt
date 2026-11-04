@@ -1,0 +1,30 @@
+PASS AS01: 25 bytes; visible checkpoint result
+PASS AS02: 110 bytes; visible checkpoint result
+PASS AS03: 164 bytes; visible checkpoint result; rejection and old-output preservation
+PASS AS04: 336 bytes; visible checkpoint result; rejection and old-output preservation
+PASS AS05: 366 bytes; visible checkpoint result; rejection and old-output preservation
+PASS AS06: 395 bytes; visible checkpoint result; rejection and old-output preservation
+PASS AS07: 603 bytes; visible checkpoint result; rejection and old-output preservation
+PASS AS08: 742 bytes; visible checkpoint result; rejection and old-output preservation
+PASS AS09: 829 bytes; visible checkpoint result; rejection and old-output preservation
+PASS AS10: 825 bytes; visible checkpoint result; rejection and old-output preservation
+PASS AS11: 875 bytes; visible checkpoint result; rejection and old-output preservation
+PASS AS12: 1000 bytes; visible checkpoint result; rejection and old-output preservation
+PASS AS13: 1062 bytes; visible checkpoint result; rejection and old-output preservation
+PASS AS14: 1219 bytes; visible checkpoint result; rejection and old-output preservation
+PASS AS15: 1253 bytes; visible checkpoint result; rejection and old-output preservation
+PASS AS16: 1269 bytes; visible checkpoint result; rejection and old-output preservation
+PASS AS17: 1379 bytes; visible checkpoint result; rejection and old-output preservation
+PASS AS18: 1498 bytes; visible checkpoint result; rejection and old-output preservation
+PASS AS19: 1631 bytes; visible checkpoint result; rejection and old-output preservation
+PASS AS20: 1673 bytes; visible checkpoint result; rejection and old-output preservation
+PASS AS21: 1733 bytes; visible checkpoint result; rejection and old-output preservation
+PASS AS22: 1922 bytes; visible checkpoint result; rejection and old-output preservation
+PASS AS23: 1982 bytes; visible checkpoint result; rejection and old-output preservation
+PASS AS24: 2057 bytes; visible checkpoint result; rejection and old-output preservation
+PASS AS25: 2094 bytes; visible checkpoint result; rejection and old-output preservation
+PASS AS26: 2228 bytes; visible checkpoint result; rejection and old-output preservation
+PASS AS27: 2417 bytes; visible checkpoint result; rejection and old-output preservation
+PASS AS28: 2474 bytes; visible checkpoint result; rejection and old-output preservation
+PASS AS29: 2622 bytes; visible checkpoint result; rejection and old-output preservation
+PASS: two self-assembly generations match every byte of the first native executable

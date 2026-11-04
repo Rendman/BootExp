@@ -1,10 +1,14 @@
 {{ define "main" }}
-<header class="article-heading{{ if .Params.cover }} cover{{ end }}"><p class="eyebrow">{{ if eq .Title "BOOTASM" }}COLLECTION ONE · THE BASIC CONSTRUCTION{{ else if eq .Title "ASM86" }}COLLECTION TWO · RESERVED{{ else }}THE BOOTSTRAP EXPERIMENT{{ end }}</p><h1>{{ .Title }}</h1><p class="deck">{{ .Description }}</p></header>
+<header class="article-heading{{ if .Params.cover }} cover{{ end }}"><p class="eyebrow">{{ if eq .Title "BOOTASM" }}COLLECTION ONE · THE BASIC CONSTRUCTION{{ else if eq .Title "ASM86" }}COLLECTION TWO · THE ASSEMBLY CONSTRUCTION{{ else }}THE BOOTSTRAP EXPERIMENT{{ end }}</p><h1>{{ .Title }}</h1><p class="deck">{{ .Description }}</p></header>
 {{ if eq .Title "BOOTASM" }}<div class="cover-sample"><pre>MOV DL,42H     B2 42
 MOV AH,2       B4 02
 INT 21H        CD 21</pre><p>A small assembler.<br>Every line within reach.</p></div>{{ end }}
+{{ if eq .Title "ASM86" }}<div class="cover-sample"><pre>MOV AX,3D00H   B8 00 3D
+INT 21H        CD 21
+RET            C3</pre><p>From a BASIC foundation<br>to an assembler that builds itself.</p></div>{{ end }}
 <article class="prose">{{ .Content }}</article>
 {{ if .Sections }}<section class="contents"><h2>The course shelf</h2>{{ range .Sections.ByWeight }}<a class="collection-row" href="{{ .RelPermalink }}index.html"><strong>{{ .Title }}</strong><span>{{ .Description }}</span><small>{{ if .Params.planned }}Planned{{ else }}Open collection →{{ end }}</small></a>{{ end }}</section>{{ end }}
 {{ if .RegularPages }}<section class="contents"><h2>In this collection</h2><ol>{{ range .RegularPages.ByWeight }}<li><a href="{{ .RelPermalink }}index.html"><span>{{ .Title }}</span><small>{{ if .Params.checkpoint }}{{ .Params.checkpoint }}{{ else }}Read{{ end }} →</small></a></li>{{ end }}</ol></section>{{ end }}
 {{ if eq .Title "The Bootstrap Experiment" }}<figure class="cartoon"><img src="{{ "images/one-step.png" | relURL }}" alt="A hobbyist carries one stair tread toward a little staircase beside an 8088 computer." loading="lazy"><figcaption>One step is quite enough for this evening.</figcaption></figure>{{ end }}
+{{ if eq .Title "ASM86" }}<figure class="cartoon"><img src="{{ "images/asm86-workshop.png" | relURL }}" alt="A machinist studies the plans for two matching small lathes on his workbench." loading="lazy"><figcaption>A tool worth making twice.</figcaption></figure>{{ end }}
 {{ end }}

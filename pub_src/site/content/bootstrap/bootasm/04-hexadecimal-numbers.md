@@ -11,7 +11,7 @@ Machine-code tables are easier to read in hexadecimal. The byte writer need not 
 
 Load the preceding checkpoint, `BA03.BAS`. Keep its working copy. Replace lines 2020, 2060, 2070, 2080, 2090. Insert the other numbered lines in their numeric positions; leave all unlisted lines in place. New-line locations in the preceding listing: 2020 / 2060. Each pair gives the existing lines on either side.
 
-This block contains **8 required BASIC lines**. BASIC line numbers are part of the source. Enter a whole numbered line when replacing it.
+BASIC line numbers are part of the source. Enter a whole numbered line when replacing it.
 
 ```basic
 2020 Q$=T$: BA=10
@@ -43,7 +43,7 @@ Save the result before running it:
 SAVE "BA04.BAS",A
 ```
 
-The saved checkpoint contains 70 BASIC lines in total. Keep this filename for the stopping point; it is not a second program to type.
+Keep this filename for the stopping point; it is not a second program to type.
 
 ## How it works
 

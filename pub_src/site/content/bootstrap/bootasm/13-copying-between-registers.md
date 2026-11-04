@@ -11,7 +11,7 @@ A constant is not the only source for MOV. Copying one register to another gives
 
 Load the preceding checkpoint, `BA12.BAS`. Keep its working copy. Insert the other numbered lines in their numeric positions; leave all unlisted lines in place. New-line locations in the preceding listing: 4220 / 4226; 4250 / 4900. Each pair gives the existing lines on either side.
 
-This block contains **6 required BASIC lines**. BASIC line numbers are part of the source. Enter a whole numbered line when replacing it.
+BASIC line numbers are part of the source. Enter a whole numbered line when replacing it.
 
 ```basic
 4222 T$=A2$: GOSUB 6000
@@ -38,7 +38,7 @@ Save the result before running it:
 SAVE "BA13.BAS",A
 ```
 
-The saved checkpoint contains 152 BASIC lines in total. Keep this filename for the stopping point; it is not a second program to type.
+Keep this filename for the stopping point; it is not a second program to type.
 
 ## How it works
 

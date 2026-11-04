@@ -11,7 +11,7 @@ The processor uses 16-bit quantities as well as bytes. A define-word directive g
 
 Load the preceding checkpoint, `BA05.BAS`. Keep its working copy. Replace lines 4000, 4110, 4140. Insert the other numbered lines in their numeric positions; leave all unlisted lines in place. New-line locations in the preceding listing: 3030 / 4000; 4110 / 4120. Each pair gives the existing lines on either side.
 
-This block contains **7 required BASIC lines**. BASIC line numbers are part of the source. Enter a whole numbered line when replacing it.
+BASIC line numbers are part of the source. Enter a whole numbered line when replacing it.
 
 ```basic
 3100 X=N-256*INT(N/256): GOSUB 3000
@@ -44,7 +44,7 @@ Save the result before running it:
 SAVE "BA06.BAS",A
 ```
 
-The saved checkpoint contains 81 BASIC lines in total. Keep this filename for the stopping point; it is not a second program to type.
+Keep this filename for the stopping point; it is not a second program to type.
 
 ## How it works
 

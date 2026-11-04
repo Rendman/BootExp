@@ -517,7 +517,7 @@ checkpoint = "{name}"
 
 {inst}
 
-This block contains **{len(s['patch'])} required BASIC lines**. BASIC line numbers are part of the source. Enter a whole numbered line when replacing it.
+BASIC line numbers are part of the source. Enter a whole numbered line when replacing it.
 
 ```basic
 {changes}
@@ -530,7 +530,7 @@ Save the result before running it:
 SAVE "{name}",A
 ```
 
-The saved checkpoint contains {len(program)} BASIC lines in total. Keep this filename for the stopping point; it is not a second program to type.
+Keep this filename for the stopping point; it is not a second program to type.
 
 ## How it works
 

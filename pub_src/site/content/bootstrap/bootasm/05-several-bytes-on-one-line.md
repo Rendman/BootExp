@@ -11,7 +11,7 @@ A row of character codes ought to occupy a row of source. We shall let DB accept
 
 Load the preceding checkpoint, `BA04.BAS`. Keep its working copy. Replace lines 4100, 4140. Insert the other numbered lines in their numeric positions; leave all unlisted lines in place. New-line locations in the preceding listing: 4100 / 4140; 4140 / 8000. Each pair gives the existing lines on either side.
 
-This block contains **9 required BASIC lines**. BASIC line numbers are part of the source. Enter a whole numbered line when replacing it.
+BASIC line numbers are part of the source. Enter a whole numbered line when replacing it.
 
 ```basic
 4100 IF A$="" THEN E$="Missing value": GOTO 9000
@@ -41,7 +41,7 @@ Save the result before running it:
 SAVE "BA05.BAS",A
 ```
 
-The saved checkpoint contains 77 BASIC lines in total. Keep this filename for the stopping point; it is not a second program to type.
+Keep this filename for the stopping point; it is not a second program to type.
 
 ## How it works
 

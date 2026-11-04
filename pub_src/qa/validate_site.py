@@ -47,11 +47,14 @@ for i in range(2,19):
  if expected!=(WORK/f'BA{i:02}.BAS').read_text():errors.append(f'{p}: printed patch differs from executable checkpoint')
  if 'ERROR line' not in p.read_text():errors.append(f'{p}: missing visible rejection')
 if (WORK/'BOOTASM.BAS').read_bytes()!=(WORK/'BA18.BAS').read_bytes():errors.append('Final source differs from final checkpoint')
+import runpy
+runpy.run_path(str(ROOT/'qa/asm86/validate_publication.py'),run_name='__main__')
 for p in CONTENT.rglob('*.md'):
  text=p.read_text().lower()
  for forbidden in ('checksum','unicorn','python','automated regression','ai-generated','ai tools'):
   if forbidden in text:errors.append(f'{p}: production language {forbidden}')
 if errors:
  print('\n'.join(errors));raise SystemExit(1)
-text=f'PASS: {count} HTML pages; all local links, assets and anchors; 59 archive sources; ASCII/CRLF/8.3; all 17 printed patches reconstruct exact checkpoints; editorial exclusions.'
+asm_count=len(json.loads((ROOT/'qa/asm86/package-files.json').read_text()))
+text=f'PASS: {count} HTML pages; all local links, assets and anchors; 59 BOOTASM + {asm_count} ASM86 archive sources; ASCII/CRLF/8.3; all 17 BASIC and 29 assembly printed edits reconstruct exact checkpoints; editorial exclusions.'
 print(text);(ROOT/'qa/site-results.txt').write_text(text+'\n')

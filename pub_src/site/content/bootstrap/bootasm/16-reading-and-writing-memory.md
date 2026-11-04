@@ -11,7 +11,7 @@ Registers hold working values; a source buffer belongs in memory. We shall add j
 
 Load the preceding checkpoint, `BA15.BAS`. Keep its working copy. Insert the other numbered lines in their numeric positions; leave all unlisted lines in place. New-line locations in the preceding listing: 4200 / 4210; 4220 / 4222; 4530 / 4900. Each pair gives the existing lines on either side.
 
-This block contains **20 required BASIC lines**. BASIC line numbers are part of the source. Enter a whole numbered line when replacing it.
+BASIC line numbers are part of the source. Enter a whole numbered line when replacing it.
 
 ```basic
 4205 IF LEFT$(A1$,1)="[" THEN GOSUB 4700: RETURN
@@ -54,7 +54,7 @@ Save the result before running it:
 SAVE "BA16.BAS",A
 ```
 
-The saved checkpoint contains 197 BASIC lines in total. Keep this filename for the stopping point; it is not a second program to type.
+Keep this filename for the stopping point; it is not a second program to type.
 
 ## How it works
 

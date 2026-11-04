@@ -42,6 +42,15 @@ files=['BYTE.BAS','VIEW.BAS','BOOTASM.BAS','CHECK.BAT','README.TXT','HELLO.ASM',
 for stage in json.loads((ROOT/'qa/checkpoints.json').read_text()):
  i=stage['number'];files.extend([stage['source'],f'T{i:02}.ASM',f'X{i:02}.ASM'])
 for name in files:shutil.copyfile(W/name,D/name)
-with zipfile.ZipFile(D/'BOOTASM.ZIP','w',zipfile.ZIP_DEFLATED) as z:
- for name in files:z.write(W/name,name)
+archive=D/'BOOTASM.ZIP'
+unchanged=False
+if archive.exists():
+ with zipfile.ZipFile(archive) as z:unchanged=z.namelist()==files and all(z.read(name)==(W/name).read_bytes() for name in files)
+if not unchanged:
+ with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED) as z:
+  for name in files:
+   info=zipfile.ZipInfo(name,(1986,1,1,0,0,0));info.compress_type=zipfile.ZIP_DEFLATED
+   z.writestr(info,(W/name).read_bytes())
 print(f'Packaged {len(files)} source files')
+import runpy
+runpy.run_path(str(ROOT/'tools/package_asm86.py'),run_name='__main__')

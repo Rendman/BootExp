@@ -11,7 +11,7 @@ A single byte is a useful disk experiment, but a program needs a sequence. We sh
 
 Start a new BASIC program with `NEW`. Type the complete numbered listing below.
 
-This block contains **45 required BASIC lines**. BASIC line numbers are part of the source. Enter a whole numbered line when replacing it.
+BASIC line numbers are part of the source. Enter a whole numbered line when replacing it.
 
 ```basic
 10 ON ERROR GOTO 9500
@@ -68,7 +68,7 @@ Save the result before running it:
 SAVE "BA02.BAS",A
 ```
 
-The saved checkpoint contains 45 BASIC lines in total. Keep this filename for the stopping point; it is not a second program to type.
+Keep this filename for the stopping point; it is not a second program to type.
 
 ## How it works
 

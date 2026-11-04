@@ -10,7 +10,7 @@ The processor does not read `MOV DL,42H`. It reads bytes. An assembler is the pr
 
 This collection builds BOOTASM from its first disk byte to a two-pass assembler with named addresses, a modest instruction vocabulary, and DOS `.COM` output. It is the first tool in the Bootstrap Experiment and the BASIC foundation for the assembly-language collection, ASM86.
 
-Begin with **The workbench**, then follow the eighteen numbered installments in order. The first writes and inspects one byte. Each subsequent installment adds one small capability and provides a saved stopping point. The largest initial assembler listing is 45 required BASIC lines; subsequent patches are shorter.
+Begin with **The workbench**, then follow the eighteen numbered installments in order. The first writes and inspects one byte. Each subsequent installment adds one small capability and provides a saved stopping point.
 
 ## The finished tool
 

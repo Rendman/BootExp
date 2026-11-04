@@ -11,7 +11,7 @@ A source file can be read once to count its bytes and again to collect them. We 
 
 Load the preceding checkpoint, `BA09.BAS`. Keep its working copy. Replace lines 3020. Insert the other numbered lines in their numeric positions; leave all unlisted lines in place. New-line locations in the preceding listing: 40 / 80; 300 / 310. Each pair gives the existing lines on either side.
 
-This block contains **3 required BASIC lines**. BASIC line numbers are part of the source. Enter a whole numbered line when replacing it.
+BASIC line numbers are part of the source. Enter a whole numbered line when replacing it.
 
 ```basic
 70 FOR PS=1 TO 2
@@ -38,7 +38,7 @@ Save the result before running it:
 SAVE "BA10.BAS",A
 ```
 
-The saved checkpoint contains 118 BASIC lines in total. Keep this filename for the stopping point; it is not a second program to type.
+Keep this filename for the stopping point; it is not a second program to type.
 
 ## How it works
 

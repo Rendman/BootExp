@@ -11,7 +11,7 @@ A mnemonic is a name for an instruction. Five instructions with fixed one-byte e
 
 Load the preceding checkpoint, `BA06.BAS`. Keep its working copy. Insert the other numbered lines in their numeric positions; leave all unlisted lines in place. New-line locations in the preceding listing: 4000 / 4090; 4180 / 8000. Each pair gives the existing lines on either side.
 
-This block contains **9 required BASIC lines**. BASIC line numbers are part of the source. Enter a whole numbered line when replacing it.
+BASIC line numbers are part of the source. Enter a whole numbered line when replacing it.
 
 ```basic
 4010 X=-1
@@ -41,7 +41,7 @@ Save the result before running it:
 SAVE "BA07.BAS",A
 ```
 
-The saved checkpoint contains 90 BASIC lines in total. Keep this filename for the stopping point; it is not a second program to type.
+Keep this filename for the stopping point; it is not a second program to type.
 
 ## How it works
 

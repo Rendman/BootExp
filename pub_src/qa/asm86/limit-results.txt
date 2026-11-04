@@ -1,0 +1,149 @@
+PASS BOOTASM language fixture T02
+PASS BOOTASM language fixture T03
+PASS BOOTASM language fixture T04
+PASS BOOTASM language fixture T05
+PASS BOOTASM language fixture T06
+PASS BOOTASM language fixture T07
+PASS BOOTASM language fixture T08
+PASS BOOTASM language fixture T09
+PASS BOOTASM language fixture T10
+PASS BOOTASM language fixture T11
+PASS BOOTASM language fixture T12
+PASS BOOTASM language fixture T13
+PASS BOOTASM language fixture T14
+PASS BOOTASM language fixture T15
+PASS BOOTASM language fixture T16
+PASS BOOTASM language fixture T17
+PASS BOOTASM language fixture T18
+PASS source ''
+PASS source ';empty'
+PASS source 'db 0,255\ndw 0,65535'
+PASS source '\t db\t65 ; comment\rDB 66\nDB 67\r\nDB 68\x1aDB 99'
+PASS source 'ABCDEFGHIJKLMNOP:\nDW ABCDEFGHIJKLMNOP'
+PASS source 'DW END\nDB 65\nEND:'
+PASS register encodings AL
+PASS memory encodings AL
+PASS memory encodings AX
+PASS register encodings CL
+PASS memory encodings CL
+PASS memory encodings CX
+PASS register encodings DL
+PASS memory encodings DL
+PASS memory encodings DX
+PASS register encodings BL
+PASS memory encodings BL
+PASS memory encodings BX
+PASS register encodings AH
+PASS memory encodings AH
+PASS memory encodings SP
+PASS register encodings CH
+PASS memory encodings CH
+PASS memory encodings BP
+PASS register encodings DH
+PASS memory encodings DH
+PASS memory encodings SI
+PASS register encodings BH
+PASS memory encodings BH
+PASS memory encodings DI
+PASS arithmetic ADD
+PASS arithmetic OR
+PASS arithmetic AND
+PASS arithmetic SUB
+PASS arithmetic XOR
+PASS arithmetic CMP
+PASS branch +127 JB
+PASS branch -128 JB
+PASS branch +128 JB
+PASS branch -129 JB
+PASS branch +127 JAE
+PASS branch -128 JAE
+PASS branch +128 JAE
+PASS branch -129 JAE
+PASS branch +127 JE
+PASS branch -128 JE
+PASS branch +128 JE
+PASS branch -129 JE
+PASS branch +127 JNE
+PASS branch -128 JNE
+PASS branch +128 JNE
+PASS branch -129 JNE
+PASS branch +127 JBE
+PASS branch -128 JBE
+PASS branch +128 JBE
+PASS branch -129 JBE
+PASS branch +127 JA
+PASS branch -128 JA
+PASS branch +128 JA
+PASS branch -129 JA
+PASS branch +127 JL
+PASS branch -128 JL
+PASS branch +128 JL
+PASS branch -129 JL
+PASS branch +127 JGE
+PASS branch -128 JGE
+PASS branch +128 JGE
+PASS branch -129 JGE
+PASS branch +127 JLE
+PASS branch -128 JLE
+PASS branch +128 JLE
+PASS branch -129 JLE
+PASS branch +127 JG
+PASS branch -128 JG
+PASS branch +128 JG
+PASS branch -129 JG
+PASS near displacement wrap
+PASS fixed instruction set
+PASS reject 'DW 65536'
+PASS reject 'DW 10000H'
+PASS reject 'DW 0GH'
+PASS reject 'DW 12A'
+PASS reject 'DB 256'
+PASS reject 'INT 256'
+PASS reject 'MOV AL,256'
+PASS reject 'DW -1'
+PASS reject 'DW +1'
+PASS reject 'DW 1+2'
+PASS reject 'DB'
+PASS reject 'DB 1,'
+PASS reject 'DB 1 2'
+PASS reject 'MOV AX,AL'
+PASS reject 'ADD AX,AL'
+PASS reject 'MOV [BX],1'
+PASS reject 'ADD AX,[BX]'
+PASS reject 'MOV AX,[SI]'
+PASS reject 'MOV AX,[BX+1]'
+PASS reject 'MOV AX,[BX'
+PASS reject 'MOV AX,'
+PASS reject 'MOV AX,1,2'
+PASS reject 'NOP 1'
+PASS reject 'RET 2'
+PASS reject 'INC AL'
+PASS reject 'PUSH 1'
+PASS reject 'JZ 100H'
+PASS reject 'ORG 100H'
+PASS reject 'AX:'
+PASS reject '1BAD:'
+PASS reject 'DW UNDEFINED'
+PASS reject 'DUP:\nDUP:'
+PASS reject 'LABEL: DB 1'
+PASS reject 'ABCDEFGHIJKLMNOPQ:'
+PASS physical line 120
+PASS physical line 121
+PASS 4000 lines
+PASS 4001 lines
+PASS 256 labels
+PASS 257 labels
+PASS 8192 bytes
+PASS 8193 bytes
+PASS invalid source byte 0
+PASS invalid source byte 1
+PASS invalid source byte 27
+PASS invalid source byte 127
+PASS invalid source byte 128
+PASS invalid source byte 255
+PASS DOS failure 3D
+PASS DOS failure 3F
+PASS DOS failure 3E
+PASS DOS failure 3C
+PASS DOS failure 40 (short write)
+PASS BAWIDE differs from BOOTASM in exactly the two published lines

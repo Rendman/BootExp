@@ -1,0 +1,176 @@
++++
+title = "21 \u00b7 Fixed instruction bytes"
+weight = 21
+description = "Five no-operand mnemonics use the same table dispatcher."
+download = "AS21.ASM"
++++
+
+We shall add machine instructions whose complete encodings are one fixed byte each.
+
+## How it works
+
+The new OPTAB records have class two and carry their opcode in the parameter byte. FIXED sends that byte through EMIT, then calls FINISH to reject an extra operand.
+
+NOP is 90H. RET is the near return C3H. CLD is FCH and selects increasing indexes for string instructions. LODSB, ACH, loads AL from DS:SI and adjusts SI; STOSB, AAH, stores AL at ES:DI and adjusts DI. Their direction depends on the direction flag. They are plain, single instructions; no repeat prefix is accepted.
+
+FIXED changes AL, PC, OUTPTR, and the scanner scratch state. It receives its opcode through OP and its argument cursor through SI. These encodings do not make the fixture safe to execute: its stack and index registers have not been prepared. Inspect the bytes only.
+
+## Source changes
+
+Copy `AS20.ASM` to `AS21.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+
+### Change 1: following `OPTAB:`
+
+Unchanged code immediately before this edit:
+
+```asm
+OPTAB:
+DB 68,66,0,0,0,0,1,0
+DB 68,87,0,0,0,0,1,1
+```
+
+Insert after old physical line 799, before the following old line.
+
+Insert this source:
+
+```asm
+DB 78,79,80,0,0,0,2,144
+DB 82,69,84,0,0,0,2,195
+DB 67,76,68,0,0,0,2,252
+DB 76,79,68,83,66,0,2,172
+DB 83,84,79,83,66,0,2,170
+```
+
+### Change 2: following `DATASEP:`
+
+Unchanged code immediately before this edit:
+
+```asm
+JE DATAITEM
+CMP AL,0
+JNE SYNTAXBAD
+```
+
+Insert after old physical line 585, before the following old line.
+
+Insert this source:
+
+```asm
+RET
+
+FIXED:
+MOV AL,[OP]
+CALL EMIT
+CALL FINISH
+```
+
+### Change 3: following `STNEXT1:`
+
+Unchanged code immediately before this edit:
+
+```asm
+CALL DATAITEM
+RET
+STNEXT1:
+```
+
+Insert after old physical line 563, before the following old line.
+
+Insert this source:
+
+```asm
+CMP AL,2
+JNE STNEXT2
+CALL FIXED
+RET
+STNEXT2:
+```
+
+### Change 4: following `INSTRUCTION:`
+
+Unchanged code immediately before this edit:
+
+```asm
+INSTRUCTION:
+DEC SI
+MOV BX,OPTAB
+```
+
+Remove these exact old lines (physical lines 544–544 of `AS20.ASM`):
+
+```asm
+MOV CX,2
+```
+
+Put this source in their place:
+
+```asm
+MOV CX,7
+```
+
+## Build and stop
+
+Use the BASIC assembler prepared in the workbench guide:
+
+```dos
+GWBASIC BAWIDE.BAS
+```
+
+Enter `AS21` at its source prompt. Require `OK AS21.COM 1733 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.
+
+Use `COPY CON T21.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
+
+```asm
+NOP
+RET
+CLD
+LODSB
+STOSB
+```
+
+```dos
+CHECK AS21
+```
+
+Enter `T21` when `Source name:` appears.
+
+The display, apart from DOS command echo and the checker's separating blank line, is:
+
+```text
+Source name: T21
+OK 00005 bytes
+PASS
+```
+
+Inspect `T21.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `T21.COM`, and require a length of **5 bytes** with these hexadecimal bytes:
+
+```text
+90 C3 FC AC AA
+```
+
+Use `SYSTEM` to return to DOS.
+
+This file is an encoding or data fixture. **Inspect it; do not execute it.**
+
+## A rejection check
+
+Enter this separate file as `X21.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
+
+```asm
+NOP 1
+```
+
+Run `CHECK AS21` and enter `X21`.
+
+Require this diagnostic followed by the checker's `FAIL`:
+
+```text
+ERROR 00001 CODE 1
+FAIL
+```
+
+`PASS` here means the rejection did not happen. Do not use an older output file as evidence of acceptance; require a new `OK` before inspecting output.
+
+## If the result differs
+
+Check the edited blocks against their old context, then compare the complete source. A wrong record count or a missing zero terminator can make a correct token look absent. Check brackets and commas in the test input, and read the reported physical line before changing an instruction.
