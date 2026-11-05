@@ -1,0 +1,7 @@
+PASS DOS 3.10 IR86 and ASM86 build RILL directly; assembly and executable match the bootstrap-built compiler
+PASS DOS 3.10 HELLO: RILL -> IR -> assembly -> COM, expected output and PASS
+PASS DOS 3.10 COUNT: RILL -> IR -> assembly -> COM, expected output and PASS
+PASS DOS 3.10 CHOICE: RILL -> IR -> assembly -> COM, expected output and PASS
+PASS DOS 3.10 RLECHO: RILL -> IR -> assembly -> COM, expected output and PASS
+PASS DOS rejection and missing input report exact diagnostics and FAIL; rejected source preserves the older IR file
+PASS DOS compiled RILL byte-stream program preserves all 256 byte values and reports PASS

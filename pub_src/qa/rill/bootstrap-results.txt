@@ -1,0 +1,4 @@
+PASS canonical BOOTASM.BAS recreates ASM86; ASM86 self-assembles and builds IR86.
+PASS that IR86 translates RILL.IR and that ASM86 builds RILL.COM (5173 bytes).
+PASS the IR-written RILL compiler translates HELLO.RIL to IR; IR86 and ASM86 build its executable.
+PASS the resulting COM displays HI and returns zero; no host compiler supplies an artifact.

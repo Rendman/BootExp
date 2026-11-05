@@ -1,0 +1,119 @@
+PASS published IR86 -> ASM86 directly builds RILL.COM (5173 bytes)
+PASS header, whitespace, comments, and portable compiler agreement
+PASS header, whitespace, comments, and portable compiler agreement
+PASS header, whitespace, comments, and portable compiler agreement
+PASS decimal word 0
+PASS decimal word 1
+PASS decimal word 9
+PASS decimal word 10
+PASS decimal word 255
+PASS decimal word 256
+PASS decimal word 32767
+PASS decimal word 32768
+PASS decimal word 65535
+PASS arithmetic 7-3+2
+PASS arithmetic 65535+1
+PASS arithmetic 0-1
+PASS arithmetic -(1+2)
+PASS arithmetic 1-(2-3)
+PASS arithmetic --7
+PASS arithmetic 5 + -2
+PASS arithmetic 9-3-2
+PASS mutable storage and loop
+PASS unsigned condition 0==1
+PASS unsigned condition 1==0
+PASS unsigned condition 1==1
+PASS unsigned condition 65535==1
+PASS unsigned condition 32768==32767
+PASS unsigned condition 0!=1
+PASS unsigned condition 1!=0
+PASS unsigned condition 1!=1
+PASS unsigned condition 65535!=1
+PASS unsigned condition 32768!=32767
+PASS unsigned condition 0<1
+PASS unsigned condition 1<0
+PASS unsigned condition 1<1
+PASS unsigned condition 65535<1
+PASS unsigned condition 32768<32767
+PASS unsigned condition 0<=1
+PASS unsigned condition 1<=0
+PASS unsigned condition 1<=1
+PASS unsigned condition 65535<=1
+PASS unsigned condition 32768<=32767
+PASS unsigned condition 0>1
+PASS unsigned condition 1>0
+PASS unsigned condition 1>1
+PASS unsigned condition 65535>1
+PASS unsigned condition 32768>32767
+PASS unsigned condition 0>=1
+PASS unsigned condition 1>=0
+PASS unsigned condition 1>=1
+PASS unsigned condition 65535>=1
+PASS unsigned condition 32768>=32767
+PASS value condition 0
+PASS value condition 1
+PASS value condition 65535
+PASS if without else
+PASS nested control-flow labels and saved contexts
+PASS exit terminates inside a block
+PASS byte input, EOF, and persistent service status 0
+PASS byte input, EOF, and persistent service status 1
+PASS byte input, EOF, and persistent service status 256
+PASS byte input, EOF, and persistent service status 5
+PASS reject header mainz
+PASS reject header maim
+PASS reject header mai
+PASS reject header mainaa
+PASS reject keyword lookalike putcat
+PASS reject keyword lookalike putfoo
+PASS reject keyword lookalike put
+PASS reject keyword lookalike putccc
+PASS reject keyword lookalike getcat
+PASS reject keyword lookalike getfoo
+PASS reject keyword lookalike statux
+PASS reject keyword lookalike statusx
+PASS reject unsupported or malformed source ''
+PASS reject unsupported or malformed source 'main(){}'
+PASS reject unsupported or malformed source 'fn main(){'
+PASS reject unsupported or malformed source 'fn main(){} junk'
+PASS reject unsupported or malformed source 'fn main(){let x=0;}'
+PASS reject unsupported or malformed source 'fn main(){let mut x=0;let mut x=1;}'
+PASS reject unsupported or malformed source 'fn main(){x=1;}'
+PASS reject unsupported or malformed source 'fn main(){putc(x);}'
+PASS reject unsupported or malformed source 'fn main(){putc();}'
+PASS reject unsupported or malformed source 'fn main(){putc(1*2);}'
+PASS reject unsupported or malformed source 'fn main(){let mut x=1+2;}'
+PASS reject unsupported or malformed source 'fn main(){putc(65536);}'
+PASS reject unsupported or malformed source 'fn main(){putc(9999999999);}'
+PASS reject unsupported or malformed source 'fn main(){putc(0x41);}'
+PASS reject unsupported or malformed source 'fn main(){putc(1==1);}'
+PASS reject unsupported or malformed source 'fn main(){if (1==1){}}'
+PASS reject unsupported or malformed source 'fn main(){if 1 {let mut x=0;}}'
+PASS reject unsupported or malformed source 'fn main(){/}'
+PASS reject unsupported or malformed source 'fn main(){let mut xx=0;}'
+PASS reject unsupported or malformed source 'fn other(){}'
+PASS reject unsupported or malformed source 'fn main(){return;}'
+PASS reject source byte 0
+PASS reject source byte 1
+PASS reject source byte 8
+PASS reject source byte 11
+PASS reject source byte 27
+PASS reject source byte 127
+PASS reject source byte 128
+PASS reject source byte 255
+PASS Control-Z text termination
+PASS exact combined parser depth
+PASS parser depth overflow
+PASS nested block boundary
+PASS nested block overflow
+PASS 1021-byte result within output bound
+PASS output capacity preserves old result
+PASS exact 4096-byte source
+PASS source capacity preserves old result
+PASS all twenty-six variables
+PASS missing input preserves old result
+PASS normalized binding failure 3D
+PASS normalized binding failure 3F
+PASS normalized binding failure 3E
+PASS normalized binding failure 3C
+PASS normalized binding failure 40

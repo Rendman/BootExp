@@ -1,0 +1,29 @@
+PASS R01: published IR86 translation and ASM86 assembly; exact visible acceptance; rejection
+PASS R02: published IR86 translation and ASM86 assembly; exact visible acceptance; rejection
+PASS R03: published IR86 translation and ASM86 assembly; exact visible acceptance; rejection
+PASS R04: published IR86 translation and ASM86 assembly; exact visible acceptance; rejection
+PASS R05: published IR86 translation and ASM86 assembly; exact visible acceptance; rejection
+PASS R06: published IR86 translation and ASM86 assembly; exact visible acceptance; rejection
+PASS R07: published IR86 translation and ASM86 assembly; exact visible acceptance; rejection
+PASS R08: published IR86 translation and ASM86 assembly; exact visible acceptance; rejection
+PASS R09: published IR86 translation and ASM86 assembly; exact visible acceptance; rejection
+PASS R10: published IR86 translation and ASM86 assembly; exact visible acceptance; rejection
+PASS R11: published IR86 translation and ASM86 assembly; exact visible acceptance; rejection
+PASS R12: published IR86 translation and ASM86 assembly; exact visible acceptance; rejection
+PASS R13: published IR86 translation and ASM86 assembly; exact visible acceptance; rejection
+PASS R14: published IR86 translation and ASM86 assembly; exact visible acceptance; rejection
+PASS R15: published IR86 translation and ASM86 assembly; exact visible acceptance; rejection; emitted program assembles and runs with portable agreement
+PASS R16: published IR86 translation and ASM86 assembly; exact visible acceptance; rejection; emitted program assembles and runs with portable agreement
+PASS R17: published IR86 translation and ASM86 assembly; exact visible acceptance; rejection; emitted program assembles and runs with portable agreement
+PASS R18: published IR86 translation and ASM86 assembly; exact visible acceptance; rejection; emitted program assembles and runs with portable agreement
+PASS R19: published IR86 translation and ASM86 assembly; exact visible acceptance; rejection; emitted program assembles and runs with portable agreement
+PASS R20: published IR86 translation and ASM86 assembly; exact visible acceptance; rejection; emitted program assembles and runs with portable agreement
+PASS R21: published IR86 translation and ASM86 assembly; exact visible acceptance; rejection; emitted program assembles and runs with portable agreement
+PASS R22: published IR86 translation and ASM86 assembly; exact visible acceptance; rejection; emitted program assembles and runs with portable agreement
+PASS R23: published IR86 translation and ASM86 assembly; exact visible acceptance; rejection; emitted program assembles and runs with portable agreement
+PASS R24: published IR86 translation and ASM86 assembly; exact visible acceptance; rejection; emitted program assembles and runs with portable agreement
+PASS R25: published IR86 translation and ASM86 assembly; exact visible acceptance; rejection; emitted program assembles and runs with portable agreement
+PASS R26: published IR86 translation and ASM86 assembly; exact visible acceptance; rejection; emitted program assembles and runs with portable agreement
+PASS R27: published IR86 translation and ASM86 assembly; exact visible acceptance; rejection; emitted program assembles and runs with portable agreement
+PASS R28: published IR86 translation and ASM86 assembly; exact visible acceptance; rejection; emitted program assembles and runs with portable agreement
+PASS R29: published IR86 translation and ASM86 assembly; exact visible acceptance; rejection; emitted program assembles and runs with portable agreement

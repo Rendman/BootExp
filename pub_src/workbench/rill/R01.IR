@@ -1,0 +1,7 @@
+; Driver
+LABEL MAIN
+LIT 72
+PUTC
+LIT 73
+PUTC
+HALT

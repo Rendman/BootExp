@@ -1,0 +1,2755 @@
+[
+  {
+    "number": 1,
+    "page": "01-a-program-in-the-intermediate-language.md",
+    "base": null,
+    "changes": [
+      {
+        "a1": 0,
+        "a2": 0,
+        "old": [],
+        "new": [
+          "; Driver",
+          "LABEL MAIN",
+          "LIT 72",
+          "PUTC",
+          "LIT 73",
+          "PUTC",
+          "HALT"
+        ],
+        "context": []
+      }
+    ]
+  },
+  {
+    "number": 2,
+    "page": "02-a-checked-character-writer.md",
+    "base": "R01.IR",
+    "changes": [
+      {
+        "a1": 4,
+        "a2": 7,
+        "old": [
+          "LIT 73",
+          "PUTC",
+          "HALT"
+        ],
+        "new": [
+          "STATUS",
+          "JZ CHARDONE",
+          "LIT 4",
+          "EXIT",
+          "LABEL CHARDONE",
+          "RET"
+        ],
+        "context": [
+          "LABEL MAIN",
+          "LIT 72",
+          "PUTC"
+        ]
+      },
+      {
+        "a1": 3,
+        "a2": 3,
+        "old": [],
+        "new": [
+          "CALL CHAR",
+          "LIT 73",
+          "CALL CHAR",
+          "HALT",
+          "; CHAR",
+          "LABEL CHAR"
+        ],
+        "context": [
+          "; Driver",
+          "LABEL MAIN",
+          "LIT 72"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 3,
+    "page": "03-quotient-and-remainder-by-subtraction.md",
+    "base": "R02.IR",
+    "changes": [
+      {
+        "a1": 16,
+        "a2": 16,
+        "old": [],
+        "new": [
+          "; DIVIDE",
+          "LABEL DIVIDE",
+          "ST VALUE",
+          "LIT 0",
+          "ST COUNT",
+          "LABEL DIVLOOP",
+          "LD VALUE",
+          "PUSH",
+          "LD STEP",
+          "ULT DIVDONE",
+          "LD VALUE",
+          "PUSH",
+          "LD STEP",
+          "SUB",
+          "ST VALUE",
+          "LD COUNT",
+          "PUSH",
+          "LIT 1",
+          "ADD",
+          "ST COUNT",
+          "JMP DIVLOOP",
+          "LABEL DIVDONE",
+          "LD VALUE",
+          "RET"
+        ],
+        "context": [
+          "EXIT",
+          "LABEL CHARDONE",
+          "RET"
+        ]
+      },
+      {
+        "a1": 2,
+        "a2": 5,
+        "old": [
+          "LIT 72",
+          "CALL CHAR",
+          "LIT 73"
+        ],
+        "new": [
+          "LIT 256",
+          "ST STEP",
+          "LIT 16712",
+          "CALL DIVIDE",
+          "LD COUNT"
+        ],
+        "context": [
+          "; Driver",
+          "LABEL MAIN"
+        ]
+      },
+      {
+        "a1": 0,
+        "a2": 0,
+        "old": [],
+        "new": [
+          "; DATA",
+          "WORD VALUE 0",
+          "WORD STEP 0",
+          "WORD COUNT 0"
+        ],
+        "context": []
+      }
+    ]
+  },
+  {
+    "number": 4,
+    "page": "04-two-characters-in-a-word.md",
+    "base": "R03.IR",
+    "changes": [
+      {
+        "a1": 46,
+        "a2": 46,
+        "old": [],
+        "new": [
+          "; PAIR",
+          "LABEL PAIR",
+          "ST WORK",
+          "PUSH",
+          "LIT 255",
+          "AND",
+          "CALL CHAR",
+          "LIT 256",
+          "ST STEP",
+          "LD WORK",
+          "CALL DIVIDE",
+          "LD COUNT",
+          "JMP CHAR",
+          "LABEL NEWLINE",
+          "LIT 2573",
+          "CALL PAIR",
+          "RET"
+        ],
+        "context": [
+          "LABEL DIVDONE",
+          "LD VALUE",
+          "RET"
+        ]
+      },
+      {
+        "a1": 6,
+        "a2": 12,
+        "old": [
+          "LIT 256",
+          "ST STEP",
+          "LIT 16712",
+          "CALL DIVIDE",
+          "LD COUNT",
+          "CALL CHAR"
+        ],
+        "new": [
+          "LIT 18760",
+          "CALL PAIR",
+          "LIT 2573",
+          "CALL PAIR"
+        ],
+        "context": [
+          "WORD COUNT 0",
+          "; Driver",
+          "LABEL MAIN"
+        ]
+      },
+      {
+        "a1": 2,
+        "a2": 2,
+        "old": [],
+        "new": [
+          "WORD WORK 0"
+        ],
+        "context": [
+          "; DATA",
+          "WORD VALUE 0"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 5,
+    "page": "05-displaying-an-unsigned-word.md",
+    "base": "R04.IR",
+    "changes": [
+      {
+        "a1": 62,
+        "a2": 62,
+        "old": [],
+        "new": [
+          "; NUMBER",
+          "LABEL NUMBER",
+          "ST WORK",
+          "LIT 10000",
+          "ST PLACE",
+          "LABEL NUMPRINT",
+          "LD PLACE",
+          "ST STEP",
+          "LD WORK",
+          "CALL DIVIDE",
+          "ST WORK",
+          "LD COUNT",
+          "PUSH",
+          "LIT 48",
+          "ADD",
+          "CALL CHAR",
+          "LD STEP",
+          "PUSH",
+          "LIT 1",
+          "EQ NUMDONE",
+          "LIT 10",
+          "ST STEP",
+          "LD PLACE",
+          "CALL DIVIDE",
+          "LD COUNT",
+          "ST PLACE",
+          "JMP NUMPRINT",
+          "LABEL NUMDONE",
+          "RET"
+        ],
+        "context": [
+          "LIT 2573",
+          "CALL PAIR",
+          "RET"
+        ]
+      },
+      {
+        "a1": 7,
+        "a2": 11,
+        "old": [
+          "LIT 18760",
+          "CALL PAIR",
+          "LIT 2573",
+          "CALL PAIR"
+        ],
+        "new": [
+          "LIT 65535",
+          "CALL NUMBER",
+          "CALL NEWLINE"
+        ],
+        "context": [
+          "WORD COUNT 0",
+          "; Driver",
+          "LABEL MAIN"
+        ]
+      },
+      {
+        "a1": 3,
+        "a2": 3,
+        "old": [],
+        "new": [
+          "WORD PLACE 0"
+        ],
+        "context": [
+          "; DATA",
+          "WORD VALUE 0",
+          "WORD WORK 0"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 6,
+    "page": "06-one-visible-error-report.md",
+    "base": "R05.IR",
+    "changes": [
+      {
+        "a1": 91,
+        "a2": 91,
+        "old": [],
+        "new": [
+          "; ERROR",
+          "LABEL IOFAIL",
+          "LIT 1",
+          "JMP ERROR",
+          "LABEL SYNTAX",
+          "LIT 2",
+          "JMP ERROR",
+          "LABEL NUMFAIL",
+          "LIT 3",
+          "JMP ERROR",
+          "LABEL NAMEFAIL",
+          "LIT 4",
+          "JMP ERROR",
+          "LABEL CAPFAIL",
+          "LIT 5",
+          "JMP ERROR",
+          "LABEL ERROR",
+          "ST READTOTAL",
+          "LIT 0",
+          "ST DEST",
+          "LIT 21061",
+          "CALL PAIR",
+          "LIT 20306",
+          "CALL PAIR",
+          "LIT 8274",
+          "CALL PAIR",
+          "LD LINE",
+          "CALL NUMBER",
+          "LIT 17184",
+          "CALL PAIR",
+          "LIT 17487",
+          "CALL PAIR",
+          "LIT 8261",
+          "CALL PAIR",
+          "LD READTOTAL",
+          "CALL NUMBER",
+          "CALL NEWLINE",
+          "LIT 1",
+          "EXIT"
+        ],
+        "context": [
+          "JMP NUMPRINT",
+          "LABEL NUMDONE",
+          "RET"
+        ]
+      },
+      {
+        "a1": 8,
+        "a2": 11,
+        "old": [
+          "LIT 65535",
+          "CALL NUMBER",
+          "CALL NEWLINE"
+        ],
+        "new": [
+          "GETC",
+          "PUSH",
+          "LIT 65",
+          "NE SYNTAX",
+          "LIT 19279",
+          "CALL PAIR",
+          "LIT 2573",
+          "CALL PAIR"
+        ],
+        "context": [
+          "WORD COUNT 0",
+          "; Driver",
+          "LABEL MAIN"
+        ]
+      },
+      {
+        "a1": 1,
+        "a2": 1,
+        "old": [],
+        "new": [
+          "WORD LINE 1",
+          "WORD READTOTAL 0",
+          "WORD DEST 0"
+        ],
+        "context": [
+          "; DATA"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 7,
+    "page": "07-a-filename-in-declared-storage.md",
+    "base": "R06.IR",
+    "changes": [
+      {
+        "a1": 138,
+        "a2": 138,
+        "old": [],
+        "new": [
+          "; NAMETEXT",
+          "LABEL NAMEWORD",
+          "ST VALUE",
+          "LD PLACE",
+          "PUSH",
+          "LD VALUE",
+          "PUT",
+          "LD PLACE",
+          "PUSH",
+          "LIT 2",
+          "ADD",
+          "ST PLACE",
+          "RET",
+          "LABEL SOURCENAME",
+          "ADDR NAMEBUF",
+          "ST PLACE",
+          "LIT 20307",
+          "CALL NAMEWORD",
+          "LIT 21077",
+          "CALL NAMEWORD",
+          "LIT 17731",
+          "CALL NAMEWORD",
+          "LIT 21038",
+          "CALL NAMEWORD",
+          "LIT 19529",
+          "CALL NAMEWORD",
+          "LIT 0",
+          "CALL NAMEWORD",
+          "RET"
+        ],
+        "context": [
+          "CALL NEWLINE",
+          "LIT 1",
+          "EXIT"
+        ]
+      },
+      {
+        "a1": 13,
+        "a2": 19,
+        "old": [
+          "LIT 65",
+          "NE SYNTAX",
+          "LIT 19279",
+          "CALL PAIR",
+          "LIT 2573",
+          "CALL PAIR"
+        ],
+        "new": [
+          "LIT 1",
+          "ADD",
+          "ST TOKENVAL",
+          "JMP NAMEDISPLAY",
+          "LABEL NAMEDONE",
+          "CALL NEWLINE"
+        ],
+        "context": [
+          "LABEL MAIN",
+          "GETC",
+          "PUSH"
+        ]
+      },
+      {
+        "a1": 11,
+        "a2": 12,
+        "old": [
+          "GETC"
+        ],
+        "new": [
+          "CALL SOURCENAME",
+          "ADDR NAMEBUF",
+          "ST TOKENVAL",
+          "LABEL NAMEDISPLAY",
+          "LD TOKENVAL",
+          "FETCHB",
+          "JZ NAMEDONE",
+          "CALL CHAR",
+          "LD TOKENVAL"
+        ],
+        "context": [
+          "WORD COUNT 0",
+          "; Driver",
+          "LABEL MAIN"
+        ]
+      },
+      {
+        "a1": 9,
+        "a2": 9,
+        "old": [],
+        "new": [
+          "WORD TOKENVAL 0",
+          "; FILENAMES",
+          "BUFFER NAMEBUF 12"
+        ],
+        "context": [
+          "WORD PLACE 0",
+          "WORD STEP 0",
+          "WORD COUNT 0"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 8,
+    "page": "08-opening-and-closing-the-source.md",
+    "base": "R07.IR",
+    "changes": [
+      {
+        "a1": 16,
+        "a2": 30,
+        "old": [
+          "ST TOKENVAL",
+          "LABEL NAMEDISPLAY",
+          "LD TOKENVAL",
+          "FETCHB",
+          "JZ NAMEDONE",
+          "CALL CHAR",
+          "LD TOKENVAL",
+          "PUSH",
+          "LIT 1",
+          "ADD",
+          "ST TOKENVAL",
+          "JMP NAMEDISPLAY",
+          "LABEL NAMEDONE",
+          "CALL NEWLINE"
+        ],
+        "new": [
+          "OPEN",
+          "ST INPUT",
+          "STATUS",
+          "JNZ IOFAIL",
+          "LD INPUT",
+          "CLOSE",
+          "STATUS",
+          "JNZ IOFAIL",
+          "LIT 19279",
+          "CALL PAIR",
+          "LIT 2573",
+          "CALL PAIR"
+        ],
+        "context": [
+          "LABEL MAIN",
+          "CALL SOURCENAME",
+          "ADDR NAMEBUF"
+        ]
+      },
+      {
+        "a1": 9,
+        "a2": 10,
+        "old": [
+          "WORD TOKENVAL 0"
+        ],
+        "new": [
+          "WORD INPUT 0"
+        ],
+        "context": [
+          "WORD PLACE 0",
+          "WORD STEP 0",
+          "WORD COUNT 0"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 9,
+    "page": "09-a-bounded-byte-reader.md",
+    "base": "R08.IR",
+    "changes": [
+      {
+        "a1": 147,
+        "a2": 147,
+        "old": [],
+        "new": [
+          "; NEXT",
+          "LABEL NEXT",
+          "LD CH",
+          "PUSH",
+          "LIT 10",
+          "NE NEXTREAD",
+          "LD LINE",
+          "PUSH",
+          "LIT 1",
+          "ADD",
+          "ST LINE",
+          "LABEL NEXTREAD",
+          "LD INPUT",
+          "PUSH",
+          "ADDR INBYTE",
+          "PUSH",
+          "LIT 1",
+          "READ",
+          "ST COUNT",
+          "STATUS",
+          "JNZ IOFAIL",
+          "LD COUNT",
+          "JZ ATEND",
+          "LD READTOTAL",
+          "PUSH",
+          "LIT 1",
+          "ADD",
+          "ST READTOTAL",
+          "PUSH",
+          "LIT 4096",
+          "UGT CAPFAIL",
+          "LDB INBYTE",
+          "ST CH",
+          "PUSH",
+          "LIT 26",
+          "EQ ATEND",
+          "LD CH",
+          "PUSH",
+          "LIT 127",
+          "UGE SYNTAX",
+          "LD CH",
+          "PUSH",
+          "LIT 32",
+          "UGE NEXTDONE",
+          "LD CH",
+          "PUSH",
+          "LIT 9",
+          "EQ NEXTDONE",
+          "LD CH",
+          "PUSH",
+          "LIT 10",
+          "EQ NEXTDONE",
+          "LD CH",
+          "PUSH",
+          "LIT 13",
+          "EQ NEXTDONE",
+          "JMP SYNTAX",
+          "LABEL ATEND",
+          "LIT 0",
+          "ST CH",
+          "LABEL NEXTDONE",
+          "RET"
+        ],
+        "context": [
+          "CALL NEWLINE",
+          "LIT 1",
+          "EXIT"
+        ]
+      },
+      {
+        "a1": 24,
+        "a2": 28,
+        "old": [
+          "LIT 19279",
+          "CALL PAIR",
+          "LIT 2573",
+          "CALL PAIR"
+        ],
+        "new": [],
+        "context": [
+          "CLOSE",
+          "STATUS",
+          "JNZ IOFAIL"
+        ]
+      },
+      {
+        "a1": 20,
+        "a2": 20,
+        "old": [],
+        "new": [
+          "CALL NEXT",
+          "LABEL DISPLAY",
+          "LD CH",
+          "JZ DISPLAYDONE",
+          "CALL CHAR",
+          "CALL NEXT",
+          "JMP DISPLAY",
+          "LABEL DISPLAYDONE"
+        ],
+        "context": [
+          "ST INPUT",
+          "STATUS",
+          "JNZ IOFAIL"
+        ]
+      },
+      {
+        "a1": 10,
+        "a2": 10,
+        "old": [],
+        "new": [
+          "WORD CH 0",
+          "BUFFER INBYTE 1"
+        ],
+        "context": [
+          "WORD STEP 0",
+          "WORD COUNT 0",
+          "WORD INPUT 0"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 10,
+    "page": "10-punctuation-and-comments.md",
+    "base": "R09.IR",
+    "changes": [
+      {
+        "a1": 215,
+        "a2": 215,
+        "old": [],
+        "new": [
+          "; LEX",
+          "LABEL LEX",
+          "LIT 0",
+          "ST SUFFIX",
+          "LD CH",
+          "JZ LEXEND",
+          "PUSH",
+          "LIT 32",
+          "UGT LEXSTART",
+          "CALL NEXT",
+          "JMP LEX",
+          "LABEL LEXSTART",
+          "LD CH",
+          "PUSH",
+          "LIT 47",
+          "EQ COMMENT",
+          "LABEL LETTERTEST",
+          "LABEL PUNCT",
+          "LD CH",
+          "ST TOK",
+          "CALL NEXT",
+          "LD TOK",
+          "PUSH",
+          "LIT 61",
+          "EQ CHECKPAIR",
+          "LD TOK",
+          "PUSH",
+          "LIT 33",
+          "EQ CHECKPAIR",
+          "LD TOK",
+          "PUSH",
+          "LIT 60",
+          "EQ CHECKPAIR",
+          "LD TOK",
+          "PUSH",
+          "LIT 62",
+          "NE LEXDONE",
+          "LABEL CHECKPAIR",
+          "LD CH",
+          "PUSH",
+          "LIT 61",
+          "NE LEXDONE",
+          "LD TOK",
+          "PUSH",
+          "LIT 61",
+          "EQ EQUALPAIR",
+          "LD TOK",
+          "PUSH",
+          "LIT 33",
+          "EQ UNEQUALPAIR",
+          "LD TOK",
+          "PUSH",
+          "LIT 60",
+          "EQ LESSPAIR",
+          "LIT 203",
+          "JMP PAIRTOKEN",
+          "LABEL EQUALPAIR",
+          "LIT 200",
+          "JMP PAIRTOKEN",
+          "LABEL UNEQUALPAIR",
+          "LIT 201",
+          "JMP PAIRTOKEN",
+          "LABEL LESSPAIR",
+          "LIT 202",
+          "LABEL PAIRTOKEN",
+          "ST TOK",
+          "CALL NEXT",
+          "LABEL LEXDONE",
+          "RET",
+          "LABEL LEXEND",
+          "LIT 0",
+          "ST TOK",
+          "RET",
+          "; COMMENT",
+          "LABEL COMMENT",
+          "CALL NEXT",
+          "LD CH",
+          "PUSH",
+          "LIT 47",
+          "NE SYNTAX",
+          "LABEL COMMENTLOOP",
+          "CALL NEXT",
+          "LD CH",
+          "JZ LEX",
+          "PUSH",
+          "LIT 10",
+          "EQ LEX",
+          "LD CH",
+          "PUSH",
+          "LIT 13",
+          "EQ LEX",
+          "JMP COMMENTLOOP"
+        ],
+        "context": [
+          "ST CH",
+          "LABEL NEXTDONE",
+          "RET"
+        ]
+      },
+      {
+        "a1": 27,
+        "a2": 30,
+        "old": [
+          "CALL NEXT",
+          "JMP DISPLAY",
+          "LABEL DISPLAYDONE"
+        ],
+        "new": [
+          "CALL LEX",
+          "JMP SHOWTOKEN",
+          "LABEL TOKENDONE",
+          "CALL NEWLINE"
+        ],
+        "context": [
+          "LD CH",
+          "JZ DISPLAYDONE",
+          "CALL CHAR"
+        ]
+      },
+      {
+        "a1": 23,
+        "a2": 26,
+        "old": [
+          "LABEL DISPLAY",
+          "LD CH",
+          "JZ DISPLAYDONE"
+        ],
+        "new": [
+          "CALL LEX",
+          "LABEL SHOWTOKEN",
+          "LD TOK",
+          "JZ TOKENDONE",
+          "CALL NUMBER",
+          "LIT 32"
+        ],
+        "context": [
+          "STATUS",
+          "JNZ IOFAIL",
+          "CALL NEXT"
+        ]
+      },
+      {
+        "a1": 12,
+        "a2": 12,
+        "old": [],
+        "new": [
+          "WORD SUFFIX 0",
+          "WORD TOK 0"
+        ],
+        "context": [
+          "WORD INPUT 0",
+          "WORD CH 0",
+          "BUFFER INBYTE 1"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 11,
+    "page": "11-decimal-word-literals.md",
+    "base": "R10.IR",
+    "changes": [
+      {
+        "a1": 313,
+        "a2": 313,
+        "old": [],
+        "new": [
+          "; SCANNUM",
+          "LABEL SCANNUM",
+          "LIT 0",
+          "ST TOKENVAL",
+          "LABEL DIGITLOOP",
+          "LD CH",
+          "PUSH",
+          "LIT 48",
+          "ULT NUMBEREND",
+          "LD CH",
+          "PUSH",
+          "LIT 57",
+          "UGT NUMBEREND",
+          "LD CH",
+          "PUSH",
+          "LIT 48",
+          "SUB",
+          "ST WORK",
+          "LD TOKENVAL",
+          "PUSH",
+          "LIT 6553",
+          "UGT NUMFAIL",
+          "LD TOKENVAL",
+          "PUSH",
+          "LIT 6553",
+          "NE NUMSAFE",
+          "LD WORK",
+          "PUSH",
+          "LIT 5",
+          "UGT NUMFAIL",
+          "LABEL NUMSAFE",
+          "LD TOKENVAL",
+          "PUSH",
+          "LD TOKENVAL",
+          "ADD",
+          "ST COUNT",
+          "PUSH",
+          "LD COUNT",
+          "ADD",
+          "ST TOKENVAL",
+          "LD TOKENVAL",
+          "PUSH",
+          "LD TOKENVAL",
+          "ADD",
+          "PUSH",
+          "LD COUNT",
+          "ADD",
+          "PUSH",
+          "LD WORK",
+          "ADD",
+          "ST TOKENVAL",
+          "CALL NEXT",
+          "JMP DIGITLOOP",
+          "LABEL NUMBEREND",
+          "LIT 65535",
+          "ST TOK",
+          "RET"
+        ],
+        "context": [
+          "LIT 13",
+          "EQ LEX",
+          "JMP COMMENTLOOP"
+        ]
+      },
+      {
+        "a1": 237,
+        "a2": 237,
+        "old": [],
+        "new": [
+          "LD CH",
+          "PUSH",
+          "LIT 48",
+          "ULT LETTERTEST",
+          "LD CH",
+          "PUSH",
+          "LIT 57",
+          "ULE SCANNUM"
+        ],
+        "context": [
+          "PUSH",
+          "LIT 47",
+          "EQ COMMENT"
+        ]
+      },
+      {
+        "a1": 29,
+        "a2": 29,
+        "old": [],
+        "new": [
+          "PUSH",
+          "LIT 65535",
+          "NE SHOWVALUE",
+          "LD TOKENVAL",
+          "JMP TOKENPRINT",
+          "LABEL SHOWVALUE",
+          "LD TOK",
+          "LABEL TOKENPRINT"
+        ],
+        "context": [
+          "LABEL SHOWTOKEN",
+          "LD TOK",
+          "JZ TOKENDONE"
+        ]
+      },
+      {
+        "a1": 10,
+        "a2": 10,
+        "old": [],
+        "new": [
+          "WORD TOKENVAL 0"
+        ],
+        "context": [
+          "WORD STEP 0",
+          "WORD COUNT 0",
+          "WORD INPUT 0"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 12,
+    "page": "12-exact-word-tokens.md",
+    "base": "R11.IR",
+    "changes": [
+      {
+        "a1": 387,
+        "a2": 387,
+        "old": [],
+        "new": [
+          "; SCANWORD",
+          "LABEL SCANWORD",
+          "LIT 0",
+          "ST WORK",
+          "ST TOKENVAL",
+          "LABEL WORDLOOP",
+          "LD WORK",
+          "PUSH",
+          "LIT 6",
+          "UGE NAMEFAIL",
+          "LD CH",
+          "PUSH",
+          "LIT 96",
+          "SUB",
+          "ST STEP",
+          "LIT 5",
+          "ST COUNT",
+          "LABEL WORDSHIFT",
+          "LD TOKENVAL",
+          "PUSH",
+          "LD TOKENVAL",
+          "ADD",
+          "ST TOKENVAL",
+          "LD COUNT",
+          "PUSH",
+          "LIT 1",
+          "SUB",
+          "ST COUNT",
+          "JNZ WORDSHIFT",
+          "LD TOKENVAL",
+          "PUSH",
+          "LD STEP",
+          "ADD",
+          "ST TOKENVAL",
+          "LD WORK",
+          "PUSH",
+          "LIT 1",
+          "ADD",
+          "ST WORK",
+          "PUSH",
+          "LIT 3",
+          "NE WORDNEXT",
+          "LD TOKENVAL",
+          "ST TOK",
+          "LIT 0",
+          "ST TOKENVAL",
+          "LABEL WORDNEXT",
+          "CALL NEXT",
+          "LD CH",
+          "PUSH",
+          "LIT 97",
+          "ULT WORDEND",
+          "LD CH",
+          "PUSH",
+          "LIT 122",
+          "ULE WORDLOOP",
+          "LABEL WORDEND",
+          "LD WORK",
+          "PUSH",
+          "LIT 1",
+          "NE WORDLONG",
+          "LD TOKENVAL",
+          "PUSH",
+          "LIT 96",
+          "ADD",
+          "ST TOK",
+          "RET",
+          "LABEL WORDLONG",
+          "LD WORK",
+          "PUSH",
+          "LIT 3",
+          "UGE WORDTAIL",
+          "LD TOKENVAL",
+          "ST TOK",
+          "LIT 0",
+          "ST TOKENVAL",
+          "LABEL WORDTAIL",
+          "LD TOKENVAL",
+          "ST SUFFIX",
+          "LD TOK",
+          "PUSH",
+          "LIT 32768",
+          "ADD",
+          "ST TOK",
+          "RET"
+        ],
+        "context": [
+          "LIT 65535",
+          "ST TOK",
+          "RET"
+        ]
+      },
+      {
+        "a1": 255,
+        "a2": 255,
+        "old": [],
+        "new": [
+          "LD CH",
+          "PUSH",
+          "LIT 97",
+          "ULT PUNCT",
+          "LD CH",
+          "PUSH",
+          "LIT 122",
+          "ULE SCANWORD"
+        ],
+        "context": [
+          "LIT 57",
+          "ULE SCANNUM",
+          "LABEL LETTERTEST"
+        ]
+      },
+      {
+        "a1": 30,
+        "a2": 38,
+        "old": [
+          "PUSH",
+          "LIT 65535",
+          "NE SHOWVALUE",
+          "LD TOKENVAL",
+          "JMP TOKENPRINT",
+          "LABEL SHOWVALUE",
+          "LD TOK",
+          "LABEL TOKENPRINT"
+        ],
+        "new": [
+          "CALL NUMBER",
+          "LIT 58",
+          "CALL CHAR",
+          "LD SUFFIX"
+        ],
+        "context": [
+          "LABEL SHOWTOKEN",
+          "LD TOK",
+          "JZ TOKENDONE"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 13,
+    "page": "13-recognizing-the-program-frame.md",
+    "base": "R12.IR",
+    "changes": [
+      {
+        "a1": 476,
+        "a2": 476,
+        "old": [],
+        "new": [
+          "; EXPECT",
+          "LABEL EXPECT",
+          "PUSH",
+          "LD TOK",
+          "NE SYNTAX",
+          "LD WANTTAIL",
+          "PUSH",
+          "LD SUFFIX",
+          "NE SYNTAX",
+          "LIT 0",
+          "ST WANTTAIL",
+          "CALL LEX",
+          "RET",
+          "LABEL ENDTOKEN",
+          "PUSH",
+          "LD SUFFIX",
+          "NE SYNTAX",
+          "CALL LEX",
+          "RET"
+        ],
+        "context": [
+          "ADD",
+          "ST TOK",
+          "RET"
+        ]
+      },
+      {
+        "a1": 45,
+        "a2": 45,
+        "old": [],
+        "new": [
+          "LIT 19279",
+          "CALL PAIR",
+          "LIT 2573",
+          "CALL PAIR"
+        ],
+        "context": [
+          "CLOSE",
+          "STATUS",
+          "JNZ IOFAIL"
+        ]
+      },
+      {
+        "a1": 27,
+        "a2": 41,
+        "old": [
+          "LABEL SHOWTOKEN",
+          "LD TOK",
+          "JZ TOKENDONE",
+          "CALL NUMBER",
+          "LIT 58",
+          "CALL CHAR",
+          "LD SUFFIX",
+          "CALL NUMBER",
+          "LIT 32",
+          "CALL CHAR",
+          "CALL LEX",
+          "JMP SHOWTOKEN",
+          "LABEL TOKENDONE",
+          "CALL NEWLINE"
+        ],
+        "new": [
+          "LIT 32974",
+          "CALL EXPECT",
+          "LIT 14",
+          "ST WANTTAIL",
+          "LIT 46121",
+          "CALL EXPECT",
+          "LIT 40",
+          "CALL EXPECT",
+          "LIT 41",
+          "CALL EXPECT",
+          "LIT 123",
+          "CALL EXPECT",
+          "LIT 125",
+          "CALL EXPECT",
+          "LIT 0",
+          "CALL EXPECT"
+        ],
+        "context": [
+          "JNZ IOFAIL",
+          "CALL NEXT",
+          "CALL LEX"
+        ]
+      },
+      {
+        "a1": 14,
+        "a2": 14,
+        "old": [],
+        "new": [
+          "WORD WANTTAIL 0"
+        ],
+        "context": [
+          "WORD CH 0",
+          "BUFFER INBYTE 1",
+          "WORD SUFFIX 0"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 14,
+    "page": "14-buffering-the-accepted-text.md",
+    "base": "R13.IR",
+    "changes": [
+      {
+        "a1": 60,
+        "a2": 60,
+        "old": [],
+        "new": [
+          "LABEL CHARBUFFER",
+          "LD OUTCOUNT",
+          "PUSH",
+          "LIT 1024",
+          "UGE CAPFAIL",
+          "ADDR OUTBUF",
+          "PUSH",
+          "LD OUTCOUNT",
+          "ADD",
+          "PUSH",
+          "LD VALUE",
+          "PUTB",
+          "LD OUTCOUNT",
+          "PUSH",
+          "LIT 1",
+          "ADD",
+          "ST OUTCOUNT"
+        ],
+        "context": [
+          "JZ CHARDONE",
+          "LIT 4",
+          "EXIT"
+        ]
+      },
+      {
+        "a1": 55,
+        "a2": 55,
+        "old": [],
+        "new": [
+          "ST VALUE",
+          "LD DEST",
+          "JNZ CHARBUFFER",
+          "LD VALUE"
+        ],
+        "context": [
+          "HALT",
+          "; CHAR",
+          "LABEL CHAR"
+        ]
+      },
+      {
+        "a1": 52,
+        "a2": 52,
+        "old": [],
+        "new": [
+          "LIT 16712",
+          "CALL PAIR",
+          "LIT 21580",
+          "CALL PAIR",
+          "LIT 2573",
+          "CALL PAIR",
+          "LIT 0",
+          "ST DEST",
+          "ST TOKENVAL",
+          "LIT 21826",
+          "CALL PAIR",
+          "LIT 17990",
+          "CALL PAIR",
+          "LIT 21061",
+          "CALL PAIR",
+          "LIT 32",
+          "CALL CHAR",
+          "LD OUTCOUNT",
+          "CALL NUMBER",
+          "CALL NEWLINE",
+          "LABEL SHOWBUFFER",
+          "LD TOKENVAL",
+          "PUSH",
+          "LD OUTCOUNT",
+          "UGE BUFFERDONE",
+          "ADDR OUTBUF",
+          "PUSH",
+          "LD TOKENVAL",
+          "ADD",
+          "FETCHB",
+          "CALL CHAR",
+          "LD TOKENVAL",
+          "PUSH",
+          "LIT 1",
+          "ADD",
+          "ST TOKENVAL",
+          "JMP SHOWBUFFER",
+          "LABEL BUFFERDONE"
+        ],
+        "context": [
+          "CALL PAIR",
+          "LIT 2573",
+          "CALL PAIR"
+        ]
+      },
+      {
+        "a1": 48,
+        "a2": 49,
+        "old": [
+          "LIT 19279"
+        ],
+        "new": [
+          "LIT 1",
+          "ST DEST",
+          "LIT 16716",
+          "CALL PAIR",
+          "LIT 17730",
+          "CALL PAIR",
+          "LIT 8268",
+          "CALL PAIR",
+          "LIT 16717",
+          "CALL PAIR",
+          "LIT 20041"
+        ],
+        "context": [
+          "CLOSE",
+          "STATUS",
+          "JNZ IOFAIL"
+        ]
+      },
+      {
+        "a1": 16,
+        "a2": 16,
+        "old": [],
+        "new": [
+          "BUFFER OUTBUF 256",
+          "BUFFER OUT1 256",
+          "BUFFER OUT2 256",
+          "BUFFER OUT3 256"
+        ],
+        "context": [
+          "WORD SUFFIX 0",
+          "WORD WANTTAIL 0",
+          "WORD TOK 0"
+        ]
+      },
+      {
+        "a1": 5,
+        "a2": 5,
+        "old": [],
+        "new": [
+          "WORD OUTCOUNT 0"
+        ],
+        "context": [
+          "WORD READTOTAL 0",
+          "WORD DEST 0",
+          "WORD VALUE 0"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 15,
+    "page": "15-writing-the-accepted-ir-file.md",
+    "base": "R14.IR",
+    "changes": [
+      {
+        "a1": 605,
+        "a2": 605,
+        "old": [],
+        "new": [
+          "LABEL RESULTNAME",
+          "ADDR NAMEBUF",
+          "ST PLACE",
+          "LIT 17746",
+          "CALL NAMEWORD",
+          "LIT 21843",
+          "CALL NAMEWORD",
+          "LIT 21580",
+          "CALL NAMEWORD",
+          "LIT 18734",
+          "CALL NAMEWORD",
+          "LIT 82",
+          "CALL NAMEWORD",
+          "RET"
+        ],
+        "context": [
+          "LIT 0",
+          "CALL NAMEWORD",
+          "RET"
+        ]
+      },
+      {
+        "a1": 576,
+        "a2": 576,
+        "old": [],
+        "new": [
+          "; WRITEFILE",
+          "LABEL WRITEFILE",
+          "CALL RESULTNAME",
+          "ADDR NAMEBUF",
+          "CREATE",
+          "ST INPUT",
+          "STATUS",
+          "JNZ IOFAIL",
+          "LD INPUT",
+          "PUSH",
+          "ADDR OUTBUF",
+          "PUSH",
+          "LD OUTCOUNT",
+          "WRITE",
+          "STATUS",
+          "JNZ IOFAIL",
+          "LD INPUT",
+          "CLOSE",
+          "STATUS",
+          "JNZ IOFAIL",
+          "RET"
+        ],
+        "context": [
+          "NE SYNTAX",
+          "CALL LEX",
+          "RET"
+        ]
+      },
+      {
+        "a1": 87,
+        "a2": 105,
+        "old": [
+          "LABEL SHOWBUFFER",
+          "LD TOKENVAL",
+          "PUSH",
+          "LD OUTCOUNT",
+          "UGE BUFFERDONE",
+          "ADDR OUTBUF",
+          "PUSH",
+          "LD TOKENVAL",
+          "ADD",
+          "FETCHB",
+          "CALL CHAR",
+          "LD TOKENVAL",
+          "PUSH",
+          "LIT 1",
+          "ADD",
+          "ST TOKENVAL",
+          "JMP SHOWBUFFER",
+          "LABEL BUFFERDONE"
+        ],
+        "new": [],
+        "context": [
+          "LD OUTCOUNT",
+          "CALL NUMBER",
+          "CALL NEWLINE"
+        ]
+      },
+      {
+        "a1": 80,
+        "a2": 81,
+        "old": [
+          "LIT 21061"
+        ],
+        "new": [
+          "LIT 21317",
+          "CALL PAIR",
+          "LIT 19541",
+          "CALL PAIR",
+          "LIT 11860",
+          "CALL PAIR",
+          "LIT 21065"
+        ],
+        "context": [
+          "CALL PAIR",
+          "LIT 17990",
+          "CALL PAIR"
+        ]
+      },
+      {
+        "a1": 78,
+        "a2": 79,
+        "old": [
+          "LIT 17990"
+        ],
+        "new": [
+          "LIT 21024"
+        ],
+        "context": [
+          "ST TOKENVAL",
+          "LIT 21826",
+          "CALL PAIR"
+        ]
+      },
+      {
+        "a1": 75,
+        "a2": 77,
+        "old": [
+          "ST TOKENVAL",
+          "LIT 21826"
+        ],
+        "new": [
+          "LIT 19279"
+        ],
+        "context": [
+          "CALL PAIR",
+          "LIT 0",
+          "ST DEST"
+        ]
+      },
+      {
+        "a1": 73,
+        "a2": 73,
+        "old": [],
+        "new": [
+          "CALL WRITEFILE"
+        ],
+        "context": [
+          "CALL PAIR",
+          "LIT 2573",
+          "CALL PAIR"
+        ]
+      },
+      {
+        "a1": 67,
+        "a2": 67,
+        "old": [],
+        "new": [
+          "LIT 125",
+          "CALL EXPECT",
+          "LIT 0",
+          "CALL EXPECT",
+          "LD INPUT",
+          "CLOSE",
+          "STATUS",
+          "JNZ IOFAIL"
+        ],
+        "context": [
+          "CALL PAIR",
+          "LIT 2573",
+          "CALL PAIR"
+        ]
+      },
+      {
+        "a1": 45,
+        "a2": 53,
+        "old": [
+          "LIT 125",
+          "CALL EXPECT",
+          "LIT 0",
+          "CALL EXPECT",
+          "LD INPUT",
+          "CLOSE",
+          "STATUS",
+          "JNZ IOFAIL"
+        ],
+        "new": [],
+        "context": [
+          "CALL EXPECT",
+          "LIT 123",
+          "CALL EXPECT"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 16,
+    "page": "16-declaring-mutable-words.md",
+    "base": "R15.IR",
+    "changes": [
+      {
+        "a1": 585,
+        "a2": 585,
+        "old": [],
+        "new": [
+          "; VARADDRESS",
+          "LABEL VARADDRESS",
+          "LD TOK",
+          "PUSH",
+          "LIT 97",
+          "ULT NAMEFAIL",
+          "LD TOK",
+          "PUSH",
+          "LIT 122",
+          "UGT NAMEFAIL",
+          "LD TOK",
+          "ST VARNAME",
+          "PUSH",
+          "LIT 97",
+          "SUB",
+          "PUSH",
+          "ADDR VARS",
+          "ADD",
+          "RET",
+          "LABEL USEVAR",
+          "CALL VARADDRESS",
+          "FETCHB",
+          "JZ NAMEFAIL",
+          "LD VARNAME",
+          "RET",
+          "; DECLARE",
+          "LABEL DECLARE",
+          "LIT 45236",
+          "CALL EXPECT",
+          "LIT 46772",
+          "CALL EXPECT",
+          "CALL VARADDRESS",
+          "ST VALUE",
+          "FETCHB",
+          "JNZ NAMEFAIL",
+          "LD VALUE",
+          "PUSH",
+          "LIT 1",
+          "PUTB",
+          "CALL LEX",
+          "LIT 61",
+          "CALL EXPECT",
+          "LD TOK",
+          "PUSH",
+          "LIT 65535",
+          "NE SYNTAX",
+          "LIT 20311",
+          "CALL PAIR",
+          "LIT 17490",
+          "CALL PAIR",
+          "LIT 32",
+          "CALL CHAR",
+          "LD VARNAME",
+          "CALL CHAR",
+          "LIT 32",
+          "CALL CHAR",
+          "LD TOKENVAL",
+          "CALL NUMBER",
+          "CALL NEWLINE",
+          "CALL LEX",
+          "LIT 59",
+          "CALL EXPECT",
+          "RET"
+        ],
+        "context": [
+          "STATUS",
+          "JNZ IOFAIL",
+          "RET"
+        ]
+      },
+      {
+        "a1": 47,
+        "a2": 47,
+        "old": [],
+        "new": [
+          "LABEL DECLLOOP",
+          "LD TOK",
+          "PUSH",
+          "LIT 45236",
+          "NE DECLDONE",
+          "CALL DECLARE",
+          "JMP DECLLOOP",
+          "LABEL DECLDONE"
+        ],
+        "context": [
+          "CALL EXPECT",
+          "LIT 1",
+          "ST DEST"
+        ]
+      },
+      {
+        "a1": 17,
+        "a2": 17,
+        "old": [],
+        "new": [
+          "WORD VARNAME 0",
+          "BUFFER VARS 26"
+        ],
+        "context": [
+          "WORD SUFFIX 0",
+          "WORD WANTTAIL 0",
+          "WORD TOK 0"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 17,
+    "page": "17-literal-byte-output.md",
+    "base": "R16.IR",
+    "changes": [
+      {
+        "a1": 658,
+        "a2": 658,
+        "old": [],
+        "new": [
+          "; EXPRESSION",
+          "LABEL EXPR",
+          "CALL FACTOR",
+          "RET",
+          "; FACTOR",
+          "LABEL FACTOR",
+          "LD DEPTH",
+          "PUSH",
+          "LIT 1",
+          "ADD",
+          "ST DEPTH",
+          "PUSH",
+          "LIT 8",
+          "UGT CAPFAIL",
+          "LD TOK",
+          "PUSH",
+          "LIT 65535",
+          "NE SYNTAX",
+          "LABEL FACTORNUM",
+          "LIT 18764",
+          "CALL PAIR",
+          "LIT 8276",
+          "CALL PAIR",
+          "LD TOKENVAL",
+          "CALL NUMBER",
+          "CALL NEWLINE",
+          "CALL LEX",
+          "JMP FACTORDONE",
+          "LABEL FACTORDONE",
+          "LD DEPTH",
+          "PUSH",
+          "LIT 1",
+          "SUB",
+          "ST DEPTH",
+          "RET",
+          "; BODY",
+          "LABEL BLOCK",
+          "LIT 123",
+          "CALL EXPECT",
+          "LABEL BODY",
+          "LD DEPTH",
+          "PUSH",
+          "LIT 1",
+          "ADD",
+          "ST DEPTH",
+          "PUSH",
+          "LIT 8",
+          "UGT CAPFAIL",
+          "LABEL BODYLOOP",
+          "LD TOK",
+          "PUSH",
+          "LIT 125",
+          "EQ BODYDONE",
+          "CALL STATEMENT",
+          "JMP BODYLOOP",
+          "LABEL BODYDONE",
+          "CALL LEX",
+          "LD DEPTH",
+          "PUSH",
+          "LIT 1",
+          "SUB",
+          "ST DEPTH",
+          "RET",
+          "; STATEMENT",
+          "LABEL STATEMENT",
+          "LD TOK",
+          "PUSH",
+          "LIT 49844",
+          "EQ PUTSTAT",
+          "JMP SYNTAX",
+          "LABEL PUTSTAT",
+          "LIT 3",
+          "CALL ENDTOKEN",
+          "LIT 40",
+          "CALL EXPECT",
+          "CALL EXPR",
+          "LIT 41",
+          "CALL EXPECT",
+          "LIT 59",
+          "CALL EXPECT",
+          "LIT 21840",
+          "CALL PAIR",
+          "LIT 17236",
+          "CALL PAIR",
+          "LIT 2573",
+          "CALL PAIR",
+          "RET"
+        ],
+        "context": [
+          "LIT 59",
+          "CALL EXPECT",
+          "RET"
+        ]
+      },
+      {
+        "a1": 69,
+        "a2": 71,
+        "old": [
+          "LIT 125",
+          "CALL EXPECT"
+        ],
+        "new": [
+          "CALL BODY"
+        ],
+        "context": [
+          "CALL PAIR",
+          "LIT 2573",
+          "CALL PAIR"
+        ]
+      },
+      {
+        "a1": 19,
+        "a2": 19,
+        "old": [],
+        "new": [
+          "WORD DEPTH 0"
+        ],
+        "context": [
+          "WORD TOK 0",
+          "WORD VARNAME 0",
+          "BUFFER VARS 26"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 18,
+    "page": "18-saving-an-assignment-name.md",
+    "base": "R17.IR",
+    "changes": [
+      {
+        "a1": 727,
+        "a2": 728,
+        "old": [
+          "JMP SYNTAX"
+        ],
+        "new": [
+          "CALL USEVAR",
+          "CALL SAVE",
+          "CALL LEX",
+          "LIT 61",
+          "CALL EXPECT",
+          "CALL EXPR",
+          "LIT 59",
+          "CALL EXPECT",
+          "LIT 21587",
+          "CALL PAIR",
+          "LIT 32",
+          "CALL CHAR",
+          "CALL RESTORE",
+          "CALL CHAR",
+          "CALL NEWLINE",
+          "RET"
+        ],
+        "context": [
+          "PUSH",
+          "LIT 49844",
+          "EQ PUTSTAT"
+        ]
+      },
+      {
+        "a1": 675,
+        "a2": 676,
+        "old": [
+          "NE SYNTAX"
+        ],
+        "new": [
+          "EQ FACTORNUM",
+          "CALL USEVAR",
+          "CALL SAVE",
+          "CALL LEX",
+          "LIT 17484",
+          "CALL PAIR",
+          "LIT 32",
+          "CALL CHAR",
+          "CALL RESTORE",
+          "CALL CHAR",
+          "CALL NEWLINE",
+          "JMP FACTORDONE"
+        ],
+        "context": [
+          "LD TOK",
+          "PUSH",
+          "LIT 65535"
+        ]
+      },
+      {
+        "a1": 658,
+        "a2": 658,
+        "old": [],
+        "new": [
+          "; SAVE",
+          "LABEL SAVE",
+          "ST VALUE",
+          "LD SAVECNT",
+          "PUSH",
+          "LIT 32",
+          "UGE CAPFAIL",
+          "LD SAVECNT",
+          "PUSH",
+          "LD SAVECNT",
+          "ADD",
+          "PUSH",
+          "ADDR FRAMES",
+          "ADD",
+          "PUSH",
+          "LD VALUE",
+          "PUT",
+          "LD SAVECNT",
+          "PUSH",
+          "LIT 1",
+          "ADD",
+          "ST SAVECNT",
+          "LD VALUE",
+          "RET",
+          "LABEL RESTORE",
+          "LD SAVECNT",
+          "JZ CAPFAIL",
+          "PUSH",
+          "LIT 1",
+          "SUB",
+          "ST SAVECNT",
+          "PUSH",
+          "LD SAVECNT",
+          "ADD",
+          "PUSH",
+          "ADDR FRAMES",
+          "ADD",
+          "FETCH",
+          "RET"
+        ],
+        "context": [
+          "LIT 59",
+          "CALL EXPECT",
+          "RET"
+        ]
+      },
+      {
+        "a1": 19,
+        "a2": 19,
+        "old": [],
+        "new": [
+          "WORD SAVECNT 0",
+          "BUFFER FRAMES 64"
+        ],
+        "context": [
+          "WORD TOK 0",
+          "WORD VARNAME 0",
+          "BUFFER VARS 26"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 19,
+    "page": "19-addition-and-subtraction.md",
+    "base": "R18.IR",
+    "changes": [
+      {
+        "a1": 702,
+        "a2": 702,
+        "old": [],
+        "new": [
+          "LABEL EXPRLOOP",
+          "LD TOK",
+          "PUSH",
+          "LIT 43",
+          "EQ EXPROPERATOR",
+          "LD TOK",
+          "PUSH",
+          "LIT 45",
+          "NE EXPRDONE",
+          "LABEL EXPROPERATOR",
+          "LIT 21840",
+          "CALL PAIR",
+          "LIT 18515",
+          "CALL PAIR",
+          "LIT 2573",
+          "CALL PAIR",
+          "LD TOK",
+          "CALL SAVE",
+          "CALL LEX",
+          "CALL FACTOR",
+          "CALL RESTORE",
+          "PUSH",
+          "LIT 43",
+          "EQ EXPRADD",
+          "LIT 21843",
+          "CALL PAIR",
+          "LIT 3394",
+          "CALL PAIR",
+          "LIT 10",
+          "CALL CHAR",
+          "JMP EXPRLOOP",
+          "LABEL EXPRADD",
+          "LIT 17473",
+          "CALL PAIR",
+          "LIT 3396",
+          "CALL PAIR",
+          "LIT 10",
+          "CALL CHAR",
+          "JMP EXPRLOOP",
+          "LABEL EXPRDONE"
+        ],
+        "context": [
+          "; EXPRESSION",
+          "LABEL EXPR",
+          "CALL FACTOR"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 20,
+    "page": "20-parenthesized-expressions.md",
+    "base": "R19.IR",
+    "changes": [
+      {
+        "a1": 777,
+        "a2": 777,
+        "old": [],
+        "new": [
+          "JMP FACTORDONE",
+          "LABEL FACTORPAREN",
+          "CALL LEX",
+          "CALL EXPR",
+          "LIT 41",
+          "CALL EXPECT"
+        ],
+        "context": [
+          "CALL NUMBER",
+          "CALL NEWLINE",
+          "CALL LEX"
+        ]
+      },
+      {
+        "a1": 757,
+        "a2": 757,
+        "old": [],
+        "new": [
+          "LD TOK",
+          "PUSH",
+          "LIT 40",
+          "EQ FACTORPAREN"
+        ],
+        "context": [
+          "PUSH",
+          "LIT 65535",
+          "EQ FACTORNUM"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 21,
+    "page": "21-unary-negation.md",
+    "base": "R20.IR",
+    "changes": [
+      {
+        "a1": 787,
+        "a2": 787,
+        "old": [],
+        "new": [
+          "JMP FACTORDONE",
+          "LABEL FACTORMINUS",
+          "CALL LEX",
+          "LIT 18764",
+          "CALL PAIR",
+          "LIT 8276",
+          "CALL PAIR",
+          "LIT 3376",
+          "CALL PAIR",
+          "LIT 20490",
+          "CALL PAIR",
+          "LIT 21333",
+          "CALL PAIR",
+          "LIT 3400",
+          "CALL PAIR",
+          "LIT 10",
+          "CALL CHAR",
+          "CALL FACTOR",
+          "LIT 21843",
+          "CALL PAIR",
+          "LIT 3394",
+          "CALL PAIR",
+          "LIT 10",
+          "CALL CHAR"
+        ],
+        "context": [
+          "CALL EXPR",
+          "LIT 41",
+          "CALL EXPECT"
+        ]
+      },
+      {
+        "a1": 761,
+        "a2": 761,
+        "old": [],
+        "new": [
+          "LD TOK",
+          "PUSH",
+          "LIT 45",
+          "EQ FACTORMINUS"
+        ],
+        "context": [
+          "PUSH",
+          "LIT 40",
+          "EQ FACTORPAREN"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 22,
+    "page": "22-byte-input-and-persistent-status.md",
+    "base": "R21.IR",
+    "changes": [
+      {
+        "a1": 816,
+        "a2": 816,
+        "old": [],
+        "new": [
+          "LABEL FACTORSERVICE",
+          "LD TOK",
+          "CALL SAVE",
+          "PUSH",
+          "LIT 40116",
+          "EQ CHECKGETC",
+          "LIT 21171",
+          "JMP CHECKSERVICE",
+          "LABEL CHECKGETC",
+          "LIT 3",
+          "LABEL CHECKSERVICE",
+          "CALL ENDTOKEN",
+          "LIT 40",
+          "CALL EXPECT",
+          "LIT 41",
+          "CALL EXPECT",
+          "CALL RESTORE",
+          "PUSH",
+          "LIT 40116",
+          "EQ FACTORGETC",
+          "LIT 21587",
+          "CALL PAIR",
+          "LIT 21569",
+          "CALL PAIR",
+          "LIT 21333",
+          "CALL PAIR",
+          "LIT 2573",
+          "CALL PAIR",
+          "JMP FACTORDONE",
+          "LABEL FACTORGETC",
+          "LIT 17735",
+          "CALL PAIR",
+          "LIT 17236",
+          "CALL PAIR",
+          "LIT 2573",
+          "CALL PAIR"
+        ],
+        "context": [
+          "LIT 10",
+          "CALL CHAR",
+          "JMP FACTORDONE"
+        ]
+      },
+      {
+        "a1": 765,
+        "a2": 765,
+        "old": [],
+        "new": [
+          "LD TOK",
+          "PUSH",
+          "LIT 40116",
+          "EQ FACTORSERVICE",
+          "LD TOK",
+          "PUSH",
+          "LIT 52865",
+          "EQ FACTORSERVICE"
+        ],
+        "context": [
+          "PUSH",
+          "LIT 45",
+          "EQ FACTORMINUS"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 23,
+    "page": "23-returning-a-program-status.md",
+    "base": "R22.IR",
+    "changes": [
+      {
+        "a1": 930,
+        "a2": 930,
+        "old": [],
+        "new": [
+          "CALL PAIR",
+          "LIT 2573",
+          "CALL PAIR",
+          "RET",
+          "LABEL EXITSTAT",
+          "LIT 20",
+          "CALL ENDTOKEN",
+          "LIT 40",
+          "CALL EXPECT",
+          "CALL EXPR",
+          "LIT 41",
+          "CALL EXPECT",
+          "LIT 59",
+          "CALL EXPECT",
+          "LIT 22597",
+          "CALL PAIR",
+          "LIT 21577"
+        ],
+        "context": [
+          "LIT 21840",
+          "CALL PAIR",
+          "LIT 17236"
+        ]
+      },
+      {
+        "a1": 901,
+        "a2": 901,
+        "old": [],
+        "new": [
+          "LD TOK",
+          "PUSH",
+          "LIT 38665",
+          "EQ EXITSTAT"
+        ],
+        "context": [
+          "PUSH",
+          "LIT 49844",
+          "EQ PUTSTAT"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 24,
+    "page": "24-naming-generated-blocks.md",
+    "base": "R23.IR",
+    "changes": [
+      {
+        "a1": 955,
+        "a2": 955,
+        "old": [],
+        "new": [
+          "; LABELS",
+          "LABEL NEWLABEL",
+          "LD LABELNO",
+          "PUSH",
+          "LIT 1",
+          "ADD",
+          "ST LABELNO",
+          "RET",
+          "LABEL DEFLABEL",
+          "ST BRANCH",
+          "LIT 16716",
+          "CALL PAIR",
+          "LIT 17730",
+          "CALL PAIR",
+          "LIT 8268",
+          "CALL PAIR",
+          "LIT 66",
+          "CALL CHAR",
+          "LD BRANCH",
+          "CALL NUMBER",
+          "CALL NEWLINE",
+          "RET",
+          "LABEL JUMPLABEL",
+          "ST BRANCH",
+          "LIT 19786",
+          "CALL PAIR",
+          "LIT 8272",
+          "CALL PAIR",
+          "LIT 66",
+          "CALL CHAR",
+          "LD BRANCH",
+          "CALL NUMBER",
+          "CALL NEWLINE",
+          "RET"
+        ],
+        "context": [
+          "LIT 2573",
+          "CALL PAIR",
+          "RET"
+        ]
+      },
+      {
+        "a1": 72,
+        "a2": 72,
+        "old": [],
+        "new": [
+          "CALL NEWLABEL",
+          "CALL DEFLABEL"
+        ],
+        "context": [
+          "CALL PAIR",
+          "LIT 2573",
+          "CALL PAIR"
+        ]
+      },
+      {
+        "a1": 19,
+        "a2": 19,
+        "old": [],
+        "new": [
+          "WORD LABELNO 0"
+        ],
+        "context": [
+          "WORD TOK 0",
+          "WORD VARNAME 0",
+          "BUFFER VARS 26"
+        ]
+      },
+      {
+        "a1": 11,
+        "a2": 11,
+        "old": [],
+        "new": [
+          "WORD BRANCH 0"
+        ],
+        "context": [
+          "WORD STEP 0",
+          "WORD COUNT 0",
+          "WORD INPUT 0"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 25,
+    "page": "25-a-conditional-block.md",
+    "base": "R24.IR",
+    "changes": [
+      {
+        "a1": 993,
+        "a2": 993,
+        "old": [],
+        "new": [
+          "; CONDITION",
+          "LABEL CONDITION",
+          "ST BRANCH",
+          "CALL EXPR",
+          "LABEL VALUECOND",
+          "LIT 23114",
+          "CALL PAIR",
+          "LIT 16928",
+          "CALL PAIR",
+          "LABEL CONDTARGET",
+          "LD BRANCH",
+          "CALL NUMBER",
+          "CALL NEWLINE",
+          "RET",
+          "; IFSTAT",
+          "LABEL IFSTAT",
+          "CALL LEX",
+          "CALL NEWLABEL",
+          "CALL SAVE",
+          "CALL CONDITION",
+          "CALL BLOCK",
+          "CALL RESTORE",
+          "CALL DEFLABEL",
+          "RET"
+        ],
+        "context": [
+          "CALL NUMBER",
+          "CALL NEWLINE",
+          "RET"
+        ]
+      },
+      {
+        "a1": 909,
+        "a2": 909,
+        "old": [],
+        "new": [
+          "LD TOK",
+          "PUSH",
+          "LIT 33062",
+          "EQ IFSTAT"
+        ],
+        "context": [
+          "PUSH",
+          "LIT 38665",
+          "EQ EXITSTAT"
+        ]
+      },
+      {
+        "a1": 74,
+        "a2": 76,
+        "old": [
+          "CALL NEWLABEL",
+          "CALL DEFLABEL"
+        ],
+        "new": [],
+        "context": [
+          "CALL PAIR",
+          "LIT 2573",
+          "CALL PAIR"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 26,
+    "page": "26-the-alternative-block.md",
+    "base": "R25.IR",
+    "changes": [
+      {
+        "a1": 1016,
+        "a2": 1016,
+        "old": [],
+        "new": [
+          "CALL RESTORE",
+          "ST VARNAME",
+          "CALL JUMPLABEL",
+          "CALL RESTORE",
+          "CALL DEFLABEL",
+          "LD VARNAME",
+          "CALL SAVE",
+          "LD TOK",
+          "PUSH",
+          "LIT 38291",
+          "NE IFEND",
+          "LIT 5",
+          "CALL ENDTOKEN",
+          "CALL BLOCK",
+          "LABEL IFEND"
+        ],
+        "context": [
+          "CALL SAVE",
+          "CALL CONDITION",
+          "CALL BLOCK"
+        ]
+      },
+      {
+        "a1": 1015,
+        "a2": 1015,
+        "old": [],
+        "new": [
+          "CALL NEWLABEL",
+          "CALL SAVE"
+        ],
+        "context": [
+          "CALL NEWLABEL",
+          "CALL SAVE",
+          "CALL CONDITION"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 27,
+    "page": "27-equality-in-a-condition.md",
+    "base": "R26.IR",
+    "changes": [
+      {
+        "a1": 999,
+        "a2": 999,
+        "old": [],
+        "new": [
+          "LD TOK",
+          "PUSH",
+          "LIT 200",
+          "EQ RELATION",
+          "LD TOK",
+          "PUSH",
+          "LIT 201",
+          "NE VALUECOND",
+          "LABEL RELATION",
+          "LIT 21840",
+          "CALL PAIR",
+          "LIT 18515",
+          "CALL PAIR",
+          "LIT 2573",
+          "CALL PAIR",
+          "LD TOK",
+          "CALL SAVE",
+          "CALL LEX",
+          "CALL EXPR",
+          "CALL RESTORE",
+          "PUSH",
+          "LIT 200",
+          "EQ CONDNE",
+          "LIT 20805",
+          "CALL PAIR",
+          "LIT 16928",
+          "CALL PAIR",
+          "JMP CONDTARGET",
+          "LABEL CONDNE",
+          "LIT 17742",
+          "CALL PAIR",
+          "LIT 16928",
+          "CALL PAIR",
+          "JMP CONDTARGET"
+        ],
+        "context": [
+          "LABEL CONDITION",
+          "ST BRANCH",
+          "CALL EXPR"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 28,
+    "page": "28-unsigned-ordering.md",
+    "base": "R27.IR",
+    "changes": [
+      {
+        "a1": 1032,
+        "a2": 1032,
+        "old": [],
+        "new": [
+          "JMP CONDTARGET",
+          "LABEL CONDEQ",
+          "LIT 20805",
+          "CALL PAIR",
+          "LIT 16928",
+          "CALL PAIR",
+          "JMP CONDTARGET",
+          "LABEL CONDUGE",
+          "LIT 18261",
+          "CALL PAIR",
+          "LIT 8261",
+          "CALL PAIR",
+          "LIT 66",
+          "CALL CHAR",
+          "JMP CONDTARGET",
+          "LABEL CONDULE",
+          "LIT 19541",
+          "CALL PAIR",
+          "LIT 8261",
+          "CALL PAIR",
+          "LIT 66",
+          "CALL CHAR",
+          "JMP CONDTARGET",
+          "LABEL CONDUGT",
+          "LIT 18261",
+          "CALL PAIR",
+          "LIT 8276",
+          "CALL PAIR",
+          "LIT 66",
+          "CALL CHAR"
+        ],
+        "context": [
+          "CALL PAIR",
+          "LIT 16928",
+          "CALL PAIR"
+        ]
+      },
+      {
+        "a1": 1026,
+        "a2": 1026,
+        "old": [],
+        "new": [
+          "LIT 66",
+          "CALL CHAR"
+        ],
+        "context": [
+          "CALL PAIR",
+          "LIT 16928",
+          "CALL PAIR"
+        ]
+      },
+      {
+        "a1": 1024,
+        "a2": 1025,
+        "old": [
+          "LIT 16928"
+        ],
+        "new": [
+          "LIT 8276"
+        ],
+        "context": [
+          "EQ CONDNE",
+          "LIT 20805",
+          "CALL PAIR"
+        ]
+      },
+      {
+        "a1": 1022,
+        "a2": 1023,
+        "old": [
+          "LIT 20805"
+        ],
+        "new": [
+          "LD TOKENVAL",
+          "PUSH",
+          "LIT 201",
+          "EQ CONDEQ",
+          "LD TOKENVAL",
+          "PUSH",
+          "LIT 60",
+          "EQ CONDUGE",
+          "LD TOKENVAL",
+          "PUSH",
+          "LIT 62",
+          "EQ CONDULE",
+          "LD TOKENVAL",
+          "PUSH",
+          "LIT 202",
+          "EQ CONDUGT",
+          "LIT 19541"
+        ],
+        "context": [
+          "PUSH",
+          "LIT 200",
+          "EQ CONDNE"
+        ]
+      },
+      {
+        "a1": 1019,
+        "a2": 1019,
+        "old": [],
+        "new": [
+          "ST TOKENVAL"
+        ],
+        "context": [
+          "CALL LEX",
+          "CALL EXPR",
+          "CALL RESTORE"
+        ]
+      },
+      {
+        "a1": 1005,
+        "a2": 1007,
+        "old": [
+          "LIT 201",
+          "NE VALUECOND"
+        ],
+        "new": [
+          "LIT 62",
+          "EQ RELATION",
+          "LD TOK",
+          "PUSH",
+          "LIT 200",
+          "ULT VALUECOND",
+          "LD TOK",
+          "PUSH",
+          "LIT 203",
+          "UGT VALUECOND"
+        ],
+        "context": [
+          "EQ RELATION",
+          "LD TOK",
+          "PUSH"
+        ]
+      },
+      {
+        "a1": 1001,
+        "a2": 1002,
+        "old": [
+          "LIT 200"
+        ],
+        "new": [
+          "LIT 60"
+        ],
+        "context": [
+          "CALL EXPR",
+          "LD TOK",
+          "PUSH"
+        ]
+      }
+    ]
+  },
+  {
+    "number": 29,
+    "page": "29-a-repeated-block.md",
+    "base": "R28.IR",
+    "changes": [
+      {
+        "a1": 1127,
+        "a2": 1127,
+        "old": [],
+        "new": [
+          "; WHILESTAT",
+          "LABEL WHILESTAT",
+          "LIT 389",
+          "CALL ENDTOKEN",
+          "CALL NEWLABEL",
+          "CALL SAVE",
+          "CALL DEFLABEL",
+          "CALL NEWLABEL",
+          "CALL SAVE",
+          "CALL CONDITION",
+          "CALL BLOCK",
+          "CALL RESTORE",
+          "ST VARNAME",
+          "CALL RESTORE",
+          "CALL JUMPLABEL",
+          "LD VARNAME",
+          "CALL DEFLABEL",
+          "RET"
+        ],
+        "context": [
+          "CALL RESTORE",
+          "CALL DEFLABEL",
+          "RET"
+        ]
+      },
+      {
+        "a1": 911,
+        "a2": 911,
+        "old": [],
+        "new": [
+          "LD TOK",
+          "PUSH",
+          "LIT 56585",
+          "EQ WHILESTAT"
+        ],
+        "context": [
+          "PUSH",
+          "LIT 33062",
+          "EQ IFSTAT"
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,4 @@
+PASS HELLO: IR-written compiler agrees in portable/native execution; emitted IR and machine program agree, including byte-stream cases
+PASS COUNT: IR-written compiler agrees in portable/native execution; emitted IR and machine program agree, including byte-stream cases
+PASS CHOICE: IR-written compiler agrees in portable/native execution; emitted IR and machine program agree, including byte-stream cases
+PASS RLECHO: IR-written compiler agrees in portable/native execution; emitted IR and machine program agree, including byte-stream cases

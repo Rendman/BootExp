@@ -15,6 +15,6 @@ Input and output use a separate runtime contract. GETC and PUTC transfer bytes; 
 
 Construction begins with the published ASM86 source reader. Diagnostic stops expose lines, tokens, and lookup records before translation depends on them. Small additions build the word operations, storage, control flow, procedures, and runtime services. Every native checkpoint is assembled directly by the completed ASM86. The final pipeline exercise translates and runs a complete file copier.
 
-IR86 is the intended implementation language for the initial RILL compiler. Its fixed sixteen-bit values are a property of this virtual machine, not a request for a sixteen-bit CPU. Another processor must preserve those semantics, even if it uses different registers, wider instructions, or several instructions per operation.
+IR86 is the implementation language for the initial RILL compiler. Its fixed sixteen-bit values are a property of this virtual machine, not a request for a sixteen-bit CPU. Another processor must preserve those semantics, even if it uses different registers, wider instructions, or several instructions per operation.
 
 Read **The IR workbench** first. The complete-source icon opens the translator. The [disk source collection](../../downloads/ir86/IR86.ZIP) contains the saved checkpoints, tests, expected assembly, runtime source, complete examples, and published bootstrap sources without preassembled programs.

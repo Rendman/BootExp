@@ -1,6 +1,6 @@
 # Bootstrap Experiment v2
 
-BOOTASM, ASM86, IR86, and the local Hugo site are implemented here, following the current `BOOTSTRAP_Rules_and_Plan.md` and the decisions for this experiment.
+BOOTASM, ASM86, IR86, RILL, and the local Hugo site are implemented here, following the current `BOOTSTRAP_Rules_and_Plan.md` and the decisions for this experiment.
 
 GitHub Pages publication is configured in `../.github/workflows/pages.yml`. It builds and checks the site, then deploys the root `public/` directory after pushes to the repository's default branch. See the project-root [README](../README.md) for the one-time repository and Pages setup.
 
@@ -19,12 +19,18 @@ The Bootstrap Experiment
 │   ├── 30: two generations of self-assembly
 │   ├── ASM86 reference
 │   └── Three complete programs
-└── IR86
-    ├── The IR workbench
-    ├── 01–32: translator construction checkpoints
-    ├── 33: complete translation pipeline and file copier
-    ├── IR86 language and translator reference
-    └── Four complete console/stream programs
+├── IR86
+│   ├── The IR workbench
+│   ├── 01–32: translator construction checkpoints
+│   ├── 33: complete translation pipeline and file copier
+│   ├── IR86 language and translator reference
+│   └── Four complete console/stream programs
+└── RILL
+    ├── The RILL workbench
+    ├── 01–29: IR-written compiler construction checkpoints
+    ├── 30: complete RILL-to-executable pipeline
+    ├── RILL language and compiler reference
+    └── Four complete RILL programs
 ```
 
 `site/` is the Hugo source. `../public/` (at the project root) is the generated static website. `workbench/bootasm/` contains the ASCII/CRLF period sources. `site/static/downloads/bootasm/BOOTASM.ZIP` is the 59-file reader source collection, without prebuilt executables or an interpreter.
@@ -86,7 +92,7 @@ python3 pub_src/qa/validate_site.py
 
 Where Python 3.11 is managed by uv, `uv run --python 3.11 --no-project python` can replace `python3.11`. To regenerate source checkpoints first, run `tools/build_asm86.py` before this sequence. Regeneration clears measured image sizes; run the verification before rendering articles. The bootstrap command executes the published BOOTASM.BAS, making the first native ASM86.COM. The native checks then build/run every checkpoint and prove two identical self-assembly generations. The BASIC checkpoint check independently executes BOOTASM for every checkpoint and requires exact agreement with those native-built files. No outside assembler, compiler, linker, or machine-code generator supplies executable bytes.
 
-The retained `qa/asm86/*-results.txt` records show all 29 construction checks, all 29 BASIC/native byte comparisons, 149 independent encoding/grammar/resource/I/O checks, and the three complete example tests passing. `validate_site.py` reconstructs the BASIC, ASM86, and IR86 checkpoints from their exact printed edits, validates all three archives (288 sources in total), and checks links, assets, anchors, editorial exclusions, and all 95 HTML pages.
+The retained `qa/asm86/*-results.txt` records show all 29 construction checks, all 29 BASIC/native byte comparisons, 149 independent encoding/grammar/resource/I/O checks, and the three complete example tests passing. `validate_site.py` reconstructs the BASIC, ASM86, IR86, and RILL checkpoints from their exact printed edits, validates all four archives (448 sources in total), and checks links, assets, anchors, editorial exclusions, and all 129 HTML pages.
 
 `tools/verify_asm86_dos.py` uses local historical DOS media, mtools, and QEMU for a separate DOS 3.10 check. The BASIC-produced ASM86 assembles SELF; SELF assembles AGAIN; both output files match the initial executable byte for byte. DOS COMP reports matching files, CHECK reports PASS for successful builds, and a bad register-width source reports the expected diagnostic and FAIL. Results are in `qa/asm86/dos-results.txt`; local disk images and raw logs are excluded from Git and publication. This verifies native DOS execution, not the unresolved original BASIC file-I/O environment described below.
 
@@ -123,6 +129,37 @@ All 32 native checkpoints pass their acceptance/rejection and output-preservatio
 Three new pencil cartoons were generated with the built-in Imagegen tool, inspected, and saved as `site/static/images/ir86-patterns.png`, `ir86-plates.png`, and `ir86-lock.png`. Their final prompts and original paths are in [qa/ir86/image-prompts.md](qa/ir86/image-prompts.md). The dressmaker, waiter, and canal keeper are distinct from the earlier collection's characters and settings.
 
 Browser QA was unavailable: the computer-use inventory had no browser. No visual browser inspection is claimed.
+
+## RILL production and verification
+
+RILL is the fourth sibling collection. Its first compiler is written in portable IR86 and emits IR86. The unchanged published IR86 and ASM86 directly build the 5,173-byte native compiler. It uses 255 definitions and 24,676 bytes of assembly text, within existing limits. The language supports one main function, mutable word variables, + and -, unary minus, parentheses, if/else, while, putc, getc, status, and exit. The implementation is not self-hosted; its exact subset, limits, and reasons are in the language reference.
+
+`tools/rill_parts.ir` is the authored complete IR implementation. `build_rill.py` only arranges those IR records and selected source variants into checkpoints; it does not parse RILL or encode instructions. Constant text is represented as authored IR literal data. `rill_installments.json` holds explanations and fixtures. `write_rill_articles.py` lays out exact edits and counts measured by the real translator and assembler. The source-only archive contains 160 files: canonical bootstrap sources, unchanged helpers, all checkpoints, diagnostic/accepted/rejected fixtures, native-produced IR/assembly, and four examples.
+
+The compiler reads SOURCE.RIL and buffers accepted output before creating RESULT.IR. Its scanner compares exact keyword groups and its parser saves recursive state explicitly. All executable bytes come from the published tools. The semantic interpreter executes the same complete IR compiler with different address and handle representations; it never emits an artifact for the bootstrap chain.
+
+From the project root, after the earlier tools are built:
+
+```sh
+python3 pub_src/tools/build_rill.py
+python3 pub_src/qa/rill/test_checkpoints.py
+python3 pub_src/qa/rill/test_rill.py
+python3 pub_src/qa/rill/test_programs.py
+python3.11 pub_src/qa/rill/bootstrap_chain.py
+python3 pub_src/tools/verify_rill_dos.py
+python3 pub_src/tools/write_rill_articles.py
+python3 pub_src/tools/package_sources.py
+python3 pub_src/tools/hugo.py --source pub_src/site --cleanDestinationDir
+python3 pub_src/qa/validate_site.py
+```
+
+The bootstrap command executes canonical BASIC to recreate ASM86, verifies self-assembly, builds IR86, builds RILL from IR source, and compiles HELLO.RIL through IR and assembly to a COM displaying HI. All 29 checkpoint acceptance/rejection checks pass. The independent suite passes 119 language, portability, resource, rejection, and binding checks. Compiler sources run unchanged in the IR interpreter with data bases 4000H and 8000H and handle bases 101 and 301. All four full examples and their exact printed rejection edits pass. Empty, text, and binary echo cases preserve byte values.
+
+The DOS 3.10 check rebuilds RILL using the bootstrap-produced IR86 and ASM86 under QEMU. Generated compiler assembly and machine bytes match; all four RILL programs compile, translate, assemble, and run with the expected outputs and PASS. Overflow and missing-input checks produce exact diagnostics and FAIL, older IR survives source rejection, and the compiled echo program preserves all 256 byte values. These tests do not resolve the original BASIC-interpreter limitation below. Results remain under `qa/rill/*-results.txt`; local disk images and raw DOS output are ignored.
+
+The 29 printed edits reconstruct every exact compiler checkpoint. The site contains 129 HTML pages and 448 archived source files across all four collections. `validate_site.py` checks reconstruction, links, anchors, source downloads, archive contents, ASCII/CRLF/8.3 rules, and editorial exclusions. Publication refreshes source archives and builds checked-in articles; it does not run a host compiler or regenerate manuscripts.
+
+Three selected pencil illustrations were made with the built-in Imagegen tool, inspected, and copied to `site/static/images/rill-tails.png`, `rill-drawers.png`, and `rill-paths.png`. The dog-show judge, cabinetmaker with apprentice, and gardeners use different characters and situations. Final prompts and original locations are in [qa/rill/image-prompts.md](qa/rill/image-prompts.md). No browser visual inspection is claimed; generated HTML structure, assets, and links are checked locally.
 
 The original-interpreter check is not yet passed. A historical COMPAQ MS-DOS 3.10 disk supplied COMPAQ BASIC 3.11 (verified from its startup screen), but in the generic QEMU/SeaBIOS workbench that interpreter reports error 52 even for independent, minimal OPEN tests. The cause is not established. The same problem occurs with and without output redirection and with the supplied loader or standalone interpreter; it is not attributed to BOOTASM without evidence. Do not describe the collection as verified on original BASIC or period hardware. Diagnostic scripts and results remain under `qa/` and `tools/` so this compatibility check can be continued with the intended interpreter/workbench.
 

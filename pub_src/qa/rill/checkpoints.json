@@ -1,0 +1,590 @@
+[
+  {
+    "number": 1,
+    "title": "A program in the intermediate language",
+    "description": "Build and run the first IR-written program.",
+    "why": "An IR source can already make a complete DOS program. Start with an observable result before adding a source reader.",
+    "explain": "The driver loads virtual A with 72 and 73 and calls PUTC for each byte. These are H and I in ASCII. HALT returns status zero. Each service consumes an empty expression boundary.\n\nIRKEEP translates the source to assembly, and ASMKEEP encodes that assembly. The source has no physical register, interrupt number, or operating-system descriptor. A successful translation and a successful assembly are separate checks.",
+    "fixture": "",
+    "output": "HI",
+    "bad": {
+      "kind": "ir",
+      "source": "LABEL MAIN\nPUTC EXTRA\n",
+      "line": 2,
+      "code": 1
+    },
+    "source": "R01.IR",
+    "binary_bytes": 480,
+    "assembly_bytes": 2594
+  },
+  {
+    "number": 2,
+    "title": "A checked character writer",
+    "description": "Give every displayed byte a checked service result.",
+    "why": "A missing display must not be mistaken for a successful test. One routine can check every character write.",
+    "explain": "CHAR receives a byte value in A, writes its low byte with PUTC, and reads STATUS immediately. A successful call returns; output failure terminates with status four. The caller cannot assume that A survives.\n\nThe driver replaces its direct writes with CALL CHAR. Native return addresses belong to the backend; the IR call requires no knowledge of their representation.",
+    "fixture": "",
+    "output": "HI",
+    "bad": {
+      "kind": "ir",
+      "source": "LABEL MAIN\nPUTC EXTRA\n",
+      "line": 2,
+      "code": 1
+    },
+    "source": "R02.IR",
+    "binary_bytes": 504,
+    "assembly_bytes": 2729
+  },
+  {
+    "number": 3,
+    "title": "Quotient and remainder by subtraction",
+    "description": "Compute an unsigned quotient using the operations already available.",
+    "why": "Text formatting needs division, although the small IR vocabulary has no divide instruction.",
+    "explain": "DIVIDE takes the dividend in A and a nonzero divisor in STEP. It returns the remainder in A and leaves the quotient in COUNT. VALUE is its working remainder. Repeated subtraction stops when VALUE is less than STEP.\n\nThe comparison retains its right operand, so VALUE is reloaded before subtraction. Neither operands nor expression temporaries remain on the IR stack across calls. The test divides 16712 by 256 and displays quotient 65 as A. A zero divisor is outside this helper interface.",
+    "fixture": "",
+    "output": "A",
+    "bad": {
+      "kind": "ir",
+      "source": "LABEL MAIN\nPUTC EXTRA\n",
+      "line": 2,
+      "code": 1
+    },
+    "source": "R03.IR",
+    "binary_bytes": 587,
+    "assembly_bytes": 3199
+  },
+  {
+    "number": 4,
+    "title": "Two characters in a word",
+    "description": "Print compact text constants and an explicit line ending.",
+    "why": "Fixed messages occur often enough to benefit from one compact representation.",
+    "explain": "PAIR receives two nonzero ASCII bytes packed low byte first in A. It stores the original in WORK, masks the low byte with 255, and sends it to CHAR. DIVIDE with divisor 256 obtains the high byte. PAIR then transfers to CHAR, whose return completes the original call.\n\nAn unpaired final character uses CHAR directly. NEWLINE supplies 2573, whose bytes are 13 and 10. This is a source-data convention using IR arithmetic; it does not depend on a processor register layout. PAIR changes WORK, STEP, VALUE, COUNT, and A.",
+    "fixture": "",
+    "output": "HI\r\n",
+    "bad": {
+      "kind": "ir",
+      "source": "LABEL MAIN\nPUTC EXTRA\n",
+      "line": 2,
+      "code": 1
+    },
+    "source": "R04.IR",
+    "binary_bytes": 623,
+    "assembly_bytes": 3391
+  },
+  {
+    "number": 5,
+    "title": "Displaying an unsigned word",
+    "description": "Make numeric diagnostics readable without another tool.",
+    "why": "A compiler must report numbers which are not printable character codes.",
+    "explain": "NUMBER prints A as exactly five decimal digits, including leading zeroes. WORK retains the unprinted value and PLACE begins at 10000. DIVIDE produces one digit, which becomes ASCII after adding 48. The remainder becomes the next WORK value.\n\nAfter a digit, PLACE is divided by ten. The last place is one. CHAR does not change WORK or PLACE, so these values survive each output call. NUMBER changes the formatting work cells and A. The stopping test displays 65535 and a CR/LF.",
+    "fixture": "",
+    "output": "65535\r\n",
+    "bad": {
+      "kind": "ir",
+      "source": "LABEL MAIN\nPUTC EXTRA\n",
+      "line": 2,
+      "code": 1
+    },
+    "source": "R05.IR",
+    "binary_bytes": 708,
+    "assembly_bytes": 3845
+  },
+  {
+    "number": 6,
+    "title": "One visible error report",
+    "description": "Give failures a location, a category, and a nonzero status.",
+    "why": "A checker can report FAIL, but the compiler should also say where it stopped.",
+    "explain": "ERROR takes an error category in A, stores it in READTOTAL, selects console output with DEST zero, and prints LINE and the category. It terminates with status one. The entry labels IOFAIL, SYNTAX, NUMFAIL, NAMEFAIL, and CAPFAIL supply categories one through five.\n\nREADTOTAL can hold the category because an error never resumes input. The line begins at one. This diagnostic uses redirected input containing A for success and B for the deliberate syntax failure. These are test bytes, not RILL programs. A failure of CHAR itself still exits immediately with status four.",
+    "fixture": "A",
+    "output": "OK\r\n",
+    "bad": {
+      "kind": "source",
+      "source": "B",
+      "line": 1,
+      "code": 2
+    },
+    "stdin": true,
+    "source": "R06.IR",
+    "binary_bytes": 833,
+    "assembly_bytes": 4496
+  },
+  {
+    "number": 7,
+    "title": "A filename in declared storage",
+    "description": "Build a terminated name through portable pointers.",
+    "why": "OPEN needs a filename in storage. Its pointer must come from ADDR rather than a guessed address.",
+    "explain": "NAMEBUF reserves twelve bytes. SOURCENAME fills it with SOURCE.RIL and a zero terminator. NAMEWORD stores one packed word at PLACE and advances PLACE by two valid bytes. VALUE temporarily saves the incoming word while the pointer is prepared.\n\nThe driver walks that declared buffer with FETCHB until zero. Its cursor is TOKENVAL; CHAR does not change it. The final spare zero byte is harmless. The exact packed constants and the resulting displayed name provide independent ways to inspect the data.",
+    "fixture": "",
+    "output": "SOURCE.RIL\r\n",
+    "bad": {
+      "kind": "ir",
+      "source": "LABEL MAIN\nPUTC EXTRA\n",
+      "line": 2,
+      "code": 1
+    },
+    "source": "R07.IR",
+    "binary_bytes": 949,
+    "assembly_bytes": 5147
+  },
+  {
+    "number": 8,
+    "title": "Opening and closing the source",
+    "description": "Check the file lifetime before interpreting its contents.",
+    "why": "An empty readable file is different from a file that could not be opened.",
+    "explain": "OPEN receives ADDR NAMEBUF and returns an opaque handle saved in INPUT. STATUS is checked before the handle is used. CLOSE consumes that token and its status is checked independently.\n\nThis diagnostic does not read or parse the source. Even an empty SOURCE.RIL is sufficient. A missing source must report category one and FAIL. The input token is never treated as a DOS descriptor or used in arithmetic.",
+    "fixture": "",
+    "output": "OK\r\n",
+    "bad": {
+      "kind": "missing",
+      "source": "",
+      "line": 1,
+      "code": 1
+    },
+    "source": "R08.IR",
+    "binary_bytes": 954,
+    "assembly_bytes": 5104
+  },
+  {
+    "number": 9,
+    "title": "A bounded byte reader",
+    "description": "Distinguish source bytes, text termination, and input errors.",
+    "why": "A scanner needs one current byte and a reliable end marker.",
+    "explain": "NEXT consumes the previous CH and reads at most one byte into INBYTE. It increments LINE when the consumed byte is LF, so CR/LF and LF text have the same line count. READ uses the saved handle, saved buffer pointer, and count one. COUNT holds its actual result while STATUS is checked.\n\nZero bytes read means end of file. Control-Z also ends source text. The internal end marker is CH zero; a zero byte in the file itself is rejected. Printable ASCII, tab, CR, and LF are admitted. READTOTAL bounds the actual source at 4096 bytes. Invalid source bytes are syntax errors. This driver displays accepted text rather than compiling it.",
+    "fixture": "One\r\nTwo\r\n",
+    "output": "One\r\nTwo\r\n",
+    "bad": {
+      "kind": "source",
+      "source": "\u0001\r\n",
+      "line": 1,
+      "code": 2
+    },
+    "source": "R09.IR",
+    "binary_bytes": 1188,
+    "assembly_bytes": 6419
+  },
+  {
+    "number": 10,
+    "title": "Punctuation and comments",
+    "description": "Turn character pairs into unambiguous tokens.",
+    "why": "The parser should see one token for == or <=, rather than two unrelated characters.",
+    "explain": "LEX skips spaces and line endings, sets SUFFIX zero, and puts a punctuation code in TOK. The codes for ==, !=, <=, and >= are 200 through 203; other punctuation keeps its ASCII value. It retains the first byte after a token in CH.\n\nCOMMENT requires a second slash and consumes through CR, LF, or end of source. A lone slash is an error because division is not in this subset. The diagnostic displays each token code as a word. It does not validate a RILL program.",
+    "fixture": "()+-{}; == != <= >= // comment\r\n",
+    "output": "00040 00041 00043 00045 00123 00125 00059 00200 00201 00202 00203 \r\n",
+    "bad": {
+      "kind": "source",
+      "source": "/",
+      "line": 1,
+      "code": 2
+    },
+    "source": "R10.IR",
+    "binary_bytes": 1500,
+    "assembly_bytes": 8214
+  },
+  {
+    "number": 11,
+    "title": "Decimal word literals",
+    "description": "Reject overflow before a numeric prefix can wrap.",
+    "why": "A checked word literal cannot be formed by allowing arithmetic overflow and inspecting the result afterward.",
+    "explain": "SCANNUM builds TOKENVAL from decimal digits. Before adding a digit, a prefix above 6553 is rejected; at exactly 6553, the last digit must be at most five. Two times the old prefix is retained in COUNT, then combined with eight times the prefix to form ten times it. WORK holds the current digit.\n\nThe token code is 65535. CH retains the first nondigit. Signs and radix prefixes are not part of a numeric token. The diagnostic prints numeric values rather than their common token code. NEXT changes COUNT only after the completed numeric value has been saved.",
+    "fixture": "0 9 65535\r\n",
+    "output": "00000 00009 65535 \r\n",
+    "bad": {
+      "kind": "source",
+      "source": "65536",
+      "line": 1,
+      "code": 3
+    },
+    "source": "R11.IR",
+    "binary_bytes": 1735,
+    "assembly_bytes": 9599
+  },
+  {
+    "number": 12,
+    "title": "Exact word tokens",
+    "description": "Retain every letter of a short word without a dictionary file.",
+    "why": "Recognizing the beginning of a keyword is insufficient: putc and putcat must remain different.",
+    "explain": "SCANWORD admits at most six lowercase letters. Each letter becomes a value from one through twenty-six. Doubling TOKENVAL five times multiplies it by 32 before the letter is added. The first group of at most three letters goes in TOK; the remaining group goes in SUFFIX. Adding 32768 distinguishes a word from punctuation. A single letter instead keeps its ASCII code for a variable.\n\nBase 32 fits three letters in a word without discarding bits. Nonzero letter digits make both groups exact, including their lengths. WORK counts letters and STEP holds the current letter while COUNT controls doubling. The diagnostic displays both fields; the parser must check both before accepting a keyword.",
+    "fixture": "fn main let mut putc getc status if else while exit x\r\n",
+    "output": "32974:00000 46121:00014 45236:00000 46772:00000 49844:00003 40116:00003 52865:21171 33062:00000 38291:00005 56585:00389 38665:00020 00120:00000 \r\n",
+    "bad": {
+      "kind": "source",
+      "source": "abcdefg",
+      "line": 1,
+      "code": 4
+    },
+    "cartoon": "rill-tails.png",
+    "source": "R12.IR",
+    "binary_bytes": 2030,
+    "assembly_bytes": 11165
+  },
+  {
+    "number": 13,
+    "title": "Recognizing the program frame",
+    "description": "Require the complete spelling and punctuation of fn main().",
+    "why": "A parser can begin with a complete empty program before it accepts statements.",
+    "explain": "EXPECT receives the required token code in A. It compares TOK and the expected suffix WANTTAIL, clears WANTTAIL, and calls LEX. The main keyword has a remaining n, represented by suffix fourteen; the shorter fn token has an empty suffix. Punctuation also has an empty suffix.\n\nENDTOKEN checks a suffix for a keyword whose first group was already selected by a dispatcher. Both routines consume exactly one token on success. The driver requires fn main() followed by an empty brace pair and end of source. This is a recognizer: it reports OK but creates no IR file.",
+    "fixture": "fn main() {}\r\n",
+    "output": "OK\r\n",
+    "bad": {
+      "kind": "source",
+      "source": "fn mainz() {}",
+      "line": 1,
+      "code": 2
+    },
+    "source": "R13.IR",
+    "binary_bytes": 2107,
+    "assembly_bytes": 11570
+  },
+  {
+    "number": 14,
+    "title": "Buffering the accepted text",
+    "description": "Collect generated bytes before creating a result file.",
+    "why": "A syntax error must be found before the old result is opened for replacement.",
+    "explain": "DEST selects CHAR output: zero writes the console and one stores into OUTBUF. OUTBUF, OUT1, OUT2, and OUT3 are consecutive declarations forming 1024 bytes. OUTCOUNT is checked before each store. The pointer is ADDR OUTBUF plus a valid byte offset. VALUE retains the character while that pointer is formed.\n\nCHAR still checks console failures. Its buffer path changes VALUE and OUTCOUNT, but not WORK or PLACE. After recognizing the empty program, the driver buffers its IR, then displays the count and complete contents. It creates no result file at this checkpoint.",
+    "fixture": "fn main() {}\r\n",
+    "output": "BUFFER 00018\r\nLABEL MAIN\r\nHALT\r\n",
+    "bad": {
+      "kind": "source",
+      "source": "fn main() {\r\n",
+      "line": 2,
+      "code": 2
+    },
+    "source": "R14.IR",
+    "binary_bytes": 3353,
+    "assembly_bytes": 15100
+  },
+  {
+    "number": 15,
+    "title": "Writing the accepted IR file",
+    "description": "Complete a small compiler for the empty program.",
+    "why": "The accepted text can now be saved and passed to the existing translator.",
+    "explain": "The driver recognizes the whole source, closes INPUT, and only then calls WRITEFILE. RESULTNAME replaces the name buffer with RESULT.IR. CREATE returns a writable opaque token, which reuses INPUT after the source handle has been closed. WRITE supplies that token, ADDR OUTBUF, and OUTCOUNT. Its complete-write status and the final CLOSE status are checked.\n\nSuccess reports OK RESULT.IR and its text length. A source error leaves an older result unchanged. A failure after CREATE may leave a partial result; require a fresh OK and PASS. The generated program has LABEL MAIN and HALT. It is complete and may be translated, assembled, and run.",
+    "fixture": "fn main() {}\r\n",
+    "output": "",
+    "bad": {
+      "kind": "source",
+      "source": "fn main( {}",
+      "line": 1,
+      "code": 2
+    },
+    "program_output": "",
+    "source": "R15.IR",
+    "binary_bytes": 3431,
+    "assembly_bytes": 15447,
+    "text_bytes": 18,
+    "target_bytes": 468,
+    "target_hex": "FC 81 FC FE FF 74 05 B8 07 4C CD 21 E9 00 00 B8 00 4C CD 21 BA 00 00 89 16 B5 02 C3 BA 01 00 89 16 B5 02 C3 B8 00 00 E9 F2 FF 88 06 B7 02 BB 01 00 B9 01 00 BA B7 02 B4 40 CD 21 73 03 E9 E4 FF 81 F8 01 00 74 03 E9 D3 FF E9 C8 FF BB 00 00 B9 01 00 BA B7 02 B4 3F CD 21 73 06 B8 FF FF E9 BB FF 81 F8 00 00 75 06 B8 FF FF E9 A7 FF 8A 06 B7 02 B4 00 E9 9E FF BA 00 3D E9 06 00 BA 00 3C E9 00 00 89 16 B8 02 89 06 BA 02 E8 37 00 81 FB 00 00 75 03 E9 8E FF 8B 16 BA 02 B9 00 00 8B 06 B8 02 CD 21 73 03 E9 7C FF 40 8B 16 B8 02 81 FA 00 3C 75 04 81 C0 00 80 8B 1E BC 02 89 07 8B 06 BE 02 E9 50 FF BB C0 02 B9 01 00 8B 07 81 F8 00 00 74 0F 81 C3 02 00 41 81 F9 09 00 72 ED BB 00 00 C3 89 1E BC 02 89 0E BE 02 C3 81 FB 01 00 72 2B 81 FB 08 00 77 25 4B 03 DB 81 C3 C0 02 89 1E BC 02 8B 1F 81 FB 00 00 74 12 B8 01 00 81 FB 00 80 72 07 81 E3 FF 7F B8 02 00 4B C3 B8 00 00 C3 89 06 D0 02 89 16 D2 02 E8 C0 FF 81 F8 01 00 74 03 E9 F1 FE 8B 0E D0 02 81 F9 00 00 75 06 B8 00 00 E9 D1 FE 8B 16 D2 02 B4 3F CD 21 73 03 E9 D4 FE E9 C1 FE 89 06 D0 02 89 16 D2 02 E8 8C FF 81 F8 02 00 74 03 E9 BD FE 8B 0E D0 02 81 F9 00 00 75 06 B8 00 00 E9 9D FE 8B 16 D2 02 B4 40 CD 21 73 03 E9 A0 FE 8B 16 D0 02 3B C2 74 03 E9 8D FE E9 82 FE 8B D8 E8 53 FF 81 F8 00 00 75 03 E9 84 FE B4 3E CD 21 73 03 E9 7B FE 8B 1E BC 02 B8 00 00 89 07 E9 5F FE 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00"
+  },
+  {
+    "number": 16,
+    "title": "Declaring mutable words",
+    "description": "Reserve named words before the executable entry label.",
+    "why": "A mutable value needs declared storage and a rule preventing accidental reuse of its name.",
+    "explain": "Declarations have the form let mut x = 65;. Each name is one lowercase letter. VARADDRESS checks its range, saves it in VARNAME, and forms a pointer into the twenty-six-byte VARS table. A nonzero entry marks a declared variable. DECLARE refuses a second declaration and emits WORD, the name, and its decimal initializer.\n\nInitializers are unsigned literals, and all declarations precede executable statements. Their IR storage therefore precedes LABEL MAIN as required by IR86. USEVAR checks the same table for a previously declared name. VARADDRESS returns a pointer in A; USEVAR returns the letter. Both change VARNAME.",
+    "fixture": "fn main() { let mut x=65; }\r\n",
+    "output": "",
+    "bad": {
+      "kind": "source",
+      "source": "fn main(){let mut x=0;let mut x=1;}",
+      "line": 1,
+      "code": 4
+    },
+    "program_output": "",
+    "source": "R16.IR",
+    "binary_bytes": 3682,
+    "assembly_bytes": 16749,
+    "text_bytes": 32,
+    "target_bytes": 470,
+    "target_hex": "FC 81 FC FE FF 74 05 B8 07 4C CD 21 E9 02 00 41 00 B8 00 4C CD 21 BA 00 00 89 16 B7 02 C3 BA 01 00 89 16 B7 02 C3 B8 00 00 E9 F2 FF 88 06 B9 02 BB 01 00 B9 01 00 BA B9 02 B4 40 CD 21 73 03 E9 E4 FF 81 F8 01 00 74 03 E9 D3 FF E9 C8 FF BB 00 00 B9 01 00 BA B9 02 B4 3F CD 21 73 06 B8 FF FF E9 BB FF 81 F8 00 00 75 06 B8 FF FF E9 A7 FF 8A 06 B9 02 B4 00 E9 9E FF BA 00 3D E9 06 00 BA 00 3C E9 00 00 89 16 BA 02 89 06 BC 02 E8 37 00 81 FB 00 00 75 03 E9 8E FF 8B 16 BC 02 B9 00 00 8B 06 BA 02 CD 21 73 03 E9 7C FF 40 8B 16 BA 02 81 FA 00 3C 75 04 81 C0 00 80 8B 1E BE 02 89 07 8B 06 C0 02 E9 50 FF BB C2 02 B9 01 00 8B 07 81 F8 00 00 74 0F 81 C3 02 00 41 81 F9 09 00 72 ED BB 00 00 C3 89 1E BE 02 89 0E C0 02 C3 81 FB 01 00 72 2B 81 FB 08 00 77 25 4B 03 DB 81 C3 C2 02 89 1E BE 02 8B 1F 81 FB 00 00 74 12 B8 01 00 81 FB 00 80 72 07 81 E3 FF 7F B8 02 00 4B C3 B8 00 00 C3 89 06 D2 02 89 16 D4 02 E8 C0 FF 81 F8 01 00 74 03 E9 F1 FE 8B 0E D2 02 81 F9 00 00 75 06 B8 00 00 E9 D1 FE 8B 16 D4 02 B4 3F CD 21 73 03 E9 D4 FE E9 C1 FE 89 06 D2 02 89 16 D4 02 E8 8C FF 81 F8 02 00 74 03 E9 BD FE 8B 0E D2 02 81 F9 00 00 75 06 B8 00 00 E9 9D FE 8B 16 D4 02 B4 40 CD 21 73 03 E9 A0 FE 8B 16 D2 02 3B C2 74 03 E9 8D FE E9 82 FE 8B D8 E8 53 FF 81 F8 00 00 75 03 E9 84 FE B4 3E CD 21 73 03 E9 7B FE 8B 1E BE 02 B8 00 00 89 07 E9 5F FE 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00"
+  },
+  {
+    "number": 17,
+    "title": "Literal byte output",
+    "description": "Compile a useful statement through a small expression interface.",
+    "why": "putc(65); gives the parser a complete statement with a visible runtime effect.",
+    "explain": "BODY repeatedly calls STATEMENT until a closing brace. It consumes that brace and returns. BLOCK first requires an opening brace and then uses BODY. DEPTH counts active body and primary-expression calls; exceeding eight is a capacity error.\n\nEXPR calls FACTOR. FACTOR checks the numeric token and emits LIT with its value; PUTSTAT checks the parentheses and semicolon and emits PUTC. These routines compile operations rather than performing the source program output. At this stopping point only numeric primary expressions and putc statements are accepted.",
+    "fixture": "fn main(){putc(72);putc(73);}\r\n",
+    "output": "",
+    "bad": {
+      "kind": "source",
+      "source": "fn main(){putc(65536);}",
+      "line": 1,
+      "code": 3
+    },
+    "program_output": "HI",
+    "source": "R17.IR",
+    "binary_bytes": 3915,
+    "assembly_bytes": 18061,
+    "text_bytes": 52,
+    "target_bytes": 480,
+    "target_hex": "FC 81 FC FE FF 74 05 B8 07 4C CD 21 E9 00 00 B8 48 00 E8 21 00 B8 49 00 E8 1B 00 B8 00 4C CD 21 BA 00 00 89 16 C1 02 C3 BA 01 00 89 16 C1 02 C3 B8 00 00 E9 F2 FF 88 06 C3 02 BB 01 00 B9 01 00 BA C3 02 B4 40 CD 21 73 03 E9 E4 FF 81 F8 01 00 74 03 E9 D3 FF E9 C8 FF BB 00 00 B9 01 00 BA C3 02 B4 3F CD 21 73 06 B8 FF FF E9 BB FF 81 F8 00 00 75 06 B8 FF FF E9 A7 FF 8A 06 C3 02 B4 00 E9 9E FF BA 00 3D E9 06 00 BA 00 3C E9 00 00 89 16 C4 02 89 06 C6 02 E8 37 00 81 FB 00 00 75 03 E9 8E FF 8B 16 C6 02 B9 00 00 8B 06 C4 02 CD 21 73 03 E9 7C FF 40 8B 16 C4 02 81 FA 00 3C 75 04 81 C0 00 80 8B 1E C8 02 89 07 8B 06 CA 02 E9 50 FF BB CC 02 B9 01 00 8B 07 81 F8 00 00 74 0F 81 C3 02 00 41 81 F9 09 00 72 ED BB 00 00 C3 89 1E C8 02 89 0E CA 02 C3 81 FB 01 00 72 2B 81 FB 08 00 77 25 4B 03 DB 81 C3 CC 02 89 1E C8 02 8B 1F 81 FB 00 00 74 12 B8 01 00 81 FB 00 80 72 07 81 E3 FF 7F B8 02 00 4B C3 B8 00 00 C3 89 06 DC 02 89 16 DE 02 E8 C0 FF 81 F8 01 00 74 03 E9 F1 FE 8B 0E DC 02 81 F9 00 00 75 06 B8 00 00 E9 D1 FE 8B 16 DE 02 B4 3F CD 21 73 03 E9 D4 FE E9 C1 FE 89 06 DC 02 89 16 DE 02 E8 8C FF 81 F8 02 00 74 03 E9 BD FE 8B 0E DC 02 81 F9 00 00 75 06 B8 00 00 E9 9D FE 8B 16 DE 02 B4 40 CD 21 73 03 E9 A0 FE 8B 16 DC 02 3B C2 74 03 E9 8D FE E9 82 FE 8B D8 E8 53 FF 81 F8 00 00 75 03 E9 84 FE B4 3E CD 21 73 03 E9 7B FE 8B 1E C8 02 B8 00 00 89 07 E9 5F FE 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00"
+  },
+  {
+    "number": 18,
+    "title": "Saving an assignment name",
+    "description": "Preserve parser state across nested routine calls.",
+    "why": "The name on the left of an assignment must survive scanning and compiling its right side.",
+    "explain": "SAVE receives a word in A and places it in FRAMES at twice SAVECNT. It checks the thirty-two-word bound first and returns the saved value. RESTORE refuses an empty stack, decrements the count, and returns the latest word. VALUE is scratch for the store. This is compiler data, separate from the IR expression stack.\n\nSTATEMENT saves the checked destination letter, parses = and its expression, and restores the letter for ST. FACTOR similarly emits LD for a declared variable. Pending names live in FRAMES rather than in VARNAME, which another variable reference may change. All helper calls keep the IR expression stack balanced.",
+    "fixture": "fn main(){let mut x=65;let mut y=0;y=x;putc(y);}\r\n",
+    "output": "",
+    "bad": {
+      "kind": "source",
+      "source": "fn main(){putc(x);}",
+      "line": 1,
+      "code": 4
+    },
+    "program_output": "A",
+    "cartoon": "rill-drawers.png",
+    "source": "R18.IR",
+    "binary_bytes": 4170,
+    "assembly_bytes": 19232,
+    "text_bytes": 70,
+    "target_bytes": 487,
+    "target_hex": "FC 81 FC FE FF 74 05 B8 07 4C CD 21 E9 04 00 41 00 00 00 8B 06 0F 01 89 06 11 01 8B 06 11 01 E8 1B 00 B8 00 4C CD 21 BA 00 00 89 16 C8 02 C3 BA 01 00 89 16 C8 02 C3 B8 00 00 E9 F2 FF 88 06 CA 02 BB 01 00 B9 01 00 BA CA 02 B4 40 CD 21 73 03 E9 E4 FF 81 F8 01 00 74 03 E9 D3 FF E9 C8 FF BB 00 00 B9 01 00 BA CA 02 B4 3F CD 21 73 06 B8 FF FF E9 BB FF 81 F8 00 00 75 06 B8 FF FF E9 A7 FF 8A 06 CA 02 B4 00 E9 9E FF BA 00 3D E9 06 00 BA 00 3C E9 00 00 89 16 CB 02 89 06 CD 02 E8 37 00 81 FB 00 00 75 03 E9 8E FF 8B 16 CD 02 B9 00 00 8B 06 CB 02 CD 21 73 03 E9 7C FF 40 8B 16 CB 02 81 FA 00 3C 75 04 81 C0 00 80 8B 1E CF 02 89 07 8B 06 D1 02 E9 50 FF BB D3 02 B9 01 00 8B 07 81 F8 00 00 74 0F 81 C3 02 00 41 81 F9 09 00 72 ED BB 00 00 C3 89 1E CF 02 89 0E D1 02 C3 81 FB 01 00 72 2B 81 FB 08 00 77 25 4B 03 DB 81 C3 D3 02 89 1E CF 02 8B 1F 81 FB 00 00 74 12 B8 01 00 81 FB 00 80 72 07 81 E3 FF 7F B8 02 00 4B C3 B8 00 00 C3 89 06 E3 02 89 16 E5 02 E8 C0 FF 81 F8 01 00 74 03 E9 F1 FE 8B 0E E3 02 81 F9 00 00 75 06 B8 00 00 E9 D1 FE 8B 16 E5 02 B4 3F CD 21 73 03 E9 D4 FE E9 C1 FE 89 06 E3 02 89 16 E5 02 E8 8C FF 81 F8 02 00 74 03 E9 BD FE 8B 0E E3 02 81 F9 00 00 75 06 B8 00 00 E9 9D FE 8B 16 E5 02 B4 40 CD 21 73 03 E9 A0 FE 8B 16 E3 02 3B C2 74 03 E9 8D FE E9 82 FE 8B D8 E8 53 FF 81 F8 00 00 75 03 E9 84 FE B4 3E CD 21 73 03 E9 7B FE 8B 1E CF 02 B8 00 00 89 07 E9 5F FE 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00"
+  },
+  {
+    "number": 19,
+    "title": "Addition and subtraction",
+    "description": "Compile left-to-right word expressions with explicit operands.",
+    "why": "An expression can combine several primary values without changing the assignment interface.",
+    "explain": "EXPR compiles one FACTOR, then accepts repeated + or - followed by another FACTOR. It emits PUSH for the source left value, saves the operator in FRAMES, and compiles the right value. Restoring the operator selects ADD or SUB. Both operators have the same precedence and associate left to right.\n\nThe saved compiler operator and emitted program expression word belong to different stacks. The compiler never leaves an IR expression temporary across its own CALL. Runtime addition and subtraction wrap modulo 65536. The test makes the result visible as an ASCII byte.",
+    "fixture": "fn main(){putc(70-6+1);}\r\n",
+    "output": "",
+    "bad": {
+      "kind": "source",
+      "source": "fn main(){putc(1*2);}",
+      "line": 1,
+      "code": 2
+    },
+    "program_output": "A",
+    "source": "R19.IR",
+    "binary_bytes": 4290,
+    "assembly_bytes": 19881,
+    "text_bytes": 79,
+    "target_bytes": 490,
+    "target_hex": "FC 81 FC FE FF 74 05 B8 07 4C CD 21 E9 00 00 B8 46 00 50 B8 06 00 5B 2B D8 8B C3 50 B8 01 00 5B 03 C3 E8 1B 00 B8 00 4C CD 21 BA 00 00 89 16 CB 02 C3 BA 01 00 89 16 CB 02 C3 B8 00 00 E9 F2 FF 88 06 CD 02 BB 01 00 B9 01 00 BA CD 02 B4 40 CD 21 73 03 E9 E4 FF 81 F8 01 00 74 03 E9 D3 FF E9 C8 FF BB 00 00 B9 01 00 BA CD 02 B4 3F CD 21 73 06 B8 FF FF E9 BB FF 81 F8 00 00 75 06 B8 FF FF E9 A7 FF 8A 06 CD 02 B4 00 E9 9E FF BA 00 3D E9 06 00 BA 00 3C E9 00 00 89 16 CE 02 89 06 D0 02 E8 37 00 81 FB 00 00 75 03 E9 8E FF 8B 16 D0 02 B9 00 00 8B 06 CE 02 CD 21 73 03 E9 7C FF 40 8B 16 CE 02 81 FA 00 3C 75 04 81 C0 00 80 8B 1E D2 02 89 07 8B 06 D4 02 E9 50 FF BB D6 02 B9 01 00 8B 07 81 F8 00 00 74 0F 81 C3 02 00 41 81 F9 09 00 72 ED BB 00 00 C3 89 1E D2 02 89 0E D4 02 C3 81 FB 01 00 72 2B 81 FB 08 00 77 25 4B 03 DB 81 C3 D6 02 89 1E D2 02 8B 1F 81 FB 00 00 74 12 B8 01 00 81 FB 00 80 72 07 81 E3 FF 7F B8 02 00 4B C3 B8 00 00 C3 89 06 E6 02 89 16 E8 02 E8 C0 FF 81 F8 01 00 74 03 E9 F1 FE 8B 0E E6 02 81 F9 00 00 75 06 B8 00 00 E9 D1 FE 8B 16 E8 02 B4 3F CD 21 73 03 E9 D4 FE E9 C1 FE 89 06 E6 02 89 16 E8 02 E8 8C FF 81 F8 02 00 74 03 E9 BD FE 8B 0E E6 02 81 F9 00 00 75 06 B8 00 00 E9 9D FE 8B 16 E8 02 B4 40 CD 21 73 03 E9 A0 FE 8B 16 E6 02 3B C2 74 03 E9 8D FE E9 82 FE 8B D8 E8 53 FF 81 F8 00 00 75 03 E9 84 FE B4 3E CD 21 73 03 E9 7B FE 8B 1E D2 02 B8 00 00 89 07 E9 5F FE 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00"
+  },
+  {
+    "number": 20,
+    "title": "Parenthesized expressions",
+    "description": "Use recursive parsing with an explicit depth bound.",
+    "why": "Parentheses let the programmer choose a grouping different from left-to-right evaluation.",
+    "explain": "A parenthesized FACTOR consumes (, calls EXPR, and requires ). FACTOR returns only after its DEPTH contribution is removed. BODY and FACTOR share the same depth count, so the eight active levels include the main body and current primary expression.\n\nThe caller has already saved any pending operator or assignment name in FRAMES. Recursive EXPR calls can change token and formatting work cells without losing that saved state. The test distinguishes 1+(2+3) from a missing or misplaced closing delimiter.",
+    "fixture": "fn main(){putc(60+(2+3));}\r\n",
+    "output": "",
+    "bad": {
+      "kind": "source",
+      "source": "fn main(){putc((65);}",
+      "line": 1,
+      "code": 2
+    },
+    "program_output": "A",
+    "source": "R20.IR",
+    "binary_bytes": 4321,
+    "assembly_bytes": 20059,
+    "text_bytes": 79,
+    "target_bytes": 488,
+    "target_hex": "FC 81 FC FE FF 74 05 B8 07 4C CD 21 E9 00 00 B8 3C 00 50 B8 02 00 50 B8 03 00 5B 03 C3 5B 03 C3 E8 1B 00 B8 00 4C CD 21 BA 00 00 89 16 C9 02 C3 BA 01 00 89 16 C9 02 C3 B8 00 00 E9 F2 FF 88 06 CB 02 BB 01 00 B9 01 00 BA CB 02 B4 40 CD 21 73 03 E9 E4 FF 81 F8 01 00 74 03 E9 D3 FF E9 C8 FF BB 00 00 B9 01 00 BA CB 02 B4 3F CD 21 73 06 B8 FF FF E9 BB FF 81 F8 00 00 75 06 B8 FF FF E9 A7 FF 8A 06 CB 02 B4 00 E9 9E FF BA 00 3D E9 06 00 BA 00 3C E9 00 00 89 16 CC 02 89 06 CE 02 E8 37 00 81 FB 00 00 75 03 E9 8E FF 8B 16 CE 02 B9 00 00 8B 06 CC 02 CD 21 73 03 E9 7C FF 40 8B 16 CC 02 81 FA 00 3C 75 04 81 C0 00 80 8B 1E D0 02 89 07 8B 06 D2 02 E9 50 FF BB D4 02 B9 01 00 8B 07 81 F8 00 00 74 0F 81 C3 02 00 41 81 F9 09 00 72 ED BB 00 00 C3 89 1E D0 02 89 0E D2 02 C3 81 FB 01 00 72 2B 81 FB 08 00 77 25 4B 03 DB 81 C3 D4 02 89 1E D0 02 8B 1F 81 FB 00 00 74 12 B8 01 00 81 FB 00 80 72 07 81 E3 FF 7F B8 02 00 4B C3 B8 00 00 C3 89 06 E4 02 89 16 E6 02 E8 C0 FF 81 F8 01 00 74 03 E9 F1 FE 8B 0E E4 02 81 F9 00 00 75 06 B8 00 00 E9 D1 FE 8B 16 E6 02 B4 3F CD 21 73 03 E9 D4 FE E9 C1 FE 89 06 E4 02 89 16 E6 02 E8 8C FF 81 F8 02 00 74 03 E9 BD FE 8B 0E E4 02 81 F9 00 00 75 06 B8 00 00 E9 9D FE 8B 16 E6 02 B4 40 CD 21 73 03 E9 A0 FE 8B 16 E4 02 3B C2 74 03 E9 8D FE E9 82 FE 8B D8 E8 53 FF 81 F8 00 00 75 03 E9 84 FE B4 3E CD 21 73 03 E9 7B FE 8B 1E D0 02 B8 00 00 89 07 E9 5F FE 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00"
+  },
+  {
+    "number": 21,
+    "title": "Unary negation",
+    "description": "Express a negative word using defined wrapping arithmetic.",
+    "why": "Negation needs no signed literal token or processor-specific instruction.",
+    "explain": "FACTORMINUS consumes -, emits LIT 0 and PUSH, compiles another FACTOR, and emits SUB. The result is zero minus the operand modulo 65536. Unary minus therefore binds more tightly than the binary + and - operators.\n\nThe recursive FACTOR uses the same depth check as parentheses. A chain of unary operators is bounded rather than consuming an unchecked native call stack. The source spelling -1 denotes the word 65535; it does not change the language to signed arithmetic.",
+    "fixture": "fn main(){putc(66+-1);}\r\n",
+    "output": "",
+    "bad": {
+      "kind": "source",
+      "source": "fn main(){putc(--------1);}",
+      "line": 1,
+      "code": 5
+    },
+    "program_output": "A",
+    "source": "R21.IR",
+    "binary_bytes": 4406,
+    "assembly_bytes": 20473,
+    "text_bytes": 75,
+    "target_bytes": 490,
+    "target_hex": "FC 81 FC FE FF 74 05 B8 07 4C CD 21 E9 00 00 B8 42 00 50 B8 00 00 50 B8 01 00 5B 2B D8 8B C3 5B 03 C3 E8 1B 00 B8 00 4C CD 21 BA 00 00 89 16 CB 02 C3 BA 01 00 89 16 CB 02 C3 B8 00 00 E9 F2 FF 88 06 CD 02 BB 01 00 B9 01 00 BA CD 02 B4 40 CD 21 73 03 E9 E4 FF 81 F8 01 00 74 03 E9 D3 FF E9 C8 FF BB 00 00 B9 01 00 BA CD 02 B4 3F CD 21 73 06 B8 FF FF E9 BB FF 81 F8 00 00 75 06 B8 FF FF E9 A7 FF 8A 06 CD 02 B4 00 E9 9E FF BA 00 3D E9 06 00 BA 00 3C E9 00 00 89 16 CE 02 89 06 D0 02 E8 37 00 81 FB 00 00 75 03 E9 8E FF 8B 16 D0 02 B9 00 00 8B 06 CE 02 CD 21 73 03 E9 7C FF 40 8B 16 CE 02 81 FA 00 3C 75 04 81 C0 00 80 8B 1E D2 02 89 07 8B 06 D4 02 E9 50 FF BB D6 02 B9 01 00 8B 07 81 F8 00 00 74 0F 81 C3 02 00 41 81 F9 09 00 72 ED BB 00 00 C3 89 1E D2 02 89 0E D4 02 C3 81 FB 01 00 72 2B 81 FB 08 00 77 25 4B 03 DB 81 C3 D6 02 89 1E D2 02 8B 1F 81 FB 00 00 74 12 B8 01 00 81 FB 00 80 72 07 81 E3 FF 7F B8 02 00 4B C3 B8 00 00 C3 89 06 E6 02 89 16 E8 02 E8 C0 FF 81 F8 01 00 74 03 E9 F1 FE 8B 0E E6 02 81 F9 00 00 75 06 B8 00 00 E9 D1 FE 8B 16 E8 02 B4 3F CD 21 73 03 E9 D4 FE E9 C1 FE 89 06 E6 02 89 16 E8 02 E8 8C FF 81 F8 02 00 74 03 E9 BD FE 8B 0E E6 02 81 F9 00 00 75 06 B8 00 00 E9 9D FE 8B 16 E8 02 B4 40 CD 21 73 03 E9 A0 FE 8B 16 E6 02 3B C2 74 03 E9 8D FE E9 82 FE 8B D8 E8 53 FF 81 F8 00 00 75 03 E9 84 FE B4 3E CD 21 73 03 E9 7B FE 8B 1E D2 02 B8 00 00 89 07 E9 5F FE 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00"
+  },
+  {
+    "number": 22,
+    "title": "Byte input and persistent status",
+    "description": "Compile portable runtime calls as primary expressions.",
+    "why": "An input byte and its success indication are separate values and must both be available to a source program.",
+    "explain": "FACTORSERVICE saves the selected keyword, validates the remaining c or tus letters, and requires an empty parenthesis pair. It emits GETC or STATUS. GETC returns a byte or 65535 for EOF/error. STATUS returns zero for success, including EOF, or one for failure.\n\nAn assignment preserves the byte before a following status() call replaces A. Arithmetic and comparisons do not change the runtime status. All ordinary byte values, including 255, remain distinct from EOF. Terminal policy belongs to the binding; redirected input makes these tests reproducible.",
+    "fixture": "fn main(){let mut c=0;let mut s=0;c=getc();s=status();putc(c);putc(s+48);}\r\n",
+    "output": "",
+    "bad": {
+      "kind": "source",
+      "source": "fn main(){putc(getcat());}",
+      "line": 1,
+      "code": 2
+    },
+    "program_output": "Q0",
+    "program_stdin": "Q",
+    "source": "R22.IR",
+    "binary_bytes": 4541,
+    "assembly_bytes": 21253,
+    "text_bytes": 118,
+    "target_bytes": 508,
+    "target_hex": "FC 81 FC FE FF 74 05 B8 07 4C CD 21 E9 04 00 00 00 00 00 E8 5E 00 89 06 0F 01 8B 06 DD 02 89 06 11 01 8B 06 0F 01 E8 29 00 8B 06 11 01 50 B8 30 00 5B 03 C3 E8 1B 00 B8 00 4C CD 21 BA 00 00 89 16 DD 02 C3 BA 01 00 89 16 DD 02 C3 B8 00 00 E9 F2 FF 88 06 DF 02 BB 01 00 B9 01 00 BA DF 02 B4 40 CD 21 73 03 E9 E4 FF 81 F8 01 00 74 03 E9 D3 FF E9 C8 FF BB 00 00 B9 01 00 BA DF 02 B4 3F CD 21 73 06 B8 FF FF E9 BB FF 81 F8 00 00 75 06 B8 FF FF E9 A7 FF 8A 06 DF 02 B4 00 E9 9E FF BA 00 3D E9 06 00 BA 00 3C E9 00 00 89 16 E0 02 89 06 E2 02 E8 37 00 81 FB 00 00 75 03 E9 8E FF 8B 16 E2 02 B9 00 00 8B 06 E0 02 CD 21 73 03 E9 7C FF 40 8B 16 E0 02 81 FA 00 3C 75 04 81 C0 00 80 8B 1E E4 02 89 07 8B 06 E6 02 E9 50 FF BB E8 02 B9 01 00 8B 07 81 F8 00 00 74 0F 81 C3 02 00 41 81 F9 09 00 72 ED BB 00 00 C3 89 1E E4 02 89 0E E6 02 C3 81 FB 01 00 72 2B 81 FB 08 00 77 25 4B 03 DB 81 C3 E8 02 89 1E E4 02 8B 1F 81 FB 00 00 74 12 B8 01 00 81 FB 00 80 72 07 81 E3 FF 7F B8 02 00 4B C3 B8 00 00 C3 89 06 F8 02 89 16 FA 02 E8 C0 FF 81 F8 01 00 74 03 E9 F1 FE 8B 0E F8 02 81 F9 00 00 75 06 B8 00 00 E9 D1 FE 8B 16 FA 02 B4 3F CD 21 73 03 E9 D4 FE E9 C1 FE 89 06 F8 02 89 16 FA 02 E8 8C FF 81 F8 02 00 74 03 E9 BD FE 8B 0E F8 02 81 F9 00 00 75 06 B8 00 00 E9 9D FE 8B 16 FA 02 B4 40 CD 21 73 03 E9 A0 FE 8B 16 F8 02 3B C2 74 03 E9 8D FE E9 82 FE 8B D8 E8 53 FF 81 F8 00 00 75 03 E9 84 FE B4 3E CD 21 73 03 E9 7B FE 8B 1E E4 02 B8 00 00 89 07 E9 5F FE 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00"
+  },
+  {
+    "number": 23,
+    "title": "Returning a program status",
+    "description": "Compile an explicit termination statement.",
+    "why": "A program needs to report failure and to stop before the normal end of its body.",
+    "explain": "EXITSTAT validates exit(expression); using the same parentheses and semicolon rules as byte output. Its emitted EXIT terminates with the expression value modulo 256. The driver still appends HALT for a path that reaches the end normally.\n\nUnreachable source is still parsed and checked. exit is a statement, not an expression, and it does not return to a caller. A deliberately nonzero status must be observed immediately by CHECK and reported as FAIL.",
+    "fixture": "fn main(){exit(1);}\r\n",
+    "output": "",
+    "bad": {
+      "kind": "source",
+      "source": "fn main(){exit(0) }",
+      "line": 1,
+      "code": 2
+    },
+    "program_output": "",
+    "program_exit": 1,
+    "source": "R23.IR",
+    "binary_bytes": 4603,
+    "assembly_bytes": 21563,
+    "text_bytes": 35,
+    "target_bytes": 475,
+    "target_hex": "FC 81 FC FE FF 74 05 B8 07 4C CD 21 E9 00 00 B8 01 00 B4 4C CD 21 B8 00 4C CD 21 BA 00 00 89 16 BC 02 C3 BA 01 00 89 16 BC 02 C3 B8 00 00 E9 F2 FF 88 06 BE 02 BB 01 00 B9 01 00 BA BE 02 B4 40 CD 21 73 03 E9 E4 FF 81 F8 01 00 74 03 E9 D3 FF E9 C8 FF BB 00 00 B9 01 00 BA BE 02 B4 3F CD 21 73 06 B8 FF FF E9 BB FF 81 F8 00 00 75 06 B8 FF FF E9 A7 FF 8A 06 BE 02 B4 00 E9 9E FF BA 00 3D E9 06 00 BA 00 3C E9 00 00 89 16 BF 02 89 06 C1 02 E8 37 00 81 FB 00 00 75 03 E9 8E FF 8B 16 C1 02 B9 00 00 8B 06 BF 02 CD 21 73 03 E9 7C FF 40 8B 16 BF 02 81 FA 00 3C 75 04 81 C0 00 80 8B 1E C3 02 89 07 8B 06 C5 02 E9 50 FF BB C7 02 B9 01 00 8B 07 81 F8 00 00 74 0F 81 C3 02 00 41 81 F9 09 00 72 ED BB 00 00 C3 89 1E C3 02 89 0E C5 02 C3 81 FB 01 00 72 2B 81 FB 08 00 77 25 4B 03 DB 81 C3 C7 02 89 1E C3 02 8B 1F 81 FB 00 00 74 12 B8 01 00 81 FB 00 80 72 07 81 E3 FF 7F B8 02 00 4B C3 B8 00 00 C3 89 06 D7 02 89 16 D9 02 E8 C0 FF 81 F8 01 00 74 03 E9 F1 FE 8B 0E D7 02 81 F9 00 00 75 06 B8 00 00 E9 D1 FE 8B 16 D9 02 B4 3F CD 21 73 03 E9 D4 FE E9 C1 FE 89 06 D7 02 89 16 D9 02 E8 8C FF 81 F8 02 00 74 03 E9 BD FE 8B 0E D7 02 81 F9 00 00 75 06 B8 00 00 E9 9D FE 8B 16 D9 02 B4 40 CD 21 73 03 E9 A0 FE 8B 16 D7 02 3B C2 74 03 E9 8D FE E9 82 FE 8B D8 E8 53 FF 81 F8 00 00 75 03 E9 84 FE B4 3E CD 21 73 03 E9 7B FE 8B 1E C3 02 B8 00 00 89 07 E9 5F FE 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00"
+  },
+  {
+    "number": 24,
+    "title": "Naming generated blocks",
+    "description": "Give internal code positions names which cannot collide with variables.",
+    "why": "Control-flow output needs a distinct name for each compiler-created code position.",
+    "explain": "NEWLABEL increments LABELNO and returns its value in A. DEFLABEL and JUMPLABEL save that value in BRANCH while PAIR emits a prefix, then NUMBER supplies five decimal digits. Names such as B00001 differ from the single-letter variable names.\n\nThe driver emits an otherwise unused block label before the body so the naming routines have a direct visible test. Inspect it in RESULT.IR. Decimal names are source labels, not machine addresses; IR86 and ASM86 resolve their locations.",
+    "fixture": "fn main(){putc(65);}\r\n",
+    "output": "",
+    "bad": {
+      "kind": "source",
+      "source": "fn main(){putc(1==1);}",
+      "line": 1,
+      "code": 2
+    },
+    "program_output": "A",
+    "source": "R24.IR",
+    "binary_bytes": 4701,
+    "assembly_bytes": 22084,
+    "text_bytes": 49,
+    "target_bytes": 474,
+    "target_hex": "FC 81 FC FE FF 74 05 B8 07 4C CD 21 E9 00 00 B8 41 00 E8 1B 00 B8 00 4C CD 21 BA 00 00 89 16 BB 02 C3 BA 01 00 89 16 BB 02 C3 B8 00 00 E9 F2 FF 88 06 BD 02 BB 01 00 B9 01 00 BA BD 02 B4 40 CD 21 73 03 E9 E4 FF 81 F8 01 00 74 03 E9 D3 FF E9 C8 FF BB 00 00 B9 01 00 BA BD 02 B4 3F CD 21 73 06 B8 FF FF E9 BB FF 81 F8 00 00 75 06 B8 FF FF E9 A7 FF 8A 06 BD 02 B4 00 E9 9E FF BA 00 3D E9 06 00 BA 00 3C E9 00 00 89 16 BE 02 89 06 C0 02 E8 37 00 81 FB 00 00 75 03 E9 8E FF 8B 16 C0 02 B9 00 00 8B 06 BE 02 CD 21 73 03 E9 7C FF 40 8B 16 BE 02 81 FA 00 3C 75 04 81 C0 00 80 8B 1E C2 02 89 07 8B 06 C4 02 E9 50 FF BB C6 02 B9 01 00 8B 07 81 F8 00 00 74 0F 81 C3 02 00 41 81 F9 09 00 72 ED BB 00 00 C3 89 1E C2 02 89 0E C4 02 C3 81 FB 01 00 72 2B 81 FB 08 00 77 25 4B 03 DB 81 C3 C6 02 89 1E C2 02 8B 1F 81 FB 00 00 74 12 B8 01 00 81 FB 00 80 72 07 81 E3 FF 7F B8 02 00 4B C3 B8 00 00 C3 89 06 D6 02 89 16 D8 02 E8 C0 FF 81 F8 01 00 74 03 E9 F1 FE 8B 0E D6 02 81 F9 00 00 75 06 B8 00 00 E9 D1 FE 8B 16 D8 02 B4 3F CD 21 73 03 E9 D4 FE E9 C1 FE 89 06 D6 02 89 16 D8 02 E8 8C FF 81 F8 02 00 74 03 E9 BD FE 8B 0E D6 02 81 F9 00 00 75 06 B8 00 00 E9 9D FE 8B 16 D8 02 B4 40 CD 21 73 03 E9 A0 FE 8B 16 D6 02 3B C2 74 03 E9 8D FE E9 82 FE 8B D8 E8 53 FF 81 F8 00 00 75 03 E9 84 FE B4 3E CD 21 73 03 E9 7B FE 8B 1E C2 02 B8 00 00 89 07 E9 5F FE 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00"
+  },
+  {
+    "number": 25,
+    "title": "A conditional block",
+    "description": "Skip a brace-enclosed body when a word is zero.",
+    "why": "A source condition should describe a value rather than a processor flag.",
+    "explain": "CONDITION saves the false target in BRANCH, compiles EXPR, and emits JZ to that target. IFSTAT obtains a label, saves it in FRAMES, compiles the condition and block, then restores and defines the target. Zero skips the body; every other word enters it.\n\nThe pending target survives any assignments or nested constructs in the body because it is saved explicitly. BODY already supplies the shared nesting check. This stopping point accepts if with one block and no else clause. IR control boundaries remain empty after each compiled expression.",
+    "fixture": "fn main(){if 0 {putc(88);}if 1 {putc(65);}}\r\n",
+    "output": "",
+    "bad": {
+      "kind": "source",
+      "source": "fn main(){if 1 putc(65);}",
+      "line": 1,
+      "code": 2
+    },
+    "program_output": "A",
+    "source": "R25.IR",
+    "binary_bytes": 4763,
+    "assembly_bytes": 22448,
+    "text_bytes": 124,
+    "target_bytes": 504,
+    "target_hex": "FC 81 FC FE FF 74 05 B8 07 4C CD 21 E9 00 00 B8 00 00 81 F8 00 00 75 03 E9 06 00 B8 58 00 E8 2D 00 B8 01 00 81 F8 00 00 75 03 E9 06 00 B8 41 00 E8 1B 00 B8 00 4C CD 21 BA 00 00 89 16 D9 02 C3 BA 01 00 89 16 D9 02 C3 B8 00 00 E9 F2 FF 88 06 DB 02 BB 01 00 B9 01 00 BA DB 02 B4 40 CD 21 73 03 E9 E4 FF 81 F8 01 00 74 03 E9 D3 FF E9 C8 FF BB 00 00 B9 01 00 BA DB 02 B4 3F CD 21 73 06 B8 FF FF E9 BB FF 81 F8 00 00 75 06 B8 FF FF E9 A7 FF 8A 06 DB 02 B4 00 E9 9E FF BA 00 3D E9 06 00 BA 00 3C E9 00 00 89 16 DC 02 89 06 DE 02 E8 37 00 81 FB 00 00 75 03 E9 8E FF 8B 16 DE 02 B9 00 00 8B 06 DC 02 CD 21 73 03 E9 7C FF 40 8B 16 DC 02 81 FA 00 3C 75 04 81 C0 00 80 8B 1E E0 02 89 07 8B 06 E2 02 E9 50 FF BB E4 02 B9 01 00 8B 07 81 F8 00 00 74 0F 81 C3 02 00 41 81 F9 09 00 72 ED BB 00 00 C3 89 1E E0 02 89 0E E2 02 C3 81 FB 01 00 72 2B 81 FB 08 00 77 25 4B 03 DB 81 C3 E4 02 89 1E E0 02 8B 1F 81 FB 00 00 74 12 B8 01 00 81 FB 00 80 72 07 81 E3 FF 7F B8 02 00 4B C3 B8 00 00 C3 89 06 F4 02 89 16 F6 02 E8 C0 FF 81 F8 01 00 74 03 E9 F1 FE 8B 0E F4 02 81 F9 00 00 75 06 B8 00 00 E9 D1 FE 8B 16 F6 02 B4 3F CD 21 73 03 E9 D4 FE E9 C1 FE 89 06 F4 02 89 16 F6 02 E8 8C FF 81 F8 02 00 74 03 E9 BD FE 8B 0E F4 02 81 F9 00 00 75 06 B8 00 00 E9 9D FE 8B 16 F6 02 B4 40 CD 21 73 03 E9 A0 FE 8B 16 F4 02 3B C2 74 03 E9 8D FE E9 82 FE 8B D8 E8 53 FF 81 F8 00 00 75 03 E9 84 FE B4 3E CD 21 73 03 E9 7B FE 8B 1E E0 02 B8 00 00 89 07 E9 5F FE 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00"
+  },
+  {
+    "number": 26,
+    "title": "The alternative block",
+    "description": "Keep both outgoing paths separate through nested conditionals.",
+    "why": "An else body must be bypassed after the true body has completed.",
+    "explain": "IFSTAT saves two targets: one for false and one for the join. After the first block it emits a jump to the join and defines the false target. If TOK selects else, ENDTOKEN checks its final e before BLOCK compiles the alternative. The join label is defined afterward.\n\nVARNAME temporarily holds an end target only between label-output calls. It is saved back to FRAMES before another block can change it. A missing else still has a valid empty false path. Braces make the association explicit; else if is not an abbreviation in this subset.",
+    "fixture": "fn main(){if 0 {putc(88);}else{putc(65);}}\r\n",
+    "output": "",
+    "bad": {
+      "kind": "source",
+      "source": "fn main(){if 1 {} elsee {}}",
+      "line": 1,
+      "code": 2
+    },
+    "program_output": "A",
+    "source": "R26.IR",
+    "binary_bytes": 4817,
+    "assembly_bytes": 22738,
+    "text_bytes": 114,
+    "target_bytes": 495,
+    "target_hex": "FC 81 FC FE FF 74 05 B8 07 4C CD 21 E9 00 00 B8 00 00 81 F8 00 00 75 03 E9 09 00 B8 58 00 E8 24 00 E9 06 00 B8 41 00 E8 1B 00 B8 00 4C CD 21 BA 00 00 89 16 D0 02 C3 BA 01 00 89 16 D0 02 C3 B8 00 00 E9 F2 FF 88 06 D2 02 BB 01 00 B9 01 00 BA D2 02 B4 40 CD 21 73 03 E9 E4 FF 81 F8 01 00 74 03 E9 D3 FF E9 C8 FF BB 00 00 B9 01 00 BA D2 02 B4 3F CD 21 73 06 B8 FF FF E9 BB FF 81 F8 00 00 75 06 B8 FF FF E9 A7 FF 8A 06 D2 02 B4 00 E9 9E FF BA 00 3D E9 06 00 BA 00 3C E9 00 00 89 16 D3 02 89 06 D5 02 E8 37 00 81 FB 00 00 75 03 E9 8E FF 8B 16 D5 02 B9 00 00 8B 06 D3 02 CD 21 73 03 E9 7C FF 40 8B 16 D3 02 81 FA 00 3C 75 04 81 C0 00 80 8B 1E D7 02 89 07 8B 06 D9 02 E9 50 FF BB DB 02 B9 01 00 8B 07 81 F8 00 00 74 0F 81 C3 02 00 41 81 F9 09 00 72 ED BB 00 00 C3 89 1E D7 02 89 0E D9 02 C3 81 FB 01 00 72 2B 81 FB 08 00 77 25 4B 03 DB 81 C3 DB 02 89 1E D7 02 8B 1F 81 FB 00 00 74 12 B8 01 00 81 FB 00 80 72 07 81 E3 FF 7F B8 02 00 4B C3 B8 00 00 C3 89 06 EB 02 89 16 ED 02 E8 C0 FF 81 F8 01 00 74 03 E9 F1 FE 8B 0E EB 02 81 F9 00 00 75 06 B8 00 00 E9 D1 FE 8B 16 ED 02 B4 3F CD 21 73 03 E9 D4 FE E9 C1 FE 89 06 EB 02 89 16 ED 02 E8 8C FF 81 F8 02 00 74 03 E9 BD FE 8B 0E EB 02 81 F9 00 00 75 06 B8 00 00 E9 9D FE 8B 16 ED 02 B4 40 CD 21 73 03 E9 A0 FE 8B 16 EB 02 3B C2 74 03 E9 8D FE E9 82 FE 8B D8 E8 53 FF 81 F8 00 00 75 03 E9 84 FE B4 3E CD 21 73 03 E9 7B FE 8B 1E D7 02 B8 00 00 89 07 E9 5F FE 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00"
+  },
+  {
+    "number": 27,
+    "title": "Equality in a condition",
+    "description": "Compare word values while retaining an empty control boundary.",
+    "why": "A comparison needs two expression values and a chosen false branch.",
+    "explain": "CONDITION accepts == or != between two arithmetic expressions. It emits PUSH for the left value and compiles the right. The inverse IR relation, NE or EQ, transfers to the false target. Both consume the saved left value before the branch.\n\nThe comparison is allowed only as the outer condition of if or while. It does not produce a Boolean expression value which could be embedded in arithmetic. This restriction matches the simple IR control interface and avoids hidden expression temporaries across a branch.",
+    "fixture": "fn main(){if 1==1 {putc(69);}else{putc(88);}if 1!=0{putc(81);}}\r\n",
+    "output": "",
+    "bad": {
+      "kind": "source",
+      "source": "fn main(){if 1<2 {}}",
+      "line": 1,
+      "code": 2
+    },
+    "program_output": "EQ",
+    "source": "R27.IR",
+    "binary_bytes": 4925,
+    "assembly_bytes": 23311,
+    "text_bytes": 227,
+    "target_bytes": 522,
+    "target_hex": "FC 81 FC FE FF 74 05 B8 07 4C CD 21 E9 00 00 B8 01 00 50 B8 01 00 5B 3B D8 74 03 E9 09 00 B8 45 00 E8 3C 00 E9 06 00 B8 58 00 E8 33 00 B8 01 00 50 B8 00 00 5B 3B D8 75 03 E9 09 00 B8 51 00 E8 1E 00 E9 00 00 B8 00 4C CD 21 BA 00 00 89 16 EB 02 C3 BA 01 00 89 16 EB 02 C3 B8 00 00 E9 F2 FF 88 06 ED 02 BB 01 00 B9 01 00 BA ED 02 B4 40 CD 21 73 03 E9 E4 FF 81 F8 01 00 74 03 E9 D3 FF E9 C8 FF BB 00 00 B9 01 00 BA ED 02 B4 3F CD 21 73 06 B8 FF FF E9 BB FF 81 F8 00 00 75 06 B8 FF FF E9 A7 FF 8A 06 ED 02 B4 00 E9 9E FF BA 00 3D E9 06 00 BA 00 3C E9 00 00 89 16 EE 02 89 06 F0 02 E8 37 00 81 FB 00 00 75 03 E9 8E FF 8B 16 F0 02 B9 00 00 8B 06 EE 02 CD 21 73 03 E9 7C FF 40 8B 16 EE 02 81 FA 00 3C 75 04 81 C0 00 80 8B 1E F2 02 89 07 8B 06 F4 02 E9 50 FF BB F6 02 B9 01 00 8B 07 81 F8 00 00 74 0F 81 C3 02 00 41 81 F9 09 00 72 ED BB 00 00 C3 89 1E F2 02 89 0E F4 02 C3 81 FB 01 00 72 2B 81 FB 08 00 77 25 4B 03 DB 81 C3 F6 02 89 1E F2 02 8B 1F 81 FB 00 00 74 12 B8 01 00 81 FB 00 80 72 07 81 E3 FF 7F B8 02 00 4B C3 B8 00 00 C3 89 06 06 03 89 16 08 03 E8 C0 FF 81 F8 01 00 74 03 E9 F1 FE 8B 0E 06 03 81 F9 00 00 75 06 B8 00 00 E9 D1 FE 8B 16 08 03 B4 3F CD 21 73 03 E9 D4 FE E9 C1 FE 89 06 06 03 89 16 08 03 E8 8C FF 81 F8 02 00 74 03 E9 BD FE 8B 0E 06 03 81 F9 00 00 75 06 B8 00 00 E9 9D FE 8B 16 08 03 B4 40 CD 21 73 03 E9 A0 FE 8B 16 06 03 3B C2 74 03 E9 8D FE E9 82 FE 8B D8 E8 53 FF 81 F8 00 00 75 03 E9 84 FE B4 3E CD 21 73 03 E9 7B FE 8B 1E F2 02 B8 00 00 89 07 E9 5F FE 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00"
+  },
+  {
+    "number": 28,
+    "title": "Unsigned ordering",
+    "description": "Select each false relation without relying on flags.",
+    "why": "Word ordering must state how values with the high bit set are interpreted.",
+    "explain": "The condition parser adds <, <=, >, and >=. Every RILL value in this implementation is an unsigned sixteen-bit word. Their false relations are UGE, UGT, ULE, and ULT respectively. == and != retain their equality meaning.\n\nThe operator token is kept in TOKENVAL after both source expressions have been compiled. Formatting calls do not change it. The output names a relation explicitly, so its meaning is independent of the first backend. A negative expression wraps to an unsigned word before an ordering comparison.",
+    "fixture": "fn main(){if 65535>1{putc(85);}else{putc(76);}}\r\n",
+    "output": "",
+    "bad": {
+      "kind": "source",
+      "source": "fn main(){if 1<2<3 {}}",
+      "line": 1,
+      "code": 2
+    },
+    "program_output": "U",
+    "source": "R28.IR",
+    "binary_bytes": 5109,
+    "assembly_bytes": 24318,
+    "text_bytes": 132,
+    "target_bytes": 498,
+    "target_hex": "FC 81 FC FE FF 74 05 B8 07 4C CD 21 E9 00 00 B8 FF FF 50 B8 01 00 5B 3B D8 77 03 E9 09 00 B8 55 00 E8 24 00 E9 06 00 B8 4C 00 E8 1B 00 B8 00 4C CD 21 BA 00 00 89 16 D3 02 C3 BA 01 00 89 16 D3 02 C3 B8 00 00 E9 F2 FF 88 06 D5 02 BB 01 00 B9 01 00 BA D5 02 B4 40 CD 21 73 03 E9 E4 FF 81 F8 01 00 74 03 E9 D3 FF E9 C8 FF BB 00 00 B9 01 00 BA D5 02 B4 3F CD 21 73 06 B8 FF FF E9 BB FF 81 F8 00 00 75 06 B8 FF FF E9 A7 FF 8A 06 D5 02 B4 00 E9 9E FF BA 00 3D E9 06 00 BA 00 3C E9 00 00 89 16 D6 02 89 06 D8 02 E8 37 00 81 FB 00 00 75 03 E9 8E FF 8B 16 D8 02 B9 00 00 8B 06 D6 02 CD 21 73 03 E9 7C FF 40 8B 16 D6 02 81 FA 00 3C 75 04 81 C0 00 80 8B 1E DA 02 89 07 8B 06 DC 02 E9 50 FF BB DE 02 B9 01 00 8B 07 81 F8 00 00 74 0F 81 C3 02 00 41 81 F9 09 00 72 ED BB 00 00 C3 89 1E DA 02 89 0E DC 02 C3 81 FB 01 00 72 2B 81 FB 08 00 77 25 4B 03 DB 81 C3 DE 02 89 1E DA 02 8B 1F 81 FB 00 00 74 12 B8 01 00 81 FB 00 80 72 07 81 E3 FF 7F B8 02 00 4B C3 B8 00 00 C3 89 06 EE 02 89 16 F0 02 E8 C0 FF 81 F8 01 00 74 03 E9 F1 FE 8B 0E EE 02 81 F9 00 00 75 06 B8 00 00 E9 D1 FE 8B 16 F0 02 B4 3F CD 21 73 03 E9 D4 FE E9 C1 FE 89 06 EE 02 89 16 F0 02 E8 8C FF 81 F8 02 00 74 03 E9 BD FE 8B 0E EE 02 81 F9 00 00 75 06 B8 00 00 E9 9D FE 8B 16 F0 02 B4 40 CD 21 73 03 E9 A0 FE 8B 16 EE 02 3B C2 74 03 E9 8D FE E9 82 FE 8B D8 E8 53 FF 81 F8 00 00 75 03 E9 84 FE B4 3E CD 21 73 03 E9 7B FE 8B 1E DA 02 B8 00 00 89 07 E9 5F FE 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00"
+  },
+  {
+    "number": 29,
+    "title": "A repeated block",
+    "description": "Re-evaluate a condition at a named loop entrance.",
+    "why": "A loop must test again after each completed body, rather than reusing its original result.",
+    "explain": "WHILESTAT creates an entrance and an exit target and saves both in FRAMES. It defines the entrance before compiling CONDITION, compiles the body, emits a jump back to the entrance, and defines the exit afterward. The condition is therefore evaluated on every iteration.\n\nBoth value tests and the six comparisons are available. There is no break or continue statement in this subset; exit terminates the entire program. Nested loops and conditionals use the same saved-target discipline. The counter test prints 012 and stops when its word reaches 51.",
+    "fixture": "fn main(){let mut x=48;while x<51{putc(x);x=x+1;}}\r\n",
+    "output": "",
+    "bad": {
+      "kind": "source",
+      "source": "fn main(){while 1 {let mut x=0;}}",
+      "line": 1,
+      "code": 4
+    },
+    "program_output": "012",
+    "cartoon": "rill-paths.png",
+    "source": "R29.IR",
+    "binary_bytes": 5173,
+    "assembly_bytes": 24676,
+    "text_bytes": 153,
+    "target_bytes": 511,
+    "target_hex": "FC 81 FC FE FF 74 05 B8 07 4C CD 21 E9 02 00 30 00 8B 06 0F 01 50 B8 33 00 5B 3B D8 72 03 E9 19 00 8B 06 0F 01 E8 2D 00 8B 06 0F 01 50 B8 01 00 5B 03 C3 89 06 0F 01 E9 D7 FF B8 00 4C CD 21 BA 00 00 89 16 E0 02 C3 BA 01 00 89 16 E0 02 C3 B8 00 00 E9 F2 FF 88 06 E2 02 BB 01 00 B9 01 00 BA E2 02 B4 40 CD 21 73 03 E9 E4 FF 81 F8 01 00 74 03 E9 D3 FF E9 C8 FF BB 00 00 B9 01 00 BA E2 02 B4 3F CD 21 73 06 B8 FF FF E9 BB FF 81 F8 00 00 75 06 B8 FF FF E9 A7 FF 8A 06 E2 02 B4 00 E9 9E FF BA 00 3D E9 06 00 BA 00 3C E9 00 00 89 16 E3 02 89 06 E5 02 E8 37 00 81 FB 00 00 75 03 E9 8E FF 8B 16 E5 02 B9 00 00 8B 06 E3 02 CD 21 73 03 E9 7C FF 40 8B 16 E3 02 81 FA 00 3C 75 04 81 C0 00 80 8B 1E E7 02 89 07 8B 06 E9 02 E9 50 FF BB EB 02 B9 01 00 8B 07 81 F8 00 00 74 0F 81 C3 02 00 41 81 F9 09 00 72 ED BB 00 00 C3 89 1E E7 02 89 0E E9 02 C3 81 FB 01 00 72 2B 81 FB 08 00 77 25 4B 03 DB 81 C3 EB 02 89 1E E7 02 8B 1F 81 FB 00 00 74 12 B8 01 00 81 FB 00 80 72 07 81 E3 FF 7F B8 02 00 4B C3 B8 00 00 C3 89 06 FB 02 89 16 FD 02 E8 C0 FF 81 F8 01 00 74 03 E9 F1 FE 8B 0E FB 02 81 F9 00 00 75 06 B8 00 00 E9 D1 FE 8B 16 FD 02 B4 3F CD 21 73 03 E9 D4 FE E9 C1 FE 89 06 FB 02 89 16 FD 02 E8 8C FF 81 F8 02 00 74 03 E9 BD FE 8B 0E FB 02 81 F9 00 00 75 06 B8 00 00 E9 9D FE 8B 16 FD 02 B4 40 CD 21 73 03 E9 A0 FE 8B 16 FB 02 3B C2 74 03 E9 8D FE E9 82 FE 8B D8 E8 53 FF 81 F8 00 00 75 03 E9 84 FE B4 3E CD 21 73 03 E9 7B FE 8B 1E E7 02 B8 00 00 89 07 E9 5F FE 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00"
+  }
+]

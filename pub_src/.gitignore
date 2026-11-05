@@ -45,3 +45,9 @@
 /qa/ir86/*.log
 /qa/ir86/build-symbols.json
 /qa/ir86/dos/
+/workbench/rill/*.COM
+/workbench/rill/*.LOG
+/qa/rill/*.COM
+/qa/rill/*.img
+/qa/rill/*.log
+/qa/rill/dos/

@@ -50,6 +50,7 @@ if (WORK/'BOOTASM.BAS').read_bytes()!=(WORK/'BA18.BAS').read_bytes():errors.appe
 import runpy
 runpy.run_path(str(ROOT/'qa/asm86/validate_publication.py'),run_name='__main__')
 runpy.run_path(str(ROOT/'qa/ir86/validate_publication.py'),run_name='__main__')
+runpy.run_path(str(ROOT/'qa/rill/validate_publication.py'),run_name='__main__')
 for p in CONTENT.rglob('*.md'):
  text=p.read_text().lower()
  for forbidden in ('checksum','unicorn','python','automated regression','ai-generated','ai tools'):
@@ -58,5 +59,6 @@ if errors:
  print('\n'.join(errors));raise SystemExit(1)
 asm_count=len(json.loads((ROOT/'qa/asm86/package-files.json').read_text()))
 ir_count=len(json.loads((ROOT/'qa/ir86/package-files.json').read_text()))
-text=f'PASS: {count} HTML pages; all local links, assets and anchors; 59 BOOTASM + {asm_count} ASM86 + {ir_count} IR86 archive sources; ASCII/CRLF/8.3; all 17 BASIC, 29 ASM86, and 32 IR86 printed edits reconstruct exact checkpoints; editorial exclusions.'
+rill_count=len(json.loads((ROOT/'qa/rill/package-files.json').read_text()))
+text=f'PASS: {count} HTML pages; all local links, assets and anchors; 59 BOOTASM + {asm_count} ASM86 + {ir_count} IR86 + {rill_count} RILL archive sources; ASCII/CRLF/8.3; all 17 BASIC, 29 ASM86, 32 IR86, and 29 RILL printed edits reconstruct exact checkpoints; editorial exclusions.'
 print(text);(ROOT/'qa/site-results.txt').write_text(text+'\n')

@@ -1,0 +1,30 @@
+[
+  {
+    "name": "HELLO",
+    "output": "HI",
+    "text_bytes": 52,
+    "assembly_bytes": 2600,
+    "binary_bytes": 480
+  },
+  {
+    "name": "COUNT",
+    "output": "012",
+    "text_bytes": 153,
+    "assembly_bytes": 2783,
+    "binary_bytes": 511
+  },
+  {
+    "name": "CHOICE",
+    "output": "U!",
+    "text_bytes": 232,
+    "assembly_bytes": 2891,
+    "binary_bytes": 526
+  },
+  {
+    "name": "RLECHO",
+    "output": "RILL echo.\r\n",
+    "text_bytes": 397,
+    "assembly_bytes": 3236,
+    "binary_bytes": 595
+  }
+]

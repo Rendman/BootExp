@@ -1,0 +1,28 @@
+# RILL illustration provenance
+
+Generated with the built-in Imagegen tool and visually inspected before copying into the project. These are project illustration assets; the drawings do not supply executable bytes.
+
+## rill-tails.png
+
+Saved at `pub_src/site/static/images/rill-tails.png`. Original: `/home/jd/.codex/generated_images/01a1a358-65b3-7870-a53a-80fef62a9dd0/exec-92c493f3-9810-480c-8fec-512a0cc823bb.png`.
+
+Final prompt:
+
+Use case: illustration-story. Asset type: original pencil cartoon for a practical programming magazine with a 1986 technical horizon. Black-and-white graphite drawing on white paper, loose assured editorial lines, selective crosshatching, wide composition with generous white margins. At a modest village dog show, a serious older woman judge wearing spectacles kneels to compare two almost identical shaggy terriers. Their front halves look alike, but one has a neatly curled tail and the other a conspicuously straight fluffy tail. The judge carefully checks the tails while two ordinary adult handlers wait patiently. Gentle observational humor about checking the end as well as the beginning. No written text, speech bubbles, caption, logos, watermark, computers, modern gadgets, sorting desks, trains, or factory setting. Clear readable silhouettes, original characters and scene.
+
+## rill-drawers.png
+
+Saved at `pub_src/site/static/images/rill-drawers.png`. Original: `/home/jd/.codex/generated_images/01a1a358-65b3-7870-a53a-80fef62a9dd0/exec-7979a97b-ce97-43dd-a19b-613d8f0dd5a1.png`.
+
+Final prompt:
+
+Use case: illustration-story. Asset type: small editorial cartoon for an original hands-on programming magazine with a 1986 setting. Black-and-white graphite pencil on white paper, clean loose linework, light crosshatching, wide composition and generous margins. An elderly cabinetmaker with rolled sleeves calmly removes a small labeled-by-shape wooden drawer from inside a larger open drawer, which is itself inside a workbench drawer. His young apprentice holds a tidy stack of the removed drawers in correct size order and looks determined not to mix them up. Three clearly nested drawers, not an impossible infinity; gentle visual joke about keeping nested work in order. No readable lettering, caption, speech bubble, computer, modern gadget, logo, watermark, or color. Distinct workshop scene and original human characters.
+
+## rill-paths.png
+
+Saved at `pub_src/site/static/images/rill-paths.png`. Original: `/home/jd/.codex/generated_images/01a1a358-65b3-7870-a53a-80fef62a9dd0/exec-bb122f49-d62f-4cd4-972b-6db1788de887.png`.
+
+Final prompt:
+
+Use case: illustration-story. Asset type: original interior cartoon for a practical programming magazine with a 1986 technical horizon. Wide black-and-white graphite pencil drawing on white paper with generous margins, loose confident lines, light selective crosshatching, gentle editorial humor. In an old-fashioned kitchen garden, an experienced woman gardener in a broad sunhat stands at a fork between two neat hedge paths. One path leads to cabbages, the other to a tiny ornamental pond. She thoughtfully checks a simple blank planting plan while a young adult helper waits with a wheelbarrow full of seedling pots, poised to turn only after her decision. The fork is clear but the drawing is a humorous human scene, not a technical diagram. No readable words, labels, caption, speech bubble, modern gadgets, computers, trains, postal counters, factory machines, logo, watermark, or color. New characters and setting.
+
