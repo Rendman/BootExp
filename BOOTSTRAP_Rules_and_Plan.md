@@ -17,12 +17,15 @@ This file is the project plan, not a magazine article. It may discuss sequencing
 | Stage | Tool | Purpose and implementation |
 |---|---|---|
 | 1 | BOOTASM | An assembler written in GW-BASIC; the starting point for the toolchain. |
-| 2 | ASM86 | An assembler initially written in assembly accepted by BOOTASM. Develop it gradually until it can assemble its own source and the assembly output produced by IR86. |
-| 3 | IR86 | An intermediate language and its translator. The initial translator is written in assembly accepted by ASM86. It converts IR86 source into native 8086/8088 assembly accepted by ASM86. |
-| 4 | RILL | A language with Rust-like syntax, without a commitment to Rust's full safety checking or other features. Its initial compiler is written in IR86. |
-| 5 | Rebuild in RILL | Reimplement ASM86 and the later tools in RILL, working toward a self-hosted toolchain. |
+| 2 | ASM86 | An assembler written in assembly accepted by BOOTASM. It self-assembles and builds the first ASM86A seed. |
+| 3 | ASM86A | A larger assembler constructed in ASM86 through a small streaming seed, then self-assembled. Stream input and output, allocate substantial symbol storage, and provide the addressing/instruction support needed by larger tools. |
+| 4 | IR86 | A processor-independent intermediate language and translator. The expanded implementation is built with ASM86A and emits ASM86A-compatible 8086/8088 assembly. |
+| 5 | RILL | A language with Rust-like syntax, without a commitment to Rust's full safety checking or other features. Its initial compiler is written in IR86; expand it using the capacity supplied by ASM86A and the expanded IR86. |
+| 6 | Rebuild in RILL | Reimplement the assemblers and later tools in RILL, working toward a self-hosted toolchain. |
 
 Later work will cover a linker, libraries, larger programs, expanded language and assembler features, and a small operating system. Detailed scope and ordering remain to be decided.
+
+ASM86A is implemented and verified as the inserted capacity-building rung, described in [ASM86A_Design.md](ASM86A_Design.md). Unchanged ASM86 builds the 3342-byte ASMA0 seed; the seed builds the 6422-byte ASM86A; both pass two self-assembly generations. The forty-checkpoint collection and complete ladder also build the published IR86 and RILL unchanged. Sections 11 and 12 record those tools' current smaller implementations; their separate expansion remains to be done.
 
 ## 2. Non-negotiable editorial rules
 
@@ -111,8 +114,9 @@ Later work will cover a linker, libraries, larger programs, expanded language an
 - Every stage must be buildable with a tool the reader already has.
 - Start with GW-BASIC and the DOS workbench, then build each tool using the preceding tools in this project. No outside assembler, compiler, linker, code generator, or prebuilt project executable may supply any part of the bootstrap chain.
 - Keep IR language semantics independent of CPU and OS conventions; put those conventions in the backend and runtime binding.
-- Build the first ASM86 executable with BOOTASM. Build the initial IR86 translator with ASM86. Build the initial RILL compiler with the IR86 translator and ASM86.
-- Target DOS `.COM` executables only for now, using a simple single-segment memory model. Keep code, data, and stack requirements within that model; defer other executable formats and more elaborate memory models.
+- Build the first ASM86 executable with BOOTASM. Build ASMA0 directly with the unchanged ASM86, then ASM86A with ASMA0. Build the expanded IR86 with ASM86A, and RILL with IR86 and ASM86A. Preserve the existing baseline chain while constructing the inserted stage.
+- Target DOS `.COM` executables only for now. Keep near code, ordinary data, and stack in the main segment; permit explicitly DOS-allocated auxiliary workspace selected through ES for larger tools. This workspace does not expand a `.COM` file's near-code/image limit or introduce an `.EXE` format. Defer multisegment code, linking, and other executable formats.
+- Fixed input/output filenames are acceptable for early tools. Use COPY to select source files; filename prompts and command-line parsing are not prerequisites. Expanded tools should stream files through bounded blocks rather than buffer their complete input or output.
 - Clearly distinguish the language used to **implement** an assembler from the assembly language it **accepts** and the machine code it **emits**.
 - Do not silently use a new instruction in the assembler's own source before the preceding assembler can assemble it.
 - Preserve a known working bootstrap executable under a separate name.
@@ -219,3 +223,17 @@ Supply twenty-nine gradual construction checkpoints, a workbench, a complete pip
 Bound the input to 4096 bytes, generated IR to 1024 bytes, and saved compiler state to thirty-two words. BODY and FACTOR share an eight-level active parser bound. Keywords retain their complete spelling in two exact base-32 letter groups, not a lossy hash. Treat scratch-cell sharing and recursive saved state explicitly in the helper interfaces.
 
 Verify every checkpoint through the actual IR86 and ASM86 executables. Execute complete compiler sources in both the independent IR semantic model and native backend, with differing data bases and opaque handle values, and compare unchanged source output. Verify emitted programs against the IR model and native execution. Prove the complete BASIC → ASM86 → IR86 → RILL → IR86 → ASM86 → program path, and separately check the compiler, examples, rejection preservation, and all byte values under DOS 3.10. An independent interpreter remains verification only and must not supply a bootstrap artifact.
+
+## 13. ASM86A capacity-building stage
+
+Use the concrete architecture and construction gates in [ASM86A_Design.md](ASM86A_Design.md). Insert ASM86A after ASM86 and before the expanded IR86. Do not rename ASM86, alter its published bootstrap capacity to make the new source fit, or use an outside assembler, linker, encoder, or prebuilt executable.
+
+The first milestone, ASMA0, must fit ASM86's 8192-byte output, 256-symbol, 4000-line, and 120-character limits. It uses fixed files, sequential block input, streamed temporary output, two passes, and 2048 in-segment symbols. It adds the segment-MOV/ES-memory encoding forms needed to build the larger implementation while its own source remains in ASM86's language. Prove its direct build and self-assembly before using it as a builder.
+
+The full ASM86A target has 8192 symbols with 31-character names, eight separately allocated 40 KiB symbol pages, a separate 8 KiB lookup-bucket block, 4 KiB input/output blocks, a bounded 1023-character physical line, and checked 32-bit source counters. Its main segment reserves a fixed code/data region, parser and file buffers, and a 4 KiB stack. Its explicit memory requirement is 392 KiB plus DOS allocation/environment overhead; reject memory shortage before touching output rather than assuming the reference machine has enough free RAM.
+
+Both milestones may emit at most 61,184 bytes, occupying 0100H–EFFFH in the current `.COM` profile. Output is streamed, not held in the assembler's resident memory. Source and target sizes are independent. Keep source rejection from replacing an older successful result by publishing a closed temporary file through the documented rename/recovery protocol. Use SOURCE.ASM, RESULT.COM, ASMA.TMP, and RESULT.BAK without filename prompts.
+
+Grow language support gradually: quoted data and known-size reserves/constants; segment access; 8086 addressing and frame-related forms; arithmetic/string operations; and explicit five-byte NEAR conditional expansions without generated skip symbols. Preserve fixed encoding sizes between passes and reject later-CPU encodings. Keep the first full assembler source within the seed's language; new accepted forms are not automatically available to its builder.
+
+Only after ASM86A passes direct-build, self-assembly, capacity, failure-path, compatibility, and DOS 3.10 checks should the expanded IR86 and RILL depend on it. Those tools must separately remove their complete-output buffers and small symbol/parser limits. Define portable procedure, local-storage, indexed-data, and allocation interfaces before growing RILL; do not expose assembler segment conventions as IR or RILL semantics. The existing small RILL subset is not the intended ceiling for the language.

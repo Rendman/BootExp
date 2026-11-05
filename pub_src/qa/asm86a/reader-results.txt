@@ -1,0 +1,5 @@
+PASS A09 SYMS.BAS source: exact 2048-symbol result and definition 2049 rejection
+PASS A17 SYMS.BAS source: exact 8192-symbol result and definition 8193 rejection
+PASS A19 LONGSRC.BAS source: 65537 physical lines, exact byte, full error line and preservation
+PASS A23 exact image boundary and overflow rejection
+PASS printed HI.RIL pipeline: exact compiler, translator, and assembler counts; executable prints HI

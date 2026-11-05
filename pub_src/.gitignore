@@ -51,3 +51,10 @@
 /qa/rill/*.img
 /qa/rill/*.log
 /qa/rill/dos/
+/workbench/asm86a/*.COM
+/workbench/asm86a/*.LOG
+/qa/asm86a/*.COM
+/qa/asm86a/*.img
+/qa/asm86a/*.log
+/qa/asm86a/dos/
+/qa/asm86a/basic-fixtures/

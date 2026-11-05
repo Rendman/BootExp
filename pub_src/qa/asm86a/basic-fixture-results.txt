@@ -1,0 +1,2 @@
+PASS LONGSRC: published BASIC generates the exact stated ASCII/CRLF source fixture
+PASS SYMS: published BASIC generates the exact stated ASCII/CRLF source fixture

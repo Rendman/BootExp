@@ -1,13 +1,13 @@
 +++
 title = "RILL"
-weight = 4
+weight = 5
 description = "A small structured language, compiled by a program written in IR86."
 download = "RILL.IR"
 download_group = "rill"
 cover = true
 +++
 
-BOOTASM supplied the BASIC foundation, ASM86 supplied a native assembler, and IR86 supplied a processor-independent language and runtime interface. RILL uses those tools to build a compiler **written in IR86**. Its output is also IR86. The existing translator and assembler turn that output into a DOS .COM program.
+BOOTASM supplied the BASIC foundation, ASM86 supplied a native assembler, and IR86 supplied a processor-independent language and runtime interface. ASM86A supplies the intervening streaming assembler rung of the bootstrap ladder. RILL uses those tools to build a compiler **written in IR86**. Its output is also IR86. The existing translator and assembler turn that output into a DOS .COM program.
 
 The language has one main function, mutable word variables, arithmetic, brace-enclosed blocks, conditions, loops, and byte input and output. Its source describes values and structured control flow. Physical registers, processor flags, and operating-system service numbers do not appear in either RILL programs or the compiler's IR source.
 

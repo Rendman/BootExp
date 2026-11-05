@@ -1,0 +1,6 @@
+PASS canonical BOOTASM.BAS builds ASM86; native self-assembly matches (2622 bytes)
+PASS unchanged ASM86 directly builds ASMA0 (3342 bytes)
+PASS ASMA0 builds ASM86A; two ASM86A self-builds match (6422 bytes)
+PASS ASM86A builds the published IR86 without changing any byte (6407 bytes)
+PASS IR86 and ASM86A build the IR-written RILL compiler without changing any byte (5173 bytes)
+PASS RILL -> IR86 -> ASM86A -> COM displays HI and returns zero

@@ -1,0 +1,21 @@
+# ASM86A illustrations
+
+Generated with the built-in imagegen tool. Each original was inspected before use.
+
+## asm86a-press.png
+
+Use case: illustration-story. Asset type: original black-and-white pencil cartoon for a hands-on programming magazine with a 1986 technical horizon. Wide graphite drawing on clean white paper, loose confident lines and restrained crosshatching, generous margins. In a modest old newspaper print shop, a cheerful woman press operator feeds one small group of sheets through a hand-fed printing press while an extraordinarily long paper manuscript curls patiently across a nearby table. Her assistant holds a very small empty tray, clearly sufficient for the sheets currently being handled. Gentle visual joke about handling a long job a little at a time. No readable words, numbers, computer, modern equipment, logos, caption, speech bubble, watermark, or color. Original characters and distinct setting; a cartoon scene, not a technical diagram.
+
+Original: `/home/jd/.codex/generated_images/01a1a358-65b3-7870-a53a-80fef62a9dd0/exec-0463b25d-784b-476f-9eca-e296cfca89d7.png`
+
+## asm86a-cloakroom.png
+
+Use case: illustration-story. Asset type: original pencil cartoon for a small-system programming magazine with a 1986 technical horizon. Wide black-and-white graphite drawing on white paper, assured light linework and restrained crosshatching, generous margins. In the cloakroom of an old theater, a composed middle-aged male attendant uses a modest ticket ledger to find a single coat among a surprisingly long row of hanging coats. A concertgoer waits holding a tiny ticket; the attendant carefully compares it with a coat's small tag rather than guessing from the coat's appearance. Slightly exaggerated abundance of storage, warm dry humor. No readable letters or numbers, speech bubbles, captions, computers, machinery, postal counters, railways, logos, watermark, or color. Distinct people and setting, not a diagram.
+
+Original: `/home/jd/.codex/generated_images/01a1a358-65b3-7870-a53a-80fef62a9dd0/exec-1a33947e-8949-4841-a78d-977fe8033de7.png`
+
+## asm86a-bridge.png
+
+Use case: illustration-story. Asset type: original black-and-white graphite cartoon for a practical programming magazine with a 1986 technical horizon. Wide composition, clean white paper, light confident pencil outlines and restrained crosshatching. On a low wooden theater stage, a kindly stage magician in a slightly oversized tailcoat watches his small rabbit approach a gap between two low platforms. His practical adult assistant has laid a short sturdy plank across the gap and checks it with a carpenter's rule. The rabbit looks sensibly pleased with the ordinary bridge instead of performing an impossible leap. Gentle dry visual humor about a small bridge solving a longer jump. No readable lettering, speech bubbles, caption, logo, watermark, computer, modern gadget, train, or color. Clear simple scene, original characters, no danger, not a technical diagram.
+
+Original: `/home/jd/.codex/generated_images/01a1a358-65b3-7870-a53a-80fef62a9dd0/exec-7e66a57e-7ee0-4e0c-92e7-9551b71517ce.png`

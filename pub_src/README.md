@@ -1,6 +1,6 @@
 # Bootstrap Experiment v2
 
-BOOTASM, ASM86, IR86, RILL, and the local Hugo site are implemented here, following the current `BOOTSTRAP_Rules_and_Plan.md` and the decisions for this experiment.
+BOOTASM, ASM86, ASM86A, IR86, RILL, and the local Hugo site are implemented here, following the current `BOOTSTRAP_Rules_and_Plan.md` and the decisions for this experiment.
 
 GitHub Pages publication is configured in `../.github/workflows/pages.yml`. It builds and checks the site, then deploys the root `public/` directory after pushes to the repository's default branch. See the project-root [README](../README.md) for the one-time repository and Pages setup.
 
@@ -19,6 +19,12 @@ The Bootstrap Experiment
 │   ├── 30: two generations of self-assembly
 │   ├── ASM86 reference
 │   └── Three complete programs
+├── ASM86A
+│   ├── The streaming assembler workbench
+│   ├── 01–40: construction checkpoints, including both self-build handoffs
+│   ├── 41: the complete bootstrap ladder
+│   ├── ASM86A language and memory reference
+│   └── Four complete assembly programs
 ├── IR86
 │   ├── The IR workbench
 │   ├── 01–32: translator construction checkpoints
@@ -92,9 +98,46 @@ python3 pub_src/qa/validate_site.py
 
 Where Python 3.11 is managed by uv, `uv run --python 3.11 --no-project python` can replace `python3.11`. To regenerate source checkpoints first, run `tools/build_asm86.py` before this sequence. Regeneration clears measured image sizes; run the verification before rendering articles. The bootstrap command executes the published BOOTASM.BAS, making the first native ASM86.COM. The native checks then build/run every checkpoint and prove two identical self-assembly generations. The BASIC checkpoint check independently executes BOOTASM for every checkpoint and requires exact agreement with those native-built files. No outside assembler, compiler, linker, or machine-code generator supplies executable bytes.
 
-The retained `qa/asm86/*-results.txt` records show all 29 construction checks, all 29 BASIC/native byte comparisons, 149 independent encoding/grammar/resource/I/O checks, and the three complete example tests passing. `validate_site.py` reconstructs the BASIC, ASM86, IR86, and RILL checkpoints from their exact printed edits, validates all four archives (448 sources in total), and checks links, assets, anchors, editorial exclusions, and all 129 HTML pages.
+The retained `qa/asm86/*-results.txt` records show all 29 construction checks, all 29 BASIC/native byte comparisons, 149 independent encoding/grammar/resource/I/O checks, and the three complete example tests passing. `validate_site.py` reconstructs the BASIC, ASM86, ASM86A, IR86, and RILL checkpoints from their exact printed edits, validates all five archives (575 sources in total), and checks links, assets, anchors, editorial exclusions, and all 174 HTML pages.
 
 `tools/verify_asm86_dos.py` uses local historical DOS media, mtools, and QEMU for a separate DOS 3.10 check. The BASIC-produced ASM86 assembles SELF; SELF assembles AGAIN; both output files match the initial executable byte for byte. DOS COMP reports matching files, CHECK reports PASS for successful builds, and a bad register-width source reports the expected diagnostic and FAIL. Results are in `qa/asm86/dos-results.txt`; local disk images and raw logs are excluded from Git and publication. This verifies native DOS execution, not the unresolved original BASIC file-I/O environment described below.
+
+## ASM86A production and verification
+
+ASM86A is the third sibling collection and the inserted rung between ASM86 and IR86. Its forty construction checkpoints, ladder exercise, reference, and four complete programs have exact source downloads. The source-only archive contains 127 ASCII/CRLF/8.3 files, including unchanged BOOTASM.BAS, ASM86.ASM, VIEW.BAS, and CHECK.BAT. The original prompted assembler remains ASMKEEP.COM; the tested fixed-file successor is ASMAKEEP.COM.
+
+The unchanged 2622-byte ASM86 directly builds the 3342-byte ASMA0 seed within its published source/symbol/output limits. The seed builds the 6422-byte ASM86A. Both reproduce their preceding-builder executable in two self-assembly generations. ASM86A streams 4 KiB blocks, stores 8192 symbols with 31-character names in eight DOS-allocated 40 KiB pages and an 8 KiB bucket block, and uses checked 32-bit source counters. Its main segment plus allocated blocks requires 392 KiB before DOS/environment/control overhead. The target remains one COM image, at most 61184 bytes; this limit is independent of source extent and assembler workspace.
+
+The authored assembly is in `tools/asm86a_seed.asm`, `asm86a_memory.asm`, `asm86a_counts.asm`, and `asm86a_language.asm`. `build_asm86a.py` and `build_asm86a_series.py` arrange source text and explicit assembly branch bridges; they never encode instructions. `asm86a_installments.json` supplies explanations and fixtures. The article writer prints exact bottom-up edits with unchanged context and native-measured counts. All executable bytes come from the published BASIC and native project assemblers. New accepted source features are implemented using only the seed vocabulary.
+
+Run from the project root after building the preceding native tools:
+
+```sh
+python3.11 pub_src/qa/asm86/bootstrap.py
+python3 pub_src/tools/build_asm86a.py
+python3 pub_src/qa/asm86a/test_checkpoints.py
+python3 pub_src/qa/asm86a/test_asm86a.py
+python3 pub_src/qa/asm86a/test_failures.py
+python3 pub_src/qa/asm86a/test_programs.py
+python3.11 pub_src/qa/asm86a/test_basic_fixtures.py
+python3.11 pub_src/qa/asm86a/bootstrap_chain.py
+python3 pub_src/tools/verify_asm86a_dos.py
+python3 pub_src/tools/write_asm86a_articles.py
+python3 pub_src/qa/asm86a/test_reader_exercises.py
+python3 pub_src/tools/package_sources.py
+python3 pub_src/tools/hugo.py --source pub_src/site --cleanDestinationDir
+python3 pub_src/qa/validate_site.py
+```
+
+The BASIC checks use the same compatible interpreter/dependencies as the existing collection. Sequential BASIC text output includes its normal final Control-Z. LONGSRC.BAS and SYMS.BAS generate source text only, never executable bytes. Their actual output and the exact article capacity exercises are checked independently of the small stopping fixtures.
+
+All forty native checkpoints pass build, exact acceptance, rejection, old-output preservation, and allocation cleanup. The independent suite passes 114 encoding/language/capacity checks, including 8192 symbols, overflow, full-spelling hash collisions, every symbol page, lines beyond 65535, source-block boundaries, and exact 61184-byte output. Nineteen failure and consistency tests cover partial allocation, memory shortage, open/read/write/short-write/close/rename/restore/delete/free failures, short successful reads, and changed pass-two definitions. The allocated-memory model poisons new RAM to detect reliance on implicit zero initialization. Four complete assembly programs and their exact rejection edits pass.
+
+The full ladder executes canonical BOOTASM.BAS, recreates ASM86, builds ASMA0 and ASM86A, rebuilds published IR86 and RILL byte for byte, and runs a RILL program through IR and assembly to output HI. A separate DOS 3.10/QEMU run builds both assembler milestones and their self-generations, IR86, RILL, and the four complete programs with matching bytes and expected status/output. It also checks a source beyond 65535 lines, all 8192 definitions, exact maximum output, overflow preservation, and a native parent reserving memory so the child must report insufficient memory without replacing its result. Results remain in `qa/asm86a/*-results.txt`; private images and binaries are ignored. These checks do not resolve the original historical BASIC limitation documented below, and do not claim period-hardware execution.
+
+The article validator reconstructs all forty checkpoints from the actual printed source blocks, verifies canonical aliases, fixtures, examples, BASIC text exercises, downloads, and archive contents. Publication refreshes archives and builds checked-in manuscripts; it does not run an outside compiler. Current IR86 and RILL retain their independent language and buffer limits; assembler capacity alone does not expand them.
+
+Three original pencil cartoons were generated with the built-in Imagegen tool and inspected before copying into the site: a newspaper press, theater cloakroom, and stage bridge. Prompts and original file locations are in [qa/asm86a/image-prompts.md](qa/asm86a/image-prompts.md). The browser inventory was empty; HTML structure, links, anchors, assets, and source listings were checked locally without claiming a visual browser inspection.
 
 ## IR86 production and verification
 
@@ -132,7 +175,7 @@ Browser QA was unavailable: the computer-use inventory had no browser. No visual
 
 ## RILL production and verification
 
-RILL is the fourth sibling collection. Its first compiler is written in portable IR86 and emits IR86. The unchanged published IR86 and ASM86 directly build the 5,173-byte native compiler. It uses 255 definitions and 24,676 bytes of assembly text, within existing limits. The language supports one main function, mutable word variables, + and -, unary minus, parentheses, if/else, while, putc, getc, status, and exit. The implementation is not self-hosted; its exact subset, limits, and reasons are in the language reference.
+RILL is the fifth sibling collection. Its first compiler is written in portable IR86 and emits IR86. The unchanged published IR86 and ASM86 directly build the 5,173-byte native compiler. It uses 255 definitions and 24,676 bytes of assembly text, within existing limits. The language supports one main function, mutable word variables, + and -, unary minus, parentheses, if/else, while, putc, getc, status, and exit. The implementation is not self-hosted; its exact subset, limits, and reasons are in the language reference.
 
 `tools/rill_parts.ir` is the authored complete IR implementation. `build_rill.py` only arranges those IR records and selected source variants into checkpoints; it does not parse RILL or encode instructions. Constant text is represented as authored IR literal data. `rill_installments.json` holds explanations and fixtures. `write_rill_articles.py` lays out exact edits and counts measured by the real translator and assembler. The source-only archive contains 160 files: canonical bootstrap sources, unchanged helpers, all checkpoints, diagnostic/accepted/rejected fixtures, native-produced IR/assembly, and four examples.
 
@@ -157,7 +200,7 @@ The bootstrap command executes canonical BASIC to recreate ASM86, verifies self-
 
 The DOS 3.10 check rebuilds RILL using the bootstrap-produced IR86 and ASM86 under QEMU. Generated compiler assembly and machine bytes match; all four RILL programs compile, translate, assemble, and run with the expected outputs and PASS. Overflow and missing-input checks produce exact diagnostics and FAIL, older IR survives source rejection, and the compiled echo program preserves all 256 byte values. These tests do not resolve the original BASIC-interpreter limitation below. Results remain under `qa/rill/*-results.txt`; local disk images and raw DOS output are ignored.
 
-The 29 printed edits reconstruct every exact compiler checkpoint. The site contains 129 HTML pages and 448 archived source files across all four collections. `validate_site.py` checks reconstruction, links, anchors, source downloads, archive contents, ASCII/CRLF/8.3 rules, and editorial exclusions. Publication refreshes source archives and builds checked-in articles; it does not run a host compiler or regenerate manuscripts.
+The 29 printed edits reconstruct every exact compiler checkpoint. The site contains 174 HTML pages and 575 archived source files across all five collections. `validate_site.py` checks reconstruction, links, anchors, source downloads, archive contents, ASCII/CRLF/8.3 rules, and editorial exclusions. Publication refreshes source archives and builds checked-in articles; it does not run a host compiler or regenerate manuscripts.
 
 Three selected pencil illustrations were made with the built-in Imagegen tool, inspected, and copied to `site/static/images/rill-tails.png`, `rill-drawers.png`, and `rill-paths.png`. The dog-show judge, cabinetmaker with apprentice, and gardeners use different characters and situations. Final prompts and original locations are in [qa/rill/image-prompts.md](qa/rill/image-prompts.md). No browser visual inspection is claimed; generated HTML structure, assets, and links are checked locally.
 

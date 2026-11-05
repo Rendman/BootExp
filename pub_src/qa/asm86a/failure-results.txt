@@ -1,0 +1,19 @@
+PASS allocate: nonzero report, expected result/recovery state, all allocated blocks released
+PASS partial allocation: nonzero report, expected result/recovery state, all allocated blocks released
+PASS resize: nonzero report, expected result/recovery state, all allocated blocks released
+PASS open: nonzero report, expected result/recovery state, all allocated blocks released
+PASS read first pass: nonzero report, expected result/recovery state, all allocated blocks released
+PASS read second pass: nonzero report, expected result/recovery state, all allocated blocks released
+PASS create: nonzero report, expected result/recovery state, all allocated blocks released
+PASS write: nonzero report, expected result/recovery state, all allocated blocks released
+PASS short write: nonzero report, expected result/recovery state, all allocated blocks released
+PASS input close: nonzero report, expected result/recovery state, all allocated blocks released
+PASS output close: nonzero report, expected result/recovery state, all allocated blocks released
+PASS first rename: nonzero report, expected result/recovery state, all allocated blocks released
+PASS publish rename: nonzero report, expected result/recovery state, all allocated blocks released
+PASS restore rename: nonzero report, expected result/recovery state, all allocated blocks released
+PASS backup delete: nonzero report, expected result/recovery state, all allocated blocks released
+PASS free: nonzero report, expected result/recovery state, all allocated blocks released
+PASS short positive reads continue through EOF
+PASS changed pass-two definition or missing definition preserves prior output
+PASS changed pass-two definition or missing definition preserves prior output

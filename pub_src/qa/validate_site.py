@@ -49,6 +49,7 @@ for i in range(2,19):
 if (WORK/'BOOTASM.BAS').read_bytes()!=(WORK/'BA18.BAS').read_bytes():errors.append('Final source differs from final checkpoint')
 import runpy
 runpy.run_path(str(ROOT/'qa/asm86/validate_publication.py'),run_name='__main__')
+runpy.run_path(str(ROOT/'qa/asm86a/validate_publication.py'),run_name='__main__')
 runpy.run_path(str(ROOT/'qa/ir86/validate_publication.py'),run_name='__main__')
 runpy.run_path(str(ROOT/'qa/rill/validate_publication.py'),run_name='__main__')
 for p in CONTENT.rglob('*.md'):
@@ -58,7 +59,8 @@ for p in CONTENT.rglob('*.md'):
 if errors:
  print('\n'.join(errors));raise SystemExit(1)
 asm_count=len(json.loads((ROOT/'qa/asm86/package-files.json').read_text()))
+asma_count=len(json.loads((ROOT/'qa/asm86a/package-files.json').read_text()))
 ir_count=len(json.loads((ROOT/'qa/ir86/package-files.json').read_text()))
 rill_count=len(json.loads((ROOT/'qa/rill/package-files.json').read_text()))
-text=f'PASS: {count} HTML pages; all local links, assets and anchors; 59 BOOTASM + {asm_count} ASM86 + {ir_count} IR86 + {rill_count} RILL archive sources; ASCII/CRLF/8.3; all 17 BASIC, 29 ASM86, 32 IR86, and 29 RILL printed edits reconstruct exact checkpoints; editorial exclusions.'
+text=f'PASS: {count} HTML pages; all local links, assets and anchors; 59 BOOTASM + {asm_count} ASM86 + {asma_count} ASM86A + {ir_count} IR86 + {rill_count} RILL archive sources; ASCII/CRLF/8.3; all 17 BASIC, 29 ASM86, 40 ASM86A, 32 IR86, and 29 RILL printed edits reconstruct exact checkpoints; editorial exclusions.'
 print(text);(ROOT/'qa/site-results.txt').write_text(text+'\n')

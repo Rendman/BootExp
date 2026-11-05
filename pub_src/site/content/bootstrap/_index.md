@@ -7,7 +7,7 @@ cover = true
 
 A program is usually made with another program. An assembler translates instructions into bytes; a compiler translates a language into instructions. Where does the first tool come from?
 
-We shall begin with GW-BASIC on an 8088 personal computer. The first collection builds **BOOTASM**, a small assembler whose complete source can be entered at the keyboard. The next collection, **ASM86**, will use that assembler to build an assembler written in assembly language. After that come an intermediate language called IR86 and a compiler for RILL, a language with Rust-like syntax. We then intend to rebuild the tools in RILL. A linker, libraries, and a small operating system belong farther along the road.
+We shall begin with GW-BASIC on an 8088 personal computer. The first collection builds **BOOTASM**, a small assembler whose complete source can be entered at the keyboard. The next collection, **ASM86**, will use that assembler to build an assembler written in assembly language. ASM86 then builds the streaming seed of **ASM86A**, whose larger symbol storage and broader instruction language make another rung of the bootstrap ladder. After that come an intermediate language called IR86 and a compiler for RILL, a language with Rust-like syntax. We then intend to rebuild the tools in RILL. A linker, libraries, and a small operating system belong farther along the road.
 
 That is the direction of the experiment, not a promise to hurry. Each addition must be short enough to type, clear enough to explain, and useful enough to test before another is added.
 
@@ -25,6 +25,6 @@ The BASIC construction proceeds through small additions and replacements. Existi
 
 ## The collections
 
-BOOTASM, ASM86, IR86, and RILL occupy the same level in this course. Open a collection to find its individual installments. BOOTASM builds the BASIC foundation; ASM86 builds an assembler in assembly language and finishes by assembling its own source twice. IR86 uses that assembler to build a translator, then follows its output through assembly to working DOS programs. RILL builds a structured-language compiler in IR86 and carries its generated IR through the same translator and assembler.
+BOOTASM, ASM86, ASM86A, IR86, and RILL occupy the same level in this course. Open a collection to find its individual installments. BOOTASM builds the BASIC foundation; ASM86 builds an assembler in assembly language and finishes by assembling its own source twice. ASM86A adds a streaming seed, allocated symbols, and a self-assembled larger assembler between ASM86 and IR86. IR86 builds a translator, then follows its output through assembly to working DOS programs. The ladder is **BOOTASM → ASM86 → ASM86A → IR86 → RILL**. The IR86 and RILL collections retain their smaller original tool interfaces; the ASM86A ladder exercise also builds their published sources through the streaming assembler. RILL builds a structured-language compiler in IR86 and carries its generated IR through the same translator and assembler.
 
 This is an original practical course with a 1986 technical setting. It is not a reproduction of, or affiliated with, a historical magazine.

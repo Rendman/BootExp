@@ -1,0 +1,2 @@
+N EQU 3
+DW N

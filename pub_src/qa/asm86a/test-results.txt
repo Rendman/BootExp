@@ -1,0 +1,114 @@
+PASS unchanged ASM86 directly builds ASMA0
+PASS ASMA0 builder and two self-assembly generations match
+PASS ASM86A builder and two self-assembly generations match
+PASS exact prior-tool compatibility ASM86
+PASS exact prior-tool compatibility IR86
+PASS exact prior-tool compatibility RILL
+PASS published ASM86 executable fixture
+PASS encoding MOV AX,ES
+PASS encoding MOV DS,AX
+PASS encoding MOV AX,ES:[BX]
+PASS encoding DB "Hello; x",13,10,0
+PASS encoding DB "a""b",0,""
+PASS encoding N EQU 3
+PASS encoding DB 1+2,4-1,(5-2),-(-3)
+PASS encoding A:
+PASS encoding MOV AX,[SI]
+PASS encoding MOV AX,[BX+SI+4]
+PASS encoding MOV AX,[BX+DI]
+PASS encoding MOV AX,[BX+0]
+PASS encoding MOV WORD [BX],1234H
+PASS encoding MOV BYTE [DI],255
+PASS encoding ADD AX,[SI]
+PASS encoding ADC AX,BX
+PASS encoding LEA AX,[BX+SI+4]
+PASS encoding SHL AX,1
+PASS encoding IMUL BX
+PASS encoding REP MOVSB
+PASS encoding JZ X
+PASS encoding DW FORWARD-$
+PASS five-byte 8086 conditional expansion JB
+PASS five-byte 8086 conditional expansion JAE
+PASS five-byte 8086 conditional expansion JE
+PASS five-byte 8086 conditional expansion JNE
+PASS five-byte 8086 conditional expansion JBE
+PASS five-byte 8086 conditional expansion JA
+PASS five-byte 8086 conditional expansion JL
+PASS five-byte 8086 conditional expansion JGE
+PASS five-byte 8086 conditional expansion JLE
+PASS five-byte 8086 conditional expansion JG
+PASS reject MOV CS,AX
+PASS reject MOV AX,CS:[BX+SI+DI]
+PASS reject MOV AX,[AX]
+PASS reject MOV AX,[BX+BP]
+PASS reject MOV AX,[SI+DI]
+PASS reject MOV AX,[BX+BX]
+PASS reject MOV AX,[BX-SI]
+PASS reject MOV AX,[SI*2]
+PASS reject MOV AX,[SP]
+PASS reject MOV AX,AL
+PASS reject MOV BYTE [BX],AX
+PASS reject MOV [BX],1
+PASS reject ADD [BX],[DI]
+PASS reject SHL AX,2
+PASS reject SHL AX,0
+PASS reject PUSH 1
+PASS reject IMUL AX,BX
+PASS reject REP RET
+PASS reject DW "X"
+PASS reject DB -1
+PASS reject DB 256
+PASS reject RESW 32768
+PASS reject RESB -1
+PASS reject N EQU LATER
+PASS reject RESB LATER
+PASS reject X:
+PASS reject DW LOST
+PASS reject MOV AX,65536
+PASS reject DB "open
+PASS reject MOV AX,[]
+PASS executed BP frame argument and local
+PASS executed indexed quoted string, EQU, and long condition
+PASS streamed image length 0
+PASS streamed image length 1
+PASS streamed image length 1023
+PASS streamed image length 1024
+PASS streamed image length 1025
+PASS streamed image length 4095
+PASS streamed image length 4096
+PASS streamed image length 4097
+PASS streamed image length 8193
+PASS streamed image length 61184
+PASS reject output overflow without PC wrap
+PASS seed emits beyond the preceding 8192-byte output limit
+PASS exact symbol capacity 2048
+PASS symbol capacity overflow 2048
+PASS exact symbol capacity 8192
+PASS symbol capacity overflow 8192
+PASS name boundary 31
+PASS name boundary 32
+PASS full spelling at the last name character
+PASS deliberate bucket collision with distinct values
+PASS bucket chaining across symbol pages
+PASS source exceeds 64 KB and 65535 lines
+PASS full 32-bit error line report
+PASS source line termination '\r\n'
+PASS source line termination '\r'
+PASS source line termination '\n'
+PASS source line termination ''
+PASS input block crossing 1023
+PASS input block crossing 1024
+PASS input block crossing 4095
+PASS input block crossing 4096
+PASS physical line boundary
+PASS token boundary
+PASS expression depth boundary
+PASS Control-Z source termination
+PASS reject source byte 0
+PASS reject source byte 1
+PASS reject source byte 127
+PASS reject source byte 128
+PASS reject source byte 255
+PASS reserved recovery file ASMA.TMP
+PASS reserved recovery file RESULT.BAK
+PASS missing input preserves old result
