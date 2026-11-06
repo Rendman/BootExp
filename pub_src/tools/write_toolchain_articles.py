@@ -2,6 +2,7 @@
 from pathlib import Path
 from difflib import SequenceMatcher
 import re,json
+from compiler_publication import publish
 ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/toolchain';Q=ROOT/'qa/toolchain';BASE=ROOT/'site/content/bootstrap'
 def front(title,weight,description,download):return '+++\n'+f'title = {json.dumps(title)}\nweight = {weight}\ndescription = {json.dumps(description)}\ndownload = "{download}"\ndownload_group = "toolchain"\n'+'+++\n\n'
 def fence(kind,s):return '```'+kind+'\n'+s.replace('\r\n','\n').rstrip('\n')+'\n```\n\n'
@@ -67,12 +68,12 @@ def patches(old,new,kind,oldname):
   changes.append(dict(a1=a,a2=b,old=removed,new=added,context=before,after=after))
  return t,changes
 allpatches=[]
-for family,collection,offset,prefix,language in [('ir-extensions','ir86',36,'IW','asm'),('rill-seed-series','rill',33,'RB','ir'),('rill-self-series','rill',88,'RC','rill')]:
+for family,collection,offset,prefix,language in [('ir-extensions','ir86',36,'IW','asm'),('rill-seed-series','rb',33,'RB','ir'),('rill-self-series','rc',88,'RC','rill')]:
  cases=json.loads((Q/(family+'.json')).read_text());old=(ROOT/'workbench/asm86a/ASM86A.ASM').read_text().splitlines() if prefix=='IW' else [];oldname='ASM86A.ASM' if old else None
  for c in cases:
   n=c['number'];name=f'{prefix}{n:02}';weight=offset+n;page=f'{weight:03}-{prefix.lower()}-{slug(c["title"])}.md';source=(W/c['source']).read_text().splitlines()
   description=c.get('why') or helper(c).split('. ')[0]+'.'
-  t=front(f'{name} · '+c['title'],weight,description,c['source'])
+  t=front(f'{name} · '+c['title'],weight if prefix=='IW' else n,description,c['source'])
   t+=description+'\n\n## The working parts\n\n'+(helper(c) if prefix!='IW' else c['why']+' The assembly routines use the inherited bounded reader and owned-file cleanup. The operation table supplies argument class, stack action, and an authored target template. Native encodings belong to this backend; the IR operation retains its abstract meaning.')+'\n\n'
   if prefix in ['RB','RC']:t+='The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.\n\n'
   if prefix in ['RB','RC'] and c.get('key','').upper()=='BLOCK':t=t.replace('+++\n\n','cartoon = \"rill-drawers.png\"\n+++\n\n',1)
@@ -134,15 +135,15 @@ for family,collection,offset,prefix,language in [('ir-extensions','ir86',36,'IW'
   else:
    t+='Check the same word boundary in the compiler seed. Create BAD.RIL:\n\n'+fence('rill','fn main(){return 65536;}')+fence('dos','COPY BAD.RIL SOURCE.RIL\nCHECK RILLBOOT')+'Require `ERROR 0000000001 CODE 00003` and FAIL, preserving the accepted RESULT.IR. An unexpected PASS fails this check.\n\n'
   t+='## If the result differs\n\nCheck the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper\'s local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.\n'
-  if prefix=='RB' and c['key']=='MAIN':t+='\nPreserve RB47.COM as RILLBOOT.COM and RB47.IR as RILLBOOT.IR. This compiler seed was built entirely through the native IR86 and ASM86A tools.\n'
+  if prefix=='RB' and c['key']=='MAIN':t+='\nPreserve RB47.COM as RILLBOOT.COM and RB47.IR as RILLBOOT.IR. This compiler seed was built entirely through the native IR86 and ASM86A tools. Continue with the complete programs in this collection, then the separate [RC collection](../../rc/index.html).\n'
   if prefix=='RC' and c['key']=='main':t+='\nPreserve RC43.COM as R0.COM and RC43.RIL as RILL.RIL. The same source is the input for the two compiler self-build comparisons.\n'
-  (BASE/collection/page).write_text(t)
+  publish(collection,page,t)
   allpatches.append(dict(family=family,number=n,collection=collection,page=page,base=oldname,kind=language,changes=changes,source=c['source']))
   old=source;oldname=c['source']
 (Q/'article-patches.json').write_text(json.dumps(allpatches,indent=2)+'\n')
 # Each new language capability has a short, complete program and a concrete rejection.
 for i,c in enumerate(json.loads((Q/'examples.json').read_text()),81):
- t=front(c['title'],i,c['why'],c['name']+'.RIL')+c['why']+'\n\nSave '+c['name']+'.RIL:\n\n'+fence('rill',c['source'])
+ t=front(c['title'],i-32,c['why'],c['name']+'.RIL')+c['why']+'\n\nSave '+c['name']+'.RIL:\n\n'+fence('rill',c['source'])
  t+=fence('dos',f'COPY {c["name"]}.RIL SOURCE.RIL\nCHECK RILLBOOT\nCOPY RESULT.IR SOURCE.IR\nCHECK IWKEEP\nCOPY RESULT.ASM SOURCE.ASM\nCHECK ASMAKEEP')
  t+=f'Require `OK RESULT.IR {c["ir_bytes"]:010}`, translator `OK RESULT.ASM {c["assembly_bytes"]:010} text bytes`, and assembler `OK RESULT.COM {c["binary_bytes"]:05} bytes`, each with PASS **before** the following copy. VIEW.BAS must show result length {c["binary_bytes"]} and these first thirty-two bytes:\n\n'+fence('text',c['hex'])
  t+=f'Copy RESULT.COM to {c["name"]}.COM. '
@@ -150,5 +151,5 @@ for i,c in enumerate(json.loads((Q/'examples.json').read_text()),81):
  t+='CHECK '+c['name']+' '+('displays '+json.dumps(c['output'])+' and ' if c['output'] else '')+'reports PASS. '
  if c.get('result_file'):t+='COMP IN.TXT OUT.TXT must report no differences; answer N to its compare-more-files question. Empty and binary input are valid too. A missing IN.TXT must report FAIL before creating OUT.TXT. '
  t+='Here `\\r\\n` means carriage return and line feed.\n\nFor a separate source rejection, create BAD.RIL:\n\n'+fence('rill',c['bad'])+fence('dos','COPY BAD.RIL SOURCE.RIL\nCHECK RILLBOOT')+'Require:\n\n'+fence('text',c['error']+'\nFAIL')+'The older RESULT.IR must remain unchanged. An unexpected PASS fails the rejection check. Restore the accepted source before another build.\n'
- (BASE/'rill'/f'{i:03}-{slug(c["title"])}.md').write_text(t)
+ publish('rb',f'{i:03}-{slug(c["title"])}.md',t)
 print('Rendered native IR, compiler seed, RILL compiler, and complete language examples')

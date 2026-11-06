@@ -9052,7 +9052,7 @@
   {
     "family": "rill-seed-series",
     "number": 1,
-    "collection": "rill",
+    "collection": "rb",
     "page": "034-rb-a-terminated-text-pointer.md",
     "base": null,
     "kind": "ir",
@@ -9151,7 +9151,7 @@
   {
     "family": "rill-seed-series",
     "number": 2,
-    "collection": "rill",
+    "collection": "rb",
     "page": "035-rb-a-visible-word-value.md",
     "base": "RB01.IR",
     "kind": "ir",
@@ -9235,7 +9235,7 @@
   {
     "family": "rill-seed-series",
     "number": 3,
-    "collection": "rill",
+    "collection": "rb",
     "page": "036-rb-counting-beyond-one-word.md",
     "base": "RB02.IR",
     "kind": "ir",
@@ -9390,7 +9390,7 @@
   {
     "family": "rill-seed-series",
     "number": 4,
-    "collection": "rill",
+    "collection": "rb",
     "page": "037-rb-one-terminal-error-path.md",
     "base": "RB03.IR",
     "kind": "ir",
@@ -9480,7 +9480,7 @@
   {
     "family": "rill-seed-series",
     "number": 5,
-    "collection": "rill",
+    "collection": "rb",
     "page": "038-rb-identifier-characters.md",
     "base": "RB04.IR",
     "kind": "ir",
@@ -9547,7 +9547,7 @@
   {
     "family": "rill-seed-series",
     "number": 6,
-    "collection": "rill",
+    "collection": "rb",
     "page": "039-rb-decimal-characters.md",
     "base": "RB05.IR",
     "kind": "ir",
@@ -9626,7 +9626,7 @@
   {
     "family": "rill-seed-series",
     "number": 7,
-    "collection": "rill",
+    "collection": "rb",
     "page": "040-rb-a-bounded-source-refill.md",
     "base": "RB06.IR",
     "kind": "ir",
@@ -9773,7 +9773,7 @@
   {
     "family": "rill-seed-series",
     "number": 8,
-    "collection": "rill",
+    "collection": "rb",
     "page": "041-rb-punctuation-and-paired-operators.md",
     "base": "RB07.IR",
     "kind": "ir",
@@ -9969,7 +9969,7 @@
   {
     "family": "rill-seed-series",
     "number": 9,
-    "collection": "rill",
+    "collection": "rb",
     "page": "042-rb-complete-identifier-spelling.md",
     "base": "RB08.IR",
     "kind": "ir",
@@ -10075,7 +10075,7 @@
   {
     "family": "rill-seed-series",
     "number": 10,
-    "collection": "rill",
+    "collection": "rb",
     "page": "043-rb-checked-decimal-words.md",
     "base": "RB09.IR",
     "kind": "ir",
@@ -10163,7 +10163,7 @@
   {
     "family": "rill-seed-series",
     "number": 11,
-    "collection": "rill",
+    "collection": "rb",
     "page": "044-rb-quoted-source-text.md",
     "base": "RB10.IR",
     "kind": "ir",
@@ -10316,7 +10316,7 @@
   {
     "family": "rill-seed-series",
     "number": 12,
-    "collection": "rill",
+    "collection": "rb",
     "page": "045-rb-consume-an-exact-token.md",
     "base": "RB11.IR",
     "kind": "ir",
@@ -10375,7 +10375,7 @@
   {
     "family": "rill-seed-series",
     "number": 13,
-    "collection": "rill",
+    "collection": "rb",
     "page": "046-rb-compare-the-whole-keyword.md",
     "base": "RB12.IR",
     "kind": "ir",
@@ -10469,7 +10469,7 @@
   {
     "family": "rill-seed-series",
     "number": 14,
-    "collection": "rill",
+    "collection": "rb",
     "page": "047-rb-save-an-explicit-spelling.md",
     "base": "RB13.IR",
     "kind": "ir",
@@ -10554,7 +10554,7 @@
   {
     "family": "rill-seed-series",
     "number": 15,
-    "collection": "rill",
+    "collection": "rb",
     "page": "048-rb-word-fields-in-an-opaque-block.md",
     "base": "RB14.IR",
     "kind": "ir",
@@ -10622,7 +10622,7 @@
   {
     "family": "rill-seed-series",
     "number": 16,
-    "collection": "rill",
+    "collection": "rb",
     "page": "049-rb-byte-fields-in-an-opaque-block.md",
     "base": "RB15.IR",
     "kind": "ir",
@@ -10676,7 +10676,7 @@
   {
     "family": "rill-seed-series",
     "number": 17,
-    "collection": "rill",
+    "collection": "rb",
     "page": "050-rb-write-one-explicit-record-field.md",
     "base": "RB16.IR",
     "kind": "ir",
@@ -10769,7 +10769,7 @@
   {
     "family": "rill-seed-series",
     "number": 18,
-    "collection": "rill",
+    "collection": "rb",
     "page": "051-rb-initialize-a-complete-symbol.md",
     "base": "RB17.IR",
     "kind": "ir",
@@ -10921,7 +10921,7 @@
   {
     "family": "rill-seed-series",
     "number": 19,
-    "collection": "rill",
+    "collection": "rb",
     "page": "052-rb-add-a-global-definition.md",
     "base": "RB18.IR",
     "kind": "ir",
@@ -11028,7 +11028,7 @@
   {
     "family": "rill-seed-series",
     "number": 20,
-    "collection": "rill",
+    "collection": "rb",
     "page": "053-rb-a-separate-local-name-region.md",
     "base": "RB19.IR",
     "kind": "ir",
@@ -11122,7 +11122,7 @@
   {
     "family": "rill-seed-series",
     "number": 21,
-    "collection": "rill",
+    "collection": "rb",
     "page": "054-rb-search-exact-names-from-the-inside-out.md",
     "base": "RB20.IR",
     "kind": "ir",
@@ -11271,7 +11271,7 @@
   {
     "family": "rill-seed-series",
     "number": 22,
-    "collection": "rill",
+    "collection": "rb",
     "page": "055-rb-the-global-namespace.md",
     "base": "RB21.IR",
     "kind": "ir",
@@ -11329,7 +11329,7 @@
   {
     "family": "rill-seed-series",
     "number": 23,
-    "collection": "rill",
+    "collection": "rb",
     "page": "056-rb-resolve-a-current-binding.md",
     "base": "RB22.IR",
     "kind": "ir",
@@ -11396,7 +11396,7 @@
   {
     "family": "rill-seed-series",
     "number": 24,
-    "collection": "rill",
+    "collection": "rb",
     "page": "057-rb-write-a-nonempty-output-block.md",
     "base": "RB23.IR",
     "kind": "ir",
@@ -11533,7 +11533,7 @@
   {
     "family": "rill-seed-series",
     "number": 25,
-    "collection": "rill",
+    "collection": "rb",
     "page": "058-rb-append-one-streamed-byte.md",
     "base": "RB24.IR",
     "kind": "ir",
@@ -11636,7 +11636,7 @@
   {
     "family": "rill-seed-series",
     "number": 26,
-    "collection": "rill",
+    "collection": "rb",
     "page": "059-rb-append-a-text-template.md",
     "base": "RB25.IR",
     "kind": "ir",
@@ -11718,7 +11718,7 @@
   {
     "family": "rill-seed-series",
     "number": 27,
-    "collection": "rill",
+    "collection": "rb",
     "page": "060-rb-print-an-ir-operand.md",
     "base": "RB26.IR",
     "kind": "ir",
@@ -11802,7 +11802,7 @@
   {
     "family": "rill-seed-series",
     "number": 28,
-    "collection": "rill",
+    "collection": "rb",
     "page": "061-rb-terminate-an-emitted-record.md",
     "base": "RB27.IR",
     "kind": "ir",
@@ -11855,7 +11855,7 @@
   {
     "family": "rill-seed-series",
     "number": 29,
-    "collection": "rill",
+    "collection": "rb",
     "page": "062-rb-allocate-a-source-label-number.md",
     "base": "RB28.IR",
     "kind": "ir",
@@ -11927,7 +11927,7 @@
   {
     "family": "rill-seed-series",
     "number": 30,
-    "collection": "rill",
+    "collection": "rb",
     "page": "063-rb-define-one-compiler-label.md",
     "base": "RB29.IR",
     "kind": "ir",
@@ -12000,7 +12000,7 @@
   {
     "family": "rill-seed-series",
     "number": 31,
-    "collection": "rill",
+    "collection": "rb",
     "page": "064-rb-emit-a-label-operand.md",
     "base": "RB30.IR",
     "kind": "ir",
@@ -12056,7 +12056,7 @@
   {
     "family": "rill-seed-series",
     "number": 32,
-    "collection": "rill",
+    "collection": "rb",
     "page": "065-rb-emit-a-saved-symbol-spelling.md",
     "base": "RB31.IR",
     "kind": "ir",
@@ -12158,7 +12158,7 @@
   {
     "family": "rill-seed-series",
     "number": 33,
-    "collection": "rill",
+    "collection": "rb",
     "page": "066-rb-a-table-of-portable-services.md",
     "base": "RB32.IR",
     "kind": "ir",
@@ -12342,7 +12342,7 @@
   {
     "family": "rill-seed-series",
     "number": 34,
-    "collection": "rill",
+    "collection": "rb",
     "page": "067-rb-call-names-and-forward-declarations.md",
     "base": "RB33.IR",
     "kind": "ir",
@@ -12461,7 +12461,7 @@
   {
     "family": "rill-seed-series",
     "number": 35,
-    "collection": "rill",
+    "collection": "rb",
     "page": "068-rb-operator-precedence.md",
     "base": "RB34.IR",
     "kind": "ir",
@@ -12636,7 +12636,7 @@
   {
     "family": "rill-seed-series",
     "number": 36,
-    "collection": "rill",
+    "collection": "rb",
     "page": "069-rb-emit-a-word-operation.md",
     "base": "RB35.IR",
     "kind": "ir",
@@ -12846,7 +12846,7 @@
   {
     "family": "rill-seed-series",
     "number": 37,
-    "collection": "rill",
+    "collection": "rb",
     "page": "070-rb-precedence-with-a-numeric-primary.md",
     "base": "RB36.IR",
     "kind": "ir",
@@ -13009,7 +13009,7 @@
   {
     "family": "rill-seed-series",
     "number": 38,
-    "collection": "rill",
+    "collection": "rb",
     "page": "071-rb-parentheses-strings-and-unary-values.md",
     "base": "RB37.IR",
     "kind": "ir",
@@ -13213,7 +13213,7 @@
   {
     "family": "rill-seed-series",
     "number": 39,
-    "collection": "rill",
+    "collection": "rb",
     "page": "072-rb-variables-and-addressed-storage.md",
     "base": "RB38.IR",
     "kind": "ir",
@@ -13364,7 +13364,7 @@
   {
     "family": "rill-seed-series",
     "number": 40,
-    "collection": "rill",
+    "collection": "rb",
     "page": "073-rb-nested-argument-expressions.md",
     "base": "RB39.IR",
     "kind": "ir",
@@ -13533,7 +13533,7 @@
   {
     "family": "rill-seed-series",
     "number": 41,
-    "collection": "rill",
+    "collection": "rb",
     "page": "074-rb-a-global-word-declaration.md",
     "base": "RB40.IR",
     "kind": "ir",
@@ -13659,7 +13659,7 @@
   {
     "family": "rill-seed-series",
     "number": 42,
-    "collection": "rill",
+    "collection": "rb",
     "page": "075-rb-a-global-byte-extent.md",
     "base": "RB41.IR",
     "kind": "ir",
@@ -13753,7 +13753,7 @@
   {
     "family": "rill-seed-series",
     "number": 43,
-    "collection": "rill",
+    "collection": "rb",
     "page": "076-rb-a-local-slot-and-initializer.md",
     "base": "RB42.IR",
     "kind": "ir",
@@ -13871,7 +13871,7 @@
   {
     "family": "rill-seed-series",
     "number": 44,
-    "collection": "rill",
+    "collection": "rb",
     "page": "077-rb-enter-and-leave-a-lexical-scope.md",
     "base": "RB43.IR",
     "kind": "ir",
@@ -13983,7 +13983,7 @@
   {
     "family": "rill-seed-series",
     "number": 45,
-    "collection": "rill",
+    "collection": "rb",
     "page": "078-rb-statements-and-structured-branches.md",
     "base": "RB44.IR",
     "kind": "ir",
@@ -14294,7 +14294,7 @@
   {
     "family": "rill-seed-series",
     "number": 46,
-    "collection": "rill",
+    "collection": "rb",
     "page": "079-rb-a-named-procedure-definition.md",
     "base": "RB45.IR",
     "kind": "ir",
@@ -14478,7 +14478,7 @@
   {
     "family": "rill-seed-series",
     "number": 47,
-    "collection": "rill",
+    "collection": "rb",
     "page": "080-rb-the-complete-streamed-compiler.md",
     "base": "RB46.IR",
     "kind": "ir",
@@ -15501,7 +15501,7 @@
   {
     "family": "rill-self-series",
     "number": 1,
-    "collection": "rill",
+    "collection": "rc",
     "page": "089-rc-read-a-text-pointer-in-rill.md",
     "base": null,
     "kind": "rill",
@@ -15558,7 +15558,7 @@
   {
     "family": "rill-self-series",
     "number": 2,
-    "collection": "rill",
+    "collection": "rc",
     "page": "090-rc-word-formatting-with-local-state.md",
     "base": "RC01.RIL",
     "kind": "rill",
@@ -15607,7 +15607,7 @@
   {
     "family": "rill-self-series",
     "number": 3,
-    "collection": "rill",
+    "collection": "rc",
     "page": "091-rc-portable-paired-word-counting.md",
     "base": "RC02.RIL",
     "kind": "rill",
@@ -15666,7 +15666,7 @@
   {
     "family": "rill-self-series",
     "number": 4,
-    "collection": "rill",
+    "collection": "rc",
     "page": "092-rc-one-checked-failure-path.md",
     "base": "RC03.RIL",
     "kind": "rill",
@@ -15725,7 +15725,7 @@
   {
     "family": "rill-self-series",
     "number": 5,
-    "collection": "rill",
+    "collection": "rc",
     "page": "093-rc-character-classification.md",
     "base": "RC04.RIL",
     "kind": "rill",
@@ -15762,7 +15762,7 @@
   {
     "family": "rill-self-series",
     "number": 6,
-    "collection": "rill",
+    "collection": "rc",
     "page": "094-rc-a-decimal-character-test.md",
     "base": "RC05.RIL",
     "kind": "rill",
@@ -15810,7 +15810,7 @@
   {
     "family": "rill-self-series",
     "number": 7,
-    "collection": "rill",
+    "collection": "rc",
     "page": "095-rc-refill-source-bytes-in-rill.md",
     "base": "RC06.RIL",
     "kind": "rill",
@@ -15862,7 +15862,7 @@
   {
     "family": "rill-self-series",
     "number": 8,
-    "collection": "rill",
+    "collection": "rc",
     "page": "096-rc-tokens-with-saved-local-state.md",
     "base": "RC07.RIL",
     "kind": "rill",
@@ -15976,7 +15976,7 @@
   {
     "family": "rill-self-series",
     "number": 9,
-    "collection": "rill",
+    "collection": "rc",
     "page": "097-rc-consume-a-required-token.md",
     "base": "RC08.RIL",
     "kind": "rill",
@@ -16024,7 +16024,7 @@
   {
     "family": "rill-self-series",
     "number": 10,
-    "collection": "rill",
+    "collection": "rc",
     "page": "098-rc-whole-keyword-recognition.md",
     "base": "RC09.RIL",
     "kind": "rill",
@@ -16077,7 +16077,7 @@
   {
     "family": "rill-self-series",
     "number": 11,
-    "collection": "rill",
+    "collection": "rc",
     "page": "099-rc-copy-an-identifier-explicitly.md",
     "base": "RC10.RIL",
     "kind": "rill",
@@ -16125,7 +16125,7 @@
   {
     "family": "rill-self-series",
     "number": 12,
-    "collection": "rill",
+    "collection": "rc",
     "page": "100-rc-a-word-in-an-opaque-block.md",
     "base": "RC11.RIL",
     "kind": "rill",
@@ -16173,7 +16173,7 @@
   {
     "family": "rill-self-series",
     "number": 13,
-    "collection": "rill",
+    "collection": "rc",
     "page": "101-rc-a-byte-in-an-opaque-block.md",
     "base": "RC12.RIL",
     "kind": "rill",
@@ -16221,7 +16221,7 @@
   {
     "family": "rill-self-series",
     "number": 14,
-    "collection": "rill",
+    "collection": "rc",
     "page": "102-rc-search-records-by-complete-spelling.md",
     "base": "RC13.RIL",
     "kind": "rill",
@@ -16289,7 +16289,7 @@
   {
     "family": "rill-self-series",
     "number": 15,
-    "collection": "rill",
+    "collection": "rc",
     "page": "103-rc-store-explicit-record-fields.md",
     "base": "RC14.RIL",
     "kind": "rill",
@@ -16337,7 +16337,7 @@
   {
     "family": "rill-self-series",
     "number": 16,
-    "collection": "rill",
+    "collection": "rc",
     "page": "104-rc-initialize-every-record-byte.md",
     "base": "RC15.RIL",
     "kind": "rill",
@@ -16390,7 +16390,7 @@
   {
     "family": "rill-self-series",
     "number": 17,
-    "collection": "rill",
+    "collection": "rc",
     "page": "105-rc-append-a-global-record.md",
     "base": "RC16.RIL",
     "kind": "rill",
@@ -16443,7 +16443,7 @@
   {
     "family": "rill-self-series",
     "number": 18,
-    "collection": "rill",
+    "collection": "rc",
     "page": "106-rc-a-scoped-local-record.md",
     "base": "RC17.RIL",
     "kind": "rill",
@@ -16496,7 +16496,7 @@
   {
     "family": "rill-self-series",
     "number": 19,
-    "collection": "rill",
+    "collection": "rc",
     "page": "107-rc-select-the-global-namespace.md",
     "base": "RC18.RIL",
     "kind": "rill",
@@ -16544,7 +16544,7 @@
   {
     "family": "rill-self-series",
     "number": 20,
-    "collection": "rill",
+    "collection": "rc",
     "page": "108-rc-choose-the-innermost-binding.md",
     "base": "RC19.RIL",
     "kind": "rill",
@@ -16596,7 +16596,7 @@
   {
     "family": "rill-self-series",
     "number": 21,
-    "collection": "rill",
+    "collection": "rc",
     "page": "109-rc-flush-a-bounded-text-block.md",
     "base": "RC20.RIL",
     "kind": "rill",
@@ -16652,7 +16652,7 @@
   {
     "family": "rill-self-series",
     "number": 22,
-    "collection": "rill",
+    "collection": "rc",
     "page": "110-rc-append-an-output-byte.md",
     "base": "RC21.RIL",
     "kind": "rill",
@@ -16705,7 +16705,7 @@
   {
     "family": "rill-self-series",
     "number": 23,
-    "collection": "rill",
+    "collection": "rc",
     "page": "111-rc-append-a-template-string.md",
     "base": "RC22.RIL",
     "kind": "rill",
@@ -16760,7 +16760,7 @@
   {
     "family": "rill-self-series",
     "number": 24,
-    "collection": "rill",
+    "collection": "rc",
     "page": "112-rc-an-emitted-word-operand.md",
     "base": "RC23.RIL",
     "kind": "rill",
@@ -16812,7 +16812,7 @@
   {
     "family": "rill-self-series",
     "number": 25,
-    "collection": "rill",
+    "collection": "rc",
     "page": "113-rc-terminate-an-output-record.md",
     "base": "RC24.RIL",
     "kind": "rill",
@@ -16860,7 +16860,7 @@
   {
     "family": "rill-self-series",
     "number": 26,
-    "collection": "rill",
+    "collection": "rc",
     "page": "114-rc-a-label-counter-in-rill.md",
     "base": "RC25.RIL",
     "kind": "rill",
@@ -16908,7 +16908,7 @@
   {
     "family": "rill-self-series",
     "number": 27,
-    "collection": "rill",
+    "collection": "rc",
     "page": "115-rc-emit-a-branch-definition.md",
     "base": "RC26.RIL",
     "kind": "rill",
@@ -16956,7 +16956,7 @@
   {
     "family": "rill-self-series",
     "number": 28,
-    "collection": "rill",
+    "collection": "rc",
     "page": "116-rc-emit-a-branch-operand.md",
     "base": "RC27.RIL",
     "kind": "rill",
@@ -17004,7 +17004,7 @@
   {
     "family": "rill-self-series",
     "number": 29,
-    "collection": "rill",
+    "collection": "rc",
     "page": "117-rc-emit-the-stored-spelling.md",
     "base": "RC28.RIL",
     "kind": "rill",
@@ -17052,7 +17052,7 @@
   {
     "family": "rill-self-series",
     "number": 30,
-    "collection": "rill",
+    "collection": "rc",
     "page": "118-rc-recognize-portable-intrinsics.md",
     "base": "RC29.RIL",
     "kind": "rill",
@@ -17112,7 +17112,7 @@
   {
     "family": "rill-self-series",
     "number": 31,
-    "collection": "rill",
+    "collection": "rc",
     "page": "119-rc-record-a-call-before-its-definition.md",
     "base": "RC30.RIL",
     "kind": "rill",
@@ -17167,7 +17167,7 @@
   {
     "family": "rill-self-series",
     "number": 32,
-    "collection": "rill",
+    "collection": "rc",
     "page": "120-rc-a-precedence-table-in-rill.md",
     "base": "RC31.RIL",
     "kind": "rill",
@@ -17224,7 +17224,7 @@
   {
     "family": "rill-self-series",
     "number": 33,
-    "collection": "rill",
+    "collection": "rc",
     "page": "121-rc-select-an-ir-word-operation.md",
     "base": "RC32.RIL",
     "kind": "rill",
@@ -17289,7 +17289,7 @@
   {
     "family": "rill-self-series",
     "number": 34,
-    "collection": "rill",
+    "collection": "rc",
     "page": "122-rc-precedence-climbing-in-rill.md",
     "base": "RC33.RIL",
     "kind": "rill",
@@ -17364,7 +17364,7 @@
   {
     "family": "rill-self-series",
     "number": 35,
-    "collection": "rill",
+    "collection": "rc",
     "page": "123-rc-values-addresses-and-names.md",
     "base": "RC34.RIL",
     "kind": "rill",
@@ -17440,7 +17440,7 @@
   {
     "family": "rill-self-series",
     "number": 36,
-    "collection": "rill",
+    "collection": "rc",
     "page": "124-rc-calls-inside-expressions.md",
     "base": "RC35.RIL",
     "kind": "rill",
@@ -17487,7 +17487,7 @@
   {
     "family": "rill-self-series",
     "number": 37,
-    "collection": "rill",
+    "collection": "rc",
     "page": "125-rc-compile-a-global-word.md",
     "base": "RC36.RIL",
     "kind": "rill",
@@ -17543,7 +17543,7 @@
   {
     "family": "rill-self-series",
     "number": 38,
-    "collection": "rill",
+    "collection": "rc",
     "page": "126-rc-compile-a-byte-extent.md",
     "base": "RC37.RIL",
     "kind": "rill",
@@ -17598,7 +17598,7 @@
   {
     "family": "rill-self-series",
     "number": 39,
-    "collection": "rill",
+    "collection": "rc",
     "page": "127-rc-initialize-a-scoped-slot.md",
     "base": "RC38.RIL",
     "kind": "rill",
@@ -17655,7 +17655,7 @@
   {
     "family": "rill-self-series",
     "number": 40,
-    "collection": "rill",
+    "collection": "rc",
     "page": "128-rc-scope-entry-and-restoration.md",
     "base": "RC39.RIL",
     "kind": "rill",
@@ -17728,7 +17728,7 @@
   {
     "family": "rill-self-series",
     "number": 41,
-    "collection": "rill",
+    "collection": "rc",
     "page": "129-rc-structured-statements-in-rill.md",
     "base": "RC40.RIL",
     "kind": "rill",
@@ -17817,7 +17817,7 @@
   {
     "family": "rill-self-series",
     "number": 42,
-    "collection": "rill",
+    "collection": "rc",
     "page": "130-rc-compile-a-complete-procedure.md",
     "base": "RC41.RIL",
     "kind": "rill",
@@ -17886,7 +17886,7 @@
   {
     "family": "rill-self-series",
     "number": 43,
-    "collection": "rill",
+    "collection": "rc",
     "page": "131-rc-the-compiler-compiles-its-own-language.md",
     "base": "RC42.RIL",
     "kind": "rill",

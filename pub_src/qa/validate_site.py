@@ -22,23 +22,25 @@ for p in PUBLIC.rglob('*.html'):
    if unquote(u.fragment) not in {n['id'] for n in ids}:errors.append(f'{p}: missing anchor {dest}')
  for img in soup.select('img'):
   if not img.get('alt'):errors.append(f'{p}: image without alt')
-# Old seed URLs must redirect correctly on both file copies and GitHub project sites.
-for p in (CONTENT/'bootstrap/asma0').glob('*.md'):
+# Earlier article URLs must work on both file copies and GitHub project sites.
+redirect_count=0
+for p in (CONTENT/'bootstrap').rglob('*.md'):
  meta=tomllib.loads(p.read_text().split('+++')[1])
  for alias in meta.get('aliases',[]):
   assert len(alias.strip('/').split('/'))==3,alias
+  redirect_count+=1
   redirect=PUBLIC/alias.strip('/')/'index.html'
   if not redirect.is_file():errors.append(f'Missing legacy redirect: {alias}');continue
   soup=BeautifulSoup(redirect.read_text(),'html.parser')
   link=soup.select_one('link[rel="canonical"]');refresh=soup.select_one('meta[http-equiv="refresh"]');a=soup.select_one('a[href]')
-  expected=PUBLIC/'bootstrap/asma0'/p.stem/'index.html'
+  expected=PUBLIC/p.relative_to(CONTENT).with_suffix('')/'index.html'
   if not link or not refresh or not a:errors.append(f'Incomplete legacy redirect: {alias}');continue
   target=link['href']
   if target.startswith('/') or (redirect.parent/target).resolve()!=expected.resolve():errors.append(f'Incorrect portable redirect: {alias}')
   if refresh['content']!=f'0; url={target}' or a['href']!=target:errors.append(f'Inconsistent redirect targets: {alias}')
   for prefix in ['', '/BootExp']:
    actual=urljoin(f'https://example.invalid{prefix}{alias}index.html',target)
-   if actual!=f'https://example.invalid{prefix}/bootstrap/asma0/{p.stem}/index.html':errors.append(f'Incorrect hosted redirect: {alias}')
+   if actual!=f'https://example.invalid{prefix}/{expected.relative_to(PUBLIC).as_posix()}':errors.append(f'Incorrect hosted redirect: {alias}')
 for p in (ROOT/'site/static/downloads/bootasm').iterdir():
  if p.suffix.upper() in {'.BAS','.ASM','.BAT','.TXT'}:
   b=p.read_bytes()
@@ -71,6 +73,7 @@ runpy.run_path(str(ROOT/'qa/asm86a/validate_publication.py'),run_name='__main__'
 runpy.run_path(str(ROOT/'qa/ir86/validate_publication.py'),run_name='__main__')
 runpy.run_path(str(ROOT/'qa/rill/validate_publication.py'),run_name='__main__')
 runpy.run_path(str(ROOT/'qa/toolchain/validate_publication.py'),run_name='__main__')
+runpy.run_path(str(ROOT/'qa/compiler_collections/validate_publication.py'),run_name='__main__')
 for p in CONTENT.rglob('*.md'):
  text=p.read_text().lower()
  for forbidden in ('checksum','unicorn','python','automated regression','ai-generated','ai tools'):
@@ -83,5 +86,7 @@ asma_count=len(json.loads((ROOT/'qa/asm86a/package-files.json').read_text()))
 ir_count=len(json.loads((ROOT/'qa/ir86/package-files.json').read_text()))
 rill_count=len(json.loads((ROOT/'qa/rill/package-files.json').read_text()))
 tool_count=len(json.loads((ROOT/'qa/toolchain/package-files.json').read_text()))
-text=f'PASS: {count} HTML files (including 12 seed redirects); all local links, assets and anchors; 59 BOOTASM + {asm_count} ASM86 + {seed_count} ASMA0 + {asma_count} ASM86A + {ir_count} IR86 + {rill_count} RILL + {tool_count} toolchain archive sources; ASCII/CRLF/8.3; all 17 BASIC, 29 ASM86, 12 ASMA0, 28 ASM86A, 32 IR86, 29 first RILL, 23 streaming IR, 47 compiler-seed, and 43 self-compiling RILL printed edits reconstruct exact checkpoints; editorial exclusions.'
+rb_count=len(json.loads((ROOT/'qa/compiler_collections/rb-files.json').read_text()))
+rc_count=len(json.loads((ROOT/'qa/compiler_collections/rc-files.json').read_text()))
+text=f'PASS: {count} HTML files (including {redirect_count} article redirects); all local links, assets and anchors; 59 BOOTASM + {asm_count} ASM86 + {seed_count} ASMA0 + {asma_count} ASM86A + {ir_count} IR86 + {rill_count} RILL + {rb_count} RB + {rc_count} RC + {tool_count} toolchain archive sources; ASCII/CRLF/8.3; all 17 BASIC, 29 ASM86, 12 ASMA0, 28 ASM86A, 32 IR86, 29 first RILL, 23 streaming IR, 47 compiler-seed, and 43 self-compiling RILL printed edits reconstruct exact checkpoints; editorial exclusions.'
 print(text);(ROOT/'qa/site-results.txt').write_text(text+'\n')

@@ -1,8 +1,8 @@
 +++
 title = "RILL"
 weight = 6
-description = "From an IR-written compiler seed to a RILL toolchain that rebuilds itself."
-download = "RILL.RIL"
+description = "Build the first RILL compiler in processor-independent IR86."
+download = "RILL.IR"
 download_group = "rill"
 cover = true
 +++
@@ -17,11 +17,4 @@ RILL is intended to become a language in which we can rebuild the tools. This co
 
 Read **The RILL workbench** first. The complete-source icon opens RILL.IR. The [disk source collection](../../downloads/rill/RILL.ZIP) contains the saved IR checkpoints, test inputs, expected generated text, complete programs, and the published bootstrap sources. It contains no preassembled executable or interpreter.
 
-
-## RILL builds the toolchain
-
-The systems workbench continues through forty-seven IR-written compiler checkpoints and forty-three checkpoints expressing the compiler in RILL. Short complete programs introduce general names, word expressions, procedure arguments, recursion, scoped locals, byte buffers, literal strings, and portable file and allocated-block services.
-
-The complete source link above is **RILL.RIL**, the self-compiling compiler. **IR86.RIL** and **ASM86A.RIL** implement the translator and assembler in the same language. The complete exercise builds all three from the IR-written seed, then lets the RILL-written compiler, translator, and assembler rebuild all three twice. Every corresponding executable must match.
-
-The [complete toolchain source collection](../../downloads/toolchain/TOOLCHN.ZIP) includes the native bridge, IR-written seed, RILL implementations, every saved stopping point, exact input/rejection fixtures, examples, and TMAKE.BAT. It contains no preassembled programs. The earlier RILL.ZIP is the first compiler construction with its own deliberately smaller language; keep its builders separately named.
+The separate [RB collection](../rb/index.html) builds the expanded systems-language compiler in IR86. The [RC collection](../rc/index.html) then writes that compiler in RILL, proves its self-builds, and closes the toolchain loop. Keep the small compiler and its builders under their own saved names.

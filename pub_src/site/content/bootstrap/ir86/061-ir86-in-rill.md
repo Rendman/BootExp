@@ -14,7 +14,7 @@ The scanner and statement decoder implement the IR contract. The operation recor
 
 ## Complete source, by routine
 
-Start a plain text IR86.RIL. Enter the declarations, then append each complete procedure in the displayed order. These are parts of one complete tool; a copied fragment is not a standalone program. All prerequisites are supplied by the completed RILL workbench.
+Start a plain text IR86.RIL. Enter the declarations, then append each complete procedure in the displayed order. These are parts of one complete tool; a copied fragment is not a standalone program. All prerequisites are supplied by the completed RB workbench.
 
 ### Declarations
 

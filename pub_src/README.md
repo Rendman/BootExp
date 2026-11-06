@@ -1,6 +1,6 @@
 # Bootstrap Experiment v2
 
-BOOTASM, ASM86, ASMA0, ASM86A, IR86, RILL, and the local Hugo site are implemented here, following the current `BOOTSTRAP_Rules_and_Plan.md` and the decisions for this experiment.
+BOOTASM, ASM86, ASMA0, ASM86A, IR86, RILL, RB, RC, and the local Hugo site are implemented here, following the current `BOOTSTRAP_Rules_and_Plan.md` and the decisions for this experiment.
 
 GitHub Pages publication is configured in `../.github/workflows/pages.yml`. It builds and checks the site, then deploys the root `public/` directory after pushes to the repository's default branch. See the project-root [README](../README.md) for the one-time repository and Pages setup.
 
@@ -38,15 +38,24 @@ The Bootstrap Experiment
 │   ├── 33: complete translation pipeline and file copier
 │   ├── IR86 language and translator reference
 │   └── Four complete console/stream programs
-└── RILL
-    ├── 47 IR-written systems compiler checkpoints
-    ├── 43 RILL-written compiler checkpoints
-    ├── Complete language, examples, tools, and two closed-loop rebuilds
-    ├── The RILL workbench
-    ├── 01–29: IR-written compiler construction checkpoints
-    ├── 30: complete RILL-to-executable pipeline
-    ├── RILL language and compiler reference
-    └── Four complete RILL programs
+├── RILL
+│   ├── The first compiler workbench
+│   ├── 01–29: IR-written compiler construction checkpoints
+│   ├── 30: complete RILL-to-executable pipeline
+│   ├── First RILL language/compiler reference
+│   └── Four complete programs
+├── RB
+│   ├── The compiler-seed workbench
+│   ├── RB01–RB47: IR-written systems compiler checkpoints
+│   ├── Systems-language reference
+│   └── Eight complete programs
+└── RC
+    ├── The compiler-in-RILL workbench
+    ├── RC01–RC43: RILL-written compiler checkpoints
+    ├── Systems-language reference and three complete programs
+    ├── Two compiler self-builds
+    ├── ASM86A in RILL
+    └── Complete three-tool rebuild loop
 ```
 
 `site/` is the Hugo source. `../public/` (at the project root) is the generated static website. `workbench/bootasm/` contains the ASCII/CRLF period sources. `site/static/downloads/bootasm/BOOTASM.ZIP` is the 59-file reader source collection, without prebuilt executables or an interpreter.
@@ -108,7 +117,7 @@ python3 pub_src/qa/validate_site.py
 
 Where Python 3.11 is managed by uv, `uv run --python 3.11 --no-project python` can replace `python3.11`. To regenerate source checkpoints first, run `tools/build_asm86.py` before this sequence. Regeneration clears measured image sizes; run the verification before rendering articles. The bootstrap command executes the published BOOTASM.BAS, making the first native ASM86.COM. The native checks then build/run every checkpoint and prove two identical self-assembly generations. The BASIC checkpoint check independently executes BOOTASM for every checkpoint and requires exact agreement with those native-built files. No outside assembler, compiler, linker, or machine-code generator supplies executable bytes.
 
-The retained `qa/asm86/*-results.txt` records show all 29 construction checks, all 29 BASIC/native byte comparisons, 149 independent encoding/grammar/resource/I/O checks, and the three complete example tests passing. `validate_site.py` reconstructs the BASIC, ASM86, ASMA0, ASM86A, IR86, and RILL checkpoints from their exact printed edits, validates all seven source bundles (822 sources in total), and checks links, assets, anchors, editorial exclusions, and all 319 HTML files (including twelve redirects).
+The retained `qa/asm86/*-results.txt` records show all 29 construction checks, all 29 BASIC/native byte comparisons, 149 independent encoding/grammar/resource/I/O checks, and the three complete example tests passing. `validate_site.py` reconstructs the BASIC, ASM86, ASMA0, ASM86A, IR86, RILL, RB, and RC checkpoints from their exact printed edits, validates all nine source bundles (999 sources in total), and checks links, assets, anchors, editorial exclusions, and all 427 HTML files (including 115 redirects).
 
 `tools/verify_asm86_dos.py` uses local historical DOS media, mtools, and QEMU for a separate DOS 3.10 check. The BASIC-produced ASM86 assembles SELF; SELF assembles AGAIN; both output files match the initial executable byte for byte. DOS COMP reports matching files, CHECK reports PASS for successful builds, and a bad register-width source reports the expected diagnostic and FAIL. Results are in `qa/asm86/dos-results.txt`; local disk images and raw logs are excluded from Git and publication. This verifies native DOS execution, not the unresolved original BASIC file-I/O environment described below.
 
@@ -214,7 +223,7 @@ The bootstrap command executes canonical BASIC to recreate ASM86, verifies self-
 
 The DOS 3.10 check rebuilds RILL using the bootstrap-produced IR86 and ASM86 under QEMU. Generated compiler assembly and machine bytes match; all four RILL programs compile, translate, assemble, and run with the expected outputs and PASS. Overflow and missing-input checks produce exact diagnostics and FAIL, older IR survives source rejection, and the compiled echo program preserves all 256 byte values. These tests do not resolve the original BASIC-interpreter limitation below. Results remain under `qa/rill/*-results.txt`; local disk images and raw DOS output are ignored.
 
-The 29 printed edits reconstruct every exact compiler checkpoint. The site contains 307 pages plus twelve redirects and 822 archived source files across the six collections and complete toolchain bundle. `validate_site.py` checks reconstruction, links, anchors, source downloads, archive contents, ASCII/CRLF/8.3 rules, and editorial exclusions. Publication refreshes source archives and builds checked-in articles; it does not run a host compiler or regenerate manuscripts.
+The 29 printed edits reconstruct every exact compiler checkpoint. The site contains 312 pages plus 115 redirects and 999 archived source files across the eight collections and complete toolchain bundle. `validate_site.py` checks reconstruction, links, anchors, source downloads, archive contents, ASCII/CRLF/8.3 rules, and editorial exclusions. Publication refreshes source archives and builds checked-in articles; it does not run a host compiler or regenerate manuscripts.
 
 Three selected pencil illustrations were made with the built-in Imagegen tool, inspected, and copied to `site/static/images/rill-tails.png`, `rill-drawers.png`, and `rill-paths.png`. The dog-show judge, cabinetmaker with apprentice, and gardeners use different characters and situations. Final prompts and original locations are in [qa/rill/image-prompts.md](qa/rill/image-prompts.md). No browser visual inspection is claimed; generated HTML structure, assets, and links are checked locally.
 
@@ -268,6 +277,8 @@ python3 pub_src/qa/toolchain/test_examples.py
 python3.11 pub_src/qa/toolchain/bootstrap_chain.py
 python3 pub_src/tools/write_toolchain_articles.py
 python3 pub_src/tools/write_toolchain_guides.py
+python3 pub_src/qa/compiler_collections/test_examples.py
+python3 pub_src/tools/write_rc_programs.py
 python3 pub_src/tools/package_sources.py
 python3 pub_src/tools/verify_toolchain_dos.py
 python3 pub_src/tools/hugo.py --source pub_src/site --cleanDestinationDir
@@ -280,4 +291,4 @@ The independent `qa/toolchain/portable.py` executes the same unchanged IR compil
 
 `bootstrap_chain.py` executes canonical BOOTASM.BAS and recreates ASM86, ASMA0, ASM86A, IRWIDE, the IR-written compiler seed, all three RILL tools, and both closed-loop generations. The DOS check separately executes the exact published TMAKE.BAT under DOS 3.10 on a private 16 MiB FAT16 hard-disk workbench. All nine RILL-tool executables match the bootstrap-built images, and generation two compiles, translates, assembles, and executes HI. Private DOS disks, generated binaries, and intermediate build output are ignored. This does not resolve the historical BASIC 3.11 OPEN limitation documented above and is not a period-hardware claim.
 
-The site and archive checks reconstruct all 113 continuation checkpoints from their actual printed blocks, verify canonical handoffs, exact source notebooks, example/rejection text, generated counts, source-only archives, ASCII/CRLF/8.3 rules, and all local links/assets/anchors. Existing collection illustrations are reused where their subject applies; no new collection or illustration-generation workflow is introduced.
+The site and archive checks reconstruct all 113 continuation checkpoints from their actual printed blocks, verify canonical handoffs, exact source notebooks, example/rejection text, generated counts, source-only archives, ASCII/CRLF/8.3 rules, and all local links/assets/anchors. RB and RC are separate sibling collections following the initial RILL construction. RB has 47 checkpoints, its own workbench/reference, eight complete programs, and a 94-file RB.ZIP. RC has 43 checkpoints, its own workbench/reference, three complete programs, the compiler self-builds and final toolchain exercises, and an 83-file RC.ZIP. The 103 earlier RILL continuation URLs redirect to their new collection routes; saved source filenames stay unchanged. Existing illustrations are reused where their subjects apply. Shared authored source and native verification remain under tools and qa/toolchain. package_compiler_collections.py makes the two separate source snapshots under workbench/rb and workbench/rc. The complete TOOLCHN.ZIP remains available with all 236 sources.

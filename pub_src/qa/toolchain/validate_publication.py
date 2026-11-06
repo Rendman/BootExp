@@ -20,12 +20,12 @@ for stage in json.loads((Q/'article-patches.json').read_text()):
 assert counts=={'ir-extensions':23,'rill-seed-series':47,'rill-self-series':43},counts
 for a,b in [('IW23.ASM','IRWIDE.ASM'),('RB47.IR','RILLBOOT.IR'),('RC43.RIL','RILL.RIL')]:assert (W/a).read_bytes()==(W/b).read_bytes(),(a,b,'canonical handoff')
 for name,group in [('BOOTASM.BAS','bootasm'),('ASM86.ASM','asm86'),('ASMA0.ASM','asma0'),('ASM86A.ASM','asm86a'),('VIEW.BAS','bootasm'),('CHECK.BAT','bootasm'),('IRWIDE.ASM','ir86'),('RILLBOOT.IR','rill')]:assert (W/name).read_bytes()==(ROOT/'workbench'/group/name).read_bytes(),name
-for name,group,page in [('IR86','ir86','061-ir86-in-rill.md'),('ASM86A','rill','134-asm86a-in-rill.md')]:
+for name,group,page in [('IR86','ir86','061-ir86-in-rill.md'),('ASM86A','rc','134-asm86a-in-rill.md')]:
  blocks=re.findall(r'```rill\n(.*?)\n```',(C/group/page).read_text(),re.S)
  strip=lambda s:[r for r in s.splitlines() if r.strip()]
  assert strip('\n'.join(blocks))==strip((W/(name+'.RIL')).read_text()),name+' source notebook'
 for c in json.loads((Q/'examples.json').read_text()):
- p=next((C/'rill').glob('*-'+re.sub('[^a-z0-9]+','-',c['title'].lower()).strip('-')+'.md'))
+ p=next((C/'rb').glob('*-'+re.sub('[^a-z0-9]+','-',c['title'].lower()).strip('-')+'.md'))
  blocks=re.findall(r'```rill\n(.*?)\n```',p.read_text(),re.S);assert blocks[0]+'\n'==(W/(c['name']+'.RIL')).read_text()
  assert blocks[1]==c['bad'],c['name']+' printed rejection'
  text=p.read_text();assert f'{c["binary_bytes"]:05} bytes' in text and c['error'] in text,c['name']+' measured reports'
@@ -43,5 +43,5 @@ for family in counts:
   prefix={'ir-extensions':'IW','rill-seed-series':'RB','rill-self-series':'RC'}[family];ext='IR' if prefix=='IW' else 'RIL';n=c['number']
   if c.get('fixture') is not None:assert f'T{prefix}{n:02}.'+ext in files
   if c.get('bad') is not None:assert f'X{prefix}{n:02}.'+ext in files
-pipeline=(C/'rill/135-the-complete-toolchain.md').read_text();assert re.search(r'```dos\n(ECHO OFF\n.*?)\n```',pipeline,re.S)[1]+'\n'==(W/'TMAKE.BAT').read_text()
+pipeline=(C/'rc/135-the-complete-toolchain.md').read_text();assert re.search(r'```dos\n(ECHO OFF\n.*?)\n```',pipeline,re.S)[1]+'\n'==(W/'TMAKE.BAT').read_text()
 print(f'PASS toolchain: 23 native IR + 47 IR-compiler + 43 RILL-compiler printed edits reconstruct exact sources; complete port notebooks, examples, handoffs, and {len(files)} ASCII/CRLF/8.3 archive sources agree')

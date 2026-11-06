@@ -22,7 +22,9 @@ This file is the project plan, not a magazine article. It may discuss sequencing
 | 4 | ASM86A | A larger assembler constructed in ASMA0, then self-assembled. Stream input and output, allocate substantial symbol storage, and provide the addressing/instruction support needed by larger tools. |
 | 5 | IR86 | A processor-independent intermediate language and translator. The expanded implementation is built with ASM86A and emits ASM86A-compatible 8086/8088 assembly. |
 | 6 | RILL | A language with Rust-like syntax, without a commitment to Rust's full safety checking or other features. Its initial compiler is written in IR86; expand it using the capacity supplied by ASM86A and the expanded IR86. |
-| 7 | Rebuild in RILL | Reimplement the assemblers and later tools in RILL, working toward a self-hosted toolchain. |
+| 7 | RB | Construct the expanded systems-language compiler in IR86, preserving RB47.IR as RILLBOOT.IR and its executable as RILLBOOT.COM. |
+| 8 | RC | Express that compiler in RILL through RC01–RC43, then prove its self-builds and the complete toolchain loop. |
+| 9 | Rebuild in RILL | Reimplement the assemblers and later tools in RILL, working toward a self-hosted toolchain. |
 
 Later work will cover a linker, libraries, larger programs, expanded language and assembler features, and a small operating system. Detailed scope and ordering remain to be decided.
 
@@ -253,3 +255,9 @@ IR86.RIL and ASM86A.RIL implement the translator/backend and the full streaming 
 TMAKE.BAT builds the native bridge and IR-written compiler seed from a preserved ASMAKEEP.COM, then all three RILL implementations. It builds each tool twice more using only the preceding RILL-written compiler, translator, and assembler. Stop at the first nonzero status. Compare A0/A1/A2, I0/I1/I2, and R0/R1/R2 byte for byte; all corresponding files must match. A separate fresh bootstrap begins by executing canonical BOOTASM.BAS. Actual DOS 3.10 must execute the same reader batch and match every generation.
 
 Keep workbench source and downloads in pub_src/workbench/toolchain and site/static/downloads/toolchain. The TOOLCHN.ZIP archive contains ASCII/CRLF/8.3 sources and no COM/EXE or historical interpreter. The static-site validator reconstructs all 113 continuation checkpoints from printed edits and checks complete port notebooks, fixtures, examples, archive bytes, links, and assets. The portable IR model is validation only and never supplies a bootstrap artifact.
+
+## 15. Separate compiler collections
+
+Keep the original RILL collection as the first small compiler construction. Publish the systems-language continuation as two separate sibling collections: RB for the forty-seven IR-written compiler checkpoints and RC for the forty-three RILL-written compiler checkpoints. Each has its own workbench, language reference, complete programs, and source-only archive. RB ends with the tested RILLBOOT seed; RC starts a new RILL source file built by that seed and ends with self-builds and the complete toolchain exercise.
+
+Preserve RBxx.IR and RCxx.RIL disk filenames and redirect earlier RILL article URLs. References in both collections must describe the same completed systems language. Shared implementation sources and native verification can remain under pub_src/tools and pub_src/qa/toolchain. The complete toolchain archive continues to include the native bridge, both compiler constructions, complete RILL tools, and the closed-loop batch.

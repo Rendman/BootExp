@@ -77,3 +77,6 @@
 /qa/asma0/*.COM
 /qa/asma0/*.img
 /qa/asma0/*.log
+/workbench/rb/*.COM
+/workbench/rc/*.COM
+/qa/compiler_collections/*.COM
