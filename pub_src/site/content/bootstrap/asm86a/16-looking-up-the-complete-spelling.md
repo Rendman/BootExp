@@ -4,6 +4,8 @@ weight = 4
 description = "Use buckets to find candidates and compare every character."
 download = "A16.ASM"
 cartoon = "asm86a-cloakroom.png"
+download_group = "tools/asm86"
+reader_names = 1
 +++
 
 A hash narrows a search but cannot decide whether two names are equal.
@@ -189,7 +191,7 @@ PUSH SI
 
 ```dos
 COPY A16.ASM SOURCE.ASM
-CHECK ASMA0
+CHECK ASM1
 ```
 
 Require `OK RESULT.COM 04071 bytes` and PASS. Preserve this executable before using its fixed output name:
@@ -234,14 +236,7 @@ In VIEW.BAS, inspect RESULT.COM. Require length **11 bytes** and these complete 
 B2 41 B4 02 CD 21 B8 00 4C CD 21
 ```
 
-This fixture is a complete program. Save it before another assembly and execute it:
-
-```dos
-COPY RESULT.COM TRY.COM
-CHECK TRY
-```
-
-It displays "A" and the checker reports PASS.
+The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
 
 ## A rejection check
 

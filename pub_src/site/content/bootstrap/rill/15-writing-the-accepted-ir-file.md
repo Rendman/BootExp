@@ -3,6 +3,8 @@ title = "15 \u00b7 Writing the accepted IR file"
 weight = 15
 description = "Complete a small compiler for the empty program."
 download = "R15.IR"
+download_group = "tools/rill0"
+reader_names = 1
 +++
 
 The accepted text can now be saved and passed to the existing translator.

@@ -1,16 +1,17 @@
 +++
-title = "The RC workbench"
+title = "The RILL workbench"
 weight = 0
-description = "Use the verified RB compiler seed to construct the compiler in RILL."
-download = "RC.ZIP"
-download_group = "rc"
+description = "Use the verified RILLBOOT compiler seed to construct the compiler in RILL."
+download = "RILL.ZIP"
+download_group = "tools/rill"
+reader_names = 1
 +++
 
-Complete the RB collection first, including its language programs. Preserve RB47.COM as RILLBOOT.COM and RB47.IR as RILLBOOT.IR. Keep IWKEEP.COM as the native streaming IR translator and ASMAKEEP.COM as the native ASM86A. Use the same DOS 3.10, period BASIC, CHECK.BAT, and VIEW.BAS workbench.
+Complete the RILLBOOT collection first, including its language programs. Preserve RB47.COM as RILLBOOT.COM and RB47.IR as RILLBOOT.IR. Keep IWKEEP.COM as the native streaming IR translator and ASMAKEEP.COM as the native ASM86. Use the same DOS 3.10, period BASIC, CHECK.BAT, and VIEW.BAS workbench.
 
 ## Start the RILL implementation
 
-RC01.RIL starts a new source file in RILL; it is not an edit to RB47.IR. The procedures retain the seed implementation's jobs while expressing them in the language the seed accepts. Later articles copy the preceding RC source and apply exact edits from the bottom upward. Keep the saved RCxx filenames as printed.
+RC01.RIL starts a new source file in RILL; it is not an edit to RB47.IR. The procedures retain the seed implementation's jobs while expressing them in the language the seed accepts. Later articles copy the preceding RILL source and apply exact edits from the bottom upward. Keep the saved RCxx filenames as printed.
 
 ```dos
 COPY RC01.RIL SOURCE.RIL
@@ -28,7 +29,7 @@ Require each stated OK and PASS **before** the following copy. An old result lef
 
 | Tool | Input | Output | Temporary and recovery names |
 |---|---|---|---|
-| RILLBOOT or RC compiler | SOURCE.RIL | RESULT.IR | RILL.TMP, RILL.BAK |
+| RILLBOOT or RILL compiler | SOURCE.RIL | RESULT.IR | RILL.TMP, RILL.BAK |
 | IWKEEP | SOURCE.IR | RESULT.ASM | IRTX.TMP, IRRES.BAK |
 | ASMAKEEP | SOURCE.ASM | RESULT.COM | ASMA.TMP, RESULT.BAK |
 
@@ -40,4 +41,4 @@ The complete compiler streams 4096-byte blocks. Symbol storage uses an opaque al
 
 After RC43 passes, copy RC43.RIL to RILL.RIL and RC43.COM to R0.COM. The seed-built compiler is 26625 bytes. The self-build exercise uses R0, then R1, to compile the same source through the preserved native translator and assembler. Both resulting executables must match R0.
 
-The complete toolchain exercise also builds IR86.RIL and ASM86A.RIL, then lets the RILL-written trio rebuild all three tools through two matching generations. Keep RILLBOOT, IWKEEP, and ASMAKEEP as reproducible predecessors.
+The complete toolchain exercise also builds IR86.RIL and ASM86.RIL, then lets the RILL-written trio rebuild all three tools through two matching generations. Keep RILLBOOT, IWKEEP, and ASMAKEEP as reproducible predecessors.

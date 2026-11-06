@@ -3,6 +3,8 @@ title = "04 \u00b7 Two characters in a word"
 weight = 4
 description = "Print compact text constants and an explicit line ending."
 download = "R04.IR"
+download_group = "tools/rill0"
+reader_names = 1
 +++
 
 Fixed messages occur often enough to benefit from one compact representation.

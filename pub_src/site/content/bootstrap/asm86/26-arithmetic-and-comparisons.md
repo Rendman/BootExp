@@ -3,6 +3,8 @@ title = "26 \u00b7 Arithmetic and comparisons"
 weight = 26
 description = "Select a group number, register form, or full-width immediate."
 download = "AS26.ASM"
+download_group = "tools/asm0"
+reader_names = 1
 +++
 
 Six related instruction families can share the operand reader and much of their encoding work.

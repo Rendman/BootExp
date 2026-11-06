@@ -1,28 +1,30 @@
 +++
-title = "30 · An assembler makes its own copy"
+title = "30 \u00b7 An assembler makes its own copy"
 weight = 30
 description = "Build two generations and compare every byte against the BASIC-produced starting tool."
-download = "ASM86.ASM"
+download = "ASM0.ASM"
+download_group = "tools/asm0"
+reader_names = 1
 +++
 
 We have a native assembler whose source uses the same instruction forms it accepts. That fact makes a stronger test possible than assembling a handful of small examples: let it assemble the complete source, then repeat the job with the newly built program.
 
-There is no source addition in this installment. `ASM86.ASM` is exactly the saved `AS29.ASM`. The spelling, record order, fixed instruction lengths, and 0100H origin must produce the same bytes regardless of which implementation reads them.
+There is no source addition in this installment. `ASM0.ASM` is exactly the saved `AS29.ASM`. The spelling, record order, fixed instruction lengths, and 0100H origin must produce the same bytes regardless of which implementation reads them.
 
 ## Keep the BASIC-built copy
 
 At DOS:
 
 ```dos
-COPY AS29.ASM ASM86.ASM
+COPY AS29.ASM ASM0.ASM
 GWBASIC BOOTASM.BAS
 ```
 
-Enter `ASM86`. Require `OK ASM86.COM 2622 bytes`, allowing BASIC's extra numeric spaces. Return with `SYSTEM`, then preserve the result:
+Enter `ASM0`. Require `OK ASM0.COM 2622 bytes`, allowing BASIC's extra numeric spaces. Return with `SYSTEM`, then preserve the result:
 
 ```dos
-COPY ASM86.COM ASMKEEP.COM
-COPY ASM86.ASM SELF.ASM
+COPY ASM0.COM ASMKEEP.COM
+COPY ASM0.ASM SELF.ASM
 CHECK ASMKEEP
 ```
 
@@ -49,7 +51,7 @@ Require `Files compare ok` with no differing-byte reports. In the DOS 3.10 utili
 Now let the copy do the work:
 
 ```dos
-COPY ASM86.ASM AGAIN.ASM
+COPY ASM0.ASM AGAIN.ASM
 CHECK SELF
 ```
 

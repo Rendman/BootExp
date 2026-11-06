@@ -32,7 +32,7 @@ bytes outbuf[4096];
 bytes ident[32];
 bytes string[512];
 
-fn main(){printnum(digit(57));return 0;}
+fn main(){return (digit(57))!=1;}
 
 fn letter(c) {
     if c == 95 { return 1; }

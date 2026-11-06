@@ -32,7 +32,7 @@ bytes outbuf[4096];
 bytes ident[32];
 bytes string[512];
 
-fn main(){setident("PUTC");builtin();printnum(recval);return 0;}
+fn main(){setident("PUTC");builtin();return (recval)!=1;}
 
 fn next() {
     if ch == 10 {

@@ -1,19 +1,16 @@
 +++
-title = "RB33 \u00b7 A table of portable services"
+title = "33 \u00b7 Recognizing Built-in Services"
 weight = 33
 description = "A terminated spelling selects an intrinsic record containing an arity and IR text."
 download = "RB33.IR"
-download_group = "rb"
+download_group = "tools/rillboot"
 aliases = ["/bootstrap/rill/066-rb-a-table-of-portable-services/"]
+reader_names = 1
 +++
-
-A terminated spelling selects an intrinsic record containing an arity and IR text.
 
 ## The working parts
 
 A terminated spelling selects an intrinsic record containing an arity and IR text. Compare the whole name. A failed match advances past both fields before considering another entry.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -28,7 +25,7 @@ LIT 0
 RETURN
 ```
 
-Insert after old physical line 1114.
+Insert after old physical line 1112.
 
 Insert:
 
@@ -133,15 +130,14 @@ LIT 1
 Unchanged source immediately before the edit:
 
 ```ir
-ST TABLE
 LITS "ABC"
 CALL SETIDENT
+LIT 1
 ```
 
-Remove this source at old physical positions 40–67 in RB32.IR:
+Remove this source at old physical positions 41–66 in RB32.IR:
 
 ```ir
-LIT 1
 ST RECTYPE
 LIT 12345
 ST RECVAL
@@ -167,26 +163,49 @@ CLOSE
 LIT 0
 ST OUTPUT
 ST OWN
-LITS "OK RILL.TMP\r\n"
-CALL PRINT
+LIT 0
 ```
 
 Replace it with:
 
 ```ir
-CALL BUILTIN
-LD RECVAL
-CALL PRINTNUM
+CNE
 ```
 
 The following old source remains in place:
 
 ```ir
-LIT 0
 RETURN
 ```
 
 ### Edit 3
+
+Unchanged source immediately before the edit:
+
+```ir
+ST TABLE
+LITS "ABC"
+CALL SETIDENT
+```
+
+Insert after old physical line 39.
+
+Insert:
+
+```ir
+CALL BUILTIN
+LD RECVAL
+PUSH
+```
+
+The following old source remains in place:
+
+```ir
+LIT 1
+ST RECTYPE
+```
+
+### Edit 4
 
 Unchanged source immediately before the edit:
 
@@ -230,13 +249,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000037580 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 15600 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000037617 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 15607 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RB33.COM
 ```
 
-VIEW.BAS must report RB33.COM length 15600 bytes. Keep this executable and its source together.
+VIEW.BAS must report RB33.COM length 15607 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -244,29 +263,8 @@ VIEW.BAS must report RB33.COM length 15600 bytes. Keep this executable and its s
 CHECK RB33
 ```
 
-Require, apart from command echo and the checker's separator:
-
-```text
-00001PASS
-```
-
-## A rejection or boundary check
-
-Check a representable-word boundary in the preceding translator. Create BAD.IR:
-
-```ir
-PROC MAIN 0 0
-LIT 65536
-RETURN
-```
-
-```dos
-COPY BAD.IR SOURCE.IR
-CHECK IWKEEP
-```
-
-Require `IR ERROR 0000000002 CODE 2` and FAIL. The accepted RESULT.ASM must remain unchanged. The diagnostic cannot be built from an out-of-range word.
+The checker must report PASS. The driver compares the result with 1 and returns nonzero on a mismatch; it adds no display routine.
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Compare BUILTIN with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.

@@ -3,6 +3,8 @@ title = "09 \u00b7 A bounded byte reader"
 weight = 9
 description = "Distinguish source bytes, text termination, and input errors."
 download = "R09.IR"
+download_group = "tools/rill0"
+reader_names = 1
 +++
 
 A scanner needs one current byte and a reliable end marker.

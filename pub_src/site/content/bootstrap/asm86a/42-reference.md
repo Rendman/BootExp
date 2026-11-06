@@ -1,11 +1,13 @@
 +++
-title = "30 · ASM86A reference"
+title = "30 \u00b7 ASM86 reference"
 weight = 30
 description = "The accepted language, fixed encodings, storage layout, and failure contract."
-download = "ASM86A.ASM"
+download = "ASM86.ASM"
+download_group = "tools/asm86"
+reader_names = 1
 +++
 
-ASM86A is a two-pass 8086/8088 assembler for a single DOS COM image starting at 0100H. It reads SOURCE.ASM and publishes RESULT.COM. It has no filename prompt. Its preceding builder is ASMA0, whose language and storage contract are documented in the separate [ASMA0 reference](../../asma0/13-reference/index.html).
+ASM86 is a two-pass 8086/8088 assembler for a single DOS COM image starting at 0100H. It reads SOURCE.ASM and publishes RESULT.COM. It has no filename prompt. Its preceding builder is ASM1, whose language and storage contract are documented in the separate [ASM1 reference](../../asma0/13-reference/index.html).
 
 ## Source and values
 
@@ -81,7 +83,7 @@ IMUL and IDIV use the original single-operand accumulator conventions. Multiplic
 
 There is no PUSH immediate, later-CPU near conditional opcode, two- or three-operand IMUL, immediate shift count other than one, far call/jump, general prefix syntax, or complete Intel instruction vocabulary. These omissions keep the accepted language and implementation bounded. The processor may have other forms that this assembler does not accept.
 
-Immediate arithmetic keeps the full-width group encoding; it does not select a sign-extended byte optimization. Ordinary word-register INC/DEC and register-immediate MOV retain ASM86's encodings. Existing published ASM86, IR86, and RILL-generated assembly produce identical bytes. Newly reserved segment-register names mean this is not a promise about every possible old source using such names as labels.
+Immediate arithmetic keeps the full-width group encoding; it does not select a sign-extended byte optimization. Ordinary word-register INC/DEC and register-immediate MOV retain ASM0's encodings. Existing published ASM0, IR86, and RILL-generated assembly produce identical bytes. Newly reserved segment-register names mean this is not a promise about every possible old source using such names as labels.
 
 ## Conditional transfers
 
@@ -99,9 +101,9 @@ There is no generated skip-label definition and no extra symbol-table record. Si
 
 ## Capacity and memory
 
-| Resource | ASM86A bound |
+| Resource | ASM86 bound |
 |---|---|
-| Executable produced by ASMA0 | 6422 bytes |
+| Executable produced by ASM1 | 6422 bytes |
 | Input/output blocks | 4096 bytes each |
 | Definitions | 8192 |
 | Name length | 31 characters |
@@ -113,9 +115,9 @@ There is no generated skip-label definition and no extra symbol-table record. Si
 
 The image occupies offsets 0100H through EFFFH at most. F000H is a valid end label, but no additional byte may be emitted there. F000H–FFFFH is reserved for the generated program's stack. This is a chosen COM execution profile; allocated assembler workspace does not enlarge a target's code segment. Empty output is valid for inspection only.
 
-ASMA0 retains the old instruction grammar plus ordinary-word/segment MOV excluding CS destination and ES overrides on the old MOV memory forms. It has no quoted data, EQU, RESB/RESW, new expressions, general addressing, or NEAR conditional qualifier. Its own source fits unchanged ASM86's 256-definition, 4000-line, 120-character, 8192-byte limits. The full ASM86A source uses only ASMA0's language. New accepted source forms are not prerequisites for building their implementation.
+ASM1 retains the old instruction grammar plus ordinary-word/segment MOV excluding CS destination and ES overrides on the old MOV memory forms. It has no quoted data, EQU, RESB/RESW, new expressions, general addressing, or NEAR conditional qualifier. Its own source fits unchanged ASM0's 256-definition, 4000-line, 120-character, 8192-byte limits. The full ASM86 source uses only ASM1's language. New accepted source forms are not prerequisites for building their implementation.
 
-| Main-segment offsets | ASM86A use |
+| Main-segment offsets | ASM86 use |
 |---|---|
 | 0000H–00FFH | PSP |
 | 0100H–BFFFH | Resident code and static state |
@@ -127,9 +129,9 @@ ASMA0 retains the old instruction grammar plus ordinary-word/segment MOV excludi
 | E000H–EFFFH | Output block |
 | F000H–FFFFH | Stack |
 
-Unused gaps are reserved. The full resident ceiling is BFFFH. It is separate from the size of the image streamed to disk. The seed's single-segment map belongs to the [ASMA0 reference](../../asma0/13-reference/index.html).
+Unused gaps are reserved. The full resident ceiling is BFFFH. It is separate from the size of the image streamed to disk. The seed's single-segment map belongs to the [ASM1 reference](../../asma0/13-reference/index.html).
 
-ASM86A keeps CS, DS, and SS at its original main segment, checks normal COM entry SP=FFFEH, and retains 1000H paragraphs using DOS function 4AH. It allocates eight A00H-paragraph symbol pages and one 200H-paragraph hash block using function 48H. Partial allocations are recorded and released with function 49H. The main segment plus these blocks is 392 KiB, excluding DOS, environment, and allocation-control overhead. Allocation is checked rather than inferred from the machine's nominal RAM.
+ASM86 keeps CS, DS, and SS at its original main segment, checks normal COM entry SP=FFFEH, and retains 1000H paragraphs using DOS function 4AH. It allocates eight A00H-paragraph symbol pages and one 200H-paragraph hash block using function 48H. Partial allocations are recorded and released with function 49H. The main segment plus these blocks is 392 KiB, excluding DOS, environment, and allocation-control overhead. Allocation is checked rather than inferred from the machine's nominal RAM.
 
 Each page holds 1024 forty-byte records. IDs 1 through 8192 select page `(ID-1)/1024` and offset `((ID-1) modulo 1024)*40`; zero is the empty marker. No record crosses a page. A record has a 32-byte zero-padded name, word value, word next-ID link, word pass-seen flags, and word kind (zero label, one EQU). All inserted fields are initialized. Unused allocated memory is never assumed zero.
 

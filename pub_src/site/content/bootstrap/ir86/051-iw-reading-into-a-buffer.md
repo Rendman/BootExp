@@ -3,14 +3,13 @@ title = "IW15 \u00b7 Reading into a buffer"
 weight = 51
 description = "Consume a saved handle and pointer, return actual progress, and refill after short reads."
 download = "IW15.ASM"
-download_group = "toolchain"
+download_group = "tools/toolchain"
+reader_names = 1
 +++
-
-Consume a saved handle and pointer, return actual progress, and refill after short reads.
 
 ## The working parts
 
-Consume a saved handle and pointer, return actual progress, and refill after short reads. The assembly routines use the inherited bounded reader and owned-file cleanup. The operation table supplies argument class, stack action, and an authored target template. Native encodings belong to this backend; the IR operation retains its abstract meaning.
+Consume a saved handle and pointer, return actual progress, and refill after short reads.
 
 ## Enter the source
 
@@ -230,7 +229,7 @@ COPY TIW15.IR SOURCE.IR
 CHECK IW15
 ```
 
-Require, apart from command echo and the checker's separator:
+Require:
 
 ```text
 OK RESULT.ASM 0000002386 text bytes
@@ -274,4 +273,4 @@ The accepted RESULT.ASM must remain unchanged. An unexpected PASS fails this che
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Compare the new routine with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.

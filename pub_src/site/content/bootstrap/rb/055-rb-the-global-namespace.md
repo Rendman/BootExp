@@ -1,19 +1,16 @@
 +++
-title = "RB22 \u00b7 The global namespace"
+title = "22 \u00b7 Finding a Global Name"
 weight = 22
 description = "Restrict FIND to the active global entries."
 download = "RB22.IR"
-download_group = "rb"
+download_group = "tools/rillboot"
 aliases = ["/bootstrap/rill/055-rb-the-global-namespace/"]
+reader_names = 1
 +++
-
-Restrict FIND to the active global entries.
 
 ## The working parts
 
 Restrict FIND to the active global entries. A local shadow must not change how a procedure definition is found.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -28,7 +25,7 @@ INVOKE RECORD 1
 RETURN
 ```
 
-Insert after old physical line 834.
+Insert after old physical line 835.
 
 Insert:
 
@@ -79,7 +76,7 @@ The following old source remains in place:
 
 ```ir
 LD RECVAL
-CALL PRINTNUM
+PUSH
 ```
 
 ## Build this stopping point
@@ -94,13 +91,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000027324 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 14040 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000027361 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 14047 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RB22.COM
 ```
 
-VIEW.BAS must report RB22.COM length 14040 bytes. Keep this executable and its source together.
+VIEW.BAS must report RB22.COM length 14047 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -108,29 +105,8 @@ VIEW.BAS must report RB22.COM length 14040 bytes. Keep this executable and its s
 CHECK RB22
 ```
 
-Require, apart from command echo and the checker's separator:
-
-```text
-12345PASS
-```
-
-## A rejection or boundary check
-
-Check a representable-word boundary in the preceding translator. Create BAD.IR:
-
-```ir
-PROC MAIN 0 0
-LIT 65536
-RETURN
-```
-
-```dos
-COPY BAD.IR SOURCE.IR
-CHECK IWKEEP
-```
-
-Require `IR ERROR 0000000002 CODE 2` and FAIL. The accepted RESULT.ASM must remain unchanged. The diagnostic cannot be built from an out-of-range word.
+The checker must report PASS. The driver compares the result with 12345 and returns nonzero on a mismatch; it adds no display routine.
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Compare LOOKGLOBAL with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.

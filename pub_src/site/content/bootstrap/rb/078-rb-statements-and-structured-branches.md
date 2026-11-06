@@ -1,19 +1,16 @@
 +++
-title = "RB45 \u00b7 Statements and structured branches"
+title = "45 \u00b7 Compiling Assignments and Branches"
 weight = 45
 description = "Keep assignment destinations, false targets, and loop targets in local slots."
 download = "RB45.IR"
-download_group = "rb"
+download_group = "tools/rillboot"
 aliases = ["/bootstrap/rill/078-rb-statements-and-structured-branches/"]
+reader_names = 1
 +++
-
-Keep assignment destinations, false targets, and loop targets in local slots.
 
 ## The working parts
 
 Keep assignment destinations, false targets, and loop targets in local slots. An if/else join and a while back edge meet with no expression temporaries. Parse every statement even after an explicit return.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -29,7 +26,7 @@ LIT 2
 PUSH
 ```
 
-Remove this source at old physical positions 1317–1317 in RB44.IR:
+Remove this source at old physical positions 1315–1315 in RB44.IR:
 
 ```ir
 INVOKE ERROR 1
@@ -174,7 +171,7 @@ PROC STATEMENT 0 0
 LIT 2
 ```
 
-Insert after old physical line 1315.
+Insert after old physical line 1313.
 
 Insert:
 
@@ -207,7 +204,7 @@ LIT 0
 RETURN
 ```
 
-Remove this source at old physical positions 1314–1314 in RB44.IR:
+Remove this source at old physical positions 1312–1312 in RB44.IR:
 
 ```ir
 PROC STATEMENT 0 0
@@ -374,13 +371,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000065939 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 20629 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000065740 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 20606 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RB45.COM
 ```
 
-VIEW.BAS must report RB45.COM length 20629 bytes. Keep this executable and its source together.
+VIEW.BAS must report RB45.COM length 20606 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -398,14 +395,9 @@ COPY TRB45.RIL SOURCE.RIL
 CHECK RB45
 ```
 
-Require, apart from command echo and the checker's separator:
+The checker must report PASS. Inspect the emitted file below.
 
-```text
-OK RILL.TMP
-PASS
-```
-
-TYPE RILL.TMP. Its complete text is:
+TYPE RILL.TMP. Its complete IR is:
 
 ```ir
 PROC MAIN 0 16
@@ -462,4 +454,4 @@ An unexpected PASS fails the rejection. The pre-existing RESULT.IR must remain u
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Compare STATEMENT with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.

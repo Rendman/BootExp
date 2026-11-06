@@ -3,13 +3,15 @@ title = "20 \u00b7 An unconditional transfer"
 weight = 20
 description = "Transfer to a named code label with an empty expression stack."
 download = "IR20.ASM"
+download_group = "tools/ir86"
+reader_names = 1
 +++
 
 JMP lets one basic block transfer to another. The backend must implement the named transfer within its target limits.
 
 ## Operation and backend
 
-JMP name emits the near form JMP U_name. Its displacement is resolved by ASM86 from the following instruction to the named label. The target can be forward or backward within the program segment.
+JMP name emits the near form JMP U_name. Its displacement is resolved by ASM0 from the following instruction to the named label. The target can be forward or backward within the program segment.
 
 The table marks JMP as a terminal control boundary. FLOW requires the expression stack to be empty; LAST suppresses an unnecessary fall-through exit when JMP is the last statement. The translator does not prove that a jump targets code rather than data.
 
@@ -86,7 +88,7 @@ MOV CX,25
 CHECK ASMKEEP
 ```
 
-Enter `IR20` at ASM86's `Source name:` prompt. Require `OK 02794 bytes` followed by PASS. This builds `IR20.COM` directly with the completed assembler. Save the source and executable before running the test.
+Enter `IR20` at ASM0's `Source name:` prompt. Require `OK 02794 bytes` followed by PASS. This builds `IR20.COM` directly with the completed assembler. Save the source and executable before running the test.
 
 Create `T20.IR` with `COPY CON T20.IR`, enter this text, and finish with Ctrl-Z and Enter. The Ctrl-Z keystroke ends console input; it is not a printed language token.
 

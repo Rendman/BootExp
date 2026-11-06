@@ -4,6 +4,8 @@ weight = 9
 description = "Separate the resident image, I/O blocks, symbols, and stack."
 download = "A09.ASM"
 aliases = ["/bootstrap/asm86a/09-a-larger-seed-workspace/"]
+download_group = "tools/asm1"
+reader_names = 1
 +++
 
 Streamed output frees the old image buffer, making room for more definitions.
@@ -12,7 +14,7 @@ Streamed output frees the old image buffer, making room for more definitions.
 
 The seed moves its line to 4000H, token to 4080H, input block to 4200H, output block to 4600H, and symbol table to 5000H. The 2048 twenty-byte records end at EFFFH. The upper 4 KB remain reserved for the stack.
 
-DEFINE bounds the record count before copying a name. The code/static-data area is reserved below 4000H even though the initial image must still fit ASM86's smaller build limit. Emitted programs are written to disk and do not occupy this workspace.
+DEFINE bounds the record count before copying a name. The code/static-data area is reserved below 4000H even though the initial image must still fit ASM0's smaller build limit. Emitted programs are written to disk and do not occupy this workspace.
 
 ## Enter the source
 
@@ -803,7 +805,7 @@ PASSSTART:
 
 ## Build the stopping point
 
-Run `CHECK ASMKEEP`, enter `A09` at `Source name:`, and require `OK 03068 bytes` and PASS. This uses the preceding published ASM86, not the new checkpoint. It creates A09.COM.
+Run `CHECK ASMKEEP`, enter `A09` at `Source name:`, and require `OK 03068 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. It creates A09.COM.
 
 VIEW.BAS must report A09.COM length 3068 bytes. Keep that executable and source together.
 
@@ -840,14 +842,7 @@ In VIEW.BAS, inspect RESULT.COM. Require length **11 bytes** and these complete 
 B2 41 B4 02 CD 21 B8 00 4C CD 21
 ```
 
-This fixture is a complete program. Save it before another assembly and execute it:
-
-```dos
-COPY RESULT.COM TRY.COM
-CHECK TRY
-```
-
-It displays "A" and the checker reports PASS.
+The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
 
 ## A rejection check
 

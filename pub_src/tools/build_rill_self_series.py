@@ -55,6 +55,9 @@ add('statement','Structured statements in RILL',setup+opened+read+'outstr("PROC 
 add('function','Compile a complete procedure',setup+opened+read+'function();outstr("PROC MAIN 0 0\\r\\nINVOKE F_MAIN 0\\r\\nRETURN\\r\\n");'+closed,'OK RILL.TMP\r\n','fn main(){putc(65);return 0;}','fn main(a,a){}',4,complete=True)
 add('main','The compiler compiles its own language',None,'','fn main(){putc(72);putc(73);return 0;}','fn main(){return 65536;}',3,complete=True)
 
+from compiler_checks import refine
+refine(entries,'rill')
+
 def build():
  current={};cases=[]
  for n,e in enumerate(entries,1):

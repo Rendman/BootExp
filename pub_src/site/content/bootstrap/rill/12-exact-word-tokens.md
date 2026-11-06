@@ -4,6 +4,8 @@ weight = 12
 description = "Retain every letter of a short word without a dictionary file."
 download = "R12.IR"
 cartoon = "rill-tails.png"
+download_group = "tools/rill0"
+reader_names = 1
 +++
 
 Recognizing the beginning of a keyword is insufficient: putc and putcat must remain different.

@@ -1,19 +1,16 @@
 +++
-title = "RB47 \u00b7 The complete streamed compiler"
+title = "47 \u00b7 Compiling a Complete Program"
 weight = 47
 description = "Open the fixed source, stream accepted IR through an owned temporary file, and verify all pending procedures."
 download = "RB47.IR"
-download_group = "rb"
+download_group = "tools/rillboot"
 aliases = ["/bootstrap/rill/080-rb-the-complete-streamed-compiler/"]
+reader_names = 1
 +++
-
-Open the fixed source, stream accepted IR through an owned temporary file, and verify all pending procedures.
 
 ## The working parts
 
 Open the fixed source, stream accepted IR through an owned temporary file, and verify all pending procedures. Require an argument-free main. Publish only after parsing, source close, flush, and output close succeed.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -29,7 +26,7 @@ LIT 1
 EXIT
 ```
 
-Remove this source at old physical positions 2465–2465 in RB46.IR:
+Remove this source at old physical positions 2463–2463 in RB46.IR:
 
 ```ir
 
@@ -54,7 +51,7 @@ LIT 1
 EXIT
 ```
 
-Remove this source at old physical positions 2422–2422 in RB46.IR:
+Remove this source at old physical positions 2420–2420 in RB46.IR:
 
 ```ir
 
@@ -79,7 +76,7 @@ LIT 0
 RETURN
 ```
 
-Remove this source at old physical positions 2402–2402 in RB46.IR:
+Remove this source at old physical positions 2400–2400 in RB46.IR:
 
 ```ir
 
@@ -104,7 +101,7 @@ LIT 0
 RETURN
 ```
 
-Remove this source at old physical positions 2176–2176 in RB46.IR:
+Remove this source at old physical positions 2174–2174 in RB46.IR:
 
 ```ir
 
@@ -129,7 +126,7 @@ LIT 0
 RETURN
 ```
 
-Remove this source at old physical positions 2049–2049 in RB46.IR:
+Remove this source at old physical positions 2047–2047 in RB46.IR:
 
 ```ir
 
@@ -154,7 +151,7 @@ LIT 7
 RETURN
 ```
 
-Remove this source at old physical positions 2007–2007 in RB46.IR:
+Remove this source at old physical positions 2005–2005 in RB46.IR:
 
 ```ir
 
@@ -179,7 +176,7 @@ LIT 0
 RETURN
 ```
 
-Remove this source at old physical positions 1902–1902 in RB46.IR:
+Remove this source at old physical positions 1900–1900 in RB46.IR:
 
 ```ir
 
@@ -204,7 +201,7 @@ LOCAL 0
 RETURN
 ```
 
-Remove this source at old physical positions 1791–1791 in RB46.IR:
+Remove this source at old physical positions 1789–1789 in RB46.IR:
 
 ```ir
 
@@ -229,7 +226,7 @@ LIT 0
 RETURN
 ```
 
-Remove this source at old physical positions 1753–1753 in RB46.IR:
+Remove this source at old physical positions 1751–1751 in RB46.IR:
 
 ```ir
 
@@ -254,7 +251,7 @@ LIT 0
 RETURN
 ```
 
-Remove this source at old physical positions 1666–1666 in RB46.IR:
+Remove this source at old physical positions 1664–1664 in RB46.IR:
 
 ```ir
 
@@ -284,7 +281,7 @@ LIT 0
 RETURN
 ```
 
-Remove this source at old physical positions 1449–1449 in RB46.IR:
+Remove this source at old physical positions 1447–1447 in RB46.IR:
 
 ```ir
 
@@ -309,7 +306,7 @@ LIT 0
 RETURN
 ```
 
-Remove this source at old physical positions 1379–1379 in RB46.IR:
+Remove this source at old physical positions 1377–1377 in RB46.IR:
 
 ```ir
 
@@ -334,7 +331,7 @@ LIT 0
 RETURN
 ```
 
-Remove this source at old physical positions 1338–1338 in RB46.IR:
+Remove this source at old physical positions 1336–1336 in RB46.IR:
 
 ```ir
 
@@ -359,7 +356,7 @@ LIT 0
 RETURN
 ```
 
-Remove this source at old physical positions 1204–1204 in RB46.IR:
+Remove this source at old physical positions 1202–1202 in RB46.IR:
 
 ```ir
 
@@ -384,7 +381,7 @@ LIT 0
 RETURN
 ```
 
-Remove this source at old physical positions 1156–1156 in RB46.IR:
+Remove this source at old physical positions 1154–1154 in RB46.IR:
 
 ```ir
 
@@ -409,7 +406,7 @@ LIT 0
 RETURN
 ```
 
-Remove this source at old physical positions 1109–1109 in RB46.IR:
+Remove this source at old physical positions 1107–1107 in RB46.IR:
 
 ```ir
 
@@ -434,7 +431,7 @@ LIT 0
 RETURN
 ```
 
-Remove this source at old physical positions 1073–1073 in RB46.IR:
+Remove this source at old physical positions 1071–1071 in RB46.IR:
 
 ```ir
 
@@ -459,7 +456,7 @@ LIT 0
 RETURN
 ```
 
-Remove this source at old physical positions 1056–1056 in RB46.IR:
+Remove this source at old physical positions 1054–1054 in RB46.IR:
 
 ```ir
 
@@ -484,7 +481,7 @@ LIT 0
 RETURN
 ```
 
-Remove this source at old physical positions 1050–1050 in RB46.IR:
+Remove this source at old physical positions 1048–1048 in RB46.IR:
 
 ```ir
 
@@ -509,7 +506,7 @@ LIT 0
 RETURN
 ```
 
-Remove this source at old physical positions 1040–1040 in RB46.IR:
+Remove this source at old physical positions 1038–1038 in RB46.IR:
 
 ```ir
 
@@ -534,7 +531,7 @@ LD LABELNO
 RETURN
 ```
 
-Remove this source at old physical positions 1030–1030 in RB46.IR:
+Remove this source at old physical positions 1028–1028 in RB46.IR:
 
 ```ir
 
@@ -559,7 +556,7 @@ LIT 0
 RETURN
 ```
 
-Remove this source at old physical positions 1020–1020 in RB46.IR:
+Remove this source at old physical positions 1018–1018 in RB46.IR:
 
 ```ir
 
@@ -584,7 +581,7 @@ LIT 0
 RETURN
 ```
 
-Remove this source at old physical positions 984–984 in RB46.IR:
+Remove this source at old physical positions 982–982 in RB46.IR:
 
 ```ir
 
@@ -609,7 +606,7 @@ LIT 0
 RETURN
 ```
 
-Remove this source at old physical positions 950–950 in RB46.IR:
+Remove this source at old physical positions 948–948 in RB46.IR:
 
 ```ir
 
@@ -634,7 +631,7 @@ LIT 0
 RETURN
 ```
 
-Remove this source at old physical positions 927–927 in RB46.IR:
+Remove this source at old physical positions 925–925 in RB46.IR:
 
 ```ir
 
@@ -659,7 +656,7 @@ LIT 0
 RETURN
 ```
 
-Remove this source at old physical positions 890–890 in RB46.IR:
+Remove this source at old physical positions 888–888 in RB46.IR:
 
 ```ir
 
@@ -684,7 +681,7 @@ LD FOUND
 RETURN
 ```
 
-Remove this source at old physical positions 868–868 in RB46.IR:
+Remove this source at old physical positions 866–866 in RB46.IR:
 
 ```ir
 
@@ -709,7 +706,7 @@ INVOKE FIND 2
 RETURN
 ```
 
-Remove this source at old physical positions 847–847 in RB46.IR:
+Remove this source at old physical positions 845–845 in RB46.IR:
 
 ```ir
 
@@ -734,7 +731,7 @@ INVOKE RECORD 1
 RETURN
 ```
 
-Remove this source at old physical positions 839–839 in RB46.IR:
+Remove this source at old physical positions 837–837 in RB46.IR:
 
 ```ir
 
@@ -759,7 +756,7 @@ INVOKE RECORD 1
 RETURN
 ```
 
-Remove this source at old physical positions 814–814 in RB46.IR:
+Remove this source at old physical positions 812–812 in RB46.IR:
 
 ```ir
 
@@ -784,7 +781,7 @@ PARAM 0
 RETURN
 ```
 
-Remove this source at old physical positions 792–792 in RB46.IR:
+Remove this source at old physical positions 790–790 in RB46.IR:
 
 ```ir
 
@@ -809,7 +806,7 @@ SET16
 RETURN
 ```
 
-Remove this source at old physical positions 719–719 in RB46.IR:
+Remove this source at old physical positions 717–717 in RB46.IR:
 
 ```ir
 
@@ -834,7 +831,7 @@ LIT 65535
 RETURN
 ```
 
-Remove this source at old physical positions 710–710 in RB46.IR:
+Remove this source at old physical positions 708–708 in RB46.IR:
 
 ```ir
 
@@ -859,7 +856,7 @@ GET8
 RETURN
 ```
 
-Remove this source at old physical positions 643–643 in RB46.IR:
+Remove this source at old physical positions 641–641 in RB46.IR:
 
 ```ir
 
@@ -884,7 +881,7 @@ GET16
 RETURN
 ```
 
-Remove this source at old physical positions 635–635 in RB46.IR:
+Remove this source at old physical positions 633–633 in RB46.IR:
 
 ```ir
 
@@ -909,7 +906,7 @@ LIT 0
 RETURN
 ```
 
-Remove this source at old physical positions 627–627 in RB46.IR:
+Remove this source at old physical positions 625–625 in RB46.IR:
 
 ```ir
 
@@ -934,7 +931,7 @@ LIT 0
 RETURN
 ```
 
-Remove this source at old physical positions 600–600 in RB46.IR:
+Remove this source at old physical positions 598–598 in RB46.IR:
 
 ```ir
 
@@ -959,7 +956,7 @@ LIT 0
 RETURN
 ```
 
-Remove this source at old physical positions 558–558 in RB46.IR:
+Remove this source at old physical positions 556–556 in RB46.IR:
 
 ```ir
 
@@ -984,7 +981,7 @@ ST TOK
 RETURN
 ```
 
-Remove this source at old physical positions 548–548 in RB46.IR:
+Remove this source at old physical positions 546–546 in RB46.IR:
 
 ```ir
 
@@ -1009,7 +1006,7 @@ LIT 1
 RETURN
 ```
 
-Remove this source at old physical positions 205–205 in RB46.IR:
+Remove this source at old physical positions 203–203 in RB46.IR:
 
 ```ir
 
@@ -1034,7 +1031,7 @@ LIT 0
 RETURN
 ```
 
-Remove this source at old physical positions 191–191 in RB46.IR:
+Remove this source at old physical positions 189–189 in RB46.IR:
 
 ```ir
 
@@ -1059,7 +1056,7 @@ ST CH
 RETURN
 ```
 
-Remove this source at old physical positions 158–158 in RB46.IR:
+Remove this source at old physical positions 156–156 in RB46.IR:
 
 ```ir
 
@@ -1079,12 +1076,12 @@ PARAM 0
 Unchanged source immediately before the edit:
 
 ```ir
-CALL PRINT
+ST OWN
 LIT 0
 RETURN
 ```
 
-Remove this source at old physical positions 65–65 in RB46.IR:
+Remove this source at old physical positions 63–63 in RB46.IR:
 
 ```ir
 
@@ -1109,13 +1106,9 @@ ST OUTPUT
 ST OWN
 ```
 
-Remove this source at old physical positions 61–61 in RB46.IR:
+Insert after old physical line 60.
 
-```ir
-LITS "OK RILL.TMP\r\n"
-```
-
-Replace it with:
+Insert:
 
 ```ir
 LD BACKUP
@@ -1138,13 +1131,14 @@ PUSH
 INVOKE PRINT32 2
 LABEL REPORTDONE
 LITS "\r\n"
+CALL PRINT
 ```
 
 The following old source remains in place:
 
 ```ir
-CALL PRINT
 LIT 0
+RETURN
 ```
 
 ### Edit 45
@@ -1169,7 +1163,7 @@ The following old source remains in place:
 
 ```ir
 ST OWN
-LITS "OK RILL.TMP\r\n"
+LIT 0
 ```
 
 ### Edit 46
@@ -1478,14 +1472,14 @@ COPY TRB47.RIL SOURCE.RIL
 CHECK RB47
 ```
 
-Require, apart from command echo and the checker's separator:
+Require:
 
 ```text
 OK RESULT.IR 0000000152
 PASS
 ```
 
-TYPE RESULT.IR. Its complete text is:
+TYPE RESULT.IR. Its complete IR is:
 
 ```ir
 PROC F_MAIN 00000 16
@@ -1532,6 +1526,6 @@ An unexpected PASS fails the rejection. The pre-existing RESULT.IR must remain u
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Compare MAIN with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.
 
-Preserve RB47.COM as RILLBOOT.COM and RB47.IR as RILLBOOT.IR. This compiler seed was built entirely through the native IR86 and ASM86A tools. Continue with the complete programs in this collection, then the separate [RC collection](../../rc/index.html).
+Preserve RB47.COM as RILLBOOT.COM and RB47.IR as RILLBOOT.IR. This compiler seed was built entirely through the native IR86 and ASM86 tools. Continue with the complete programs in this collection, then the separate [RILL collection](../../rc/index.html).

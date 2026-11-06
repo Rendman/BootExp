@@ -3,13 +3,15 @@ title = "06 \u00b7 Substituting a name"
 weight = 6
 description = "Save one checked name and insert it behind a safe prefix."
 download = "IR06.ASM"
+download_group = "tools/ir86"
+reader_names = 1
 +++
 
 A fixed text pattern cannot name a program location. We shall give a template a checked name to insert.
 
 ## Operation and backend
 
-NAMEARG scans and validates a name, then copies it to 2500H while preserving the source cursor. A name begins with a letter or underscore and continues with letters, digits, or underscores. Its maximum is fourteen characters, leaving room for U_ within ASM86's name bound.
+NAMEARG scans and validates a name, then copies it to 2500H while preserving the source cursor. A name begins with a letter or underscore and continues with letters, digits, or underscores. Its maximum is fourteen characters, leaving room for U_ within ASM0's name bound.
 
 An @ in a template substitutes the saved name. EXPAND saves SI while OUTTEXT reads the saved name, then restores SI to resume the template. LABEL emits U_name and a colon on a standalone assembly line. An IR name such as AX is harmless because U_AX is not a register.
 
@@ -264,7 +266,7 @@ JMP ERROR
 CHECK ASMKEEP
 ```
 
-Enter `IR06` at ASM86's `Source name:` prompt. Require `OK 01311 bytes` followed by PASS. This builds `IR06.COM` directly with the completed assembler. Save the source and executable before running the test.
+Enter `IR06` at ASM0's `Source name:` prompt. Require `OK 01311 bytes` followed by PASS. This builds `IR06.COM` directly with the completed assembler. Save the source and executable before running the test.
 
 Create `T06.IR` with `COPY CON T06.IR`, enter this text, and finish with Ctrl-Z and Enter. The Ctrl-Z keystroke ends console input; it is not a printed language token.
 
@@ -325,4 +327,4 @@ An unexpected PASS is a failed rejection test. Require a fresh OK before using a
 
 ## If the result differs
 
-Check the record stride and count, the saved template pointer, and each substitution buffer. The name and numeric token must survive FINISH. Compare the generated assembly before asking ASM86 to assemble it.
+Check the record stride and count, the saved template pointer, and each substitution buffer. The name and numeric token must survive FINISH. Compare the generated assembly before asking ASM0 to assemble it.

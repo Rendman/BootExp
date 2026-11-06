@@ -3,6 +3,8 @@ title = "21 \u00b7 Fixed instruction bytes"
 weight = 21
 description = "Five no-operand mnemonics use the same table dispatcher."
 download = "AS21.ASM"
+download_group = "tools/asm0"
+reader_names = 1
 +++
 
 We shall add machine instructions whose complete encodings are one fixed byte each.

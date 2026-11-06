@@ -4,6 +4,8 @@ weight = 8
 description = "Keep source extent separate from the emitted image limit."
 download = "A08.ASM"
 aliases = ["/bootstrap/asm86a/08-a-longer-source-count/"]
+download_group = "tools/asm1"
+reader_names = 1
 +++
 
 A source file can contain much more text than its executable contains bytes.
@@ -105,7 +107,7 @@ MOV AX,1
 
 ## Build the stopping point
 
-Run `CHECK ASMKEEP`, enter `A08` at `Source name:`, and require `OK 03068 bytes` and PASS. This uses the preceding published ASM86, not the new checkpoint. It creates A08.COM.
+Run `CHECK ASMKEEP`, enter `A08` at `Source name:`, and require `OK 03068 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. It creates A08.COM.
 
 VIEW.BAS must report A08.COM length 3068 bytes. Keep that executable and source together.
 
@@ -142,14 +144,7 @@ In VIEW.BAS, inspect RESULT.COM. Require length **11 bytes** and these complete 
 B2 41 B4 02 CD 21 B8 00 4C CD 21
 ```
 
-This fixture is a complete program. Save it before another assembly and execute it:
-
-```dos
-COPY RESULT.COM TRY.COM
-CHECK TRY
-```
-
-It displays "A" and the checker reports PASS.
+The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
 
 ## A rejection check
 

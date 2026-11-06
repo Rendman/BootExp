@@ -1,19 +1,16 @@
 +++
-title = "RC08 \u00b7 Tokens with saved local state"
+title = "08 \u00b7 Reading Tokens"
 weight = 8
 description = "Keep source position, token kind, numeric value, and complete spelling distinct."
 download = "RC08.RIL"
-download_group = "rc"
+download_group = "tools/rill"
 aliases = ["/bootstrap/rill/096-rc-tokens-with-saved-local-state/"]
+reader_names = 1
 +++
-
-Keep source position, token kind, numeric value, and complete spelling distinct.
 
 ## The working parts
 
 Keep source position, token kind, numeric value, and complete spelling distinct. Save temporary values in local slots across NEXT calls. Paired punctuation is recognized before returning a single character; comments consume source without manufacturing a token.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -123,13 +120,13 @@ bytes string[512];
 Remove this source at old physical positions 35–35 in RC07.RIL:
 
 ```rill
-fn main(){input=open("SOURCE.RIL");if status(){fail(1);}next();printnum(ch);return 0;}
+fn main(){input=open("SOURCE.RIL");if status(){fail(1);}next();return (ch)!=65;}
 ```
 
 Replace it with:
 
 ```rill
-fn main(){input=open("SOURCE.RIL");if status(){fail(1);}next();lex();printnum(value);return 0;}
+fn main(){input=open("SOURCE.RIL");if status(){fail(1);}next();lex();return (value)!=65535;}
 ```
 
 The following old source remains in place:
@@ -146,7 +143,7 @@ COPY RC08.RIL SOURCE.RIL
 CHECK RILLBOOT
 ```
 
-Require `OK RESULT.IR 0000013381` and PASS. Copy RESULT.IR to SOURCE.IR.
+Require `OK RESULT.IR 0000013361` and PASS. Copy RESULT.IR to SOURCE.IR.
 
 ```dos
 CHECK IWKEEP
@@ -154,13 +151,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000029422 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 14083 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000029434 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 14085 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RC08.COM
 ```
 
-VIEW.BAS must report RC08.COM length 14083 bytes. Keep this executable and its source together.
+VIEW.BAS must report RC08.COM length 14085 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -178,11 +175,7 @@ COPY TRC08.RIL SOURCE.RIL
 CHECK RC08
 ```
 
-Require, apart from command echo and the checker's separator:
-
-```text
-65535PASS
-```
+The checker must report PASS. The driver compares the result with 65535 and returns nonzero on a mismatch; it adds no display routine.
 
 ## A rejection or boundary check
 
@@ -208,4 +201,4 @@ An unexpected PASS fails the rejection. The pre-existing RESULT.IR must remain u
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Check the token class, complete spelling, and numeric value separately. Preserve the raw quoted bytes while folding names.

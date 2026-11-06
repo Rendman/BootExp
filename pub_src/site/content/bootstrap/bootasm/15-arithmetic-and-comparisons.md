@@ -3,6 +3,8 @@ title = "15. Arithmetic and comparisons"
 weight = 15
 description = "Adding, subtracting, testing bits, and setting flags."
 checkpoint = "BA15.BAS"
+download_group = "tools/bootasm"
+reader_names = 1
 +++
 
 To work on a character or count, a program needs arithmetic and tests. The same operand machinery serves six closely related instruction families.

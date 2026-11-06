@@ -4,6 +4,8 @@ weight = 18
 description = "Preserve parser state across nested routine calls."
 download = "R18.IR"
 cartoon = "rill-drawers.png"
+download_group = "tools/rill0"
+reader_names = 1
 +++
 
 The name on the left of an assignment must survive scanning and compiling its right side.

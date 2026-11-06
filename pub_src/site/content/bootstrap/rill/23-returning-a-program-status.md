@@ -3,6 +3,8 @@ title = "23 \u00b7 Returning a program status"
 weight = 23
 description = "Compile an explicit termination statement."
 download = "R23.IR"
+download_group = "tools/rill0"
+reader_names = 1
 +++
 
 A program needs to report failure and to stop before the normal end of its body.

@@ -1,19 +1,20 @@
 +++
-title = "The RB compiler-seed workbench"
+title = "The RILLBOOT compiler-seed workbench"
 weight = 0
 description = "Construct the systems-language compiler in IR86 and preserve it as RILLBOOT."
-download = "RB.ZIP"
-download_group = "rb"
+download = "RILLBOOT.ZIP"
+download_group = "tools/rillboot"
 aliases = ["/bootstrap/rill/033-the-systems-workbench/"]
+reader_names = 1
 +++
 
 RILL is a rung of a working bootstrap ladder. The first compiler construction establishes scanning, emitted IR, variables, and structured control. This workbench adds the procedures, local state, storage, and portable services needed to write the assembler, IR translator, and compiler in RILL itself.
 
-Begin with the completed streaming IR workbench: IWKEEP.COM is the fixed-file native translator, and ASMAKEEP.COM is the tested native ASM86A. Their sources remain available. No outside compiler, assembler, linker, or supplied executable participates in these builds.
+Begin with the completed streaming IR workbench: IWKEEP.COM is the fixed-file native translator, and ASMAKEEP.COM is the tested native ASM86. Their sources remain available. No outside compiler, assembler, linker, or supplied executable participates in these builds.
 
 ## The compiler seed in IR
 
-RB01 begins with an executable formatting diagnostic. The RB stopping points add character reading, complete spellings, symbol records, streamed output, expression parsing, lexical scopes, arguments, statements, and procedure definitions. The complete source is RILLBOOT.IR, identical to RB47.IR.
+RB01 begins with an executable formatting diagnostic. The RILLBOOT stopping points add character reading, complete spellings, symbol records, streamed output, expression parsing, lexical scopes, arguments, statements, and procedure definitions. The complete source is RILLBOOT.IR, identical to RB47.IR.
 
 Build each seed checkpoint through the preceding project tools:
 
@@ -29,11 +30,11 @@ Require each stated OK and PASS **before** the next copy. Keep source and execut
 
 After RB47 passes, preserve RB47.COM as RILLBOOT.COM. This is an IR-written compiler, built with the native translator and assembler. It accepts the complete language used to implement the three tools.
 
-## Handoff to RC
+## Handoff to RILL
 
 Work through the complete programs after the seed reference. They introduce the language used to write the tools: word expressions, arguments, recursion, scopes, byte storage, strings, and opaque block/file services. Save the tested RILLBOOT.COM and RILLBOOT.IR separately.
 
-The [RC collection](../../rc/index.html) starts a compiler written in this language. RILLBOOT is its builder; its source is retained rather than replaced by an unexplained executable.
+The [RILL collection](../../rc/index.html) starts a compiler written in this language. RILLBOOT is its builder; its source is retained rather than replaced by an unexplained executable.
 
 ## Storage and service conventions
 

@@ -3,6 +3,8 @@ title = "22 \u00b7 Returning and releasing arguments"
 weight = 22
 description = "Encode the optional near-return adjustment explicitly."
 download = "A34.ASM"
+download_group = "tools/asm86"
+reader_names = 1
 +++
 
 A callee can return while discarding a stated amount of argument storage.
@@ -121,7 +123,7 @@ CALL FINISH
 
 ```dos
 COPY A34.ASM SOURCE.ASM
-CHECK ASMA0
+CHECK ASM1
 ```
 
 Require `OK RESULT.COM 05993 bytes` and PASS. Preserve this executable before using its fixed output name:
@@ -174,14 +176,7 @@ In VIEW.BAS, inspect RESULT.COM. Require length **29 bytes** and these complete 
 B8 41 00 50 E8 0B 00 8A D0 B4 02 CD 21 B8 00 4C CD 21 55 8B EC 8B 86 04 00 5D C2 02 00
 ```
 
-This fixture is a complete program. Save it before another assembly and execute it:
-
-```dos
-COPY RESULT.COM TRY.COM
-CHECK TRY
-```
-
-It displays "A" and the checker reports PASS.
+The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
 
 ## A rejection check
 

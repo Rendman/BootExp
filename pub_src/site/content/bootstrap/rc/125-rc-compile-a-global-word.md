@@ -1,19 +1,16 @@
 +++
-title = "RC37 \u00b7 Compile a global word"
+title = "37 \u00b7 Compiling a Global Variable"
 weight = 37
 description = "A global mutable word has a literal initializer and a stable V_ name."
 download = "RC37.RIL"
-download_group = "rc"
+download_group = "tools/rill"
 aliases = ["/bootstrap/rill/125-rc-compile-a-global-word/"]
+reader_names = 1
 +++
-
-A global mutable word has a literal initializer and a stable V_ name.
 
 ## The working parts
 
 A global mutable word has a literal initializer and a stable V_ name. Reject duplicates before emitting its declaration.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -63,13 +60,13 @@ bytes string[512];
 Remove this source at old physical positions 35–35 in RC36.RIL:
 
 ```rill
-fn main(){table=alloc(22000);setident("ABC");rectype=1;recval=12345;reclevel=0;record(0);globals=1;output=create("RILL.TMP");own=1;input=open("SOURCE.RIL");if status(){fail(1);}next();lex();expr(1);if tok!=0{fail(2);}flush();close(output);output=0;own=0;print("OK RILL.TMP\r\n");return 0;}
+fn main(){table=alloc(22000);setident("ABC");rectype=1;recval=12345;reclevel=0;record(0);globals=1;output=create("RILL.TMP");own=1;input=open("SOURCE.RIL");if status(){fail(1);}next();lex();expr(1);if tok!=0{fail(2);}flush();close(output);output=0;own=0;return 0;}
 ```
 
 Replace it with:
 
 ```rill
-fn main(){table=alloc(22000);output=create("RILL.TMP");own=1;input=open("SOURCE.RIL");if status(){fail(1);}next();lex();globalword();flush();close(output);output=0;own=0;print("OK RILL.TMP\r\n");return 0;}
+fn main(){table=alloc(22000);output=create("RILL.TMP");own=1;input=open("SOURCE.RIL");if status(){fail(1);}next();lex();globalword();flush();close(output);output=0;own=0;return 0;}
 ```
 
 The following old source remains in place:
@@ -86,7 +83,7 @@ COPY RC37.RIL SOURCE.RIL
 CHECK RILLBOOT
 ```
 
-Require `OK RESULT.IR 0000036724` and PASS. Copy RESULT.IR to SOURCE.IR.
+Require `OK RESULT.IR 0000036672` and PASS. Copy RESULT.IR to SOURCE.IR.
 
 ```dos
 CHECK IWKEEP
@@ -94,13 +91,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000077668 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 22257 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000077444 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 22229 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RC37.COM
 ```
 
-VIEW.BAS must report RC37.COM length 22257 bytes. Keep this executable and its source together.
+VIEW.BAS must report RC37.COM length 22229 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -118,20 +115,16 @@ COPY TRC37.RIL SOURCE.RIL
 CHECK RC37
 ```
 
-Require, apart from command echo and the checker's separator:
+The checker must report PASS. Inspect the emitted file below.
+
+Use VIEW.BAS to inspect RILL.TMP. Require length 18 bytes. The complete bytes must be:
 
 ```text
-OK RILL.TMP
-PASS
+57 4F 52 44 20 56 5F 41 42 43 20 30 30 30 36 35
+0D 0A
 ```
 
-TYPE RILL.TMP. Its complete text is:
-
-```ir
-WORD V_ABC 00065
-```
-
-VIEW.BAS must show length 18 bytes. This is an IR fragment for inspection. Do not translate it as a complete program or execute any file with its name.
+This is an IR fragment for inspection. Do not translate it as a complete program or execute any file with its name.
 
 After inspection, delete this deliberately created RILL.TMP before another checkpoint. The file is diagnostic text, not an interrupted accepted compiler build.
 
@@ -159,4 +152,4 @@ An unexpected PASS fails the rejection. The pre-existing RESULT.IR must remain u
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Compare globalword with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.

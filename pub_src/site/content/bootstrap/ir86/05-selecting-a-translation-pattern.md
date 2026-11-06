@@ -3,6 +3,8 @@ title = "05 \u00b7 Selecting a translation pattern"
 weight = 5
 description = "A small instruction table selects fixed assembly text."
 download = "IR05.ASM"
+download_group = "tools/ir86"
+reader_names = 1
 +++
 
 Repeated target sequences belong in a table. We shall recognize NOP and HALT and emit their fixed assembly patterns.
@@ -13,7 +15,7 @@ LOOK is the published fixed-record search. BX is the table base, CX the record c
 
 STATEMENT retains these fields before another routine can change the lookup registers. FINISH rejects an extra token. EXPAND walks the selected zero-terminated assembly pattern from SI; the patterns currently contain only literal characters. Templates are text data, not preassembled instruction bytes.
 
-HALT emits a zero-status DOS termination. LAST records a terminal instruction so the normal end-of-source exit need not be repeated. When the last statement can fall through, FINISHOUTPUT appends HALT. Its target is the same documented ASM86 instruction vocabulary.
+HALT emits a zero-status DOS termination. LAST records a terminal instruction so the normal end-of-source exit need not be repeated. When the last statement can fall through, FINISHOUTPUT appends HALT. Its target is the same documented ASM0 instruction vocabulary.
 
 ## Source changes
 
@@ -274,7 +276,7 @@ CALL STATEMENT
 CHECK ASMKEEP
 ```
 
-Enter `IR05` at ASM86's `Source name:` prompt. Require `OK 01146 bytes` followed by PASS. This builds `IR05.COM` directly with the completed assembler. Save the source and executable before running the test.
+Enter `IR05` at ASM0's `Source name:` prompt. Require `OK 01146 bytes` followed by PASS. This builds `IR05.COM` directly with the completed assembler. Save the source and executable before running the test.
 
 Create `T05.IR` with `COPY CON T05.IR`, enter this text, and finish with Ctrl-Z and Enter. The Ctrl-Z keystroke ends console input; it is not a printed language token.
 
@@ -332,4 +334,4 @@ An unexpected PASS is a failed rejection test. Require a fresh OK before using a
 
 ## If the result differs
 
-Check the record stride and count, the saved template pointer, and each substitution buffer. The name and numeric token must survive FINISH. Compare the generated assembly before asking ASM86 to assemble it.
+Check the record stride and count, the saved template pointer, and each substitution buffer. The name and numeric token must survive FINISH. Compare the generated assembly before asking ASM0 to assemble it.

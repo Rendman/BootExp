@@ -3,6 +3,8 @@ title = "14 \u00b7 Word-sized bit operations"
 weight = 14
 description = "AND, OR, and XOR use the same operand discipline."
 download = "IR14.ASM"
+download_group = "tools/ir86"
+reader_names = 1
 +++
 
 Bit masks and packed fields need logical operations on the complete word.
@@ -99,7 +101,7 @@ MOV CX,18
 CHECK ASMKEEP
 ```
 
-Enter `IR14` at ASM86's `Source name:` prompt. Require `OK 02327 bytes` followed by PASS. This builds `IR14.COM` directly with the completed assembler. Save the source and executable before running the test.
+Enter `IR14` at ASM0's `Source name:` prompt. Require `OK 02327 bytes` followed by PASS. This builds `IR14.COM` directly with the completed assembler. Save the source and executable before running the test.
 
 Create `T14.IR` with `COPY CON T14.IR`, enter this text, and finish with Ctrl-Z and Enter. The Ctrl-Z keystroke ends console input; it is not a printed language token.
 

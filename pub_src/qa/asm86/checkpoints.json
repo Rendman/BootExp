@@ -6,7 +6,7 @@
     "explain": "The source uses the same MOV, CALL, RET, and INT forms accepted by BOOTASM. DX receives the offset of HELLOMSG. DOS function 09H displays its bytes until it reaches the dollar-sign code 36; the 13 and 10 move the cursor to the next line. The dollar sign is a terminator, not part of the displayed message.\n\nTEXT is a small subroutine with DX as its input. It changes AH and the flags DOS leaves behind; DOS may also return a value in AL. It does not save AX, because the caller has no AX value to retain. CALL pushes a two-byte return offset and RET takes it back. GOOD then uses function 4CH with a zero return code.\n\nThe labels name offsets beginning at 0100H. Neither ORG nor a segment directive is needed or accepted. Each DB item is an ASCII character code, and the BASIC assembler writes the machine bytes without a file header.",
     "names": [],
     "fixture": null,
-    "payload": "ASM86\r\n",
+    "payload": "ASM0\r\n",
     "image": null,
     "bad": null,
     "executable": null,
@@ -14,7 +14,7 @@
     "number": 1,
     "source": "AS01.ASM",
     "lines": 16,
-    "binary_bytes": 25
+    "binary_bytes": 24
   },
   {
     "title": "Numbers in the report",

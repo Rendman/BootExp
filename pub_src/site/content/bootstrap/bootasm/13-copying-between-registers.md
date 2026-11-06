@@ -3,6 +3,8 @@ title = "13. Copying between registers"
 weight = 13
 description = "Copy a value with a register-to-register MOV."
 checkpoint = "BA13.BAS"
+download_group = "tools/bootasm"
+reader_names = 1
 +++
 
 A constant is not the only source for MOV. Copying one register to another gives us a first encounter with the byte which describes operands.

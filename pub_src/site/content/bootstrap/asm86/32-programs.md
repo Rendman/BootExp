@@ -2,10 +2,12 @@
 title = "Three complete programs"
 weight = 32
 description = "Use console output, a data byte, and a counted loop in short runnable examples."
-download = "ASM86.ZIP"
+download = "ASM0.ZIP"
+download_group = "tools/asm0"
+reader_names = 1
 +++
 
-These are complete DOS `.COM` programs for the finished ASM86. Save each under the indicated base name, run `CHECK ASM86`, and enter that name. Require the stated OK byte count and PASS before executing the output with CHECK. A source error leaves any older output unchanged.
+These are complete DOS `.COM` programs for the finished ASM0. Save each under the indicated base name, run `CHECK ASM0`, and enter that name. Require the stated OK byte count and PASS before executing the output with CHECK. A source error leaves any older output unchanged.
 
 ## HELLO: a terminated message
 
@@ -68,4 +70,4 @@ Require `OK 00017 bytes`. `CHECK COUNT` displays `012` and reports PASS. INC DX 
 
 In a separate BADCOUNT.ASM, change only `JB AGAIN` to `JB 400H`. Assembling it must report `ERROR 00007 CODE 4` and FAIL. A conditional branch reaches only -128 through +127 bytes from the following instruction. Write a nearby opposite condition around a near JMP when a longer conditional transfer is required.
 
-All three programs leave the DOS segment registers and entry stack alone. CALL and PUSH would need balanced returns and pops; these examples require no local subroutines or reserved stack storage. Consult the language reference before adding instructions: a CPU manual describes more forms than ASM86 accepts.
+All three programs leave the DOS segment registers and entry stack alone. CALL and PUSH would need balanced returns and pops; these examples require no local subroutines or reserved stack storage. Consult the language reference before adding instructions: a CPU manual describes more forms than ASM0 accepts.

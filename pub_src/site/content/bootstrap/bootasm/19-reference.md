@@ -3,6 +3,8 @@ title = "BOOTASM reference"
 weight = 19
 description = "Every accepted form, its limits, and its encoding."
 download = "BOOTASM.BAS"
+download_group = "tools/bootasm"
+reader_names = 1
 +++
 
 This reference describes the completed `BOOTASM.BAS`. Earlier checkpoints accept only the features introduced by their construction installments.

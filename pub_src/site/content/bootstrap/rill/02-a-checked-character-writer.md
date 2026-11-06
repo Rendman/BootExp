@@ -3,6 +3,8 @@ title = "02 \u00b7 A checked character writer"
 weight = 2
 description = "Give every displayed byte a checked service result."
 download = "R02.IR"
+download_group = "tools/rill0"
+reader_names = 1
 +++
 
 A missing display must not be mistaken for a successful test. One routine can check every character write.

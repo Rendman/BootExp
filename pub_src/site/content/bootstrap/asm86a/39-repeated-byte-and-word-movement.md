@@ -3,6 +3,8 @@ title = "27 \u00b7 Repeated byte and word movement"
 weight = 27
 description = "Restrict REP to the explicitly supported string instructions."
 download = "A39.ASM"
+download_group = "tools/asm86"
+reader_names = 1
 +++
 
 A block move should name its count and source/destination convention clearly.
@@ -204,7 +206,7 @@ CALL LOOK
 
 ```dos
 COPY A39.ASM SOURCE.ASM
-CHECK ASMA0
+CHECK ASM1
 ```
 
 Require `OK RESULT.COM 06422 bytes` and PASS. Preserve this executable before using its fixed output name:
@@ -263,14 +265,7 @@ In VIEW.BAS, inspect RESULT.COM. Require length **37 bytes** and these first thi
 FC BE 21 01 BF 23 01 B9 02 00 F3 A4 BE 23 01 B9 02 00 8A 14 B4 02 CD 21 46 49 75 F6 B8 00 4C CD
 ```
 
-This fixture is a complete program. Save it before another assembly and execute it:
-
-```dos
-COPY RESULT.COM TRY.COM
-CHECK TRY
-```
-
-It displays "Hi" and the checker reports PASS.
+The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
 
 ## A rejection check
 

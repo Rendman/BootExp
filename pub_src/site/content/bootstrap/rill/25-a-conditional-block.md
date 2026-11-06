@@ -3,6 +3,8 @@ title = "25 \u00b7 A conditional block"
 weight = 25
 description = "Skip a brace-enclosed body when a word is zero."
 download = "R25.IR"
+download_group = "tools/rill0"
+reader_names = 1
 +++
 
 A source condition should describe a value rather than a processor flag.

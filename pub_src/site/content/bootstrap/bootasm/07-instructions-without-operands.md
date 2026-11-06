@@ -3,6 +3,8 @@ title = "07. Instructions without operands"
 weight = 7
 description = "The first mnemonics and their one-byte encodings."
 checkpoint = "BA07.BAS"
+download_group = "tools/bootasm"
+reader_names = 1
 +++
 
 A mnemonic is a name for an instruction. Five instructions with fixed one-byte encodings let us add names without yet designing an operand parser.

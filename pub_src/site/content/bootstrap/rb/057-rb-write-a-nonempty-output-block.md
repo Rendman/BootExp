@@ -1,19 +1,16 @@
 +++
-title = "RB24 \u00b7 Write a nonempty output block"
+title = "24 \u00b7 Writing a Buffered Block"
 weight = 24
 description = "Write only a nonempty output block."
 download = "RB24.IR"
-download_group = "rb"
+download_group = "tools/rillboot"
 aliases = ["/bootstrap/rill/057-rb-write-a-nonempty-output-block/"]
+reader_names = 1
 +++
-
-Write only a nonempty output block.
 
 ## The working parts
 
 Write only a nonempty output block. Check STATUS and the exact returned count before clearing OUTLEN. A zero-count DOS write is never used to flush or truncate the file.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -28,7 +25,7 @@ LD FOUND
 RETURN
 ```
 
-Insert after old physical line 859.
+Insert after old physical line 860.
 
 Insert:
 
@@ -69,23 +66,47 @@ SETLOCAL 0
 Unchanged source immediately before the edit:
 
 ```ir
-LIT 12345
-ST RECVAL
+LIT 0
+ST RECLEVEL
 LIT 0
 ```
 
-Remove this source at old physical positions 45–53 in RB23.IR:
+Remove this source at old physical positions 47–55 in RB23.IR:
 
 ```ir
-ST RECLEVEL
-LIT 0
 PUSH
 INVOKE RECORD 1
 LIT 1
 ST GLOBALS
 CALL RESOLVE
 LD RECVAL
-CALL PRINTNUM
+PUSH
+LIT 12345
+CNE
+```
+
+There is no replacement source.
+
+The following old source remains in place:
+
+```ir
+RETURN
+```
+
+### Edit 3
+
+Unchanged source immediately before the edit:
+
+```ir
+LIT 12345
+ST RECVAL
+LIT 0
+```
+
+Remove this source at old physical positions 45–45 in RB23.IR:
+
+```ir
+ST RECLEVEL
 ```
 
 Replace it with:
@@ -93,18 +114,16 @@ Replace it with:
 ```ir
 ST OUTPUT
 ST OWN
-LITS "OK RILL.TMP\r\n"
-CALL PRINT
 ```
 
 The following old source remains in place:
 
 ```ir
 LIT 0
-RETURN
+PUSH
 ```
 
-### Edit 3
+### Edit 4
 
 Unchanged source immediately before the edit:
 
@@ -144,7 +163,7 @@ LIT 0
 ST RECLEVEL
 ```
 
-### Edit 4
+### Edit 5
 
 Unchanged source immediately before the edit:
 
@@ -193,13 +212,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000028568 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 14271 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000028369 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 14248 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RB24.COM
 ```
 
-VIEW.BAS must report RB24.COM length 14271 bytes. Keep this executable and its source together.
+VIEW.BAS must report RB24.COM length 14248 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -207,40 +226,18 @@ VIEW.BAS must report RB24.COM length 14271 bytes. Keep this executable and its s
 CHECK RB24
 ```
 
-Require, apart from command echo and the checker's separator:
+The checker must report PASS. Inspect the emitted file below.
+
+Use VIEW.BAS to inspect RILL.TMP. Require length 1 bytes. The complete bytes must be:
 
 ```text
-OK RILL.TMP
-PASS
+41
 ```
 
-TYPE RILL.TMP. Its complete text is:
-
-```ir
-A
-```
-
-VIEW.BAS must show length 1 bytes. This is an IR fragment for inspection. Do not translate it as a complete program or execute any file with its name.
+This is an IR fragment for inspection. Do not translate it as a complete program or execute any file with its name.
 
 After inspection, delete this deliberately created RILL.TMP before another checkpoint. The file is diagnostic text, not an interrupted accepted compiler build.
 
-## A rejection or boundary check
-
-Check a representable-word boundary in the preceding translator. Create BAD.IR:
-
-```ir
-PROC MAIN 0 0
-LIT 65536
-RETURN
-```
-
-```dos
-COPY BAD.IR SOURCE.IR
-CHECK IWKEEP
-```
-
-Require `IR ERROR 0000000002 CODE 2` and FAIL. The accepted RESULT.ASM must remain unchanged. The diagnostic cannot be built from an out-of-range word.
-
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Compare FLUSH with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.

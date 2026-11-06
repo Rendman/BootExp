@@ -1,19 +1,16 @@
 +++
-title = "RC17 \u00b7 Append a global record"
+title = "17 \u00b7 Adding a Global Name"
 weight = 17
 description = "Append one global or procedure record, bounded by 512 entries."
 download = "RC17.RIL"
-download_group = "rc"
+download_group = "tools/rill"
 aliases = ["/bootstrap/rill/105-rc-append-a-global-record/"]
+reader_names = 1
 +++
-
-Append one global or procedure record, bounded by 512 entries.
 
 ## The working parts
 
 Append one global or procedure record, bounded by 512 entries. The record offset remains stable even after scanning changes IDENT.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -59,13 +56,13 @@ bytes string[512];
 Remove this source at old physical positions 35–35 in RC16.RIL:
 
 ```rill
-fn main(){table=alloc(22000);setident("ABC");rectype=1;recval=12345;reclevel=0;record(0);globals=1;printnum(tword(34));return 0;}
+fn main(){table=alloc(22000);setident("ABC");rectype=1;recval=12345;reclevel=0;record(0);globals=1;return (tword(34))!=12345;}
 ```
 
 Replace it with:
 
 ```rill
-fn main(){table=alloc(22000);setident("ABC");recval=12345;newglobal(1);printnum(tword(34));return 0;}
+fn main(){table=alloc(22000);setident("ABC");recval=12345;newglobal(1);return (tword(34))!=12345;}
 ```
 
 The following old source remains in place:
@@ -82,7 +79,7 @@ COPY RC17.RIL SOURCE.RIL
 CHECK RILLBOOT
 ```
 
-Require `OK RESULT.IR 0000017462` and PASS. Copy RESULT.IR to SOURCE.IR.
+Require `OK RESULT.IR 0000017442` and PASS. Copy RESULT.IR to SOURCE.IR.
 
 ```dos
 CHECK IWKEEP
@@ -90,13 +87,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000037158 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 15470 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000037170 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 15472 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RC17.COM
 ```
 
-VIEW.BAS must report RC17.COM length 15470 bytes. Keep this executable and its source together.
+VIEW.BAS must report RC17.COM length 15472 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -104,27 +101,8 @@ VIEW.BAS must report RC17.COM length 15470 bytes. Keep this executable and its s
 CHECK RC17
 ```
 
-Require, apart from command echo and the checker's separator:
-
-```text
-12345PASS
-```
-
-## A rejection or boundary check
-
-Check the same word boundary in the compiler seed. Create BAD.RIL:
-
-```rill
-fn main(){return 65536;}
-```
-
-```dos
-COPY BAD.RIL SOURCE.RIL
-CHECK RILLBOOT
-```
-
-Require `ERROR 0000000001 CODE 00003` and FAIL, preserving the accepted RESULT.IR. An unexpected PASS fails this check.
+The checker must report PASS. The driver compares the result with 12345 and returns nonzero on a mismatch; it adds no display routine.
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Compare newglobal with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.

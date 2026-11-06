@@ -32,5 +32,5 @@ assert not any(f'A{n:02}.ASM' in full for n in range(1,12))
 assert all(f'A{n:02}.ASM' in full for n in range(13,41))
 for n in range(13,41):
  p=next((C.parent/'asm86a').glob(f'{n:02}-*.md'));meta=tomllib.loads(p.read_text().split('+++')[1]);assert meta['weight']==n-12 and meta['title'].startswith(f'{n-12:02} ')
-assert 'Copy `ASMA0.ASM` to `A13.ASM`' in next((C.parent/'asm86a').glob('13-*.md')).read_text()
+assert 'Copy `ASM1.ASM` to `A13.ASM`' in next((C.parent/'asm86a').glob('13-*.md')).read_text()
 print(f'PASS ASMA0: 12 articles, independent reference/programs, {len(manifest)} source-only files, canonical seed and A13 handoff, separate archives and legacy source links')

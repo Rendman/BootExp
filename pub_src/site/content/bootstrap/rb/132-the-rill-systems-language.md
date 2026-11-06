@@ -1,13 +1,14 @@
 +++
 title = "The RILL systems-language reference"
 weight = 48
-description = "The complete language used by the compiler, IR86, and ASM86A implementations."
+description = "The complete language used by the compiler, IR86, and ASM86 implementations."
 download = "RILLBOOT.IR"
-download_group = "rb"
+download_group = "tools/rillboot"
 aliases = ["/bootstrap/rill/132-the-rill-systems-language/"]
+reader_names = 1
 +++
 
-RILL compiles structured source into processor-independent IR86. RB constructs RILLBOOT, a compiler written in IR86 and built by IWKEEP and ASMAKEEP. It accepts the language described here. The following RC collection expresses that compiler in RILL and proves its self-builds. ASM86A.RIL and IR86.RIL use this same language, without private syntax or embedded project executables.
+RILL compiles structured source into processor-independent IR86. RILLBOOT constructs RILLBOOT, a compiler written in IR86 and built by IWKEEP and ASMAKEEP. It accepts the language described here. The following RILL collection expresses that compiler in RILL and proves its self-builds. ASM86.RIL and IR86.RIL use this same language, without private syntax or embedded project executables.
 
 ## Program structure
 

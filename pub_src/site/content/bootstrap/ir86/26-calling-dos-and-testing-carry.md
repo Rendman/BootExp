@@ -3,6 +3,8 @@ title = "26 \u00b7 Writing one byte"
 weight = 26
 description = "A stream service has a value result and a separate status."
 download = "IR26.ASM"
+download_group = "tools/ir86"
+reader_names = 1
 +++
 
 PUTC writes a byte to the output stream without making a program arrange target registers.
@@ -219,7 +221,7 @@ MOV AX,74
 CHECK ASMKEEP
 ```
 
-Enter `IR26` at ASM86's `Source name:` prompt. Require `OK 04007 bytes` followed by PASS. This builds `IR26.COM` directly with the completed assembler. Save the source and executable before running the test.
+Enter `IR26` at ASM0's `Source name:` prompt. Require `OK 04007 bytes` followed by PASS. This builds `IR26.COM` directly with the completed assembler. Save the source and executable before running the test.
 
 Create `T26.IR` with `COPY CON T26.IR`, enter this text, and finish with Ctrl-Z and Enter. The Ctrl-Z keystroke ends console input; it is not a printed language token.
 

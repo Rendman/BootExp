@@ -3,14 +3,13 @@ title = "IW11 \u00b7 Counted console output"
 weight = 47
 description = "Bind PUTC and persistent STATUS to checked byte output."
 download = "IW11.ASM"
-download_group = "toolchain"
+download_group = "tools/toolchain"
+reader_names = 1
 +++
-
-Bind PUTC and persistent STATUS to checked byte output.
 
 ## The working parts
 
-Bind PUTC and persistent STATUS to checked byte output. The assembly routines use the inherited bounded reader and owned-file cleanup. The operation table supplies argument class, stack action, and an authored target template. Native encodings belong to this backend; the IR operation retains its abstract meaning.
+Bind PUTC and persistent STATUS to checked byte output.
 
 ## Enter the source
 
@@ -184,7 +183,7 @@ COPY TIW11.IR SOURCE.IR
 CHECK IW11
 ```
 
-Require, apart from command echo and the checker's separator:
+Require:
 
 ```text
 OK RESULT.ASM 0000000521 text bytes
@@ -228,4 +227,4 @@ The accepted RESULT.ASM must remain unchanged. An unexpected PASS fails this che
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Compare the new routine with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.

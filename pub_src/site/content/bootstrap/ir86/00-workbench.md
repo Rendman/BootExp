@@ -3,15 +3,17 @@ title = "The IR workbench"
 weight = 0
 description = "Keep the working assembler and distinguish the virtual language from its first backend."
 download = "IR86.ZIP"
+download_group = "tools/ir86"
+reader_names = 1
 +++
 
-Begin with the completed BOOTASM and ASM86 collections. Keep BOOTASM.BAS, ASM86.ASM, the tested ASM86.COM, CHECK.BAT, and VIEW.BAS together. ASM86 must pass its published self-assembly check. At DOS preserve it:
+Begin with the completed BOOTASM and ASM0 collections. Keep BOOTASM.BAS, ASM0.ASM, the tested ASM0.COM, CHECK.BAT, and VIEW.BAS together. ASM0 must pass its published self-assembly check. At DOS preserve it:
 
 ```dos
-COPY ASM86.COM ASMKEEP.COM
+COPY ASM0.COM ASMKEEP.COM
 ```
 
-Run CHECK ASMKEEP and enter a source base name at its prompt. Require the assembler's OK and the checker's PASS. The completed ASM86 has the vocabulary and capacity to build every translator checkpoint directly.
+Run CHECK ASMKEEP and enter a source base name at its prompt. Require the assembler's OK and the checker's PASS. The completed ASM0 has the vocabulary and capacity to build every translator checkpoint directly.
 
 ## The language and the binding
 
@@ -25,11 +27,11 @@ The current build path is:
 NAME.IR -> IR86 with the 8086/DOS binding -> NAME.ASM -> ASM86 -> NAME.COM
 ```
 
-IR86 emits assembly text. ASM86 encodes it. A successful translation cannot substitute for a successful assembly: require a fresh OK and PASS at both steps. ASM86 owns final address resolution and rejects duplicate or undefined names.
+IR86 emits assembly text. ASM0 encodes it. A successful translation cannot substitute for a successful assembly: require a fresh OK and PASS at both steps. ASM0 owns final address resolution and rejects duplicate or undefined names.
 
 ## Reuse the published reader
 
-The first installment begins with the saved AS07.ASM from ASM86:
+The first installment begins with the saved AS07.ASM from ASM0:
 
 ```dos
 COPY AS07.ASM IR01.ASM

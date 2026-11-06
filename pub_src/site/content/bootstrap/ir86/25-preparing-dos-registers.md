@@ -3,6 +3,8 @@ title = "25 \u00b7 A portable runtime status"
 weight = 25
 description = "Observe an ordinary word result without exposing processor flags."
 download = "IR25.ASM"
+download_group = "tools/ir86"
+reader_names = 1
 +++
 
 Input and output need a defined failure result which remains meaningful on different processors and operating systems.
@@ -171,7 +173,7 @@ MOV AX,17
 CHECK ASMKEEP
 ```
 
-Enter `IR25` at ASM86's `Source name:` prompt. Require `OK 03638 bytes` followed by PASS. This builds `IR25.COM` directly with the completed assembler. Save the source and executable before running the test.
+Enter `IR25` at ASM0's `Source name:` prompt. Require `OK 03638 bytes` followed by PASS. This builds `IR25.COM` directly with the completed assembler. Save the source and executable before running the test.
 
 Create `T25.IR` with `COPY CON T25.IR`, enter this text, and finish with Ctrl-Z and Enter. The Ctrl-Z keystroke ends console input; it is not a printed language token.
 

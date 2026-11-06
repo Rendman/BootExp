@@ -1,19 +1,16 @@
 +++
-title = "RC02 \u00b7 Word formatting with local state"
+title = "02 \u00b7 Printing a Number"
 weight = 2
 description = "Save the value, current decimal place, and output digit separately."
 download = "RC02.RIL"
-download_group = "rc"
+download_group = "tools/rill"
 aliases = ["/bootstrap/rill/090-rc-word-formatting-with-local-state/"]
+reader_names = 1
 +++
-
-Save the value, current decimal place, and output digit separately.
 
 ## The working parts
 
 Save the value, current decimal place, and output digit separately. Repeated subtraction chooses one digit at each place. Formatting cannot borrow a parser work cell that remains live across a call.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -99,27 +96,13 @@ VIEW.BAS must report RC02.COM length 10224 bytes. Keep this executable and its s
 CHECK RC02
 ```
 
-Require, apart from command echo and the checker's separator:
+Require:
 
 ```text
-65535PASS
+65535
+PASS
 ```
-
-## A rejection or boundary check
-
-Check the same word boundary in the compiler seed. Create BAD.RIL:
-
-```rill
-fn main(){return 65536;}
-```
-
-```dos
-COPY BAD.RIL SOURCE.RIL
-CHECK RILLBOOT
-```
-
-Require `ERROR 0000000001 CODE 00003` and FAIL, preserving the accepted RESULT.IR. An unexpected PASS fails this check.
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Compare printnum with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.

@@ -1,18 +1,19 @@
 +++
 title = "The streaming IR workbench"
 weight = 36
-description = "Use ASM86A to construct a fixed-file translator with room for larger tools."
+description = "Use ASM86 to construct a fixed-file translator with room for larger tools."
 download = "TOOLCHN.ZIP"
-download_group = "toolchain"
+download_group = "tools/toolchain"
+reader_names = 1
 +++
 
-The bootstrap ladder is BOOTASM → ASM86 → ASMA0 → ASM86A → IR86 → RILL. The streaming assembler supplies the source and symbol capacity needed for the native IR workbench. This construction keeps the virtual machine independent of the processor: frame slots, word operations, strings, and opaque services belong to the language; instruction spellings and DOS calls belong to its backend.
+The bootstrap ladder is BOOTASM → ASM0 → ASM1 → ASM86 → IR86 → RILL. The streaming assembler supplies the source and symbol capacity needed for the native IR workbench. This construction keeps the virtual machine independent of the processor: frame slots, word operations, strings, and opaque services belong to the language; instruction spellings and DOS calls belong to its backend.
 
-Begin with the completed ASM86A workbench and preserve its tested 6422-byte assembler as ASMAKEEP.COM. Keep the original prompted ASMKEEP.COM and IRKEEP.COM separately. The fixed-file tools have different interfaces; do not overwrite a working predecessor merely because another program has the same general purpose.
+Begin with the completed ASM86 workbench and preserve its tested 6422-byte assembler as ASMAKEEP.COM. Keep the original prompted ASMKEEP.COM and IRKEEP.COM separately. The fixed-file tools have different interfaces; do not overwrite a working predecessor merely because another program has the same general purpose.
 
 ## Fixed files and saved checkpoints
 
-IW01 starts from the published ASM86A.ASM. Its first task is a bounded source reader. Each following IW source starts with a copy of the preceding one. Apply the printed edits from the bottom upward. Reading, tokens, output blocks, operation records, declarations, expressions, services, frames, strings, and allocated blocks have separate stopping points.
+IW01 starts from the published ASM86.ASM. Its first task is a bounded source reader. Each following IW source starts with a copy of the preceding one. Apply the printed edits from the bottom upward. Reading, tokens, output blocks, operation records, declarations, expressions, services, frames, strings, and allocated blocks have separate stopping points.
 
 To build a checkpoint:
 
@@ -24,7 +25,7 @@ COPY RESULT.COM IW01.COM
 
 Require the assembler's stated OK count and PASS **before** copying its result. The first diagnostics inspect source or copy bytes; their text output is not an executable. Each article identifies its complete output programs explicitly.
 
-A complete translator reads SOURCE.IR and publishes RESULT.ASM through IRTX.TMP and IRRES.BAK. Its blocks are 4096 bytes; it retains one physical line and one token. Input and output extent are independent. It does not hold a whole assembly result or inherit an 8192-byte target ceiling. ASM86A separately checks its genuine single-segment image and symbol limits.
+A complete translator reads SOURCE.IR and publishes RESULT.ASM through IRTX.TMP and IRRES.BAK. Its blocks are 4096 bytes; it retains one physical line and one token. Input and output extent are independent. It does not hold a whole assembly result or inherit an 8192-byte target ceiling. ASM86 separately checks its genuine single-segment image and symbol limits.
 
 ## The native handoff
 

@@ -1,21 +1,23 @@
 +++
-title = "29 · The bootstrap ladder"
+title = "29 \u00b7 The bootstrap ladder"
 weight = 29
 description = "Carry the BASIC-built foundation through two assembler handoffs to working compiler output."
-download = "ASM86A.ASM"
+download = "ASM86.ASM"
+download_group = "tools/asm86"
+reader_names = 1
 +++
 
 A rung is useful when the tool below can build it and the tool above can use its result. This exercise follows the published chain:
 
 ```text
-GW-BASIC → BOOTASM → ASM86 → ASMA0 → ASM86A → IR86 → RILL
+GW-BASIC → BOOTASM → ASM0 → ASM1 → ASM86 → IR86 → RILL0 → RILLBOOT → RILL
 ```
 
-ASMA0 is the completed streaming-seed collection between ASM86 and ASM86A. Retain the canonical sources and the two matching self-assembly generations from each assembler handoff.
+ASM1 is the completed streaming-seed collection between ASM0 and ASM86. Retain the canonical sources and the two matching self-assembly generations from each assembler handoff.
 
 ## From BASIC to the larger assembler
 
-The BOOTASM collection constructs BOOTASM.BAS. Run GWBASIC BOOTASM.BAS, enter ASM86, require its OK report, then use SYSTEM to return to DOS. VIEW.BAS must report ASM86.COM length 2622. Preserve ASMKEEP.COM as that original native assembler. The ASM86 collection's self-assembly exercise compares its native generations.
+The BOOTASM collection constructs BOOTASM.BAS. Run GWBASIC BOOTASM.BAS, enter ASM0, require its OK report, then use SYSTEM to return to DOS. VIEW.BAS must report ASM0.COM length 2622. Preserve ASMKEEP.COM as that original native assembler. The ASM0 collection's self-assembly exercise compares its native generations.
 
 Now make the seed with that preceding builder:
 
@@ -23,19 +25,19 @@ Now make the seed with that preceding builder:
 CHECK ASMKEEP
 ```
 
-Enter ASMA0. Require `OK 03342 bytes` and PASS. Preserve ASMA0.COM. The seed handoff article compares two self-produced copies with this original. Then build the larger source:
+Enter ASM1. Require `OK 03342 bytes` and PASS. Preserve ASM1.COM. The seed handoff article compares two self-produced copies with this original. Then build the larger source:
 
 ```dos
-COPY ASM86A.ASM SOURCE.ASM
-CHECK ASMA0
+COPY ASM86.ASM SOURCE.ASM
+CHECK ASM1
 ```
 
-Require `OK RESULT.COM 06422 bytes` and PASS. Copy RESULT.COM to ASM86A.COM and ASMAKEEP.COM. The final handoff article compares two self-builds against this seed-produced executable. The accepted source itself uses only the seed's instruction language.
+Require `OK RESULT.COM 06422 bytes` and PASS. Copy RESULT.COM to ASM86.COM and ASMAKEEP.COM. The final handoff article compares two self-builds against this seed-produced executable. The accepted source itself uses only the seed's instruction language.
 
 Check compatibility with the preceding assembler:
 
 ```dos
-COPY ASM86.ASM SOURCE.ASM
+COPY ASM0.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ECHO N>NO.TXT
 COMP ASMKEEP.COM RESULT.COM <NO.TXT
@@ -45,7 +47,7 @@ Require `OK RESULT.COM 02622 bytes`, PASS, and no COMP differences. The larger t
 
 ## Build the published IR86 and RILL
 
-Use IR86.ASM from the [IR86 collection](../../ir86/index.html), and RILL.IR from the [RILL collection](../../rill/index.html). Those collections supply their full construction and language explanations. This is a build of their published sources; extra assembler capacity does not remove the translators' own bounds.
+Use IR86.ASM from the [IR86 collection](../../ir86/index.html), and RILL0.IR from the [RILL collection](../../rill/index.html). Those collections supply their full construction and language explanations. This is a build of their published sources; extra assembler capacity does not remove the translators' own bounds.
 
 ```dos
 COPY IR86.ASM SOURCE.ASM
@@ -55,16 +57,16 @@ COPY IR86.COM IRKEEP.COM
 CHECK IRKEEP
 ```
 
-Require `OK RESULT.COM 06407 bytes` and PASS before the copies. At IR source name, enter RILL. Require `OK RILL.ASM 24676 text bytes` and PASS. Assemble the generated compiler:
+Require `OK RESULT.COM 06407 bytes` and PASS before the copies. At IR source name, enter RILL. Require `OK RILL0.ASM 24676 text bytes` and PASS. Assemble the generated compiler:
 
 ```dos
-COPY RILL.ASM SOURCE.ASM
+COPY RILL0.ASM SOURCE.ASM
 CHECK ASMAKEEP
-COPY RESULT.COM RILL.COM
-COPY RILL.COM RLKEEP.COM
+COPY RESULT.COM RILL0.COM
+COPY RILL0.COM RLKEEP.COM
 ```
 
-Require `OK RESULT.COM 05173 bytes` and PASS before saving RILL.COM. The compiler source is IR86; ASM86A assembles the translator's output. No hidden native compiler is involved.
+Require `OK RESULT.COM 05173 bytes` and PASS before saving RILL0.COM. The compiler source is IR86; ASM86 assembles the translator's output. No hidden native compiler is involved.
 
 ## Run the complete translation
 

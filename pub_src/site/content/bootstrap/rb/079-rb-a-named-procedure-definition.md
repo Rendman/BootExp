@@ -1,19 +1,16 @@
 +++
-title = "RB46 \u00b7 A named procedure definition"
+title = "46 \u00b7 Compiling a Procedure"
 weight = 46
 description = "Record the procedure name before scanning parameters, verify any earlier call arity, and create parameter bindings."
 download = "RB46.IR"
-download_group = "rb"
+download_group = "tools/rillboot"
 aliases = ["/bootstrap/rill/079-rb-a-named-procedure-definition/"]
+reader_names = 1
 +++
-
-Record the procedure name before scanning parameters, verify any earlier call arity, and create parameter bindings.
 
 ## The working parts
 
 Record the procedure name before scanning parameters, verify any earlier call arity, and create parameter bindings. PROC reserves the bounded local frame. Every normal fall-through ends with return value zero.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -29,7 +26,7 @@ PUSH
 INVOKE EXPECT 1
 ```
 
-Insert after old physical line 1203.
+Insert after old physical line 1201.
 
 Insert:
 
@@ -222,13 +219,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000068989 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 21191 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000068790 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 21168 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RB46.COM
 ```
 
-VIEW.BAS must report RB46.COM length 21191 bytes. Keep this executable and its source together.
+VIEW.BAS must report RB46.COM length 21168 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -246,14 +243,9 @@ COPY TRB46.RIL SOURCE.RIL
 CHECK RB46
 ```
 
-Require, apart from command echo and the checker's separator:
+The checker must report PASS. Inspect the emitted file below.
 
-```text
-OK RILL.TMP
-PASS
-```
-
-TYPE RILL.TMP. Its complete text is:
+TYPE RILL.TMP. Its complete IR is:
 
 ```ir
 PROC F_MAIN 00000 16
@@ -298,4 +290,4 @@ An unexpected PASS fails the rejection. The pre-existing RESULT.IR must remain u
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Compare FUNCTION with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.

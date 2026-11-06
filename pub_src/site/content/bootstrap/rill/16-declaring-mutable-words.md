@@ -3,6 +3,8 @@ title = "16 \u00b7 Declaring mutable words"
 weight = 16
 description = "Reserve named words before the executable entry label."
 download = "R16.IR"
+download_group = "tools/rill0"
+reader_names = 1
 +++
 
 A mutable value needs declared storage and a rule preventing accidental reuse of its name.

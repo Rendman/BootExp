@@ -3,6 +3,8 @@ title = "06 \u00b7 One visible error report"
 weight = 6
 description = "Give failures a location, a category, and a nonzero status."
 download = "R06.IR"
+download_group = "tools/rill0"
+reader_names = 1
 +++
 
 A checker can report FAIL, but the compiler should also say where it stopped.

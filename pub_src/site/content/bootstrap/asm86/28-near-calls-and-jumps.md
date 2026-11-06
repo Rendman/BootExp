@@ -3,6 +3,8 @@ title = "28 \u00b7 Near calls and jumps"
 weight = 28
 description = "Subtract the address after the three-byte instruction."
 download = "AS28.ASM"
+download_group = "tools/asm0"
+reader_names = 1
 +++
 
 We shall assemble control transfers which remain in the current code segment, including a forward call to a named routine.

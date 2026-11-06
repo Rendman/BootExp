@@ -1,14 +1,16 @@
 +++
-title = "The RILL workbench"
+title = "The RILL0 workbench"
 weight = 0
 description = "Keep the tested tools and follow each source file through the complete chain."
-download = "RILL.ZIP"
+download = "RILL0.ZIP"
+download_group = "tools/rill0"
+reader_names = 1
 +++
 
-Begin with the completed BOOTASM, ASM86, and IR86 collections. Preserve the working native assembler and translator under separate names:
+Begin with the completed BOOTASM, ASM0, and IR86 collections. Preserve the working native assembler and translator under separate names:
 
 ```dos
-COPY ASM86.COM ASMKEEP.COM
+COPY ASM0.COM ASMKEEP.COM
 COPY IR86.COM IRKEEP.COM
 ```
 
@@ -30,7 +32,7 @@ The completed compiler reads **SOURCE.RIL** in the current directory and writes 
 
 ```dos
 COPY HELLO.RIL SOURCE.RIL
-CHECK RILL
+CHECK RILL0
 ```
 
 Success prints `OK RESULT.IR nnnnn`, followed by the checker's PASS. The number is the IR file length in bytes, including CR/LF. It is not an executable size. Copy the accepted result to the base name used for the program:
@@ -66,4 +68,4 @@ RILL values are unsigned sixteen-bit words with wrapping arithmetic. The compile
 
 The first backend still has its documented DOS requirements: a normal full 64 KB program segment, entry SP=FFFEH, and the reserved native stack area. Those are requirements for this workbench, not RILL value semantics. The compiler image is 5,173 bytes. Its data includes the 1024-byte output buffer, a small explicit parser stack, and bounded variable marks.
 
-The reference gives the complete grammar, helper interfaces, resource limits, and diagnostics. Preserve a tested final R29.COM as RILL.COM, and then preserve RILL.COM as RLKEEP.COM. Retain RILL.IR and all preceding tools alongside them.
+The reference gives the complete grammar, helper interfaces, resource limits, and diagnostics. Preserve a tested final R29.COM as RILL0.COM, and then preserve RILL0.COM as RLKEEP.COM. Retain RILL0.IR and all preceding tools alongside them.

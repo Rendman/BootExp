@@ -3,6 +3,8 @@ title = "03 \u00b7 A clear failure report"
 weight = 3
 description = "A source line, an error code, and a DOS failure status."
 download = "AS03.ASM"
+download_group = "tools/asm0"
+reader_names = 1
 +++
 
 A tool must make failure visible. We shall add one exit which reports a line number and a reason code, and establish the memory required by this workbench.

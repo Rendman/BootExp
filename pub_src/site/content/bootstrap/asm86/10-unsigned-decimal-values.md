@@ -3,6 +3,8 @@ title = "10 \u00b7 Unsigned decimal values"
 weight = 10
 description = "Check every digit before multiplying the accumulated value."
 download = "AS10.ASM"
+download_group = "tools/asm0"
+reader_names = 1
 +++
 
 A token of decimal digits must become a word without accepting a sign, an expression, or an overflow.

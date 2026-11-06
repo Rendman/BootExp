@@ -3,13 +3,15 @@ title = "04 \u00b7 Inspecting an instruction record"
 weight = 4
 description = "Search fixed records and display the target-size field."
 download = "IR04.ASM"
+download_group = "tools/ir86"
+reader_names = 1
 +++
 
 Before using an instruction record to select target text, we can inspect the result of its lookup directly.
 
 ## Operation and backend
 
-LOOK is the published ASM86 table search. BX supplies the table address, CX its count, and AX a record stride of fourteen bytes. It returns a record in BX or zero and preserves the source cursor SI. The record begins with a zero-padded name.
+LOOK is the published ASM0 table search. BX supplies the table address, CX its count, and AX a record stride of fourteen bytes. It returns a record in BX or zero and preserves the source cursor SI. The record begins with a zero-padded name.
 
 After the eight name bytes, each record holds an argument class, expression effect, target-byte count, one padding byte, and a word pointer to its text pattern. The driver advances to the target-byte field, clears AH, and passes the value to NUMBER. FINISH rejects an unwanted operand before anything is reported.
 
@@ -19,7 +21,7 @@ The text-output routines from the preceding checkpoint remain in the source. Thi
 
 Copy `IR03.ASM` to `IR04.ASM`. Make these edits **from the bottom of the old file upward**, in the order printed. Physical line positions count blank lines and are only locators. The nearby label and unchanged context identify each place; retain everything else.
 
-LOOK and FINISH are the routines already entered in the ASM86 collection. Their complete added blocks below may be copied from AS09.ASM; compare the printed source when placing them here.
+LOOK and FINISH are the routines already entered in the ASM0 collection. Their complete added blocks below may be copied from AS09.ASM; compare the printed source when placing them here.
 
 ### Change 1: following `SPACE:`
 
@@ -276,7 +278,7 @@ CALL TEXT
 CHECK ASMKEEP
 ```
 
-Enter `IR04` at ASM86's `Source name:` prompt. Require `OK 01065 bytes` followed by PASS. This builds `IR04.COM` directly with the completed assembler. Save the source and executable before running the test.
+Enter `IR04` at ASM0's `Source name:` prompt. Require `OK 01065 bytes` followed by PASS. This builds `IR04.COM` directly with the completed assembler. Save the source and executable before running the test.
 
 Create `T04.IR` with `COPY CON T04.IR`, enter this text, and finish with Ctrl-Z and Enter. The Ctrl-Z keystroke ends console input; it is not a printed language token.
 
@@ -319,4 +321,4 @@ An unexpected PASS is a failed rejection test. Require a fresh OK before using a
 
 ## If the result differs
 
-Check the record stride and count, the saved template pointer, and each substitution buffer. The name and numeric token must survive FINISH. Compare the generated assembly before asking ASM86 to assemble it.
+Check the record stride and count, the saved template pointer, and each substitution buffer. The name and numeric token must survive FINISH. Compare the generated assembly before asking ASM0 to assemble it.

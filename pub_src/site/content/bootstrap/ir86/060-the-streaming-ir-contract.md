@@ -3,7 +3,8 @@ title = "The streaming IR86 contract"
 weight = 60
 description = "Procedures, expressions, literal data, and opaque services in a processor-independent machine."
 download = "IR86.RIL"
-download_group = "toolchain"
+download_group = "tools/toolchain"
+reader_names = 1
 +++
 
 IR86 defines a virtual accumulator A, sixteen-bit words, an expression stack, named byte-addressed storage, and portable services. A backend maps those operations to a processor and environment. Physical registers, flags, segments, interrupt numbers, and native descriptors are not language values.
@@ -14,7 +15,7 @@ The native IRWIDE bridge and the RILL-written IR86 accept this contract. The ear
 
 WORD name value declares a canonical low-byte-first word; BYTE declares one byte (initializer 0 through 255); BUFFER name count materializes that many zero bytes. Declarations may occur between procedure bodies. A program must not execute through data. ADDR returns a byte-addressed pointer to the named object. LD/ST and LDB/STB operate on named words/bytes; FETCH/FETCHB and PUT/PUTB operate through pointers. PUT consumes a saved pointer with the value in A. Byte reads zero-extend; byte writes retain the low byte.
 
-Numeric spellings are unsigned decimal or hexadecimal ending in H, within 0 through 65535. Names begin with a letter or underscore and continue with letters, digits, or underscores; case is folded. They have at most 29 characters so the backend's U_ prefix still fits ASM86A. The input line has at most 1023 characters, and an ordinary token at most 63. Semicolons introduce comments outside quoted literals. CR/LF, bare CR or LF, a final unterminated line, and source Control-Z are supported.
+Numeric spellings are unsigned decimal or hexadecimal ending in H, within 0 through 65535. Names begin with a letter or underscore and continue with letters, digits, or underscores; case is folded. They have at most 29 characters so the backend's U_ prefix still fits ASM86. The input line has at most 1023 characters, and an ordinary token at most 63. Semicolons introduce comments outside quoted literals. CR/LF, bare CR or LF, a final unterminated line, and source Control-Z are supported.
 
 A word computation wraps modulo 65536. Pointers address bytes, not words; callers keep ordinary accesses within live storage. The language supplies no physical-register escape or automatic memory-safety system.
 
@@ -26,7 +27,7 @@ CEQ, CNE, CULT, CULE, CUGT, CUGE, CSLT, CSLE, CSGT, and CSGE consume a saved lef
 
 JMP branches unconditionally; JZ/JNZ test A without consuming it. EQ/NE and ULT/ULE/UGT/UGE/SLT/SLE/SGT/SGE instead consume a saved left operand and branch to a named target when the relation is true. A branch, label, or return meets with an empty expression stack. Value comparisons may leave older saved operands. The translator checks at most 256 active saved words.
 
-The selected backend uses ASM86A's fixed conditional bridges and no synthetic label per ordinary conditional. The assembly format and machine-byte counts are backend properties. The assembler separately checks target image size, symbols, definitions, byte-operand narrowing, and branch ranges. An accepted IR-to-assembly translation is not a successful executable build until that assembly also passes.
+The selected backend uses ASM86's fixed conditional bridges and no synthetic label per ordinary conditional. The assembly format and machine-byte counts are backend properties. The assembler separately checks target image size, symbols, definitions, byte-operand narrowing, and branch ranges. An accepted IR-to-assembly translation is not a successful executable build until that assembly also passes.
 
 ## Procedures and local state
 

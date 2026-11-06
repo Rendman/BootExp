@@ -3,6 +3,8 @@ title = "11. Giving positions names"
 weight = 11
 description = "A symbol table gives each label its address."
 checkpoint = "BA11.BAS"
+download_group = "tools/bootasm"
+reader_names = 1
 +++
 
 The counting pass knows where each source line will lie. We can give a position a name without emitting another byte.

@@ -3,6 +3,8 @@ title = "22 \u00b7 Byte input and persistent status"
 weight = 22
 description = "Compile portable runtime calls as primary expressions."
 download = "R22.IR"
+download_group = "tools/rill0"
+reader_names = 1
 +++
 
 An input byte and its success indication are separate values and must both be available to a source program.

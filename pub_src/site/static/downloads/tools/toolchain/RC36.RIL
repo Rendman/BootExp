@@ -1,0 +1,394 @@
+// A RILL compiler written with ordinary RILL procedures, words, and byte buffers.
+let mut table = 0;
+let mut globals = 0;
+let mut localcount = 0;
+let mut level = 0;
+let mut nextlocal = 0;
+let mut tok = 0;
+let mut value = 0;
+let mut ch = 0;
+let mut line = 1;
+let mut linehi = 0;
+let mut input = 0;
+let mut output = 0;
+let mut inpos = 0;
+let mut inlen = 0;
+let mut outlen = 0;
+let mut total = 0;
+let mut totalhi = 0;
+let mut labelno = 0;
+let mut ended = 0;
+let mut own = 0;
+let mut backup = 0;
+let mut found = 0;
+let mut rectype = 0;
+let mut recval = 0;
+let mut reclevel = 0;
+let mut callbuiltin = 0;
+let mut exprdepth = 0;
+bytes decimal[10];
+bytes inbuf[4096];
+bytes outbuf[4096];
+bytes ident[32];
+bytes string[512];
+
+fn main(){table=alloc(22000);setident("ABC");rectype=1;recval=12345;reclevel=0;record(0);globals=1;output=create("RILL.TMP");own=1;input=open("SOURCE.RIL");if status(){fail(1);}next();lex();expr(1);if tok!=0{fail(2);}flush();close(output);output=0;own=0;return 0;}
+
+fn next() {
+    if ch == 10 {
+        line = line+1;
+        if line == 0 { linehi = linehi+1; if linehi == 0 { fail(5); } }
+    }
+    if ended { ch = 0; return 0; }
+    if inpos == inlen {
+        inlen = read(input,inbuf,4096);
+        if status() != 0 { fail(1); }
+        inpos = 0;
+        if inlen == 0 { ended = 1; ch = 0; return 0; }
+    }
+    ch = inbuf[inpos]; inpos = inpos+1;
+    if ch == 26 { ended = 1; ch = 0; return 0; }
+    if ch == 0 { fail(2); }
+    if ch >= 127 { fail(2); }
+    if ch < 32 {
+        if ch != 9 { if ch != 10 { if ch != 13 { fail(2); } } }
+    }
+    return 0;
+}
+
+fn letter(c) {
+    if c == 95 { return 1; }
+    if c >= 65 { if c <= 90 { return 1; } }
+    if c >= 97 { if c <= 122 { return 1; } }
+    return 0;
+}
+
+fn digit(c) { if c < 48 { return 0; } if c > 57 { return 0; } return 1; }
+
+fn lex() {
+    while 1 {
+        while (ch!=0) & (ch<=32) { next(); }
+        if ch==0 { tok=0; return 0; }
+        if ch==47 {
+            next();
+            if ch==47 { while (ch!=0) & (ch!=10) { next(); } }
+            else { tok=47; return 0; }
+        }
+        else { return lexkind(); }
+    }
+}
+
+fn lexkind() {
+    let mut n = 0;
+    let mut c = 0;
+    let mut escaped = 0;
+    if letter(ch) {
+        while letter(ch) | digit(ch) {
+            if n >= 24 { fail(4); }
+            c = ch;
+            if c >= 97 { if c <= 122 { c = c-32; } }
+            ident[n] = c; n = n+1; next();
+        }
+        ident[n] = 0; tok = 1; return 0;
+    }
+    if digit(ch) {
+        value = 0;
+        while digit(ch) {
+            if value > 6553 { fail(3); }
+            if value == 6553 { if ch > 53 { fail(3); } }
+            value = value*10+ch-48; next();
+        }
+        tok = 2; return 0;
+    }
+    if ch == 34 {
+        while 1 {
+            if n >= 510 { fail(5); }
+            if ch==10 | ch==13 { fail(2); }
+            if ch == 0 { fail(2); }
+            string[n] = ch; n = n+1; c = ch; next();
+            if n != 1 {
+                if escaped {
+                    if c!=110 { if c!=114 { if c!=116 { if c!=48 { if c!=92 { if c!=34 { fail(2); } } } } } }
+                    escaped = 0;
+                }
+                else {
+                    if c == 34 { string[n] = 0; tok = 3; return 0; }
+                    if c == 92 { escaped = 1; }
+                }
+            }
+        }
+    }
+    tok = ch; next();
+    if tok == 61 { if ch == 61 { tok = 256; next(); } return 0; }
+    if tok == 33 { if ch == 61 { tok = 257; next(); } return 0; }
+    if tok == 60 {
+        if ch == 61 { tok = 258; next(); }
+        else { if ch == 60 { tok = 260; next(); } }
+        return 0;
+    }
+    if tok == 62 {
+        if ch == 61 { tok = 259; next(); }
+        else { if ch == 62 { tok = 261; next(); } }
+    }
+    return 0;
+}
+
+fn expect(t) { if tok != t { fail(2); } lex(); return 0; }
+
+fn isword(s) {
+    let mut i = 0;
+    if tok != 1 { return 0; }
+    while ident[i] == load8(s+i) { if ident[i] == 0 { return 1; } i = i+1; }
+    return 0;
+}
+
+fn setident(s) { let mut i = 0; while 1 { ident[i] = load8(s+i); if ident[i] == 0 { return 0; } i = i+1; } }
+
+fn tword(p) { return get16(table,p); }
+
+fn tbyte(p) { return get8(table,p); }
+
+fn find(base,count) {
+    let mut p = 0;
+    let mut i = 0;
+    let mut c = 0;
+    let mut same = 0;
+    while count {
+        count = count-1; p = base+count*40; i = 0; same = 1;
+        while same {
+            c = tbyte(p+i);
+            if c != ident[i] { same = 0; }
+            else {
+                if c == 0 {
+                    rectype = tword(p+32); recval = tword(p+34); reclevel = tword(p+36);
+                    return p;
+                }
+                i = i+1;
+            }
+        }
+    }
+    return 65535;
+}
+
+fn record(p) {
+    let mut i = 0;
+    while i < 40 { set8(table,p+i,0); i = i+1; }
+    i = 0;
+    while 1 { set8(table,p+i,ident[i]); if ident[i] == 0 { return recordfields(p); } i = i+1; }
+}
+
+fn recordfields(p) { set16(table,p+32,rectype); set16(table,p+34,recval); set16(table,p+36,reclevel); return p; }
+
+fn newglobal(kind) {
+    if globals >= 512 { fail(5); }
+    rectype = kind;
+    let mut p = globals*40; globals = globals+1;
+    return record(p);
+}
+
+fn newlocal(kind) {
+    if localcount >= 32 { fail(5); }
+    rectype = kind;
+    let mut p = 20480+localcount*40; localcount = localcount+1;
+    return record(p);
+}
+
+fn lookglobal() { return find(0,globals); }
+
+fn resolve() {
+    found = find(20480,localcount);
+    if found == 65535 { found = lookglobal(); if found == 65535 { fail(4); } }
+    return found;
+}
+
+fn outname(p) { let mut i = 0; let mut c = 0; while 1 { c = tbyte(p+i); if c == 0 { return 0; } outchar(c); i = i+1; } }
+
+fn outchar(c) {
+    outbuf[outlen] = c; outlen = outlen+1; total = total+1;
+    if total == 0 { totalhi = totalhi+1; if totalhi == 0 { fail(5); } }
+    if outlen == 4096 { flush(); }
+    return 0;
+}
+
+fn flush() {
+    if outlen {
+        let mut n = write(output,outbuf,outlen);
+        if status() { fail(1); }
+        if n != outlen { fail(1); }
+        outlen = 0;
+    }
+    return 0;
+}
+
+fn outstr(s) {
+    let mut c=0; let mut previous=0;
+    while 1 {
+        c=load8(s); if c==0 { return 0; }
+        if c==10 { if previous!=13 { outchar(13); } }
+        outchar(c); previous=c; s=s+1;
+    }
+}
+
+fn outnum(n) {
+    let mut place = 10000; let mut c = 0;
+    while place { c = 48; while n >= place { n = n-place; c = c+1; } outchar(c); place = place/10; }
+    return 0;
+}
+
+fn newline() { return outstr("\r\n"); }
+
+fn newlabel() { labelno = labelno+1; if labelno == 0 { fail(5); } return labelno; }
+
+fn labeldef(n) { outstr("LABEL B_"); outnum(n); newline(); return 0; }
+
+fn labeljump(n) { outstr(" B_"); outnum(n); newline(); return 0; }
+
+fn print(s) { let mut c = 0; while 1 { c = load8(s); if c == 0 { return 0; } putc(c); s = s+1; } }
+
+fn printnum(n) {
+    let mut place = 10000; let mut c = 0;
+    while place { c = 48; while n >= place { n = n-place; c = c+1; } putc(c); place = place/10; }
+    return 0;
+}
+
+fn builtin() {
+    let mut p = "PUTC\01\0POP\nPUTC\0GETC\00\0GETC\0STATUS\00\0STATUS\0OPEN\01\0POP\nOPEN\0CREATE\01\0POP\nCREATE\0CLOSE\01\0POP\nCLOSE\0READ\03\0POP\nREAD\0WRITE\03\0POP\nWRITE\0EXISTS\01\0POP\nEXISTS\0DELETE\01\0POP\nDELETE\0RENAME\02\0POP\nRENAME\0ALLOC\01\0POP\nALLOC\0FREE\01\0POP\nFREEBLOCK\0GET8\02\0POP\nGET8\0GET16\02\0POP\nGET16\0SET8\03\0POP\nSET8\0SET16\03\0POP\nSET16\0LOAD8\01\0POP\nFETCHB\0LOAD16\01\0POP\nFETCH\0STORE8\02\0POP\nPUTB\0STORE16\02\0POP\nPUT\0EXIT\01\0POP\nEXIT\0\0";
+    let mut i = 0; let mut same = 0;
+    while load8(p) {
+        i = 0; same = 1;
+        while load8(p+i) { if load8(p+i) != ident[i] { same = 0; } i = i+1; }
+        if ident[i] != 0 { same = 0; }
+        p = p+i+1; recval = load8(p)-48; p = p+2;
+        if same { return p; }
+        while load8(p) { p = p+1; } p = p+1;
+    }
+    return 0;
+}
+
+fn resolveoptional() {
+    callbuiltin = builtin();
+    if callbuiltin { rectype = 7; return 65535; }
+    let mut p = find(20480,localcount);
+    if p != 65535 { return p; }
+    p = lookglobal(); if p != 65535 { return p; }
+    recval = 65535; reclevel = 0; p = newglobal(4); rectype = 4; return p;
+}
+
+fn callargs(p,bi) {
+    let mut argc = 0; let mut kind = 0; let mut wanted = 0;
+    expect(40);
+    while tok != 41 {
+        if argc >= 16 { fail(5); } expr(1); outstr("PUSH\r\n"); argc = argc+1;
+        if tok != 41 { expect(44); }
+    }
+    lex();
+    if bi {
+        if load8(bi-2)-48 != argc { fail(4); }
+        outstr(bi); newline(); return 0;
+    }
+    kind = tword(p+32); if kind != 3 { if kind != 4 { fail(4); } }
+    wanted = tword(p+34);
+    if wanted == 65535 { set16(table,p+34,argc); }
+    else { if wanted != argc { fail(4); } }
+    outstr("INVOKE F_"); outname(p); outchar(32); outnum(argc); newline(); return 0;
+}
+
+fn prec() {
+    if tok == 124 { return 1; } if tok == 94 { return 2; } if tok == 38 { return 3; }
+    if tok == 256 { return 4; } if tok == 257 { return 4; }
+    if tok == 258 { return 4; } if tok == 259 { return 4; }
+    if tok == 60 { return 4; } if tok == 62 { return 4; }
+    if tok == 260 { return 5; } if tok == 261 { return 5; }
+    if tok == 43 { return 6; } if tok == 45 { return 6; }
+    if tok == 42 { return 7; } if tok == 47 { return 7; } if tok == 37 { return 7; }
+    return 0;
+}
+
+fn expr(min) {
+    let mut p = 0; let mut op = 0;
+    exprdepth = exprdepth+1; if exprdepth > 16 { fail(5); }
+    primary(); p = prec();
+    while p != 0 {
+        if p < min { exprdepth = exprdepth-1; return 0; }
+        op = tok; outstr("PUSH\r\n"); lex(); expr(p+1); binary(op); p = prec();
+    }
+    exprdepth = exprdepth-1; return 0;
+}
+
+fn binary(op) {
+    if op == 43 { return outstr("ADD\r\n"); }
+    if op == 45 { return outstr("SUB\r\n"); }
+    if op == 42 { return outstr("MUL\r\n"); }
+    if op == 47 { return outstr("DIV\r\n"); }
+    if op == 37 { return outstr("MOD\r\n"); }
+    if op == 124 { return outstr("OR\r\n"); }
+    if op == 94 { return outstr("XOR\r\n"); }
+    if op == 38 { return outstr("AND\r\n"); }
+    if op == 260 { return outstr("SHL\r\n"); }
+    if op == 261 { return outstr("SHR\r\n"); }
+    if op == 256 { return outstr("CEQ\r\n"); }
+    if op == 257 { return outstr("CNE\r\n"); }
+    if op == 258 { return outstr("CULE\r\n"); }
+    if op == 259 { return outstr("CUGE\r\n"); }
+    if op == 60 { return outstr("CULT\r\n"); }
+    return outstr("CUGT\r\n");
+}
+
+fn primary() {
+    let mut p = 0; let mut kind = 0; let mut slot = 0; let mut bi = 0;
+    if tok == 2 { outstr("LIT "); outnum(value); newline(); lex(); return 0; }
+    if tok == 3 { outstr("LITS "); outstr(string); newline(); lex(); return 0; }
+    if tok == 40 { lex(); expr(1); expect(41); return 0; }
+    if tok == 45 { lex(); expr(8); return outstr("NEG\r\n"); }
+    if tok == 126 { lex(); expr(8); return outstr("NOT\r\n"); }
+    if tok == 33 { lex(); expr(8); return outstr("PUSH\r\nLIT 0\r\nCEQ\r\n"); }
+    if tok == 38 {
+        lex(); if tok != 1 { fail(2); } resolve();
+        if rectype <= 2 { outstr("ADDR V_"); outname(found); }
+        else {
+            if rectype == 5 { outstr("LADDR "); }
+            else { if rectype == 6 { outstr("PADDR "); } else { fail(4); } }
+            outnum(recval);
+        }
+        newline(); lex(); return 0;
+    }
+    if tok != 1 { fail(2); }
+    p = resolveoptional(); kind = rectype; slot = recval; bi = callbuiltin; lex();
+    if tok == 40 { return callargs(p,bi); }
+    if kind == 1 { outstr("LD V_"); outname(p); newline(); return 0; }
+    if kind == 5 { outstr("LOCAL "); outnum(slot); newline(); return 0; }
+    if kind == 6 { outstr("PARAM "); outnum(slot); newline(); return 0; }
+    if kind != 2 { fail(4); }
+    outstr("ADDR V_"); outname(p); newline();
+    if tok == 91 { outstr("PUSH\r\n"); lex(); expr(1); expect(93); outstr("ADD\r\nFETCHB\r\n"); }
+    return 0;
+}
+
+fn fail(code) {
+    if input { close(input); }
+    if output { close(output); }
+    let mut recovery = 0;
+    if backup { rename("RILL.BAK","RESULT.IR"); if status() { recovery = 1; } }
+    if recovery == 0 { if own { delete("RILL.TMP"); if status() { recovery=1; } } }
+    if table { free(table); table = 0; }
+    print("ERROR "); print32(linehi,line); print(" CODE "); printnum(code); print("\r\n");
+    if recovery { print("Recovery: inspect RILL.TMP and RILL.BAK\r\n"); } exit(1); return 0;
+}
+
+// Divide a pair of words by ten without requiring a wider machine value.
+
+fn print32(hi,lo) {
+    let mut i = 0; let mut qhi = 0; let mut rem = 0;
+    let mut qlo = 0; let mut bit = 0;
+    while i < 10 {
+        qhi = hi/10; rem = hi%10; qlo = 0; bit = 32768;
+        while bit {
+            rem = rem*2; if lo & bit { rem = rem+1; }
+            qlo = qlo*2;
+            if rem >= 10 { rem = rem-10; qlo = qlo+1; }
+            bit = bit>>1;
+        }
+        decimal[i] = rem+48; hi = qhi; lo = qlo; i = i+1;
+    }
+    while i { i = i-1; putc(decimal[i]); } return 0;
+}

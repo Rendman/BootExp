@@ -3,6 +3,8 @@ title = "13 \u00b7 Describing a memory operand"
 weight = 13
 description = "Save a reusable record before choosing its encoding."
 download = "A25.ASM"
+download_group = "tools/asm86"
+reader_names = 1
 +++
 
 Several instruction families need the same memory-address information.
@@ -360,7 +362,7 @@ MOV AX,[0CC00H]
 
 ```dos
 COPY A25.ASM SOURCE.ASM
-CHECK ASMA0
+CHECK ASM1
 ```
 
 Require `OK RESULT.COM 05078 bytes` and PASS. Preserve this executable before using its fixed output name:
@@ -401,7 +403,7 @@ In VIEW.BAS, inspect RESULT.COM. Require length **6 bytes** and these complete c
 8B 06 34 12 89 07
 ```
 
-This result is an encoding or data exercise. Inspect its bytes; do not execute it.
+The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
 
 ## A rejection check
 

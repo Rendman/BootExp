@@ -3,6 +3,8 @@ title = "09. Making a DOS request"
 weight = 9
 description = "Display a character and return control to DOS."
 checkpoint = "BA09.BAS"
+download_group = "tools/bootasm"
+reader_names = 1
 +++
 
 We can load registers, but a complete program must also ask DOS to do something and then return control to it. INT supplies that connection.

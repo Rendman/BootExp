@@ -3,6 +3,8 @@ title = "10. Counting twice"
 weight = 10
 description = "One pass to count the bytes, another to collect them."
 checkpoint = "BA10.BAS"
+download_group = "tools/bootasm"
+reader_names = 1
 +++
 
 A source file can be read once to count its bytes and again to collect them. We shall establish those two passes while all operands are still numeric.

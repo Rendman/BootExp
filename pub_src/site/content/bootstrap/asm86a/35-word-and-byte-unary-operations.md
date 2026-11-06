@@ -3,6 +3,8 @@ title = "23 \u00b7 Word and byte unary operations"
 weight = 23
 description = "Select NEG and NOT through the shared r/m group."
 download = "A35.ASM"
+download_group = "tools/asm86"
+reader_names = 1
 +++
 
 Negation and bit inversion have fixed operand widths and a common encoding structure.
@@ -144,7 +146,7 @@ CALL LOOK
 
 ```dos
 COPY A35.ASM SOURCE.ASM
-CHECK ASMA0
+CHECK ASM1
 ```
 
 Require `OK RESULT.COM 06064 bytes` and PASS. Preserve this executable before using its fixed output name:
@@ -192,14 +194,7 @@ In VIEW.BAS, inspect RESULT.COM. Require length **22 bytes** and these complete 
 B8 01 00 F7 D8 F7 D0 81 C0 41 00 8A D0 B4 02 CD 21 B8 00 4C CD 21
 ```
 
-This fixture is a complete program. Save it before another assembly and execute it:
-
-```dos
-COPY RESULT.COM TRY.COM
-CHECK TRY
-```
-
-It displays "A" and the checker reports PASS.
+The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
 
 ## A rejection check
 

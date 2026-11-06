@@ -3,6 +3,8 @@ title = "13 \u00b7 Writing the image"
 weight = 13
 description = "Create the output only after every source line succeeds."
 download = "AS13.ASM"
+download_group = "tools/asm0"
+reader_names = 1
 +++
 
 The byte buffer is ready to become a file. We shall create a fresh .COM image and check both the write count and the close.

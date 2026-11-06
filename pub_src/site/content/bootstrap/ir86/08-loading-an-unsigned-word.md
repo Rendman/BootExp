@@ -3,6 +3,8 @@ title = "08 \u00b7 Loading an unsigned word"
 weight = 8
 description = "Load a checked word into the virtual accumulator."
 download = "IR08.ASM"
+download_group = "tools/ir86"
+reader_names = 1
 +++
 
 The accumulator needs a value. LIT supplies an unsigned word, and EXIT makes its low byte observable as a program status.
@@ -19,7 +21,7 @@ EXIT returns A modulo 256 as the program status. HALT returns zero. The DOS bind
 
 Copy `IR07.ASM` to `IR08.ASM`. Make these edits **from the bottom of the old file upward**, in the order printed. Physical line positions count blank lines and are only locators. The nearby label and unchanged context identify each place; retain everything else.
 
-VALUE is the unsigned numeric reader from the published ASM86 source, with a nonnumeric token directed to NUMBERBAD. Copy its routine block if convenient, then compare the complete addition below. It accepts numeric tokens only in this translator.
+VALUE is the unsigned numeric reader from the published ASM0 source, with a nonnumeric token directed to NUMBERBAD. Copy its routine block if convenient, then compare the complete addition below. It accepts numeric tokens only in this translator.
 
 ### Change 1: following `T_LABEL:`
 
@@ -296,7 +298,7 @@ JMP ERROR
 CHECK ASMKEEP
 ```
 
-Enter `IR08` at ASM86's `Source name:` prompt. Require `OK 01776 bytes` followed by PASS. This builds `IR08.COM` directly with the completed assembler. Save the source and executable before running the test.
+Enter `IR08` at ASM0's `Source name:` prompt. Require `OK 01776 bytes` followed by PASS. This builds `IR08.COM` directly with the completed assembler. Save the source and executable before running the test.
 
 Create `T08.IR` with `COPY CON T08.IR`, enter this text, and finish with Ctrl-Z and Enter. The Ctrl-Z keystroke ends console input; it is not a printed language token.
 
@@ -365,4 +367,4 @@ An unexpected PASS is a failed rejection test. Require a fresh OK before using a
 
 ## If the result differs
 
-Check the record stride and count, the saved template pointer, and each substitution buffer. The name and numeric token must survive FINISH. Compare the generated assembly before asking ASM86 to assemble it.
+Check the record stride and count, the saved template pointer, and each substitution buffer. The name and numeric token must survive FINISH. Compare the generated assembly before asking ASM0 to assemble it.

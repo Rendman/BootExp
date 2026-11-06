@@ -3,6 +3,8 @@ title = "03. Tidying the input"
 weight = 3
 description = "Making room for spaces, comments, and lowercase letters."
 checkpoint = "BA03.BAS"
+download_group = "tools/bootasm"
+reader_names = 1
 +++
 
 Indentation and a note in the margin should not spoil a source line. We can improve that without changing the byte writer.

@@ -3,6 +3,8 @@ title = "17 \u00b7 Reserving a byte buffer"
 weight = 17
 description = "Emit bounded, zero-filled storage without a string syntax."
 download = "IR17.ASM"
+download_group = "tools/ir86"
+reader_names = 1
 +++
 
 BUFFER names a run of consecutive bytes which pointer operations can traverse.
@@ -282,7 +284,7 @@ MOV CX,24
 CHECK ASMKEEP
 ```
 
-Enter `IR17` at ASM86's `Source name:` prompt. Require `OK 02628 bytes` followed by PASS. This builds `IR17.COM` directly with the completed assembler. Save the source and executable before running the test.
+Enter `IR17` at ASM0's `Source name:` prompt. Require `OK 02628 bytes` followed by PASS. This builds `IR17.COM` directly with the completed assembler. Save the source and executable before running the test.
 
 Create `T17.IR` with `COPY CON T17.IR`, enter this text, and finish with Ctrl-Z and Enter. The Ctrl-Z keystroke ends console input; it is not a printed language token.
 

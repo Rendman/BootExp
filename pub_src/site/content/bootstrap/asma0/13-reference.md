@@ -1,11 +1,13 @@
 +++
-title = "13 · ASMA0 reference"
+title = "13 \u00b7 ASM1 reference"
 weight = 13
 description = "The seed language, streaming files, single-segment symbol table, and handoff contract."
-download = "ASMA0.ASM"
+download = "ASM1.ASM"
+download_group = "tools/asm1"
+reader_names = 1
 +++
 
-ASMA0 is the completed A12 streaming seed. Its first executable is built by the published ASM86; two self-assembly generations must reproduce it. The seed's own implementation uses only ASM86's accepted instructions. The language it accepts includes the segment-access forms below.
+ASM1 is the completed A12 streaming seed. Its first executable is built by the published ASM0; two self-assembly generations must reproduce it. The seed's own implementation uses only ASM0's accepted instructions. The language it accepts includes the segment-access forms below.
 
 ## Files and passes
 
@@ -13,7 +15,7 @@ COPY selects the input; the tool has no filename prompt:
 
 ```dos
 COPY HELLO.ASM SOURCE.ASM
-CHECK ASMA0
+CHECK ASM1
 ```
 
 Pass one reads and validates while recording definitions and counting output. Pass two closes and reopens the same source, checks label values and the final image length, resolves forward values, and streams ASMA.TMP. Keep SOURCE.ASM unchanged throughout both passes. The checks detect some changes, not every possible same-size edit.
@@ -30,7 +32,7 @@ Each physical line is empty, a semicolon comment, a standalone label ending in a
 
 Names begin with a letter or underscore and continue with letters, digits, or underscores, up to sixteen characters. All ordinary and segment register names are reserved. Definitions are unique, and different names may have the same loaded address.
 
-A value is one unsigned decimal literal, one hexadecimal literal ending in H, or a label. It is not an expression. Numeric spelling starts with a digit: write 0FFH rather than FFH. Numbers fit 0 through 65535; a byte context narrows this to 0 through 255. Forward labels resolve during pass two. There are no signs, arithmetic expressions, quoted strings, character constants, EQU, RESB/RESW, ORG, include files, macros, segment directives, object records, or a linker. Keeping the value grammar small makes the seed buildable within ASM86's bounds.
+A value is one unsigned decimal literal, one hexadecimal literal ending in H, or a label. It is not an expression. Numeric spelling starts with a digit: write 0FFH rather than FFH. Numbers fit 0 through 65535; a byte context narrows this to 0 through 255. Forward labels resolve during pass two. There are no signs, arithmetic expressions, quoted strings, character constants, EQU, RESB/RESW, ORG, include files, macros, segment directives, object records, or a linker. Keeping the value grammar small makes the seed buildable within ASM0's bounds.
 
 DB and DW accept one or more comma-separated values. DW emits the low byte first. No alignment or padding is inserted. Labels name the next loaded offset, including the fixed 0100H origin, and emit no bytes.
 
@@ -74,7 +76,7 @@ CALL uses E8H and JMP E9H, followed by `target-(instruction offset+3)` as a word
 
 | Resource | Bound |
 |---|---|
-| Seed executable | 3342 bytes, built by ASM86 |
+| Seed executable | 3342 bytes, built by ASM0 |
 | Definitions | 2048 records |
 | Name/token content | 16 characters |
 | Physical line content | 120 characters |
@@ -98,7 +100,7 @@ The maximum target occupies 0100H–EFFFH. F000H is a valid end label, with F000
 | 5000H–EFFFH | 2048 twenty-byte symbol records |
 | F000H–FFFFH | Native stack reservation |
 
-A record holds a terminated name of at most sixteen characters in its initial name area and the loaded word value at byte offset eighteen. Lookup compares through the zero terminator; unused padding is not assumed to be zero. No allocated pages or hash buckets are required. The seed's resident ceiling and the preceding ASM86's 8192-byte output ceiling are separate from the seed's own streamed target limit.
+A record holds a terminated name of at most sixteen characters in its initial name area and the loaded word value at byte offset eighteen. Lookup compares through the zero terminator; unused padding is not assumed to be zero. No allocated pages or hash buckets are required. The seed's resident ceiling and the preceding ASM0's 8192-byte output ceiling are separate from the seed's own streamed target limit.
 
 ## Reports and ownership
 

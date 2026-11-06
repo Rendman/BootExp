@@ -3,6 +3,8 @@ title = "31 \u00b7 Writing bytes with an explicit count"
 weight = 31
 description = "Report partial progress separately from success or failure."
 download = "IR31.ASM"
+download_group = "tools/ir86"
+reader_names = 1
 +++
 
 WRITE sends bytes to a writable file using the same virtual argument order as READ.
@@ -192,7 +194,7 @@ MOV AX,428
 CHECK ASMKEEP
 ```
 
-Enter `IR31` at ASM86's `Source name:` prompt. Require `OK 06166 bytes` followed by PASS. This builds `IR31.COM` directly with the completed assembler. Save the source and executable before running the test.
+Enter `IR31` at ASM0's `Source name:` prompt. Require `OK 06166 bytes` followed by PASS. This builds `IR31.COM` directly with the completed assembler. Save the source and executable before running the test.
 
 Create `T31.IR` with `COPY CON T31.IR`, enter this text, and finish with Ctrl-Z and Enter. The Ctrl-Z keystroke ends console input; it is not a printed language token.
 

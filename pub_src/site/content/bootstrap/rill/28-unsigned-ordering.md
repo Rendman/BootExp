@@ -3,6 +3,8 @@ title = "28 \u00b7 Unsigned ordering"
 weight = 28
 description = "Select each false relation without relying on flags."
 download = "R28.IR"
+download_group = "tools/rill0"
+reader_names = 1
 +++
 
 Word ordering must state how values with the high bit set are interpreted.

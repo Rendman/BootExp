@@ -1,19 +1,16 @@
 +++
-title = "RC43 \u00b7 The compiler compiles its own language"
+title = "43 \u00b7 Compiling a Complete Program"
 weight = 43
 description = "Open the fixed source, stream accepted IR through an owned temporary file, and verify all pending procedures."
 download = "RC43.RIL"
-download_group = "rc"
+download_group = "tools/rill"
 aliases = ["/bootstrap/rill/131-rc-the-compiler-compiles-its-own-language/"]
+reader_names = 1
 +++
-
-Open the fixed source, stream accepted IR through an owned temporary file, and verify all pending procedures.
 
 ## The working parts
 
 Open the fixed source, stream accepted IR through an owned temporary file, and verify all pending procedures. Require an argument-free main. Publish only after parsing, source close, flush, and output close succeed.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -1070,7 +1067,7 @@ Remove this source at old physical positions 34–36 in RC42.RIL:
 
 ```rill
 
-fn main(){table=alloc(22000);output=create("RILL.TMP");own=1;input=open("SOURCE.RIL");if status(){fail(1);}next();lex();function();outstr("PROC MAIN 0 0\r\nINVOKE F_MAIN 0\r\nRETURN\r\n");flush();close(output);output=0;own=0;print("OK RILL.TMP\r\n");return 0;}
+fn main(){table=alloc(22000);output=create("RILL.TMP");own=1;input=open("SOURCE.RIL");if status(){fail(1);}next();lex();function();outstr("PROC MAIN 0 0\r\nINVOKE F_MAIN 0\r\nRETURN\r\n");flush();close(output);output=0;own=0;return 0;}
 ```
 
 Replace it with:
@@ -1181,14 +1178,14 @@ COPY TRC43.RIL SOURCE.RIL
 CHECK RC43
 ```
 
-Require, apart from command echo and the checker's separator:
+Require:
 
 ```text
 OK RESULT.IR 0000000152
 PASS
 ```
 
-TYPE RESULT.IR. Its complete text is:
+TYPE RESULT.IR. Its complete IR is:
 
 ```ir
 PROC F_MAIN 00000 16
@@ -1235,6 +1232,6 @@ An unexpected PASS fails the rejection. The pre-existing RESULT.IR must remain u
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Compare main with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.
 
 Preserve RC43.COM as R0.COM and RC43.RIL as RILL.RIL. The same source is the input for the two compiler self-build comparisons.

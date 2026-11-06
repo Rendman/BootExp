@@ -1,19 +1,18 @@
 +++
-title = "RC01 \u00b7 Read a text pointer in RILL"
+title = "01 \u00b7 Printing a String"
 weight = 1
 description = "A is a pointer to terminated bytes."
 download = "RC01.RIL"
-download_group = "rc"
+download_group = "tools/rill"
 aliases = ["/bootstrap/rill/089-rc-read-a-text-pointer-in-rill/"]
+reader_names = 1
 +++
-
-A is a pointer to terminated bytes.
 
 ## The working parts
 
-A is a pointer to terminated bytes. Save the pointer in a local slot before PUTC changes A. A zero byte ends the walk; it is not written.
+The parameter s points to zero-terminated bytes. Read one byte, stop at zero, or print it and advance s. The parameter belongs to this call.
 
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
+The workbench explains the shared build steps and how to inspect intermediate files. Each stopping point below exercises the new routine.
 
 ## Enter the source
 
@@ -88,27 +87,13 @@ VIEW.BAS must report RC01.COM length 10047 bytes. Keep this executable and its s
 CHECK RC01
 ```
 
-Require, apart from command echo and the checker's separator:
+Require:
 
 ```text
-HIPASS
+HI
+PASS
 ```
-
-## A rejection or boundary check
-
-Check the same word boundary in the compiler seed. Create BAD.RIL:
-
-```rill
-fn main(){return 65536;}
-```
-
-```dos
-COPY BAD.RIL SOURCE.RIL
-CHECK RILLBOOT
-```
-
-Require `ERROR 0000000001 CODE 00003` and FAIL, preserving the accepted RESULT.IR. An unexpected PASS fails this check.
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Check the zero terminator and the pointer after each output call.

@@ -1,12 +1,13 @@
 +++
-title = "The RC language reference"
+title = "The RILL language reference"
 weight = 44
-description = "The complete language used by the compiler, IR86, and ASM86A implementations."
+description = "The complete language used by the compiler, IR86, and ASM86 implementations."
 download = "RILL.RIL"
-download_group = "rc"
+download_group = "tools/rill"
+reader_names = 1
 +++
 
-RC constructs RILL.RIL, a compiler written in the same language it accepts. RILLBOOT builds its first executable; R0 and the next two compiler generations reproduce it. The language contract is the same as the completed RB compiler seed. ASM86A.RIL and IR86.RIL use this same language.
+RILL constructs RILL.RIL, a compiler written in the same language it accepts. RILLBOOT builds its first executable; R0 and the next two compiler generations reproduce it. The language contract is the same as the completed RILLBOOT compiler seed. ASM86.RIL and IR86.RIL use this same language.
 
 ## Program structure
 

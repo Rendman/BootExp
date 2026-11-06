@@ -3,11 +3,13 @@ title = "The first IR86 translator reference"
 weight = 34
 description = "A processor-independent contract, followed by the separate 8086/DOS binding."
 download = "IR86.ASM"
+download_group = "tools/ir86"
+reader_names = 1
 +++
 
 This reference describes the first IR32 translator milestone. The [streaming IR contract](../060-the-streaming-ir-contract/index.html) supplies procedures, literal data, and allocated blocks used by the complete RILL toolchain. Keep the prompted and fixed-file builders separately named.
 
-IR86 defines a virtual machine and a runtime-service interface. A backend implements that contract for a processor and environment. The language does not specify CPU registers, processor flags, interrupts, segments, or a native calling convention. The backend constructed in this collection emits assembly accepted by ASM86 and supplies a DOS binding.
+IR86 defines a virtual machine and a runtime-service interface. A backend implements that contract for a processor and environment. The language does not specify CPU registers, processor flags, interrupts, segments, or a native calling convention. The backend constructed in this collection emits assembly accepted by ASM0 and supplies a DOS binding.
 
 ## Values and storage
 
@@ -111,7 +113,7 @@ This section describes the **8086/DOS implementation**, separately from the lang
 
 Run CHECK IRKEEP or CHECK IR86. At `IR source name:` enter a one-to-eight-character DOS base name of letters, digits, or underscores. The tool reads NAME.IR and writes NAME.ASM in the current directory. Use ordinary disk names, excluding DOS devices such as CON and NUL even with an extension. These prompt restrictions do not define the IR runtime file-name interface.
 
-Success prints `OK NAME.ASM nnnnn text bytes` and returns zero. Failure prints `IR ERROR nnnnn CODE n` and returns one. CHECK reports PASS or FAIL immediately. The line number is one-based physical input, or zero before reading. Source rejection leaves old assembly untouched; a write/close failure may leave partial output. Require a fresh OK, then a separate ASM86 OK before using NAME.COM.
+Success prints `OK NAME.ASM nnnnn text bytes` and returns zero. Failure prints `IR ERROR nnnnn CODE n` and returns one. CHECK reports PASS or FAIL immediately. The line number is one-based physical input, or zero before reading. Source rejection leaves old assembly untouched; a write/close failure may leave partial output. Require a fresh OK, then a separate ASM0 OK before using NAME.COM.
 
 This backend maps A to AX and uses a native stack for expression words and return addresses. The generated DOS header clears direction and checks the normal full-segment entry SP=FFFEH. Its failure status seven and its segment arrangement are target requirements, not language semantics. DS, ES, and SS retain the DOS program segment. Keep the upper 4 KB clear for native stack use; native call depth is not dynamically checked.
 
@@ -123,9 +125,9 @@ The binding uses DOS handle reads and writes for byte streams, preserving all by
 
 ### Translation records
 
-The native translator reuses the published ASM86 readers and table search. A fourteen-byte record contains an eight-byte zero-padded operation name, argument class, expression effect, this backend's machine-byte count, padding, and a template pointer. Machine-byte counts and templates are backend data, not definitions of IR meaning.
+The native translator reuses the published ASM0 readers and table search. A fourteen-byte record contains an eight-byte zero-padded operation name, argument class, expression effect, this backend's machine-byte count, padding, and a template pointer. Machine-byte counts and templates are backend data, not definitions of IR meaning.
 
-EXPAND substitutes @ with a saved name, # with a checked numeric spelling, and ? with a generated branch number. Runtime fragments are emitted as assembly text. ASM86 alone encodes the instructions. Each appended fragment remains separately identifiable in the translator's data, so a new service need not replace unrelated text.
+EXPAND substitutes @ with a saved name, # with a checked numeric spelling, and ? with a generated branch number. Runtime fragments are emitted as assembly text. ASM0 alone encodes the instructions. Each appended fragment remains separately identifiable in the translator's data, so a new service need not replace unrelated text.
 
 FLOW handles ordinary operations, push, consume-one, empty boundary, consume-one-then-empty, terminal boundary, and consume-two-then-empty effects (codes 0 through 6). There is no hardware-flag state in the IR parser. SIZEADD and NEWDEF account for the selected backend, including its reserved runtime. OUTTEXT advances its text cursor; EMITCHAR preserves its byte argument and counts generated lines. WRITEOUT writes the accepted text only after validation.
 
@@ -143,7 +145,7 @@ FLOW handles ordinary operations, push, consume-one, empty boundary, consume-one
 | Open files in this binding | At most eight opaque handles; services still report environment failures |
 | Native memory arrangement | Full 64 KB DOS segment, normal entry stack |
 
-The final header and runtime consume 43 of the definition entries, leaving 213 for user definitions and conditional skip labels. Duplicates and undefined names are diagnosed by ASM86. These finite implementation limits do not make the language's operations processor instructions.
+The final header and runtime consume 43 of the definition entries, leaving 213 for user definitions and conditional skip labels. Duplicates and undefined names are diagnosed by ASM0. These finite implementation limits do not make the language's operations processor instructions.
 
 ### Diagnostics
 
@@ -157,7 +159,7 @@ The final header and runtime consume 43 of the definition entries, leaving 213 f
 | 6 | Translator file failure, short write, or invalid source byte |
 | 7 | Native translator entry stack differs from its target requirement |
 
-A runtime service failure is different: it sets the portable STATUS word in the generated program. The translator's diagnostic codes concern building that program. ASM86's later line reports refer to generated assembly, not directly to IR source lines.
+A runtime service failure is different: it sets the portable STATUS word in the generated program. The translator's diagnostic codes concern building that program. ASM0's later line reports refer to generated assembly, not directly to IR source lines.
 
 ## Complete DOS binding source
 

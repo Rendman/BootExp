@@ -3,6 +3,8 @@ title = "16. Reading and writing memory"
 weight = 16
 description = "Transfer bytes and words through BX or a named address."
 checkpoint = "BA16.BAS"
+download_group = "tools/bootasm"
+reader_names = 1
 +++
 
 Registers hold working values; a source buffer belongs in memory. We shall add just two ways to name a memory location.

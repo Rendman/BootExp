@@ -2,9 +2,22 @@
 
 An original, gradual course in building an 8086/8088 software workbench, starting with an assembler written in GW-BASIC.
 
-The Hugo site lives in `pub_src/site`. Its published output goes to `public/` at the project root. BOOTASM contains eighteen construction installments, a workbench guide, a language reference, and complete example programs. ASM86 sits beside it with twenty-nine assembly construction checkpoints and a thirtieth installment proving self-assembly. ASMA0 is the third collection, with twelve streaming-seed checkpoints and a self-build handoff. ASM86A follows with twenty-eight construction checkpoints, its own self-build, and a complete ladder exercise. IR86 is the fifth collection, with thirty-two translator checkpoints, a complete translation pipeline, a language reference, and examples. RILL is the sixth collection, with twenty-nine compiler construction checkpoints, a complete pipeline, a language reference, and four examples. RB follows with forty-seven IR-written systems-compiler checkpoints. RC has forty-three RILL-written compiler checkpoints and the self-build and complete-toolchain exercises. Each collection has its own workbench guide and source downloads.
+The Hugo source lives in `pub_src/site`; generated pages go to root `public/`. The collections follow **BOOTASM → ASM0 → ASM1 → ASM86 → IR86 → RILL0 → RILLBOOT → RILL**:
 
-The working ladder is **BOOTASM → ASM86 → ASMA0 → ASM86A → streaming IR86 → IR-written RILL compiler seed → RILL-written tools**. RILL now implements its own compiler (26,625 bytes), IR86 (31,472 bytes), and ASM86A (32,404 bytes). Each tool passes two matching rebuild generations using only the RILL-written compiler, translator, and assembler. A fresh bootstrap also recreates the entire chain from canonical BOOTASM.BAS; DOS 3.10 independently executes the reader's TMAKE.BAT and reproduces the same tools.
+| Tool | Article series |
+|---|---|
+| BOOTASM | Our First Assembler |
+| ASM0 | An Assembler That Builds Itself |
+| ASM1 | Building a Streaming Assembler |
+| ASM86 | Extending the 8086 Assembler |
+| IR86 | Building an Intermediate Language |
+| RILL0 | Our First Compiler |
+| RILLBOOT | A Compiler for Writing Tools |
+| RILL | A Compiler Written in Its Own Language |
+
+Each collection has its own workbench, reference, complete examples, and source archive. Reader downloads use these tool names. Existing article URLs and saved checkpoint filenames remain stable. Internal production paths retain their established names; [pub_src/README.md](pub_src/README.md) explains the mapping.
+
+The complete chain builds a RILL-written compiler (26,625 bytes), IR86 translator (31,472 bytes), and ASM86 assembler (32,404 bytes), then reproduces all three through two closed-loop generations. The RILLBOOT seed is written in IR86. The native ASM86 is built through ASM1 and ASM0 from the BASIC foundation.
 
 IR86 and RILL stream bounded input/output blocks. The language supplies general identifiers, word expressions, recursive procedures with parameters and local state, lexical scopes, byte buffers, literal strings, and portable file/allocated-block services. IR remains processor-independent; the 8086/DOS binding keeps native conventions private. Output remains DOS `.COM`, with an explicit 61,184-byte profile. The RILL-written assembler retains 8,192 symbols in allocated pages.
 

@@ -3,6 +3,8 @@ title = "01 \u00b7 A message from assembly"
 weight = 1
 description = "A short DOS program, built with the BASIC assembler."
 download = "AS01.ASM"
+download_group = "tools/asm0"
+reader_names = 1
 +++
 
 The BASIC construction gave us an assembler. Our first assembly-language program will use it to display a message and return to DOS.
@@ -35,7 +37,7 @@ INT 21H
 RET
 
 HELLOMSG:
-DB 65,83,77,56,54,13,10,36
+DB 65,83,77,48,13,10,36
 ```
 
 ## Build and stop
@@ -46,7 +48,7 @@ Use the BASIC assembler prepared in the workbench guide:
 GWBASIC BOOTASM.BAS
 ```
 
-Enter `AS01` at its source prompt. Require `OK AS01.COM 25 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.
+Enter `AS01` at its source prompt. Require `OK AS01.COM 24 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.
 
 ```dos
 CHECK AS01
@@ -55,7 +57,7 @@ CHECK AS01
 The display, apart from DOS command echo and the checker's separating blank line, is:
 
 ```text
-ASM86
+ASM0
 PASS
 ```
 

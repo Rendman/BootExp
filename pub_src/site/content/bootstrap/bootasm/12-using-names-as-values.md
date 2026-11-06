@@ -3,6 +3,8 @@ title = "12. Using names as values"
 weight = 12
 description = "Resolve forward references without hand-counting offsets."
 checkpoint = "BA12.BAS"
+download_group = "tools/bootasm"
+reader_names = 1
 +++
 
 A recorded address can replace a hand-counted constant. We shall allow a name wherever a whole numeric value is accepted, including a name defined farther down the source.

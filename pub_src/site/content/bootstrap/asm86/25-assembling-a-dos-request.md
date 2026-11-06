@@ -3,6 +3,8 @@ title = "25 \u00b7 Assembling a DOS request"
 weight = 25
 description = "Emit CDH and a checked interrupt number."
 download = "AS25.ASM"
+download_group = "tools/asm0"
+reader_names = 1
 +++
 
 A source program can now prepare registers. We shall add INT so a complete assembled program can display a character and terminate through DOS.

@@ -1,19 +1,16 @@
 +++
-title = "RC41 \u00b7 Structured statements in RILL"
+title = "41 \u00b7 Compiling Assignments and Branches"
 weight = 41
 description = "Keep assignment destinations, false targets, and loop targets in local slots."
 download = "RC41.RIL"
-download_group = "rc"
+download_group = "tools/rill"
 aliases = ["/bootstrap/rill/129-rc-structured-statements-in-rill/"]
+reader_names = 1
 +++
-
-Keep assignment destinations, false targets, and loop targets in local slots.
 
 ## The working parts
 
 Keep assignment destinations, false targets, and loop targets in local slots. An if/else join and a while back edge meet with no expression temporaries. Parse every statement even after an explicit return.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -99,13 +96,13 @@ bytes string[512];
 Remove this source at old physical positions 35–35 in RC40.RIL:
 
 ```rill
-fn main(){table=alloc(22000);output=create("RILL.TMP");own=1;input=open("SOURCE.RIL");if status(){fail(1);}next();lex();block();flush();close(output);output=0;own=0;print("OK RILL.TMP\r\n");return 0;}
+fn main(){table=alloc(22000);output=create("RILL.TMP");own=1;input=open("SOURCE.RIL");if status(){fail(1);}next();lex();block();flush();close(output);output=0;own=0;return 0;}
 ```
 
 Replace it with:
 
 ```rill
-fn main(){table=alloc(22000);output=create("RILL.TMP");own=1;input=open("SOURCE.RIL");if status(){fail(1);}next();lex();outstr("PROC MAIN 0 16\r\n");block();outstr("LIT 0\r\nRETURN\r\n");flush();close(output);output=0;own=0;print("OK RILL.TMP\r\n");return 0;}
+fn main(){table=alloc(22000);output=create("RILL.TMP");own=1;input=open("SOURCE.RIL");if status(){fail(1);}next();lex();outstr("PROC MAIN 0 16\r\n");block();outstr("LIT 0\r\nRETURN\r\n");flush();close(output);output=0;own=0;return 0;}
 ```
 
 The following old source remains in place:
@@ -122,7 +119,7 @@ COPY RC41.RIL SOURCE.RIL
 CHECK RILLBOOT
 ```
 
-Require `OK RESULT.IR 0000044238` and PASS. Copy RESULT.IR to SOURCE.IR.
+Require `OK RESULT.IR 0000044186` and PASS. Copy RESULT.IR to SOURCE.IR.
 
 ```dos
 CHECK IWKEEP
@@ -130,13 +127,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000091929 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 24743 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000091705 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 24715 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RC41.COM
 ```
 
-VIEW.BAS must report RC41.COM length 24743 bytes. Keep this executable and its source together.
+VIEW.BAS must report RC41.COM length 24715 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -154,14 +151,9 @@ COPY TRC41.RIL SOURCE.RIL
 CHECK RC41
 ```
 
-Require, apart from command echo and the checker's separator:
+The checker must report PASS. Inspect the emitted file below.
 
-```text
-OK RILL.TMP
-PASS
-```
-
-TYPE RILL.TMP. Its complete text is:
+TYPE RILL.TMP. Its complete IR is:
 
 ```ir
 PROC MAIN 0 16
@@ -218,4 +210,4 @@ An unexpected PASS fails the rejection. The pre-existing RESULT.IR must remain u
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Compare statement with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.

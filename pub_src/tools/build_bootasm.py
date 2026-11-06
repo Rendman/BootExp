@@ -1,4 +1,5 @@
 """Maintain exact type-in patches, working checkpoints, and downloadable sources."""
+from publication_names import write_page
 from pathlib import Path
 import json, re, shutil, zipfile
 ROOT=Path(__file__).resolve().parents[1]
@@ -590,7 +591,7 @@ Reload `{name}` and run it with source name `X{index:02}`. Expect `ERROR line {b
 
 Check the changed line numbers first, then compare the test source with the listing above. A BASIC error names a BASIC line; `ERROR line` names a line in the assembly input. A missing source file produces a BASIC file error. Keep the preceding checkpoint until both the byte check and rejection check agree.
 '''
-    (CONTENT/f'{index:02}-{re.sub("[^a-z0-9]+","-",s["title"].lower()).strip("-")}.md').write_text(body)
+    write_page((CONTENT/f'{index:02}-{re.sub("[^a-z0-9]+","-",s["title"].lower()).strip("-")}.md'),body)
 
 dos(WORK/'BOOTASM.BAS','\n'.join(f'{n} {body}' for n,body in sorted(program.items())))
 (ROOT/'qa/checkpoints.json').write_text(json.dumps(manifest,indent=2))

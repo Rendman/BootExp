@@ -3,6 +3,8 @@ title = "07 \u00b7 A filename in declared storage"
 weight = 7
 description = "Build a terminated name through portable pointers."
 download = "R07.IR"
+download_group = "tools/rill0"
+reader_names = 1
 +++
 
 OPEN needs a filename in storage. Its pointer must come from ADDR rather than a guessed address.

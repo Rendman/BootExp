@@ -3,6 +3,8 @@ title = "06 \u00b7 Room for names and physical lines"
 weight = 6
 description = "Move parser and file buffers above a generous resident-image area."
 download = "A18.ASM"
+download_group = "tools/asm86"
+reader_names = 1
 +++
 
 A larger assembler needs a memory map which permits its own code and source vocabulary to grow.
@@ -864,7 +866,7 @@ JMP NEXTLINE
 
 ```dos
 COPY A18.ASM SOURCE.ASM
-CHECK ASMA0
+CHECK ASM1
 ```
 
 Require `OK RESULT.COM 04057 bytes` and PASS. Preserve this executable before using its fixed output name:
@@ -905,7 +907,7 @@ In VIEW.BAS, inspect RESULT.COM. Require length **2 bytes** and these complete c
 00 01
 ```
 
-This result is an encoding or data exercise. Inspect its bytes; do not execute it.
+The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
 
 ## A rejection check
 

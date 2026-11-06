@@ -3,6 +3,8 @@ title = "18 \u00b7 Counting the target image"
 weight = 18
 description = "Check machine-byte demand separately from assembly-text length."
 download = "IR18.ASM"
+download_group = "tools/ir86"
+reader_names = 1
 +++
 
 The assembly text and the program it describes have different sizes. Both need their own bounds.
@@ -11,7 +13,7 @@ The assembly text and the program it describes have different sizes. Both need t
 
 Each instruction record carries its emitted machine-byte count. SIZEADD adds that count to TARGETSIZE; BUFFER contributes NUMV instead. The fixed header begins the count at fifteen bytes. An appended HALT contributes five, just as an explicit HALT does.
 
-The count may not exceed ASM86's 8192-byte image limit. Every selected instruction form has a fixed encoding length; there is no immediate shortening or branch relaxation. The count therefore remains independent of forward-reference values.
+The count may not exceed ASM0's 8192-byte image limit. Every selected instruction form has a fixed encoding length; there is no immediate shortening or branch relaxation. The count therefore remains independent of forward-reference values.
 
 The rejection source fits the text buffer but its buffer declarations exceed the machine-image bound. This distinguishes the image check from the existing text-byte check. A failure still occurs before output creation, so an older .ASM is not replaced.
 
@@ -139,7 +141,7 @@ MOV [TARGETSIZE],AX
 CHECK ASMKEEP
 ```
 
-Enter `IR18` at ASM86's `Source name:` prompt. Require `OK 02697 bytes` followed by PASS. This builds `IR18.COM` directly with the completed assembler. Save the source and executable before running the test.
+Enter `IR18` at ASM0's `Source name:` prompt. Require `OK 02697 bytes` followed by PASS. This builds `IR18.COM` directly with the completed assembler. Save the source and executable before running the test.
 
 Create `T18.IR` with `COPY CON T18.IR`, enter this text, and finish with Ctrl-Z and Enter. The Ctrl-Z keystroke ends console input; it is not a printed language token.
 

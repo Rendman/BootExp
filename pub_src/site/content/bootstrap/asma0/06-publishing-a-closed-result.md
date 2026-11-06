@@ -4,6 +4,8 @@ weight = 6
 description = "Rename a completed temporary file into its public name."
 download = "A06.ASM"
 aliases = ["/bootstrap/asm86a/06-publishing-a-closed-result/"]
+download_group = "tools/asm1"
+reader_names = 1
 +++
 
 A result should be replaced only after all its bytes and its close have succeeded.
@@ -174,7 +176,7 @@ CALL TEXT
 
 ## Build the stopping point
 
-Run `CHECK ASMKEEP`, enter `A06` at `Source name:`, and require `OK 02980 bytes` and PASS. This uses the preceding published ASM86, not the new checkpoint. It creates A06.COM.
+Run `CHECK ASMKEEP`, enter `A06` at `Source name:`, and require `OK 02980 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. It creates A06.COM.
 
 VIEW.BAS must report A06.COM length 2980 bytes. Keep that executable and source together.
 
@@ -207,7 +209,7 @@ In VIEW.BAS, inspect RESULT.COM. Require length **5 bytes** and these complete c
 41 42 43 0D 0A
 ```
 
-This result is an encoding or data exercise. Inspect its bytes; do not execute it.
+The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
 
 ## A rejection check
 

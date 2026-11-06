@@ -1,14 +1,18 @@
 +++
-title = "BOOTASM"
+title = "Our First Assembler"
 weight = 1
 description = "An 8088 assembler you can type in GW-BASIC."
 cover = true
 download = "BOOTASM.BAS"
+download_group = "tools/bootasm"
+reader_names = 1
+tool_id = "BOOTASM"
+collection_key = "bootasm"
 +++
 
 The processor does not read `MOV DL,42H`. It reads bytes. An assembler is the program which performs that translation, and a small one is within reach of a BASIC programmer.
 
-This collection builds BOOTASM from its first disk byte to a two-pass assembler with named addresses, a modest instruction vocabulary, and DOS `.COM` output. It is the first tool in the Bootstrap Experiment and the BASIC foundation for the assembly-language collection, ASM86.
+This collection builds BOOTASM from its first disk byte to a two-pass assembler with named addresses, a modest instruction vocabulary, and DOS `.COM` output. It is the first tool in the Bootstrap Experiment and the BASIC foundation for the assembly-language collection, ASM0.
 
 Begin with **The workbench**, then follow the eighteen numbered installments in order. The first writes and inspects one byte. Each subsequent installment adds one small capability and provides a saved stopping point.
 

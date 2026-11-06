@@ -3,6 +3,8 @@ title = "22 \u00b7 A register and an immediate"
 weight = 22
 description = "Determine MOV size from its destination register."
 download = "AS22.ASM"
+download_group = "tools/asm0"
+reader_names = 1
 +++
 
 We shall add MOV with a register destination and a numeric or named immediate value.

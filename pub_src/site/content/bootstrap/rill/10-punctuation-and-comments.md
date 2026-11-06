@@ -3,6 +3,8 @@ title = "10 \u00b7 Punctuation and comments"
 weight = 10
 description = "Turn character pairs into unambiguous tokens."
 download = "R10.IR"
+download_group = "tools/rill0"
+reader_names = 1
 +++
 
 The parser should see one token for == or <=, rather than two unrelated characters.

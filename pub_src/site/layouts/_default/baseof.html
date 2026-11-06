@@ -16,7 +16,7 @@
 {{ with .Site.GetPage "/bootstrap" }}
 {{ range .Sections.ByWeight }}
 <details {{ if or (eq $current.RelPermalink .RelPermalink) (.IsAncestor $current) }}open{{ end }}>
-<summary><a href="{{ .RelPermalink }}index.html"{{ if eq $current.RelPermalink .RelPermalink }} aria-current="page"{{ end }}>{{ .Title }}</a>{{ if .Params.planned }}<small>Planned</small>{{ end }}</summary>
+<summary><a href="{{ .RelPermalink }}index.html"{{ if eq $current.RelPermalink .RelPermalink }} aria-current="page"{{ end }} title="{{ .Title }}">{{ .Params.tool_id | default .Title }}</a>{{ if .Params.planned }}<small>Planned</small>{{ end }}</summary>
 {{ if .RegularPages }}<ol>{{ range .RegularPages.ByWeight }}<li><a href="{{ .RelPermalink }}index.html"{{ if eq $current.RelPermalink .RelPermalink }} class="current" aria-current="page"{{ end }}>{{ .Title }}</a></li>{{ end }}</ol>{{ end }}
 </details>
 {{ end }}{{ end }}

@@ -1,31 +1,32 @@
 {{ define "main" }}
-<header class="article-heading{{ if .Params.cover }} cover{{ end }}"><p class="eyebrow">{{ if eq .Title "BOOTASM" }}COLLECTION ONE · THE BASIC CONSTRUCTION{{ else if eq .Title "ASM86" }}COLLECTION TWO · THE ASSEMBLY CONSTRUCTION{{ else if eq .Title "ASMA0" }}COLLECTION THREE · THE STREAMING SEED{{ else if eq .Title "ASM86A" }}COLLECTION FOUR · THE LARGER ASSEMBLER{{ else if eq .Title "IR86" }}COLLECTION FIVE · THE INTERMEDIATE LANGUAGE{{ else if eq .Title "RILL" }}COLLECTION SIX · THE COMPILER IN IR{{ else if eq .Title "RB" }}COLLECTION SEVEN · THE COMPILER SEED{{ else if eq .Title "RC" }}COLLECTION EIGHT · THE COMPILER IN RILL{{ else }}THE BOOTSTRAP EXPERIMENT{{ end }}</p><h1>{{ .Title }}</h1><p class="deck">{{ .Description }}</p></header>
-{{ if eq .Title "BOOTASM" }}<div class="cover-sample"><pre>MOV DL,42H     B2 42
+{{ $key := .Params.collection_key | default "" }}
+<header class="article-heading{{ if .Params.cover }} cover{{ end }}"><p class="eyebrow">{{ with .Params.tool_id }}{{ . }} · {{ end }}{{ if eq $key "bootasm" }}COLLECTION ONE · THE BASIC CONSTRUCTION{{ else if eq $key "asm86" }}COLLECTION TWO · THE ASSEMBLY CONSTRUCTION{{ else if eq $key "asma0" }}COLLECTION THREE · THE STREAMING SEED{{ else if eq $key "asm86a" }}COLLECTION FOUR · THE LARGER ASSEMBLER{{ else if eq $key "ir86" }}COLLECTION FIVE · THE INTERMEDIATE LANGUAGE{{ else if eq $key "rill" }}COLLECTION SIX · THE COMPILER IN IR{{ else if eq $key "rb" }}COLLECTION SEVEN · THE COMPILER SEED{{ else if eq $key "rc" }}COLLECTION EIGHT · THE COMPILER IN RILL{{ else }}THE BOOTSTRAP EXPERIMENT{{ end }}</p><h1>{{ .Title }}</h1><p class="deck">{{ .Description }}</p></header>
+{{ if eq $key "bootasm" }}<div class="cover-sample"><pre>MOV DL,42H     B2 42
 MOV AH,2       B4 02
 INT 21H        CD 21</pre><p>A small assembler.<br>Every line within reach.</p></div>{{ end }}
-{{ if eq .Title "ASM86" }}<div class="cover-sample"><pre>MOV AX,3D00H   B8 00 3D
+{{ if eq $key "asm86" }}<div class="cover-sample"><pre>MOV AX,3D00H   B8 00 3D
 INT 21H        CD 21
 RET            C3</pre><p>From a BASIC foundation<br>to an assembler that builds itself.</p></div>{{ end }}
-{{ if eq .Title "ASMA0" }}<div class="cover-sample"><pre>MOV AX,ES       8C C0
+{{ if eq $key "asma0" }}<div class="cover-sample"><pre>MOV AX,ES       8C C0
 MOV ES,BX       8E C3</pre><p>A streaming seed.<br>Built by ASM86, then by itself.</p></div>{{ end }}
-{{ if eq .Title "ASM86A" }}<div class="cover-sample"><pre>JNE NEAR DEST   74 03 E9 FB 00
+{{ if eq $key "asm86a" }}<div class="cover-sample"><pre>JNE NEAR DEST   74 03 E9 FB 00
 ; 0100H to 0200H</pre><p>Another rung in the bootstrap ladder.<br>Long sources, bounded working blocks.</p></div>{{ end }}
-{{ if eq .Title "IR86" }}<div class="cover-sample"><pre>LIT 7    MOV AX,7
+{{ if eq $key "ir86" }}<div class="cover-sample"><pre>LIT 7    MOV AX,7
 PUSH     PUSH AX
 LIT 3    MOV AX,3
 SUB      POP BX
          SUB BX,AX
          MOV AX,BX</pre><p>Words and operations.<br>Assembly from a small vocabulary.</p></div>{{ end }}
-{{ if eq .Title "RILL" }}<div class="cover-sample"><pre>fn main() {        LABEL MAIN
+{{ if eq $key "rill" }}<div class="cover-sample"><pre>fn main() {        LABEL MAIN
     putc(65);      LIT 00065
 }                  PUTC
                    HALT</pre><p>Structured source.<br>A compiler made with our own tools.</p></div>{{ end }}
-{{ if eq .Title "RB" }}<div class="cover-sample"><pre>PROC MAIN 0 0
+{{ if eq $key "rb" }}<div class="cover-sample"><pre>PROC MAIN 0 0
 LIT 65
 PUTC
 LIT 0
 RETURN</pre><p>The systems compiler seed.<br>Written in our intermediate language.</p></div>{{ end }}
-{{ if eq .Title "RC" }}<div class="cover-sample"><pre>fn main() {
+{{ if eq $key "rc" }}<div class="cover-sample"><pre>fn main() {
     putc(65);
     return 0;
 }</pre><p>The compiler in its own language.<br>Each generation builds the next.</p></div>{{ end }}
@@ -33,11 +34,11 @@ RETURN</pre><p>The systems compiler seed.<br>Written in our intermediate languag
 {{ if .Sections }}<section class="contents"><h2>The course shelf</h2>{{ range .Sections.ByWeight }}<a class="collection-row" href="{{ .RelPermalink }}index.html"><strong>{{ .Title }}</strong><span>{{ .Description }}</span><small>{{ if .Params.planned }}Planned{{ else }}Open collection →{{ end }}</small></a>{{ end }}</section>{{ end }}
 {{ if .RegularPages }}<section class="contents"><h2>In this collection</h2><ol>{{ range .RegularPages.ByWeight }}<li><a href="{{ .RelPermalink }}index.html"><span>{{ .Title }}</span><small>{{ if .Params.checkpoint }}{{ .Params.checkpoint }}{{ else }}Read{{ end }} →</small></a></li>{{ end }}</ol></section>{{ end }}
 {{ if eq .Title "The Bootstrap Experiment" }}<figure class="cartoon"><img src="{{ "images/one-step.png" | relURL }}" alt="A hobbyist carries one stair tread toward a little staircase beside an 8088 computer." loading="lazy"><figcaption>One step is quite enough for this evening.</figcaption></figure>{{ end }}
-{{ if eq .Title "ASM86" }}<figure class="cartoon"><img src="{{ "images/asm86-workshop.png" | relURL }}" alt="A machinist studies the plans for two matching small lathes on his workbench." loading="lazy"><figcaption>A tool worth making twice.</figcaption></figure>{{ end }}
-{{ if eq .Title "ASMA0" }}<figure class="cartoon"><img src="{{ "images/asm86a-press.png" | relURL }}" alt="A newspaper press operator feeds a few sheets at a time while a long manuscript waits on the table." loading="lazy"><figcaption>A long job, a little at a time.</figcaption></figure>{{ end }}
-{{ if eq .Title "ASM86A" }}<figure class="cartoon"><img src="{{ "images/asm86a-cloakroom.png" | relURL }}" alt="A theater cloakroom attendant matches a ticket with a coat tag among a long row of coats." loading="lazy"><figcaption>A complete spelling finds the right coat.</figcaption></figure>{{ end }}
-{{ if eq .Title "IR86" }}<figure class="cartoon"><img src="{{ "images/ir86-patterns.png" | relURL }}" alt="A dressmaker uses a paper pattern to cut a row of matching pockets from cloth." loading="lazy"><figcaption>One pattern, several useful pieces.</figcaption></figure>{{ end }}
-{{ if eq .Title "RB" }}<figure class="cartoon"><img src="{{ "images/rill-drawers.png" | relURL }}" alt="A cabinetmaker and apprentice keep nested drawers in order." loading="lazy"><figcaption>A place for each binding.</figcaption></figure>{{ end }}
-{{ if eq .Title "RC" }}<figure class="cartoon"><img src="{{ "images/rill-tails.png" | relURL }}" alt="A dog-show judge compares two similar terriers." loading="lazy"><figcaption>Compare each generation carefully.</figcaption></figure>{{ end }}
-{{ if eq .Title "RILL" }}<figure class="cartoon"><img src="{{ "images/rill-paths.png" | relURL }}" alt="A gardener checks her plan at a fork between hedge paths while a helper waits with a wheelbarrow." loading="lazy"><figcaption>Choose the path before turning.</figcaption></figure>{{ end }}
+{{ if eq $key "asm86" }}<figure class="cartoon"><img src="{{ "images/asm86-workshop.png" | relURL }}" alt="A machinist studies the plans for two matching small lathes on his workbench." loading="lazy"><figcaption>A tool worth making twice.</figcaption></figure>{{ end }}
+{{ if eq $key "asma0" }}<figure class="cartoon"><img src="{{ "images/asm86a-press.png" | relURL }}" alt="A newspaper press operator feeds a few sheets at a time while a long manuscript waits on the table." loading="lazy"><figcaption>A long job, a little at a time.</figcaption></figure>{{ end }}
+{{ if eq $key "asm86a" }}<figure class="cartoon"><img src="{{ "images/asm86a-cloakroom.png" | relURL }}" alt="A theater cloakroom attendant matches a ticket with a coat tag among a long row of coats." loading="lazy"><figcaption>A complete spelling finds the right coat.</figcaption></figure>{{ end }}
+{{ if eq $key "ir86" }}<figure class="cartoon"><img src="{{ "images/ir86-patterns.png" | relURL }}" alt="A dressmaker uses a paper pattern to cut a row of matching pockets from cloth." loading="lazy"><figcaption>One pattern, several useful pieces.</figcaption></figure>{{ end }}
+{{ if eq $key "rb" }}<figure class="cartoon"><img src="{{ "images/rill-drawers.png" | relURL }}" alt="A cabinetmaker and apprentice keep nested drawers in order." loading="lazy"><figcaption>A place for each binding.</figcaption></figure>{{ end }}
+{{ if eq $key "rc" }}<figure class="cartoon"><img src="{{ "images/rill-tails.png" | relURL }}" alt="A dog-show judge compares two similar terriers." loading="lazy"><figcaption>Compare each generation carefully.</figcaption></figure>{{ end }}
+{{ if eq $key "rill" }}<figure class="cartoon"><img src="{{ "images/rill-paths.png" | relURL }}" alt="A gardener checks her plan at a fork between hedge paths while a helper waits with a wheelbarrow." loading="lazy"><figcaption>Choose the path before turning.</figcaption></figure>{{ end }}
 {{ end }}

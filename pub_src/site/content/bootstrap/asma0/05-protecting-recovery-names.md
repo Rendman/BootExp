@@ -4,6 +4,8 @@ weight = 5
 description = "Refuse an occupied temporary or backup name before creating output."
 download = "A05.ASM"
 aliases = ["/bootstrap/asm86a/05-protecting-recovery-names/"]
+download_group = "tools/asm1"
+reader_names = 1
 +++
 
 An earlier interrupted run may have left a file worth recovering.
@@ -126,7 +128,7 @@ MOV [RDPOS],AX
 
 ## Build the stopping point
 
-Run `CHECK ASMKEEP`, enter `A05` at `Source name:`, and require `OK 02846 bytes` and PASS. This uses the preceding published ASM86, not the new checkpoint. It creates A05.COM.
+Run `CHECK ASMKEEP`, enter `A05` at `Source name:`, and require `OK 02846 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. It creates A05.COM.
 
 VIEW.BAS must report A05.COM length 2846 bytes. Keep that executable and source together.
 
@@ -159,7 +161,7 @@ In VIEW.BAS, inspect ASMA.TMP. Require length **5 bytes** and these complete con
 41 42 43 0D 0A
 ```
 
-This result is an encoding or data exercise. Inspect its bytes; do not execute it.
+The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
 
 ## A rejection check
 

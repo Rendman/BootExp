@@ -1,4 +1,5 @@
 """Render native-measured seed examples using only the seed's accepted syntax."""
+from publication_names import write_page
 from pathlib import Path
 import json
 ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/asma0';C=ROOT/'site/content/bootstrap/asma0'
@@ -20,4 +21,4 @@ for r in json.loads((ROOT/'qa/asma0/examples.json').read_text()):
  t+=fence('dos',f'COPY RESULT.COM {name}.COM\nCHECK {name}')+'It displays '+json.dumps(r['output'])+' and the checker reports PASS. Here `\\r\\n` denotes carriage return and line feed.\n\n'
  t+='For a separate rejection, copy the source to BAD.ASM and replace the first `'+r['bad_before']+'` with `'+r['bad_after']+'`. Copy BAD.ASM to SOURCE.ASM and run CHECK ASMA0. Require '+f'`ERROR {r["bad_line"]:05} CODE {r["bad_code"]}` and FAIL. The accepted RESULT.COM must remain unchanged. An unexpected PASS fails this test. Restore the accepted source before building again.\n\n'
 t+='The completed seed source and its matching self-builds are the handoff to the separate ASM86A collection. Keep ASMA0.COM and ASMA0.ASM with their tested examples.\n'
-(C/'14-programs.md').write_text(t)
+write_page((C/'14-programs.md'),t)

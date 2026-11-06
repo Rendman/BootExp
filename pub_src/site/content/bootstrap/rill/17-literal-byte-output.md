@@ -3,6 +3,8 @@ title = "17 \u00b7 Literal byte output"
 weight = 17
 description = "Compile a useful statement through a small expression interface."
 download = "R17.IR"
+download_group = "tools/rill0"
+reader_names = 1
 +++
 
 putc(65); gives the parser a complete statement with a visible runtime effect.

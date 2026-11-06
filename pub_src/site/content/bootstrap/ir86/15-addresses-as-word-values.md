@@ -3,6 +3,8 @@ title = "15 \u00b7 Addresses as word values"
 weight = 15
 description = "Form an address and fetch through the accumulator."
 download = "IR15.ASM"
+download_group = "tools/ir86"
+reader_names = 1
 +++
 
 A loop needs to advance a pointer instead of naming every byte separately. ADDR produces a pointer whose representation belongs to the backend.
@@ -99,7 +101,7 @@ MOV CX,21
 CHECK ASMKEEP
 ```
 
-Enter `IR15` at ASM86's `Source name:` prompt. Require `OK 02442 bytes` followed by PASS. This builds `IR15.COM` directly with the completed assembler. Save the source and executable before running the test.
+Enter `IR15` at ASM0's `Source name:` prompt. Require `OK 02442 bytes` followed by PASS. This builds `IR15.COM` directly with the completed assembler. Save the source and executable before running the test.
 
 Create `T15.IR` with `COPY CON T15.IR`, enter this text, and finish with Ctrl-Z and Enter. The Ctrl-Z keystroke ends console input; it is not a printed language token.
 

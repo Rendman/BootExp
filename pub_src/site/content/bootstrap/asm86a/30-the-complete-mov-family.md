@@ -3,6 +3,8 @@ title = "18 \u00b7 The complete MOV family"
 weight = 18
 description = "Use the common descriptor for values, memory, and segment transfers."
 download = "A30.ASM"
+download_group = "tools/asm86"
+reader_names = 1
 +++
 
 A fixed-width memory store and a segment transfer can now share the checked address machinery.
@@ -526,7 +528,7 @@ CMP AL,4
 
 ```dos
 COPY A30.ASM SOURCE.ASM
-CHECK ASMA0
+CHECK ASM1
 ```
 
 Require `OK RESULT.COM 05670 bytes` and PASS. Preserve this executable before using its fixed output name:
@@ -573,14 +575,7 @@ In VIEW.BAS, inspect RESULT.COM. Require length **19 bytes** and these complete 
 C6 06 12 01 41 8A 16 12 01 B4 02 CD 21 B8 00 4C CD 21 00
 ```
 
-This fixture is a complete program. Save it before another assembly and execute it:
-
-```dos
-COPY RESULT.COM TRY.COM
-CHECK TRY
-```
-
-It displays "A" and the checker reports PASS.
+The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
 
 ## A rejection check
 

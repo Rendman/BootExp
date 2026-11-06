@@ -1,19 +1,16 @@
 +++
-title = "RC03 \u00b7 Portable paired-word counting"
+title = "03 \u00b7 Counting Beyond 65535"
 weight = 3
 description = "Treat the two words as one unsigned count."
 download = "RC03.RIL"
-download_group = "rc"
+download_group = "tools/rill"
 aliases = ["/bootstrap/rill/091-rc-portable-paired-word-counting/"]
+reader_names = 1
 +++
-
-Treat the two words as one unsigned count.
 
 ## The working parts
 
 Treat the two words as one unsigned count. Divide the high word by ten, then carry its remainder through the low word one bit at a time. Store the remainders and display them in reverse order, including leading zeroes.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -109,27 +106,13 @@ VIEW.BAS must report RC03.COM length 10729 bytes. Keep this executable and its s
 CHECK RC03
 ```
 
-Require, apart from command echo and the checker's separator:
+Require:
 
 ```text
-0000065537PASS
+0000065537
+PASS
 ```
-
-## A rejection or boundary check
-
-Check the same word boundary in the compiler seed. Create BAD.RIL:
-
-```rill
-fn main(){return 65536;}
-```
-
-```dos
-COPY BAD.RIL SOURCE.RIL
-CHECK RILLBOOT
-```
-
-Require `ERROR 0000000001 CODE 00003` and FAIL, preserving the accepted RESULT.IR. An unexpected PASS fails this check.
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Compare print32 with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.

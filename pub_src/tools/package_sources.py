@@ -61,3 +61,4 @@ runpy.run_path(str(ROOT/'tools/package_rill.py'),run_name='__main__')
 
 runpy.run_path(str(ROOT/'tools/package_toolchain.py'),run_name='__main__')
 runpy.run_path(str(ROOT/'tools/package_compiler_collections.py'),run_name='__main__')
+runpy.run_path(str(ROOT/'tools/package_reader_names.py'),run_name='__main__')

@@ -3,6 +3,8 @@ title = "05 \u00b7 Using the paged symbol table"
 weight = 5
 description = "Move definition and value resolution onto the new record helpers."
 download = "A17.ASM"
+download_group = "tools/asm86"
+reader_names = 1
 +++
 
 The table is ready to replace the seed's fixed in-segment records.
@@ -1229,7 +1231,7 @@ MOV AL,1
 
 ```dos
 COPY A17.ASM SOURCE.ASM
-CHECK ASMA0
+CHECK ASM1
 ```
 
 Require `OK RESULT.COM 04057 bytes` and PASS. Preserve this executable before using its fixed output name:
@@ -1270,7 +1272,7 @@ In VIEW.BAS, inspect RESULT.COM. Require length **2 bytes** and these complete c
 00 01
 ```
 
-This result is an encoding or data exercise. Inspect its bytes; do not execute it.
+The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
 
 ## A rejection check
 

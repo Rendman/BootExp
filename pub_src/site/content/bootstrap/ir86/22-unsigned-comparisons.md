@@ -3,6 +3,8 @@ title = "22 \u00b7 Unsigned comparisons"
 weight = 22
 description = "Compare a saved left word with A and branch on the result."
 download = "IR22.ASM"
+download_group = "tools/ir86"
+reader_names = 1
 +++
 
 A comparison needs the same two-operand order as subtraction and a clear choice of signedness.
@@ -123,7 +125,7 @@ MOV CX,33
 CHECK ASMKEEP
 ```
 
-Enter `IR22` at ASM86's `Source name:` prompt. Require `OK 03313 bytes` followed by PASS. This builds `IR22.COM` directly with the completed assembler. Save the source and executable before running the test.
+Enter `IR22` at ASM0's `Source name:` prompt. Require `OK 03313 bytes` followed by PASS. This builds `IR22.COM` directly with the completed assembler. Save the source and executable before running the test.
 
 Create `T22.IR` with `COPY CON T22.IR`, enter this text, and finish with Ctrl-Z and Enter. The Ctrl-Z keystroke ends console input; it is not a printed language token.
 

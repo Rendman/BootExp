@@ -3,14 +3,13 @@ title = "IW02 \u00b7 Tokens without a complete source buffer"
 weight = 38
 description = "Fold token spellings while preserving the raw line for quoted data."
 download = "IW02.ASM"
-download_group = "toolchain"
+download_group = "tools/toolchain"
+reader_names = 1
 +++
-
-Fold token spellings while preserving the raw line for quoted data.
 
 ## The working parts
 
-Fold token spellings while preserving the raw line for quoted data. The assembly routines use the inherited bounded reader and owned-file cleanup. The operation table supplies argument class, stack action, and an authored target template. Native encodings belong to this backend; the IR operation retains its abstract meaning.
+Fold token spellings while preserving the raw line for quoted data.
 
 ## Enter the source
 
@@ -284,10 +283,11 @@ COPY TIW02.IR SOURCE.IR
 CHECK IW02
 ```
 
-Require, apart from command echo and the checker's separator:
+Require:
 
 ```text
-[LIT][7]PASS
+[LIT][7]
+PASS
 ```
 
 ## A rejection or boundary check
@@ -305,4 +305,4 @@ The accepted RESULT.ASM must remain unchanged. An unexpected PASS fails this che
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Compare the new routine with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.

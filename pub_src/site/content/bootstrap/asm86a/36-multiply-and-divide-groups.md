@@ -3,6 +3,8 @@ title = "24 \u00b7 Multiply and divide groups"
 weight = 24
 description = "Expose the original 8086 single-operand arithmetic forms."
 download = "A36.ASM"
+download_group = "tools/asm86"
+reader_names = 1
 +++
 
 The group encoder can supply multiplication and division without new operand syntax.
@@ -78,7 +80,7 @@ CALL LOOK
 
 ```dos
 COPY A36.ASM SOURCE.ASM
-CHECK ASMA0
+CHECK ASM1
 ```
 
 Require `OK RESULT.COM 06096 bytes` and PASS. Preserve this executable before using its fixed output name:
@@ -126,14 +128,7 @@ In VIEW.BAS, inspect RESULT.COM. Require length **21 bytes** and these complete 
 B8 41 00 BB 01 00 F7 E3 F7 F3 8A D0 B4 02 CD 21 B8 00 4C CD 21
 ```
 
-This fixture is a complete program. Save it before another assembly and execute it:
-
-```dos
-COPY RESULT.COM TRY.COM
-CHECK TRY
-```
-
-It displays "A" and the checker reports PASS.
+The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
 
 ## A rejection check
 

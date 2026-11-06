@@ -3,6 +3,8 @@ title = "20 \u00b7 Using a named value"
 weight = 20
 description = "Resolve forward references on the collecting pass."
 download = "AS20.ASM"
+download_group = "tools/asm0"
+reader_names = 1
 +++
 
 A saved address can replace a hand-counted number. We shall let VALUE use a label, including one defined farther down the source.

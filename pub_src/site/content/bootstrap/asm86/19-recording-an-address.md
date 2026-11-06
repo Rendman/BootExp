@@ -3,6 +3,8 @@ title = "19 \u00b7 Recording an address"
 weight = 19
 description = "Store up to 256 names in fixed twenty-byte records."
 download = "AS19.ASM"
+download_group = "tools/asm0"
+reader_names = 1
 +++
 
 We shall retain each valid definition with the loaded offset of its next byte, and check the same position on the second pass.

@@ -3,6 +3,8 @@ title = "07 \u00b7 Counting source beyond one word"
 weight = 7
 description = "Report source positions with a checked pair of words."
 download = "A19.ASM"
+download_group = "tools/asm86"
+reader_names = 1
 +++
 
 A source file with many comments and definitions can exceed a sixteen-bit line count.
@@ -343,7 +345,7 @@ MOV [RDLEN],AX
 
 ```dos
 COPY A19.ASM SOURCE.ASM
-CHECK ASMA0
+CHECK ASM1
 ```
 
 Require `OK RESULT.COM 04326 bytes` and PASS. Preserve this executable before using its fixed output name:
@@ -383,7 +385,7 @@ In VIEW.BAS, inspect RESULT.COM. Require length **1 bytes** and these complete c
 01
 ```
 
-This result is an encoding or data exercise. Inspect its bytes; do not execute it.
+The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
 
 ## A rejection check
 

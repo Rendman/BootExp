@@ -3,6 +3,8 @@ title = "19 \u00b7 Bounding generated source"
 weight = 19
 description = "Account for target definitions and completed assembly lines."
 download = "IR19.ASM"
+download_group = "tools/ir86"
+reader_names = 1
 +++
 
 A translator should respect the assembler's source and name limits as well as its byte-image limit.
@@ -11,9 +13,9 @@ A translator should respect the assembler's source and name limits as well as it
 
 DEFS begins at one for I_ENTRY. NEWDEF counts each emitted user definition and refuses a count above 256. EMITCHAR now counts line feeds in OUTLINES and refuses more than 4000 assembly lines. The check happens before a successful output file is reported.
 
-These are separate resources: a label emits no machine bytes, while a short DB row may emit many bytes on one line. Counting only output bytes would not protect the other limits. The generated template lines fit within ASM86's physical line width.
+These are separate resources: a label emits no machine bytes, while a short DB row may emit many bytes on one line. Counting only output bytes would not protect the other limits. The generated template lines fit within ASM0's physical line width.
 
-The name test uses the longest permitted IR spelling. U_ plus that name exactly fits the assembler's name bound. A longer name is rejected by NAMEARG before it can create invalid assembly. Duplicate and undefined user names are still diagnosed by ASM86, which owns address resolution.
+The name test uses the longest permitted IR spelling. U_ plus that name exactly fits the assembler's name bound. A longer name is rejected by NAMEARG before it can create invalid assembly. Duplicate and undefined user names are still diagnosed by ASM0, which owns address resolution.
 
 ## Source changes
 
@@ -145,7 +147,7 @@ MOV [DEFS],AX
 CHECK ASMKEEP
 ```
 
-Enter `IR19` at ASM86's `Source name:` prompt. Require `OK 02770 bytes` followed by PASS. This builds `IR19.COM` directly with the completed assembler. Save the source and executable before running the test.
+Enter `IR19` at ASM0's `Source name:` prompt. Require `OK 02770 bytes` followed by PASS. This builds `IR19.COM` directly with the completed assembler. Save the source and executable before running the test.
 
 Create `T19.IR` with `COPY CON T19.IR`, enter this text, and finish with Ctrl-Z and Enter. The Ctrl-Z keystroke ends console input; it is not a printed language token.
 

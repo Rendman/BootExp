@@ -3,6 +3,8 @@ title = "11 \u00b7 Hexadecimal values"
 weight = 11
 description = "A final H selects base sixteen; a leading digit keeps names distinct."
 download = "AS11.ASM"
+download_group = "tools/asm0"
+reader_names = 1
 +++
 
 We shall extend VALUE to recognize hexadecimal while retaining the same unsigned-word result and overflow checks.

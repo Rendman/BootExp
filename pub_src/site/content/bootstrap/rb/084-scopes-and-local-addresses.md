@@ -3,8 +3,9 @@ title = "Scopes and local addresses"
 weight = 52
 description = "A nested block may shadow a name from an outer block. Leaving it restores the earlier binding. The address operator produces a byte-addressed pointer to a live local; a pointer must not outlive its call frame."
 download = "ESCOPE.RIL"
-download_group = "rb"
+download_group = "tools/rillboot"
 aliases = ["/bootstrap/rill/084-scopes-and-local-addresses/"]
+reader_names = 1
 +++
 
 A nested block may shadow a name from an outer block. Leaving it restores the earlier binding. The address operator produces a byte-addressed pointer to a live local; a pointer must not outlive its call frame.

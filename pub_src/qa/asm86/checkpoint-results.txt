@@ -1,4 +1,4 @@
-PASS AS01: 25 bytes; visible checkpoint result
+PASS AS01: 24 bytes; visible checkpoint result
 PASS AS02: 110 bytes; visible checkpoint result
 PASS AS03: 164 bytes; visible checkpoint result; rejection and old-output preservation
 PASS AS04: 336 bytes; visible checkpoint result; rejection and old-output preservation

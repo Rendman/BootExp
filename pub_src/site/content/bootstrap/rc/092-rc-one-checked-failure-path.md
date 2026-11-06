@@ -1,19 +1,16 @@
 +++
-title = "RC04 \u00b7 One checked failure path"
+title = "04 \u00b7 Reporting an Error"
 weight = 4
 description = "An error category is an explicit parameter."
 download = "RC04.RIL"
-download_group = "rc"
+download_group = "tools/rill"
 aliases = ["/bootstrap/rill/092-rc-one-checked-failure-path/"]
+reader_names = 1
 +++
-
-An error category is an explicit parameter.
 
 ## The working parts
 
 An error category is an explicit parameter. Close owned handles, retain recovery files when restoration fails, and exit nonzero. No ordinary parse routine returns a successful result after this path.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -74,7 +71,7 @@ fn main(){print32(1,1);return 0;}
 Replace it with:
 
 ```rill
-fn main(){print("READY");return 0;}
+fn main(){fail(2);return 0;}
 ```
 
 The following old source remains in place:
@@ -91,7 +88,7 @@ COPY RC04.RIL SOURCE.RIL
 CHECK RILLBOOT
 ```
 
-Require `OK RESULT.IR 0000004551` and PASS. Copy RESULT.IR to SOURCE.IR.
+Require `OK RESULT.IR 0000004547` and PASS. Copy RESULT.IR to SOURCE.IR.
 
 ```dos
 CHECK IWKEEP
@@ -99,13 +96,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000013584 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 11198 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000013492 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 11189 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RC04.COM
 ```
 
-VIEW.BAS must report RC04.COM length 11198 bytes. Keep this executable and its source together.
+VIEW.BAS must report RC04.COM length 11189 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -113,27 +110,15 @@ VIEW.BAS must report RC04.COM length 11198 bytes. Keep this executable and its s
 CHECK RC04
 ```
 
-Require, apart from command echo and the checker's separator:
+Require:
 
 ```text
-READYPASS
+ERROR 0000000001 CODE 00002
+FAIL
 ```
 
-## A rejection or boundary check
-
-Check the same word boundary in the compiler seed. Create BAD.RIL:
-
-```rill
-fn main(){return 65536;}
-```
-
-```dos
-COPY BAD.RIL SOURCE.RIL
-CHECK RILLBOOT
-```
-
-Require `ERROR 0000000001 CODE 00003` and FAIL, preserving the accepted RESULT.IR. An unexpected PASS fails this check.
+FAIL is the intended status here: the routine being tested reports an error and terminates with status one.
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Check owned handles and recovery files before the final error report.

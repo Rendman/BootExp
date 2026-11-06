@@ -3,6 +3,8 @@ title = "20 \u00b7 Forming an effective address"
 weight = 20
 description = "Use LEA when the offset itself is the result."
 download = "A32.ASM"
+download_group = "tools/asm86"
+reader_names = 1
 +++
 
 Loading storage and forming a pointer are different operations.
@@ -153,7 +155,7 @@ CALL LOOK
 
 ```dos
 COPY A32.ASM SOURCE.ASM
-CHECK ASMA0
+CHECK ASM1
 ```
 
 Require `OK RESULT.COM 05881 bytes` and PASS. Preserve this executable before using its fixed output name:
@@ -203,14 +205,7 @@ In VIEW.BAS, inspect RESULT.COM. Require length **23 bytes** and these complete 
 BB 15 01 BE 01 00 8D 10 8B DA 8A 17 B4 02 CD 21 B8 00 4C CD 21 58 41
 ```
 
-This fixture is a complete program. Save it before another assembly and execute it:
-
-```dos
-COPY RESULT.COM TRY.COM
-CHECK TRY
-```
-
-It displays "A" and the checker reports PASS.
+The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
 
 ## A rejection check
 

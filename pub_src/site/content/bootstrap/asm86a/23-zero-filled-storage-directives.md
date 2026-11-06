@@ -3,6 +3,8 @@ title = "11 \u00b7 Zero-filled storage directives"
 weight = 11
 description = "Reserve bytes or words with checked output arithmetic."
 download = "A23.ASM"
+download_group = "tools/asm86"
+reader_names = 1
 +++
 
 A fixed working area should have one clear declaration instead of a long repeated data list.
@@ -164,7 +166,7 @@ CALL LOOK
 
 ```dos
 COPY A23.ASM SOURCE.ASM
-CHECK ASMA0
+CHECK ASM1
 ```
 
 Require `OK RESULT.COM 04828 bytes` and PASS. Preserve this executable before using its fixed output name:
@@ -205,7 +207,7 @@ In VIEW.BAS, inspect RESULT.COM. Require length **23 bytes** and these complete 
 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 ```
 
-This result is an encoding or data exercise. Inspect its bytes; do not execute it.
+The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
 
 ## A rejection check
 

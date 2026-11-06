@@ -3,6 +3,8 @@ title = "08 \u00b7 Taking the line apart"
 weight = 8
 description = "Words and punctuation become bounded tokens."
 download = "AS08.ASM"
+download_group = "tools/asm0"
+reader_names = 1
 +++
 
 We shall give the parser one word or punctuation mark at a time, while retaining a cursor into the current line.

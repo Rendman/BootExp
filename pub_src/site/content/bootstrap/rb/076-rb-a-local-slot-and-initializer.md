@@ -1,19 +1,16 @@
 +++
-title = "RB43 \u00b7 A local slot and initializer"
+title = "43 \u00b7 Initializing a Local Variable"
 weight = 43
 description = "Allocate a local slot and record its lexical level."
 download = "RB43.IR"
-download_group = "rb"
+download_group = "tools/rillboot"
 aliases = ["/bootstrap/rill/076-rb-a-local-slot-and-initializer/"]
+reader_names = 1
 +++
-
-Allocate a local slot and record its lexical level.
 
 ## The working parts
 
 Allocate a local slot and record its lexical level. Mark it unavailable during its own initializer, then publish the binding after acceptance. Save its slot across recursive expression parsing.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -28,7 +25,7 @@ LIT 0
 RETURN
 ```
 
-Insert after old physical line 1202.
+Insert after old physical line 1200.
 
 Insert:
 
@@ -154,13 +151,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000058784 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 19428 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000058585 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 19405 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RB43.COM
 ```
 
-VIEW.BAS must report RB43.COM length 19428 bytes. Keep this executable and its source together.
+VIEW.BAS must report RB43.COM length 19405 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -178,21 +175,16 @@ COPY TRB43.RIL SOURCE.RIL
 CHECK RB43
 ```
 
-Require, apart from command echo and the checker's separator:
+The checker must report PASS. Inspect the emitted file below.
+
+Use VIEW.BAS to inspect RILL.TMP. Require length 27 bytes. The complete bytes must be:
 
 ```text
-OK RILL.TMP
-PASS
+4C 49 54 20 30 30 30 30 37 0D 0A 53 45 54 4C 4F
+43 41 4C 20 30 30 30 30 30 0D 0A
 ```
 
-TYPE RILL.TMP. Its complete text is:
-
-```ir
-LIT 00007
-SETLOCAL 00000
-```
-
-VIEW.BAS must show length 27 bytes. This is an IR fragment for inspection. Do not translate it as a complete program or execute any file with its name.
+This is an IR fragment for inspection. Do not translate it as a complete program or execute any file with its name.
 
 After inspection, delete this deliberately created RILL.TMP before another checkpoint. The file is diagnostic text, not an interrupted accepted compiler build.
 
@@ -220,4 +212,4 @@ An unexpected PASS fails the rejection. The pre-existing RESULT.IR must remain u
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Compare DECLARE with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.

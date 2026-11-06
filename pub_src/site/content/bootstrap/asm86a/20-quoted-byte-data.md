@@ -3,6 +3,8 @@ title = "08 \u00b7 Quoted byte data"
 weight = 8
 description = "Preserve string bytes while folding names outside quotes."
 download = "A20.ASM"
+download_group = "tools/asm86"
+reader_names = 1
 +++
 
 Readable messages should not require entering every character as a numeric byte.
@@ -536,7 +538,7 @@ JAE ZREADLINE6
 
 ```dos
 COPY A20.ASM SOURCE.ASM
-CHECK ASMA0
+CHECK ASM1
 ```
 
 Require `OK RESULT.COM 04412 bytes` and PASS. Preserve this executable before using its fixed output name:
@@ -576,7 +578,7 @@ In VIEW.BAS, inspect RESULT.COM. Require length **11 bytes** and these complete 
 48 65 6C 6C 6F 3B 20 78 0D 0A 00
 ```
 
-This result is an encoding or data exercise. Inspect its bytes; do not execute it.
+The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
 
 ## A rejection check
 

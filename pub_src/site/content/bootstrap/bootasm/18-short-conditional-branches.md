@@ -3,6 +3,8 @@ title = "18. Short conditional branches"
 weight = 18
 description = "Let the flags choose a path, within a signed byte's reach."
 checkpoint = "BA18.BAS"
+download_group = "tools/bootasm"
+reader_names = 1
 +++
 
 A comparison becomes useful when it can select the next instruction. The 8088 gives these conditional transfers a signed one-byte reach, so the assembler must check the distance.

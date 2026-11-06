@@ -3,6 +3,8 @@ title = "17. Calling and jumping"
 weight = 17
 description = "Near transfers, return addresses, and relative displacements."
 checkpoint = "BA17.BAS"
+download_group = "tools/bootasm"
+reader_names = 1
 +++
 
 A routine can now do useful work, but we need to reach it and return. Near CALL and JMP share the same address calculation.

@@ -3,14 +3,13 @@ title = "IW09 \u00b7 Conditions without extra skip definitions"
 weight = 45
 description = "Use fixed native conditional bridges while keeping branch semantics in the virtual machine."
 download = "IW09.ASM"
-download_group = "toolchain"
+download_group = "tools/toolchain"
+reader_names = 1
 +++
-
-Use fixed native conditional bridges while keeping branch semantics in the virtual machine.
 
 ## The working parts
 
-Use fixed native conditional bridges while keeping branch semantics in the virtual machine. The assembly routines use the inherited bounded reader and owned-file cleanup. The operation table supplies argument class, stack action, and an authored target template. Native encodings belong to this backend; the IR operation retains its abstract meaning.
+Use fixed native conditional bridges while keeping branch semantics in the virtual machine.
 
 ## Enter the source
 
@@ -210,7 +209,7 @@ COPY TIW09.IR SOURCE.IR
 CHECK IW09
 ```
 
-Require, apart from command echo and the checker's separator:
+Require:
 
 ```text
 OK RESULT.ASM 0000000266 text bytes
@@ -254,4 +253,4 @@ The accepted RESULT.ASM must remain unchanged. An unexpected PASS fails this che
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Compare the new routine with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.

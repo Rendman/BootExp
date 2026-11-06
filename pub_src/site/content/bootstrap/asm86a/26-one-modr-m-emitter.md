@@ -3,6 +3,8 @@ title = "14 \u00b7 One ModR/M emitter"
 weight = 14
 description = "Encode register or memory fields through one checked path."
 download = "A26.ASM"
+download_group = "tools/asm86"
+reader_names = 1
 +++
 
 Address-byte construction should be shared by the instructions that use it.
@@ -422,7 +424,7 @@ MOV [PREFIX],AL
 
 ```dos
 COPY A26.ASM SOURCE.ASM
-CHECK ASMA0
+CHECK ASM1
 ```
 
 Require `OK RESULT.COM 05190 bytes` and PASS. Preserve this executable before using its fixed output name:
@@ -463,7 +465,7 @@ In VIEW.BAS, inspect RESULT.COM. Require length **6 bytes** and these complete c
 8B 06 34 12 89 07
 ```
 
-This result is an encoding or data exercise. Inspect its bytes; do not execute it.
+The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
 
 ## A rejection check
 

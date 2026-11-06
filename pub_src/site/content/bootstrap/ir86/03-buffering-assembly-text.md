@@ -3,6 +3,8 @@ title = "03 \u00b7 Buffering assembly text"
 weight = 3
 description = "Keep a complete text result before creating its output file."
 download = "IR03.ASM"
+download_group = "tools/ir86"
+reader_names = 1
 +++
 
 We shall collect text in memory, then write one .ASM file only after the input has been accepted.
@@ -348,7 +350,7 @@ MOV [OUTPTR],AX
 CHECK ASMKEEP
 ```
 
-Enter `IR03` at ASM86's `Source name:` prompt. Require `OK 00784 bytes` followed by PASS. This builds `IR03.COM` directly with the completed assembler. Save the source and executable before running the test.
+Enter `IR03` at ASM0's `Source name:` prompt. Require `OK 00784 bytes` followed by PASS. This builds `IR03.COM` directly with the completed assembler. Save the source and executable before running the test.
 
 Create `T03.IR` with `COPY CON T03.IR`, enter this text, and finish with Ctrl-Z and Enter. The Ctrl-Z keystroke ends console input; it is not a printed language token.
 

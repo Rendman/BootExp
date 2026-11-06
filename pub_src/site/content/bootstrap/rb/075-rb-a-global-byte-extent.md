@@ -1,19 +1,16 @@
 +++
-title = "RB42 \u00b7 A global byte extent"
+title = "42 \u00b7 Compiling a Byte Buffer"
 weight = 42
 description = "Declare a nonempty global byte extent."
 download = "RB42.IR"
-download_group = "rb"
+download_group = "tools/rillboot"
 aliases = ["/bootstrap/rill/075-rb-a-global-byte-extent/"]
+reader_names = 1
 +++
-
-Declare a nonempty global byte extent.
 
 ## The working parts
 
 Declare a nonempty global byte extent. The buffer is materialized in the COM image. Extra allocated blocks are a different service and are not pointers into this declaration.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -28,7 +25,7 @@ LIT 0
 RETURN
 ```
 
-Insert after old physical line 1154.
+Insert after old physical line 1152.
 
 Insert:
 
@@ -130,13 +127,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000057180 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 19120 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000056981 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 19097 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RB42.COM
 ```
 
-VIEW.BAS must report RB42.COM length 19120 bytes. Keep this executable and its source together.
+VIEW.BAS must report RB42.COM length 19097 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -154,20 +151,16 @@ COPY TRB42.RIL SOURCE.RIL
 CHECK RB42
 ```
 
-Require, apart from command echo and the checker's separator:
+The checker must report PASS. Inspect the emitted file below.
+
+Use VIEW.BAS to inspect RILL.TMP. Require length 20 bytes. The complete bytes must be:
 
 ```text
-OK RILL.TMP
-PASS
+42 55 46 46 45 52 20 56 5F 41 42 43 20 30 30 30
+30 38 0D 0A
 ```
 
-TYPE RILL.TMP. Its complete text is:
-
-```ir
-BUFFER V_ABC 00008
-```
-
-VIEW.BAS must show length 20 bytes. This is an IR fragment for inspection. Do not translate it as a complete program or execute any file with its name.
+This is an IR fragment for inspection. Do not translate it as a complete program or execute any file with its name.
 
 After inspection, delete this deliberately created RILL.TMP before another checkpoint. The file is diagnostic text, not an interrupted accepted compiler build.
 
@@ -195,4 +188,4 @@ An unexpected PASS fails the rejection. The pre-existing RESULT.IR must remain u
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Compare GLOBALBUFFER with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.

@@ -3,8 +3,9 @@ title = "The complete RILL toolchain"
 weight = 47
 description = "Build the compiler, translator, and assembler, then let all three rebuild all three."
 download = "TOOLCHN.ZIP"
-download_group = "toolchain"
+download_group = "tools/toolchain"
 aliases = ["/bootstrap/rill/135-the-complete-toolchain/"]
+reader_names = 1
 +++
 
 The complete ladder is:
@@ -12,20 +13,20 @@ The complete ladder is:
 ```text
 GW-BASIC
   BOOTASM
-    ASM86
-      ASMA0
-        ASM86A
+    ASM0
+      ASM1
+        ASM86
           native streaming IR86
             IR-written RILL compiler seed
-              RILL-written compiler, IR86, and ASM86A
+              RILL-written compiler, IR86, and ASM86
                 two matching rebuild generations
 ```
 
-ASMA0 is the streaming-seed collection between ASM86 and ASM86A. The [RB collection](../../rb/index.html) constructs RILLBOOT, the IR-written compiler seed. The [RC collection](../index.html) constructs the compiler in RILL and proves its self-builds. The final three source programs are RILL.RIL, IR86.RIL, and ASM86A.RIL. They share the published language, not a special tool-building escape.
+ASM1 is the streaming-seed collection between ASM0 and ASM86. The [RILLBOOT collection](../../rb/index.html) constructs RILLBOOT, the IR-written compiler seed. The [RILL collection](../index.html) constructs the compiler in RILL and proves its self-builds. The final three source programs are RILL.RIL, IR86.RIL, and ASM86.RIL. They share the published language, not a special tool-building escape.
 
 ## Reproduce the disk workbench
 
-Begin with the tested native 6422-byte ASM86A preserved as ASMAKEEP.COM. Keep its BASIC/native ladder sources. Copy the source collection to a hard-disk work directory and run:
+Begin with the tested native 6422-byte ASM86 preserved as ASMAKEEP.COM. Keep its BASIC/native ladder sources. Copy the source collection to a hard-disk work directory and run:
 
 ```dos
 TMAKE
@@ -37,7 +38,7 @@ The A/I/R letters below mean assembler, IR translator, and RILL compiler:
 
 | Tool | First RILL build | First rebuild | Second rebuild | Bytes |
 |---|---|---|---|---|
-| ASM86A | A0.COM | A1.COM | A2.COM | 32404 |
+| ASM86 | A0.COM | A1.COM | A2.COM | 32404 |
 | IR86 | I0.COM | I1.COM | I2.COM | 31472 |
 | RILL | R0.COM | R1.COM | R2.COM | 26625 |
 
@@ -79,7 +80,7 @@ ASMAKEEP
 IF ERRORLEVEL 1 GOTO FAILED
 COPY RESULT.COM I0.COM >NUL
 ECHO PASS IR86 INITIAL BUILD
-COPY ASM86A.RIL SOURCE.RIL >NUL
+COPY ASM86.RIL SOURCE.RIL >NUL
 RILLBOOT
 IF ERRORLEVEL 1 GOTO FAILED
 COPY RESULT.IR SOURCE.IR >NUL
@@ -89,7 +90,7 @@ COPY RESULT.ASM SOURCE.ASM >NUL
 ASMAKEEP
 IF ERRORLEVEL 1 GOTO FAILED
 COPY RESULT.COM A0.COM >NUL
-ECHO PASS ASM86A INITIAL BUILD
+ECHO PASS ASM86 INITIAL BUILD
 COPY RILL.RIL SOURCE.RIL >NUL
 R0
 IF ERRORLEVEL 1 GOTO FAILED
@@ -112,7 +113,7 @@ A0
 IF ERRORLEVEL 1 GOTO FAILED
 COPY RESULT.COM I1.COM >NUL
 ECHO PASS IR86 GENERATION 1
-COPY ASM86A.RIL SOURCE.RIL >NUL
+COPY ASM86.RIL SOURCE.RIL >NUL
 R0
 IF ERRORLEVEL 1 GOTO FAILED
 COPY RESULT.IR SOURCE.IR >NUL
@@ -122,7 +123,7 @@ COPY RESULT.ASM SOURCE.ASM >NUL
 A0
 IF ERRORLEVEL 1 GOTO FAILED
 COPY RESULT.COM A1.COM >NUL
-ECHO PASS ASM86A GENERATION 1
+ECHO PASS ASM86 GENERATION 1
 COPY RILL.RIL SOURCE.RIL >NUL
 R1
 IF ERRORLEVEL 1 GOTO FAILED
@@ -145,7 +146,7 @@ A1
 IF ERRORLEVEL 1 GOTO FAILED
 COPY RESULT.COM I2.COM >NUL
 ECHO PASS IR86 GENERATION 2
-COPY ASM86A.RIL SOURCE.RIL >NUL
+COPY ASM86.RIL SOURCE.RIL >NUL
 R1
 IF ERRORLEVEL 1 GOTO FAILED
 COPY RESULT.IR SOURCE.IR >NUL
@@ -155,7 +156,7 @@ COPY RESULT.ASM SOURCE.ASM >NUL
 A1
 IF ERRORLEVEL 1 GOTO FAILED
 COPY RESULT.COM A2.COM >NUL
-ECHO PASS ASM86A GENERATION 2
+ECHO PASS ASM86 GENERATION 2
 ECHO BUILDS COMPLETE - COMPARE THE GENERATIONS
 GOTO END
 :MISSING

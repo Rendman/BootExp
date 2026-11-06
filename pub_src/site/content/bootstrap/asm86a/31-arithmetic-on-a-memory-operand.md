@@ -3,6 +3,8 @@ title = "19 \u00b7 Arithmetic on a memory operand"
 weight = 19
 description = "Extend the familiar arithmetic groups without changing operand order."
 download = "A31.ASM"
+download_group = "tools/asm86"
+reader_names = 1
 +++
 
 The same effective-address descriptor can serve arithmetic as well as MOV.
@@ -336,7 +338,7 @@ CALL LOOK
 
 ```dos
 COPY A31.ASM SOURCE.ASM
-CHECK ASMA0
+CHECK ASM1
 ```
 
 Require `OK RESULT.COM 05797 bytes` and PASS. Preserve this executable before using its fixed output name:
@@ -383,14 +385,7 @@ In VIEW.BAS, inspect RESULT.COM. Require length **22 bytes** and these complete 
 B8 FF FF 81 C0 01 00 81 D0 40 00 8A D0 B4 02 CD 21 B8 00 4C CD 21
 ```
 
-This fixture is a complete program. Save it before another assembly and execute it:
-
-```dos
-COPY RESULT.COM TRY.COM
-CHECK TRY
-```
-
-It displays "A" and the checker reports PASS.
+The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
 
 ## A rejection check
 

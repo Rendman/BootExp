@@ -1,39 +1,39 @@
-PASS RB01: native IR86/ASM86A build, exact helper or parser result, preceding-language word boundary
-PASS RB02: native IR86/ASM86A build, exact helper or parser result, preceding-language word boundary
-PASS RB03: native IR86/ASM86A build, exact helper or parser result, preceding-language word boundary
-PASS RB04: native IR86/ASM86A build, exact helper or parser result, preceding-language word boundary
-PASS RB05: native IR86/ASM86A build, exact helper or parser result, preceding-language word boundary
-PASS RB06: native IR86/ASM86A build, exact helper or parser result, preceding-language word boundary
+PASS RB01: native IR86/ASM86A build, exact helper or parser result, status/value check
+PASS RB02: native IR86/ASM86A build, exact helper or parser result, status/value check
+PASS RB03: native IR86/ASM86A build, exact helper or parser result, status/value check
+PASS RB04: native IR86/ASM86A build, exact helper or parser result, status/value check
+PASS RB05: native IR86/ASM86A build, exact helper or parser result, status/value check
+PASS RB06: native IR86/ASM86A build, exact helper or parser result, status/value check
 PASS RB07: native IR86/ASM86A build, exact helper or parser result, rejection and old-result preservation
-PASS RB08: native IR86/ASM86A build, exact helper or parser result, rejection and old-result preservation
-PASS RB09: native IR86/ASM86A build, exact helper or parser result, rejection and old-result preservation
+PASS RB08: native IR86/ASM86A build, exact helper or parser result, status/value check
+PASS RB09: native IR86/ASM86A build, exact helper or parser result, status/value check
 PASS RB10: native IR86/ASM86A build, exact helper or parser result, rejection and old-result preservation
 PASS RB11: native IR86/ASM86A build, exact helper or parser result, rejection and old-result preservation
 PASS RB12: native IR86/ASM86A build, exact helper or parser result, rejection and old-result preservation
-PASS RB13: native IR86/ASM86A build, exact helper or parser result, rejection and old-result preservation
-PASS RB14: native IR86/ASM86A build, exact helper or parser result, preceding-language word boundary
-PASS RB15: native IR86/ASM86A build, exact helper or parser result, preceding-language word boundary
-PASS RB16: native IR86/ASM86A build, exact helper or parser result, preceding-language word boundary
-PASS RB17: native IR86/ASM86A build, exact helper or parser result, preceding-language word boundary
-PASS RB18: native IR86/ASM86A build, exact helper or parser result, preceding-language word boundary
-PASS RB19: native IR86/ASM86A build, exact helper or parser result, preceding-language word boundary
-PASS RB20: native IR86/ASM86A build, exact helper or parser result, preceding-language word boundary
-PASS RB21: native IR86/ASM86A build, exact helper or parser result, preceding-language word boundary
-PASS RB22: native IR86/ASM86A build, exact helper or parser result, preceding-language word boundary
-PASS RB23: native IR86/ASM86A build, exact helper or parser result, preceding-language word boundary
-PASS RB24: native IR86/ASM86A build, exact helper or parser result, preceding-language word boundary
-PASS RB25: native IR86/ASM86A build, exact helper or parser result, preceding-language word boundary
-PASS RB26: native IR86/ASM86A build, exact helper or parser result, preceding-language word boundary
-PASS RB27: native IR86/ASM86A build, exact helper or parser result, preceding-language word boundary
-PASS RB28: native IR86/ASM86A build, exact helper or parser result, preceding-language word boundary
-PASS RB29: native IR86/ASM86A build, exact helper or parser result, preceding-language word boundary
-PASS RB30: native IR86/ASM86A build, exact helper or parser result, preceding-language word boundary
-PASS RB31: native IR86/ASM86A build, exact helper or parser result, preceding-language word boundary
-PASS RB32: native IR86/ASM86A build, exact helper or parser result, preceding-language word boundary
-PASS RB33: native IR86/ASM86A build, exact helper or parser result, preceding-language word boundary
-PASS RB34: native IR86/ASM86A build, exact helper or parser result, preceding-language word boundary
-PASS RB35: native IR86/ASM86A build, exact helper or parser result, rejection and old-result preservation
-PASS RB36: native IR86/ASM86A build, exact helper or parser result, preceding-language word boundary
+PASS RB13: native IR86/ASM86A build, exact helper or parser result, status/value check
+PASS RB14: native IR86/ASM86A build, exact helper or parser result, status/value check
+PASS RB15: native IR86/ASM86A build, exact helper or parser result, status/value check
+PASS RB16: native IR86/ASM86A build, exact helper or parser result, status/value check
+PASS RB17: native IR86/ASM86A build, exact helper or parser result, status/value check
+PASS RB18: native IR86/ASM86A build, exact helper or parser result, status/value check
+PASS RB19: native IR86/ASM86A build, exact helper or parser result, status/value check
+PASS RB20: native IR86/ASM86A build, exact helper or parser result, status/value check
+PASS RB21: native IR86/ASM86A build, exact helper or parser result, status/value check
+PASS RB22: native IR86/ASM86A build, exact helper or parser result, status/value check
+PASS RB23: native IR86/ASM86A build, exact helper or parser result, status/value check
+PASS RB24: native IR86/ASM86A build, exact helper or parser result, status/value check
+PASS RB25: native IR86/ASM86A build, exact helper or parser result, status/value check
+PASS RB26: native IR86/ASM86A build, exact helper or parser result, status/value check
+PASS RB27: native IR86/ASM86A build, exact helper or parser result, status/value check
+PASS RB28: native IR86/ASM86A build, exact helper or parser result, status/value check
+PASS RB29: native IR86/ASM86A build, exact helper or parser result, status/value check
+PASS RB30: native IR86/ASM86A build, exact helper or parser result, status/value check
+PASS RB31: native IR86/ASM86A build, exact helper or parser result, status/value check
+PASS RB32: native IR86/ASM86A build, exact helper or parser result, status/value check
+PASS RB33: native IR86/ASM86A build, exact helper or parser result, status/value check
+PASS RB34: native IR86/ASM86A build, exact helper or parser result, status/value check
+PASS RB35: native IR86/ASM86A build, exact helper or parser result, status/value check
+PASS RB36: native IR86/ASM86A build, exact helper or parser result, status/value check
 PASS RB37: native IR86/ASM86A build, exact helper or parser result, rejection and old-result preservation
 PASS RB38: native IR86/ASM86A build, exact helper or parser result, rejection and old-result preservation
 PASS RB39: native IR86/ASM86A build, exact helper or parser result, rejection and old-result preservation

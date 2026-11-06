@@ -3,6 +3,8 @@ title = "15 \u00b7 The DW directive"
 weight = 15
 description = "A word is two bytes, low byte first."
 download = "AS15.ASM"
+download_group = "tools/asm0"
+reader_names = 1
 +++
 
 DW adds a word-sized data item without changing the meaning of DB or the value reader.

@@ -1,19 +1,16 @@
 +++
-title = "RC09 \u00b7 Consume a required token"
+title = "09 \u00b7 Consuming the Required Token"
 weight = 9
 description = "Compare the current token before advancing."
 download = "RC09.RIL"
-download_group = "rc"
+download_group = "tools/rill"
 aliases = ["/bootstrap/rill/097-rc-consume-a-required-token/"]
+reader_names = 1
 +++
-
-Compare the current token before advancing.
 
 ## The working parts
 
 Compare the current token before advancing. On success, leave the following token ready; a caller must not advance once more accidentally.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -54,7 +51,7 @@ bytes string[512];
 Remove this source at old physical positions 35–35 in RC08.RIL:
 
 ```rill
-fn main(){input=open("SOURCE.RIL");if status(){fail(1);}next();lex();printnum(value);return 0;}
+fn main(){input=open("SOURCE.RIL");if status(){fail(1);}next();lex();return (value)!=65535;}
 ```
 
 Replace it with:
@@ -109,10 +106,11 @@ COPY TRC09.RIL SOURCE.RIL
 CHECK RC09
 ```
 
-Require, apart from command echo and the checker's separator:
+Require:
 
 ```text
-OKPASS
+OK
+PASS
 ```
 
 ## A rejection or boundary check
@@ -139,4 +137,4 @@ An unexpected PASS fails the rejection. The pre-existing RESULT.IR must remain u
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Compare expect with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.

@@ -3,6 +3,8 @@ title = "27 \u00b7 Equality in a condition"
 weight = 27
 description = "Compare word values while retaining an empty control boundary."
 download = "R27.IR"
+download_group = "tools/rill0"
+reader_names = 1
 +++
 
 A comparison needs two expression values and a chosen false branch.

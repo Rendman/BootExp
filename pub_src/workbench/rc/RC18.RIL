@@ -32,7 +32,7 @@ bytes outbuf[4096];
 bytes ident[32];
 bytes string[512];
 
-fn main(){table=alloc(22000);setident("ABC");recval=7;newlocal(5);printnum(tword(20514));return 0;}
+fn main(){table=alloc(22000);setident("ABC");recval=7;newlocal(5);return (tword(20514))!=7;}
 
 fn next() {
     if ch == 10 {

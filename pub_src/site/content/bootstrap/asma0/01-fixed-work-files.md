@@ -4,19 +4,21 @@ weight = 1
 description = "Select source with COPY and keep filename entry out of the new assembler."
 download = "A01.ASM"
 aliases = ["/bootstrap/asm86a/01-fixed-work-files/"]
+download_group = "tools/asm1"
+reader_names = 1
 +++
 
 The bootstrap ladder already has an assembler. We can retain its tested parser and use fixed files for the next tool.
 
 ## The working parts
 
-Copy the completed ASM86 source. OPENFILE uses SOURCE.ASM, and the final writer uses RESULT.COM. The driver no longer calls GETNAME. The instruction language and the old whole-image buffer are otherwise unchanged at this stopping point.
+Copy the completed ASM0 source. OPENFILE uses SOURCE.ASM, and the final writer uses RESULT.COM. The driver no longer calls GETNAME. The instruction language and the old whole-image buffer are otherwise unchanged at this stopping point.
 
 The two input passes still finish before output creation. Keep ASMKEEP.COM as the preceding assembler; its existing filename prompt builds each native checkpoint. COPY selects the source for the new tool.
 
 ## Enter the source
 
-Copy `ASM86.ASM` to `A01.ASM`. Apply the following edits **from the bottom of the old file upward**. Physical positions locate an edit in the unchanged old file; use the nearby label and printed context to identify it. Keep all other source. The Z labels are ordinary implementation labels for explicit short-branch bridges.
+Copy `ASM0.ASM` to `A01.ASM`. Apply the following edits **from the bottom of the old file upward**. Physical positions locate an edit in the unchanged old file; use the nearby label and printed context to identify it. Keep all other source. The Z labels are ordinary implementation labels for explicit short-branch bridges.
 
 ### Change 1 near `OPTAB:`
 
@@ -581,7 +583,7 @@ CLD
 
 ## Build the stopping point
 
-Run `CHECK ASMKEEP`, enter `A01` at `Source name:`, and require `OK 02521 bytes` and PASS. This uses the preceding published ASM86, not the new checkpoint. It creates A01.COM.
+Run `CHECK ASMKEEP`, enter `A01` at `Source name:`, and require `OK 02521 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. It creates A01.COM.
 
 VIEW.BAS must report A01.COM length 2521 bytes. Keep that executable and source together.
 
@@ -618,14 +620,7 @@ In VIEW.BAS, inspect RESULT.COM. Require length **11 bytes** and these complete 
 B2 41 B4 02 CD 21 B8 00 4C CD 21
 ```
 
-This fixture is a complete program. Save it before another assembly and execute it:
-
-```dos
-COPY RESULT.COM TRY.COM
-CHECK TRY
-```
-
-It displays "A" and the checker reports PASS.
+The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
 
 ## A rejection check
 

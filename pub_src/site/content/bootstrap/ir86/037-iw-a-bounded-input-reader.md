@@ -3,18 +3,17 @@ title = "IW01 \u00b7 A bounded input reader"
 weight = 37
 description = "Read a fixed source through the inherited line reader and checked source counters."
 download = "IW01.ASM"
-download_group = "toolchain"
+download_group = "tools/toolchain"
+reader_names = 1
 +++
-
-Read a fixed source through the inherited line reader and checked source counters.
 
 ## The working parts
 
-Read a fixed source through the inherited line reader and checked source counters. The assembly routines use the inherited bounded reader and owned-file cleanup. The operation table supplies argument class, stack action, and an authored target template. Native encodings belong to this backend; the IR operation retains its abstract meaning.
+Read a fixed source through the inherited line reader and checked source counters.
 
 ## Enter the source
 
-Copy ASM86A.ASM to IW01.ASM. Apply edits **from the bottom of the old file upward**. Physical positions refer to that unchanged old file; use the printed context to identify each place. Keep all other source.
+Copy ASM86.ASM to IW01.ASM. Apply edits **from the bottom of the old file upward**. Physical positions refer to that unchanged old file; use the printed context to identify each place. Keep all other source.
 
 ### Edit 1
 
@@ -26,7 +25,7 @@ DW 0,1000,0,100,0,10
 DW 0,1
 ```
 
-Remove this source at old physical positions 2790–2790 in ASM86A.ASM:
+Remove this source at old physical positions 2790–2790 in ASM86.ASM:
 
 ```asm
 
@@ -50,7 +49,7 @@ DB 0
 CLEANFAIL:
 ```
 
-Remove this source at old physical positions 2649–2761 in ASM86A.ASM:
+Remove this source at old physical positions 2649–2761 in ASM86.ASM:
 
 ```asm
 DB 0
@@ -186,7 +185,7 @@ DW 0
 OUTHANDLE:
 ```
 
-Remove this source at old physical positions 2625–2630 in ASM86A.ASM:
+Remove this source at old physical positions 2625–2630 in ASM86.ASM:
 
 ```asm
 DW 0
@@ -214,7 +213,7 @@ RDLEN:
 DW 0
 ```
 
-Remove this source at old physical positions 2621–2623 in ASM86A.ASM:
+Remove this source at old physical positions 2621–2623 in ASM86.ASM:
 
 ```asm
 OUTCNT:
@@ -240,7 +239,7 @@ RECOVERMSG:
 DB 82,101,99,111,118,101,114,121,58,32,105,110,115,112,101,99
 ```
 
-Remove this source at old physical positions 2612–2613 in ASM86A.ASM:
+Remove this source at old physical positions 2612–2613 in ASM86.ASM:
 
 ```asm
 DB 116,32,65,83,77,65,46,84,77,80,32,97,110,100,32,82
@@ -271,7 +270,7 @@ DB 83,79,85,82,67,69,46,65,83,77,0
 TMPNAME:
 ```
 
-Remove this source at old physical positions 2602–2608 in ASM86A.ASM:
+Remove this source at old physical positions 2602–2608 in ASM86.ASM:
 
 ```asm
 DB 65,83,77,65,46,84,77,80,0
@@ -306,7 +305,7 @@ DB 74,78,67,0,0,0,8,115
 SRCNAME:
 ```
 
-Remove this source at old physical positions 2599–2599 in ASM86A.ASM:
+Remove this source at old physical positions 2599–2599 in ASM86.ASM:
 
 ```asm
 DB 83,79,85,82,67,69,46,65,83,77,0
@@ -334,7 +333,7 @@ ERRCODE:
 DB 0
 ```
 
-Remove this source at old physical positions 2514–2597 in ASM86A.ASM:
+Remove this source at old physical positions 2514–2597 in ASM86.ASM:
 
 ```asm
 REGTAB:
@@ -440,7 +439,7 @@ CHAR:
 DB 0
 ```
 
-Remove this source at old physical positions 2487–2510 in ASM86A.ASM:
+Remove this source at old physical positions 2487–2510 in ASM86.ASM:
 
 ```asm
 TYPE:
@@ -487,7 +486,7 @@ LINENO:
 DW 0
 ```
 
-Remove this source at old physical positions 2456–2476 in ASM86A.ASM:
+Remove this source at old physical positions 2456–2476 in ASM86.ASM:
 
 ```asm
 
@@ -531,7 +530,7 @@ NEWLINE:
 DB 13,10,36
 ```
 
-Remove this source at old physical positions 2446–2450 in ASM86A.ASM:
+Remove this source at old physical positions 2446–2450 in ASM86.ASM:
 
 ```asm
 DIVISORS:
@@ -559,7 +558,7 @@ DB 32,98,121,116,101,115,13,10,36
 ERRMSG:
 ```
 
-Remove this source at old physical positions 2438–2438 in ASM86A.ASM:
+Remove this source at old physical positions 2438–2438 in ASM86.ASM:
 
 ```asm
 DB 69,82,82,79,82,32,36
@@ -587,7 +586,7 @@ POP AX
 RET
 ```
 
-Remove this source at old physical positions 1889–2436 in ASM86A.ASM:
+Remove this source at old physical positions 1889–2436 in ASM86.ASM:
 
 ```asm
 ATOM:
@@ -1158,7 +1157,7 @@ ADD SI,4
 CMP SI,DIV32END
 ```
 
-Remove this source at old physical positions 1879–1881 in ASM86A.ASM:
+Remove this source at old physical positions 1879–1881 in ASM86.ASM:
 
 ```asm
 JAE ZNUMBER323
@@ -1189,7 +1188,7 @@ SUB AX,DX
 MOV [N32LO],AX
 ```
 
-Remove this source at old physical positions 1861–1861 in ASM86A.ASM:
+Remove this source at old physical positions 1861–1861 in ASM86.ASM:
 
 ```asm
 JAE N32NOBORROW
@@ -1218,7 +1217,7 @@ MOV DX,[D32LO]
 CMP AX,DX
 ```
 
-Remove this source at old physical positions 1853–1855 in ASM86A.ASM:
+Remove this source at old physical positions 1853–1855 in ASM86.ASM:
 
 ```asm
 JAE ZNUMBER322
@@ -1249,7 +1248,7 @@ MOV DX,[D32HI]
 CMP AX,DX
 ```
 
-Remove this source at old physical positions 1846–1849 in ASM86A.ASM:
+Remove this source at old physical positions 1846–1849 in ASM86.ASM:
 
 ```asm
 JAE ZNUMBER321
@@ -1282,7 +1281,7 @@ MOV AX,[INBYTEHI]
 CMP AX,0FFFFH
 ```
 
-Remove this source at old physical positions 1814–1814 in ASM86A.ASM:
+Remove this source at old physical positions 1814–1814 in ASM86.ASM:
 
 ```asm
 JE COUNTFULL
@@ -1311,7 +1310,7 @@ MOV AX,[INBYTES]
 CMP AX,0FFFFH
 ```
 
-Remove this source at old physical positions 1811–1811 in ASM86A.ASM:
+Remove this source at old physical positions 1811–1811 in ASM86.ASM:
 
 ```asm
 JNE INPUTLOW
@@ -1340,7 +1339,7 @@ MOV AX,[LINEHI]
 CMP AX,0FFFFH
 ```
 
-Remove this source at old physical positions 1794–1794 in ASM86A.ASM:
+Remove this source at old physical positions 1794–1794 in ASM86.ASM:
 
 ```asm
 JE COUNTFULL
@@ -1369,7 +1368,7 @@ MOV AX,[LINENO]
 CMP AX,0FFFFH
 ```
 
-Remove this source at old physical positions 1791–1791 in ASM86A.ASM:
+Remove this source at old physical positions 1791–1791 in ASM86.ASM:
 
 ```asm
 JNE LINELOW
@@ -1398,7 +1397,7 @@ MOV [CLEANFAIL],AL
 CLEANEND:
 ```
 
-Remove this source at old physical positions 1573–1785 in ASM86A.ASM:
+Remove this source at old physical positions 1573–1785 in ASM86.ASM:
 
 ```asm
 CALL MEMFREE
@@ -1634,7 +1633,7 @@ MOV AH,41H
 INT 21H
 ```
 
-Remove this source at old physical positions 1569–1569 in ASM86A.ASM:
+Remove this source at old physical positions 1569–1569 in ASM86.ASM:
 
 ```asm
 JAE CLEANEND
@@ -1663,7 +1662,7 @@ MOV AL,[KEEPFILES]
 CMP AL,0
 ```
 
-Remove this source at old physical positions 1565–1565 in ASM86A.ASM:
+Remove this source at old physical positions 1565–1565 in ASM86.ASM:
 
 ```asm
 JNE CLEANEND
@@ -1692,7 +1691,7 @@ MOV AL,[OWNTMP]
 CMP AL,0
 ```
 
-Remove this source at old physical positions 1562–1562 in ASM86A.ASM:
+Remove this source at old physical positions 1562–1562 in ASM86.ASM:
 
 ```asm
 JE CLEANEND
@@ -1721,7 +1720,7 @@ MOV AH,3EH
 INT 21H
 ```
 
-Remove this source at old physical positions 1556–1556 in ASM86A.ASM:
+Remove this source at old physical positions 1556–1556 in ASM86.ASM:
 
 ```asm
 JAE CLEANTEMP
@@ -1750,7 +1749,7 @@ MOV AL,[OUTOPEN]
 CMP AL,0
 ```
 
-Remove this source at old physical positions 1552–1552 in ASM86A.ASM:
+Remove this source at old physical positions 1552–1552 in ASM86.ASM:
 
 ```asm
 JE CLEANTEMP
@@ -1779,7 +1778,7 @@ MOV AH,3EH
 INT 21H
 ```
 
-Remove this source at old physical positions 1546–1546 in ASM86A.ASM:
+Remove this source at old physical positions 1546–1546 in ASM86.ASM:
 
 ```asm
 JAE CLEANOUTPUT
@@ -1808,7 +1807,7 @@ MOV AL,[INOPEN]
 CMP AL,0
 ```
 
-Remove this source at old physical positions 1542–1542 in ASM86A.ASM:
+Remove this source at old physical positions 1542–1542 in ASM86.ASM:
 
 ```asm
 JE CLEANOUTPUT
@@ -1836,7 +1835,7 @@ MOV AX,4C01H
 INT 21H
 ```
 
-Remove this source at old physical positions 1398–1538 in ASM86A.ASM:
+Remove this source at old physical positions 1398–1538 in ASM86.ASM:
 
 ```asm
 CREATEOUT:
@@ -2000,7 +1999,7 @@ OR AL,DL
 CMP AL,0
 ```
 
-Remove this source at old physical positions 1391–1391 in ASM86A.ASM:
+Remove this source at old physical positions 1391–1391 in ASM86.ASM:
 
 ```asm
 JE ERROREXIT
@@ -2029,7 +2028,7 @@ MOV AH,9
 INT 21H
 ```
 
-Remove this source at old physical positions 1334–1365 in ASM86A.ASM:
+Remove this source at old physical positions 1334–1365 in ASM86.ASM:
 
 ```asm
 RET
@@ -2083,7 +2082,7 @@ POP AX
 JMP ERROR
 ```
 
-Remove this source at old physical positions 231–1330 in ASM86A.ASM:
+Remove this source at old physical positions 231–1330 in ASM86.ASM:
 
 ```asm
 SCAN:
@@ -3206,7 +3205,7 @@ MOV [ENDED],AL
 CMP BP,0
 ```
 
-Remove this source at old physical positions 210–210 in ASM86A.ASM:
+Remove this source at old physical positions 210–210 in ASM86.ASM:
 
 ```asm
 JE EMPTYEND
@@ -3235,7 +3234,7 @@ MOV AL,[SKIPLF]
 CMP AL,0
 ```
 
-Remove this source at old physical positions 198–198 in ASM86A.ASM:
+Remove this source at old physical positions 198–198 in ASM86.ASM:
 
 ```asm
 JE LINEEND
@@ -3264,7 +3263,7 @@ ZREADLINE6:
 CMP AL,126
 ```
 
-Remove this source at old physical positions 188–190 in ASM86A.ASM:
+Remove this source at old physical positions 188–190 in ASM86.ASM:
 
 ```asm
 JBE ZREADLINE7
@@ -3295,7 +3294,7 @@ JE KEEPCHAR
 CMP AL,32
 ```
 
-Remove this source at old physical positions 184–186 in ASM86A.ASM:
+Remove this source at old physical positions 184–186 in ASM86.ASM:
 
 ```asm
 JAE ZREADLINE6
@@ -3326,7 +3325,7 @@ ZREADLINE5:
 CMP AL,9
 ```
 
-Remove this source at old physical positions 182–182 in ASM86A.ASM:
+Remove this source at old physical positions 182–182 in ASM86.ASM:
 
 ```asm
 JE KEEPCHAR
@@ -3355,7 +3354,7 @@ ZREADLINE4:
 CMP BP,1023
 ```
 
-Remove this source at old physical positions 178–180 in ASM86A.ASM:
+Remove this source at old physical positions 178–180 in ASM86.ASM:
 
 ```asm
 JB ZREADLINE5
@@ -3386,7 +3385,7 @@ ZREADLINE3:
 CMP AL,26
 ```
 
-Remove this source at old physical positions 174–176 in ASM86A.ASM:
+Remove this source at old physical positions 174–176 in ASM86.ASM:
 
 ```asm
 JNE ZREADLINE4
@@ -3417,7 +3416,7 @@ MOV [SKIPLF],AH
 CMP AL,13
 ```
 
-Remove this source at old physical positions 170–172 in ASM86A.ASM:
+Remove this source at old physical positions 170–172 in ASM86.ASM:
 
 ```asm
 JNE ZREADLINE3
@@ -3448,7 +3447,7 @@ MOV AL,[CHAR]
 CMP AL,10
 ```
 
-Remove this source at old physical positions 164–166 in ASM86A.ASM:
+Remove this source at old physical positions 164–166 in ASM86.ASM:
 
 ```asm
 JNE ZREADLINE2
@@ -3479,7 +3478,7 @@ CALL NEXTBYTE
 CMP AX,0
 ```
 
-Remove this source at old physical positions 159–161 in ASM86A.ASM:
+Remove this source at old physical positions 159–161 in ASM86.ASM:
 
 ```asm
 JNE ZREADLINE1
@@ -3510,7 +3509,7 @@ MOV AL,[ENDED]
 CMP AL,0
 ```
 
-Remove this source at old physical positions 153–153 in ASM86A.ASM:
+Remove this source at old physical positions 153–153 in ASM86.ASM:
 
 ```asm
 JE READCHAR
@@ -3539,7 +3538,7 @@ MOV [RDPOS],DX
 CMP AX,0
 ```
 
-Remove this source at old physical positions 132–132 in ASM86A.ASM:
+Remove this source at old physical positions 132–132 in ASM86.ASM:
 
 ```asm
 JE BUFFEREND
@@ -3568,7 +3567,7 @@ MOV AH,3FH
 INT 21H
 ```
 
-Remove this source at old physical positions 125–125 in ASM86A.ASM:
+Remove this source at old physical positions 125–125 in ASM86.ASM:
 
 ```asm
 JAE REFILLED
@@ -3597,7 +3596,7 @@ MOV DX,[RDLEN]
 CMP AX,DX
 ```
 
-Remove this source at old physical positions 119–119 in ASM86A.ASM:
+Remove this source at old physical positions 119–119 in ASM86.ASM:
 
 ```asm
 JB BUFFERBYTE
@@ -3626,7 +3625,7 @@ MOV AH,3EH
 INT 21H
 ```
 
-Remove this source at old physical positions 108–108 in ASM86A.ASM:
+Remove this source at old physical positions 108–108 in ASM86.ASM:
 
 ```asm
 JAE INPUTCLOSED
@@ -3655,7 +3654,7 @@ MOV AX,3D00H
 INT 21H
 ```
 
-Remove this source at old physical positions 96–96 in ASM86A.ASM:
+Remove this source at old physical positions 96–96 in ASM86.ASM:
 
 ```asm
 JAE INPUTOPEN
@@ -3684,7 +3683,7 @@ MOV AX,7
 JMP ERROR
 ```
 
-Remove this source at old physical positions 8–86 in ASM86A.ASM:
+Remove this source at old physical positions 8–86 in ASM86.ASM:
 
 ```asm
 ROOM:
@@ -3787,7 +3786,7 @@ CLD
 CMP SP,0FFFEH
 ```
 
-Remove this source at old physical positions 5–5 in ASM86A.ASM:
+Remove this source at old physical positions 5–5 in ASM86.ASM:
 
 ```asm
 JE ROOM
@@ -3831,7 +3830,7 @@ JMP ERROR
 
 ### Edit 52
 
-Remove this source at old physical positions 1–1 in ASM86A.ASM:
+Remove this source at old physical positions 1–1 in ASM86.ASM:
 
 ```asm
 ; ASM86A construction checkpoint.
@@ -3881,7 +3880,7 @@ COPY TIW01.IR SOURCE.IR
 CHECK IW01
 ```
 
-Require, apart from command echo and the checker's separator:
+Require:
 
 ```text
 ABC
@@ -3903,4 +3902,4 @@ The accepted RESULT.ASM must remain unchanged. An unexpected PASS fails this che
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Compare the new routine with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.

@@ -1,19 +1,16 @@
 +++
-title = "RC35 \u00b7 Values, addresses, and names"
+title = "35 \u00b7 Reading Values, Addresses, and Names"
 weight = 35
 description = "A primary can emit a literal, string pointer, binding, addressed slot, indexed byte, or call."
 download = "RC35.RIL"
-download_group = "rc"
+download_group = "tools/rill"
 aliases = ["/bootstrap/rill/123-rc-values-addresses-and-names/"]
+reader_names = 1
 +++
-
-A primary can emit a literal, string pointer, binding, addressed slot, indexed byte, or call.
 
 ## The working parts
 
 A primary can emit a literal, string pointer, binding, addressed slot, indexed byte, or call. Parentheses recurse through EXPR. Save binding metadata before scanning a nested expression, which can change the shared search fields.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -106,7 +103,7 @@ COPY RC35.RIL SOURCE.RIL
 CHECK RILLBOOT
 ```
 
-Require `OK RESULT.IR 0000034166` and PASS. Copy RESULT.IR to SOURCE.IR.
+Require `OK RESULT.IR 0000034114` and PASS. Copy RESULT.IR to SOURCE.IR.
 
 ```dos
 CHECK IWKEEP
@@ -114,13 +111,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000073165 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 21427 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000072941 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 21399 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RC35.COM
 ```
 
-VIEW.BAS must report RC35.COM length 21427 bytes. Keep this executable and its source together.
+VIEW.BAS must report RC35.COM length 21399 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -138,23 +135,16 @@ COPY TRC35.RIL SOURCE.RIL
 CHECK RC35
 ```
 
-Require, apart from command echo and the checker's separator:
+The checker must report PASS. Inspect the emitted file below.
+
+Use VIEW.BAS to inspect RILL.TMP. Require length 32 bytes. The complete bytes must be:
 
 ```text
-OK RILL.TMP
-PASS
+4C 44 20 56 5F 41 42 43 0D 0A 50 55 53 48 0D 0A
+4C 49 54 20 30 30 30 30 31 0D 0A 41 44 44 0D 0A
 ```
 
-TYPE RILL.TMP. Its complete text is:
-
-```ir
-LD V_ABC
-PUSH
-LIT 00001
-ADD
-```
-
-VIEW.BAS must show length 32 bytes. This is an IR fragment for inspection. Do not translate it as a complete program or execute any file with its name.
+This is an IR fragment for inspection. Do not translate it as a complete program or execute any file with its name.
 
 After inspection, delete this deliberately created RILL.TMP before another checkpoint. The file is diagnostic text, not an interrupted accepted compiler build.
 
@@ -182,4 +172,4 @@ An unexpected PASS fails the rejection. The pre-existing RESULT.IR must remain u
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Compare primary with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.

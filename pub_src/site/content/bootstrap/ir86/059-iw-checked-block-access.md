@@ -3,14 +3,13 @@ title = "IW23 \u00b7 Checked block access"
 weight = 59
 description = "Validate an opaque block and byte extent before reading or writing a word."
 download = "IW23.ASM"
-download_group = "toolchain"
+download_group = "tools/toolchain"
+reader_names = 1
 +++
-
-Validate an opaque block and byte extent before reading or writing a word.
 
 ## The working parts
 
-Validate an opaque block and byte extent before reading or writing a word. The assembly routines use the inherited bounded reader and owned-file cleanup. The operation table supplies argument class, stack action, and an authored target template. Native encodings belong to this backend; the IR operation retains its abstract meaning.
+Validate an opaque block and byte extent before reading or writing a word.
 
 ## Enter the source
 
@@ -948,7 +947,7 @@ COPY TIW23.IR SOURCE.IR
 CHECK IW23
 ```
 
-Require, apart from command echo and the checker's separator:
+Require:
 
 ```text
 OK RESULT.ASM 0000005314 text bytes
@@ -999,4 +998,4 @@ The accepted RESULT.ASM must remain unchanged. An unexpected PASS fails this che
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Compare the new routine with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.

@@ -4,6 +4,8 @@ weight = 10
 description = "Teach an instruction form before using it in a successor."
 download = "A10.ASM"
 aliases = ["/bootstrap/asm86a/10-encoding-segment-register-moves/"]
+download_group = "tools/asm1"
+reader_names = 1
 +++
 
 Allocated workspace needs a way to select a segment, but the seed itself can remain in one segment.
@@ -12,7 +14,7 @@ Allocated workspace needs a way to select a segment, but the seed itself can rem
 
 REGISTER adds ES, CS, SS, and DS after the sixteen ordinary registers. OPERAND marks them as a distinct kind. SEGMOV emits 8CH for a segment source or 8EH for a segment destination, with the segment field and ordinary word-register field in ModR/M. CS is never accepted as a destination.
 
-The seed implementation still uses only instructions accepted by ASM86. It encodes these forms as output for another program; it does not yet execute them. Register widths and mixed segment/ordinary forms are checked explicitly.
+The seed implementation still uses only instructions accepted by ASM0. It encodes these forms as output for another program; it does not yet execute them. Register widths and mixed segment/ordinary forms are checked explicitly.
 
 ## Enter the source
 
@@ -378,7 +380,7 @@ CALL LOOK
 
 ## Build the stopping point
 
-Run `CHECK ASMKEEP`, enter `A10` at `Source name:`, and require `OK 03307 bytes` and PASS. This uses the preceding published ASM86, not the new checkpoint. It creates A10.COM.
+Run `CHECK ASMKEEP`, enter `A10` at `Source name:`, and require `OK 03307 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. It creates A10.COM.
 
 VIEW.BAS must report A10.COM length 3307 bytes. Keep that executable and source together.
 
@@ -415,14 +417,7 @@ In VIEW.BAS, inspect RESULT.COM. Require length **11 bytes** and these complete 
 B2 41 B4 02 CD 21 B8 00 4C CD 21
 ```
 
-This fixture is a complete program. Save it before another assembly and execute it:
-
-```dos
-COPY RESULT.COM TRY.COM
-CHECK TRY
-```
-
-It displays "A" and the checker reports PASS.
+The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
 
 ## A rejection check
 

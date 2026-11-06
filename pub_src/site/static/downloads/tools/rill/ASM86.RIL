@@ -1,0 +1,495 @@
+// Two passes, exact-spelling symbols, bounded blocks, and explicit 8086 encodings.
+let mut input = 0; let mut output = 0; let mut own = 0; let mut backup = 0;
+let mut inpos = 0; let mut inlen = 0; let mut outlen = 0;
+let mut line = 0; let mut linehi = 0; let mut ended = 0; let mut skipline = 0;
+let mut pos = 0; let mut length = 0; let mut toklen = 0;
+let mut pass = 1; let mut pc = 256; let mut endpc = 0;
+let mut symbols = 0; let mut seen = 0; let mut hashblock = 0;
+let mut symid = 0; let mut bucket = 0; let mut headid = 0;
+let mut unresolved = 0; let mut exprdepth = 0;
+let mut entries = 0; let mut kind = 0; let mut op = 0;
+let mut okind = 0; let mut width = 2; let mut reg = 0;
+let mut mode = 0; let mut rm = 0; let mut disp = 0; let mut prefix = 0;
+let mut val = 0; let mut mask = 0; let mut had = 0;
+bytes pages[16]; bytes decimal[10];
+bytes inbuf[4096]; bytes outbuf[4096];
+bytes source[1024]; bytes token[64]; bytes savedname[32];
+bytes first[16]; bytes ops[2048];
+fn main() {
+    initops();
+    if exists("ASMA.TMP") != 0 { fail(8); }
+    if exists("RESULT.BAK") != 0 { fail(8); }
+    let mut i = 0;
+    while i < 8 {
+        store16(pages+i*2,alloc(40960)); if status() { fail(7); } i = i+1;
+    }
+    hashblock = alloc(8192); if status() { fail(7); }
+    i = 0; while i < 4096 { set16(hashblock,i*2,0); i = i+1; }
+    while pass <= 2 {
+        pc = 256; line = 0; linehi = 0; inpos = 0; inlen = 0; ended = 0; skipline = 0;
+        input = open("SOURCE.ASM"); if status() { fail(6); }
+        if pass == 2 { output = create("ASMA.TMP"); if status() { fail(6); } own = 1; }
+        while readline() { pos = 0; statement(); }
+        close(input); if status() { fail(6); } input = 0;
+        if pass == 1 { endpc = pc; }
+        else { if pc != endpc { fail(3); } if seen != symbols { fail(3); } }
+        pass = pass+1;
+    }
+    flush(); close(output); if status() { fail(6); } output = 0;
+    let mut present=exists("RESULT.COM");
+    if status() { fail(6); }
+    if present {
+        rename("RESULT.COM","RESULT.BAK"); if status() { fail(6); } backup = 1;
+    }
+    rename("ASMA.TMP","RESULT.COM"); if status() { fail(6); } own = 0;
+    if backup { delete("RESULT.BAK"); if status() { fail(6); } backup = 0; }
+    if release() { fail(7); } print("OK RESULT.COM "); printnum(pc-256); print(" bytes\r\n"); return 0;
+}
+fn release() {
+    let mut i = 0; let mut h = 0; let mut failed = 0;
+    while i < 8 {
+        h = load16(pages+i*2);
+        if h { free(h); if status() { failed = 1; } else { store16(pages+i*2,0); } }
+        i = i+1;
+    }
+    if hashblock { free(hashblock); if status() { failed = 1; } else { hashblock = 0; } }
+    return failed;
+}
+fn opentry(n,k,o) {
+    let mut p = ops+entries*6; store16(p,n); store16(p+2,k); store16(p+4,o);
+    entries = entries+1; return 0;
+}
+fn page(id) { if id == 0 { fail(3); } return load16(pages+((id-1)/1024)*2); }
+fn offset(id) { return ((id-1)%1024)*40; }
+fn sw(id,at) { return get16(page(id),offset(id)+at); }
+fn setsw(id,at,v) { return set16(page(id),offset(id)+at,v); }
+fn validname() {
+    if toklen == 0 { fail(3); } if toklen > 31 { fail(3); }
+    if letter(token[0]) == 0 { fail(3); }
+    let mut i = 0; let mut c = 0;
+    while i < toklen {
+        c = token[i]; if letter(c) == 0 { if c < 48 { fail(3); } if c > 57 { fail(3); } } i = i+1;
+    }
+    return 0;
+}
+fn lookup() {
+    validname(); let mut h = 0; let mut i = 0; let mut same = 0; let mut p = 0; let mut at = 0;
+    while token[i] { h = ((h<<5)|(h>>11))^token[i]; i = i+1; }
+    bucket = (h&4095)*2; headid = get16(hashblock,bucket); symid = headid;
+    while symid {
+        p = page(symid); at = offset(symid); i = 0; same = 1;
+        while same {
+            if token[i] != get8(p,at+i) { same = 0; }
+            else { if token[i] == 0 { return symid; } i = i+1; }
+        }
+        symid = sw(symid,34);
+    }
+    return 0;
+}
+fn define(v,k) {
+    if register() != 65535 { fail(3); } lookup();
+    let mut i = 0; let mut p = 0; let mut at = 0;
+    if pass == 1 {
+        if symid { fail(3); } if symbols == 8192 { fail(5); }
+        symbols = symbols+1; symid = symbols; p = page(symid); at = offset(symid);
+        while i < 40 { set8(p,at+i,0); i = i+1; }
+        i = 0; while token[i] { set8(p,at+i,token[i]); i = i+1; }
+        setsw(symid,32,v); setsw(symid,34,headid); setsw(symid,38,k); set16(hashblock,bucket,symid);
+    }
+    else {
+        if symid == 0 { fail(3); }
+        if sw(symid,32) != v { fail(3); } if sw(symid,38) != k { fail(3); }
+        if sw(symid,36) { fail(3); } setsw(symid,36,1); seen = seen+1;
+    }
+    return 0;
+}
+fn symbolvalue() {
+    lookup(); if symid { return sw(symid,32); }
+    if pass == 2 { fail(3); } unresolved = 1; return 0;
+}
+fn scan() {
+    toklen = 0; while source[pos] == 32 | source[pos] == 9 { pos = pos+1; }
+    let mut c = source[pos]; if c == 0 | c == 59 { token[0] = 0; return 0; }
+    if separate(c) { token[0] = c; token[1] = 0; toklen = 1; pos = pos+1; return 0; }
+    while c != 0 {
+        if c == 32 | c == 9 | c == 59 { c = 0; }
+        else { if separate(c) { c = 0; } }
+        if c != 0 {
+            if toklen == 63 { fail(1); }
+            if c >= 97 { if c <= 122 { c = c-32; } }
+            token[toklen] = c; toklen = toklen+1; pos = pos+1; c = source[pos];
+        }
+    }
+    token[toklen] = 0; return 0;
+}
+fn separate(c) {
+    if c == 44 | c == 58 | c == 91 | c == 93 | c == 43 | c == 45 | c == 40 | c == 41 | c == 34 { return 1; } return 0;
+}
+fn number() {
+    let mut i = 0; let mut n = 0; let mut radix = 10; let mut end = toklen; let mut d = 0;
+    if end == 0 { fail(2); }
+    if token[end-1] == 72 { radix = 16; end = end-1; if end == 0 { fail(2); } }
+    while i < end {
+        d = token[i]; if d >= 65 { d = d-55; } else { d = d-48; }
+        if d >= radix { fail(2); } if n > (65535-d)/radix { fail(2); }
+        n = n*radix+d; i = i+1;
+    }
+    return n;
+}
+fn expression() {
+    let mut n = primary(); let mut oldpos = 0; let mut sign = 0; let mut v = 0;
+    while 1 {
+        oldpos = pos; scan(); sign = token[0];
+        if toklen != 1 { pos = oldpos; return n; }
+        if sign != 43 { if sign != 45 { pos = oldpos; return n; } }
+        scan(); v = primary(); if sign == 43 { n = n+v; } else { n = n-v; }
+    }
+}
+fn primary() {
+    exprdepth = exprdepth+1; if exprdepth > 16 { fail(5); }
+    let mut n = 0; let mut c = token[0];
+    if c == 43 | c == 45 {
+        scan(); n = primary(); if c == 45 { n = 0-n; }
+    }
+    else {
+        if c == 40 { scan(); n = expression(); scan(); if !same(token,")") { fail(1); } }
+        else {
+            if same(token,"$") { n = pc; }
+            else {
+                if c >= 48 { if c <= 57 { n = number(); } else { n = symbolvalue(); } }
+                else { n = symbolvalue(); }
+            }
+        }
+    }
+    exprdepth = exprdepth-1; return n;
+}
+fn register() {
+    let mut p = "AL\0CL\0DL\0BL\0AH\0CH\0DH\0BH\0AX\0CX\0DX\0BX\0SP\0BP\0SI\0DI\0ES\0CS\0SS\0DS\0";
+    let mut i = 0; while i < 20 { if same(token,p+i*3) { return i; } i = i+1; } return 65535;
+}
+fn operand() {
+    okind = 0; width = 2; reg = 0; mode = 0; rm = 0; disp = 0; prefix = 0; val = 0;
+    scan(); let mut qualified = 0; let mut r = 0;
+    if same(token,"BYTE") { qualified = 1; width = 0; scan(); }
+    else { if same(token,"WORD") { qualified = 1; width = 1; scan(); } }
+    r = register();
+    if r >= 16 { if r != 65535 {
+        r = r-16; let mut oldpos = pos; scan();
+        if same(token,":") { prefix = 38+r*8; scan(); }
+        else { pos = oldpos; if qualified { fail(1); } okind = 4; width = 1; reg = r; return 0; }
+        if !same(token,"[") { fail(1); } memory(); return 0;
+    } }
+    if same(token,"[") { memory(); return 0; }
+    if qualified { fail(1); }
+    if r != 65535 { okind = 1; width = r/8; reg = r%8; return 0; }
+    okind = 3; val = expression(); return 0;
+}
+fn memory() {
+    okind = 2; mask = 0; had = 0; disp = 0;
+    let mut sign = 1; let mut r = 0; let mut bit = 0; let mut done = 0;
+    while done == 0 {
+        scan(); r = register(); bit = 0;
+        if r == 11 { bit = 1; } if r == 13 { bit = 2; } if r == 14 { bit = 4; } if r == 15 { bit = 8; }
+        if bit {
+            if sign == 65535 { fail(1); } if mask & bit { fail(1); } mask = mask|bit;
+        }
+        else {
+            if r != 65535 { fail(1); }
+            val = expression(); if sign == 1 { disp = disp+val; } else { disp = disp-val; } had = 1;
+        }
+        scan(); if same(token,"]") { done = 1; }
+        else {
+            if same(token,"+") { sign = 1; }
+            else { if same(token,"-") { sign = 65535; } else { fail(1); } }
+        }
+    }
+    mode = 0; rm = 0;
+    if mask == 0 { rm = 6; return 0; }
+    if mask == 1 { rm = 7; }
+    else { if mask == 2 { rm = 6; }
+    else { if mask == 4 { rm = 4; }
+    else { if mask == 8 { rm = 5; }
+    else { if mask == 5 { rm = 0; }
+    else { if mask == 9 { rm = 1; }
+    else { if mask == 6 { rm = 2; }
+    else { if mask == 10 { rm = 3; } else { fail(1); } } } } } } } }
+    if had { mode = 2; }
+    else { if mask == 2 { mode = 1; disp = 0; } }
+    return 0;
+}
+fn savefirst() {
+    store16(first,okind); store16(first+2,width); store16(first+4,reg);
+    store16(first+6,mode); store16(first+8,rm); store16(first+10,disp); store16(first+12,prefix); return 0;
+}
+fn usefirst() {
+    okind = load16(first); width = load16(first+2); reg = load16(first+4);
+    mode = load16(first+6); rm = load16(first+8); disp = load16(first+10); prefix = load16(first+12); return 0;
+}
+fn checkwidth(w) { if width == 2 { width = w; } else { if width != w { fail(1); } } return 0; }
+fn knownwidth() { if width == 2 { fail(1); } return 0; }
+fn encode(code,field) {
+    if prefix { emit(prefix); } emit(code);
+    if okind == 1 { emit(192+field*8+reg); return 0; }
+    if okind != 2 { fail(1); }
+    emit(mode*64+field*8+rm);
+    if mode == 1 { emit(disp); }
+    else { if mode == 2 | rm == 6 { emitword(disp); } }
+    return 0;
+}
+fn immediate(n) { if width == 0 { emitbyte(n); } else { emitword(n); } return 0; }
+fn statement() {
+    unresolved = 0; scan(); if toklen == 0 { return 0; }
+    let mut oldpos = pos; let mut i = 0; let mut p = 0; let mut found = 0;
+    while source[pos] == 32 | source[pos] == 9 { pos = pos+1; }
+    if source[pos] == 58 { pos = pos+1; define(pc,0); finish(); return 0; }
+    i = 0; while i <= toklen { if i >= 32 { breakerror(); } savedname[i] = token[i]; i = i+1; }
+    scan();
+    if same(token,"EQU") {
+        scan(); let mut n = expression(); if unresolved { fail(3); } finish(); copytoken(savedname); define(n,1); return 0;
+    }
+    pos = oldpos; copytoken(savedname); i = 0;
+    while i < entries {
+        p = ops+i*6;
+        if same(token,load16(p)) { found = 1; i = entries; } else { i = i+1; }
+    }
+    if found == 0 { fail(1); } kind = load16(p+2); op = load16(p+4);
+    if kind == 1 { return data(op); }
+    if kind == 2 { finish(); emit(op); return 0; }
+    if kind == 5 { return single(); }
+    if kind == 6 { scan(); let mut n = expression(); finish(); emit(205); emitbyte(n); return 0; }
+    if kind == 7 { return nearjump(); }
+    if kind == 8 { return conditional(); }
+    if kind == 9 { return group(); }
+    if kind == 10 { return shift(); }
+    if kind == 12 { return reserve(); }
+    if kind == 13 { return repeat(); }
+    if kind == 14 { return retop(); }
+    operand(); savefirst(); scan(); if !same(token,",") { fail(1); } operand(); finish();
+    if kind == 3 { return movop(); }
+    if kind == 11 { return leaop(); }
+    return mathop();
+}
+fn copytoken(s) { let mut i = 0; while 1 { token[i] = load8(s+i); if token[i] == 0 { toklen = i; return 0; } i = i+1; } }
+fn breakerror() { fail(3); return 0; }
+fn data(w) {
+    let mut n = 0; let mut c = 0; let mut done = 0;
+    while done == 0 {
+        while source[pos] == 32 | source[pos] == 9 { pos = pos+1; }
+        if source[pos] == 34 {
+            if w { fail(1); } pos = pos+1; let mut quoted = 1;
+            while quoted {
+                c = source[pos]; pos = pos+1; if c == 0 { fail(1); }
+                if c == 34 {
+                    if source[pos] == 34 { pos = pos+1; emit(c); } else { quoted = 0; }
+                }
+                else { emit(c); }
+            }
+        }
+        else { scan(); n = expression(); if w { emitword(n); } else { emitbyte(n); } }
+        scan(); if token[0] == 0 { done = 1; } else { if !same(token,",") { fail(1); } }
+    }
+    return 0;
+}
+fn reserve() {
+    scan(); let mut n = expression(); finish(); if unresolved { fail(3); }
+    if op { if n > 30592 { fail(5); } n = n*2; }
+    if n > 61440-pc { fail(5); }
+    while n { emit(0); n = n-1; } return 0;
+}
+fn single() {
+    operand(); finish(); if okind != 1 { fail(1); } if width != 1 { fail(1); } emit(op+reg); return 0;
+}
+fn nearjump() {
+    operand(); finish();
+    if okind == 3 { let mut n = val-(pc+3); emit(op); emitword(n); return 0; }
+    if okind > 2 { fail(1); } checkwidth(1);
+    if op == 232 { encode(255,2); } else { encode(255,4); } return 0;
+}
+fn conditional() {
+    scan(); let mut wide = 0; if same(token,"NEAR") { wide = 1; scan(); }
+    let mut n = expression(); finish();
+    if wide { n = n-(pc+5); emit(op^1); emit(3); emit(233); emitword(n); }
+    else { n = n-(pc+2); if pass == 2 { if n > 127 { if n < 65408 { fail(4); } } } emit(op); emit(n); }
+    return 0;
+}
+fn retop() {
+    scan(); if token[0] == 0 { emit(195); return 0; }
+    let mut n = expression(); finish(); emit(194); emitword(n); return 0;
+}
+fn repeat() {
+    scan(); let mut n = 0;
+    if same(token,"MOVSB") { n = 164; } if same(token,"MOVSW") { n = 165; }
+    if same(token,"STOSB") { n = 170; } if same(token,"STOSW") { n = 171; }
+    if same(token,"LODSB") { n = 172; } if same(token,"LODSW") { n = 173; }
+    if n == 0 { fail(1); } finish(); emit(243); emit(n); return 0;
+}
+fn group() { operand(); finish(); if okind > 2 { fail(1); } knownwidth(); encode(246+width,op); return 0; }
+fn shift() {
+    operand(); savefirst(); scan(); if !same(token,",") { fail(1); } scan();
+    let mut code = 208;
+    if same(token,"CL") { code = 210; }
+    else { let mut n = expression(); if unresolved { fail(4); } if n != 1 { fail(4); } }
+    finish(); usefirst(); if okind > 2 { fail(1); } knownwidth(); encode(code+width,op); return 0;
+}
+fn movop() {
+    let mut k = load16(first); let mut w = load16(first+2); let mut r = load16(first+4);
+    let mut n = val; let mut rightreg = reg; let mut rightwidth = width;
+    if k == 4 {
+        if r == 1 { fail(1); } if okind > 2 { fail(1); } checkwidth(1); encode(142,r); return 0;
+    }
+    if okind == 4 { usefirst(); if okind > 2 { fail(1); } checkwidth(1); encode(140,rightreg); return 0; }
+    if okind == 3 {
+        usefirst(); if okind == 1 { emit(176+width*8+reg); immediate(n); return 0; }
+        if okind != 2 { fail(1); } knownwidth(); encode(198+width,0); immediate(n); return 0;
+    }
+    if k == 1 { if okind > 2 { fail(1); } checkwidth(w); encode(138+width,r); return 0; }
+    if k != 2 { fail(1); } if okind != 1 { fail(1); }
+    usefirst(); checkwidth(rightwidth); encode(136+width,rightreg); return 0;
+}
+fn mathop() {
+    let mut k = load16(first); let mut w = load16(first+2); let mut r = load16(first+4);
+    let mut n = val; let mut rightreg = reg; let mut rightwidth = width; let mut code = 0;
+    if okind == 3 {
+        usefirst(); if okind > 2 { fail(1); } knownwidth();
+        if kind == 15 { encode(246+width,0); } else { encode(128+width,op); }
+        immediate(n); return 0;
+    }
+    if k == 1 {
+        if okind > 2 { fail(1); } checkwidth(w);
+        code = op*8+2+width; if kind == 15 { code = 132+width; } encode(code,r); return 0;
+    }
+    if k != 2 { fail(1); } if okind != 1 { fail(1); }
+    usefirst(); checkwidth(rightwidth); code = op*8+width;
+    if kind == 15 { code = 132+width; } encode(code,rightreg); return 0;
+}
+fn leaop() {
+    if load16(first) != 1 { fail(1); } if load16(first+2) != 1 { fail(1); }
+    if okind != 2 { fail(1); } if prefix { fail(1); } encode(141,load16(first+4)); return 0;
+}
+fn emit(n) {
+    if pc >= 61440 { fail(5); } pc = pc+1;
+    if pass == 2 { outbuf[outlen] = n; outlen = outlen+1; if outlen == 4096 { flush(); } }
+    return 0;
+}
+fn emitbyte(n) { if pass == 2 { if n > 255 { fail(4); } } emit(n); return 0; }
+fn emitword(n) { emit(n&255); emit(n>>8); return 0; }
+fn flush() {
+    if outlen { let mut n = write(output,outbuf,outlen); if status() { fail(6); } if n != outlen { fail(6); } outlen = 0; } return 0;
+}
+fn readbyte() {
+    if ended { return 65535; }
+    if inpos == inlen {
+        inlen = read(input,inbuf,4096); if status() { fail(6); } inpos = 0;
+        if inlen == 0 { ended = 1; return 65535; }
+    }
+    let mut c = inbuf[inpos]; inpos = inpos+1; if c == 26 { ended = 1; return 65535; } return c;
+}
+fn readline() {
+    let mut c = 0; length = 0;
+    while 1 {
+        c = readbyte(); if c == 65535 { if length == 0 { return 0; } return endline(); }
+        if c == 10 { if skipline { skipline = 0; } else { return endline(); } }
+        else {
+            skipline = 0; if c == 13 { skipline = 1; return endline(); }
+            if c < 32 { if c != 9 { fail(1); } } if c >= 127 { fail(1); }
+            if length == 1023 { fail(5); } source[length] = c; length = length+1;
+        }
+    }
+}
+fn endline() { source[length] = 0; line = line+1; if line == 0 { linehi = linehi+1; if linehi == 0 { fail(5); } } return 1; }
+fn same(a,b) { let mut i = 0; while load8(a+i) == load8(b+i) { if load8(a+i) == 0 { return 1; } i = i+1; } return 0; }
+fn letter(c) { if c == 95 { return 1; } if c < 65 { return 0; } if c > 90 { return 0; } return 1; }
+fn finish() { scan(); if toklen { fail(1); } return 0; }
+fn print(s) { while load8(s) { putc(load8(s)); s = s+1; } return 0; }
+fn printnum(n) {
+    let mut place = 10000; let mut c = 0;
+    while place { c = 48; while n >= place { n = n-place; c = c+1; } putc(c); place = place/10; } return 0;
+}
+fn fail(code) {
+    if input { close(input); } if output { close(output); }
+    let mut recovery = 0;
+    if backup { rename("RESULT.BAK","RESULT.COM"); if status() { recovery = 1; } }
+    if recovery == 0 { if own { delete("ASMA.TMP"); if status() { recovery=1; } } }
+    release(); print("ERROR "); print32(linehi,line); print(" CODE "); printnum(code); print("\r\n"); if recovery { print("Recovery: inspect ASMA.TMP and RESULT.BAK\r\n"); } exit(1); return 0;
+}
+
+// Divide a pair of words by ten without requiring a wider machine value.
+fn print32(hi,lo) {
+    let mut i = 0; let mut qhi = 0; let mut rem = 0;
+    let mut qlo = 0; let mut bit = 0;
+    while i < 10 {
+        qhi = hi/10; rem = hi%10; qlo = 0; bit = 32768;
+        while bit {
+            rem = rem*2; if lo & bit { rem = rem+1; }
+            qlo = qlo*2;
+            if rem >= 10 { rem = rem-10; qlo = qlo+1; }
+            bit = bit>>1;
+        }
+        decimal[i] = rem+48; hi = qhi; lo = qlo; i = i+1;
+    }
+    while i { i = i-1; putc(decimal[i]); } return 0;
+}
+
+fn initops() {
+    opentry("DB",1,0);
+    opentry("DW",1,1);
+    opentry("NOP",2,144);
+    opentry("RET",14,195);
+    opentry("CLD",2,252);
+    opentry("LODSB",2,172);
+    opentry("STOSB",2,170);
+    opentry("MOV",3,0);
+    opentry("ADD",4,0);
+    opentry("OR",4,1);
+    opentry("AND",4,4);
+    opentry("SUB",4,5);
+    opentry("XOR",4,6);
+    opentry("CMP",4,7);
+    opentry("INC",5,64);
+    opentry("DEC",5,72);
+    opentry("PUSH",5,80);
+    opentry("POP",5,88);
+    opentry("INT",6,205);
+    opentry("CALL",7,232);
+    opentry("JMP",7,233);
+    opentry("JB",8,114);
+    opentry("JAE",8,115);
+    opentry("JE",8,116);
+    opentry("JNE",8,117);
+    opentry("JBE",8,118);
+    opentry("JA",8,119);
+    opentry("JL",8,124);
+    opentry("JGE",8,125);
+    opentry("JLE",8,126);
+    opentry("JG",8,127);
+    opentry("RESB",12,0);
+    opentry("RESW",12,1);
+    opentry("LEA",11,0);
+    opentry("ADC",4,2);
+    opentry("SBB",4,3);
+    opentry("TEST",15,0);
+    opentry("NEG",9,3);
+    opentry("NOT",9,2);
+    opentry("MUL",9,4);
+    opentry("IMUL",9,5);
+    opentry("DIV",9,6);
+    opentry("IDIV",9,7);
+    opentry("SHL",10,4);
+    opentry("SAL",10,4);
+    opentry("SHR",10,5);
+    opentry("SAR",10,7);
+    opentry("ROL",10,0);
+    opentry("ROR",10,1);
+    opentry("RCL",10,2);
+    opentry("RCR",10,3);
+    opentry("LODSW",2,173);
+    opentry("STOSW",2,171);
+    opentry("MOVSB",2,164);
+    opentry("MOVSW",2,165);
+    opentry("REP",13,243);
+    opentry("JZ",8,116);
+    opentry("JNZ",8,117);
+    opentry("JC",8,114);
+    opentry("JNC",8,115);
+    return 0;
+}

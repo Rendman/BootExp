@@ -29,7 +29,7 @@ data=TEMPLATE[positions['PROMPT']:]
 matches=list(re.finditer(r'^([A-Z][A-Z0-9_]*):$',data,re.M))
 FIELDS={m.group(1):data[m.start():matches[i+1].start() if i+1<len(matches) else len(data)].strip()+'\n' for i,m in enumerate(matches)}
 FIELDORDER=list(FIELDS)
-FIELDS['HELLOMSG']='HELLOMSG:\nDB 65,83,77,56,54,13,10,36\n'
+FIELDS['HELLOMSG']='HELLOMSG:\nDB 65,83,77,48,13,10,36\n'
 FIELDS['READYMSG']='READYMSG:\nDB 82,69,65,68,89,13,10,36\n'
 FIELDS['OPENMSG']='OPENMSG:\nDB 79,112,101,110,101,100,13,10,36\n'
 FIELDS['BUFFERMSG']='BUFFERMSG:\nDB 66,117,102,102,101,114,101,100,32,36\n'
@@ -188,7 +188,7 @@ add('A message from assembly','A short DOS program, built with the BASIC assembl
 TEXT is a small subroutine with DX as its input. It changes AH and the flags DOS leaves behind; DOS may also return a value in AL. It does not save AX, because the caller has no AX value to retain. CALL pushes a two-byte return offset and RET takes it back. GOOD then uses function 4CH with a zero return code.
 
 The labels name offsets beginning at 0100H. Neither ORG nor a segment directive is needed or accepted. Each DB item is an ASCII character code, and the BASIC assembler writes the machine bytes without a file header.''',
- driver('MOV DX,HELLOMSG\nCALL TEXT',memory=False,name=False),payload='ASM86\r\n')
+ driver('MOV DX,HELLOMSG\nCALL TEXT',memory=False,name=False),payload='ASM0\r\n')
 add('Numbers in the report','Display an unsigned word without a divide instruction.',
 'An assembly-language tool needs to report counts. We shall print an unsigned word as five decimal digits using repeated subtraction.',
 '''NUMBER takes its value in AX and preserves every word register. The five PUSH instructions save AX, BX, CX, DX, and SI; the POP instructions restore them in reverse order. DI and BP are not touched. The routine uses ten stack bytes for its saved registers, in addition to its return address.

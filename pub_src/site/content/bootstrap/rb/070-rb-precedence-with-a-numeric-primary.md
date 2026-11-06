@@ -1,19 +1,16 @@
 +++
-title = "RB37 \u00b7 Precedence with a numeric primary"
+title = "37 \u00b7 Translating an Expression"
 weight = 37
 description = "Save the pending operator and precedence in local slots."
 download = "RB37.IR"
-download_group = "rb"
+download_group = "tools/rillboot"
 aliases = ["/bootstrap/rill/070-rb-precedence-with-a-numeric-primary/"]
+reader_names = 1
 +++
-
-Save the pending operator and precedence in local slots.
 
 ## The working parts
 
 Save the pending operator and precedence in local slots. Emit PUSH for the left operand, recurse at one higher minimum precedence for the right, then emit the operation. A bounded recursion counter prevents uncontrolled nesting.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -29,7 +26,7 @@ LABEL BINDONE
 CALL OUTSTR
 ```
 
-Insert after old physical line 1452.
+Insert after old physical line 1450.
 
 Insert:
 
@@ -67,7 +64,7 @@ LIT 7
 RETURN
 ```
 
-Insert after old physical line 1328.
+Insert after old physical line 1326.
 
 Insert:
 
@@ -215,13 +212,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000047229 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 17342 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000047030 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 17319 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RB37.COM
 ```
 
-VIEW.BAS must report RB37.COM length 17342 bytes. Keep this executable and its source together.
+VIEW.BAS must report RB37.COM length 17319 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -239,26 +236,18 @@ COPY TRB37.RIL SOURCE.RIL
 CHECK RB37
 ```
 
-Require, apart from command echo and the checker's separator:
+The checker must report PASS. Inspect the emitted file below.
+
+Use VIEW.BAS to inspect RILL.TMP. Require length 55 bytes. The complete bytes must be:
 
 ```text
-OK RILL.TMP
-PASS
+4C 49 54 20 30 30 30 30 31 0D 0A 50 55 53 48 0D
+0A 4C 49 54 20 30 30 30 30 32 0D 0A 50 55 53 48
+0D 0A 4C 49 54 20 30 30 30 30 33 0D 0A 4D 55 4C
+0D 0A 41 44 44 0D 0A
 ```
 
-TYPE RILL.TMP. Its complete text is:
-
-```ir
-LIT 00001
-PUSH
-LIT 00002
-PUSH
-LIT 00003
-MUL
-ADD
-```
-
-VIEW.BAS must show length 55 bytes. This is an IR fragment for inspection. Do not translate it as a complete program or execute any file with its name.
+This is an IR fragment for inspection. Do not translate it as a complete program or execute any file with its name.
 
 After inspection, delete this deliberately created RILL.TMP before another checkpoint. The file is diagnostic text, not an interrupted accepted compiler build.
 
@@ -286,4 +275,4 @@ An unexpected PASS fails the rejection. The pre-existing RESULT.IR must remain u
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Compare EXPR with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.

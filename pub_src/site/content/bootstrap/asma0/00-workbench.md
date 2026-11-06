@@ -1,19 +1,21 @@
 +++
 title = "The streaming seed workbench"
 weight = 0
-description = "Preserve ASM86 and construct a streaming assembler inside its published bounds."
-download = "ASMA0.ZIP"
+description = "Preserve ASM0 and construct a streaming assembler inside its published bounds."
+download = "ASM1.ZIP"
+download_group = "tools/asm1"
+reader_names = 1
 +++
 
-Begin with the completed BOOTASM and ASM86 collections. Keep BOOTASM.BAS, ASM86.ASM, VIEW.BAS, CHECK.BAT, and the tested ASM86.COM. Use the same DOS 3.10 and period GW-BASIC workbench. GWBASIC in these instructions means the interpreter's actual disk name; note its startup banner.
+Begin with the completed BOOTASM and ASM0 collections. Keep BOOTASM.BAS, ASM0.ASM, VIEW.BAS, CHECK.BAT, and the tested ASM0.COM. Use the same DOS 3.10 and period GW-BASIC workbench. GWBASIC in these instructions means the interpreter's actual disk name; note its startup banner.
 
 ## Preserve the builder
 
 ```dos
-COPY ASM86.COM ASMKEEP.COM
+COPY ASM0.COM ASMKEEP.COM
 ```
 
-ASMKEEP is the original ASM86, with its source-name prompt. It accepts an 8192-byte image, 256 definitions, 4000 physical lines, and 120 characters per line. Every A01 through A12 source fits that builder and uses its accepted language. Run CHECK ASMKEEP, enter the checkpoint base name at Source name, and require its stated OK count and PASS.
+ASMKEEP is the original ASM0, with its source-name prompt. It accepts an 8192-byte image, 256 definitions, 4000 physical lines, and 120 characters per line. Every A01 through A12 source fits that builder and uses its accepted language. Run CHECK ASMKEEP, enter the checkpoint base name at Source name, and require its stated OK count and PASS.
 
 Each article copies the preceding source under the next filename and gives exact edits from the bottom upward. Preserve both the source and executable after each stopping test. The article number and saved source name are separate locators; keep the printed disk filenames exactly as given.
 
@@ -47,4 +49,4 @@ Run GWBASIC VIEW.BAS and enter the full filename to check both length and hexade
 
 ## The seed handoff
 
-A12.ASM is ASMA0.ASM. ASMKEEP builds the 3342-byte executable; ASMA0 must then reproduce it through both self-assembly comparisons. Save that tested ASMA0.COM separately. The ASM86A workbench begins by copying this completed source, so the seed's routines need not be typed again.
+A12.ASM is ASM1.ASM. ASMKEEP builds the 3342-byte executable; ASM1 must then reproduce it through both self-assembly comparisons. Save that tested ASM1.COM separately. The ASM86 workbench begins by copying this completed source, so the seed's routines need not be typed again.

@@ -3,8 +3,9 @@ title = "Word expressions"
 weight = 49
 description = "Products, quotients, remainders, shifts, and comparisons have fixed word results. A comparison is itself zero or one, so a condition needs no special comparison parser."
 download = "EWORDS.RIL"
-download_group = "rb"
+download_group = "tools/rillboot"
 aliases = ["/bootstrap/rill/081-word-expressions/"]
+reader_names = 1
 +++
 
 Products, quotients, remainders, shifts, and comparisons have fixed word results. A comparison is itself zero or one, so a condition needs no special comparison parser.

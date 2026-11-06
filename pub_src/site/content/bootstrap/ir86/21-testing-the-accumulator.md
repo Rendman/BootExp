@@ -4,6 +4,8 @@ weight = 21
 description = "Branch on a zero or nonzero virtual accumulator."
 download = "IR21.ASM"
 cartoon = "ir86-lock.png"
+download_group = "tools/ir86"
+reader_names = 1
 +++
 
 A conditional transfer tests A as a value. Its target is a named code label; the language promises no particular processor branch instruction.
@@ -248,7 +250,7 @@ MOV CX,27
 CHECK ASMKEEP
 ```
 
-Enter `IR21` at ASM86's `Source name:` prompt. Require `OK 02980 bytes` followed by PASS. This builds `IR21.COM` directly with the completed assembler. Save the source and executable before running the test.
+Enter `IR21` at ASM0's `Source name:` prompt. Require `OK 02980 bytes` followed by PASS. This builds `IR21.COM` directly with the completed assembler. Save the source and executable before running the test.
 
 Create `T21.IR` with `COPY CON T21.IR`, enter this text, and finish with Ctrl-Z and Enter. The Ctrl-Z keystroke ends console input; it is not a printed language token.
 

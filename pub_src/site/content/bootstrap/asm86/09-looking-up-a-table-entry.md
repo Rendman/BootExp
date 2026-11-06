@@ -4,6 +4,8 @@ weight = 9
 description = "Compare a token with fixed-size records."
 download = "AS09.ASM"
 cartoon = "asm86-postroom.png"
+download_group = "tools/asm0"
+reader_names = 1
 +++
 
 Instruction names and register names belong in small tables. We shall write one search routine and test it with two records.

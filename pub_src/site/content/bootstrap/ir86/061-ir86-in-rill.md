@@ -3,7 +3,8 @@ title = "IR86 in RILL"
 weight = 61
 description = "The same virtual-machine operations, with a RILL parser and a separate native binding."
 download = "IR86.RIL"
-download_group = "toolchain"
+download_group = "tools/toolchain"
+reader_names = 1
 +++
 
 The same virtual-machine operations, with a RILL parser and a separate native binding.
@@ -14,7 +15,7 @@ The scanner and statement decoder implement the IR contract. The operation recor
 
 ## Complete source, by routine
 
-Start a plain text IR86.RIL. Enter the declarations, then append each complete procedure in the displayed order. These are parts of one complete tool; a copied fragment is not a standalone program. All prerequisites are supplied by the completed RB workbench.
+Start a plain text IR86.RIL. Enter the declarations, then append each complete procedure in the displayed order. These are parts of one complete tool; a copied fragment is not a standalone program. All prerequisites are supplied by the completed RILLBOOT workbench.
 
 ### Declarations
 

@@ -3,6 +3,8 @@ title = "27 \u00b7 Moving through memory"
 weight = 27
 description = "Use BX or one direct offset; let the register determine width."
 download = "AS27.ASM"
+download_group = "tools/asm0"
+reader_names = 1
 +++
 
 We shall add bracketed MOV operands without adding an expression parser or the processor's entire addressing vocabulary.

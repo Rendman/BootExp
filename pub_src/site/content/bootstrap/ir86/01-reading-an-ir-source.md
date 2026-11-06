@@ -3,13 +3,15 @@ title = "01 \u00b7 Reading an IR source"
 weight = 1
 description = "Carry the published file reader into a new language workshop."
 download = "IR01.ASM"
+download_group = "tools/ir86"
+reader_names = 1
 +++
 
-A translator begins by reading its source reliably. We shall use the file reader already constructed in ASM86, with an IR filename and a diagnostic display.
+A translator begins by reading its source reliably. We shall use the file reader already constructed in ASM0, with an IR filename and a diagnostic display.
 
 ## Operation and backend
 
-Begin with the saved AS07.ASM program from the ASM86 collection. Its GETNAME, OPENFILE, NEXTBYTE, READLINE, and CLOSEFILE routines provide the complete input path. The source extension is .IR; the DOS output strings still end in a dollar sign, and file extensions end in a zero byte.
+Begin with the saved AS07.ASM program from the ASM0 collection. Its GETNAME, OPENFILE, NEXTBYTE, READLINE, and CLOSEFILE routines provide the complete input path. The source extension is .IR; the DOS output strings still end in a dollar sign, and file extensions end in a zero byte.
 
 READLINE returns AX=1 with uppercase text at 2200H, or AX=0 at end of file. ZTEXT walks a zero-terminated line from SI and changes AX, DX, and SI. The driver resets SI for each line and displays a separate CR/LF. LINENO counts physical lines, including comments and blank lines.
 
@@ -200,7 +202,7 @@ Put this source in their place:
 CHECK ASMKEEP
 ```
 
-Enter `IR01` at ASM86's `Source name:` prompt. Require `OK 00605 bytes` followed by PASS. This builds `IR01.COM` directly with the completed assembler. Save the source and executable before running the test.
+Enter `IR01` at ASM0's `Source name:` prompt. Require `OK 00605 bytes` followed by PASS. This builds `IR01.COM` directly with the completed assembler. Save the source and executable before running the test.
 
 Create `T01.IR` with `COPY CON T01.IR`, enter this text, and finish with Ctrl-Z and Enter. The Ctrl-Z keystroke ends console input; it is not a printed language token.
 

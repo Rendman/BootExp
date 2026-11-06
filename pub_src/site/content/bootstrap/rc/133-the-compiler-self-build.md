@@ -3,8 +3,9 @@ title = "The compiler self-build"
 weight = 45
 description = "Compare two compiler generations made from the same RILL source."
 download = "RILL.RIL"
-download_group = "rc"
+download_group = "tools/rill"
 aliases = ["/bootstrap/rill/133-the-compiler-self-build/"]
+reader_names = 1
 +++
 
 RC43.RIL is the complete RILL compiler, saved as RILL.RIL. The IR-written seed built its first executable. VIEW.BAS must report **26625 bytes** for that RILL-written compiler. Preserve RC43.COM as R0.COM.

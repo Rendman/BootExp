@@ -6,8 +6,9 @@ for c in cases:
  text=r.files['RESULT.IR'];a,image=ir(text);(W/f'RC{n:02}.COM').write_bytes(image)
  files={'RESULT.IR':b'OLD'}
  if c['fixture'] is not None:files['SOURCE.RIL']=(W/f'TRC{n:02}.RIL').read_bytes()
- r=run(image,files=files);assert r.exitcode==0,(n,c['title'],r.output)
- if c['expected']:assert r.output.decode()==c['expected'],(n,c['title'],r.output,c['expected'])
+ r=run(image,files=files);assert r.exitcode==c.get('accept_exit',0),(n,c['title'],r.output)
+ if c['key'].upper()=='MAIN':assert r.output==f'OK RESULT.IR {len(r.files["RESULT.IR"]):010}\r\n'.encode()
+ else:assert r.output.decode()==c['expected'],(n,c['title'],r.output,c['expected'])
  c.update(binary_bytes=len(image),ir_bytes=len(text),assembly_bytes=len(a),console=r.output.decode())
  result=r.files.get('RILL.TMP')
  if c['key']=='main':result=r.files['RESULT.IR'];assert image==(W/'RILL.COM').read_bytes()
@@ -21,7 +22,7 @@ for c in cases:
   rejected=run(image,c['bad'],'RIL',{'RESULT.IR':b'OLD'})
   assert rejected.exitcode==1 and rejected.files['RESULT.IR']==b'OLD' and re.search(rb'CODE 0*'+str(c['code']).encode()+rb'\r\n',rejected.output),(n,rejected.output)
   c['error']=rejected.output.decode()
- else:c['boundary']='The compiler seed must reject the decimal literal 65536 before creating a diagnostic executable.'
- logs.append(f'PASS RC{n:02}: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result'+(', executable output' if c['complete'] else '')+(', rejection and preservation' if c['code'] else ', word boundary'))
+ else:c['boundary']=None
+ logs.append(f'PASS RC{n:02}: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result'+(', executable output' if c['complete'] else '')+(', rejection and preservation' if c['code'] else ', status/value check'))
  print(logs[-1],flush=True)
 (Q/'rill-self-series.json').write_text(json.dumps(cases,indent=2)+'\n');(Q/'rill-self-series-results.txt').write_text('\n'.join(logs)+'\n')

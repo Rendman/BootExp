@@ -3,17 +3,19 @@ title = "07 \u00b7 Naming the entry point"
 weight = 7
 description = "Prefix names and require MAIN before executable statements."
 download = "IR07.ASM"
+download_group = "tools/ir86"
+reader_names = 1
 +++
 
 A source needs an entry point and a namespace which cannot collide with registers or translator labels.
 
 ## Operation and backend
 
-NAMEARG scans and validates a name, then copies it to 2500H while preserving the line cursor. Names begin with a letter or underscore and contain letters, digits, or underscores. Their limit is fourteen characters: the emitted U_ prefix must still fit ASM86's sixteen-character label limit. Register spellings can be IR names because the prefix keeps them distinct.
+NAMEARG scans and validates a name, then copies it to 2500H while preserving the line cursor. Names begin with a letter or underscore and contain letters, digits, or underscores. Their limit is fourteen characters: the emitted U_ prefix must still fit ASM0's sixteen-character label limit. Register spellings can be IR names because the prefix keeps them distinct.
 
 The @ character in a template inserts that saved name. EXPAND saves SI while OUTTEXT walks the substitution, then resumes the template. LABEL emits a standalone U_name definition. CONTEXT requires the first executable label to be MAIN; ordinary executable statements require that code context.
 
-The header clears direction, checks the full-segment entry stack, and jumps over the declaration area to U_MAIN. A smaller entry stack returns status seven. I_ENTRY belongs to the translator's namespace. The final source must contain MAIN; missing names and duplicate definitions in emitted assembly remain ASM86 diagnostics.
+The header clears direction, checks the full-segment entry stack, and jumps over the declaration area to U_MAIN. A smaller entry stack returns status seven. I_ENTRY belongs to the translator's namespace. The final source must contain MAIN; missing names and duplicate definitions in emitted assembly remain ASM0 diagnostics.
 
 ## Source changes
 
@@ -188,7 +190,7 @@ CALL OUTTEXT
 CHECK ASMKEEP
 ```
 
-Enter `IR07` at ASM86's `Source name:` prompt. Require `OK 01518 bytes` followed by PASS. This builds `IR07.COM` directly with the completed assembler. Save the source and executable before running the test.
+Enter `IR07` at ASM0's `Source name:` prompt. Require `OK 01518 bytes` followed by PASS. This builds `IR07.COM` directly with the completed assembler. Save the source and executable before running the test.
 
 Create `T07.IR` with `COPY CON T07.IR`, enter this text, and finish with Ctrl-Z and Enter. The Ctrl-Z keystroke ends console input; it is not a printed language token.
 
@@ -255,4 +257,4 @@ An unexpected PASS is a failed rejection test. Require a fresh OK before using a
 
 ## If the result differs
 
-Check the record stride and count, the saved template pointer, and each substitution buffer. The name and numeric token must survive FINISH. Compare the generated assembly before asking ASM86 to assemble it.
+Check the record stride and count, the saved template pointer, and each substitution buffer. The name and numeric token must survive FINISH. Compare the generated assembly before asking ASM0 to assemble it.

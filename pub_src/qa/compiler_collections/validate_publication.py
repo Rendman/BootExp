@@ -31,7 +31,7 @@ for i,c in enumerate(json.loads((Q/'rc-examples.json').read_text())):
  assert blocks[2*i]+'\n'==(ROOT/'workbench/rc'/(c['name']+'.RIL')).read_text()
  assert blocks[2*i+1]==c['bad']
  assert f'{c["binary_bytes"]:05} bytes' in text and c['error'] in text
-assert 'download = "RILL.IR"' in (C/'rill/_index.md').read_text()
+assert 'download = "RILL0.IR"' in (C/'rill/_index.md').read_text()
 assert 'RC01.RIL starts a new source file' in (C/'rc/000-workbench.md').read_text()
 assert 'RILLBOOT.IR' in (C/'rb/033-the-systems-workbench.md').read_text()
 print('PASS RB/RC: 47 seed and 43 RILL compiler articles, distinct workbenches/references/examples/archives, exact canonical sources and unchanged filenames, matching language contracts')

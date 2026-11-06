@@ -3,6 +3,8 @@ title = "16 \u00b7 Writing through an address"
 weight = 16
 description = "Consume a saved pointer and retain the value being stored."
 download = "IR16.ASM"
+download_group = "tools/ir86"
+reader_names = 1
 +++
 
 A buffer writer needs a pointer and a value at the same time. The expression stack retains the pointer while A receives the value.
@@ -93,7 +95,7 @@ MOV CX,23
 CHECK ASMKEEP
 ```
 
-Enter `IR16` at ASM86's `Source name:` prompt. Require `OK 02514 bytes` followed by PASS. This builds `IR16.COM` directly with the completed assembler. Save the source and executable before running the test.
+Enter `IR16` at ASM0's `Source name:` prompt. Require `OK 02514 bytes` followed by PASS. This builds `IR16.COM` directly with the completed assembler. Save the source and executable before running the test.
 
 Create `T16.IR` with `COPY CON T16.IR`, enter this text, and finish with Ctrl-Z and Enter. The Ctrl-Z keystroke ends console input; it is not a printed language token.
 

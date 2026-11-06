@@ -2,17 +2,19 @@
 title = "30 \u00b7 The complete RILL pipeline"
 weight = 30
 description = "Carry a structured counter through IR and assembly to a working program."
-download = "RILL.IR"
+download = "RILL0.IR"
+download_group = "tools/rill0"
+reader_names = 1
 +++
 
 The compiler source is IR86, and its result is IR86. Keep both translations visible while making a complete program. Begin with the tested R29.COM and preserve the working compiler:
 
 ```dos
-COPY R29.COM RILL.COM
-COPY RILL.COM RLKEEP.COM
+COPY R29.COM RILL0.COM
+COPY RILL0.COM RLKEEP.COM
 ```
 
-RILL.COM must have length 5173 bytes in VIEW.BAS. Keep RILL.IR, IRKEEP.COM, ASMKEEP.COM, CHECK.BAT, and their sources.
+RILL0.COM must have length 5173 bytes in VIEW.BAS. Keep RILL0.IR, IRKEEP.COM, ASMKEEP.COM, CHECK.BAT, and their sources.
 
 ## Enter a complete program
 

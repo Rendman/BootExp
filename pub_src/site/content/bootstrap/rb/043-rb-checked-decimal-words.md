@@ -1,19 +1,16 @@
 +++
-title = "RB10 \u00b7 Checked decimal words"
+title = "10 \u00b7 Reading Decimal Values"
 weight = 10
 description = "Keep source position, token kind, numeric value, and complete spelling distinct."
 download = "RB10.IR"
-download_group = "rb"
+download_group = "tools/rillboot"
 aliases = ["/bootstrap/rill/043-rb-checked-decimal-words/"]
+reader_names = 1
 +++
-
-Keep source position, token kind, numeric value, and complete spelling distinct.
 
 ## The working parts
 
 Keep source position, token kind, numeric value, and complete spelling distinct. Save temporary values in local slots across NEXT calls. Paired punctuation is recognized before returning a single character; comments consume source without manufacturing a token.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -95,24 +92,26 @@ CALL NEXT
 CALL LEX
 ```
 
-Remove this source at old physical positions 42–43 in RB09.IR:
+Remove this source at old physical positions 42–44 in RB09.IR:
 
 ```ir
 ADDR IDENT
 CALL PRINT
+LIT 0
 ```
 
 Replace it with:
 
 ```ir
 LD VALUE
-CALL PRINTNUM
+PUSH
+LIT 65535
+CNE
 ```
 
 The following old source remains in place:
 
 ```ir
-LIT 0
 RETURN
 ```
 
@@ -128,13 +127,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000018975 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 12437 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000019012 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 12444 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RB10.COM
 ```
 
-VIEW.BAS must report RB10.COM length 12437 bytes. Keep this executable and its source together.
+VIEW.BAS must report RB10.COM length 12444 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -152,11 +151,7 @@ COPY TRB10.RIL SOURCE.RIL
 CHECK RB10
 ```
 
-Require, apart from command echo and the checker's separator:
-
-```text
-65535PASS
-```
+The checker must report PASS. The driver compares the result with 65535 and returns nonzero on a mismatch; it adds no display routine.
 
 ## A rejection or boundary check
 
@@ -182,4 +177,4 @@ An unexpected PASS fails the rejection. The pre-existing RESULT.IR must remain u
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Check the token class, complete spelling, and numeric value separately. Preserve the raw quoted bytes while folding names.

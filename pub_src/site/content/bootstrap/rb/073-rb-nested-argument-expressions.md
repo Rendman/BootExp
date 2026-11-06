@@ -1,19 +1,16 @@
 +++
-title = "RB40 \u00b7 Nested argument expressions"
+title = "40 \u00b7 Keeping Values Across a Procedure Call"
 weight = 40
 description = "Evaluate arguments from left to right and save each emitted result."
 download = "RB40.IR"
-download_group = "rb"
+download_group = "tools/rillboot"
 aliases = ["/bootstrap/rill/073-rb-nested-argument-expressions/"]
+reader_names = 1
 +++
-
-Evaluate arguments from left to right and save each emitted result.
 
 ## The working parts
 
 Evaluate arguments from left to right and save each emitted result. Check the complete argument count against the intrinsic or procedure record. INVOKE consumes precisely those words and preserves older expression operands.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -29,7 +26,7 @@ LIT 2
 PUSH
 ```
 
-Remove this source at old physical positions 1253–1253 in RB39.IR:
+Remove this source at old physical positions 1251–1251 in RB39.IR:
 
 ```ir
 INVOKE ERROR 1
@@ -120,7 +117,7 @@ PROC CALLARGS 2 0
 LIT 2
 ```
 
-Insert after old physical line 1251.
+Insert after old physical line 1249.
 
 Insert:
 
@@ -145,7 +142,7 @@ LOCAL 0
 RETURN
 ```
 
-Remove this source at old physical positions 1250–1250 in RB39.IR:
+Remove this source at old physical positions 1248–1248 in RB39.IR:
 
 ```ir
 PROC CALLARGS 2 0
@@ -216,13 +213,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000055326 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 18758 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000055127 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 18735 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RB40.COM
 ```
 
-VIEW.BAS must report RB40.COM length 18758 bytes. Keep this executable and its source together.
+VIEW.BAS must report RB40.COM length 18735 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -240,23 +237,16 @@ COPY TRB40.RIL SOURCE.RIL
 CHECK RB40
 ```
 
-Require, apart from command echo and the checker's separator:
+The checker must report PASS. Inspect the emitted file below.
+
+Use VIEW.BAS to inspect RILL.TMP. Require length 28 bytes. The complete bytes must be:
 
 ```text
-OK RILL.TMP
-PASS
+4C 49 54 20 30 30 30 36 35 0D 0A 50 55 53 48 0D
+0A 50 4F 50 0D 0A 50 55 54 43 0D 0A
 ```
 
-TYPE RILL.TMP. Its complete text is:
-
-```ir
-LIT 00065
-PUSH
-POP
-PUTC
-```
-
-VIEW.BAS must show length 28 bytes. This is an IR fragment for inspection. Do not translate it as a complete program or execute any file with its name.
+This is an IR fragment for inspection. Do not translate it as a complete program or execute any file with its name.
 
 After inspection, delete this deliberately created RILL.TMP before another checkpoint. The file is diagnostic text, not an interrupted accepted compiler build.
 
@@ -284,4 +274,4 @@ An unexpected PASS fails the rejection. The pre-existing RESULT.IR must remain u
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Compare CALLARGS with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.

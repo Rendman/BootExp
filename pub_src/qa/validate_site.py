@@ -74,6 +74,7 @@ runpy.run_path(str(ROOT/'qa/ir86/validate_publication.py'),run_name='__main__')
 runpy.run_path(str(ROOT/'qa/rill/validate_publication.py'),run_name='__main__')
 runpy.run_path(str(ROOT/'qa/toolchain/validate_publication.py'),run_name='__main__')
 runpy.run_path(str(ROOT/'qa/compiler_collections/validate_publication.py'),run_name='__main__')
+runpy.run_path(str(ROOT/'qa/reader_publication.py'),run_name='__main__')
 for p in CONTENT.rglob('*.md'):
  text=p.read_text().lower()
  for forbidden in ('checksum','unicorn','python','automated regression','ai-generated','ai tools'):
@@ -88,5 +89,5 @@ rill_count=len(json.loads((ROOT/'qa/rill/package-files.json').read_text()))
 tool_count=len(json.loads((ROOT/'qa/toolchain/package-files.json').read_text()))
 rb_count=len(json.loads((ROOT/'qa/compiler_collections/rb-files.json').read_text()))
 rc_count=len(json.loads((ROOT/'qa/compiler_collections/rc-files.json').read_text()))
-text=f'PASS: {count} HTML files (including {redirect_count} article redirects); all local links, assets and anchors; 59 BOOTASM + {asm_count} ASM86 + {seed_count} ASMA0 + {asma_count} ASM86A + {ir_count} IR86 + {rill_count} RILL + {rb_count} RB + {rc_count} RC + {tool_count} toolchain archive sources; ASCII/CRLF/8.3; all 17 BASIC, 29 ASM86, 12 ASMA0, 28 ASM86A, 32 IR86, 29 first RILL, 23 streaming IR, 47 compiler-seed, and 43 self-compiling RILL printed edits reconstruct exact checkpoints; editorial exclusions.'
+text=f'PASS: {count} HTML files (including {redirect_count} article redirects); all local links, assets and anchors; 59 BOOTASM + {asm_count} ASM0 + {seed_count} ASM1 + {asma_count} ASM86 + {ir_count} IR86 + {rill_count} RILL0 + {rb_count} RILLBOOT + {rc_count} RILL + {tool_count} toolchain archive sources; ASCII/CRLF/8.3; all 17 BASIC, 29 ASM0, 12 ASM1, 28 ASM86, 32 IR86, 29 first RILL, 23 streaming IR, 47 compiler-seed, and 43 self-compiling RILL printed edits reconstruct exact checkpoints; editorial exclusions.'
 print(text);(ROOT/'qa/site-results.txt').write_text(text+'\n')

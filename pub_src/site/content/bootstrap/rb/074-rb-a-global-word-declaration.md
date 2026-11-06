@@ -1,19 +1,16 @@
 +++
-title = "RB41 \u00b7 A global word declaration"
+title = "41 \u00b7 Compiling a Global Variable"
 weight = 41
 description = "A global mutable word has a literal initializer and a stable V_ name."
 download = "RB41.IR"
-download_group = "rb"
+download_group = "tools/rillboot"
 aliases = ["/bootstrap/rill/074-rb-a-global-word-declaration/"]
+reader_names = 1
 +++
-
-A global mutable word has a literal initializer and a stable V_ name.
 
 ## The working parts
 
 A global mutable word has a literal initializer and a stable V_ name. Reject duplicates before emitting its declaration.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -28,7 +25,7 @@ LIT 0
 RETURN
 ```
 
-Insert after old physical line 1124.
+Insert after old physical line 1122.
 
 Insert:
 
@@ -170,13 +167,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000056077 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 18902 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000055878 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 18879 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RB41.COM
 ```
 
-VIEW.BAS must report RB41.COM length 18902 bytes. Keep this executable and its source together.
+VIEW.BAS must report RB41.COM length 18879 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -194,20 +191,16 @@ COPY TRB41.RIL SOURCE.RIL
 CHECK RB41
 ```
 
-Require, apart from command echo and the checker's separator:
+The checker must report PASS. Inspect the emitted file below.
+
+Use VIEW.BAS to inspect RILL.TMP. Require length 18 bytes. The complete bytes must be:
 
 ```text
-OK RILL.TMP
-PASS
+57 4F 52 44 20 56 5F 41 42 43 20 30 30 30 36 35
+0D 0A
 ```
 
-TYPE RILL.TMP. Its complete text is:
-
-```ir
-WORD V_ABC 00065
-```
-
-VIEW.BAS must show length 18 bytes. This is an IR fragment for inspection. Do not translate it as a complete program or execute any file with its name.
+This is an IR fragment for inspection. Do not translate it as a complete program or execute any file with its name.
 
 After inspection, delete this deliberately created RILL.TMP before another checkpoint. The file is diagnostic text, not an interrupted accepted compiler build.
 
@@ -235,4 +228,4 @@ An unexpected PASS fails the rejection. The pre-existing RESULT.IR must remain u
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Compare GLOBALWORD with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.

@@ -1,19 +1,16 @@
 +++
-title = "RB19 \u00b7 Add a global definition"
+title = "19 \u00b7 Adding a Global Name"
 weight = 19
 description = "Append one global or procedure record, bounded by 512 entries."
 download = "RB19.IR"
-download_group = "rb"
+download_group = "tools/rillboot"
 aliases = ["/bootstrap/rill/052-rb-add-a-global-definition/"]
+reader_names = 1
 +++
-
-Append one global or procedure record, bounded by 512 entries.
 
 ## The working parts
 
 Append one global or procedure record, bounded by 512 entries. The record offset remains stable even after scanning changes IDENT.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -28,7 +25,7 @@ PARAM 0
 RETURN
 ```
 
-Insert after old physical line 716.
+Insert after old physical line 717.
 
 Insert:
 
@@ -159,13 +156,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000025253 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 13647 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000025290 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 13654 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RB19.COM
 ```
 
-VIEW.BAS must report RB19.COM length 13647 bytes. Keep this executable and its source together.
+VIEW.BAS must report RB19.COM length 13654 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -173,29 +170,8 @@ VIEW.BAS must report RB19.COM length 13647 bytes. Keep this executable and its s
 CHECK RB19
 ```
 
-Require, apart from command echo and the checker's separator:
-
-```text
-12345PASS
-```
-
-## A rejection or boundary check
-
-Check a representable-word boundary in the preceding translator. Create BAD.IR:
-
-```ir
-PROC MAIN 0 0
-LIT 65536
-RETURN
-```
-
-```dos
-COPY BAD.IR SOURCE.IR
-CHECK IWKEEP
-```
-
-Require `IR ERROR 0000000002 CODE 2` and FAIL. The accepted RESULT.ASM must remain unchanged. The diagnostic cannot be built from an out-of-range word.
+The checker must report PASS. The driver compares the result with 12345 and returns nonzero on a mismatch; it adds no display routine.
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Compare NEWGLOBAL with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.

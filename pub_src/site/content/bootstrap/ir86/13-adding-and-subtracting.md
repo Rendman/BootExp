@@ -3,6 +3,8 @@ title = "13 \u00b7 Adding and subtracting"
 weight = 13
 description = "Combine a saved left operand with the accumulator right operand."
 download = "IR13.ASM"
+download_group = "tools/ir86"
+reader_names = 1
 +++
 
 An arithmetic operation consumes the saved left operand and leaves its result in A.
@@ -93,7 +95,7 @@ MOV CX,15
 CHECK ASMKEEP
 ```
 
-Enter `IR13` at ASM86's `Source name:` prompt. Require `OK 02226 bytes` followed by PASS. This builds `IR13.COM` directly with the completed assembler. Save the source and executable before running the test.
+Enter `IR13` at ASM0's `Source name:` prompt. Require `OK 02226 bytes` followed by PASS. This builds `IR13.COM` directly with the completed assembler. Save the source and executable before running the test.
 
 Create `T13.IR` with `COPY CON T13.IR`, enter this text, and finish with Ctrl-Z and Enter. The Ctrl-Z keystroke ends console input; it is not a printed language token.
 

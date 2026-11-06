@@ -3,6 +3,8 @@ title = "10 \u00b7 Named assembly constants"
 weight = 10
 description = "Give a known value a name without allocating bytes."
 download = "A22.ASM"
+download_group = "tools/asm86"
+reader_names = 1
 +++
 
 An explicit constant can replace repeated counts while leaving the location counter unchanged.
@@ -360,7 +362,7 @@ MOV AL,[0CC00H]
 
 ```dos
 COPY A22.ASM SOURCE.ASM
-CHECK ASMA0
+CHECK ASM1
 ```
 
 Require `OK RESULT.COM 04728 bytes` and PASS. Preserve this executable before using its fixed output name:
@@ -401,7 +403,7 @@ In VIEW.BAS, inspect RESULT.COM. Require length **2 bytes** and these complete c
 03 00
 ```
 
-This result is an encoding or data exercise. Inspect its bytes; do not execute it.
+The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
 
 ## A rejection check
 

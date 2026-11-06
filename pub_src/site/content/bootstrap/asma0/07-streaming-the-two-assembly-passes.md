@@ -4,6 +4,8 @@ weight = 7
 description = "Return to the assembler with no complete image buffer."
 download = "A07.ASM"
 aliases = ["/bootstrap/asm86a/07-streaming-the-two-assembly-passes/"]
+download_group = "tools/asm1"
+reader_names = 1
 +++
 
 The tested block writer can now receive bytes as pass two produces them.
@@ -12,7 +14,7 @@ The tested block writer can now receive bytes as pass two produces them.
 
 Pass one records definitions and counts instruction bytes without writing. Its final PC is saved in ENDPC. Pass two creates the temporary output, reopens the source, emits incrementally, and must finish at the same PC. FLUSH, CLOSEOUT, and COMMIT run only after successful source close.
 
-PC describes the target; OUTCNT describes the current block. They are independent. Input, parser, or range errors remove this run's temporary file and preserve an older RESULT.COM. The accepted language remains the published ASM86 vocabulary.
+PC describes the target; OUTCNT describes the current block. They are independent. Input, parser, or range errors remove this run's temporary file and preserve an older RESULT.COM. The accepted language remains the published ASM0 vocabulary.
 
 ## Enter the source
 
@@ -227,7 +229,7 @@ MOV [RDPOS],AX
 
 ## Build the stopping point
 
-Run `CHECK ASMKEEP`, enter `A07` at `Source name:`, and require `OK 03056 bytes` and PASS. This uses the preceding published ASM86, not the new checkpoint. It creates A07.COM.
+Run `CHECK ASMKEEP`, enter `A07` at `Source name:`, and require `OK 03056 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. It creates A07.COM.
 
 VIEW.BAS must report A07.COM length 3056 bytes. Keep that executable and source together.
 
@@ -264,14 +266,7 @@ In VIEW.BAS, inspect RESULT.COM. Require length **11 bytes** and these complete 
 B2 41 B4 02 CD 21 B8 00 4C CD 21
 ```
 
-This fixture is a complete program. Save it before another assembly and execute it:
-
-```dos
-COPY RESULT.COM TRY.COM
-CHECK TRY
-```
-
-It displays "A" and the checker reports PASS.
+The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
 
 ## A rejection check
 

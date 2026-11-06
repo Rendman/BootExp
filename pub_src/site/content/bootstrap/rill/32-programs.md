@@ -2,7 +2,9 @@
 title = "Complete RILL programs"
 weight = 32
 description = "Byte output, a mutable counter, unsigned choice, and a checked byte-stream echo."
-download = "RILL.ZIP"
+download = "RILL0.ZIP"
+download_group = "tools/rill0"
+reader_names = 1
 +++
 
 These programs use the completed compiler. For each NAME.RIL, copy it to SOURCE.RIL and run CHECK RLKEEP. Require the compiler count and PASS; copy RESULT.IR to NAME.IR. Run CHECK IRKEEP and CHECK ASMKEEP, entering NAME at each prompt, requiring both OK reports and PASS before executing NAME.COM.
@@ -20,7 +22,7 @@ fn main() {
 
 Each putc statement writes one ASCII byte. There are no string literals, so each character is explicit. The normal end returns zero.
 
-Require compiler `OK RESULT.IR 00052`, IR86 `OK HELLO.ASM 02600 text bytes`, and ASM86 `OK 00480 bytes`, each followed by PASS.
+Require compiler `OK RESULT.IR 00052`, IR86 `OK HELLO.ASM 02600 text bytes`, and ASM0 `OK 00480 bytes`, each followed by PASS.
 
 CHECK HELLO displays `HI` and reports PASS.
 
@@ -42,7 +44,7 @@ fn main() {
 
 The declaration reserves x before MAIN. The unsigned condition is false at 51, and addition wraps as a word. The displayed 012 shows three completed iterations.
 
-Require compiler `OK RESULT.IR 00153`, IR86 `OK COUNT.ASM 02783 text bytes`, and ASM86 `OK 00511 bytes`, each followed by PASS.
+Require compiler `OK RESULT.IR 00153`, IR86 `OK COUNT.ASM 02783 text bytes`, and ASM0 `OK 00511 bytes`, each followed by PASS.
 
 CHECK COUNT displays `012` and reports PASS.
 
@@ -68,7 +70,7 @@ fn main() {
 
 The word 65535 is greater than one in unsigned order. The first branch prints U; equality then prints an exclamation mark. There is no implicit signed interpretation.
 
-Require compiler `OK RESULT.IR 00232`, IR86 `OK CHOICE.ASM 02891 text bytes`, and ASM86 `OK 00526 bytes`, each followed by PASS.
+Require compiler `OK RESULT.IR 00232`, IR86 `OK CHOICE.ASM 02891 text bytes`, and ASM0 `OK 00526 bytes`, each followed by PASS.
 
 CHECK CHOICE displays `U!` and reports PASS.
 
@@ -102,7 +104,7 @@ fn main() {
 
 c saves the input before status() is read. EOF is 65535 with success status; it exits zero. Every ordinary byte, including 255, is written and output status checked. A failed input or output exits one.
 
-Require compiler `OK RESULT.IR 00397`, IR86 `OK RLECHO.ASM 03236 text bytes`, and ASM86 `OK 00595 bytes`, each followed by PASS.
+Require compiler `OK RESULT.IR 00397`, IR86 `OK RLECHO.ASM 03236 text bytes`, and ASM0 `OK 00595 bytes`, each followed by PASS.
 
 Create KEY.TXT with `ECHO RILL echo.>KEY.TXT`. Run `CHECK RLECHO <KEY.TXT`; it displays `RILL echo.` with CR/LF and reports PASS. An empty input file produces no text and still reports PASS. The compiler source reader's Control-Z convention does not apply to this program's byte input.
 

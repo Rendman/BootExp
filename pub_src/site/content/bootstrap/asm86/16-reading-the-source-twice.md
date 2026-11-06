@@ -3,6 +3,8 @@ title = "16 \u00b7 Reading the source twice"
 weight = 16
 description = "Reopen the source and reproduce the same instruction positions."
 download = "AS16.ASM"
+download_group = "tools/asm0"
+reader_names = 1
 +++
 
 We shall count the source on pass one and collect its bytes on pass two, while all values are still numeric.

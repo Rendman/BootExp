@@ -1,23 +1,24 @@
 +++
-title = "ASM86A in RILL"
+title = "ASM86 in RILL"
 weight = 46
 description = "The streaming assembler, symbol pages, and 8086 encodings implemented in RILL."
-download = "ASM86A.RIL"
-download_group = "rc"
+download = "ASM86.RIL"
+download_group = "tools/rill"
 aliases = ["/bootstrap/rill/134-asm86a-in-rill/"]
+reader_names = 1
 +++
 
 The streaming assembler, symbol pages, and 8086 encodings implemented in RILL.
 
-The complete ASM86A.RIL below uses the ordinary RILL language and portable services. Build it with R0 or the preserved compiler seed, then IWKEEP and ASMAKEEP. Require a fresh OK and PASS at each boundary before copying the next result. Preserve the resulting executable as A0.COM; VIEW.BAS must show **32404 bytes**.
+The complete ASM86.RIL below uses the ordinary RILL language and portable services. Build it with R0 or the preserved compiler seed, then IWKEEP and ASMAKEEP. Require a fresh OK and PASS at each boundary before copying the next result. Preserve the resulting executable as A0.COM; VIEW.BAS must show **32404 bytes**.
 
-The parser, two passes, exact-spelling hash chains, symbol-page selection, fixed-width operands, and emitters have the same jobs as in the native ASM86A construction. Each symbol record is initialized explicitly. Its page is an opaque block handle and its record location a byte offset. No processor segment is exposed to the RILL implementation.
+The parser, two passes, exact-spelling hash chains, symbol-page selection, fixed-width operands, and emitters have the same jobs as in the native ASM86 construction. Each symbol record is initialized explicitly. Its page is an opaque block handle and its record location a byte offset. No processor segment is exposed to the RILL implementation.
 
 The encodings retain the native assembler's fixed choices: explicit word displacements, full-width immediate arithmetic, and an opposite short branch plus near JMP for Jcc NEAR. No later-CPU instruction is needed. The 8192-symbol and 61184-byte image bounds remain real.
 
 ## Complete source, by routine
 
-Start a plain text ASM86A.RIL. Enter the declarations, then append each complete procedure in the displayed order. These are parts of one complete tool; a copied fragment is not a standalone program. All prerequisites are supplied by the completed RB workbench.
+Start a plain text ASM86.RIL. Enter the declarations, then append each complete procedure in the displayed order. These are parts of one complete tool; a copied fragment is not a standalone program. All prerequisites are supplied by the completed RILLBOOT workbench.
 
 ### Declarations
 
@@ -796,7 +797,7 @@ fn initops() {
 ## Complete build
 
 ```dos
-COPY ASM86A.RIL SOURCE.RIL
+COPY ASM86.RIL SOURCE.RIL
 CHECK R0
 COPY RESULT.IR SOURCE.IR
 CHECK IWKEEP

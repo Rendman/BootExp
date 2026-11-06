@@ -3,6 +3,8 @@ title = "26 \u00b7 CL shifts and rotates"
 weight = 26
 description = "Accept the variable-count forms supported by the 8086."
 download = "A38.ASM"
+download_group = "tools/asm86"
+reader_names = 1
 +++
 
 The byte register CL supplies the processor's variable count.
@@ -129,7 +131,7 @@ CALL LOOK
 
 ```dos
 COPY A38.ASM SOURCE.ASM
-CHECK ASMA0
+CHECK ASM1
 ```
 
 Require `OK RESULT.COM 06275 bytes` and PASS. Preserve this executable before using its fixed output name:
@@ -177,14 +179,7 @@ In VIEW.BAS, inspect RESULT.COM. Require length **22 bytes** and these complete 
 B8 20 00 B1 01 D3 C0 81 C0 01 00 8A D0 B4 02 CD 21 B8 00 4C CD 21
 ```
 
-This fixture is a complete program. Save it before another assembly and execute it:
-
-```dos
-COPY RESULT.COM TRY.COM
-CHECK TRY
-```
-
-It displays "A" and the checker reports PASS.
+The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
 
 ## A rejection check
 

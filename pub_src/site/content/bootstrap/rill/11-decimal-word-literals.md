@@ -3,6 +3,8 @@ title = "11 \u00b7 Decimal word literals"
 weight = 11
 description = "Reject overflow before a numeric prefix can wrap."
 download = "R11.IR"
+download_group = "tools/rill0"
+reader_names = 1
 +++
 
 A checked word literal cannot be formed by allowing arithmetic overflow and inspecting the result afterward.

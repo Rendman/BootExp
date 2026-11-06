@@ -2,7 +2,9 @@
 title = "31 \u00b7 Complete assembly programs"
 weight = 31
 description = "Strings, a stack frame, a distant conditional, and repeated byte movement."
-download = "ASM86A.ZIP"
+download = "ASM86.ZIP"
+download_group = "tools/asm86"
+reader_names = 1
 +++
 
 Use the completed ASMAKEEP.COM. For each NAME.ASM below, copy it to SOURCE.ASM and run CHECK ASMAKEEP. Require OK and PASS before copying RESULT.COM to NAME.COM. Inspect it with VIEW.BAS before running CHECK NAME.

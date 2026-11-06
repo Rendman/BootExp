@@ -3,6 +3,8 @@ title = "10 \u00b7 Loading and storing a word"
 weight = 10
 description = "Move between A and a named word without changing its address."
 download = "IR10.ASM"
+download_group = "tools/ir86"
+reader_names = 1
 +++
 
 A declaration becomes useful when the program can read it and replace its value.
@@ -11,7 +13,7 @@ A declaration becomes useful when the program can read it and replace its value.
 
 LD reads a word from named storage into A. ST writes A to that storage and retains A. A word occupies two consecutive bytes in the IR low-byte-first order. The programmer must provide enough storage; access width is selected by the operation, not inferred from a declaration.
 
-The 8086 backend emits MOV AX,[U_name] and MOV [U_name],AX. These direct memory forms need no address in BX. NAMEARG checks the name and ASM86 resolves it. The program-segment offset and AX are backend choices.
+The 8086 backend emits MOV AX,[U_name] and MOV [U_name],AX. These direct memory forms need no address in BX. NAMEARG checks the name and ASM0 resolves it. The program-segment offset and AX are backend choices.
 
 The test stores zero into a word initialized to seven, then loads it after replacing A with 99. EXIT must receive zero. This distinguishes a working load from an unchanged accumulator and a working store from the original initializer.
 
@@ -91,7 +93,7 @@ MOV CX,8
 CHECK ASMKEEP
 ```
 
-Enter `IR10` at ASM86's `Source name:` prompt. Require `OK 01884 bytes` followed by PASS. This builds `IR10.COM` directly with the completed assembler. Save the source and executable before running the test.
+Enter `IR10` at ASM0's `Source name:` prompt. Require `OK 01884 bytes` followed by PASS. This builds `IR10.COM` directly with the completed assembler. Save the source and executable before running the test.
 
 Create `T10.IR` with `COPY CON T10.IR`, enter this text, and finish with Ctrl-Z and Enter. The Ctrl-Z keystroke ends console input; it is not a printed language token.
 
@@ -170,4 +172,4 @@ An unexpected PASS is a failed rejection test. Require a fresh OK before using a
 
 ## If the result differs
 
-Check the record stride and count, the saved template pointer, and each substitution buffer. The name and numeric token must survive FINISH. Compare the generated assembly before asking ASM86 to assemble it.
+Check the record stride and count, the saved template pointer, and each substitution buffer. The name and numeric token must survive FINISH. Compare the generated assembly before asking ASM0 to assemble it.

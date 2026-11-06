@@ -1,4 +1,5 @@
 """Lay out authored IR explanations, exact source edits, and native-produced results."""
+from publication_names import write_page
 from pathlib import Path
 from difflib import SequenceMatcher
 import json,re
@@ -67,7 +68,7 @@ for case in cases:
  elif case['level']<10:text+='Check the record stride and count, the saved template pointer, and each substitution buffer. The name and numeric token must survive FINISH. Compare the generated assembly before asking ASM86 to assemble it.\n'
  elif case['level']<19:text+='Check the table effect and target-size fields separately. A saved expression word must be consumed before a label or control boundary. Compare the generated source and its byte count before executing the target.\n'
  else:text+='Check operand order and the opposite short condition in the pattern. All occurrences of ? in one pattern must use the same branch number. Read runtime STATUS as an ordinary word; comparisons and arithmetic must not change it.\n'
- page=case.get('page',f'{n:02}-{slug(case["title"])}.md');(C/page).write_text(text)
+ page=case.get("page",f'{n:02}-{slug(case["title"])}.md');write_page(C/page,text)
  patches.append(dict(number=n,page=page,base=oldfile,changes=changes));previous=lines
 (Q/'article-patches.json').write_text(json.dumps(patches,indent=2)+'\n')
 
@@ -86,5 +87,5 @@ for record in [r for r in examples if r['name']!='COPYFILE']:
  command='CHECK '+name+(' <KEY.TXT' if name=='ECHOIR' else '')
  text+=f'Require `OK {name}.ASM {record["text_bytes"]:05} text bytes` from IR86, then `OK {record["binary_bytes"]:05} bytes` from ASM86. `'+command+'` displays `'+record['output'].rstrip()+'` and reports PASS.\n\n'+rejection+'\n\n'
 text+='These sources use only the virtual machine and portable runtime contract. The 8086/DOS binding has the environment requirements documented separately in the reference. The pipeline installment supplies a complete file-copy example.\n'
-(C/'29-programs.md').write_text(text)
+write_page((C/'29-programs.md'),text)
 print('Prepared IR86 construction articles and complete examples.')

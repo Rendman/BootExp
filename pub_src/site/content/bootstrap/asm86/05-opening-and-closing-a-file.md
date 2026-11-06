@@ -3,6 +3,8 @@ title = "05 \u00b7 Opening and closing a file"
 weight = 5
 description = "Let DOS return a handle, and check carry immediately."
 download = "AS05.ASM"
+download_group = "tools/asm0"
+reader_names = 1
 +++
 
 A filename is useful only if DOS can open it. We shall open an existing source file for input and close its handle before returning.

@@ -3,13 +3,15 @@ title = "02 \u00b7 Seeing the tokens"
 weight = 2
 description = "Separate words and punctuation without losing the line cursor."
 download = "IR02.ASM"
+download_group = "tools/ir86"
+reader_names = 1
 +++
 
 A physical line is not yet an instruction. The scanner can show exactly which tokens a parser receives.
 
 ## Operation and backend
 
-SCAN is the published ASM86 scanner. SI is its source cursor; the result is a zero-terminated token at 2300H and a word length in TOKLEN. AX and DI are scratch registers. Spaces are skipped, comma and brackets are individual tokens, and semicolon ends the statement.
+SCAN is the published ASM0 scanner. SI is its source cursor; the result is a zero-terminated token at 2300H and a word length in TOKLEN. AX and DI are scratch registers. Spaces are skipped, comma and brackets are individual tokens, and semicolon ends the statement.
 
 The driver saves SI while ZTEXT displays the token, then restores it before calling SCAN again. The bracket characters on the display are diagnostic decoration, not source syntax. An empty token ends the current statement.
 
@@ -187,7 +189,7 @@ MOV SI,2300H
 CHECK ASMKEEP
 ```
 
-Enter `IR02` at ASM86's `Source name:` prompt. Require `OK 00747 bytes` followed by PASS. This builds `IR02.COM` directly with the completed assembler. Save the source and executable before running the test.
+Enter `IR02` at ASM0's `Source name:` prompt. Require `OK 00747 bytes` followed by PASS. This builds `IR02.COM` directly with the completed assembler. Save the source and executable before running the test.
 
 Create `T02.IR` with `COPY CON T02.IR`, enter this text, and finish with Ctrl-Z and Enter. The Ctrl-Z keystroke ends console input; it is not a printed language token.
 

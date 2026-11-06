@@ -1,19 +1,16 @@
 +++
-title = "RC07 \u00b7 Refill source bytes in RILL"
+title = "07 \u00b7 Reading a File in Blocks"
 weight = 7
 description = "INPOS and INLEN describe an already-read block."
 download = "RC07.RIL"
-download_group = "rc"
+download_group = "tools/rill"
 aliases = ["/bootstrap/rill/095-rc-refill-source-bytes-in-rill/"]
+reader_names = 1
 +++
-
-INPOS and INLEN describe an already-read block.
 
 ## The working parts
 
 INPOS and INLEN describe an already-read block. Refill only after consuming it. A short positive read is data, not EOF. Check STATUS before using a count. Control-Z ends source text; the byte services used by a compiled program still preserve that value.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -31,13 +28,13 @@ bytes string[512];
 Remove this source at old physical positions 35–35 in RC06.RIL:
 
 ```rill
-fn main(){printnum(digit(57));return 0;}
+fn main(){return (digit(57))!=1;}
 ```
 
 Replace it with:
 
 ```rill
-fn main(){input=open("SOURCE.RIL");if status(){fail(1);}next();printnum(ch);return 0;}
+fn main(){input=open("SOURCE.RIL");if status(){fail(1);}next();return (ch)!=65;}
 
 fn next() {
     if ch == 10 {
@@ -76,7 +73,7 @@ COPY RC07.RIL SOURCE.RIL
 CHECK RILLBOOT
 ```
 
-Require `OK RESULT.IR 0000007622` and PASS. Copy RESULT.IR to SOURCE.IR.
+Require `OK RESULT.IR 0000007602` and PASS. Copy RESULT.IR to SOURCE.IR.
 
 ```dos
 CHECK IWKEEP
@@ -84,13 +81,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000019243 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 12215 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000019255 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 12217 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RC07.COM
 ```
 
-VIEW.BAS must report RC07.COM length 12215 bytes. Keep this executable and its source together.
+VIEW.BAS must report RC07.COM length 12217 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -108,11 +105,7 @@ COPY TRC07.RIL SOURCE.RIL
 CHECK RC07
 ```
 
-Require, apart from command echo and the checker's separator:
-
-```text
-00065PASS
-```
+The checker must report PASS. The driver compares the result with 65 and returns nonzero on a mismatch; it adds no display routine.
 
 ## A rejection or boundary check
 
@@ -129,4 +122,4 @@ An unexpected PASS fails the rejection. The pre-existing RESULT.IR must remain u
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Check the refill position and returned byte count. A short positive read still contains data; only zero means EOF.

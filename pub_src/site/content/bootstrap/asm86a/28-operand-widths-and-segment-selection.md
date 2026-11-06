@@ -3,6 +3,8 @@ title = "16 \u00b7 Operand widths and segment selection"
 weight = 16
 description = "Check BYTE/WORD annotations and explicit segment overrides."
 download = "A28.ASM"
+download_group = "tools/asm86"
+reader_names = 1
 +++
 
 A memory operand sometimes needs information which no ordinary register supplies.
@@ -332,7 +334,7 @@ MOV [EXWIDTH],AL
 
 ```dos
 COPY A28.ASM SOURCE.ASM
-CHECK ASMA0
+CHECK ASM1
 ```
 
 Require `OK RESULT.COM 05510 bytes` and PASS. Preserve this executable before using its fixed output name:
@@ -373,7 +375,7 @@ In VIEW.BAS, inspect RESULT.COM. Require length **7 bytes** and these complete c
 8B 06 34 12 26 88 07
 ```
 
-This result is an encoding or data exercise. Inspect its bytes; do not execute it.
+The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
 
 ## A rejection check
 

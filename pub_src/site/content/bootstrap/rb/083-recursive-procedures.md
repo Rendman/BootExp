@@ -3,8 +3,9 @@ title = "Recursive procedures"
 weight = 51
 description = "Each call owns its parameters and local words. Recursion therefore saves the pending multiplication in the caller rather than sharing one global parameter cell."
 download = "ERECUR.RIL"
-download_group = "rb"
+download_group = "tools/rillboot"
 aliases = ["/bootstrap/rill/083-recursive-procedures/"]
+reader_names = 1
 +++
 
 Each call owns its parameters and local words. Recursion therefore saves the pending multiplication in the caller rather than sharing one global parameter cell.

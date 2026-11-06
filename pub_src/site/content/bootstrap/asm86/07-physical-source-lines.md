@@ -3,6 +3,8 @@ title = "07 \u00b7 Physical source lines"
 weight = 7
 description = "Bound each line and handle CR, LF, and the last line at EOF."
 download = "AS07.ASM"
+download_group = "tools/asm0"
+reader_names = 1
 +++
 
 A parser needs complete source lines. We shall collect a line in a fixed buffer and return an explicit end-of-file indication.

@@ -3,6 +3,8 @@ title = "12 \u00b7 Collecting output bytes"
 weight = 12
 description = "Count loaded offsets while retaining bytes in a separate buffer."
 download = "AS12.ASM"
+download_group = "tools/asm0"
+reader_names = 1
 +++
 
 We shall collect byte values in memory before opening any output file. An invalid source must not be mistaken for a new program.

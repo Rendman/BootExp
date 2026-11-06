@@ -1,0 +1,8 @@
+fn factorial(n) {
+    if n == 0 { return 1; }
+    return n*factorial(n-1);
+}
+fn main() {
+    if factorial(5) == 120 { putc(82); }
+    return 0;
+}

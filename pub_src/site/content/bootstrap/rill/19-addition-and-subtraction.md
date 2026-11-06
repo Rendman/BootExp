@@ -3,6 +3,8 @@ title = "19 \u00b7 Addition and subtraction"
 weight = 19
 description = "Compile left-to-right word expressions with explicit operands."
 download = "R19.IR"
+download_group = "tools/rill0"
+reader_names = 1
 +++
 
 An expression can combine several primary values without changing the assignment interface.

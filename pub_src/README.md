@@ -1,6 +1,6 @@
 # Bootstrap Experiment v2
 
-BOOTASM, ASM86, ASMA0, ASM86A, IR86, RILL, RB, RC, and the local Hugo site are implemented here, following the current `BOOTSTRAP_Rules_and_Plan.md` and the decisions for this experiment.
+BOOTASM, ASM0, ASM1, ASM86, IR86, RILL0, RILLBOOT, RILL, and the local Hugo site are implemented here, following the current `BOOTSTRAP_Rules_and_Plan.md` and the decisions for this experiment.
 
 GitHub Pages publication is configured in `../.github/workflows/pages.yml`. It builds and checks the site, then deploys the root `public/` directory after pushes to the repository's default branch. See the project-root [README](../README.md) for the one-time repository and Pages setup.
 
@@ -13,18 +13,18 @@ The Bootstrap Experiment
 │   ├── 01–18: construction installments
 │   ├── BOOTASM reference
 │   └── Three complete programs
-├── ASM86
+├── ASM0
 │   ├── The assembly workbench
 │   ├── 01–29: construction checkpoints
 │   ├── 30: two generations of self-assembly
 │   ├── ASM86 reference
 │   └── Three complete programs
-├── ASMA0
+├── ASM1
 │   ├── The streaming seed workbench
 │   ├── 01–12: construction checkpoints and seed self-build
 │   ├── ASMA0 language and memory reference
 │   └── Three complete assembly programs
-├── ASM86A
+├── ASM86
 │   ├── The larger assembler workbench
 │   ├── 01–28: construction checkpoints and larger-assembler self-build
 │   ├── 29: the complete bootstrap ladder
@@ -38,18 +38,18 @@ The Bootstrap Experiment
 │   ├── 33: complete translation pipeline and file copier
 │   ├── IR86 language and translator reference
 │   └── Four complete console/stream programs
-├── RILL
+├── RILL0
 │   ├── The first compiler workbench
 │   ├── 01–29: IR-written compiler construction checkpoints
 │   ├── 30: complete RILL-to-executable pipeline
 │   ├── First RILL language/compiler reference
 │   └── Four complete programs
-├── RB
+├── RILLBOOT
 │   ├── The compiler-seed workbench
 │   ├── RB01–RB47: IR-written systems compiler checkpoints
 │   ├── Systems-language reference
 │   └── Eight complete programs
-└── RC
+└── RILL
     ├── The compiler-in-RILL workbench
     ├── RC01–RC43: RILL-written compiler checkpoints
     ├── Systems-language reference and three complete programs
@@ -93,7 +93,7 @@ The first runs the actual published BASIC source in a GW-BASIC-compatible interp
 
 BOOTASM's results are in `qa/test-results.txt`: 64 BASIC/encoding/runtime/boundary test groups pass. Seven complete BASIC-produced programs were also run under the original COMPAQ DOS 3.10 system in QEMU, using the published CHECK.BAT. Their displayed text and PASS/FAIL reports match, including the deliberately nonzero FAIL program; see `qa/dos-program-results.txt`. This validates those executable outputs and the batch helper independently of BASIC interpreter compatibility.
 
-## ASM86 production and verification
+## ASM0 production and verification
 
 ASM86 lives in `workbench/asm86` and `site/content/bootstrap/asm86`, as a sibling collection. Its archive contains 86 source files, including BOOTASM.BAS, all 29 assembly checkpoints, accepted/rejected fixtures, the unchanged viewer/checker, and three examples. It contains no executable or interpreter. The native assembler is 2,622 bytes. The completed BOOTASM directly builds every ASM86 checkpoint within its published capacity. Both collections supply the identical BOOTASM.BAS source.
 
@@ -121,7 +121,7 @@ The retained `qa/asm86/*-results.txt` records show all 29 construction checks, a
 
 `tools/verify_asm86_dos.py` uses local historical DOS media, mtools, and QEMU for a separate DOS 3.10 check. The BASIC-produced ASM86 assembles SELF; SELF assembles AGAIN; both output files match the initial executable byte for byte. DOS COMP reports matching files, CHECK reports PASS for successful builds, and a bad register-width source reports the expected diagnostic and FAIL. Results are in `qa/asm86/dos-results.txt`; local disk images and raw logs are excluded from Git and publication. This verifies native DOS execution, not the unresolved original BASIC file-I/O environment described below.
 
-## ASMA0 and ASM86A production and verification
+## ASM1 and ASM86 production and verification
 
 ASMA0 and ASM86A are the third and fourth sibling collections between ASM86 and IR86. ASMA0 has twelve construction checkpoints, a workbench, reference, and three complete programs; its source-only archive contains 41 ASCII/CRLF/8.3 files. ASM86A has twenty-eight construction checkpoints, a workbench, ladder exercise, reference, and four complete programs; its archive contains 97 sources. Both include unchanged preceding sources and inspection helpers. The ASM86A articles restart chapter numbering at 01 while preserving the A13–A40 filenames and original URLs. Twelve redirects preserve the earlier ASMA0 article addresses. The original prompted assembler remains ASMKEEP.COM; the tested fixed-file successor is ASMAKEEP.COM.
 
@@ -196,7 +196,7 @@ Three new pencil cartoons were generated with the built-in Imagegen tool, inspec
 
 Browser QA was unavailable: the computer-use inventory had no browser. No visual browser inspection is claimed.
 
-## RILL production and verification
+## RILL0 production and verification
 
 RILL is the sixth sibling collection. Its first compiler is written in portable IR86 and emits IR86. The unchanged published IR86 and ASM86 directly build the 5,173-byte native compiler. It uses 255 definitions and 24,676 bytes of assembly text, within existing limits. The language supports one main function, mutable word variables, + and -, unary minus, parentheses, if/else, while, putc, getc, status, and exit. The implementation is not self-hosted; its exact subset, limits, and reasons are in the language reference.
 
@@ -292,3 +292,11 @@ The independent `qa/toolchain/portable.py` executes the same unchanged IR compil
 `bootstrap_chain.py` executes canonical BOOTASM.BAS and recreates ASM86, ASMA0, ASM86A, IRWIDE, the IR-written compiler seed, all three RILL tools, and both closed-loop generations. The DOS check separately executes the exact published TMAKE.BAT under DOS 3.10 on a private 16 MiB FAT16 hard-disk workbench. All nine RILL-tool executables match the bootstrap-built images, and generation two compiles, translates, assembles, and executes HI. Private DOS disks, generated binaries, and intermediate build output are ignored. This does not resolve the historical BASIC 3.11 OPEN limitation documented above and is not a period-hardware claim.
 
 The site and archive checks reconstruct all 113 continuation checkpoints from their actual printed blocks, verify canonical handoffs, exact source notebooks, example/rejection text, generated counts, source-only archives, ASCII/CRLF/8.3 rules, and all local links/assets/anchors. RB and RC are separate sibling collections following the initial RILL construction. RB has 47 checkpoints, its own workbench/reference, eight complete programs, and a 94-file RB.ZIP. RC has 43 checkpoints, its own workbench/reference, three complete programs, the compiler self-builds and final toolchain exercises, and an 83-file RC.ZIP. The 103 earlier RILL continuation URLs redirect to their new collection routes; saved source filenames stay unchanged. Existing illustrations are reused where their subjects apply. Shared authored source and native verification remain under tools and qa/toolchain. package_compiler_collections.py makes the two separate source snapshots under workbench/rb and workbench/rc. The complete TOOLCHN.ZIP remains available with all 236 sources.
+
+## Reader names and article checks
+
+Reader-facing tool names are BOOTASM, ASM0, ASM1, ASM86, IR86, RILL0, RILLBOOT, and RILL. Publication titles describe the construction. Production directories keep their established keys: asm86 means ASM0, asma0 means ASM1, asm86a means ASM86, rill means RILL0, rb means RILLBOOT, and rc means RILL. Checkpoint filenames remain ASxx, Axx, Rxx, RBxx and RCxx. The canonical reader sources are under site/static/downloads/tools/<tool>; existing download URLs remain available. Canonical archives rename only complete-tool filenames, README instructions, and batch references. Printed implementation blocks and source bytes remain identical to their production inputs.
+
+publication_names.py maintains tool names and article titles. Article writers use write_page so regeneration preserves the visible names. package_reader_names.py publishes canonical archives from the existing verified bundles. Both compiler references share the same contract. The intermediate compiler drivers now compare scalar results and return status instead of borrowing formatting routines. File-producing lessons inspect the actual fragment length and complete bytes; empty fragments have an explicit zero-length check. Rejection checks exercise the new parser behavior rather than repeatedly testing predecessor word overflow or missing input. The deliberate ERROR/FAIL lesson calls the retained error reporter and expects nonzero status.
+
+After changing checkpoint drivers, run build_rill_seed_series.py and build_rill_self_series.py, then both corresponding native tests before generating articles. The completed RILLBOOT and RILL sources remain byte-identical to their earlier canonical sources. Canonical archive aliases and reader build commands are checked in qa/reader_publication.py and qa/test_reader_handoffs.py.

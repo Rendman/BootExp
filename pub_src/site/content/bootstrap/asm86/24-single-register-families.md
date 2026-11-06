@@ -3,6 +3,8 @@ title = "24 \u00b7 Single-register families"
 weight = 24
 description = "Increment, decrement, save, and restore a word register."
 download = "AS24.ASM"
+download_group = "tools/asm0"
+reader_names = 1
 +++
 
 Four instruction families use the same register-number calculation and one-byte output.

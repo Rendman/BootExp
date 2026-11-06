@@ -1,9 +1,11 @@
 +++
-title = "03 \u00b7 Writing an output block"
+title = "03 \u00b7 Copying a File in Small Blocks"
 weight = 3
 description = "Copy a stream through a bounded output block and inspect the result."
 download = "A03.ASM"
 aliases = ["/bootstrap/asm86a/03-writing-an-output-block/"]
+download_group = "tools/asm1"
+reader_names = 1
 +++
 
 The emitter needs a working file writer before it can replace the assembler image buffer.
@@ -625,7 +627,7 @@ MOV [SYMC],AX
 
 ## Build the stopping point
 
-Run `CHECK ASMKEEP`, enter `A03` at `Source name:`, and require `OK 02605 bytes` and PASS. This uses the preceding published ASM86, not the new checkpoint. It creates A03.COM.
+Run `CHECK ASMKEEP`, enter `A03` at `Source name:`, and require `OK 02605 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. It creates A03.COM.
 
 VIEW.BAS must report A03.COM length 2605 bytes. Keep that executable and source together.
 
@@ -658,7 +660,7 @@ In VIEW.BAS, inspect ASMA.TMP. Require length **5 bytes** and these complete con
 41 42 43 0D 0A
 ```
 
-This result is an encoding or data exercise. Inspect its bytes; do not execute it.
+The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
 
 ## A rejection check
 

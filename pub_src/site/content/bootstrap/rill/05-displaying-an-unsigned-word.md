@@ -3,6 +3,8 @@ title = "05 \u00b7 Displaying an unsigned word"
 weight = 5
 description = "Make numeric diagnostics readable without another tool."
 download = "R05.IR"
+download_group = "tools/rill0"
+reader_names = 1
 +++
 
 A compiler must report numbers which are not printable character codes.

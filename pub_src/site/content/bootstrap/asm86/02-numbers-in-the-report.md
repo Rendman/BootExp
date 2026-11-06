@@ -3,6 +3,8 @@ title = "02 \u00b7 Numbers in the report"
 weight = 2
 description = "Display an unsigned word without a divide instruction."
 download = "AS02.ASM"
+download_group = "tools/asm0"
+reader_names = 1
 +++
 
 An assembly-language tool needs to report counts. We shall print an unsigned word as five decimal digits using repeated subtraction.
@@ -33,7 +35,7 @@ Remove these exact old lines (physical lines 15–16 of `AS01.ASM`):
 
 ```asm
 HELLOMSG:
-DB 65,83,77,56,54,13,10,36
+DB 65,83,77,48,13,10,36
 ```
 
 Put this source in their place:

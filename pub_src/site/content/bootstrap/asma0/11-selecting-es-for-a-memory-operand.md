@@ -4,6 +4,8 @@ weight = 11
 description = "Emit a segment prefix on the existing memory forms."
 download = "A11.ASM"
 aliases = ["/bootstrap/asm86a/11-selecting-es-for-a-memory-operand/"]
+download_group = "tools/asm1"
+reader_names = 1
 +++
 
 A word in another allocated segment needs both an offset and a segment selection.
@@ -82,7 +84,7 @@ SEGREGISTER:
 
 ## Build the stopping point
 
-Run `CHECK ASMKEEP`, enter `A11` at `Source name:`, and require `OK 03342 bytes` and PASS. This uses the preceding published ASM86, not the new checkpoint. It creates A11.COM.
+Run `CHECK ASMKEEP`, enter `A11` at `Source name:`, and require `OK 03342 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. It creates A11.COM.
 
 VIEW.BAS must report A11.COM length 3342 bytes. Keep that executable and source together.
 
@@ -119,14 +121,7 @@ In VIEW.BAS, inspect RESULT.COM. Require length **11 bytes** and these complete 
 B2 41 B4 02 CD 21 B8 00 4C CD 21
 ```
 
-This fixture is a complete program. Save it before another assembly and execute it:
-
-```dos
-COPY RESULT.COM TRY.COM
-CHECK TRY
-```
-
-It displays "A" and the checker reports PASS.
+The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
 
 ## A rejection check
 

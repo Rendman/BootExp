@@ -3,8 +3,9 @@ title = "Literal strings"
 weight = 54
 description = "A quoted literal produces a pointer to zero-terminated bytes. It is data, not a printing operation. The small print procedure reads one byte at a time; backslash escapes supply CR and LF explicitly."
 download = "ESTRING.RIL"
-download_group = "rb"
+download_group = "tools/rillboot"
 aliases = ["/bootstrap/rill/086-literal-strings/"]
+reader_names = 1
 +++
 
 A quoted literal produces a pointer to zero-terminated bytes. It is data, not a printing operation. The small print procedure reads one byte at a time; backslash escapes supply CR and LF explicitly.

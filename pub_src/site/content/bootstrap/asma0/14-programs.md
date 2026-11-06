@@ -1,11 +1,13 @@
 +++
-title = "14 · Complete seed programs"
+title = "14 \u00b7 Complete seed programs"
 weight = 14
 description = "A terminated greeting, a byte copied through memory, and a short loop."
-download = "ASMA0.ZIP"
+download = "ASM1.ZIP"
+download_group = "tools/asm1"
+reader_names = 1
 +++
 
-These programs use the completed ASMA0 seed. Its fixed input is SOURCE.ASM and its output is RESULT.COM. Preserve each accepted output under the program's own filename before another assembly. Run an output only after a fresh OK and PASS and a VIEW.BAS inspection.
+These programs use the completed ASM1 seed. Its fixed input is SOURCE.ASM and its output is RESULT.COM. Preserve each accepted output under the program's own filename before another assembly. Run an output only after a fresh OK and PASS and a VIEW.BAS inspection.
 
 ## HELLO
 
@@ -25,7 +27,7 @@ DOS function 9 prints the bytes ending at the dollar marker. DB supplies numeric
 
 ```dos
 COPY HELLO.ASM SOURCE.ASM
-CHECK ASMA0
+CHECK ASM1
 ```
 
 Require `OK RESULT.COM 00020 bytes` and PASS. VIEW.BAS must report length 20 and these complete bytes:
@@ -41,7 +43,7 @@ CHECK HELLO
 
 It displays "Hello\r\n" and the checker reports PASS. Here `\r\n` denotes carriage return and line feed.
 
-For a separate rejection, copy the source to BAD.ASM and replace the first `INT 21H` with `INT 256`. Copy BAD.ASM to SOURCE.ASM and run CHECK ASMA0. Require `ERROR 00003 CODE 4` and FAIL. The accepted RESULT.COM must remain unchanged. An unexpected PASS fails this test. Restore the accepted source before building again.
+For a separate rejection, copy the source to BAD.ASM and replace the first `INT 21H` with `INT 256`. Copy BAD.ASM to SOURCE.ASM and run CHECK ASM1. Require `ERROR 00003 CODE 4` and FAIL. The accepted RESULT.COM must remain unchanged. An unexpected PASS fails this test. Restore the accepted source before building again.
 
 ## MEMORY
 
@@ -66,7 +68,7 @@ BX holds the source byte address. A byte register supplies the width for the [BX
 
 ```dos
 COPY MEMORY.ASM SOURCE.ASM
-CHECK ASMA0
+CHECK ASM1
 ```
 
 Require `OK RESULT.COM 00024 bytes` and PASS. VIEW.BAS must report length 24 and these complete bytes:
@@ -82,7 +84,7 @@ CHECK MEMORY
 
 It displays "M" and the checker reports PASS. Here `\r\n` denotes carriage return and line feed.
 
-For a separate rejection, copy the source to BAD.ASM and replace the first `MOV AL,[BX]` with `MOV AX,AL`. Copy BAD.ASM to SOURCE.ASM and run CHECK ASMA0. Require `ERROR 00002 CODE 1` and FAIL. The accepted RESULT.COM must remain unchanged. An unexpected PASS fails this test. Restore the accepted source before building again.
+For a separate rejection, copy the source to BAD.ASM and replace the first `MOV AL,[BX]` with `MOV AX,AL`. Copy BAD.ASM to SOURCE.ASM and run CHECK ASM1. Require `ERROR 00002 CODE 1` and FAIL. The accepted RESULT.COM must remain unchanged. An unexpected PASS fails this test. Restore the accepted source before building again.
 
 ## COUNT
 
@@ -104,7 +106,7 @@ DL starts at ASCII zero and advances after each output. CMP leaves the unsigned 
 
 ```dos
 COPY COUNT.ASM SOURCE.ASM
-CHECK ASMA0
+CHECK ASM1
 ```
 
 Require `OK RESULT.COM 00017 bytes` and PASS. VIEW.BAS must report length 17 and these complete bytes:
@@ -120,6 +122,6 @@ CHECK COUNT
 
 It displays "012" and the checker reports PASS. Here `\r\n` denotes carriage return and line feed.
 
-For a separate rejection, copy the source to BAD.ASM and replace the first `JB AGAIN` with `JB 400H`. Copy BAD.ASM to SOURCE.ASM and run CHECK ASMA0. Require `ERROR 00007 CODE 4` and FAIL. The accepted RESULT.COM must remain unchanged. An unexpected PASS fails this test. Restore the accepted source before building again.
+For a separate rejection, copy the source to BAD.ASM and replace the first `JB AGAIN` with `JB 400H`. Copy BAD.ASM to SOURCE.ASM and run CHECK ASM1. Require `ERROR 00007 CODE 4` and FAIL. The accepted RESULT.COM must remain unchanged. An unexpected PASS fails this test. Restore the accepted source before building again.
 
-The completed seed source and its matching self-builds are the handoff to the separate ASM86A collection. Keep ASMA0.COM and ASMA0.ASM with their tested examples.
+The completed seed source and its matching self-builds are the handoff to the separate ASM86 collection. Keep ASM1.COM and ASM1.ASM with their tested examples.

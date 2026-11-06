@@ -3,13 +3,15 @@ title = "28 \u00b7 Proving the larger assembler"
 weight = 28
 description = "Compare the seed-built program with two native self-assembly generations."
 download = "A40.ASM"
+download_group = "tools/asm86"
+reader_names = 1
 +++
 
 The expanded assembler is another working rung, not a source listing dependent on an outside tool.
 
 ## The working parts
 
-Save the preceding source as ASM86A.ASM. ASMA0 builds its first executable from that source. ASM86A then assembles the same source twice and both outputs must match the seed-built original. Keep each known working generation under a distinct short disk name.
+Save the preceding source as ASM86.ASM. ASM1 builds its first executable from that source. ASM86 then assembles the same source twice and both outputs must match the seed-built original. Keep each known working generation under a distinct short disk name.
 
 The tool uses fixed files, streamed I/O, 8192 exact-spelling symbols, an allocated workspace, and the documented native language. The complete ladder exercise carries its output into the IR86 and RILL tools.
 
@@ -21,7 +23,7 @@ Copy `A39.ASM` to `A40.ASM`. The tested source is retained without edits. This s
 
 ```dos
 COPY A40.ASM SOURCE.ASM
-CHECK ASMA0
+CHECK ASM1
 ```
 
 Require `OK RESULT.COM 06422 bytes` and PASS. Preserve this executable before using its fixed output name:
@@ -35,9 +37,9 @@ VIEW.BAS must report A40.COM length 6422 bytes. Keep that executable and source 
 ## Acceptance check
 
 ```dos
-COPY A40.ASM ASM86A.ASM
-COPY A40.COM ASM86A.COM
-COPY ASM86A.ASM SOURCE.ASM
+COPY A40.ASM ASM86.ASM
+COPY A40.COM ASM86.COM
+COPY ASM86.ASM SOURCE.ASM
 ```
 
 ```dos
@@ -61,19 +63,19 @@ Compare the first self-produced executable with the preserved original, then use
 
 ```dos
 ECHO N>NO.TXT
-COMP ASM86A.COM RESULT.COM <NO.TXT
+COMP ASM86.COM RESULT.COM <NO.TXT
 COPY RESULT.COM GEN1.COM
 CHECK GEN1
-COMP ASM86A.COM RESULT.COM <NO.TXT
+COMP ASM86.COM RESULT.COM <NO.TXT
 ```
 
-Both COMP comparisons must report no differences. GEN1 must report `OK RESULT.COM 06422 bytes` and PASS. COMP may ask whether to compare more files; NO.TXT answers N. Keep the original ASM86A.COM separately.
+Both COMP comparisons must report no differences. GEN1 must report `OK RESULT.COM 06422 bytes` and PASS. COMP may ask whether to compare more files; NO.TXT answers N. Keep the original ASM86.COM separately.
 
 ```dos
-COPY ASM86A.COM ASMAKEEP.COM
+COPY ASM86.COM ASMAKEEP.COM
 ```
 
-ASMAKEEP.COM is the preserved fixed-file assembler. ASMKEEP.COM still names the original prompted ASM86.
+ASMAKEEP.COM is the preserved fixed-file assembler. ASMKEEP.COM still names the original prompted ASM0.
 
 ## A rejection check
 

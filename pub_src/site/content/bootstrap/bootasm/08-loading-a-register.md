@@ -3,6 +3,8 @@ title = "08. Loading a register"
 weight = 8
 description = "Register names, operand sizes, and immediate values."
 checkpoint = "BA08.BAS"
+download_group = "tools/bootasm"
+reader_names = 1
 +++
 
 A DOS service takes its request in registers. We shall first teach MOV to load a constant, with the register name determining its size.

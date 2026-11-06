@@ -3,6 +3,8 @@ title = "28 \u00b7 Opening an opaque file handle"
 weight = 28
 description = "A file result is independent of an operating-system descriptor."
 download = "IR28.ASM"
+download_group = "tools/ir86"
+reader_names = 1
 +++
 
 OPEN gives a program a readable file without exposing the representation used by its environment.
@@ -260,7 +262,7 @@ MOV AX,250
 CHECK ASMKEEP
 ```
 
-Enter `IR28` at ASM86's `Source name:` prompt. Require `OK 04991 bytes` followed by PASS. This builds `IR28.COM` directly with the completed assembler. Save the source and executable before running the test.
+Enter `IR28` at ASM0's `Source name:` prompt. Require `OK 04991 bytes` followed by PASS. This builds `IR28.COM` directly with the completed assembler. Save the source and executable before running the test.
 
 Create `T28.IR` with `COPY CON T28.IR`, enter this text, and finish with Ctrl-Z and Enter. The Ctrl-Z keystroke ends console input; it is not a printed language token.
 

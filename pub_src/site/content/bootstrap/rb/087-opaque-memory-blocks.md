@@ -3,8 +3,9 @@ title = "Opaque memory blocks"
 weight = 55
 description = "An allocated block is identified by a handle, not an address. Offsets are byte counts. The last valid word in a 40960-byte block begins at 40958; starting it one byte later must fail without reading outside the block."
 download = "EHEAP.RIL"
-download_group = "rb"
+download_group = "tools/rillboot"
 aliases = ["/bootstrap/rill/087-opaque-memory-blocks/"]
+reader_names = 1
 +++
 
 An allocated block is identified by a handle, not an address. Offsets are byte counts. The last valid word in a 40960-byte block begins at 40958; starting it one byte later must fail without reading outside the block.

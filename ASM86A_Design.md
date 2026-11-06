@@ -1,23 +1,23 @@
-# ASM86A: the capacity-building bootstrap step
+# ASM86: the capacity-building bootstrap step
 
-Status: implemented and verified. The ASMA0 collection has twelve native construction checkpoints, its own reference, and three complete programs. The following ASM86A collection has twenty-eight construction checkpoints, a complete ladder exercise, a language/memory reference, and four complete programs. The streaming IR and systems RILL workbenches use this capacity to build a complete RILL-written toolchain; the initial smaller milestones remain separately named builders.
+Status: implemented and verified. The ASM1 collection has twelve native construction checkpoints, its own reference, and three complete programs. The following ASM86 collection has twenty-eight construction checkpoints, a complete ladder exercise, a language/memory reference, and four complete programs. The streaming IR and systems RILL workbenches use this capacity to build a complete RILL-written toolchain; the initial smaller milestones remain separately named builders.
 
 ## Position in the chain
 
 ```text
-GW-BASIC -> BOOTASM -> ASM86 -> ASMA0 -> ASM86A -> expanded IR86 -> expanded RILL
+GW-BASIC -> BOOTASM -> ASM0 -> ASM1 -> ASM86 -> expanded IR86 -> expanded RILL
 ```
 
-ASM86A is a native 8086/8088 assembler, distributed as a DOS `.COM` program. Its first implementation is written in assembly accepted by the ASMA0 seed. It removes the small assembler's output-buffer and symbol-storage ceilings before those ceilings shape the next languages.
+ASM86 is a native 8086/8088 assembler, distributed as a DOS `.COM` program. Its first implementation is written in assembly accepted by the ASM1 seed. It removes the small assembler's output-buffer and symbol-storage ceilings before those ceilings shape the next languages.
 
 The construction has two separate article collections:
 
-1. **ASMA0**, a streaming seed built directly by the unchanged ASM86.
-2. **ASM86A**, the larger assembler built by ASMA0, then verified by self-assembly.
+1. **ASM1**, a streaming seed built directly by the unchanged ASM0.
+2. **ASM86**, the larger assembler built by ASM1, then verified by self-assembly.
 
-This distinction is necessary. ASM86 can build at most 8192 executable bytes with 256 symbols. An assembler built within those bounds can nevertheless stream a much larger executable to disk. Its own workspace and the program it assembles are separate things.
+This distinction is necessary. ASM0 can build at most 8192 executable bytes with 256 symbols. An assembler built within those bounds can nevertheless stream a much larger executable to disk. Its own workspace and the program it assembles are separate things.
 
-The unchanged ASM86 directly builds the 3342-byte ASMA0. ASMA0 builds the 6422-byte ASM86A. Both reproduce their initial executable in two self-assembly generations. Native DOS 3.10 checks also rebuild the tools, IR86, RILL, and complete example programs. The results are retained in `pub_src/qa/asm86a/`.
+The unchanged ASM0 directly builds the 3342-byte ASM1. ASM1 builds the 6422-byte ASM86. Both reproduce their initial executable in two self-assembly generations. Native DOS 3.10 checks also rebuild the tools, IR86, RILL, and complete example programs. The results are retained in `pub_src/qa/asm86a/`.
 
 ## Fixed files
 
@@ -28,9 +28,9 @@ The unchanged ASM86 directly builds the 3342-byte ASMA0. ASMA0 builds the 6422-b
 | `ASMA.TMP` | Streamed output for the current assembly |
 | `RESULT.BAK` | Previous executable during the final rename sequence |
 
-Neither assembler prompts for a filename or reads command-line arguments. `COPY ASMA0.ASM SOURCE.ASM` selects an input. Fixed names are also the default for the expanded IR86 and RILL tools: `SOURCE.IR -> RESULT.ASM` and `SOURCE.RIL -> RESULT.IR`.
+Neither assembler prompts for a filename or reads command-line arguments. `COPY ASM1.ASM SOURCE.ASM` selects an input. Fixed names are also the default for the expanded IR86 and RILL tools: `SOURCE.IR -> RESULT.ASM` and `SOURCE.RIL -> RESULT.IR`.
 
-Retain the existing ASM86 filename prompt only for the initial seed build. No rewrite of a preceding tool is required.
+Retain the existing ASM0 filename prompt only for the initial seed build. No rewrite of a preceding tool is required.
 
 ## Streaming, two passes, and publication
 
@@ -56,10 +56,10 @@ DOS rename is not an atomic replace operation. The backup sequence preserves rec
 
 ## Capacity contract
 
-| Resource | ASMA0 seed | Complete ASM86A |
+| Resource | ASM1 seed | Complete ASM86 |
 |---|---|---|
-| Built by | Unchanged ASM86 | ASMA0, then itself |
-| Initial source restrictions | ASM86's 256 symbols, 4000 lines, 120 characters, 16-character names; image at most 8192 bytes | Source stays within ASMA0's language and bounds |
+| Built by | Unchanged ASM0 | ASM1, then itself |
+| Initial source restrictions | ASM0's 256 symbols, 4000 lines, 120 characters, 16-character names; image at most 8192 bytes | Source stays within ASM1's language and bounds |
 | Input/output blocks | 1024 bytes each | 4096 bytes each |
 | Symbol capacity | 2048 | 8192 |
 | Symbol spelling | 16 characters | 31 characters |
@@ -76,14 +76,14 @@ Assembler workspace is not part of the target image. A small source may emit a l
 
 An empty source may produce a zero-byte file for inspection. It is not an executable test. Files beyond the `.COM` profile and larger executable formats remain outside this step.
 
-## ASMA0 memory layout
+## ASM1 memory layout
 
 The seed executes entirely in its original 64 KB DOS segment. It needs no allocated symbol pages.
 
 | Offsets | Use |
 |---|---|
 | 0000H–00FFH | PSP |
-| 0100H–3FFFH | Resident code, constants, and scalar state; initial ASM86-built image still at most 8192 bytes |
+| 0100H–3FFFH | Resident code, constants, and scalar state; initial ASM0-built image still at most 8192 bytes |
 | 4000H–4078H | 120-character line and zero |
 | 4080H–4090H | Token and zero |
 | 4100H–41FFH | Saved operand/name state and work space |
@@ -93,13 +93,13 @@ The seed executes entirely in its original 64 KB DOS segment. It needs no alloca
 | 5000H–EFFFH | 2048 twenty-byte symbol records, exactly 40,960 bytes |
 | F000H–FFFFH | Native stack reservation |
 
-Unused gaps remain reserved. Validate a full segment before using the high workspace. The seed's resident-image ceiling is 16,128 bytes; its first build is subject to ASM86's smaller 8192-byte ceiling. Neither ceiling limits the image being assembled to disk.
+Unused gaps remain reserved. Validate a full segment before using the high workspace. The seed's resident-image ceiling is 16,128 bytes; its first build is subject to ASM0's smaller 8192-byte ceiling. Neither ceiling limits the image being assembled to disk.
 
-The seed retains ASM86's accepted forms and adds only what the larger assembler implementation needs immediately: MOV between ordinary word and segment registers, excluding CS as a destination, and ES overrides on the existing MOV memory forms. Its implementation uses only ASM86-accepted instructions. Encoding a new instruction is distinct from executing that instruction in the assembler itself.
+The seed retains ASM0's accepted forms and adds only what the larger assembler implementation needs immediately: MOV between ordinary word and segment registers, excluding CS as a destination, and ES overrides on the existing MOV memory forms. Its implementation uses only ASM0-accepted instructions. Encoding a new instruction is distinct from executing that instruction in the assembler itself.
 
-The first complete ASM86A source uses this seed vocabulary, names no longer than sixteen characters, and lines no longer than 120 characters. Larger source-language features are implemented by that source; they are not prerequisites for assembling it.
+The first complete ASM86 source uses this seed vocabulary, names no longer than sixteen characters, and lines no longer than 120 characters. Larger source-language features are implemented by that source; they are not prerequisites for assembling it.
 
-## Complete ASM86A memory layout
+## Complete ASM86 memory layout
 
 The executable keeps CS, DS, and SS in its original segment and uses near calls. ES selects separately allocated DOS work blocks. This permits more workspace without `.EXE` files, far-call program structure, or hardware beyond the 8086/8088.
 
@@ -126,7 +126,7 @@ Initialize allocation descriptors, counters, reader/writer state, and every buck
 | Total symbols | 327,680 bytes = 320 KiB |
 | Main segment + pages + buckets | 401,408 bytes = 392 KiB, excluding allocation-control overhead and environment storage |
 
-This fits the reference machine's 640 KB conventional-memory design with room for DOS, but allocation success must be tested in the actual environment. Report insufficient memory before opening output; do not write beyond a reduced allocation. The initial full profile requires all eight pages, so its published capacity does not silently vary with free RAM. ASMA0 remains the low-memory bootstrap tool.
+This fits the reference machine's 640 KB conventional-memory design with room for DOS, but allocation success must be tested in the actual environment. Report insufficient memory before opening output; do not write beyond a reduced allocation. The initial full profile requires all eight pages, so its published capacity does not silently vary with free RAM. ASM1 remains the low-memory bootstrap tool.
 
 Allocation and normal symbol-definition/value operations restore ES to the main data segment. Internal SYMPTR deliberately returns ES:BX selecting a record; RECORDWRITE temporarily leaves ES selecting the bucket block. Their callers restore ES before ordinary string or publication work, including cleanup paths. In particular, DOS rename receives the destination in the main segment through ES:DI, and memory-management calls receive their required block segment. Ordinary string helpers can therefore continue to use ES=DS. DOS file buffers and ordinary state stay in DS. Save an offset and its page selector together inside page helpers; an offset alone is not a pointer into an arbitrary symbol page. Registers and pages are private assembler implementation details, not additions to IR language semantics.
 
@@ -150,7 +150,7 @@ Pass two rejects undefined symbols, duplicate definitions, changed definition va
 
 ## Language additions for the expanded tools
 
-Retain ASM86 forms and fixed instruction encodings so the published project sources remain accepted with identical bytes. Document the newly reserved segment-register names; do not claim every conceivable old source using those names as labels remains compatible. Add capabilities in separately tested groups:
+Retain ASM0 forms and fixed instruction encodings so the published project sources remain accepted with identical bytes. Document the newly reserved segment-register names; do not claim every conceivable old source using those names as labels remains compatible. Add capabilities in separately tested groups:
 
 - **Data and constants:** DB quoted byte strings with case preserved and doubled quotes for a literal quote; existing numeric DB/DW lists; zero-materializing RESB/RESW; earlier-resolved EQU constants; `$`; unary plus/minus and parenthesized addition/subtraction. Counts and constants affecting layout must resolve in pass one. Forward/cyclic EQU definitions are not supported.
 - **Segment access:** the seed's segment-register moves and ES override, followed by explicit segment overrides on supported memory operands. MOV to CS is rejected.
@@ -163,32 +163,32 @@ No PUSH immediate, two-/three-operand IMUL, immediate shift count other than one
 
 The reader preserves raw text case. The scanner folds names and mnemonics only outside quoted strings; semicolons within strings are data. Strings are read directly from the bounded physical line rather than forced through the ordinary token buffer. ASCII, CR/LF, bare CR/LF, a final unterminated text line, and source Control-Z have explicit tests.
 
-Layout values are evaluated as words with checked context-specific narrowing. In particular, unary -1 forms FFFFH for a word; a byte context still requires 0–255. Includes, macros, conditional assembly, object records, relocations, multiple code segments, and a linker are outside the initial ASM86A collection.
+Layout values are evaluated as words with checked context-specific narrowing. In particular, unary -1 forms FFFFH for a word; a byte context still requires 0–255. Includes, macros, conditional assembly, object records, relocations, multiple code segments, and a linker are outside the initial ASM86 collection.
 
 ## Gradual construction order
 
-The published construction splits these capability groups into twelve ASMA0 checkpoints and twenty-eight ASM86A checkpoints, each ending with its own self-assembly handoff. Disk checkpoint names remain A01 through A40; the ASM86A articles restart chapter numbering at 01 while retaining A13 as their first source filename. Both collections have their own workbench, language reference, programs, and source archive. The source generators and the forty-checkpoint verification chain remain shared under pub_src/tools and pub_src/qa/asm86a.
+The published construction splits these capability groups into twelve ASM1 checkpoints and twenty-eight ASM86 checkpoints, each ending with its own self-assembly handoff. Disk checkpoint names remain A01 through A40; the ASM86 articles restart chapter numbering at 01 while retaining A13 as their first source filename. Both collections have their own workbench, language reference, programs, and source archive. The source generators and the forty-checkpoint verification chain remain shared under pub_src/tools and pub_src/qa/asm86a.
 
 1. Fixed source name and an owned temporary-file copy diagnostic; inspect file length and bytes rather than executing copied data.
 2. Block input, with EOF, short reads, and boundary-crossing line endings.
 3. Block output, final partial flush, short writes, and close failures.
 4. Fixed result publication and recovery handling.
-5. Two-pass driver using the accepted ASM86 grammar; streamed emission replaces the complete image buffer.
+5. Two-pass driver using the accepted ASM0 grammar; streamed emission replaces the complete image buffer.
 6. Larger in-segment symbol table; demonstrate definitions beyond 256 and output beyond 8192 bytes.
 7. Seed segment-MOV and ES-memory encodings, accepted without using them in the seed implementation.
-8. ASMA0 direct build and two matching self-assembly generations. This is the first mandatory bootstrap gate.
-9. A small allocated-memory diagnostic, built by ASMA0, followed by page-boundary symbol storage and cleanup.
+8. ASM1 direct build and two matching self-assembly generations. This is the first mandatory bootstrap gate.
+9. A small allocated-memory diagnostic, built by ASM1, followed by page-boundary symbol storage and cleanup.
 10. Exact-spelling bucket lookup, 8192-symbol capacity, long names, longer lines, and checked word-pair source counters.
 11. Quoted data and constants, followed by addressing, arithmetic, and string-operation families in small additions.
-12. Explicit long conditional expansion, full compatibility checks, two matching ASM86A self-assemblies, and the complete chain.
+12. Explicit long conditional expansion, full compatibility checks, two matching ASM86 self-assemblies, and the complete chain.
 
-Preserve working executables before each handoff. No new source instruction may be used until its builder accepts it. If a seed source exceeds ASM86's limits, move nonessential feature additions past the seed's self-build; do not change ASM86's published capacity or use an outside encoder.
+Preserve working executables before each handoff. No new source instruction may be used until its builder accepts it. If a seed source exceeds ASM0's limits, move nonessential feature additions past the seed's self-build; do not change ASM0's published capacity or use an outside encoder.
 
 ## Acceptance gates
 
-- Execute canonical BOOTASM.BAS to build ASM86; use that ASM86 to build ASMA0 directly. Verify both seed self-assembly generations match its initial executable.
-- Build the complete ASM86A from ASMA0. Two ASM86A self-assembly generations must match the seed-produced executable, with deterministic encodings.
-- Reassemble the existing ASM86, IR86, and RILL-generated assembly and require identical bytes. New forms are opt-in; compatibility is a measured result.
+- Execute canonical BOOTASM.BAS to build ASM0; use that ASM0 to build ASM1 directly. Verify both seed self-assembly generations match its initial executable.
+- Build the complete ASM86 from ASM1. Two ASM86 self-assembly generations must match the seed-produced executable, with deterministic encodings.
+- Reassemble the existing ASM0, IR86, and RILL-generated assembly and require identical bytes. New forms are opt-in; compatibility is a measured result.
 - Prove source streaming beyond 64 KB, beyond 65535 lines, and across every block/line/token boundary. The seed has its separately stated line bound.
 - Prove exactly 8192 distinct definitions, lookup of the final record on every page, deliberate bucket collisions, and rejection of definition 8193. Verify long names differing only at the final character.
 - Prove exactly EF00H emitted bytes and rejection of one extra byte, PC arithmetic without wrap, large reserves, and final partial/empty output.
@@ -201,10 +201,14 @@ Preserve working executables before each handoff. No new source instruction may 
 
 The streaming IRWIDE bridge and the IR-written RILLBOOT compiler seed are implemented. IR86 uses procedures, parameter/local slots, literal data, word arithmetic, and opaque allocated-block services without exposing native registers or segments. Source and output are streamed rather than kept in a whole-file buffer.
 
-The RILL-written compiler, IR86, and ASM86A build through that native seed chain and reproduce all three executables through two closed-loop generations. General identifiers, initialized symbol records, lexical scopes, procedures, local state, byte buffers, strings, and portable file/block services replace the initial compiler's one-letter-variable and 1024-byte-result constraints. The assembler keeps its 8192-symbol and 61184-byte image contract. See [TOOLCHAIN_Design.md](TOOLCHAIN_Design.md) and the complete toolchain exercise.
+The RILL-written compiler, IR86, and ASM86 build through that native seed chain and reproduce all three executables through two closed-loop generations. General identifiers, initialized symbol records, lexical scopes, procedures, local state, byte buffers, strings, and portable file/block services replace the initial compiler's one-letter-variable and 1024-byte-result constraints. The assembler keeps its 8192-symbol and 61184-byte image contract. See [TOOLCHAIN_Design.md](TOOLCHAIN_Design.md) and the complete toolchain exercise.
 
 The COM execution profile still has a real near-code/image limit. Allocated workspace makes larger compilers practical; it does not create a multisegment executable. Linker and executable-format work remain separate milestones.
 
 ## Production reference
 
 Memory allocation, block resizing, handle I/O, and rename behavior are checked against Microsoft, *MS-DOS 3.10 Programmer's Reference Manual*, November 1984, memory-management overview and functions 3CH–41H, 48H–4AH, and 56H. The [archived original manual](https://ftpmirror.your.org/pub/misc/bitsavers/pdf/microsoft/msdos_3.10/8411-310-02_MSDOS_3.10_Programmers_Reference_Manual_1984.pdf) is a production reference; reader-facing articles should cite its printed title and sections rather than a web address.
+
+Reader naming and validation: the native assemblers are ASM0, ASM1, and ASM86; the compiler stages are RILL0, RILLBOOT, and RILL. Existing production directory names and ASxx/Axx/Rxx/RBxx/RCxx checkpoint filenames remain stable. Canonical reader source archives are published under pub_src/site/static/downloads/tools. The naming map and descriptive article titles are maintained by pub_src/tools/publication_names.py.
+
+Prefer inspecting the actual emitted file, with its exact length and bytes, when an addition has no retained display behavior. Do not add a formatting routine merely to display internal test state. A pure runtime helper may compare its result and return a status through the existing CHECK.BAT. Keep rejection tests relevant to the new behavior; do not repeat predecessor overflow and missing-file tests in every lesson. Retain natural compiler reports, meaningful program output, and final self-build comparisons.

@@ -3,6 +3,8 @@ title = "05. Several bytes on one line"
 weight = 5
 description = "A row of data, one comma at a time."
 checkpoint = "BA05.BAS"
+download_group = "tools/bootasm"
+reader_names = 1
 +++
 
 A row of character codes ought to occupy a row of source. We shall let DB accept a comma-separated list, using the number routine for each item.

@@ -1,4 +1,5 @@
 """Render exact IR edits and native-measured RILL checkpoint results into the manuscript."""
+from publication_names import write_page
 from pathlib import Path
 from difflib import SequenceMatcher
 import json,re
@@ -71,7 +72,7 @@ for case in cases:
  elif n<13:t+='Check each service STATUS immediately, the current-byte advance, and any shared work cell needed across a call. Compare token values with the printed result before changing the parser.\n'
  elif n<24:t+='Check both halves of keyword spellings, required delimiters, and saved names or operators. Compare RESULT.IR with the printed text before translating it. A source error and a result-write error have different effects on an old file.\n'
  else:t+='Check the order in which targets enter and leave FRAMES. Compare the false relation and label names in RESULT.IR. A branch must consume its saved expression operand before reaching an IR control boundary.\n'
- (C/page).write_text(t);patches.append(dict(number=n,page=page,base=oldfile if n>1 else None,changes=changes));previous=lines
+ write_page((C/page),t);patches.append(dict(number=n,page=page,base=oldfile if n>1 else None,changes=changes));previous=lines
 (Q/'article-patches.json').write_text(json.dumps(patches,indent=2)+'\n')
 # A complete pipeline whose counts come from actual native tools.
 count=next(r for r in examples if r['name']=='COUNT')
@@ -83,7 +84,7 @@ t+=f'Require `OK RESULT.IR {count["text_bytes"]:05}` and PASS. TYPE RESULT.IR mu
 t+='The WORD declaration precedes MAIN. The condition emits UGE to leave the loop when x is not less than 51. PUSH and ADD implement the update; both loop edges have an empty expression stack. B00001 and B00002 are generated names, not physical addresses.\n\n## Translate and assemble\n\n'+fence('dos','COPY RESULT.IR COUNT.IR\nCHECK IRKEEP')
 t+=f'Enter COUNT. Require `OK COUNT.ASM {count["assembly_bytes"]:05} text bytes` and PASS. Run CHECK ASMKEEP, enter COUNT, and require `OK {count["binary_bytes"]:05} bytes` and PASS. VIEW.BAS must report COUNT.COM length {count["binary_bytes"]} bytes. Its first sixteen hexadecimal bytes are:\n\n'+fence('text',(W/'COUNT.COM').read_bytes()[:16].hex(' ').upper())
 t+='Only after all three tools succeed, run CHECK COUNT. It displays `012` and reports PASS. The saved IR is sufficient input for another conforming backend; the source program makes no native register or DOS call assumptions.\n\n## Observe a rejected program\n\nCopy COUNT.RIL to BADCOUNT.RIL and remove the semicolon from `x = x + 1;`. Copy BADCOUNT.RIL to SOURCE.RIL and run CHECK RLKEEP. Require ERROR 00006 CODE 00002 and FAIL. The closing brace is the token at which the missing semicolon is detected. TYPE RESULT.IR must still show the accepted counter above.\n\nRestore COUNT.RIL as SOURCE.RIL before another successful build. An unexpected PASS fails the rejection check. If the result differs, inspect RESULT.IR first, then COUNT.ASM; do not execute an older COUNT.COM after any build step fails.\n'
-(C/'30-the-complete-pipeline.md').write_text(t)
+write_page((C/'30-the-complete-pipeline.md'),t)
 # Short complete programs, each with a relevant exact rejection.
 t=front('Complete RILL programs',32,'Byte output, a mutable counter, unsigned choice, and a checked byte-stream echo.','RILL.ZIP')
 t+='These programs use the completed compiler. For each NAME.RIL, copy it to SOURCE.RIL and run CHECK RLKEEP. Require the compiler count and PASS; copy RESULT.IR to NAME.IR. Run CHECK IRKEEP and CHECK ASMKEEP, entering NAME at each prompt, requiring both OK reports and PASS before executing NAME.COM.\n\n'
@@ -99,5 +100,5 @@ for r in examples:
  if name=='RLECHO':t+='Create KEY.TXT with `ECHO RILL echo.>KEY.TXT`. Run `CHECK RLECHO <KEY.TXT`; it displays `RILL echo.` with CR/LF and reports PASS. An empty input file produces no text and still reports PASS. The compiler source reader\'s Control-Z convention does not apply to this program\'s byte input.\n\n'
  else:t+='CHECK '+name+' displays `'+r['output']+'` and reports PASS.\n\n'
  t+='For a separate rejection, copy the source to BAD.RIL. '+reject+' Copy that changed file to SOURCE.RIL and run CHECK RLKEEP. An unexpected PASS is a failed rejection. The older RESULT.IR must remain unchanged. Restore the accepted source before building again.\n\n'
-(C/'32-programs.md').write_text(t)
+write_page((C/'32-programs.md'),t)
 print('Rendered RILL construction, pipeline, and complete-program articles.')

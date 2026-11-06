@@ -1,20 +1,17 @@
 +++
-title = "RB44 \u00b7 Enter and leave a lexical scope"
+title = "44 \u00b7 Remembering Which Names Are Visible"
 weight = 44
 description = "Save the active local-name count and next local slot at entry."
 download = "RB44.IR"
-download_group = "rb"
+download_group = "tools/rillboot"
 cartoon = "rill-drawers.png"
 aliases = ["/bootstrap/rill/077-rb-enter-and-leave-a-lexical-scope/"]
+reader_names = 1
 +++
-
-Save the active local-name count and next local slot at entry.
 
 ## The working parts
 
 Save the active local-name count and next local slot at entry. Restore both at the closing brace. This permits a nested binding to shadow an outer one without permanently consuming its name or slot.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -30,7 +27,7 @@ PUSH
 INVOKE EXPECT 1
 ```
 
-Insert after old physical line 1271.
+Insert after old physical line 1269.
 
 Insert:
 
@@ -60,7 +57,7 @@ LIT 0
 RETURN
 ```
 
-Insert after old physical line 1204.
+Insert after old physical line 1202.
 
 Insert:
 
@@ -157,13 +154,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000059770 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 19623 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000059571 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 19600 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RB44.COM
 ```
 
-VIEW.BAS must report RB44.COM length 19623 bytes. Keep this executable and its source together.
+VIEW.BAS must report RB44.COM length 19600 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -181,20 +178,11 @@ COPY TRB44.RIL SOURCE.RIL
 CHECK RB44
 ```
 
-Require, apart from command echo and the checker's separator:
+The checker must report PASS. Inspect the emitted file below.
 
-```text
-OK RILL.TMP
-PASS
-```
+Use VIEW.BAS to inspect RILL.TMP. Require length 0 bytes. An empty file is the expected result.
 
-TYPE RILL.TMP. Its complete text is:
-
-```ir
-
-```
-
-VIEW.BAS must show length 0 bytes. For an empty fragment, length zero is the expected visible result. This is an IR fragment for inspection. Do not translate it as a complete program or execute any file with its name.
+This is an IR fragment for inspection. Do not translate it as a complete program or execute any file with its name.
 
 After inspection, delete this deliberately created RILL.TMP before another checkpoint. The file is diagnostic text, not an interrupted accepted compiler build.
 
@@ -222,4 +210,4 @@ An unexpected PASS fails the rejection. The pre-existing RESULT.IR must remain u
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Check the saved name count and next local slot at block entry and restoration at its closing brace.

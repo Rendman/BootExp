@@ -32,7 +32,7 @@ bytes outbuf[4096];
 bytes ident[32];
 bytes string[512];
 
-fn main(){setident("ABC");print(ident);return 0;}
+fn main(){setident("ABC");tok=1;return isword("ABC")!=1;}
 
 fn next() {
     if ch == 10 {

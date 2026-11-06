@@ -1,8 +1,10 @@
 +++
-title = "01 \u00b7 Allocating auxiliary workspace"
+title = "01 \u00b7 Getting More Memory from DOS"
 weight = 1
 description = "Shrink the main allocation and request owned DOS work blocks."
 download = "A13.ASM"
+download_group = "tools/asm86"
+reader_names = 1
 +++
 
 A full symbol table should not compete with resident code for the same segment.
@@ -15,7 +17,7 @@ MEMFREE releases recorded allocations and restores ES to the main segment. Parti
 
 ## Enter the source
 
-Copy `ASMA0.ASM` to `A13.ASM`. Apply the following edits **from the bottom of the old file upward**. Physical positions locate an edit in the unchanged old file; use the nearby label and printed context to identify it. Keep all other source. The Z labels are ordinary implementation labels for explicit short-branch bridges.
+Copy `ASM1.ASM` to `A13.ASM`. Apply the following edits **from the bottom of the old file upward**. Physical positions locate an edit in the unchanged old file; use the nearby label and printed context to identify it. Keep all other source. The Z labels are ordinary implementation labels for explicit short-branch bridges.
 
 ### Change 1 near `P1:`
 
@@ -1611,7 +1613,7 @@ MOV AL,1
 
 ```dos
 COPY A13.ASM SOURCE.ASM
-CHECK ASMA0
+CHECK ASM1
 ```
 
 Require `OK RESULT.COM 03722 bytes` and PASS. Preserve this executable before using its fixed output name:
@@ -1656,14 +1658,7 @@ In VIEW.BAS, inspect RESULT.COM. Require length **11 bytes** and these complete 
 B2 41 B4 02 CD 21 B8 00 4C CD 21
 ```
 
-This fixture is a complete program. Save it before another assembly and execute it:
-
-```dos
-COPY RESULT.COM TRY.COM
-CHECK TRY
-```
-
-It displays "A" and the checker reports PASS.
+The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
 
 ## A rejection check
 

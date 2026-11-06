@@ -4,6 +4,8 @@ weight = 12
 description = "Save A and retrieve it with an explicit stack effect."
 download = "IR12.ASM"
 cartoon = "ir86-plates.png"
+download_group = "tools/ir86"
+reader_names = 1
 +++
 
 One accumulator cannot retain both sides of an expression. PUSH saves its word; POP restores the latest saved word.
@@ -208,7 +210,7 @@ CALL BALANCED
 CHECK ASMKEEP
 ```
 
-Enter `IR12` at ASM86's `Source name:` prompt. Require `OK 02147 bytes` followed by PASS. This builds `IR12.COM` directly with the completed assembler. Save the source and executable before running the test.
+Enter `IR12` at ASM0's `Source name:` prompt. Require `OK 02147 bytes` followed by PASS. This builds `IR12.COM` directly with the completed assembler. Save the source and executable before running the test.
 
 Create `T12.IR` with `COPY CON T12.IR`, enter this text, and finish with Ctrl-Z and Enter. The Ctrl-Z keystroke ends console input; it is not a printed language token.
 

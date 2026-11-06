@@ -1,20 +1,17 @@
 +++
-title = "RC40 \u00b7 Scope entry and restoration"
+title = "40 \u00b7 Remembering Which Names Are Visible"
 weight = 40
 description = "Save the active local-name count and next local slot at entry."
 download = "RC40.RIL"
-download_group = "rc"
+download_group = "tools/rill"
 cartoon = "rill-drawers.png"
 aliases = ["/bootstrap/rill/128-rc-scope-entry-and-restoration/"]
+reader_names = 1
 +++
-
-Save the active local-name count and next local slot at entry.
 
 ## The working parts
 
 Save the active local-name count and next local slot at entry. Restore both at the closing brace. This permits a nested binding to shadow an outer one without permanently consuming its name or slot.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -89,13 +86,13 @@ bytes string[512];
 Remove this source at old physical positions 35–35 in RC39.RIL:
 
 ```rill
-fn main(){table=alloc(22000);output=create("RILL.TMP");own=1;input=open("SOURCE.RIL");if status(){fail(1);}next();lex();level=1;declare();flush();close(output);output=0;own=0;print("OK RILL.TMP\r\n");return 0;}
+fn main(){table=alloc(22000);output=create("RILL.TMP");own=1;input=open("SOURCE.RIL");if status(){fail(1);}next();lex();level=1;declare();flush();close(output);output=0;own=0;return 0;}
 ```
 
 Replace it with:
 
 ```rill
-fn main(){table=alloc(22000);output=create("RILL.TMP");own=1;input=open("SOURCE.RIL");if status(){fail(1);}next();lex();block();flush();close(output);output=0;own=0;print("OK RILL.TMP\r\n");return 0;}
+fn main(){table=alloc(22000);output=create("RILL.TMP");own=1;input=open("SOURCE.RIL");if status(){fail(1);}next();lex();block();flush();close(output);output=0;own=0;return 0;}
 ```
 
 The following old source remains in place:
@@ -112,7 +109,7 @@ COPY RC40.RIL SOURCE.RIL
 CHECK RILLBOOT
 ```
 
-Require `OK RESULT.IR 0000040044` and PASS. Copy RESULT.IR to SOURCE.IR.
+Require `OK RESULT.IR 0000039992` and PASS. Copy RESULT.IR to SOURCE.IR.
 
 ```dos
 CHECK IWKEEP
@@ -120,13 +117,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000083529 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 23330 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000083305 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 23302 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RC40.COM
 ```
 
-VIEW.BAS must report RC40.COM length 23330 bytes. Keep this executable and its source together.
+VIEW.BAS must report RC40.COM length 23302 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -144,20 +141,11 @@ COPY TRC40.RIL SOURCE.RIL
 CHECK RC40
 ```
 
-Require, apart from command echo and the checker's separator:
+The checker must report PASS. Inspect the emitted file below.
 
-```text
-OK RILL.TMP
-PASS
-```
+Use VIEW.BAS to inspect RILL.TMP. Require length 0 bytes. An empty file is the expected result.
 
-TYPE RILL.TMP. Its complete text is:
-
-```ir
-
-```
-
-VIEW.BAS must show length 0 bytes. For an empty fragment, length zero is the expected visible result. This is an IR fragment for inspection. Do not translate it as a complete program or execute any file with its name.
+This is an IR fragment for inspection. Do not translate it as a complete program or execute any file with its name.
 
 After inspection, delete this deliberately created RILL.TMP before another checkpoint. The file is diagnostic text, not an interrupted accepted compiler build.
 
@@ -185,4 +173,4 @@ An unexpected PASS fails the rejection. The pre-existing RESULT.IR must remain u
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Check the saved name count and next local slot at block entry and restoration at its closing brace.

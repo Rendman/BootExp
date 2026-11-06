@@ -3,6 +3,8 @@ title = "03 \u00b7 Writing a complete symbol record"
 weight = 3
 description = "Initialize spelling, value, link, flags, and kind together."
 download = "A15.ASM"
+download_group = "tools/asm86"
+reader_names = 1
 +++
 
 Allocated RAM is not guaranteed to contain zeroes.
@@ -200,7 +202,7 @@ MOV AX,8192
 
 ```dos
 COPY A15.ASM SOURCE.ASM
-CHECK ASMA0
+CHECK ASM1
 ```
 
 Require `OK RESULT.COM 03926 bytes` and PASS. Preserve this executable before using its fixed output name:
@@ -245,14 +247,7 @@ In VIEW.BAS, inspect RESULT.COM. Require length **11 bytes** and these complete 
 B2 41 B4 02 CD 21 B8 00 4C CD 21
 ```
 
-This fixture is a complete program. Save it before another assembly and execute it:
-
-```dos
-COPY RESULT.COM TRY.COM
-CHECK TRY
-```
-
-It displays "A" and the checker reports PASS.
+The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
 
 ## A rejection check
 

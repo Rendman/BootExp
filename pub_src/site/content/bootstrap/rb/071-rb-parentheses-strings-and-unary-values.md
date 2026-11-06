@@ -1,19 +1,16 @@
 +++
-title = "RB38 \u00b7 Parentheses, strings, and unary values"
+title = "38 \u00b7 Reading Parentheses, Strings, and Unary Values"
 weight = 38
 description = "A primary can emit a literal, string pointer, binding, addressed slot, indexed byte, or call."
 download = "RB38.IR"
-download_group = "rb"
+download_group = "tools/rillboot"
 aliases = ["/bootstrap/rill/071-rb-parentheses-strings-and-unary-values/"]
+reader_names = 1
 +++
-
-A primary can emit a literal, string pointer, binding, addressed slot, indexed byte, or call.
 
 ## The working parts
 
 A primary can emit a literal, string pointer, binding, addressed slot, indexed byte, or call. Parentheses recurse through EXPR. Save binding metadata before scanning a nested expression, which can change the shared search fields.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -29,7 +26,7 @@ CALL NEWLINE
 CALL LEX
 ```
 
-Insert after old physical line 1535.
+Insert after old physical line 1533.
 
 Insert:
 
@@ -142,7 +139,7 @@ CNE
 JNZ SYNTAX
 ```
 
-Insert after old physical line 1529.
+Insert after old physical line 1527.
 
 Insert:
 
@@ -168,7 +165,7 @@ PUSH
 LIT 2
 ```
 
-Insert after old physical line 1527.
+Insert after old physical line 1525.
 
 Insert:
 
@@ -226,7 +223,7 @@ LIT 0
 RETURN
 ```
 
-Remove this source at old physical positions 1524–1524 in RB37.IR:
+Remove this source at old physical positions 1522–1522 in RB37.IR:
 
 ```ir
 PROC PRIMARY 0 0
@@ -257,13 +254,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000050537 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 17911 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000050338 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 17888 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RB38.COM
 ```
 
-VIEW.BAS must report RB38.COM length 17911 bytes. Keep this executable and its source together.
+VIEW.BAS must report RB38.COM length 17888 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -281,24 +278,17 @@ COPY TRB38.RIL SOURCE.RIL
 CHECK RB38
 ```
 
-Require, apart from command echo and the checker's separator:
+The checker must report PASS. Inspect the emitted file below.
+
+Use VIEW.BAS to inspect RILL.TMP. Require length 38 bytes. The complete bytes must be:
 
 ```text
-OK RILL.TMP
-PASS
+4C 49 54 20 30 30 30 30 31 0D 0A 50 55 53 48 0D
+0A 4C 49 54 20 30 30 30 30 32 0D 0A 41 44 44 0D
+0A 4E 45 47 0D 0A
 ```
 
-TYPE RILL.TMP. Its complete text is:
-
-```ir
-LIT 00001
-PUSH
-LIT 00002
-ADD
-NEG
-```
-
-VIEW.BAS must show length 38 bytes. This is an IR fragment for inspection. Do not translate it as a complete program or execute any file with its name.
+This is an IR fragment for inspection. Do not translate it as a complete program or execute any file with its name.
 
 After inspection, delete this deliberately created RILL.TMP before another checkpoint. The file is diagnostic text, not an interrupted accepted compiler build.
 
@@ -326,4 +316,4 @@ An unexpected PASS fails the rejection. The pre-existing RESULT.IR must remain u
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Compare PRIMARY with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.

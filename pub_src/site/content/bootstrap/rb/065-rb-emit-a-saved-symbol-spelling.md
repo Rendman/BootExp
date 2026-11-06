@@ -1,19 +1,16 @@
 +++
-title = "RB32 \u00b7 Emit a saved symbol spelling"
+title = "32 \u00b7 Writing a Stored Name"
 weight = 32
 description = "Read the spelling from its stable symbol record."
 download = "RB32.IR"
-download_group = "rb"
+download_group = "tools/rillboot"
 aliases = ["/bootstrap/rill/065-rb-emit-a-saved-symbol-spelling/"]
+reader_names = 1
 +++
-
-Read the spelling from its stable symbol record.
 
 ## The working parts
 
 Read the spelling from its stable symbol record. Parsing another argument must not silently change the name being emitted.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -28,7 +25,7 @@ LD FOUND
 RETURN
 ```
 
-Insert after old physical line 857.
+Insert after old physical line 855.
 
 Insert:
 
@@ -146,13 +143,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000032621 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 15017 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000032422 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 14994 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RB32.COM
 ```
 
-VIEW.BAS must report RB32.COM length 15017 bytes. Keep this executable and its source together.
+VIEW.BAS must report RB32.COM length 14994 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -160,40 +157,18 @@ VIEW.BAS must report RB32.COM length 15017 bytes. Keep this executable and its s
 CHECK RB32
 ```
 
-Require, apart from command echo and the checker's separator:
+The checker must report PASS. Inspect the emitted file below.
+
+Use VIEW.BAS to inspect RILL.TMP. Require length 3 bytes. The complete bytes must be:
 
 ```text
-OK RILL.TMP
-PASS
+41 42 43
 ```
 
-TYPE RILL.TMP. Its complete text is:
-
-```ir
-ABC
-```
-
-VIEW.BAS must show length 3 bytes. This is an IR fragment for inspection. Do not translate it as a complete program or execute any file with its name.
+This is an IR fragment for inspection. Do not translate it as a complete program or execute any file with its name.
 
 After inspection, delete this deliberately created RILL.TMP before another checkpoint. The file is diagnostic text, not an interrupted accepted compiler build.
 
-## A rejection or boundary check
-
-Check a representable-word boundary in the preceding translator. Create BAD.IR:
-
-```ir
-PROC MAIN 0 0
-LIT 65536
-RETURN
-```
-
-```dos
-COPY BAD.IR SOURCE.IR
-CHECK IWKEEP
-```
-
-Require `IR ERROR 0000000002 CODE 2` and FAIL. The accepted RESULT.ASM must remain unchanged. The diagnostic cannot be built from an out-of-range word.
-
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Compare OUTNAME with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.

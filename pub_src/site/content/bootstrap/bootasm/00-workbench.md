@@ -3,6 +3,8 @@ title = "The workbench"
 weight = 0
 description = "BASIC, plain text, and a place to keep the stopping points."
 download = "BOOTASM.ZIP"
+download_group = "tools/bootasm"
+reader_names = 1
 +++
 
 Use a DOS work directory containing GW-BASIC, or keep the interpreter on your DOS command path. The instructions call it `GWBASIC`; substitute the name on your own disk if it differs. Start it once without a filename and note its version banner. Use the period GW-BASIC supplied with your MS-DOS 3.10 distribution; DOS and BASIC have independent version numbers.

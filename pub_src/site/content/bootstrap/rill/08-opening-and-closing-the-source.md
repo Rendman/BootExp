@@ -3,6 +3,8 @@ title = "08 \u00b7 Opening and closing the source"
 weight = 8
 description = "Check the file lifetime before interpreting its contents."
 download = "R08.IR"
+download_group = "tools/rill0"
+reader_names = 1
 +++
 
 An empty readable file is different from a file that could not be opened.

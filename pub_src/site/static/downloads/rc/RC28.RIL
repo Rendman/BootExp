@@ -32,7 +32,7 @@ bytes outbuf[4096];
 bytes ident[32];
 bytes string[512];
 
-fn main(){output=create("RILL.TMP");own=1;labeljump(7);flush();close(output);output=0;own=0;print("OK RILL.TMP\r\n");return 0;}
+fn main(){output=create("RILL.TMP");own=1;labeljump(7);flush();close(output);output=0;own=0;return 0;}
 
 fn next() {
     if ch == 10 {

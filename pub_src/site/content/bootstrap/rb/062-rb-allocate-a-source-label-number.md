@@ -1,19 +1,16 @@
 +++
-title = "RB29 \u00b7 Allocate a source label number"
+title = "29 \u00b7 Giving Each Branch a Unique Name"
 weight = 29
 description = "Advance a checked word counter."
 download = "RB29.IR"
-download_group = "rb"
+download_group = "tools/rillboot"
 aliases = ["/bootstrap/rill/062-rb-allocate-a-source-label-number/"]
+reader_names = 1
 +++
-
-Advance a checked word counter.
 
 ## The working parts
 
 Advance a checked word counter. The counter supplies names, not physical code addresses.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -28,7 +25,7 @@ LIT 0
 RETURN
 ```
 
-Insert after old physical line 986.
+Insert after old physical line 984.
 
 Insert:
 
@@ -56,20 +53,14 @@ LITS "\r\n"
 Unchanged source immediately before the edit:
 
 ```ir
-WORD EXPRDEPTH 0
-
-PROC MAIN 0 0
-```
-
-Remove this source at old physical positions 35–50 in RB28.IR:
-
-```ir
-LITS "RILL.TMP"
-CREATE
-ST OUTPUT
 STATUS
 JNZ IOFAIL
 LIT 1
+```
+
+Remove this source at old physical positions 41–49 in RB28.IR:
+
+```ir
 ST OWN
 CALL NEWLINE
 CALL FLUSH
@@ -78,22 +69,53 @@ CLOSE
 LIT 0
 ST OUTPUT
 ST OWN
-LITS "OK RILL.TMP\r\n"
-CALL PRINT
+LIT 0
+```
+
+Replace it with:
+
+```ir
+CNE
+```
+
+The following old source remains in place:
+
+```ir
+RETURN
+```
+
+### Edit 3
+
+Unchanged source immediately before the edit:
+
+```ir
+WORD EXPRDEPTH 0
+
+PROC MAIN 0 0
+```
+
+Remove this source at old physical positions 35–39 in RB28.IR:
+
+```ir
+LITS "RILL.TMP"
+CREATE
+ST OUTPUT
+STATUS
+JNZ IOFAIL
 ```
 
 Replace it with:
 
 ```ir
 CALL NEWLABEL
-CALL PRINTNUM
+PUSH
 ```
 
 The following old source remains in place:
 
 ```ir
-LIT 0
-RETURN
+LIT 1
+ST OWN
 ```
 
 ## Build this stopping point
@@ -108,13 +130,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000030676 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 14685 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000030713 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 14692 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RB29.COM
 ```
 
-VIEW.BAS must report RB29.COM length 14685 bytes. Keep this executable and its source together.
+VIEW.BAS must report RB29.COM length 14692 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -122,29 +144,8 @@ VIEW.BAS must report RB29.COM length 14685 bytes. Keep this executable and its s
 CHECK RB29
 ```
 
-Require, apart from command echo and the checker's separator:
-
-```text
-00001PASS
-```
-
-## A rejection or boundary check
-
-Check a representable-word boundary in the preceding translator. Create BAD.IR:
-
-```ir
-PROC MAIN 0 0
-LIT 65536
-RETURN
-```
-
-```dos
-COPY BAD.IR SOURCE.IR
-CHECK IWKEEP
-```
-
-Require `IR ERROR 0000000002 CODE 2` and FAIL. The accepted RESULT.ASM must remain unchanged. The diagnostic cannot be built from an out-of-range word.
+The checker must report PASS. The driver compares the result with 1 and returns nonzero on a mismatch; it adds no display routine.
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Compare NEWLABEL with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.

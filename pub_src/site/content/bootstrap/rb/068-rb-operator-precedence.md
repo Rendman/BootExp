@@ -1,19 +1,16 @@
 +++
-title = "RB35 \u00b7 Operator precedence"
+title = "35 \u00b7 Making Multiplication Come First"
 weight = 35
 description = "Return a precedence number, with zero for a nonoperator."
 download = "RB35.IR"
-download_group = "rb"
+download_group = "tools/rillboot"
 aliases = ["/bootstrap/rill/068-rb-operator-precedence/"]
+reader_names = 1
 +++
-
-Return a precedence number, with zero for a nonoperator.
 
 ## The working parts
 
 Return a precedence number, with zero for a nonoperator. Multiplication binds more tightly than addition; word comparisons and bit operators occupy explicitly defined lower levels.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -28,7 +25,7 @@ LOCAL 0
 RETURN
 ```
 
-Insert after old physical line 1225.
+Insert after old physical line 1226.
 
 Insert:
 
@@ -151,12 +148,47 @@ LIT 1
 Unchanged source immediately before the edit:
 
 ```ir
+ST RECLEVEL
+LIT 0
+PUSH
+```
+
+Remove this source at old physical positions 48–54 in RB34.IR:
+
+```ir
+INVOKE RECORD 1
+LIT 1
+ST GLOBALS
+CALL RESOLVEOPTIONAL
+LD RECTYPE
+PUSH
+LIT 1
+```
+
+Replace it with:
+
+```ir
+LIT 7
+```
+
+The following old source remains in place:
+
+```ir
+CNE
+RETURN
+```
+
+### Edit 3
+
+Unchanged source immediately before the edit:
+
+```ir
 WORD EXPRDEPTH 0
 
 PROC MAIN 0 0
 ```
 
-Remove this source at old physical positions 35–52 in RB34.IR:
+Remove this source at old physical positions 35–46 in RB34.IR:
 
 ```ir
 LIT 22000
@@ -171,12 +203,6 @@ ST RECVAL
 LIT 0
 ST RECLEVEL
 LIT 0
-PUSH
-INVOKE RECORD 1
-LIT 1
-ST GLOBALS
-CALL RESOLVEOPTIONAL
-LD RECTYPE
 ```
 
 Replace it with:
@@ -195,8 +221,8 @@ CALL PREC
 The following old source remains in place:
 
 ```ir
-CALL PRINTNUM
-LIT 0
+PUSH
+INVOKE RECORD 1
 ```
 
 ## Build this stopping point
@@ -211,13 +237,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000040899 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 16269 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000040936 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 16276 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RB35.COM
 ```
 
-VIEW.BAS must report RB35.COM length 16269 bytes. Keep this executable and its source together.
+VIEW.BAS must report RB35.COM length 16276 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -235,25 +261,8 @@ COPY TRB35.RIL SOURCE.RIL
 CHECK RB35
 ```
 
-Require, apart from command echo and the checker's separator:
-
-```text
-00007PASS
-```
-
-## A rejection or boundary check
-
-Rename SOURCE.RIL to an unused HOLD.RIL and run CHECK RB35. Restore the source afterward.
-
-Require:
-
-```text
-ERROR 0000000001 CODE 00001
-FAIL
-```
-
-An unexpected PASS fails the rejection. The pre-existing RESULT.IR must remain unchanged; preserve a copy before the test.
+The checker must report PASS. The driver compares the result with 7 and returns nonzero on a mismatch; it adds no display routine.
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Check the token code against the returned precedence. Multiplication must rank above addition; a nonoperator returns zero.

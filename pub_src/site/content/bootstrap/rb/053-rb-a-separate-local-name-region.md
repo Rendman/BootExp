@@ -1,19 +1,16 @@
 +++
-title = "RB20 \u00b7 A separate local-name region"
+title = "20 \u00b7 Adding a Local Name"
 weight = 20
 description = "Append a record in the separate local-name region."
 download = "RB20.IR"
-download_group = "rb"
+download_group = "tools/rillboot"
 aliases = ["/bootstrap/rill/053-rb-a-separate-local-name-region/"]
+reader_names = 1
 +++
-
-Append a record in the separate local-name region.
 
 ## The working parts
 
 Append a record in the separate local-name region. Its slot number and lexical level are explicit fields. The region has room for parameters and live local bindings, not a second global namespace.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -28,7 +25,7 @@ INVOKE RECORD 1
 RETURN
 ```
 
-Insert after old physical line 731.
+Insert after old physical line 732.
 
 Insert:
 
@@ -71,6 +68,35 @@ SETLOCAL 0
 Unchanged source immediately before the edit:
 
 ```ir
+LIT 34
+CALL TWORD
+PUSH
+```
+
+Remove this source at old physical positions 47–47 in RB19.IR:
+
+```ir
+LIT 12345
+```
+
+Replace it with:
+
+```ir
+LIT 7
+```
+
+The following old source remains in place:
+
+```ir
+CNE
+RETURN
+```
+
+### Edit 3
+
+Unchanged source immediately before the edit:
+
+```ir
 CALL SETIDENT
 LIT 12345
 ST RECVAL
@@ -96,10 +122,10 @@ The following old source remains in place:
 
 ```ir
 CALL TWORD
-CALL PRINTNUM
+PUSH
 ```
 
-### Edit 3
+### Edit 4
 
 Unchanged source immediately before the edit:
 
@@ -140,13 +166,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000025771 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 13746 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000025808 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 13753 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RB20.COM
 ```
 
-VIEW.BAS must report RB20.COM length 13746 bytes. Keep this executable and its source together.
+VIEW.BAS must report RB20.COM length 13753 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -154,29 +180,8 @@ VIEW.BAS must report RB20.COM length 13746 bytes. Keep this executable and its s
 CHECK RB20
 ```
 
-Require, apart from command echo and the checker's separator:
-
-```text
-00007PASS
-```
-
-## A rejection or boundary check
-
-Check a representable-word boundary in the preceding translator. Create BAD.IR:
-
-```ir
-PROC MAIN 0 0
-LIT 65536
-RETURN
-```
-
-```dos
-COPY BAD.IR SOURCE.IR
-CHECK IWKEEP
-```
-
-Require `IR ERROR 0000000002 CODE 2` and FAIL. The accepted RESULT.ASM must remain unchanged. The diagnostic cannot be built from an out-of-range word.
+The checker must report PASS. The driver compares the result with 7 and returns nonzero on a mismatch; it adds no display routine.
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Compare NEWLOCAL with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.

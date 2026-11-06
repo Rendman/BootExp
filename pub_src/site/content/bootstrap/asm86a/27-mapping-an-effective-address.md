@@ -3,6 +3,8 @@ title = "15 \u00b7 Mapping an effective address"
 weight = 15
 description = "Choose the legal 8086 memory code before emitting it."
 download = "A27.ASM"
+download_group = "tools/asm86"
+reader_names = 1
 +++
 
 A parser should separate an address's meaning from its ModR/M representation.
@@ -365,7 +367,7 @@ MOV AX,[0CC00H]
 
 ```dos
 COPY A27.ASM SOURCE.ASM
-CHECK ASMA0
+CHECK ASM1
 ```
 
 Require `OK RESULT.COM 05402 bytes` and PASS. Preserve this executable before using its fixed output name:
@@ -406,7 +408,7 @@ In VIEW.BAS, inspect RESULT.COM. Require length **6 bytes** and these complete c
 8B 06 34 12 89 07
 ```
 
-This result is an encoding or data exercise. Inspect its bytes; do not execute it.
+The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
 
 ## A rejection check
 

@@ -3,6 +3,8 @@ title = "03 \u00b7 Quotient and remainder by subtraction"
 weight = 3
 description = "Compute an unsigned quotient using the operations already available."
 download = "R03.IR"
+download_group = "tools/rill0"
+reader_names = 1
 +++
 
 Text formatting needs division, although the small IR vocabulary has no divide instruction.

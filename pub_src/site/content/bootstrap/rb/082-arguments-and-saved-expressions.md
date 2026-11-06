@@ -3,8 +3,9 @@ title = "Arguments and saved expressions"
 weight = 50
 description = "Arguments are evaluated from left to right. A call consumes its own argument words and leaves older expression operands available to the caller. Parameters are private mutable word cells."
 download = "EARGS.RIL"
-download_group = "rb"
+download_group = "tools/rillboot"
 aliases = ["/bootstrap/rill/082-arguments-and-saved-expressions/"]
+reader_names = 1
 +++
 
 Arguments are evaluated from left to right. A call consumes its own argument words and leaves older expression operands available to the caller. Parameters are private mutable word cells.

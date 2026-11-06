@@ -3,6 +3,8 @@ title = "23 \u00b7 Two register operands"
 weight = 23
 description = "Put destination and source numbers into ModR/M."
 download = "AS23.ASM"
+download_group = "tools/asm0"
+reader_names = 1
 +++
 
 We shall let MOV copy between registers of equal width, using the saved first operand and the newly read second operand.

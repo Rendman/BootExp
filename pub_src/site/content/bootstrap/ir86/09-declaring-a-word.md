@@ -3,17 +3,19 @@ title = "09 \u00b7 Declaring a word"
 weight = 9
 description = "Put initialized word storage before the entry label."
 download = "IR09.ASM"
+download_group = "tools/ir86"
+reader_names = 1
 +++
 
 WORD gives a value a named place in memory, separate from the accumulator.
 
 ## Operation and backend
 
-WORD takes a name and an unsigned initializer. ARGUMENTS retains the name before scanning its value, since both use the same token buffer. Its template emits U_name followed by DW value. ASM86 writes the initializer low byte first.
+WORD takes a name and an unsigned initializer. ARGUMENTS retains the name before scanning its value, since both use the same token buffer. Its template emits U_name followed by DW value. ASM0 writes the initializer low byte first.
 
 Declarations must precede LABEL MAIN. The header jumps over them, so no declaration byte is executed at program entry. CONTEXT accepts declaration classes only while CODE is zero, and the MAIN label changes CODE to one.
 
-A declaration emits storage in the program's single segment. A name has one common namespace for storage and code; the translator checks spelling while ASM86 resolves references and rejects duplicate definitions. A successful translation is not permission to run a file whose assembly failed.
+A declaration emits storage in the program's single segment. A name has one common namespace for storage and code; the translator checks spelling while ASM0 resolves references and rejects duplicate definitions. A successful translation is not permission to run a file whose assembly failed.
 
 ## Source changes
 
@@ -200,7 +202,7 @@ MOV CX,6
 CHECK ASMKEEP
 ```
 
-Enter `IR09` at ASM86's `Source name:` prompt. Require `OK 01826 bytes` followed by PASS. This builds `IR09.COM` directly with the completed assembler. Save the source and executable before running the test.
+Enter `IR09` at ASM0's `Source name:` prompt. Require `OK 01826 bytes` followed by PASS. This builds `IR09.COM` directly with the completed assembler. Save the source and executable before running the test.
 
 Create `T09.IR` with `COPY CON T09.IR`, enter this text, and finish with Ctrl-Z and Enter. The Ctrl-Z keystroke ends console input; it is not a printed language token.
 
@@ -270,4 +272,4 @@ An unexpected PASS is a failed rejection test. Require a fresh OK before using a
 
 ## If the result differs
 
-Check the record stride and count, the saved template pointer, and each substitution buffer. The name and numeric token must survive FINISH. Compare the generated assembly before asking ASM86 to assemble it.
+Check the record stride and count, the saved template pointer, and each substitution buffer. The name and numeric token must survive FINISH. Compare the generated assembly before asking ASM0 to assemble it.

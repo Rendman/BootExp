@@ -3,8 +3,9 @@ title = "Counted file transfer"
 weight = 56
 description = "File handles carry access modes and remain opaque. Read returns actual progress, with zero for EOF. Check status and the exact write count before reusing the buffer. File data preserves every byte, including Control-Z."
 download = "ECOPY.RIL"
-download_group = "rb"
+download_group = "tools/rillboot"
 aliases = ["/bootstrap/rill/088-counted-file-transfer/"]
+reader_names = 1
 +++
 
 File handles carry access modes and remain opaque. Read returns actual progress, with zero for EOF. Check status and the exact write count before reusing the buffer. File data preserves every byte, including Control-Z.

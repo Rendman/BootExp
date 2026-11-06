@@ -1,19 +1,16 @@
 +++
-title = "RC34 \u00b7 Precedence climbing in RILL"
+title = "34 \u00b7 Translating an Expression"
 weight = 34
 description = "Save the pending operator and precedence in local slots."
 download = "RC34.RIL"
-download_group = "rc"
+download_group = "tools/rill"
 aliases = ["/bootstrap/rill/122-rc-precedence-climbing-in-rill/"]
+reader_names = 1
 +++
-
-Save the pending operator and precedence in local slots.
 
 ## The working parts
 
 Save the pending operator and precedence in local slots. Emit PUSH for the left operand, recurse at one higher minimum precedence for the right, then emit the operation. A bounded recursion counter prevents uncontrolled nesting.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -90,13 +87,13 @@ bytes string[512];
 Remove this source at old physical positions 35–35 in RC33.RIL:
 
 ```rill
-fn main(){output=create("RILL.TMP");own=1;binary(43);flush();close(output);output=0;own=0;print("OK RILL.TMP\r\n");return 0;}
+fn main(){output=create("RILL.TMP");own=1;binary(43);flush();close(output);output=0;own=0;return 0;}
 ```
 
 Replace it with:
 
 ```rill
-fn main(){table=alloc(22000);setident("ABC");rectype=1;recval=12345;reclevel=0;record(0);globals=1;output=create("RILL.TMP");own=1;input=open("SOURCE.RIL");if status(){fail(1);}next();lex();expr(1);if tok!=0{fail(2);}flush();close(output);output=0;own=0;print("OK RILL.TMP\r\n");return 0;}
+fn main(){table=alloc(22000);setident("ABC");rectype=1;recval=12345;reclevel=0;record(0);globals=1;output=create("RILL.TMP");own=1;input=open("SOURCE.RIL");if status(){fail(1);}next();lex();expr(1);if tok!=0{fail(2);}flush();close(output);output=0;own=0;return 0;}
 ```
 
 The following old source remains in place:
@@ -113,7 +110,7 @@ COPY RC34.RIL SOURCE.RIL
 CHECK RILLBOOT
 ```
 
-Require `OK RESULT.IR 0000030420` and PASS. Copy RESULT.IR to SOURCE.IR.
+Require `OK RESULT.IR 0000030368` and PASS. Copy RESULT.IR to SOURCE.IR.
 
 ```dos
 CHECK IWKEEP
@@ -121,13 +118,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000065727 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 20137 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000065503 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 20109 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RC34.COM
 ```
 
-VIEW.BAS must report RC34.COM length 20137 bytes. Keep this executable and its source together.
+VIEW.BAS must report RC34.COM length 20109 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -145,26 +142,18 @@ COPY TRC34.RIL SOURCE.RIL
 CHECK RC34
 ```
 
-Require, apart from command echo and the checker's separator:
+The checker must report PASS. Inspect the emitted file below.
+
+Use VIEW.BAS to inspect RILL.TMP. Require length 55 bytes. The complete bytes must be:
 
 ```text
-OK RILL.TMP
-PASS
+4C 49 54 20 30 30 30 30 31 0D 0A 50 55 53 48 0D
+0A 4C 49 54 20 30 30 30 30 32 0D 0A 50 55 53 48
+0D 0A 4C 49 54 20 30 30 30 30 33 0D 0A 4D 55 4C
+0D 0A 41 44 44 0D 0A
 ```
 
-TYPE RILL.TMP. Its complete text is:
-
-```ir
-LIT 00001
-PUSH
-LIT 00002
-PUSH
-LIT 00003
-MUL
-ADD
-```
-
-VIEW.BAS must show length 55 bytes. This is an IR fragment for inspection. Do not translate it as a complete program or execute any file with its name.
+This is an IR fragment for inspection. Do not translate it as a complete program or execute any file with its name.
 
 After inspection, delete this deliberately created RILL.TMP before another checkpoint. The file is diagnostic text, not an interrupted accepted compiler build.
 
@@ -192,4 +181,4 @@ An unexpected PASS fails the rejection. The pre-existing RESULT.IR must remain u
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Compare expr with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.

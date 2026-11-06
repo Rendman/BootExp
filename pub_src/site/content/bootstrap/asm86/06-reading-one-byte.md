@@ -3,6 +3,8 @@ title = "06 \u00b7 Reading one byte"
 weight = 6
 description = "A handle-based read distinguishes data from end of file."
 download = "AS06.ASM"
+download_group = "tools/asm0"
+reader_names = 1
 +++
 
 We shall read the source a byte at a time and display exactly the bytes read. This isolates file input from parsing.

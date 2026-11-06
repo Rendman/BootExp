@@ -74,8 +74,10 @@ for family,collection,offset,prefix,language in [('ir-extensions','ir86',36,'IW'
   n=c['number'];name=f'{prefix}{n:02}';weight=offset+n;page=f'{weight:03}-{prefix.lower()}-{slug(c["title"])}.md';source=(W/c['source']).read_text().splitlines()
   description=c.get('why') or helper(c).split('. ')[0]+'.'
   t=front(f'{name} · '+c['title'],weight if prefix=='IW' else n,description,c['source'])
-  t+=description+'\n\n## The working parts\n\n'+(helper(c) if prefix!='IW' else c['why']+' The assembly routines use the inherited bounded reader and owned-file cleanup. The operation table supplies argument class, stack action, and an authored target template. Native encodings belong to this backend; the IR operation retains its abstract meaning.')+'\n\n'
-  if prefix in ['RB','RC']:t+='The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.\n\n'
+  explain=helper(c) if prefix!='IW' else c['why']
+  if prefix=='RC' and c['key']=='print':explain='The parameter s points to zero-terminated bytes. Read one byte, stop at zero, or print it and advance s. The parameter belongs to this call.'
+  t+='## The working parts\n\n'+explain+'\n\n'
+  if prefix in ['RB','RC'] and n==1:t+='The workbench explains the shared build steps and how to inspect intermediate files. Each stopping point below exercises the new routine.\n\n'
   if prefix in ['RB','RC'] and c.get('key','').upper()=='BLOCK':t=t.replace('+++\n\n','cartoon = \"rill-drawers.png\"\n+++\n\n',1)
   t+='## Enter the source\n\n'
   if oldname:t+=f'Copy {oldname} to {c["source"]}. Apply edits **from the bottom of the old file upward**. Physical positions refer to that unchanged old file; use the printed context to identify each place. Keep all other source.\n\n'
@@ -98,7 +100,14 @@ for family,collection,offset,prefix,language in [('ir-extensions','ir86',36,'IW'
    fn=f'T{name}.'+('IR' if prefix=='IW' else 'RIL');kind='text' if prefix=='IW' and n<5 else 'ir' if prefix=='IW' else 'rill'
    t+=f'Create {fn} with COPY CON or a plain-text editor. Finish COPY CON with Ctrl-Z and Enter:\n\n'+fence(kind,fixture)
    t+=fence('dos',f'COPY {fn} SOURCE.'+('IR' if prefix=='IW' else 'RIL'))
-  t+=fence('dos',f'CHECK {name}')+'Require, apart from command echo and the checker\'s separator:\n\n'+fence('text',c.get('output',c.get('console','')).replace('\r\n','\n')+'PASS\n')
+  observed=c.get('output',c.get('console','')).replace('\r\n','\n')
+  status='FAIL' if c.get('accept_exit') else 'PASS'
+  t+=fence('dos',f'CHECK {name}')
+  if observed:t+='Require:\n\n'+fence('text',observed+('\n' if not observed.endswith('\n') else '')+status+'\n')
+  else:t+='The checker must report PASS. '
+  if c.get('accept_exit'):t+='FAIL is the intended status here: the routine being tested reports an error and terminates with status one.\n\n'
+  elif c.get('check_value') is not None:t+='The driver compares the result with '+str(c['check_value'])+' and returns nonzero on a mismatch; it adds no display routine.\n\n'
+  elif not observed:t+='Inspect the emitted file below.\n\n'
   if prefix=='IW':
    if n==3:t+='VIEW.BAS must show RESULT.ASM length 5 and bytes `41 42 43 0D 0A`. This is copied data; do not execute or assemble it.\n\n'
    elif n>=5:
@@ -112,14 +121,19 @@ for family,collection,offset,prefix,language in [('ir-extensions','ir86',36,'IW'
    if n==23:t+=fence('dos','COPY IW23.COM IRWIDE.COM\nCOPY IRWIDE.COM IWKEEP.COM')+'Preserve IWKEEP as the fixed-file translator. The earlier IRKEEP retains its source-name prompt. IRWIDE.ASM and IW23.ASM are identical.\n\n'
   elif 'result' in c:
    resultname='RESULT.IR' if c['key'].upper()=='MAIN' else 'RILL.TMP'
-   t+=f'TYPE {resultname}. Its complete text is:\n\n'+fence('ir',c['result'])
-   t+=f'VIEW.BAS must show length {c["result_bytes"]} bytes. '+('For an empty fragment, length zero is the expected visible result. ' if c['result_bytes']==0 else '')
+   if c['complete']:
+    t+=f'TYPE {resultname}. Its complete IR is:\n\n'+fence('ir',c['result'])+f'VIEW.BAS must show length {c["result_bytes"]} bytes. '
+   else:
+    raw=c['result'].encode('ascii');hexrows=[' '.join(f'{v:02X}' for v in raw[i:i+16]) for i in range(0,len(raw),16)]
+    t+=f'Use VIEW.BAS to inspect {resultname}. Require length {len(raw)} bytes. '
+    if raw:t+='The complete bytes must be:\n\n'+fence('text','\n'.join(hexrows))
+    else:t+='An empty file is the expected result.\n\n'
    if c['complete']:
     t+='This is a complete program. Copy it to SOURCE.IR, run CHECK IWKEEP, copy the accepted RESULT.ASM to SOURCE.ASM, and run CHECK ASMAKEEP. Require OK and PASS at both steps. '
     t+=f'VIEW.BAS must report RESULT.COM length {c["program_bytes"]}. Copy that file to TRY.COM; CHECK TRY displays `{c["program_output"]}` and reports PASS.\n\n'
    else:t+='This is an IR fragment for inspection. Do not translate it as a complete program or execute any file with its name.\n\n'
    if resultname=='RILL.TMP':t+='After inspection, delete this deliberately created RILL.TMP before another checkpoint. The file is diagnostic text, not an interrupted accepted compiler build.\n\n'
-  t+='## A rejection or boundary check\n\n'
+  if prefix=='IW' or c.get('code'):t+='## A rejection or boundary check\n\n'
   if prefix=='IW':
    if c.get('bad'):
     fn=f'X{name}.IR';(W/fn).write_bytes(c['bad'].replace('\n','\r\n').encode());t+=f'Create {fn}:\n\n'+fence('ir',c['bad'])+fence('dos',f'COPY {fn} SOURCE.IR\nCHECK {name}')
@@ -130,11 +144,17 @@ for family,collection,offset,prefix,language in [('ir-extensions','ir86',36,'IW'
     fn=f'X{name}.RIL';t+=f'Create {fn}:\n\n'+fence('rill',c['bad'])+fence('dos',f'COPY {fn} SOURCE.RIL\nCHECK {name}')
    else:t+=f'Rename SOURCE.RIL to an unused HOLD.RIL and run CHECK {name}. Restore the source afterward.\n\n'
    t+='Require:\n\n'+fence('text',c['error']+'FAIL\n')+'An unexpected PASS fails the rejection. The pre-existing RESULT.IR must remain unchanged; preserve a copy before the test.\n\n'
-  elif prefix=='RB':
-   t+='Check a representable-word boundary in the preceding translator. Create BAD.IR:\n\n'+fence('ir','PROC MAIN 0 0\nLIT 65536\nRETURN')+fence('dos','COPY BAD.IR SOURCE.IR\nCHECK IWKEEP')+'Require `IR ERROR 0000000002 CODE 2` and FAIL. The accepted RESULT.ASM must remain unchanged. The diagnostic cannot be built from an out-of-range word.\n\n'
-  else:
-   t+='Check the same word boundary in the compiler seed. Create BAD.RIL:\n\n'+fence('rill','fn main(){return 65536;}')+fence('dos','COPY BAD.RIL SOURCE.RIL\nCHECK RILLBOOT')+'Require `ERROR 0000000001 CODE 00003` and FAIL, preserving the accepted RESULT.IR. An unexpected PASS fails this check.\n\n'
-  t+='## If the result differs\n\nCheck the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper\'s local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.\n'
+  key=c.get('key','').upper()
+  hints={
+   'NEXT':'Check the refill position and returned byte count. A short positive read still contains data; only zero means EOF.',
+   'LEX':'Check the token class, complete spelling, and numeric value separately. Preserve the raw quoted bytes while folding names.',
+   'PREC':'Check the token code against the returned precedence. Multiplication must rank above addition; a nonoperator returns zero.',
+   'PRINT':'Check the zero terminator and the pointer after each output call.',
+   'FAIL':'Check owned handles and recovery files before the final error report.',
+   'ERROR':'Check owned handles and recovery files before the final error report.',
+   'BLOCK':'Check the saved name count and next local slot at block entry and restoration at its closing brace.'}
+  hint=hints.get(key,'Compare '+c.get('key','the new routine')+' with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.')
+  t+='## If the result differs\n\n'+hint+'\n'
   if prefix=='RB' and c['key']=='MAIN':t+='\nPreserve RB47.COM as RILLBOOT.COM and RB47.IR as RILLBOOT.IR. This compiler seed was built entirely through the native IR86 and ASM86A tools. Continue with the complete programs in this collection, then the separate [RC collection](../../rc/index.html).\n'
   if prefix=='RC' and c['key']=='main':t+='\nPreserve RC43.COM as R0.COM and RC43.RIL as RILL.RIL. The same source is the input for the two compiler self-build comparisons.\n'
   publish(collection,page,t)

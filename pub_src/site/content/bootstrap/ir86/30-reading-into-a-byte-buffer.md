@@ -3,6 +3,8 @@ title = "30 \u00b7 Reading into a byte buffer"
 weight = 30
 description = "Pass a handle, a destination, and a requested count as IR values."
 download = "IR30.ASM"
+download_group = "tools/ir86"
+reader_names = 1
 +++
 
 The expression stack supplies a portable argument order for a block read.
@@ -299,7 +301,7 @@ MOV AX,365
 CHECK ASMKEEP
 ```
 
-Enter `IR30` at ASM86's `Source name:` prompt. Require `OK 05752 bytes` followed by PASS. This builds `IR30.COM` directly with the completed assembler. Save the source and executable before running the test.
+Enter `IR30` at ASM0's `Source name:` prompt. Require `OK 05752 bytes` followed by PASS. This builds `IR30.COM` directly with the completed assembler. Save the source and executable before running the test.
 
 Create `T30.IR` with `COPY CON T30.IR`, enter this text, and finish with Ctrl-Z and Enter. The Ctrl-Z keystroke ends console input; it is not a printed language token.
 

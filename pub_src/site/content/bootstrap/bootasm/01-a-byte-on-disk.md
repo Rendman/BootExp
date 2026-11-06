@@ -3,13 +3,15 @@ title = "01. A byte on disk"
 weight = 1
 description = "Write one byte, then inspect it without running it."
 checkpoint = "BYTE.BAS"
+download_group = "tools/bootasm"
+reader_names = 1
 +++
 
-Before writing an assembler, we need to know how BASIC can put an exact byte on disk. Our first program accepts one decimal value and writes a one-byte file. A second, smaller program shows that byte and the file's length. Together they require 39 BASIC lines; type and test them as two separate programs.
+Before writing an assembler, we need to know how BASIC can put an exact byte on disk. Our first program accepts one decimal value and writes a one-byte file. A second, smaller program shows that byte and the file's length. Type and test them as two separate programs.
 
 ## One byte
 
-At BASIC's `Ok` prompt type `NEW`, then enter this complete 21-line program:
+At BASIC's `Ok` prompt type `NEW`, then enter this complete program:
 
 ```basic
 10 ON ERROR GOTO 900
@@ -43,7 +45,7 @@ The first OPEN empties any existing BYTE.COM. The second OPEN uses random access
 
 ## Seeing the result
 
-Save BYTE.BAS first. Type `NEW`, then this separate 18-line viewer:
+Save BYTE.BAS first. Type `NEW`, then this separate viewer:
 
 ```basic
 10 ON ERROR GOTO 900

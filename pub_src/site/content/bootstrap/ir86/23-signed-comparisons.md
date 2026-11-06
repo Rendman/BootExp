@@ -3,6 +3,8 @@ title = "23 \u00b7 Signed comparisons"
 weight = 23
 description = "Interpret the same word bits as two's-complement values."
 download = "IR23.ASM"
+download_group = "tools/ir86"
+reader_names = 1
 +++
 
 Signed ordering differs from unsigned ordering when the high bit is set. It must be requested explicitly.
@@ -109,7 +111,7 @@ MOV CX,37
 CHECK ASMKEEP
 ```
 
-Enter `IR23` at ASM86's `Source name:` prompt. Require `OK 03535 bytes` followed by PASS. This builds `IR23.COM` directly with the completed assembler. Save the source and executable before running the test.
+Enter `IR23` at ASM0's `Source name:` prompt. Require `OK 03535 bytes` followed by PASS. This builds `IR23.COM` directly with the completed assembler. Save the source and executable before running the test.
 
 Create `T23.IR` with `COPY CON T23.IR`, enter this text, and finish with Ctrl-Z and Enter. The Ctrl-Z keystroke ends console input; it is not a printed language token.
 

@@ -1,10 +1,12 @@
 +++
-title = "02 \u00b7 Reading an input block"
+title = "02 \u00b7 Reading a File in Blocks"
 weight = 2
 description = "Refill a small block instead of making a DOS call for every byte."
 download = "A02.ASM"
 cartoon = "asm86a-press.png"
 aliases = ["/bootstrap/asm86a/02-reading-an-input-block/"]
+download_group = "tools/asm1"
+reader_names = 1
 +++
 
 A sequential reader can handle a long file with bounded working storage.
@@ -184,7 +186,7 @@ MOV [SKIPLF],AL
 
 ## Build the stopping point
 
-Run `CHECK ASMKEEP`, enter `A02` at `Source name:`, and require `OK 02589 bytes` and PASS. This uses the preceding published ASM86, not the new checkpoint. It creates A02.COM.
+Run `CHECK ASMKEEP`, enter `A02` at `Source name:`, and require `OK 02589 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. It creates A02.COM.
 
 VIEW.BAS must report A02.COM length 2589 bytes. Keep that executable and source together.
 
@@ -221,14 +223,7 @@ In VIEW.BAS, inspect RESULT.COM. Require length **11 bytes** and these complete 
 B2 41 B4 02 CD 21 B8 00 4C CD 21
 ```
 
-This fixture is a complete program. Save it before another assembly and execute it:
-
-```dos
-COPY RESULT.COM TRY.COM
-CHECK TRY
-```
-
-It displays "A" and the checker reports PASS.
+The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
 
 ## A rejection check
 

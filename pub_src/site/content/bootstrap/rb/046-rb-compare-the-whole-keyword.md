@@ -1,19 +1,16 @@
 +++
-title = "RB13 \u00b7 Compare the whole keyword"
+title = "13 \u00b7 Recognizing a Complete Keyword"
 weight = 13
 description = "Check the token class and every character through the zero terminator."
 download = "RB13.IR"
-download_group = "rb"
+download_group = "tools/rillboot"
 aliases = ["/bootstrap/rill/046-rb-compare-the-whole-keyword/"]
+reader_names = 1
 +++
-
-Check the token class and every character through the zero terminator.
 
 ## The working parts
 
 Check the token class and every character through the zero terminator. A keyword prefix is insufficient: FN and FNN are different spellings.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -88,19 +85,47 @@ SETLOCAL 0
 Unchanged source immediately before the edit:
 
 ```ir
+CALL LEX
+LIT 43
+PUSH
+```
+
+Remove this source at old physical positions 44–47 in RB12.IR:
+
+```ir
+INVOKE EXPECT 1
+LITS "OK"
+CALL PRINT
+LIT 0
+```
+
+Replace it with:
+
+```ir
+LIT 1
+CNE
+```
+
+The following old source remains in place:
+
+```ir
+RETURN
+```
+
+### Edit 3
+
+Unchanged source immediately before the edit:
+
+```ir
 JNZ IOFAIL
 CALL NEXT
 CALL LEX
 ```
 
-Remove this source at old physical positions 42–46 in RB12.IR:
+Remove this source at old physical positions 42–42 in RB12.IR:
 
 ```ir
 LIT 43
-PUSH
-INVOKE EXPECT 1
-LITS "OK"
-CALL PRINT
 ```
 
 Replace it with:
@@ -108,14 +133,13 @@ Replace it with:
 ```ir
 LITS "FN"
 CALL ISWORD
-CALL PRINTNUM
 ```
 
 The following old source remains in place:
 
 ```ir
-LIT 0
-RETURN
+PUSH
+INVOKE EXPECT 1
 ```
 
 ## Build this stopping point
@@ -130,13 +154,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000022389 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 13106 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000022426 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 13113 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RB13.COM
 ```
 
-VIEW.BAS must report RB13.COM length 13106 bytes. Keep this executable and its source together.
+VIEW.BAS must report RB13.COM length 13113 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -154,25 +178,8 @@ COPY TRB13.RIL SOURCE.RIL
 CHECK RB13
 ```
 
-Require, apart from command echo and the checker's separator:
-
-```text
-00001PASS
-```
-
-## A rejection or boundary check
-
-Rename SOURCE.RIL to an unused HOLD.RIL and run CHECK RB13. Restore the source afterward.
-
-Require:
-
-```text
-ERROR 0000000001 CODE 00001
-FAIL
-```
-
-An unexpected PASS fails the rejection. The pre-existing RESULT.IR must remain unchanged; preserve a copy before the test.
+The checker must report PASS. The driver compares the result with 1 and returns nonzero on a mismatch; it adds no display routine.
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Compare ISWORD with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.

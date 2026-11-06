@@ -1,12 +1,13 @@
 +++
-title = "Complete RC programs"
+title = "Complete RILL programs"
 weight = 48
 description = "Recursion, checked allocated storage, and counted files through the RILL-written compiler."
-download = "RC.ZIP"
-download_group = "rc"
+download = "RILL.ZIP"
+download_group = "tools/rill"
+reader_names = 1
 +++
 
-Use R0.COM, the completed RC compiler built by RILLBOOT. Keep IWKEEP and ASMAKEEP as the translator and assembler. These programs use the same language accepted by the RB seed; their IR and executable bytes must agree through both compilers.
+Use R0.COM, the completed RILL compiler built by RILLBOOT. Keep IWKEEP and ASMAKEEP as the translator and assembler. These programs use the same language accepted by the RILLBOOT seed; their IR and executable bytes must agree through both compilers.
 
 ## Recursive procedures
 

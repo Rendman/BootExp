@@ -3,6 +3,8 @@ title = "14 \u00b7 The DB directive"
 weight = 14
 description = "Look up a mnemonic, then read its comma-separated byte values."
 download = "AS14.ASM"
+download_group = "tools/asm0"
+reader_names = 1
 +++
 
 We shall replace the one-number-per-line input with an assembly statement: DB followed by one or more byte values.

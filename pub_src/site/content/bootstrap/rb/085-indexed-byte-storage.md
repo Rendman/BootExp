@@ -3,8 +3,9 @@ title = "Indexed byte storage"
 weight = 53
 description = "A global byte buffer has a stable address. An indexed read returns one zero-extended byte; an indexed store writes the low byte. Ordinary pointers and indexing are unchecked, so the program must keep indices inside the declared buffer."
 download = "EBYTES.RIL"
-download_group = "rb"
+download_group = "tools/rillboot"
 aliases = ["/bootstrap/rill/085-indexed-byte-storage/"]
+reader_names = 1
 +++
 
 A global byte buffer has a stable address. An indexed read returns one zero-extended byte; an indexed store writes the low byte. Ordinary pointers and indexing are unchecked, so the program must keep indices inside the declared buffer.

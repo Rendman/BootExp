@@ -3,6 +3,8 @@ title = "18 \u00b7 Checking a label line"
 weight = 18
 description = "Accept a standalone name and reject malformed or reserved spellings."
 download = "AS18.ASM"
+download_group = "tools/asm0"
+reader_names = 1
 +++
 
 A label has a syntax of its own. We shall recognize that syntax before giving definitions storage in a symbol table.

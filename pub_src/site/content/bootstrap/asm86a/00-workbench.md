@@ -1,31 +1,33 @@
 +++
 title = "The larger assembler workbench"
 weight = 0
-description = "Begin with the verified ASMA0 source and preserve its executable as the builder."
-download = "ASM86A.ZIP"
+description = "Begin with the verified ASM1 source and preserve its executable as the builder."
+download = "ASM86.ZIP"
+download_group = "tools/asm86"
+reader_names = 1
 +++
 
-Begin with the completed ASMA0 collection and its two matching self-assembly generations. Keep ASMA0.ASM, ASMA0.COM, VIEW.BAS, and CHECK.BAT. ASMA0 is the fixed-file streaming seed; ASMKEEP.COM remains the earlier prompted ASM86.
+Begin with the completed ASM1 collection and its two matching self-assembly generations. Keep ASM1.ASM, ASM1.COM, VIEW.BAS, and CHECK.BAT. ASM1 is the fixed-file streaming seed; ASMKEEP.COM remains the earlier prompted ASM0.
 
 ## Begin with the seed source
 
 The first construction article uses A13.ASM. Start from the completed seed:
 
 ```dos
-COPY ASMA0.ASM A13.ASM
+COPY ASM1.ASM A13.ASM
 ```
 
-Apply the printed edits from the bottom upward. Their old physical positions refer to the unchanged ASMA0 source. The article numbering starts at one in this collection; saved checkpoint names continue from A13 through A40 so the disk handoff stays explicit.
+Apply the printed edits from the bottom upward. Their old physical positions refer to the unchanged ASM1 source. The article numbering starts at one in this collection; saved checkpoint names continue from A13 through A40 so the disk handoff stays explicit.
 
 Build the edited source with the preserved seed:
 
 ```dos
 COPY A13.ASM SOURCE.ASM
-CHECK ASMA0
+CHECK ASM1
 COPY RESULT.COM A13.COM
 ```
 
-Require the stated OK count and PASS **before** copying the result. ASMA0 writes RESULT.COM; save the checkpoint executable as A13.COM before using it to process a test. Every construction checkpoint in this collection is built by ASMA0. Its source uses only the seed's language, even while implementing richer accepted forms.
+Require the stated OK count and PASS **before** copying the result. ASM1 writes RESULT.COM; save the checkpoint executable as A13.COM before using it to process a test. Every construction checkpoint in this collection is built by ASM1. Its source uses only the seed's language, even while implementing richer accepted forms.
 
 ## Files and memory
 
@@ -46,4 +48,4 @@ Use DOS 3.10 and the same period BASIC interpreter as the preceding collections.
 
 VIEW.BAS reports file length and hexadecimal bytes; SYSTEM returns from BASIC to DOS. CHECK.BAT immediately reports executable status. Encoding fixtures are inspected as data unless an article explicitly identifies a complete program. Do not execute an empty output file.
 
-The final checkpoint is A40.ASM, saved as ASM86A.ASM. Preserve its seed-built executable and compare both self-assembly generations. Then copy the tested ASM86A.COM to ASMAKEEP.COM. ASMA0.COM remains the seed builder, and ASMKEEP.COM remains the original ASM86. Keep all three separately named.
+The final checkpoint is A40.ASM, saved as ASM86.ASM. Preserve its seed-built executable and compare both self-assembly generations. Then copy the tested ASM86.COM to ASMAKEEP.COM. ASM1.COM remains the seed builder, and ASMKEEP.COM remains the original ASM0. Keep all three separately named.

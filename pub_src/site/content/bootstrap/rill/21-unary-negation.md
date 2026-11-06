@@ -3,6 +3,8 @@ title = "21 \u00b7 Unary negation"
 weight = 21
 description = "Express a negative word using defined wrapping arithmetic."
 download = "R21.IR"
+download_group = "tools/rill0"
+reader_names = 1
 +++
 
 Negation needs no signed literal token or processor-specific instruction.

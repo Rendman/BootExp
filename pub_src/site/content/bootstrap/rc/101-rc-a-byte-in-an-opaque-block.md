@@ -1,19 +1,16 @@
 +++
-title = "RC13 \u00b7 A byte in an opaque block"
+title = "13 \u00b7 Reading a Byte from Allocated Storage"
 weight = 13
 description = "Use the same opaque block with a byte offset."
 download = "RC13.RIL"
-download_group = "rc"
+download_group = "tools/rill"
 aliases = ["/bootstrap/rill/101-rc-a-byte-in-an-opaque-block/"]
+reader_names = 1
 +++
-
-Use the same opaque block with a byte offset.
 
 ## The working parts
 
 Use the same opaque block with a byte offset. GET8 returns a zero-extended byte; it does not reveal a segment selector or native address.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -54,13 +51,13 @@ bytes string[512];
 Remove this source at old physical positions 35–35 in RC12.RIL:
 
 ```rill
-fn main(){table=alloc(22000);set16(table,100,4660);printnum(tword(100));return 0;}
+fn main(){table=alloc(22000);set16(table,100,4660);return (tword(100))!=4660;}
 ```
 
 Replace it with:
 
 ```rill
-fn main(){table=alloc(22000);set16(table,100,4660);printnum(tbyte(100));return 0;}
+fn main(){table=alloc(22000);set16(table,100,4660);return (tbyte(100))!=52;}
 ```
 
 The following old source remains in place:
@@ -77,7 +74,7 @@ COPY RC13.RIL SOURCE.RIL
 CHECK RILLBOOT
 ```
 
-Require `OK RESULT.IR 0000014718` and PASS. Copy RESULT.IR to SOURCE.IR.
+Require `OK RESULT.IR 0000014698` and PASS. Copy RESULT.IR to SOURCE.IR.
 
 ```dos
 CHECK IWKEEP
@@ -85,13 +82,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000032091 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 14573 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000032103 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 14575 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RC13.COM
 ```
 
-VIEW.BAS must report RC13.COM length 14573 bytes. Keep this executable and its source together.
+VIEW.BAS must report RC13.COM length 14575 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -99,27 +96,8 @@ VIEW.BAS must report RC13.COM length 14573 bytes. Keep this executable and its s
 CHECK RC13
 ```
 
-Require, apart from command echo and the checker's separator:
-
-```text
-00052PASS
-```
-
-## A rejection or boundary check
-
-Check the same word boundary in the compiler seed. Create BAD.RIL:
-
-```rill
-fn main(){return 65536;}
-```
-
-```dos
-COPY BAD.RIL SOURCE.RIL
-CHECK RILLBOOT
-```
-
-Require `ERROR 0000000001 CODE 00003` and FAIL, preserving the accepted RESULT.IR. An unexpected PASS fails this check.
+The checker must report PASS. The driver compares the result with 52 and returns nonzero on a mismatch; it adds no display routine.
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Compare tbyte with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.

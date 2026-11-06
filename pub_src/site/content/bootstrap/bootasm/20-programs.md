@@ -3,6 +3,8 @@ title = "Three complete programs"
 weight = 20
 description = "A message, a memory copy, and a deliberate failure."
 download = "BOOTASM.BAS"
+download_group = "tools/bootasm"
+reader_names = 1
 +++
 
 These programs use the completed assembler. Save the tested final checkpoint as `BOOTASM.BAS` and preserve another ASCII copy as `BOOTKEEP.BAS`:

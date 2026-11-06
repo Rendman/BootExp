@@ -3,6 +3,8 @@ title = "17 \u00b7 Recognizing register names"
 weight = 17
 description = "A four-byte dictionary distinguishes registers from values."
 download = "AS17.ASM"
+download_group = "tools/asm0"
+reader_names = 1
 +++
 
 Register names must be recognizable before they can be used as operands or rejected as labels. We shall add their small dictionary to the token lookup.

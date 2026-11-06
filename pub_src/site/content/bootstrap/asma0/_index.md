@@ -1,18 +1,21 @@
 +++
-title = "ASMA0"
+title = "Building a Streaming Assembler"
 weight = 3
-description = "A streaming seed built by ASM86 and proved by self-assembly."
+description = "A streaming seed built by ASM0 and proved by self-assembly."
 cover = true
-download = "ASMA0.ASM"
-download_group = "asma0"
+download = "ASM1.ASM"
+download_group = "tools/asm1"
+reader_names = 1
+tool_id = "ASM1"
+collection_key = "asma0"
 +++
 
-**BOOTASM → ASM86 → ASMA0 → ASM86A → IR86 → RILL.** ASMA0 is the streaming seed in this bootstrap ladder. The completed ASM86 builds its first executable directly; the seed then assembles its own source twice and reproduces that executable.
+**BOOTASM → ASM0 → ASM1 → ASM86 → IR86 → RILL0 → RILLBOOT → RILL.** ASM1 is the streaming seed in this bootstrap ladder. The completed ASM0 builds its first executable directly; the seed then assembles its own source twice and reproduces that executable.
 
-This collection constructs a tool that can handle a source and output larger than its own resident image. Fixed disk names, bounded input and output blocks, two passes, temporary-file ownership, and recoverable publication each receive a separate stopping point. The completed seed has 2,048 symbols in its original segment and the segment-access forms needed to build ASM86A.
+This collection constructs a tool that can handle a source and output larger than its own resident image. Fixed disk names, bounded input and output blocks, two passes, temporary-file ownership, and recoverable publication each receive a separate stopping point. The completed seed has 2,048 symbols in its original segment and the segment-access forms needed to build ASM86.
 
-Twelve construction checkpoints finish at ASMA0.ASM. A workbench guide, a seed language and memory reference, and three complete programs accompany them. The language remains small enough to be implemented within the preceding ASM86's bounds. The processor remains the 8086/8088 and the output remains DOS `.COM`.
+Twelve construction checkpoints finish at ASM1.ASM. A workbench guide, a seed language and memory reference, and three complete programs accompany them. The language remains small enough to be implemented within the preceding ASM0's bounds. The processor remains the 8086/8088 and the output remains DOS `.COM`.
 
-Read the workbench first and preserve ASMKEEP.COM as the original prompted assembler. After the self-assembly comparisons, preserve ASMA0.COM and its source. That verified source is the starting file of the separate [ASM86A collection](../asm86a/index.html), which adds allocated symbol pages and a broader language.
+Read the workbench first and preserve ASMKEEP.COM as the original prompted assembler. After the self-assembly comparisons, preserve ASM1.COM and its source. That verified source is the starting file of the separate [ASM86 collection](../asm86a/index.html), which adds allocated symbol pages and a broader language.
 
-The complete source link above is ASMA0.ASM. The [ASMA0 disk sources](../../downloads/asma0/ASMA0.ZIP) include all twelve checkpoints, acceptance and rejection inputs, the unchanged BASIC foundation and ASM86 source, the viewer and checker, and complete programs. No preassembled executable is included.
+The complete source link above is ASM1.ASM. The [ASM1 disk sources](../../downloads/tools/asm1/ASM1.ZIP) include all twelve checkpoints, acceptance and rejection inputs, the unchanged BASIC foundation and ASM0 source, the viewer and checker, and complete programs. No preassembled executable is included.

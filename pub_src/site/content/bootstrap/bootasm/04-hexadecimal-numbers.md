@@ -3,6 +3,8 @@ title = "04. Hexadecimal numbers"
 weight = 4
 description = "Reading base sixteen and catching malformed numbers."
 checkpoint = "BA04.BAS"
+download_group = "tools/bootasm"
+reader_names = 1
 +++
 
 Machine-code tables are easier to read in hexadecimal. The byte writer need not change; only the reader of numbers needs another base.

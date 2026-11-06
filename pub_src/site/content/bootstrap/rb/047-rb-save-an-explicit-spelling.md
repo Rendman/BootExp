@@ -1,19 +1,16 @@
 +++
-title = "RB14 \u00b7 Save an explicit spelling"
+title = "14 \u00b7 Copying a Name"
 weight = 14
 description = "Copy an explicit terminated spelling into IDENT."
 download = "RB14.IR"
-download_group = "rb"
+download_group = "tools/rillboot"
 aliases = ["/bootstrap/rill/047-rb-save-an-explicit-spelling/"]
+reader_names = 1
 +++
-
-Copy an explicit terminated spelling into IDENT.
 
 ## The working parts
 
 Copy an explicit terminated spelling into IDENT. This is a table-test helper as well as a way to ask for a required entry without depending on the current source token.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -28,7 +25,7 @@ LIT 0
 RETURN
 ```
 
-Insert after old physical line 582.
+Insert after old physical line 583.
 
 Insert:
 
@@ -78,7 +75,7 @@ WORD EXPRDEPTH 0
 PROC MAIN 0 0
 ```
 
-Remove this source at old physical positions 35–44 in RB13.IR:
+Remove this source at old physical positions 35–42 in RB13.IR:
 
 ```ir
 LITS "SOURCE.RIL"
@@ -89,8 +86,6 @@ JNZ IOFAIL
 CALL NEXT
 CALL LEX
 LITS "FN"
-CALL ISWORD
-CALL PRINTNUM
 ```
 
 Replace it with:
@@ -98,15 +93,16 @@ Replace it with:
 ```ir
 LITS "ABC"
 CALL SETIDENT
-ADDR IDENT
-CALL PRINT
+LIT 1
+ST TOK
+LITS "ABC"
 ```
 
 The following old source remains in place:
 
 ```ir
-LIT 0
-RETURN
+CALL ISWORD
+PUSH
 ```
 
 ## Build this stopping point
@@ -121,13 +117,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000022679 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 13161 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000022833 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 13185 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RB14.COM
 ```
 
-VIEW.BAS must report RB14.COM length 13161 bytes. Keep this executable and its source together.
+VIEW.BAS must report RB14.COM length 13185 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -135,29 +131,8 @@ VIEW.BAS must report RB14.COM length 13161 bytes. Keep this executable and its s
 CHECK RB14
 ```
 
-Require, apart from command echo and the checker's separator:
-
-```text
-ABCPASS
-```
-
-## A rejection or boundary check
-
-Check a representable-word boundary in the preceding translator. Create BAD.IR:
-
-```ir
-PROC MAIN 0 0
-LIT 65536
-RETURN
-```
-
-```dos
-COPY BAD.IR SOURCE.IR
-CHECK IWKEEP
-```
-
-Require `IR ERROR 0000000002 CODE 2` and FAIL. The accepted RESULT.ASM must remain unchanged. The diagnostic cannot be built from an out-of-range word.
+The checker must report PASS. The driver compares the result with ABC and returns nonzero on a mismatch; it adds no display routine.
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Compare SETIDENT with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.

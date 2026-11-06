@@ -3,6 +3,8 @@ title = "06. Putting a word on disk"
 weight = 6
 description = "Sixteen-bit values, with the low byte first."
 checkpoint = "BA06.BAS"
+download_group = "tools/bootasm"
+reader_names = 1
 +++
 
 The processor uses 16-bit quantities as well as bytes. A define-word directive gives us a direct way to check their order on disk.

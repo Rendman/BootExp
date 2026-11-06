@@ -4,6 +4,8 @@ weight = 4
 description = "Track handles and temporary-file ownership separately."
 download = "A04.ASM"
 aliases = ["/bootstrap/asm86a/04-cleaning-an-interrupted-output/"]
+download_group = "tools/asm1"
+reader_names = 1
 +++
 
 A failed assembly must not leave its own partial temporary output looking usable.
@@ -191,7 +193,7 @@ CALL TEXT
 
 ## Build the stopping point
 
-Run `CHECK ASMKEEP`, enter `A04` at `Source name:`, and require `OK 02766 bytes` and PASS. This uses the preceding published ASM86, not the new checkpoint. It creates A04.COM.
+Run `CHECK ASMKEEP`, enter `A04` at `Source name:`, and require `OK 02766 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. It creates A04.COM.
 
 VIEW.BAS must report A04.COM length 2766 bytes. Keep that executable and source together.
 
@@ -224,7 +226,7 @@ In VIEW.BAS, inspect ASMA.TMP. Require length **5 bytes** and these complete con
 41 42 43 0D 0A
 ```
 
-This result is an encoding or data exercise. Inspect its bytes; do not execute it.
+The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
 
 ## A rejection check
 

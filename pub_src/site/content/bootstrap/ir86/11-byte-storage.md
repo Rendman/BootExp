@@ -3,6 +3,8 @@ title = "11 \u00b7 Byte storage"
 weight = 11
 description = "Declare bytes and return a zero-extended value when loading them."
 download = "IR11.ASM"
+download_group = "tools/ir86"
+reader_names = 1
 +++
 
 Text and file input are bytes. BYTE, LDB, and STB make that width explicit without changing the word accumulator.
@@ -121,7 +123,7 @@ MOV CX,11
 CHECK ASMKEEP
 ```
 
-Enter `IR11` at ASM86's `Source name:` prompt. Require `OK 02001 bytes` followed by PASS. This builds `IR11.COM` directly with the completed assembler. Save the source and executable before running the test.
+Enter `IR11` at ASM0's `Source name:` prompt. Require `OK 02001 bytes` followed by PASS. This builds `IR11.COM` directly with the completed assembler. Save the source and executable before running the test.
 
 Create `T11.IR` with `COPY CON T11.IR`, enter this text, and finish with Ctrl-Z and Enter. The Ctrl-Z keystroke ends console input; it is not a printed language token.
 
@@ -202,4 +204,4 @@ An unexpected PASS is a failed rejection test. Require a fresh OK before using a
 
 ## If the result differs
 
-Check the record stride and count, the saved template pointer, and each substitution buffer. The name and numeric token must survive FINISH. Compare the generated assembly before asking ASM86 to assemble it.
+Check the record stride and count, the saved template pointer, and each substitution buffer. The name and numeric token must survive FINISH. Compare the generated assembly before asking ASM0 to assemble it.

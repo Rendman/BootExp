@@ -1,8 +1,10 @@
 +++
-title = "09 \u00b7 Small value expressions"
+title = "09 \u00b7 Calculating Addresses and Counts"
 weight = 9
 description = "Evaluate unary signs, grouping, addition, subtraction, and the current address."
 download = "A21.ASM"
+download_group = "tools/asm86"
+reader_names = 1
 +++
 
 Addresses and counts often differ from a named value by a small offset.
@@ -499,7 +501,7 @@ CMP AL,48
 
 ```dos
 COPY A21.ASM SOURCE.ASM
-CHECK ASMA0
+CHECK ASM1
 ```
 
 Require `OK RESULT.COM 04605 bytes` and PASS. Preserve this executable before using its fixed output name:
@@ -539,7 +541,7 @@ In VIEW.BAS, inspect RESULT.COM. Require length **4 bytes** and these complete c
 03 03 03 03
 ```
 
-This result is an encoding or data exercise. Inspect its bytes; do not execute it.
+The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
 
 ## A rejection check
 

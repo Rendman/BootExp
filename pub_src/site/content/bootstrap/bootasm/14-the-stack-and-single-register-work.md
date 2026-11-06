@@ -3,6 +3,8 @@ title = "14. The stack and single-register work"
 weight = 14
 description = "Move an index, save a word, and mind the stack."
 checkpoint = "BA14.BAS"
+download_group = "tools/bootasm"
+reader_names = 1
 +++
 
 Indexes must move, and a routine sometimes needs to put a word aside. Four families of one-byte instructions cover these small jobs.

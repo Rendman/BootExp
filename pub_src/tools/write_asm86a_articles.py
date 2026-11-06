@@ -1,4 +1,5 @@
 """Print exact bottom-up source edits and native-measured stopping tests."""
+from publication_names import write_page
 from pathlib import Path
 from difflib import SequenceMatcher
 import json,re
@@ -50,9 +51,7 @@ for case in cases:
   t+=f'Both COMP comparisons must report no differences. GEN1 must report `OK RESULT.COM {case["binary_bytes"]:05} bytes` and PASS. COMP may ask whether to compare more files; NO.TXT answers N. Keep the original {alias}.COM separately.\n\n'
   if n==12:t+='Continue with the separate [ASM86A collection](../../asm86a/index.html). For its construction builds, ASMA0.COM is the preceding builder. ASMKEEP.COM remains the original ASM86. Their filename interfaces differ; do not overwrite one with the other.\n\n'
   else:t+=fence('dos','COPY ASM86A.COM ASMAKEEP.COM')+'ASMAKEEP.COM is the preserved fixed-file assembler. ASMKEEP.COM still names the original prompted ASM86.\n\n'
- elif case.get('program_output') is not None:
-  t+='This fixture is a complete program. Save it before another assembly and execute it:\n\n'+fence('dos','COPY RESULT.COM TRY.COM\nCHECK TRY')+'It displays '+json.dumps(case['program_output'])+' and the checker reports PASS.\n\n'
- else:t+='This result is an encoding or data exercise. Inspect its bytes; do not execute it.\n\n'
+ else:t+='The byte inspection is the stopping check for this encoding exercise. Keep the result as data.\n\n'
  t+='## A rejection check\n\n';bad=case['bad']
  if n in [3,4,5]:t+='After inspecting the successful copy, delete ASMA.TMP. It belongs to this copy exercise.\n\n'
  if bad['kind']=='source':
@@ -78,7 +77,7 @@ for case in cases:
  elif n<20:t+='Check ES at helper exits, the saved page segment and offset, record padding, and the complete spelling comparison. Check carry after every DOS memory call. A successful allocation does not initialize its contents.\n'
  elif n<25:t+='Check saved expression values across EMIT, the unresolved-reference flag, and fixed statement lengths in both passes. Quoted text bypasses mnemonic folding. A reserve count must be checked before multiplication or output.\n'
  else:t+='Check descriptor width, segment selection, ModR/M bits, displacement order, and registers changed by EMIT. Use the printed bytes to distinguish a parser mistake from an encoding mistake. Keep the branch size the same in both passes.\n'
- (C/page).write_text(t);patches.append(dict(number=n,chapter=chapter,collection=collection,page=page,base=oldfile,changes=changes));previous=lines
+ write_page((C/page),t);patches.append(dict(number=n,chapter=chapter,collection=collection,page=page,base=oldfile,changes=changes));previous=lines
 (Q/'article-patches.json').write_text(json.dumps(patches,indent=2)+'\n')
 # Whole-program examples and their measured rejection edits.
 t=front('31 · Complete assembly programs',31,'Strings, a stack frame, a distant conditional, and repeated byte movement.','ASM86A.ZIP')
@@ -89,5 +88,5 @@ for r in examples:
  t+=f'Require `OK RESULT.COM {r["binary_bytes"]:05} bytes` and PASS. VIEW.BAS must report length {r["binary_bytes"]} and these first thirty-two bytes:\n\n'+fence('text',r['hex'])
  t+=f'After saving RESULT.COM as {name}.COM, CHECK {name} displays '+json.dumps(r['output'])+' and reports PASS. Here `\\r\\n` means carriage return followed by line feed.\n\n'
  t+='For a separate rejection, copy the source to BAD.ASM. Replace `'+r['bad_before']+'` with `'+r['bad_after']+'`. Copy BAD.ASM to SOURCE.ASM and run CHECK ASMAKEEP. Require '+f'`ERROR {r["bad_line"]:010} CODE {r["bad_code"]}` and FAIL. The accepted RESULT.COM must remain unchanged; an unexpected PASS fails the check. Restore the accepted source before rebuilding.\n\n'
-(C/'43-programs.md').write_text(t)
+write_page((C/'43-programs.md'),t)
 print('Rendered 12 ASMA0 and 28 ASM86A checkpoints and the complete ASM86A programs.')

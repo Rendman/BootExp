@@ -1,4 +1,5 @@
 """Lay out the authored explanations and exact source edits for publication."""
+from publication_names import write_page
 from pathlib import Path
 from difflib import SequenceMatcher
 import json,re
@@ -67,7 +68,7 @@ for case in CASES:
  text+='## If the result differs\n\n'
  if n<4:text+='Check the decimal character bytes, the dollar-sign terminators, and the order of saved registers. A RET must match a CALL; the top-level exit uses DOS function 4CH.\n'
  else:text+='Check the edited blocks against their old context, then compare the complete source. A wrong record count or a missing zero terminator can make a correct token look absent. Check brackets and commas in the test input, and read the reported physical line before changing an instruction.\n'
- filename=f'{n:02}-{slug(case["title"])}.md';(CONTENT/filename).write_text(text)
+ filename=f'{n:02}-{slug(case["title"])}.md';write_page(CONTENT/filename,text)
  patches.append(dict(number=n,page=filename,changes=changes))
  previous=lines
 (ROOT/'qa/asm86/article-patches.json').write_text(json.dumps(patches,indent=2)+'\n')

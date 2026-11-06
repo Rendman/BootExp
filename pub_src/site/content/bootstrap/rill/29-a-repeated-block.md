@@ -4,6 +4,8 @@ weight = 29
 description = "Re-evaluate a condition at a named loop entrance."
 download = "R29.IR"
 cartoon = "rill-paths.png"
+download_group = "tools/rill0"
+reader_names = 1
 +++
 
 A loop must test again after each completed body, rather than reusing its original result.

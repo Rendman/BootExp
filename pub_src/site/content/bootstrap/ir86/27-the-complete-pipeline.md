@@ -3,6 +3,8 @@ title = "33 \u00b7 The complete translation pipeline"
 weight = 33
 description = "Use the portable file interface, then build and run its DOS binding."
 download = "IR86.ASM"
+download_group = "tools/ir86"
+reader_names = 1
 +++
 
 The completed translator is the saved IR32 program. This installment adds no translator source. It follows a portable file-copy program through the current backend and assembler to an executable.
@@ -20,7 +22,7 @@ Enter IR86. Require `OK 06407 bytes` and PASS, then preserve the result:
 COPY IR86.COM IRKEEP.COM
 ```
 
-ASMKEEP is the completed ASM86 from the workbench. Its executable comes from BOOTASM and directly assembles this translator. The runtime binding is emitted as source by IR86 and assembled by the same ASM86.
+ASMKEEP is the completed ASM0 from the workbench. Its executable comes from BOOTASM and directly assembles this translator. The runtime binding is emitted as source by IR86 and assembled by the same ASM0.
 
 ## A portable file copier
 

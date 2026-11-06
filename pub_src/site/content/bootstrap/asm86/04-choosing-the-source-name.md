@@ -3,6 +3,8 @@ title = "04 \u00b7 Choosing the source name"
 weight = 4
 description = "Read, check, and uppercase a short DOS base name."
 download = "AS04.ASM"
+download_group = "tools/asm0"
+reader_names = 1
 +++
 
 We shall ask for a source name once and construct its .ASM filename in a bounded buffer.

@@ -3,6 +3,8 @@ title = "01 \u00b7 A program in the intermediate language"
 weight = 1
 description = "Build and run the first IR-written program."
 download = "R01.IR"
+download_group = "tools/rill0"
+reader_names = 1
 +++
 
 An IR source can already make a complete DOS program. Start with an observable result before adding a source reader.

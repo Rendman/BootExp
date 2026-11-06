@@ -79,6 +79,9 @@ def primary(mode):
   a=b.index('CALL RESOLVEOPTIONAL\n');end=b.index('LABEL PRIMARYNUM\n');b=b[:a]+'JMP NAMEFAIL\n'+b[end:]
  return b
 
+from compiler_checks import refine
+refine(entries,'ir')
+
 def build():
  current={};cases=[]
  for n,e in enumerate(entries,1):

@@ -48,5 +48,5 @@ for img in ['press','cloakroom','bridge']:assert (ROOT/f'site/static/images/asm8
 assert len(list(C.glob('*.md')))==33
 assert len(list((C.parent/'asma0').glob('*.md')))==16
 for n in [0,41,42,43]:assert len(list(C.glob(f'{n:02}-*.md')))==1
-assert 'BOOTASM → ASM86 → ASMA0 → ASM86A → IR86 → RILL' in (C/'_index.md').read_text()
+assert 'BOOTASM → ASM0 → ASM1 → ASM86 → IR86 → RILL' in (C/'_index.md').read_text()
 print(f'PASS ASMA0/ASM86A: all 12 seed and 28 larger-assembler printed edits reconstruct exact source; {len(files)} source-only archive files match ASCII/CRLF/8.3 downloads; fixtures, programs, text generators, and assets agree')

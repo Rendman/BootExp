@@ -2,7 +2,9 @@
 title = "The assembly workbench"
 weight = 0
 description = "Use the completed BASIC assembler and prepare a single-segment workspace."
-download = "ASM86.ZIP"
+download = "ASM0.ZIP"
+download_group = "tools/asm0"
+reader_names = 1
 +++
 
 Begin with the completed BOOTASM collection: `BOOTASM.BAS`, `VIEW.BAS`, and `CHECK.BAT`. Keep the same DOS 3.10 directory and the period GW-BASIC supplied with your distribution. The instructions call the interpreter `GWBASIC`; use its actual name on your disk. DOS and BASIC version numbers are independent; note the interpreter's startup banner before beginning.
@@ -17,9 +19,9 @@ At DOS, make an untouched copy:
 COPY BOOTASM.BAS BOOTKEEP.BAS
 ```
 
-The completed BOOTASM supplies the instruction forms and storage needed to build every ASM86 checkpoint. Its symbol table holds 256 labels, and its output image can contain 4,096 bytes. Use the normal roughly 60 KB BASIC workspace for the program, symbols, and output array.
+The completed BOOTASM supplies the instruction forms and storage needed to build every ASM0 checkpoint. Its symbol table holds 256 labels, and its output image can contain 4,096 bytes. Use the normal roughly 60 KB BASIC workspace for the program, symbols, and output array.
 
-Build the first ASM86 executable by running `GWBASIC BOOTASM.BAS` and entering an assembly source base name. Require its printed `OK` and byte count. `SYSTEM` returns from BASIC to DOS. BASIC's printed error report is the build result; CHECK.BAT is for a complete assembled `.COM` program, not for judging the interpreter.
+Build the first ASM0 executable by running `GWBASIC BOOTASM.BAS` and entering an assembly source base name. Require its printed `OK` and byte count. `SYSTEM` returns from BASIC to DOS. BASIC's printed error report is the build result; CHECK.BAT is for a complete assembled `.COM` program, not for judging the interpreter.
 
 ## Keep the steps separate
 
@@ -44,7 +46,7 @@ The native program requires a complete 64 KB segment, with the normal entry stac
 | 6000H–7FFFH | Output buffer, 8,192 bytes |
 | Near FFFEH | Stack, growing toward lower offsets |
 
-The program does not relocate these buffers or request a second segment. Keep DS, ES, and SS at the DOS entry segment. Its calls are shallow and nonrecursive; reserve the upper 4 KB for the stack and do not place data there. The completed image is under 3 KB, so BOOTASM's 4 KB output bound is sufficient to build it. ASM86's **own** 8 KB output bound is a different limit.
+The program does not relocate these buffers or request a second segment. Keep DS, ES, and SS at the DOS entry segment. Its calls are shallow and nonrecursive; reserve the upper 4 KB for the stack and do not place data there. The completed image is under 3 KB, so BOOTASM's 4 KB output bound is sufficient to build it. ASM0's **own** 8 KB output bound is a different limit.
 
 ## Visible checks
 

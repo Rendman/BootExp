@@ -1,19 +1,16 @@
 +++
-title = "RB11 \u00b7 Quoted source text"
+title = "11 \u00b7 Reading Quoted Text"
 weight = 11
 description = "Keep source position, token kind, numeric value, and complete spelling distinct."
 download = "RB11.IR"
-download_group = "rb"
+download_group = "tools/rillboot"
 aliases = ["/bootstrap/rill/044-rb-quoted-source-text/"]
+reader_names = 1
 +++
-
-Keep source position, token kind, numeric value, and complete spelling distinct.
 
 ## The working parts
 
 Keep source position, token kind, numeric value, and complete spelling distinct. Save temporary values in local slots across NEXT calls. Paired punctuation is recognized before returning a single character; comments consume source without manufacturing a token.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -29,7 +26,7 @@ RETURN
 LABEL LEXSTRING
 ```
 
-Remove this source at old physical positions 422–422 in RB10.IR:
+Remove this source at old physical positions 423–423 in RB10.IR:
 
 ```ir
 JMP SYNTAX
@@ -160,11 +157,13 @@ CALL NEXT
 CALL LEX
 ```
 
-Remove this source at old physical positions 42–43 in RB10.IR:
+Remove this source at old physical positions 42–45 in RB10.IR:
 
 ```ir
 LD VALUE
-CALL PRINTNUM
+PUSH
+LIT 65535
+CNE
 ```
 
 Replace it with:
@@ -172,12 +171,12 @@ Replace it with:
 ```ir
 ADDR STRING
 CALL PRINT
+LIT 0
 ```
 
 The following old source remains in place:
 
 ```ir
-LIT 0
 RETURN
 ```
 
@@ -217,10 +216,11 @@ COPY TRB11.RIL SOURCE.RIL
 CHECK RB11
 ```
 
-Require, apart from command echo and the checker's separator:
+Require:
 
 ```text
-"Hi"PASS
+"Hi"
+PASS
 ```
 
 ## A rejection or boundary check
@@ -247,4 +247,4 @@ An unexpected PASS fails the rejection. The pre-existing RESULT.IR must remain u
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Check the token class, complete spelling, and numeric value separately. Preserve the raw quoted bytes while folding names.

@@ -1,19 +1,16 @@
 +++
-title = "RB09 \u00b7 Complete identifier spelling"
+title = "09 \u00b7 Reading Names Without Losing Letters"
 weight = 9
 description = "Keep source position, token kind, numeric value, and complete spelling distinct."
 download = "RB09.IR"
-download_group = "rb"
+download_group = "tools/rillboot"
 aliases = ["/bootstrap/rill/042-rb-complete-identifier-spelling/"]
+reader_names = 1
 +++
-
-Keep source position, token kind, numeric value, and complete spelling distinct.
 
 ## The working parts
 
 Keep source position, token kind, numeric value, and complete spelling distinct. Save temporary values in local slots across NEXT calls. Paired punctuation is recognized before returning a single character; comments consume source without manufacturing a token.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -29,7 +26,7 @@ RETURN
 LABEL LEXNAME
 ```
 
-Remove this source at old physical positions 326–326 in RB08.IR:
+Remove this source at old physical positions 327–327 in RB08.IR:
 
 ```ir
 JMP SYNTAX
@@ -113,11 +110,13 @@ CALL NEXT
 CALL LEX
 ```
 
-Remove this source at old physical positions 42–43 in RB08.IR:
+Remove this source at old physical positions 42–45 in RB08.IR:
 
 ```ir
 LD TOK
-CALL PRINTNUM
+PUSH
+LIT 256
+CNE
 ```
 
 Replace it with:
@@ -125,12 +124,12 @@ Replace it with:
 ```ir
 ADDR IDENT
 CALL PRINT
+LIT 0
 ```
 
 The following old source remains in place:
 
 ```ir
-LIT 0
 RETURN
 ```
 
@@ -170,25 +169,13 @@ COPY TRB09.RIL SOURCE.RIL
 CHECK RB09
 ```
 
-Require, apart from command echo and the checker's separator:
-
-```text
-HELLOPASS
-```
-
-## A rejection or boundary check
-
-Rename SOURCE.RIL to an unused HOLD.RIL and run CHECK RB09. Restore the source afterward.
-
 Require:
 
 ```text
-ERROR 0000000001 CODE 00001
-FAIL
+HELLO
+PASS
 ```
-
-An unexpected PASS fails the rejection. The pre-existing RESULT.IR must remain unchanged; preserve a copy before the test.
 
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Check the token class, complete spelling, and numeric value separately. Preserve the raw quoted bytes while folding names.

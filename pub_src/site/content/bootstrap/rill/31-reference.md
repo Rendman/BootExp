@@ -2,12 +2,14 @@
 title = "The first RILL compiler reference"
 weight = 31
 description = "The exact grammar, word semantics, portable services, and limits of the first implementation."
-download = "RILL.IR"
+download = "RILL0.IR"
+download_group = "tools/rill0"
+reader_names = 1
 +++
 
 This reference describes the first R29 compiler milestone. The [systems-language reference](../132-the-rill-systems-language/index.html) defines the complete RILL used by the self-compiling toolchain. Preserve each milestone under its documented builder name.
 
-RILL has a small structured source language. Its compiler is written in the published IR86 language and emits IR86 source. IR86 and ASM86 then build the executable. RILL.IR is the compiler implementation; a .RIL file is a program supplied to it. The complete source does not contain native assembly escapes.
+RILL has a small structured source language. Its compiler is written in the published IR86 language and emits IR86 source. IR86 and ASM0 then build the executable. RILL0.IR is the compiler implementation; a .RIL file is a program supplied to it. The complete source does not contain native assembly escapes.
 
 ## Program and declaration form
 
@@ -93,7 +95,7 @@ Success is `OK RESULT.IR nnnnn` with zero status. The number is the complete CR/
 
 A missing primary may report category four because the primary parser tries the variable form after excluding its other alternatives. The report identifies where recognition stopped; look just before that token for a missing delimiter or operand. Every source statement is checked, including statements after exit and blocks which would not execute.
 
-A source or input error leaves an older RESULT.IR untouched. A result I/O failure after CREATE can leave a partial file. Require a fresh OK and PASS before translating any result. IR86 and ASM86 have their own diagnostics and must each succeed independently.
+A source or input error leaves an older RESULT.IR untouched. A result I/O failure after CREATE can leave a partial file. Require a fresh OK and PASS before translating any result. IR86 and ASM0 have their own diagnostics and must each succeed independently.
 
 ## Implementation capacities
 
@@ -142,6 +144,6 @@ The word scanner encodes lowercase letters as digits one through twenty-six in b
 
 ## First backend profile
 
-The compiler source uses only the published processor-independent IR operations and runtime services. Its DOS build is 5,173 bytes; its generated assembly text is 24,676 bytes. It uses 255 definitions including the IR86 header, generated comparison skips, and runtime, within ASM86's 256-entry table. No extension of BOOTASM, ASM86, or IR86 is needed.
+The compiler source uses only the published processor-independent IR operations and runtime services. Its DOS build is 5,173 bytes; its generated assembly text is 24,676 bytes. It uses 255 definitions including the IR86 header, generated comparison skips, and runtime, within ASM0's 256-entry table. No extension of BOOTASM, ASM0, or IR86 is needed.
 
-The native environment must satisfy IR86's documented full-segment entry check and high-stack reservation. The compiler's bounded data is part of its image. Its result is IR text, which must still pass IR86 and ASM86 before execution. The finite current image, text, and definition budgets describe this implementation and backend; they do not give RILL source programs physical register or address semantics.
+The native environment must satisfy IR86's documented full-segment entry check and high-stack reservation. The compiler's bounded data is part of its image. Its result is IR text, which must still pass IR86 and ASM0 before execution. The finite current image, text, and definition budgets describe this implementation and backend; they do not give RILL source programs physical register or address semantics.

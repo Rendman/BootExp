@@ -3,6 +3,8 @@ title = "29 \u00b7 Creating an output file"
 weight = 29
 description = "Request writable storage and keep its descriptor private."
 download = "IR29.ASM"
+download_group = "tools/ir86"
+reader_names = 1
 +++
 
 CREATE prepares a writable output file through the same opaque handle interface.
@@ -171,7 +173,7 @@ MOV AX,256
 CHECK ASMKEEP
 ```
 
-Enter `IR29` at ASM86's `Source name:` prompt. Require `OK 05067 bytes` followed by PASS. This builds `IR29.COM` directly with the completed assembler. Save the source and executable before running the test.
+Enter `IR29` at ASM0's `Source name:` prompt. Require `OK 05067 bytes` followed by PASS. This builds `IR29.COM` directly with the completed assembler. Save the source and executable before running the test.
 
 Create `T29.IR` with `COPY CON T29.IR`, enter this text, and finish with Ctrl-Z and Enter. The Ctrl-Z keystroke ends console input; it is not a printed language token.
 

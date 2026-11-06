@@ -1,19 +1,21 @@
 +++
-title = "ASM86 reference"
+title = "ASM0 reference"
 weight = 31
 description = "The native assembler's source grammar, byte encodings, memory contract, and diagnostics."
-download = "ASM86.ASM"
+download = "ASM0.ASM"
+download_group = "tools/asm0"
+reader_names = 1
 +++
 
-This reference describes the completed AS29/ASM86 source. Earlier construction checkpoints accept only their introduced features. ASM86 is implemented using BOOTASM's assembly language and accepts the forms below; it is not a complete 8086 assembler.
+This reference describes the completed AS29/ASM0 source. Earlier construction checkpoints accept only their introduced features. ASM0 is implemented using BOOTASM's assembly language and accepts the forms below; it is not a complete 8086 assembler.
 
 ## Files and invocation
 
-Run `CHECK ASM86` and enter a base name of one through eight letters, digits, or underscores when `Source name:` appears. Supply no extension or path. ASM86 uppercases the name, reads `NAME.ASM` twice from the current directory, and creates `NAME.COM` only after both passes succeed. Use ordinary disk filenames; DOS device names, including CON and NUL, are excluded from the workbench because the small character validator does not recognize devices.
+Run `CHECK ASM0` and enter a base name of one through eight letters, digits, or underscores when `Source name:` appears. Supply no extension or path. ASM0 uppercases the name, reads `NAME.ASM` twice from the current directory, and creates `NAME.COM` only after both passes succeed. Use ordinary disk filenames; DOS device names, including CON and NUL, are excluded from the workbench because the small character validator does not recognize devices.
 
 A successful assembly prints `OK nnnnn bytes` and returns DOS status zero; CHECK prints PASS. The count is always five decimal digits. A failure prints `ERROR nnnnn CODE n` and returns status one; CHECK prints FAIL. The first number is the physical source line, starting at one, or zero before source reading begins. Observe the status immediately; another program may replace it.
 
-A source rejection leaves existing output unchanged. An input/output error during the final create, write, or close can leave an empty or partial file. Only a fresh OK report authorizes use of that output. An empty source creates a zero-byte file for inspection, never execution. ASM86 does not judge whether bytes defined by DB or DW form a safe program.
+A source rejection leaves existing output unchanged. An input/output error during the final create, write, or close can leave an empty or partial file. Only a fresh OK report authorizes use of that output. An empty source creates a zero-byte file for inspection, never execution. ASM0 does not judge whether bytes defined by DB or DW form a safe program.
 
 ## Source grammar
 
@@ -43,7 +45,7 @@ For a register operand, its name determines the width. Both registers in a two-r
 
 The only memory forms are `[BX]` and `[value]`, where value is a number or a label. Memory uses DS. `[BX]` uses the offset in BX; `[TEXT]` uses the offset named TEXT. A register supplies the transfer width. An instruction reading or writing a word accesses two consecutive bytes, so the program must provide storage for both.
 
-The CPU's other addressing forms and segment overrides are outside ASM86's syntax. Use BX or a direct offset and explicit register arithmetic. The accepted memory forms belong only to MOV; arithmetic with memory operands and immediate-to-memory MOV are omitted to keep operand parsing small.
+The CPU's other addressing forms and segment overrides are outside ASM0's syntax. Use BX or a direct offset and explicit register arithmetic. The accepted memory forms belong only to MOV; arithmetic with memory operands and immediate-to-memory MOV are omitted to keep operand parsing small.
 
 ## Accepted instructions
 
@@ -148,9 +150,9 @@ A symbol record occupies twenty bytes: up to sixteen name characters and a zero,
 | Source handles | One input at a time, reopened each pass | No source copy or seek state in memory |
 | Output handles | One, after both source passes | Avoids replacing a good file for a source error |
 
-The workbench guide gives the exact buffer map. These bounds belong to ASM86, not to the CPU. BOOTASM accepts 256 labels, at most 4,096 output bytes, and at most 2,000 source lines. The completed ASM86 source and image fit those bounds.
+The workbench guide gives the exact buffer map. These bounds belong to ASM0, not to the CPU. BOOTASM accepts 256 labels, at most 4,096 output bytes, and at most 2,000 source lines. The completed ASM0 source and image fit those bounds.
 
-ASM86 checks emitted length, source bounds, symbol bounds, and its own entry stack. It does not check the assembled program's later memory accesses, stack depth, or DOS-call correctness. An emitted program shares code, data, and stack in one segment and must respect its own allocated storage. PUSH SP has the original 8086/8088 behavior: the pushed value reflects the decremented SP. Avoid treating it as an ordinary saved-register value.
+ASM0 checks emitted length, source bounds, symbol bounds, and its own entry stack. It does not check the assembled program's later memory accesses, stack depth, or DOS-call correctness. An emitted program shares code, data, and stack in one segment and must respect its own allocated storage. PUSH SP has the original 8086/8088 behavior: the pushed value reflects the decremented SP. Avoid treating it as an ordinary saved-register value.
 
 ## Error codes
 

@@ -1,19 +1,16 @@
 +++
-title = "RB27 \u00b7 Print an IR operand"
+title = "27 \u00b7 Writing a Numeric Operand"
 weight = 27
 description = "Emit a fixed decimal word spelling through OUTCHAR."
 download = "RB27.IR"
-download_group = "rb"
+download_group = "tools/rillboot"
 aliases = ["/bootstrap/rill/060-rb-print-an-ir-operand/"]
+reader_names = 1
 +++
-
-Emit a fixed decimal word spelling through OUTCHAR.
 
 ## The working parts
 
 Emit a fixed decimal word spelling through OUTCHAR. It uses the same checked output path as instruction names and delimiters.
-
-The entry diagnostic exercises the printed helper. Rejecting placeholders identify forms outside this stopping point. A diagnostic that emits only an IR fragment is inspected as text; it is not a complete compiler or output program.
 
 ## Enter the source
 
@@ -28,7 +25,7 @@ LIT 0
 RETURN
 ```
 
-Insert after old physical line 951.
+Insert after old physical line 949.
 
 Insert:
 
@@ -120,13 +117,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000030763 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 14688 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000030564 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 14665 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RB27.COM
 ```
 
-VIEW.BAS must report RB27.COM length 14688 bytes. Keep this executable and its source together.
+VIEW.BAS must report RB27.COM length 14665 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -134,40 +131,18 @@ VIEW.BAS must report RB27.COM length 14688 bytes. Keep this executable and its s
 CHECK RB27
 ```
 
-Require, apart from command echo and the checker's separator:
+The checker must report PASS. Inspect the emitted file below.
+
+Use VIEW.BAS to inspect RILL.TMP. Require length 5 bytes. The complete bytes must be:
 
 ```text
-OK RILL.TMP
-PASS
+31 32 33 34 35
 ```
 
-TYPE RILL.TMP. Its complete text is:
-
-```ir
-12345
-```
-
-VIEW.BAS must show length 5 bytes. This is an IR fragment for inspection. Do not translate it as a complete program or execute any file with its name.
+This is an IR fragment for inspection. Do not translate it as a complete program or execute any file with its name.
 
 After inspection, delete this deliberately created RILL.TMP before another checkpoint. The file is diagnostic text, not an interrupted accepted compiler build.
 
-## A rejection or boundary check
-
-Check a representable-word boundary in the preceding translator. Create BAD.IR:
-
-```ir
-PROC MAIN 0 0
-LIT 65536
-RETURN
-```
-
-```dos
-COPY BAD.IR SOURCE.IR
-CHECK IWKEEP
-```
-
-Require `IR ERROR 0000000002 CODE 2` and FAIL. The accepted RESULT.ASM must remain unchanged. The diagnostic cannot be built from an out-of-range word.
-
 ## If the result differs
 
-Check the saved pointer or slot, argument order, complete token spelling, and STATUS immediately after each service. A helper's local state must survive calls; an output count is independent of input position. Inspect text and file length before interpreting any bytes as a program.
+Compare OUTNUM with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.

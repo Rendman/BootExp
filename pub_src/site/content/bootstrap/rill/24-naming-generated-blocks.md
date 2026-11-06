@@ -3,6 +3,8 @@ title = "24 \u00b7 Naming generated blocks"
 weight = 24
 description = "Give internal code positions names which cannot collide with variables."
 download = "R24.IR"
+download_group = "tools/rill0"
+reader_names = 1
 +++
 
 Control-flow output needs a distinct name for each compiler-created code position.
@@ -11,7 +13,7 @@ Control-flow output needs a distinct name for each compiler-created code positio
 
 NEWLABEL increments LABELNO and returns its value in A. DEFLABEL and JUMPLABEL save that value in BRANCH while PAIR emits a prefix, then NUMBER supplies five decimal digits. Names such as B00001 differ from the single-letter variable names.
 
-The driver emits an otherwise unused block label before the body so the naming routines have a direct visible test. Inspect it in RESULT.IR. Decimal names are source labels, not machine addresses; IR86 and ASM86 resolve their locations.
+The driver emits an otherwise unused block label before the body so the naming routines have a direct visible test. Inspect it in RESULT.IR. Decimal names are source labels, not machine addresses; IR86 and ASM0 resolve their locations.
 
 ## Enter the source
 

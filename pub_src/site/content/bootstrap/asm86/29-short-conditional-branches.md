@@ -4,6 +4,8 @@ weight = 29
 description = "A signed byte selects a nearby path from the flags."
 download = "AS29.ASM"
 cartoon = "asm86-signals.png"
+download_group = "tools/asm0"
+reader_names = 1
 +++
 
 A comparison needs a way to select a path. We shall add the ten short conditions and reject a destination outside their signed-byte reach.

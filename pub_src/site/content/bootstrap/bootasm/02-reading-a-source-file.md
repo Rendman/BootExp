@@ -3,6 +3,8 @@ title = "02. Reading a source file"
 weight = 2
 description = "From lines of source to an exact sequence of bytes."
 checkpoint = "BA02.BAS"
+download_group = "tools/bootasm"
+reader_names = 1
 +++
 
 A single byte is a useful disk experiment, but a program needs a sequence. We shall read one decimal byte from each source line and keep the result in memory until the whole source has been accepted.

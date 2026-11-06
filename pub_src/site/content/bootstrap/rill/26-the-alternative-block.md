@@ -3,6 +3,8 @@ title = "26 \u00b7 The alternative block"
 weight = 26
 description = "Keep both outgoing paths separate through nested conditionals."
 download = "R26.IR"
+download_group = "tools/rill0"
+reader_names = 1
 +++
 
 An else body must be bypassed after the true body has completed.
