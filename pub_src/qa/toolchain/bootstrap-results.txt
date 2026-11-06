@@ -1,0 +1,8 @@
+PASS canonical BOOTASM.BAS -> ASM86 -> ASMA0 -> ASM86A -> streaming IR86 -> IR-written compiler seed
+PASS compiler seed -> three authored RILL tool sources -> identical RILL-written tool executables
+PASS fresh ladder generation 1: RILL reproduces 26625 bytes
+PASS fresh ladder generation 1: IR86 reproduces 31472 bytes
+PASS fresh ladder generation 1: ASM86A reproduces 32404 bytes
+PASS fresh ladder generation 2: RILL reproduces 26625 bytes
+PASS fresh ladder generation 2: IR86 reproduces 31472 bytes
+PASS fresh ladder generation 2: ASM86A reproduces 32404 bytes

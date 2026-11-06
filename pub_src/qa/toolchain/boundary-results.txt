@@ -1,0 +1,10 @@
+PASS reject invalid string escape or raw newline
+PASS reject invalid string escape or raw newline
+PASS reject invalid string escape or raw newline
+PASS native/RILL translator rejects leftover branch operands and word overflow
+PASS native/RILL translator rejects leftover branch operands and word overflow
+PASS exact 512 global/procedure records and overflow
+PASS exact sixteen active locals and overflow
+PASS sixteen parameters and overflow
+PASS complete 24-character names and rejection of character 25
+PASS streamed source beyond 65535 lines and full decimal error line

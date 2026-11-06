@@ -1,0 +1,10 @@
+let mut count = 0;
+fn bump() { count=count+1; return count; }
+fn pair(a,b) { return a*10+b; }
+fn twice(n) { return n*2; }
+fn main() {
+    if pair(bump(),bump()) == 12 {
+        if 7+twice(9) == 25 { putc(65); }
+    }
+    return 0;
+}

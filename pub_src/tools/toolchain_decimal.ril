@@ -1,0 +1,16 @@
+// Divide a pair of words by ten without requiring a wider machine value.
+fn print32(hi,lo) {
+    let mut i = 0; let mut qhi = 0; let mut rem = 0;
+    let mut qlo = 0; let mut bit = 0;
+    while i < 10 {
+        qhi = hi/10; rem = hi%10; qlo = 0; bit = 32768;
+        while bit {
+            rem = rem*2; if lo & bit { rem = rem+1; }
+            qlo = qlo*2;
+            if rem >= 10 { rem = rem-10; qlo = qlo+1; }
+            bit = bit>>1;
+        }
+        decimal[i] = rem+48; hi = qhi; lo = qlo; i = i+1;
+    }
+    while i { i = i-1; putc(decimal[i]); } return 0;
+}

@@ -1,0 +1,9 @@
+{
+  "native_ir_bytes": 11577,
+  "ir_compiler_seed_bytes": 21818,
+  "tools": {
+    "ASM86A": 32404,
+    "IR86": 31472,
+    "RILL": 26625
+  }
+}

@@ -1,0 +1,7 @@
+bytes message[4];
+fn main() {
+    message[0]=72; message[1]=73;
+    let mut i=0;
+    while i<2 { putc(message[i]); i=i+1; }
+    return 0;
+}

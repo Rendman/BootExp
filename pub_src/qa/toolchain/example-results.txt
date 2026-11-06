@@ -1,0 +1,10 @@
+PASS EWORDS: complete source, native/portable output and files, exact rejection and preservation
+PASS EARGS: complete source, native/portable output and files, exact rejection and preservation
+PASS ERECUR: complete source, native/portable output and files, exact rejection and preservation
+PASS ESCOPE: complete source, native/portable output and files, exact rejection and preservation
+PASS EBYTES: complete source, native/portable output and files, exact rejection and preservation
+PASS ESTRING: complete source, native/portable output and files, exact rejection and preservation
+PASS EHEAP: complete source, native/portable output and files, exact rejection and preservation
+PASS ECOPY: complete source, native/portable output and files, exact rejection and preservation
+PASS ECOPY byte transfer 0
+PASS ECOPY byte transfer 768

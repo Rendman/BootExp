@@ -1,6 +1,6 @@
 # ASM86A: the capacity-building bootstrap step
 
-Status: implemented and verified. The ASM86A collection has forty native construction checkpoints, a complete ladder exercise, a language/memory reference, and four complete programs. The published IR86 and RILL implementations retain their independent language and buffer limits.
+Status: implemented and verified. The ASM86A collection has forty native construction checkpoints, a complete ladder exercise, a language/memory reference, and four complete programs. The streaming IR and systems RILL workbenches use this capacity to build a complete RILL-written toolchain; the initial smaller milestones remain separately named builders.
 
 ## Position in the chain
 
@@ -199,14 +199,11 @@ Preserve working executables before each handoff. No new source instruction may 
 
 ## Handoff to IR86 and RILL
 
-Assembler capacity alone does not remove the later tools' independent limits. ASM86A passes the construction gates. The separate expansion work for IR86 and RILL is:
+The streaming IRWIDE bridge and the IR-written RILLBOOT compiler seed are implemented. IR86 uses procedures, parameter/local slots, literal data, word arithmetic, and opaque allocated-block services without exposing native registers or segments. Source and output are streamed rather than kept in a whole-file buffer.
 
-1. Have IR86 read SOURCE.IR incrementally and stream RESULT.ASM through its own temporary file. Remove its 32 KB whole-output buffer and its inherited 8192-byte/256-definition target assumptions. Keep genuine target image and symbol limits explicit.
-2. Use ASM86A's NEAR conditional forms so the backend does not consume a public symbol for every comparison skip. Expand backend addressing/runtime support without exposing processor registers or DOS conventions in the IR contract.
-3. Define the IR procedure/frame, indexed storage, and allocation interfaces needed by a larger RILL before selecting the RILL grammar. Keep portable word/pointer/handle semantics separate from native storage representation.
-4. Replace RILL's 1024-byte result buffer, twenty-six single-letter-variable table, and restrictive parser-state organization with streaming emission, general identifiers, real scopes/symbol tables, procedures, parameters, local storage, and indexed data. Do not merely increase one buffer and call the language expanded.
+The RILL-written compiler, IR86, and ASM86A build through that native seed chain and reproduce all three executables through two closed-loop generations. General identifiers, initialized symbol records, lexical scopes, procedures, local state, byte buffers, strings, and portable file/block services replace the initial compiler's one-letter-variable and 1024-byte-result constraints. The assembler keeps its 8192-symbol and 61184-byte image contract. See [TOOLCHAIN_Design.md](TOOLCHAIN_Design.md) and the complete toolchain exercise.
 
-The initial `.COM` execution profile still has a real near-code/image limit. Extra allocated workspace makes larger compilers practical; it does not turn a `.COM` file into an unlimited or multisegment executable. Linker and executable-format work remains a separate milestone.
+The COM execution profile still has a real near-code/image limit. Allocated workspace makes larger compilers practical; it does not create a multisegment executable. Linker and executable-format work remain separate milestones.
 
 ## Production reference
 

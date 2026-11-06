@@ -1,0 +1,43 @@
+PASS RC01: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, word boundary
+PASS RC02: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, word boundary
+PASS RC03: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, word boundary
+PASS RC04: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, word boundary
+PASS RC05: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, word boundary
+PASS RC06: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, word boundary
+PASS RC07: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, rejection and preservation
+PASS RC08: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, rejection and preservation
+PASS RC09: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, rejection and preservation
+PASS RC10: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, rejection and preservation
+PASS RC11: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, word boundary
+PASS RC12: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, word boundary
+PASS RC13: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, word boundary
+PASS RC14: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, word boundary
+PASS RC15: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, word boundary
+PASS RC16: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, word boundary
+PASS RC17: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, word boundary
+PASS RC18: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, word boundary
+PASS RC19: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, word boundary
+PASS RC20: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, word boundary
+PASS RC21: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, word boundary
+PASS RC22: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, word boundary
+PASS RC23: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, word boundary
+PASS RC24: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, word boundary
+PASS RC25: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, word boundary
+PASS RC26: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, word boundary
+PASS RC27: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, word boundary
+PASS RC28: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, word boundary
+PASS RC29: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, word boundary
+PASS RC30: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, word boundary
+PASS RC31: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, word boundary
+PASS RC32: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, rejection and preservation
+PASS RC33: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, word boundary
+PASS RC34: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, rejection and preservation
+PASS RC35: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, rejection and preservation
+PASS RC36: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, rejection and preservation
+PASS RC37: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, rejection and preservation
+PASS RC38: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, rejection and preservation
+PASS RC39: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, rejection and preservation
+PASS RC40: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, rejection and preservation
+PASS RC41: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, executable output, rejection and preservation
+PASS RC42: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, executable output, rejection and preservation
+PASS RC43: IR-written compiler seed/native IR86/ASM86A build, exact helper or parser result, executable output, rejection and preservation

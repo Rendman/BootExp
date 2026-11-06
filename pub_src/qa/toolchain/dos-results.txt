@@ -1,0 +1,10 @@
+PASS DOS 3.10 RILL generation 0: compiler, translator, assembler, and exact executable
+PASS DOS 3.10 RILL generation 1: compiler, translator, assembler, and exact executable
+PASS DOS 3.10 RILL generation 2: compiler, translator, assembler, and exact executable
+PASS DOS 3.10 IR86 generation 0: compiler, translator, assembler, and exact executable
+PASS DOS 3.10 IR86 generation 1: compiler, translator, assembler, and exact executable
+PASS DOS 3.10 IR86 generation 2: compiler, translator, assembler, and exact executable
+PASS DOS 3.10 ASM86A generation 0: compiler, translator, assembler, and exact executable
+PASS DOS 3.10 ASM86A generation 1: compiler, translator, assembler, and exact executable
+PASS DOS 3.10 ASM86A generation 2: compiler, translator, assembler, and exact executable
+PASS DOS 3.10 generation-two RILL -> generation-two IR86 -> generation-two ASM86A -> HI

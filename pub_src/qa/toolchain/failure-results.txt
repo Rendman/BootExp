@@ -1,0 +1,43 @@
+PASS RILL result exists: no false OK, correct result/recovery state, no allocated blocks left
+PASS RILL input open: no false OK, correct result/recovery state, no allocated blocks left
+PASS RILL read: no false OK, correct result/recovery state, no allocated blocks left
+PASS RILL create: no false OK, correct result/recovery state, no allocated blocks left
+PASS RILL write: no false OK, correct result/recovery state, no allocated blocks left
+PASS RILL short write: no false OK, correct result/recovery state, no allocated blocks left
+PASS RILL close: no false OK, correct result/recovery state, no allocated blocks left
+PASS RILL backup rename: no false OK, correct result/recovery state, no allocated blocks left
+PASS RILL publish rename: no false OK, correct result/recovery state, no allocated blocks left
+PASS RILL backup delete: no false OK, correct result/recovery state, no allocated blocks left
+PASS RILL allocate: no false OK, correct result/recovery state, no allocated blocks left
+PASS RILL free: no false OK, correct result/recovery state, no allocated blocks left
+PASS RILL consumes short positive input reads
+PASS RILL preserves reserved recovery file RILL.TMP
+PASS RILL preserves reserved recovery file RILL.BAK
+PASS IR86 result exists: no false OK, correct result/recovery state, no allocated blocks left
+PASS IR86 input open: no false OK, correct result/recovery state, no allocated blocks left
+PASS IR86 read: no false OK, correct result/recovery state, no allocated blocks left
+PASS IR86 create: no false OK, correct result/recovery state, no allocated blocks left
+PASS IR86 write: no false OK, correct result/recovery state, no allocated blocks left
+PASS IR86 short write: no false OK, correct result/recovery state, no allocated blocks left
+PASS IR86 close: no false OK, correct result/recovery state, no allocated blocks left
+PASS IR86 backup rename: no false OK, correct result/recovery state, no allocated blocks left
+PASS IR86 publish rename: no false OK, correct result/recovery state, no allocated blocks left
+PASS IR86 backup delete: no false OK, correct result/recovery state, no allocated blocks left
+PASS IR86 consumes short positive input reads
+PASS IR86 preserves reserved recovery file IRTX.TMP
+PASS IR86 preserves reserved recovery file IRRES.BAK
+PASS ASM86A result exists: no false OK, correct result/recovery state, no allocated blocks left
+PASS ASM86A input open: no false OK, correct result/recovery state, no allocated blocks left
+PASS ASM86A read: no false OK, correct result/recovery state, no allocated blocks left
+PASS ASM86A create: no false OK, correct result/recovery state, no allocated blocks left
+PASS ASM86A write: no false OK, correct result/recovery state, no allocated blocks left
+PASS ASM86A short write: no false OK, correct result/recovery state, no allocated blocks left
+PASS ASM86A close: no false OK, correct result/recovery state, no allocated blocks left
+PASS ASM86A backup rename: no false OK, correct result/recovery state, no allocated blocks left
+PASS ASM86A publish rename: no false OK, correct result/recovery state, no allocated blocks left
+PASS ASM86A backup delete: no false OK, correct result/recovery state, no allocated blocks left
+PASS ASM86A allocate: no false OK, correct result/recovery state, no allocated blocks left
+PASS ASM86A free: no false OK, correct result/recovery state, no allocated blocks left
+PASS ASM86A consumes short positive input reads
+PASS ASM86A preserves reserved recovery file ASMA.TMP
+PASS ASM86A preserves reserved recovery file RESULT.BAK

@@ -1,0 +1,3 @@
+PASS RILL generation 0: 49941 IR bytes, 26625 native bytes
+PASS RILL generation 1: 49941 IR bytes, 26625 native bytes
+PASS RILL generation 2: 49941 IR bytes, 26625 native bytes

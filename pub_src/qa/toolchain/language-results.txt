@@ -1,0 +1,47 @@
+PASS native/portable fn main(){return 0;}
+PASS native/portable fn main(){return 7+3*4;}
+PASS native/portable fn main(){return (7+3)*4;}
+PASS native/portable fn main(){return -1/255;}
+PASS native/portable fn main(){return 65535%256;}
+PASS native/portable fn main(){return (1<<4)|(255&3);}
+PASS native/portable fn main(){return 65535>>15;}
+PASS native/portable fn main(){return ~65535;}
+PASS native/portable fn main(){return !0+!1;}
+PASS native/portable fn main(){return 7+twice(9); } fn twice(n){return n*2;}
+PASS native/portable fn main(){return f(7,2);} fn f(a,b){a=a+b;return a-b;}
+PASS native/portable fn main(){return fact(5);} fn fact(n){if n==0{return 1;} return n
+PASS native/portable fn main(){let mut x=7; {let mut x=9;putc(x+48);}putc(x+48);return
+PASS native/portable bytes msg[4]; fn main(){msg[0]=72;msg[1]=73;putc(msg[0]);putc(msg
+PASS native/portable fn main(){let mut x=7;store16(&x,9);return x;}
+PASS native/portable fn main(){let mut h=alloc(40960);set16(h,40958,4660);let mut x=ge
+PASS native/portable fn main(){let mut h=alloc(3);set16(h,2,7);let mut s=status();free
+PASS native/portable fn main(){let mut s="Hello; text";let mut i=0;while load8(s+i){pu
+PASS native/portable fn main(){return 1/0;}
+PASS value relation 1==1
+PASS value relation 0==1
+PASS value relation 65535==1
+PASS value relation 1!=1
+PASS value relation 0!=1
+PASS value relation 65535!=1
+PASS value relation 1<1
+PASS value relation 0<1
+PASS value relation 65535<1
+PASS value relation 1<=1
+PASS value relation 0<=1
+PASS value relation 65535<=1
+PASS value relation 1>1
+PASS value relation 0>1
+PASS value relation 65535>1
+PASS value relation 1>=1
+PASS value relation 0>=1
+PASS value relation 65535>=1
+PASS rejection fn main(){return missing(1);}
+PASS rejection fn main(){return f(1);}fn f(a,b){return a;}
+PASS rejection fn main(){let mut x=x;return x;}
+PASS rejection fn main(){let mut x=0;let mut x=1;}
+PASS rejection fn main(){return 65536;}
+PASS rejection fn main(){return 1+;}
+PASS rejection fn main(){return get8(1);}
+PASS rejection fn main(a){return a;}
+PASS RILL-written compiler compiles itself in portable model at 2000
+PASS RILL-written compiler compiles itself in portable model at 4000

@@ -1,9 +1,11 @@
 +++
-title = "RILL language and compiler reference"
+title = "The first RILL compiler reference"
 weight = 31
 description = "The exact grammar, word semantics, portable services, and limits of the first implementation."
 download = "RILL.IR"
 +++
+
+This reference describes the first R29 compiler milestone. The [systems-language reference](../132-the-rill-systems-language/index.html) defines the complete RILL used by the self-compiling toolchain. Preserve each milestone under its documented builder name.
 
 RILL has a small structured source language. Its compiler is written in the published IR86 language and emits IR86 source. IR86 and ASM86 then build the executable. RILL.IR is the compiler implementation; a .RIL file is a program supplied to it. The complete source does not contain native assembly escapes.
 

@@ -1,9 +1,11 @@
 +++
-title = "IR86 language and runtime reference"
+title = "The first IR86 translator reference"
 weight = 34
 description = "A processor-independent contract, followed by the separate 8086/DOS binding."
 download = "IR86.ASM"
 +++
+
+This reference describes the first IR32 translator milestone. The [streaming IR contract](../060-the-streaming-ir-contract/index.html) supplies procedures, literal data, and allocated blocks used by the complete RILL toolchain. Keep the prompted and fixed-file builders separately named.
 
 IR86 defines a virtual machine and a runtime-service interface. A backend implements that contract for a processor and environment. The language does not specify CPU registers, processor flags, interrupts, segments, or a native calling convention. The backend constructed in this collection emits assembly accepted by ASM86 and supplies a DOS binding.
 

@@ -58,3 +58,17 @@
 /qa/asm86a/*.log
 /qa/asm86a/dos/
 /qa/asm86a/basic-fixtures/
+/workbench/ir86/IRWIDE.COM
+/workbench/toolchain/*.COM
+/qa/toolchain/*.COM
+/qa/toolchain/*.img
+/qa/toolchain/*.log
+/qa/toolchain/dos/
+/workbench/toolchain/RILL[0-9].IR
+/workbench/toolchain/RILL[0-9].ASM
+/workbench/toolchain/IR86.IR
+/workbench/toolchain/ASM86A.IR
+/workbench/toolchain/IR86.ASM
+/workbench/toolchain/RILLBOOT.ASM
+/qa/toolchain/generated/
+/qa/toolchain/failed-source.asm

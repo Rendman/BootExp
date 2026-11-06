@@ -1,0 +1,6 @@
+PASS generation 1 ASM86A: RILL -> RILL-written IR86 -> RILL-written ASM86A; 32404 identical bytes
+PASS generation 1 IR86: RILL -> RILL-written IR86 -> RILL-written ASM86A; 31472 identical bytes
+PASS generation 1 RILL: RILL -> RILL-written IR86 -> RILL-written ASM86A; 26625 identical bytes
+PASS generation 2 ASM86A: RILL -> RILL-written IR86 -> RILL-written ASM86A; 32404 identical bytes
+PASS generation 2 IR86: RILL -> RILL-written IR86 -> RILL-written ASM86A; 31472 identical bytes
+PASS generation 2 RILL: RILL -> RILL-written IR86 -> RILL-written ASM86A; 26625 identical bytes
