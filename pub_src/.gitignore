@@ -72,3 +72,8 @@
 /workbench/toolchain/RILLBOOT.ASM
 /qa/toolchain/generated/
 /qa/toolchain/failed-source.asm
+/workbench/asma0/*.COM
+/workbench/asma0/*.LOG
+/qa/asma0/*.COM
+/qa/asma0/*.img
+/qa/asma0/*.log

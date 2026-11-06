@@ -1,6 +1,6 @@
 +++
-title = "28 \u00b7 Operand widths and segment selection"
-weight = 28
+title = "16 \u00b7 Operand widths and segment selection"
+weight = 16
 description = "Check BYTE/WORD annotations and explicit segment overrides."
 download = "A28.ASM"
 +++

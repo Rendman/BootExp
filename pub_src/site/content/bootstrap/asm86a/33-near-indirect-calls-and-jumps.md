@@ -1,6 +1,6 @@
 +++
-title = "33 \u00b7 Near indirect calls and jumps"
-weight = 33
+title = "21 \u00b7 Near indirect calls and jumps"
+weight = 21
 description = "Transfer through an ordinary word register or word memory location."
 download = "A33.ASM"
 +++

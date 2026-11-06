@@ -1,6 +1,6 @@
 +++
-title = "17 \u00b7 Using the paged symbol table"
-weight = 17
+title = "05 \u00b7 Using the paged symbol table"
+weight = 5
 description = "Move definition and value resolution onto the new record helpers."
 download = "A17.ASM"
 +++

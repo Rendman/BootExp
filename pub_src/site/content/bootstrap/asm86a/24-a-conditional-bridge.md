@@ -1,6 +1,6 @@
 +++
-title = "24 \u00b7 A conditional bridge"
-weight = 24
+title = "12 \u00b7 A conditional bridge"
+weight = 12
 description = "Reach a distant target using a fixed five-byte 8086 expansion."
 download = "A24.ASM"
 cartoon = "asm86a-bridge.png"

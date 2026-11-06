@@ -1,6 +1,6 @@
 +++
-title = "37 \u00b7 A single-bit shift"
-weight = 37
+title = "25 \u00b7 A single-bit shift"
+weight = 25
 description = "Use the original fixed-count shift encoding."
 download = "A37.ASM"
 +++

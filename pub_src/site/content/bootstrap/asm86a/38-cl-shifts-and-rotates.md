@@ -1,6 +1,6 @@
 +++
-title = "38 \u00b7 CL shifts and rotates"
-weight = 38
+title = "26 \u00b7 CL shifts and rotates"
+weight = 26
 description = "Accept the variable-count forms supported by the 8086."
 download = "A38.ASM"
 +++

@@ -1,0 +1,4 @@
+PASS ASMA0: unchanged ASM86 builds the seed; two seed self-builds reproduce 3342 bytes
+PASS HELLO: seed assembly, exact output/status, rejection and preservation
+PASS MEMORY: seed assembly, exact output/status, rejection and preservation
+PASS COUNT: seed assembly, exact output/status, rejection and preservation

@@ -1,11 +1,11 @@
 +++
-title = "42 · ASM86A reference"
-weight = 42
+title = "30 · ASM86A reference"
+weight = 30
 description = "The accepted language, fixed encodings, storage layout, and failure contract."
 download = "ASM86A.ASM"
 +++
 
-ASM86A is a two-pass 8086/8088 assembler for a single DOS COM image starting at 0100H. It reads SOURCE.ASM and publishes RESULT.COM. It has no filename prompt. ASMA0 is its smaller bootstrap seed; the two languages and storage limits are distinct.
+ASM86A is a two-pass 8086/8088 assembler for a single DOS COM image starting at 0100H. It reads SOURCE.ASM and publishes RESULT.COM. It has no filename prompt. Its preceding builder is ASMA0, whose language and storage contract are documented in the separate [ASMA0 reference](../../asma0/13-reference/index.html).
 
 ## Source and values
 
@@ -99,41 +99,35 @@ There is no generated skip-label definition and no extra symbol-table record. Si
 
 ## Capacity and memory
 
-| Resource | ASMA0 | ASM86A |
-|---|---|---|
-| Executable produced by its preceding builder | 3342 bytes | 6422 bytes |
-| Input/output block | 1024 bytes each | 4096 bytes each |
-| Definitions | 2048 | 8192 |
-| Name length | 16 | 31 |
-| Physical-line content | 120 characters | 1023 characters |
-| Ordinary token content | 16 characters | 63 characters |
-| Physical-line count | Checked 16-bit, at most 65535 | Checked 32-bit |
-| Consumed source bytes | Streamed, limited by seed line/line-length bounds | Checked 32-bit |
-| Expression nesting | Original simple values | At most 16 factor levels |
-| Maximum emitted image | 61184 bytes | 61184 bytes |
+| Resource | ASM86A bound |
+|---|---|
+| Executable produced by ASMA0 | 6422 bytes |
+| Input/output blocks | 4096 bytes each |
+| Definitions | 8192 |
+| Name length | 31 characters |
+| Physical-line content | 1023 characters |
+| Ordinary token content | 63 characters |
+| Source lines and consumed bytes | Checked 32-bit counts |
+| Expression nesting | At most 16 factor levels |
+| Maximum emitted image | 61184 bytes |
 
 The image occupies offsets 0100H through EFFFH at most. F000H is a valid end label, but no additional byte may be emitted there. F000H–FFFFH is reserved for the generated program's stack. This is a chosen COM execution profile; allocated assembler workspace does not enlarge a target's code segment. Empty output is valid for inspection only.
 
 ASMA0 retains the old instruction grammar plus ordinary-word/segment MOV excluding CS destination and ES overrides on the old MOV memory forms. It has no quoted data, EQU, RESB/RESW, new expressions, general addressing, or NEAR conditional qualifier. Its own source fits unchanged ASM86's 256-definition, 4000-line, 120-character, 8192-byte limits. The full ASM86A source uses only ASMA0's language. New accepted source forms are not prerequisites for building their implementation.
 
-| Main-segment offsets | ASMA0 use | ASM86A use |
-|---|---|---|
-| 0000H–00FFH | PSP | PSP |
-| 0100H–3FFFH | Resident code and static state | Resident code/static state may extend through BFFFH |
-| 4000H–4078H | Physical line | Within resident reservation |
-| 4080H–4090H | Token | Within resident reservation |
-| 4200H–45FFH | Input block | Within resident reservation |
-| 4600H–49FFH | Output block | Within resident reservation |
-| 5000H–EFFFH | 2048 twenty-byte symbol records | See the dedicated regions below |
-| C000H–C7FFH | Within seed symbol table | Reserved; descriptors and scalar state are in the loaded image |
-| C800H–CBFFH | Within seed symbol table | Physical line and zero |
-| CC00H–CC3FH | Within seed symbol table | Token and zero |
-| CC40H–CFFFH | Within seed symbol table | Saved name and reserved parser workspace |
-| D000H–DFFFH | Within seed symbol table | Input block |
-| E000H–EFFFH | Within seed symbol table | Output block |
-| F000H–FFFFH | Stack | Stack |
+| Main-segment offsets | ASM86A use |
+|---|---|
+| 0000H–00FFH | PSP |
+| 0100H–BFFFH | Resident code and static state |
+| C000H–C7FFH | Reserved; descriptors and scalar state are in the loaded image |
+| C800H–CBFFH | Physical line and zero |
+| CC00H–CC3FH | Token and zero |
+| CC40H–CFFFH | Saved name and reserved parser workspace |
+| D000H–DFFFH | Input block |
+| E000H–EFFFH | Output block |
+| F000H–FFFFH | Stack |
 
-Unused gaps are reserved. The seed's resident ceiling is 3FFFH; its initial ASM86-built image additionally obeys that builder's smaller image bound. The full resident ceiling is BFFFH. Neither ceiling is a whole target-image buffer.
+Unused gaps are reserved. The full resident ceiling is BFFFH. It is separate from the size of the image streamed to disk. The seed's single-segment map belongs to the [ASMA0 reference](../../asma0/13-reference/index.html).
 
 ASM86A keeps CS, DS, and SS at its original main segment, checks normal COM entry SP=FFFEH, and retains 1000H paragraphs using DOS function 4AH. It allocates eight A00H-paragraph symbol pages and one 200H-paragraph hash block using function 48H. Partial allocations are recorded and released with function 49H. The main segment plus these blocks is 392 KiB, excluding DOS, environment, and allocation-control overhead. Allocation is checked rather than inferred from the machine's nominal RAM.
 

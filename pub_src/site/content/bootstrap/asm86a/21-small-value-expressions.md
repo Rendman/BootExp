@@ -1,6 +1,6 @@
 +++
-title = "21 \u00b7 Small value expressions"
-weight = 21
+title = "09 \u00b7 Small value expressions"
+weight = 9
 description = "Evaluate unary signs, grouping, addition, subtraction, and the current address."
 download = "A21.ASM"
 +++

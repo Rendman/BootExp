@@ -1,16 +1,16 @@
 # ASM86A: the capacity-building bootstrap step
 
-Status: implemented and verified. The ASM86A collection has forty native construction checkpoints, a complete ladder exercise, a language/memory reference, and four complete programs. The streaming IR and systems RILL workbenches use this capacity to build a complete RILL-written toolchain; the initial smaller milestones remain separately named builders.
+Status: implemented and verified. The ASMA0 collection has twelve native construction checkpoints, its own reference, and three complete programs. The following ASM86A collection has twenty-eight construction checkpoints, a complete ladder exercise, a language/memory reference, and four complete programs. The streaming IR and systems RILL workbenches use this capacity to build a complete RILL-written toolchain; the initial smaller milestones remain separately named builders.
 
 ## Position in the chain
 
 ```text
-GW-BASIC -> BOOTASM -> ASM86 -> ASM86A -> expanded IR86 -> expanded RILL
+GW-BASIC -> BOOTASM -> ASM86 -> ASMA0 -> ASM86A -> expanded IR86 -> expanded RILL
 ```
 
-ASM86A is a native 8086/8088 assembler, distributed as a DOS `.COM` program. Its first implementation is written in assembly accepted by ASM86. It removes the small assembler's output-buffer and symbol-storage ceilings before those ceilings shape the next languages.
+ASM86A is a native 8086/8088 assembler, distributed as a DOS `.COM` program. Its first implementation is written in assembly accepted by the ASMA0 seed. It removes the small assembler's output-buffer and symbol-storage ceilings before those ceilings shape the next languages.
 
-There are two internal construction milestones, both in the ASM86A collection:
+The construction has two separate article collections:
 
 1. **ASMA0**, a streaming seed built directly by the unchanged ASM86.
 2. **ASM86A**, the larger assembler built by ASMA0, then verified by self-assembly.
@@ -167,7 +167,7 @@ Layout values are evaluated as words with checked context-specific narrowing. In
 
 ## Gradual construction order
 
-The published construction splits these capability groups into forty checkpoints, with separate seed and full self-assembly handoffs.
+The published construction splits these capability groups into twelve ASMA0 checkpoints and twenty-eight ASM86A checkpoints, each ending with its own self-assembly handoff. Disk checkpoint names remain A01 through A40; the ASM86A articles restart chapter numbering at 01 while retaining A13 as their first source filename. Both collections have their own workbench, language reference, programs, and source archive. The source generators and the forty-checkpoint verification chain remain shared under pub_src/tools and pub_src/qa/asm86a.
 
 1. Fixed source name and an owned temporary-file copy diagnostic; inspect file length and bytes rather than executing copied data.
 2. Block input, with EOF, short reads, and boundary-crossing line endings.

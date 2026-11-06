@@ -1,6 +1,6 @@
 +++
-title = "13 \u00b7 Allocating auxiliary workspace"
-weight = 13
+title = "01 \u00b7 Allocating auxiliary workspace"
+weight = 1
 description = "Shrink the main allocation and request owned DOS work blocks."
 download = "A13.ASM"
 +++
@@ -15,7 +15,7 @@ MEMFREE releases recorded allocations and restores ES to the main segment. Parti
 
 ## Enter the source
 
-Copy `A12.ASM` to `A13.ASM`. Apply the following edits **from the bottom of the old file upward**. Physical positions locate an edit in the unchanged old file; use the nearby label and printed context to identify it. Keep all other source. The Z labels are ordinary implementation labels for explicit short-branch bridges.
+Copy `ASMA0.ASM` to `A13.ASM`. Apply the following edits **from the bottom of the old file upward**. Physical positions locate an edit in the unchanged old file; use the nearby label and printed context to identify it. Keep all other source. The Z labels are ordinary implementation labels for explicit short-branch bridges.
 
 ### Change 1 near `P1:`
 

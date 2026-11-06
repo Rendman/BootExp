@@ -1,6 +1,6 @@
 +++
-title = "40 \u00b7 Proving the larger assembler"
-weight = 40
+title = "28 \u00b7 Proving the larger assembler"
+weight = 28
 description = "Compare the seed-built program with two native self-assembly generations."
 download = "A40.ASM"
 +++

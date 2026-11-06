@@ -3,7 +3,7 @@ from pathlib import Path
 import shutil,json,zipfile
 ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/toolchain';D=ROOT/'site/static/downloads/toolchain';D.mkdir(parents=True,exist_ok=True)
 def dos(name,s):(W/name).write_bytes(s.replace('\r\n','\n').replace('\n','\r\n').encode('ascii'))
-for name,group in [('BOOTASM.BAS','bootasm'),('VIEW.BAS','bootasm'),('CHECK.BAT','bootasm'),('ASM86.ASM','asm86'),('ASMA0.ASM','asm86a'),('ASM86A.ASM','asm86a'),('IRWIDE.ASM','ir86'),('RILLBOOT.IR','rill')]:shutil.copyfile(ROOT/'workbench'/group/name,W/name)
+for name,group in [('BOOTASM.BAS','bootasm'),('VIEW.BAS','bootasm'),('CHECK.BAT','bootasm'),('ASM86.ASM','asm86'),('ASMA0.ASM','asma0'),('ASM86A.ASM','asm86a'),('IRWIDE.ASM','ir86'),('RILLBOOT.IR','rill')]:shutil.copyfile(ROOT/'workbench'/group/name,W/name)
 commands=['ECHO OFF','IF NOT EXIST ASMAKEEP.COM GOTO MISSING','COPY IRWIDE.ASM SOURCE.ASM >NUL','ASMAKEEP','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.COM IRWIDE.COM >NUL','COPY RILLBOOT.IR SOURCE.IR >NUL','IRWIDE','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.ASM SOURCE.ASM >NUL','ASMAKEEP','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.COM RILLBOOT.COM >NUL']
 for name,stem in [('RILL','R'),('IR86','I'),('ASM86A','A')]:
  commands += [f'COPY {name}.RIL SOURCE.RIL >NUL','RILLBOOT','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.IR SOURCE.IR >NUL','IRWIDE','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.ASM SOURCE.ASM >NUL','ASMAKEEP','IF ERRORLEVEL 1 GOTO FAILED',f'COPY RESULT.COM {stem}0.COM >NUL',f'ECHO PASS {name} INITIAL BUILD']

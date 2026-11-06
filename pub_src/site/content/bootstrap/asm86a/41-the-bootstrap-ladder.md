@@ -1,6 +1,6 @@
 +++
-title = "41 · The bootstrap ladder"
-weight = 41
+title = "29 · The bootstrap ladder"
+weight = 29
 description = "Carry the BASIC-built foundation through two assembler handoffs to working compiler output."
 download = "ASM86A.ASM"
 +++
@@ -11,7 +11,7 @@ A rung is useful when the tool below can build it and the tool above can use its
 GW-BASIC → BOOTASM → ASM86 → ASMA0 → ASM86A → IR86 → RILL
 ```
 
-ASMA0 is the internal seed milestone of the ASM86A collection. It is not an outside prerequisite. Retain the canonical sources and the two matching self-assembly generations from each assembler handoff.
+ASMA0 is the completed streaming-seed collection between ASM86 and ASM86A. Retain the canonical sources and the two matching self-assembly generations from each assembler handoff.
 
 ## From BASIC to the larger assembler
 

@@ -1,6 +1,6 @@
 +++
-title = "23 \u00b7 Zero-filled storage directives"
-weight = 23
+title = "11 \u00b7 Zero-filled storage directives"
+weight = 11
 description = "Reserve bytes or words with checked output arithmetic."
 download = "A23.ASM"
 +++

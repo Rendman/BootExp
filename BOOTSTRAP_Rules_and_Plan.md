@@ -17,11 +17,12 @@ This file is the project plan, not a magazine article. It may discuss sequencing
 | Stage | Tool | Purpose and implementation |
 |---|---|---|
 | 1 | BOOTASM | An assembler written in GW-BASIC; the starting point for the toolchain. |
-| 2 | ASM86 | An assembler written in assembly accepted by BOOTASM. It self-assembles and builds the first ASM86A seed. |
-| 3 | ASM86A | A larger assembler constructed in ASM86 through a small streaming seed, then self-assembled. Stream input and output, allocate substantial symbol storage, and provide the addressing/instruction support needed by larger tools. |
-| 4 | IR86 | A processor-independent intermediate language and translator. The expanded implementation is built with ASM86A and emits ASM86A-compatible 8086/8088 assembly. |
-| 5 | RILL | A language with Rust-like syntax, without a commitment to Rust's full safety checking or other features. Its initial compiler is written in IR86; expand it using the capacity supplied by ASM86A and the expanded IR86. |
-| 6 | Rebuild in RILL | Reimplement the assemblers and later tools in RILL, working toward a self-hosted toolchain. |
+| 2 | ASM86 | An assembler written in assembly accepted by BOOTASM. It self-assembles and builds ASMA0. |
+| 3 | ASMA0 | A streaming seed assembler built directly by unchanged ASM86, then self-assembled. It supplies the bounded streams and segment access needed to build ASM86A. |
+| 4 | ASM86A | A larger assembler constructed in ASMA0, then self-assembled. Stream input and output, allocate substantial symbol storage, and provide the addressing/instruction support needed by larger tools. |
+| 5 | IR86 | A processor-independent intermediate language and translator. The expanded implementation is built with ASM86A and emits ASM86A-compatible 8086/8088 assembly. |
+| 6 | RILL | A language with Rust-like syntax, without a commitment to Rust's full safety checking or other features. Its initial compiler is written in IR86; expand it using the capacity supplied by ASM86A and the expanded IR86. |
+| 7 | Rebuild in RILL | Reimplement the assemblers and later tools in RILL, working toward a self-hosted toolchain. |
 
 Later work will cover a linker, libraries, larger programs, expanded language and assembler features, and a small operating system. Detailed scope and ordering remain to be decided.
 
@@ -224,9 +225,9 @@ Bound the input to 4096 bytes, generated IR to 1024 bytes, and saved compiler st
 
 Verify every checkpoint through the actual IR86 and ASM86 executables. Execute complete compiler sources in both the independent IR semantic model and native backend, with differing data bases and opaque handle values, and compare unchanged source output. Verify emitted programs against the IR model and native execution. Prove the complete BASIC → ASM86 → IR86 → RILL → IR86 → ASM86 → program path, and separately check the compiler, examples, rejection preservation, and all byte values under DOS 3.10. An independent interpreter remains verification only and must not supply a bootstrap artifact.
 
-## 13. ASM86A capacity-building stage
+## 13. ASMA0 and ASM86A capacity-building stages
 
-Use the concrete architecture and construction gates in [ASM86A_Design.md](ASM86A_Design.md). Insert ASM86A after ASM86 and before the expanded IR86. Do not rename ASM86, alter its published bootstrap capacity to make the new source fit, or use an outside assembler, linker, encoder, or prebuilt executable.
+Use the concrete architecture and construction gates in [ASM86A_Design.md](ASM86A_Design.md). Place ASMA0 after ASM86, then ASM86A before the expanded IR86. Publish ASMA0 and ASM86A as separate sibling collections: twelve seed construction articles and twenty-eight larger-assembler articles, each with its own workbench, reference, complete programs, and source archive. Keep the established A01–A40 disk filenames and preserve links to the seed articles at their earlier addresses. Restart ASM86A chapter numbering at 01; its first source remains A13.ASM, copied from verified ASMA0.ASM. Shared source construction and forty-checkpoint verification may remain together under pub_src/tools and pub_src/qa/asm86a. Do not rename ASM86, alter its published bootstrap capacity to make the new source fit, or use an outside assembler, linker, encoder, or prebuilt executable.
 
 The first milestone, ASMA0, must fit ASM86's 8192-byte output, 256-symbol, 4000-line, and 120-character limits. It uses fixed files, sequential block input, streamed temporary output, two passes, and 2048 in-segment symbols. It adds the segment-MOV/ES-memory encoding forms needed to build the larger implementation while its own source remains in ASM86's language. Prove its direct build and self-assembly before using it as a builder.
 

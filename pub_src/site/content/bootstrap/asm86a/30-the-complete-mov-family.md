@@ -1,6 +1,6 @@
 +++
-title = "30 \u00b7 The complete MOV family"
-weight = 30
+title = "18 \u00b7 The complete MOV family"
+weight = 18
 description = "Use the common descriptor for values, memory, and segment transfers."
 download = "A30.ASM"
 +++

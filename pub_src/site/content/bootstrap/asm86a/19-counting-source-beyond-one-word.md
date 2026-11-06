@@ -1,6 +1,6 @@
 +++
-title = "19 \u00b7 Counting source beyond one word"
-weight = 19
+title = "07 \u00b7 Counting source beyond one word"
+weight = 7
 description = "Report source positions with a checked pair of words."
 download = "A19.ASM"
 +++

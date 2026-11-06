@@ -1,6 +1,6 @@
 +++
-title = "32 \u00b7 Forming an effective address"
-weight = 32
+title = "20 \u00b7 Forming an effective address"
+weight = 20
 description = "Use LEA when the offset itself is the result."
 download = "A32.ASM"
 +++

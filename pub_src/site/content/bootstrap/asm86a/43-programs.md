@@ -1,6 +1,6 @@
 +++
-title = "43 \u00b7 Complete assembly programs"
-weight = 43
+title = "31 \u00b7 Complete assembly programs"
+weight = 31
 description = "Strings, a stack frame, a distant conditional, and repeated byte movement."
 download = "ASM86A.ZIP"
 +++

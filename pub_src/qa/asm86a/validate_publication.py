@@ -4,7 +4,10 @@ import json,re,zipfile
 ROOT=Path(__file__).resolve().parents[2];W=ROOT/'workbench/asm86a';Q=ROOT/'qa/asm86a';C=ROOT/'site/content/bootstrap/asm86a';D=ROOT/'site/static/downloads/asm86a'
 program=(ROOT/'workbench/asm86/ASM86.ASM').read_text().splitlines();cases=json.loads((Q/'checkpoints.json').read_text())
 for stage,case in zip(json.loads((Q/'article-patches.json').read_text()),cases):
- n=stage['number'];text=(C/stage['page']).read_text();sections=re.split(r'### Change \d+[^\n]*\n',text)[1:]
+ n=stage['number'];collection=stage['collection'];chapter=stage['chapter'];text=(C.parent/collection/stage['page']).read_text();
+ assert collection==('asma0' if n<=12 else 'asm86a') and chapter==(n if n<=12 else n-12)
+ if n==13:assert stage['base']=='ASMA0.ASM'
+ sections=re.split(r'### Change \d+[^\n]*\n',text)[1:]
  assert len(sections)==len(stage['changes']),(n,'printed edit count')
  for section,change in zip(sections,stage['changes']):
   blocks=re.findall(r'```asm\n(.*?)\n```',section,re.S);a,b=change['a1'],change['a2']
@@ -37,12 +40,13 @@ with zipfile.ZipFile(D/'ASM86A.ZIP') as z:
 text=(C/'43-programs.md').read_text();blocks=re.findall(r'```asm\n(.*?)\n```',text,re.S)
 for r,b in zip(json.loads((Q/'examples.json').read_text()),blocks):assert b+'\n'==(W/(r['name']+'.ASM')).read_text(),r['name']
 for n,name in [(9,'SYMS'),(17,'SYMS'),(19,'LONGSRC')]:
- p=next(C.glob(f'{n:02}-*.md'));blocks=re.findall(r'```basic\n(.*?)\n```',p.read_text(),re.S)
+ p=next((C.parent/('asma0' if n<=12 else 'asm86a')).glob(f'{n:02}-*.md'));blocks=re.findall(r'```basic\n(.*?)\n```',p.read_text(),re.S)
  expected=(W/(name+'.BAS')).read_text().replace('10 N=8192','10 N=2048') if n==9 else (W/(name+'.BAS')).read_text()
  assert blocks==[expected.rstrip('\n')],(n,'BASIC text generator')
  assert len(blocks[0].splitlines())<=50
 for img in ['press','cloakroom','bridge']:assert (ROOT/f'site/static/images/asm86a-{img}.png').is_file()
-assert len(list(C.glob('*.md')))==45
+assert len(list(C.glob('*.md')))==33
+assert len(list((C.parent/'asma0').glob('*.md')))==16
 for n in [0,41,42,43]:assert len(list(C.glob(f'{n:02}-*.md')))==1
-assert 'BOOTASM → ASM86 → ASM86A → IR86 → RILL' in (C/'_index.md').read_text()
-print(f'PASS ASM86A: all 40 printed edits reconstruct exact source; {len(files)} source-only archive files match ASCII/CRLF/8.3 downloads; fixtures, programs, text generators, and assets agree')
+assert 'BOOTASM → ASM86 → ASMA0 → ASM86A → IR86 → RILL' in (C/'_index.md').read_text()
+print(f'PASS ASMA0/ASM86A: all 12 seed and 28 larger-assembler printed edits reconstruct exact source; {len(files)} source-only archive files match ASCII/CRLF/8.3 downloads; fixtures, programs, text generators, and assets agree')

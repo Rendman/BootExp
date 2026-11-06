@@ -1,6 +1,6 @@
 +++
-title = "22 \u00b7 Named assembly constants"
-weight = 22
+title = "10 \u00b7 Named assembly constants"
+weight = 10
 description = "Give a known value a name without allocating bytes."
 download = "A22.ASM"
 +++

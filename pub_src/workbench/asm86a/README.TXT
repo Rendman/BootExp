@@ -1,15 +1,16 @@
 THE BOOTSTRAP PROJECT - ASM86A
 A practical course in small-system software
 
-The bootstrap ladder: BOOTASM -> ASM86 -> ASM86A -> IR86 -> RILL.
-ASMA0 is the seed milestone within the ASM86A construction.
+The bootstrap ladder: BOOTASM -> ASM86 -> ASMA0 -> ASM86A -> IR86 -> RILL.
+Begin with the separate completed ASMA0 collection and its self-builds.
 Read the workbench, then the construction articles in order.
 
 BOOTASM.BAS  Completed BASIC foundation, unchanged.
 ASM86.ASM    Preceding native assembler, unchanged.
 ASMA0.ASM    Seed, identical to A12.ASM; built directly with ASM86.
 ASM86A.ASM   Complete assembler, identical to A40.ASM; built by ASMA0.
-A01.ASM through A40.ASM: complete construction checkpoints.
+A13.ASM through A40.ASM: twenty-eight construction checkpoints.
+A12.ASM: identical to the verified ASMA0 prerequisite.
 Tnn.ASM and Xnn.ASM: acceptance and rejection inputs where applicable.
 VIEW.BAS and CHECK.BAT: unchanged viewer and immediate DOS checker.
 HELLO.ASM, FRAME.ASM, BRIDGE.ASM, COPYTEXT.ASM: complete programs.
@@ -17,8 +18,8 @@ LONGSRC.BAS and SYMS.BAS: BASIC generators of source text only.
 
 Use your own DOS 3.10 and period GW-BASIC interpreter. Note its banner.
 Build ASM86 with BOOTASM.BAS; preserve it as ASMKEEP.COM.
-CHECK ASMKEEP prompts for a source base name: A01 through A12.
-The seed is 3342 bytes. Prove both self-assembly generations.
+The ASMA0 collection uses ASMKEEP to build A01 through A12.
+The completed seed is 3342 bytes, with two matching self-builds.
 Keep the tested ASMA0.COM to build A13 through A40.
 
 For a fixed-file build: COPY A13.ASM SOURCE.ASM; CHECK ASMA0.
@@ -30,10 +31,9 @@ RESULT.COM is the published output; ASMA.TMP and RESULT.BAK are
 reserved recovery names. Inspect existing recovery files before use.
 Require a fresh OK and PASS before using any result.
 
-A03 through A06 are byte-copy diagnostics. Inspect their data output;
-do not execute it. Most other output fixtures are also encoding data.
-Only outputs explicitly called complete programs may be executed.
-A12 and A40 acceptance inputs are their canonical self-build sources.
+Many output fixtures are encoding data. Inspect them rather than
+executing them. Run only expressly identified complete programs.
+A40 acceptance input is the canonical ASM86A self-build source.
 
 The seed streams 1024-byte blocks with 2048 symbols in one segment.
 The complete tool streams 4096-byte blocks and allocates 8192 records

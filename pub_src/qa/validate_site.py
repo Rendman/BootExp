@@ -1,7 +1,7 @@
 """Check the built course, source links, type-in patches, and public archive."""
 from pathlib import Path
-import sys,re,json,zipfile
-from urllib.parse import urlparse,unquote
+import sys,re,json,zipfile,tomllib
+from urllib.parse import urlparse,unquote,urljoin
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'tools/python'))
 from bs4 import BeautifulSoup
 PUBLIC=ROOT.parent/'public';CONTENT=ROOT/'site/content';WORK=ROOT/'workbench/bootasm'
@@ -22,6 +22,23 @@ for p in PUBLIC.rglob('*.html'):
    if unquote(u.fragment) not in {n['id'] for n in ids}:errors.append(f'{p}: missing anchor {dest}')
  for img in soup.select('img'):
   if not img.get('alt'):errors.append(f'{p}: image without alt')
+# Old seed URLs must redirect correctly on both file copies and GitHub project sites.
+for p in (CONTENT/'bootstrap/asma0').glob('*.md'):
+ meta=tomllib.loads(p.read_text().split('+++')[1])
+ for alias in meta.get('aliases',[]):
+  assert len(alias.strip('/').split('/'))==3,alias
+  redirect=PUBLIC/alias.strip('/')/'index.html'
+  if not redirect.is_file():errors.append(f'Missing legacy redirect: {alias}');continue
+  soup=BeautifulSoup(redirect.read_text(),'html.parser')
+  link=soup.select_one('link[rel="canonical"]');refresh=soup.select_one('meta[http-equiv="refresh"]');a=soup.select_one('a[href]')
+  expected=PUBLIC/'bootstrap/asma0'/p.stem/'index.html'
+  if not link or not refresh or not a:errors.append(f'Incomplete legacy redirect: {alias}');continue
+  target=link['href']
+  if target.startswith('/') or (redirect.parent/target).resolve()!=expected.resolve():errors.append(f'Incorrect portable redirect: {alias}')
+  if refresh['content']!=f'0; url={target}' or a['href']!=target:errors.append(f'Inconsistent redirect targets: {alias}')
+  for prefix in ['', '/BootExp']:
+   actual=urljoin(f'https://example.invalid{prefix}{alias}index.html',target)
+   if actual!=f'https://example.invalid{prefix}/bootstrap/asma0/{p.stem}/index.html':errors.append(f'Incorrect hosted redirect: {alias}')
 for p in (ROOT/'site/static/downloads/bootasm').iterdir():
  if p.suffix.upper() in {'.BAS','.ASM','.BAT','.TXT'}:
   b=p.read_bytes()
@@ -49,6 +66,7 @@ for i in range(2,19):
 if (WORK/'BOOTASM.BAS').read_bytes()!=(WORK/'BA18.BAS').read_bytes():errors.append('Final source differs from final checkpoint')
 import runpy
 runpy.run_path(str(ROOT/'qa/asm86/validate_publication.py'),run_name='__main__')
+runpy.run_path(str(ROOT/'qa/asma0/validate_publication.py'),run_name='__main__')
 runpy.run_path(str(ROOT/'qa/asm86a/validate_publication.py'),run_name='__main__')
 runpy.run_path(str(ROOT/'qa/ir86/validate_publication.py'),run_name='__main__')
 runpy.run_path(str(ROOT/'qa/rill/validate_publication.py'),run_name='__main__')
@@ -60,9 +78,10 @@ for p in CONTENT.rglob('*.md'):
 if errors:
  print('\n'.join(errors));raise SystemExit(1)
 asm_count=len(json.loads((ROOT/'qa/asm86/package-files.json').read_text()))
+seed_count=len(json.loads((ROOT/'qa/asma0/package-files.json').read_text()))
 asma_count=len(json.loads((ROOT/'qa/asm86a/package-files.json').read_text()))
 ir_count=len(json.loads((ROOT/'qa/ir86/package-files.json').read_text()))
 rill_count=len(json.loads((ROOT/'qa/rill/package-files.json').read_text()))
 tool_count=len(json.loads((ROOT/'qa/toolchain/package-files.json').read_text()))
-text=f'PASS: {count} HTML pages; all local links, assets and anchors; 59 BOOTASM + {asm_count} ASM86 + {asma_count} ASM86A + {ir_count} IR86 + {rill_count} RILL + {tool_count} toolchain archive sources; ASCII/CRLF/8.3; all 17 BASIC, 29 ASM86, 40 ASM86A, 32 IR86, 29 first RILL, 23 streaming IR, 47 compiler-seed, and 43 self-compiling RILL printed edits reconstruct exact checkpoints; editorial exclusions.'
+text=f'PASS: {count} HTML files (including 12 seed redirects); all local links, assets and anchors; 59 BOOTASM + {asm_count} ASM86 + {seed_count} ASMA0 + {asma_count} ASM86A + {ir_count} IR86 + {rill_count} RILL + {tool_count} toolchain archive sources; ASCII/CRLF/8.3; all 17 BASIC, 29 ASM86, 12 ASMA0, 28 ASM86A, 32 IR86, 29 first RILL, 23 streaming IR, 47 compiler-seed, and 43 self-compiling RILL printed edits reconstruct exact checkpoints; editorial exclusions.'
 print(text);(ROOT/'qa/site-results.txt').write_text(text+'\n')

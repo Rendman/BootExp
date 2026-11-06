@@ -1,6 +1,6 @@
 +++
-title = "20 \u00b7 Quoted byte data"
-weight = 20
+title = "08 \u00b7 Quoted byte data"
+weight = 8
 description = "Preserve string bytes while folding names outside quotes."
 download = "A20.ASM"
 +++

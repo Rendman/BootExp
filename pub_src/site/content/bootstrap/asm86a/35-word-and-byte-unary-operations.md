@@ -1,6 +1,6 @@
 +++
-title = "35 \u00b7 Word and byte unary operations"
-weight = 35
+title = "23 \u00b7 Word and byte unary operations"
+weight = 23
 description = "Select NEG and NOT through the shared r/m group."
 download = "A35.ASM"
 +++

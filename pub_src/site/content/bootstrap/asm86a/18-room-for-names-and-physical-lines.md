@@ -1,6 +1,6 @@
 +++
-title = "18 \u00b7 Room for names and physical lines"
-weight = 18
+title = "06 \u00b7 Room for names and physical lines"
+weight = 6
 description = "Move parser and file buffers above a generous resident-image area."
 download = "A18.ASM"
 +++

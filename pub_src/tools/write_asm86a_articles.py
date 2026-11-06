@@ -12,8 +12,11 @@ def front(title,weight,description,download,cartoon=None):
 def slug(s):return re.sub('[^a-z0-9]+','-',s.lower()).strip('-')
 previous=(ROOT/'workbench/asm86/ASM86.ASM').read_text().splitlines();patches=[]
 for case in cases:
- n=case['number'];name=f'A{n:02}';oldfile='ASM86.ASM' if n==1 else f'A{n-1:02}.ASM';lines=(W/(name+'.ASM')).read_text().splitlines();page=f'{n:02}-{slug(case["title"])}.md'
- t=front(f'{n:02} · '+case['title'],n,case['description'],name+'.ASM',case.get('cartoon'))+case['why']+'\n\n## The working parts\n\n'+case['explain']+'\n\n## Enter the source\n\n'
+ n=case['number'];collection='asma0' if n<=12 else 'asm86a';chapter=n if n<=12 else n-12;C=ROOT/'site/content/bootstrap'/collection;C.mkdir(parents=True,exist_ok=True);name=f'A{n:02}';oldfile='ASM86.ASM' if n==1 else 'ASMA0.ASM' if n==13 else f'A{n-1:02}.ASM';lines=(W/(name+'.ASM')).read_text().splitlines();page=f'{n:02}-{slug(case["title"])}.md'
+ t=front(f'{chapter:02} · '+case['title'],chapter,case['description'],name+'.ASM',case.get('cartoon'))+case['why']+'\n\n## The working parts\n\n'+case['explain']+'\n\n## Enter the source\n\n'
+ if n<=12:
+  t=t.replace('+++\n\n',f'aliases = [\"/bootstrap/asm86a/{page[:-3]}/\"]\n+++\n\n',1)
+  (ROOT/'site/content/bootstrap/asm86a'/page).unlink(missing_ok=True)
  t+=f'Copy `{oldfile}` to `{name}.ASM`. '
  edits=[o for o in SequenceMatcher(None,previous,lines,autojunk=False).get_opcodes() if o[0]!='equal'];changes=[]
  if edits:t+='Apply the following edits **from the bottom of the old file upward**. Physical positions locate an edit in the unchanged old file; use the nearby label and printed context to identify it. Keep all other source. The Z labels are ordinary implementation labels for explicit short-branch bridges.\n\n'
@@ -45,7 +48,7 @@ for case in cases:
   alias='ASMA0' if n==12 else 'ASM86A'
   t+='Compare the first self-produced executable with the preserved original, then use that new generation to assemble the same source once more:\n\n'+fence('dos',f'ECHO N>NO.TXT\nCOMP {alias}.COM RESULT.COM <NO.TXT\nCOPY RESULT.COM GEN1.COM\nCHECK GEN1\nCOMP {alias}.COM RESULT.COM <NO.TXT')
   t+=f'Both COMP comparisons must report no differences. GEN1 must report `OK RESULT.COM {case["binary_bytes"]:05} bytes` and PASS. COMP may ask whether to compare more files; NO.TXT answers N. Keep the original {alias}.COM separately.\n\n'
-  if n==12:t+='For the remaining construction builds, ASMA0.COM is the preceding builder. ASMKEEP.COM remains the original ASM86. Their filename interfaces differ; do not overwrite one with the other.\n\n'
+  if n==12:t+='Continue with the separate [ASM86A collection](../../asm86a/index.html). For its construction builds, ASMA0.COM is the preceding builder. ASMKEEP.COM remains the original ASM86. Their filename interfaces differ; do not overwrite one with the other.\n\n'
   else:t+=fence('dos','COPY ASM86A.COM ASMAKEEP.COM')+'ASMAKEEP.COM is the preserved fixed-file assembler. ASMKEEP.COM still names the original prompted ASM86.\n\n'
  elif case.get('program_output') is not None:
   t+='This fixture is a complete program. Save it before another assembly and execute it:\n\n'+fence('dos','COPY RESULT.COM TRY.COM\nCHECK TRY')+'It displays '+json.dumps(case['program_output'])+' and the checker reports PASS.\n\n'
@@ -75,10 +78,10 @@ for case in cases:
  elif n<20:t+='Check ES at helper exits, the saved page segment and offset, record padding, and the complete spelling comparison. Check carry after every DOS memory call. A successful allocation does not initialize its contents.\n'
  elif n<25:t+='Check saved expression values across EMIT, the unresolved-reference flag, and fixed statement lengths in both passes. Quoted text bypasses mnemonic folding. A reserve count must be checked before multiplication or output.\n'
  else:t+='Check descriptor width, segment selection, ModR/M bits, displacement order, and registers changed by EMIT. Use the printed bytes to distinguish a parser mistake from an encoding mistake. Keep the branch size the same in both passes.\n'
- (C/page).write_text(t);patches.append(dict(number=n,page=page,base=oldfile,changes=changes));previous=lines
+ (C/page).write_text(t);patches.append(dict(number=n,chapter=chapter,collection=collection,page=page,base=oldfile,changes=changes));previous=lines
 (Q/'article-patches.json').write_text(json.dumps(patches,indent=2)+'\n')
 # Whole-program examples and their measured rejection edits.
-t=front('43 · Complete assembly programs',43,'Strings, a stack frame, a distant conditional, and repeated byte movement.','ASM86A.ZIP')
+t=front('31 · Complete assembly programs',31,'Strings, a stack frame, a distant conditional, and repeated byte movement.','ASM86A.ZIP')
 t+='Use the completed ASMAKEEP.COM. For each NAME.ASM below, copy it to SOURCE.ASM and run CHECK ASMAKEEP. Require OK and PASS before copying RESULT.COM to NAME.COM. Inspect it with VIEW.BAS before running CHECK NAME.\n\n'
 notes={'HELLO':'DOS function 40H writes a counted string. Both carry and the returned count are checked. Quoted data preserves the mixed case; CR and LF are explicit bytes.', 'FRAME':'CALL pushes the return address; PUSH BP saves the caller frame. BP+4 addresses the word argument. BP-2 is a local word after SUB SP,2. Restoring SP and BP precedes RET 2, which releases the argument. BP-based memory defaults to SS.', 'BRIDGE':'The nonzero word takes JNE NEAR across a zero-filled region. The opposite short branch skips E9 and its word displacement when the condition is false. The intervening bytes are never executed.', 'COPYTEXT':'A COM program begins with DS and ES selecting the program segment. CLD makes movement advance. REP MOVSB copies two bytes, then the output loop prints the copy. REP consumes CX; the output loop loads its own count.'}
 for r in examples:
@@ -87,4 +90,4 @@ for r in examples:
  t+=f'After saving RESULT.COM as {name}.COM, CHECK {name} displays '+json.dumps(r['output'])+' and reports PASS. Here `\\r\\n` means carriage return followed by line feed.\n\n'
  t+='For a separate rejection, copy the source to BAD.ASM. Replace `'+r['bad_before']+'` with `'+r['bad_after']+'`. Copy BAD.ASM to SOURCE.ASM and run CHECK ASMAKEEP. Require '+f'`ERROR {r["bad_line"]:010} CODE {r["bad_code"]}` and FAIL. The accepted RESULT.COM must remain unchanged; an unexpected PASS fails the check. Restore the accepted source before rebuilding.\n\n'
 (C/'43-programs.md').write_text(t)
-print('Rendered 40 ASM86A construction checkpoints and complete programs.')
+print('Rendered 12 ASMA0 and 28 ASM86A checkpoints and the complete ASM86A programs.')

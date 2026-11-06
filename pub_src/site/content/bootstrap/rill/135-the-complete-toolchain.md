@@ -20,7 +20,7 @@ GW-BASIC
                 two matching rebuild generations
 ```
 
-The internal ASMA0 milestone belongs to the ASM86A construction. RILLBOOT is the compiler seed, not an outside prerequisite. The final three source programs are RILL.RIL, IR86.RIL, and ASM86A.RIL. They share the published language, not a special tool-building escape.
+ASMA0 is the streaming-seed collection between ASM86 and ASM86A. RILLBOOT is the compiler seed, not an outside prerequisite. The final three source programs are RILL.RIL, IR86.RIL, and ASM86A.RIL. They share the published language, not a special tool-building escape.
 
 ## Reproduce the disk workbench
 

@@ -1,6 +1,6 @@
 +++
-title = "34 \u00b7 Returning and releasing arguments"
-weight = 34
+title = "22 \u00b7 Returning and releasing arguments"
+weight = 22
 description = "Encode the optional near-return adjustment explicitly."
 download = "A34.ASM"
 +++

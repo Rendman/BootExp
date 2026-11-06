@@ -1,13 +1,13 @@
 +++
 title = "IR86"
-weight = 4
+weight = 5
 description = "A processor-independent language with defined word operations and a portable runtime interface."
 download = "IR86.RIL"
 cover = true
 download_group = "ir86"
 +++
 
-BOOTASM supplied the BASIC foundation, and ASM86 gave us an assembler written in assembly language. ASM86A adds the streaming assembler rung between ASM86 and IR86. IR86 adds a processor-independent intermediate language. This collection builds its first translator and backend in the assembly accepted by the completed ASM86.
+BOOTASM supplied the BASIC foundation, and ASM86 gave us an assembler written in assembly language. ASMA0 supplies the streaming seed, and ASM86A adds the larger assembler before IR86. IR86 adds a processor-independent intermediate language. This collection builds its first translator and backend in the assembly accepted by the completed ASM86.
 
 The language describes a virtual accumulator A, fixed-width values, an expression stack, declared storage, comparisons, and procedures. Its meaning does not depend on a physical register, instruction flag, segment, or operating-system interrupt. A backend chooses how to implement those operations. The backend constructed here produces 8086/8088 assembly; ASM86 resolves its labels and makes a DOS .COM file.
 

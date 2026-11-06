@@ -1,6 +1,6 @@
 +++
-title = "14 \u00b7 Selecting a symbol page"
-weight = 14
+title = "02 \u00b7 Selecting a symbol page"
+weight = 2
 description = "Translate a stable symbol ID into a page and offset."
 download = "A14.ASM"
 +++

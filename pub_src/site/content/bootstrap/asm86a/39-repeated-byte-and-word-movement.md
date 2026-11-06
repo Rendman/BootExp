@@ -1,6 +1,6 @@
 +++
-title = "39 \u00b7 Repeated byte and word movement"
-weight = 39
+title = "27 \u00b7 Repeated byte and word movement"
+weight = 27
 description = "Restrict REP to the explicitly supported string instructions."
 download = "A39.ASM"
 +++

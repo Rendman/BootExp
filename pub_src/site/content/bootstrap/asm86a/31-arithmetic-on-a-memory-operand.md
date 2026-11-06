@@ -1,6 +1,6 @@
 +++
-title = "31 \u00b7 Arithmetic on a memory operand"
-weight = 31
+title = "19 \u00b7 Arithmetic on a memory operand"
+weight = 19
 description = "Extend the familiar arithmetic groups without changing operand order."
 download = "A31.ASM"
 +++

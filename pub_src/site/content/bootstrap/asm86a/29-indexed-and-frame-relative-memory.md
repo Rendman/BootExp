@@ -1,6 +1,6 @@
 +++
-title = "29 \u00b7 Indexed and frame-relative memory"
-weight = 29
+title = "17 \u00b7 Indexed and frame-relative memory"
+weight = 17
 description = "Parse valid base/index combinations and explicit displacements."
 download = "A29.ASM"
 +++

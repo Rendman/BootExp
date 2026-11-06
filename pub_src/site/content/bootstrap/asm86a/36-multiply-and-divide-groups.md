@@ -1,6 +1,6 @@
 +++
-title = "36 \u00b7 Multiply and divide groups"
-weight = 36
+title = "24 \u00b7 Multiply and divide groups"
+weight = 24
 description = "Expose the original 8086 single-operand arithmetic forms."
 download = "A36.ASM"
 +++

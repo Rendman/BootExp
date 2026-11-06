@@ -1,6 +1,6 @@
 +++
-title = "27 \u00b7 Mapping an effective address"
-weight = 27
+title = "15 \u00b7 Mapping an effective address"
+weight = 15
 description = "Choose the legal 8086 memory code before emitting it."
 download = "A27.ASM"
 +++

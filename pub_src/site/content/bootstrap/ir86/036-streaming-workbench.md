@@ -6,7 +6,7 @@ download = "TOOLCHN.ZIP"
 download_group = "toolchain"
 +++
 
-The bootstrap ladder is BOOTASM → ASM86 → ASM86A → IR86 → RILL. The streaming assembler supplies the source and symbol capacity needed for the native IR workbench. This construction keeps the virtual machine independent of the processor: frame slots, word operations, strings, and opaque services belong to the language; instruction spellings and DOS calls belong to its backend.
+The bootstrap ladder is BOOTASM → ASM86 → ASMA0 → ASM86A → IR86 → RILL. The streaming assembler supplies the source and symbol capacity needed for the native IR workbench. This construction keeps the virtual machine independent of the processor: frame slots, word operations, strings, and opaque services belong to the language; instruction spellings and DOS calls belong to its backend.
 
 Begin with the completed ASM86A workbench and preserve its tested 6422-byte assembler as ASMAKEEP.COM. Keep the original prompted ASMKEEP.COM and IRKEEP.COM separately. The fixed-file tools have different interfaces; do not overwrite a working predecessor merely because another program has the same general purpose.
 

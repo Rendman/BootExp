@@ -1,6 +1,6 @@
 +++
-title = "15 \u00b7 Writing a complete symbol record"
-weight = 15
+title = "03 \u00b7 Writing a complete symbol record"
+weight = 3
 description = "Initialize spelling, value, link, flags, and kind together."
 download = "A15.ASM"
 +++

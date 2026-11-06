@@ -1,6 +1,8 @@
 [
   {
     "number": 1,
+    "chapter": 1,
+    "collection": "asma0",
     "page": "01-fixed-work-files.md",
     "base": "ASM86.ASM",
     "changes": [
@@ -420,6 +422,8 @@
   },
   {
     "number": 2,
+    "chapter": 2,
+    "collection": "asma0",
     "page": "02-reading-an-input-block.md",
     "base": "A01.ASM",
     "changes": [
@@ -549,6 +553,8 @@
   },
   {
     "number": 3,
+    "chapter": 3,
+    "collection": "asma0",
     "page": "03-writing-an-output-block.md",
     "base": "A02.ASM",
     "changes": [
@@ -1016,6 +1022,8 @@
   },
   {
     "number": 4,
+    "chapter": 4,
+    "collection": "asma0",
     "page": "04-cleaning-an-interrupted-output.md",
     "base": "A03.ASM",
     "changes": [
@@ -1161,6 +1169,8 @@
   },
   {
     "number": 5,
+    "chapter": 5,
+    "collection": "asma0",
     "page": "05-protecting-recovery-names.md",
     "base": "A04.ASM",
     "changes": [
@@ -1254,6 +1264,8 @@
   },
   {
     "number": 6,
+    "chapter": 6,
+    "collection": "asma0",
     "page": "06-publishing-a-closed-result.md",
     "base": "A05.ASM",
     "changes": [
@@ -1385,6 +1397,8 @@
   },
   {
     "number": 7,
+    "chapter": 7,
+    "collection": "asma0",
     "page": "07-streaming-the-two-assembly-passes.md",
     "base": "A06.ASM",
     "changes": [
@@ -1549,6 +1563,8 @@
   },
   {
     "number": 8,
+    "chapter": 8,
+    "collection": "asma0",
     "page": "08-a-longer-source-count.md",
     "base": "A07.ASM",
     "changes": [
@@ -1615,6 +1631,8 @@
   },
   {
     "number": 9,
+    "chapter": 9,
+    "collection": "asma0",
     "page": "09-a-larger-seed-workspace.md",
     "base": "A08.ASM",
     "changes": [
@@ -2135,6 +2153,8 @@
   },
   {
     "number": 10,
+    "chapter": 10,
+    "collection": "asma0",
     "page": "10-encoding-segment-register-moves.md",
     "base": "A09.ASM",
     "changes": [
@@ -2418,6 +2438,8 @@
   },
   {
     "number": 11,
+    "chapter": 11,
+    "collection": "asma0",
     "page": "11-selecting-es-for-a-memory-operand.md",
     "base": "A10.ASM",
     "changes": [
@@ -2471,14 +2493,18 @@
   },
   {
     "number": 12,
+    "chapter": 12,
+    "collection": "asma0",
     "page": "12-proving-the-seed-handoff.md",
     "base": "A11.ASM",
     "changes": []
   },
   {
     "number": 13,
+    "chapter": 1,
+    "collection": "asm86a",
     "page": "13-allocating-auxiliary-workspace.md",
-    "base": "A12.ASM",
+    "base": "ASMA0.ASM",
     "changes": [
       {
         "a1": 1463,
@@ -3600,6 +3626,8 @@
   },
   {
     "number": 14,
+    "chapter": 2,
+    "collection": "asm86a",
     "page": "14-selecting-a-symbol-page.md",
     "base": "A13.ASM",
     "changes": [
@@ -3712,6 +3740,8 @@
   },
   {
     "number": 15,
+    "chapter": 3,
+    "collection": "asm86a",
     "page": "15-writing-a-complete-symbol-record.md",
     "base": "A14.ASM",
     "changes": [
@@ -3864,6 +3894,8 @@
   },
   {
     "number": 16,
+    "chapter": 4,
+    "collection": "asm86a",
     "page": "16-looking-up-the-complete-spelling.md",
     "base": "A15.ASM",
     "changes": [
@@ -4006,6 +4038,8 @@
   },
   {
     "number": 17,
+    "chapter": 5,
+    "collection": "asm86a",
     "page": "17-using-the-paged-symbol-table.md",
     "base": "A16.ASM",
     "changes": [
@@ -4884,6 +4918,8 @@
   },
   {
     "number": 18,
+    "chapter": 6,
+    "collection": "asm86a",
     "page": "18-room-for-names-and-physical-lines.md",
     "base": "A17.ASM",
     "changes": [
@@ -5444,6 +5480,8 @@
   },
   {
     "number": 19,
+    "chapter": 7,
+    "collection": "asm86a",
     "page": "19-counting-source-beyond-one-word.md",
     "base": "A18.ASM",
     "changes": [
@@ -5718,6 +5756,8 @@
   },
   {
     "number": 20,
+    "chapter": 8,
+    "collection": "asm86a",
     "page": "20-quoted-byte-data.md",
     "base": "A19.ASM",
     "changes": [
@@ -6099,6 +6139,8 @@
   },
   {
     "number": 21,
+    "chapter": 9,
+    "collection": "asm86a",
     "page": "21-small-value-expressions.md",
     "base": "A20.ASM",
     "changes": [
@@ -6508,6 +6550,8 @@
   },
   {
     "number": 22,
+    "chapter": 10,
+    "collection": "asm86a",
     "page": "22-named-assembly-constants.md",
     "base": "A21.ASM",
     "changes": [
@@ -6758,6 +6802,8 @@
   },
   {
     "number": 23,
+    "chapter": 11,
+    "collection": "asm86a",
     "page": "23-zero-filled-storage-directives.md",
     "base": "A22.ASM",
     "changes": [
@@ -6876,6 +6922,8 @@
   },
   {
     "number": 24,
+    "chapter": 12,
+    "collection": "asm86a",
     "page": "24-a-conditional-bridge.md",
     "base": "A23.ASM",
     "changes": [
@@ -7011,6 +7059,8 @@
   },
   {
     "number": 25,
+    "chapter": 13,
+    "collection": "asm86a",
     "page": "25-describing-a-memory-operand.md",
     "base": "A24.ASM",
     "changes": [
@@ -7265,6 +7315,8 @@
   },
   {
     "number": 26,
+    "chapter": 14,
+    "collection": "asm86a",
     "page": "26-one-modr-m-emitter.md",
     "base": "A25.ASM",
     "changes": [
@@ -7584,6 +7636,8 @@
   },
   {
     "number": 27,
+    "chapter": 15,
+    "collection": "asm86a",
     "page": "27-mapping-an-effective-address.md",
     "base": "A26.ASM",
     "changes": [
@@ -7866,6 +7920,8 @@
   },
   {
     "number": 28,
+    "chapter": 16,
+    "collection": "asm86a",
     "page": "28-operand-widths-and-segment-selection.md",
     "base": "A27.ASM",
     "changes": [
@@ -8117,6 +8173,8 @@
   },
   {
     "number": 29,
+    "chapter": 17,
+    "collection": "asm86a",
     "page": "29-indexed-and-frame-relative-memory.md",
     "base": "A28.ASM",
     "changes": [
@@ -8336,6 +8394,8 @@
   },
   {
     "number": 30,
+    "chapter": 18,
+    "collection": "asm86a",
     "page": "30-the-complete-mov-family.md",
     "base": "A29.ASM",
     "changes": [
@@ -8744,6 +8804,8 @@
   },
   {
     "number": 31,
+    "chapter": 19,
+    "collection": "asm86a",
     "page": "31-arithmetic-on-a-memory-operand.md",
     "base": "A30.ASM",
     "changes": [
@@ -9014,6 +9076,8 @@
   },
   {
     "number": 32,
+    "chapter": 20,
+    "collection": "asm86a",
     "page": "32-forming-an-effective-address.md",
     "base": "A31.ASM",
     "changes": [
@@ -9121,6 +9185,8 @@
   },
   {
     "number": 33,
+    "chapter": 21,
+    "collection": "asm86a",
     "page": "33-near-indirect-calls-and-jumps.md",
     "base": "A32.ASM",
     "changes": [
@@ -9196,6 +9262,8 @@
   },
   {
     "number": 34,
+    "chapter": 22,
+    "collection": "asm86a",
     "page": "34-returning-and-releasing-arguments.md",
     "base": "A33.ASM",
     "changes": [
@@ -9279,6 +9347,8 @@
   },
   {
     "number": 35,
+    "chapter": 23,
+    "collection": "asm86a",
     "page": "35-word-and-byte-unary-operations.md",
     "base": "A34.ASM",
     "changes": [
@@ -9377,6 +9447,8 @@
   },
   {
     "number": 36,
+    "chapter": 24,
+    "collection": "asm86a",
     "page": "36-multiply-and-divide-groups.md",
     "base": "A35.ASM",
     "changes": [
@@ -9423,6 +9495,8 @@
   },
   {
     "number": 37,
+    "chapter": 25,
+    "collection": "asm86a",
     "page": "37-a-single-bit-shift.md",
     "base": "A36.ASM",
     "changes": [
@@ -9546,6 +9620,8 @@
   },
   {
     "number": 38,
+    "chapter": 26,
+    "collection": "asm86a",
     "page": "38-cl-shifts-and-rotates.md",
     "base": "A37.ASM",
     "changes": [
@@ -9627,6 +9703,8 @@
   },
   {
     "number": 39,
+    "chapter": 27,
+    "collection": "asm86a",
     "page": "39-repeated-byte-and-word-movement.md",
     "base": "A38.ASM",
     "changes": [
@@ -9773,6 +9851,8 @@
   },
   {
     "number": 40,
+    "chapter": 28,
+    "collection": "asm86a",
     "page": "40-proving-the-larger-assembler.md",
     "base": "A39.ASM",
     "changes": []

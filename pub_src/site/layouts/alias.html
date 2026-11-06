@@ -1,0 +1,4 @@
+{{- /* The preserved ASMA0 article routes are three directories below the site root. */ -}}
+{{- $target := printf "../../../%sindex.html" (strings.TrimPrefix "/" .Page.RelPermalink) -}}
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{{ .Page.Title }}</title><link rel="canonical" href="{{ $target }}"><meta http-equiv="refresh" content="0; url={{ $target }}"></head><body><h1>{{ .Page.Title }}</h1><p><a href="{{ $target }}">Continue to the ASMA0 article.</a></p></body></html>

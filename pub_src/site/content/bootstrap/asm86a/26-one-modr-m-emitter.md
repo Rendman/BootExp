@@ -1,6 +1,6 @@
 +++
-title = "26 \u00b7 One ModR/M emitter"
-weight = 26
+title = "14 \u00b7 One ModR/M emitter"
+weight = 14
 description = "Encode register or memory fields through one checked path."
 download = "A26.ASM"
 +++

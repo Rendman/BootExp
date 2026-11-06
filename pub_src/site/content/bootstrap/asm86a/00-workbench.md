@@ -1,56 +1,49 @@
 +++
-title = "The streaming assembler workbench"
+title = "The larger assembler workbench"
 weight = 0
-description = "Preserve the preceding builder and keep fixed work files under control."
+description = "Begin with the verified ASMA0 source and preserve its executable as the builder."
 download = "ASM86A.ZIP"
 +++
 
-Begin with the completed BOOTASM and ASM86 collections. Keep their plain ASCII sources, the tested ASM86 executable, VIEW.BAS, and CHECK.BAT. Use the same DOS 3.10 and period GW-BASIC workbench. GWBASIC below means the interpreter's actual disk name; DOS and BASIC version numbers are independent.
+Begin with the completed ASMA0 collection and its two matching self-assembly generations. Keep ASMA0.ASM, ASMA0.COM, VIEW.BAS, and CHECK.BAT. ASMA0 is the fixed-file streaming seed; ASMKEEP.COM remains the earlier prompted ASM86.
 
-## Preserve the preceding assembler
+## Begin with the seed source
 
-ASM86 was built with BOOTASM.BAS and proved by self-assembly. Preserve it:
-
-```dos
-COPY ASM86.COM ASMKEEP.COM
-```
-
-Run CHECK ASMKEEP and enter an ordinary source base name at its prompt. The executable accepts an 8,192-byte image, 256 definitions, and its published small language. Every A01 through A12 source is built by this unchanged assembler. Do not replace ASMKEEP.COM with an incomplete checkpoint.
-
-Each article gives exact edits to a copy of the preceding source. Apply edits from the bottom upward so old physical positions remain useful. Keep the printed context and nearby labels as well as the numeric position in view. Save the complete source and executable after each successful check.
-
-## Fixed names for the new tool
-
-The new checkpoint does not ask for a filename. Select its input with COPY:
+The first construction article uses A13.ASM. Start from the completed seed:
 
 ```dos
-COPY T01.ASM SOURCE.ASM
-CHECK A01
+COPY ASMA0.ASM A13.ASM
 ```
 
-A successful assembly writes RESULT.COM. Save that file under its own name before another assembly. The checkpoint's own executable is A01.COM, not RESULT.COM. In particular, after ASMA0 builds A13 from SOURCE.ASM, copy RESULT.COM to A13.COM before using A13 to process a test.
+Apply the printed edits from the bottom upward. Their old physical positions refer to the unchanged ASMA0 source. The article numbering starts at one in this collection; saved checkpoint names continue from A13 through A40 so the disk handoff stays explicit.
 
-| Name | Meaning |
+Build the edited source with the preserved seed:
+
+```dos
+COPY A13.ASM SOURCE.ASM
+CHECK ASMA0
+COPY RESULT.COM A13.COM
+```
+
+Require the stated OK count and PASS **before** copying the result. ASMA0 writes RESULT.COM; save the checkpoint executable as A13.COM before using it to process a test. Every construction checkpoint in this collection is built by ASMA0. Its source uses only the seed's language, even while implementing richer accepted forms.
+
+## Files and memory
+
+| Name | Role |
 |---|---|
-| SOURCE.ASM | Disk input, reopened for each pass |
+| SOURCE.ASM | Disk input reopened for each pass |
 | RESULT.COM | Last published result |
 | ASMA.TMP | Owned temporary output |
 | RESULT.BAK | Previous result during publication |
 
-The early byte-copy diagnostics explicitly inspect ASMA.TMP or RESULT.COM as data. They are executable diagnostics, but their copied output is not a program. Later encoding fixtures also remain data unless the article expressly calls them complete programs.
+Keep sources and preserved tools in an ordinary hard-disk directory, with room for both the temporary file and backup. Inspect any existing recovery file before another run. A source rejection must leave RESULT.COM unchanged; a publication failure can require recovery from the named temporary or backup.
 
-At the seed handoff preserve ASMA0.COM. It builds A13 through A40 with the fixed names above. At the final handoff preserve ASM86A.COM as ASMAKEEP.COM. ASMKEEP and ASMAKEEP are different tools with different filename interfaces.
+The first additions retain the seed buffers while allocated-record helpers are tested. The complete assembler retains a 64 KB main segment and allocates eight 40 KiB symbol pages plus an 8 KiB lookup block: 392 KiB before DOS, environment, and allocation overhead. Allocation failure must report FAIL before replacing a result. Code remains near code in the main segment; allocated workspace does not enlarge the target COM image.
 
-## Disk, memory, and inspection
+## Read, inspect, and preserve
 
-Use an ordinary working directory on the hard disk, with room for sources, preserved tools, and both a temporary result and its backup. Spread saved sources across labeled disks if necessary. The whole collection need not fit one floppy. The complete assembler retains a 64 KB main segment and allocates 328 KiB of symbol workspace, for 392 KiB before DOS, environment, and allocation overhead. Keep resident programs out of the workbench when memory is scarce. An allocation failure must return FAIL before replacing output.
+Use DOS 3.10 and the same period BASIC interpreter as the preceding collections. Plain ASCII sources use DOS CR/LF and 8.3 names. Keep the source unchanged through both passes. Console devices and pipes are not substitutes for the reopenable source file.
 
-Sources use ordinary ASCII, DOS CR/LF endings, and 8.3 disk names. Use COPY CON for small fixtures; Ctrl-Z and Enter finish the file. A text editor is useful for growing sources, but must not insert word-processor formatting. The source must remain unchanged during both assembly passes. Console devices and pipes are not a substitute for the reopenable source disk file.
+VIEW.BAS reports file length and hexadecimal bytes; SYSTEM returns from BASIC to DOS. CHECK.BAT immediately reports executable status. Encoding fixtures are inspected as data unless an article explicitly identifies a complete program. Do not execute an empty output file.
 
-Run GWBASIC VIEW.BAS, enter the complete disk filename, and check both length and hexadecimal bytes. SYSTEM returns to DOS. CHECK.BAT immediately reports PASS or FAIL from a complete COM program's DOS status; it is not a checker for the BASIC interpreter itself. An empty output file can be inspected but must not be executed.
-
-## Recovery files
-
-Once reserved-name protection is installed, a pre-existing ASMA.TMP or RESULT.BAK prevents a new run. TYPE text files or inspect binary files with VIEW.BAS; compare preserved executable copies before deciding what to keep. Rename a recovery file to an unused name rather than blindly deleting it. The articles identify the temporary files deliberately created by their tests.
-
-Ordinary source rejection leaves the accepted RESULT.COM unchanged. Publication failures can require recovery from the temporary or backup names. A failure is never permission to execute an old result as if it were new. Require a fresh OK and PASS at each build step.
+The final checkpoint is A40.ASM, saved as ASM86A.ASM. Preserve its seed-built executable and compare both self-assembly generations. Then copy the tested ASM86A.COM to ASMAKEEP.COM. ASMA0.COM remains the seed builder, and ASMKEEP.COM remains the original ASM86. Keep all three separately named.

@@ -1,6 +1,6 @@
 +++
-title = "25 \u00b7 Describing a memory operand"
-weight = 25
+title = "13 \u00b7 Describing a memory operand"
+weight = 13
 description = "Save a reusable record before choosing its encoding."
 download = "A25.ASM"
 +++

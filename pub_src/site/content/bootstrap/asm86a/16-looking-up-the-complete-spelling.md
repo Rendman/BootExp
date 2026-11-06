@@ -1,6 +1,6 @@
 +++
-title = "16 \u00b7 Looking up the complete spelling"
-weight = 16
+title = "04 \u00b7 Looking up the complete spelling"
+weight = 4
 description = "Use buckets to find candidates and compare every character."
 download = "A16.ASM"
 cartoon = "asm86a-cloakroom.png"
