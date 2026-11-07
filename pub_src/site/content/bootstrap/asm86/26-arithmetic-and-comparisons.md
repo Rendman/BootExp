@@ -7,17 +7,17 @@ download_group = "tools/asm0"
 reader_names = 1
 +++
 
-Six related instruction families can share the operand reader and much of their encoding work.
+Five related instruction families can share the operand reader and much of their encoding work.
 
 ## How it works
 
-The class-four parameters are the processor's group numbers: ADD=0, OR=1, AND=4, SUB=5, XOR=6, and CMP=7. They are not a consecutive numbering invented by this assembler.
+The class-four parameters are the processor's group numbers: ADD=0, OR=1, AND=4, SUB=5, and CMP=7. They are not a consecutive numbering invented by this assembler.
 
 TWOOPERANDS requires a register destination. For a register source, SAMEWIDTH checks the widths and the opcode is eight times OP plus two plus W1. REGMOD supplies the ordinary two-register ModR/M byte.
 
 For an immediate source, the opcode is 80H for a byte or 81H for a word. ModR/M is 192 plus eight times OP plus the destination register. IMMEDVALUE emits the full selected width. The shorter sign-extended 83H form is deliberately omitted, keeping instruction sizes independent of a value's eventual address.
 
-ADD and SUB store their arithmetic result; CMP sets subtraction flags without storing it. AND, OR, and XOR operate on corresponding bits. The assembled operations affect flags; the parser and encoding helpers also use flags internally, so the assembler saves state in fields rather than depending on a comparison across a helper call. Memory arithmetic and signed literal syntax remain excluded.
+ADD and SUB store their arithmetic result; CMP sets subtraction flags without storing it. AND and OR operate on corresponding bits. The assembled operations affect flags; the parser and encoding helpers also use flags internally, so the assembler saves state in fields rather than depending on a comparison across a helper call. Memory arithmetic and signed literal syntax remain excluded.
 
 ## Source changes
 
@@ -33,7 +33,7 @@ DB 83,84,79,83,66,0,2,170
 DB 77,79,86,0,0,0,3,0
 ```
 
-Insert after old physical line 972, before the following old line.
+Insert after old physical line 971, before the following old line.
 
 Insert this source:
 
@@ -42,7 +42,6 @@ DB 65,68,68,0,0,0,4,0
 DB 79,82,0,0,0,0,4,1
 DB 65,78,68,0,0,0,4,4
 DB 83,85,66,0,0,0,4,5
-DB 88,79,82,0,0,0,4,6
 DB 67,77,80,0,0,0,4,7
 ```
 
@@ -110,13 +109,13 @@ MOV BX,OPTAB
 Remove these exact old lines (physical lines 568–568 of `AS25.ASM`):
 
 ```asm
-MOV CX,13
+MOV CX,12
 ```
 
 Put this source in their place:
 
 ```asm
-MOV CX,19
+MOV CX,17
 ```
 
 ## Build and stop
@@ -127,7 +126,7 @@ Use the BASIC assembler prepared in the workbench guide:
 GWBASIC BOOTASM.BAS
 ```
 
-Enter `AS26` at its source prompt. Require `OK AS26.COM 2228 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.
+Enter `AS26` at its source prompt. Require `OK AS26.COM 2212 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.
 
 Use `COPY CON T26.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
 
@@ -135,7 +134,6 @@ Use `COPY CON T26.ASM` to enter this exact test text; finish with Ctrl-Z and Ent
 ADD AX,BX
 SUB CX,1
 CMP AL,41H
-XOR DX,DX
 AND AL,0DFH
 OR BL,20H
 ```
@@ -150,14 +148,14 @@ The display, apart from DOS command echo and the checker's separating blank line
 
 ```text
 Source name: T26
-OK 00017 bytes
+OK 00015 bytes
 PASS
 ```
 
-Inspect `T26.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `T26.COM`, and require a length of **17 bytes** with these hexadecimal bytes:
+Inspect `T26.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `T26.COM`, and require a length of **15 bytes** with these hexadecimal bytes:
 
 ```text
-03 C3 81 E9 01 00 80 F8 41 33 D2 80 E0 DF 80 CB 20
+03 C3 81 E9 01 00 80 F8 41 80 E0 DF 80 CB 20
 ```
 
 Use `SYSTEM` to return to DOS.

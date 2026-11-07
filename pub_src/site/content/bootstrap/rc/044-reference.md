@@ -1,13 +1,13 @@
 +++
 title = "The RILL language reference"
 weight = 44
-description = "The complete language used by the compiler, IR86, and ASM86 implementations."
+description = "The language used to write and rebuild the compiler, IR86, and ASM86."
 download = "RILL.RIL"
 download_group = "tools/rill"
 reader_names = 1
 +++
 
-RILL constructs RILL.RIL, a compiler written in the same language it accepts. RILLBOOT builds its first executable; R0 and the next two compiler generations reproduce it. The language contract is the same as the completed RILLBOOT compiler seed. ASM86.RIL and IR86.RIL use this same language.
+RILLBOOT builds the first RILL compiler from RILL.RIL. R0 and its next two compiler generations reproduce it. RILL adds the word operators and pointer wrappers used by the later tools.
 
 ## Program structure
 
@@ -67,7 +67,7 @@ A bare global buffer name produces its first-byte pointer. `buffer[index]` reads
 
 | Call | Result and requirements |
 |---|---|
-| putc(byte), getc(), status() | Byte output, byte/EOF input, persistent service status |
+| putc(byte), read(handle,buffer,count), status() | Byte output, byte/EOF input, persistent service status |
 | open(name), create(name) | Opaque readable/writable file handle; name is a terminated byte pointer |
 | read(handle,pointer,count), write(handle,pointer,count) | Actual progress; check status and exact write count |
 | close(handle) | Retire the owned handle after successful close |

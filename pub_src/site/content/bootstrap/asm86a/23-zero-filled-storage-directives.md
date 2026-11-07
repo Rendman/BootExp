@@ -24,12 +24,12 @@ Copy `A22.ASM` to `A23.ASM`. Apply the following edits **from the bottom of the 
 Unchanged source immediately before this edit:
 
 ```asm
-DB 74,71,69,0,0,0,8,125
-DB 74,76,69,0,0,0,8,126
-DB 74,71,0,0,0,0,8,127
+DB 74,66,69,0,0,0,8,118
+DB 74,65,0,0,0,0,8,119
+DB 88,79,82,0,0,0,4,6
 ```
 
-Insert after old physical line 2012.
+Insert after old physical line 2007.
 
 Insert:
 
@@ -146,13 +146,13 @@ MOV BX,OPTAB
 Remove this exact source at old physical positions 718–718:
 
 ```asm
-MOV CX,31
+MOV CX,26
 ```
 
 Replace it with:
 
 ```asm
-MOV CX,33
+MOV CX,28
 ```
 
 The following old source stays in place:
@@ -169,13 +169,13 @@ COPY A23.ASM SOURCE.ASM
 CHECK ASM1
 ```
 
-Require `OK RESULT.COM 04828 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 04788 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A23.COM
 ```
 
-VIEW.BAS must report A23.COM length 4828 bytes. Keep that executable and source together.
+VIEW.BAS must report A23.COM length 4788 bytes. Keep that executable and source together.
 
 ## Acceptance check
 

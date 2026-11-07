@@ -1,1 +1,1 @@
-"Hi"
+fn main(){let mut h=alloc(100);free(h);return status();}

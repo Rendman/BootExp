@@ -28,7 +28,7 @@ HASHSEG:
 DW 0
 ```
 
-Remove this exact source at old physical positions 1831–1832:
+Remove this exact source at old physical positions 1828–1829:
 
 ```asm
 TESTNAME:
@@ -51,7 +51,7 @@ DEFTYPE:
 DW 0
 ```
 
-Insert after old physical line 1824.
+Insert after old physical line 1821.
 
 Insert:
 
@@ -77,7 +77,7 @@ SYMC:
 DW 0
 ```
 
-Remove this exact source at old physical positions 1632–1634:
+Remove this exact source at old physical positions 1634–1636:
 
 ```asm
 
@@ -104,7 +104,7 @@ MOV [SYMID],AX
 MOV AX,[SYMID]
 ```
 
-Remove this exact source at old physical positions 1588–1598:
+Remove this exact source at old physical positions 1588–1600:
 
 ```asm
 CALL RECORDWRITE
@@ -115,9 +115,11 @@ ADD BX,32
 MOV AX,ES:[BX]
 MOV DX,CS
 MOV ES,DX
-CALL NUMBER
-MOV DX,NEWLINE
-CALL TEXT
+CMP AX,12345
+JE EARLYPASS
+MOV AX,7
+JMP ERROR
+EARLYPASS:
 ```
 
 Replace it with:
@@ -1234,13 +1236,13 @@ COPY A17.ASM SOURCE.ASM
 CHECK ASM1
 ```
 
-Require `OK RESULT.COM 04057 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 04017 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A17.COM
 ```
 
-VIEW.BAS must report A17.COM length 4057 bytes. Keep that executable and source together.
+VIEW.BAS must report A17.COM length 4017 bytes. Keep that executable and source together.
 
 ## Acceptance check
 

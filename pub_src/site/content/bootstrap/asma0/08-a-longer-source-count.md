@@ -107,9 +107,9 @@ MOV AX,1
 
 ## Build the stopping point
 
-Run `CHECK ASMKEEP`, enter `A08` at `Source name:`, and require `OK 03068 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. It creates A08.COM.
+Run `CHECK ASMKEEP`, enter `A08` at `Source name:`, and require `OK 03028 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. It creates A08.COM.
 
-VIEW.BAS must report A08.COM length 3068 bytes. Keep that executable and source together.
+VIEW.BAS must report A08.COM length 3028 bytes. Keep that executable and source together.
 
 ## Acceptance check
 

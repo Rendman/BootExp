@@ -21,20 +21,16 @@ PASS A20: ASMA0 build, exact acceptance, rejection and prior-output preservation
 PASS A21: ASMA0 build, exact acceptance, rejection and prior-output preservation, inspected data or self-build
 PASS A22: ASMA0 build, exact acceptance, rejection and prior-output preservation, inspected data or self-build
 PASS A23: ASMA0 build, exact acceptance, rejection and prior-output preservation, inspected data or self-build
-PASS A24: ASMA0 build, exact acceptance, rejection and prior-output preservation, executable result
+PASS A24: ASMA0 build, exact acceptance, rejection and prior-output preservation, inspected data or self-build
 PASS A25: ASMA0 build, exact acceptance, rejection and prior-output preservation, inspected data or self-build
 PASS A26: ASMA0 build, exact acceptance, rejection and prior-output preservation, inspected data or self-build
 PASS A27: ASMA0 build, exact acceptance, rejection and prior-output preservation, inspected data or self-build
 PASS A28: ASMA0 build, exact acceptance, rejection and prior-output preservation, inspected data or self-build
 PASS A29: ASMA0 build, exact acceptance, rejection and prior-output preservation, executable result
 PASS A30: ASMA0 build, exact acceptance, rejection and prior-output preservation, executable result
-PASS A31: ASMA0 build, exact acceptance, rejection and prior-output preservation, executable result
+PASS A31: ASMA0 build, exact acceptance, rejection and prior-output preservation, inspected data or self-build
 PASS A32: ASMA0 build, exact acceptance, rejection and prior-output preservation, executable result
 PASS A33: ASMA0 build, exact acceptance, rejection and prior-output preservation, executable result
-PASS A34: ASMA0 build, exact acceptance, rejection and prior-output preservation, executable result
-PASS A35: ASMA0 build, exact acceptance, rejection and prior-output preservation, executable result
-PASS A36: ASMA0 build, exact acceptance, rejection and prior-output preservation, executable result
-PASS A37: ASMA0 build, exact acceptance, rejection and prior-output preservation, executable result
-PASS A38: ASMA0 build, exact acceptance, rejection and prior-output preservation, executable result
-PASS A39: ASMA0 build, exact acceptance, rejection and prior-output preservation, executable result
+PASS A36: ASMA0 build, exact acceptance, rejection and prior-output preservation, inspected data or self-build
+PASS A37: ASMA0 build, exact acceptance, rejection and prior-output preservation, inspected data or self-build
 PASS A40: ASMA0 build, exact acceptance, rejection and prior-output preservation, inspected data or self-build

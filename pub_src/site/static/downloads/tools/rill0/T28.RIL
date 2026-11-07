@@ -1,1 +1,0 @@
-fn main(){if 65535>1{putc(85);}else{putc(76);}}

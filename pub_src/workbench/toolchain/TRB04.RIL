@@ -1,0 +1,1 @@
+let mut x=65;fn main(){putc(x);}

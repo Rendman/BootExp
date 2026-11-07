@@ -13,7 +13,7 @@ Allocated RAM is not guaranteed to contain zeroes.
 
 RECORDWRITE clears a forty-byte record, copies the current zero-terminated name, writes DEFVALUE, the prior bucket HEADID, and DEFTYPE, then installs SYMID as the bucket head. Name padding and pass flags therefore have known values.
 
-The diagnostic creates a PAGED record with value 12345 and reads it through SYMPTR. It restores ES before displaying the result. The record writer changes the working registers and record/bucket cursors; the input name and explicit fields are its interface.
+The diagnostic creates a PAGED record with value 12345 and reads it through SYMPTR. It restores ES before comparing the result with 12345. The record writer changes the working registers and record/bucket cursors; the input name and explicit fields are its interface.
 
 ## Enter the source
 
@@ -29,7 +29,7 @@ HASHSEG:
 DW 0
 ```
 
-Insert after old physical line 1701.
+Insert after old physical line 1698.
 
 Insert:
 
@@ -48,7 +48,7 @@ RECORDPTR:
 DW 0
 ```
 
-Insert after old physical line 1696.
+Insert after old physical line 1693.
 
 Insert:
 
@@ -81,6 +81,35 @@ DW 0,0,0,0,0,0,0,0
 Unchanged source immediately before this edit:
 
 ```asm
+MOV AX,ES:[BX]
+MOV DX,CS
+MOV ES,DX
+```
+
+Remove this exact source at old physical positions 1483–1483:
+
+```asm
+CMP AX,42
+```
+
+Replace it with:
+
+```asm
+CMP AX,12345
+```
+
+The following old source stays in place:
+
+```asm
+JE EARLYPASS
+MOV AX,7
+```
+
+### Change 4 near `EARLYTEST:`
+
+Unchanged source immediately before this edit:
+
+```asm
 EARLYTEST:
 MOV AX,8192
 CALL SYMPTR
@@ -106,7 +135,7 @@ MOV AX,ES:[BX]
 MOV DX,CS
 ```
 
-### Change 4 near `EARLYTEST:`
+### Change 5 near `EARLYTEST:`
 
 Unchanged source immediately before this edit:
 
@@ -145,7 +174,7 @@ MOV AX,8192
 CALL SYMPTR
 ```
 
-### Change 5 near `SYMOFFSET:`
+### Change 6 near `SYMOFFSET:`
 
 Unchanged source immediately before this edit:
 
@@ -205,13 +234,13 @@ COPY A15.ASM SOURCE.ASM
 CHECK ASM1
 ```
 
-Require `OK RESULT.COM 03926 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 03889 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A15.COM
 ```
 
-VIEW.BAS must report A15.COM length 3926 bytes. Keep that executable and source together.
+VIEW.BAS must report A15.COM length 3889 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -236,7 +265,6 @@ CHECK A15
 Require:
 
 ```text
-12345
 OK RESULT.COM 00011 bytes
 PASS
 ```
@@ -265,7 +293,6 @@ CHECK A15
 Require:
 
 ```text
-12345
 ERROR 00001 CODE 1
 FAIL
 ```

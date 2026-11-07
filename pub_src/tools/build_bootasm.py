@@ -213,7 +213,6 @@ Routine 3100 takes `N` and emits two bytes through 3000. `INT(N/256)` is the hig
 `DW` in line 4110 is an ordinary numeric flag, distinct from the text in `M$`. It selects one or two bytes for every item. Do not confuse a word in the file with a BASIC integer variable: BASIC integers are signed.''',
 'DW 1234H,65535\nDB 0','34 12 FF FF 00','DW 65536','Number too large')
 stage('Instructions without operands','''4010 X=-1
-4012 IF M$="NOP" THEN X=144
 4014 IF M$="RET" THEN X=195
 4016 IF M$="CLD" THEN X=252
 4018 IF M$="LODSB" THEN X=172
@@ -222,13 +221,13 @@ stage('Instructions without operands','''4010 X=-1
 4900 IF A$<>"" THEN E$="Unexpected operand": GOTO 9000
 4910 GOSUB 3000: RETURN
 ''',
-'A mnemonic is a name for an instruction. Five instructions with fixed one-byte encodings let us add names without yet designing an operand parser.',
+'A mnemonic is a name for an instruction. Four instructions with fixed one-byte encodings let us add names without yet designing an operand parser.',
 '''The dispatcher sets `X` to -1, meaning that no fixed instruction has matched. A match replaces it with an opcode, the byte which tells the processor what to do. Routine 4900 checks that there is no argument before passing `X` to the emitter. It changes `P`, preserving the source arguments.
 
-`NOP` performs no operation. `RET` takes a return address from the stack. `CLD` clears the direction flag so string instructions advance their indexes. `LODSB` loads AL from DS:SI, then advances or retreats SI according to that flag. `STOSB` stores AL at ES:DI and adjusts DI. DS and ES are segment registers; SI and DI are index registers. These last instructions are included for explicit byte-by-byte work, rather than repeated string operations.
+`RET` takes a return address from the stack. `CLD` clears the direction flag so string instructions advance their indexes. `LODSB` loads AL from DS:SI, then advances or retreats SI according to that flag. `STOSB` stores AL at ES:DI and adjusts DI. DS and ES are segment registers; SI and DI are index registers. These last instructions are included for explicit byte-by-byte work, rather than repeated string operations.
 
 At this checkpoint we are checking encodings only. In particular, a stray RET or string instruction is not a complete test program: the stack, segment registers, and indexes must have suitable values. Inspect this fixture without running it.''',
-'NOP\nRET\nCLD\nLODSB\nSTOSB','90 C3 FC AC AA','NOP 1','Unexpected operand')
+'RET\nCLD\nLODSB\nSTOSB','C3 FC AC AA','RET 1','Unexpected operand')
 stage('Loading a register','''4024 IF M$="MOV" THEN GOSUB 4200: RETURN
 4200 GOSUB 5000: T$=A1$: GOSUB 6000
 4210 IF R<0 THEN E$="Register required": GOTO 9000
@@ -364,9 +363,9 @@ Only word-register forms are accepted. The processor has other INC and DEC forms
 
 This fixture is for byte inspection only; its register values have not been initialized.''',
 'INC BX\nDEC CX\nPUSH AX\nPOP DX','43 49 50 5A','INC AL','Word register required')
-stage('Arithmetic and comparisons','''4030 I=INSTR("ADD OR  AND SUB XOR CMP ",M$+" ")
+stage('Arithmetic and comparisons','''4030 I=INSTR("ADD AND SUB CMP ",M$+" ")
 4032 IF I>0 THEN IF (I-1) MOD 4=0 THEN GOSUB 4390: RETURN
-4390 OP=VAL(MID$("014567",(I-1)/4+1,1)): GOTO 4400
+4390 OP=VAL(MID$("0457",(I-1)/4+1,1)): GOTO 4400
 4400 GOSUB 5000: T$=A1$: GOSUB 6000
 4410 IF R<0 THEN E$="Register required": GOTO 9000
 4420 RD=R: WD=W
@@ -382,15 +381,15 @@ stage('Arithmetic and comparisons','''4030 I=INSTR("ADD OR  AND SUB XOR CMP ",M$
 4520 X=192+8*RD+R: GOSUB 3000
 4530 RETURN
 ''',
-'To work on a character or count, a program needs arithmetic and tests. The same operand machinery serves six closely related instruction families.',
-'''ADD and SUB alter the destination by addition or subtraction. CMP sets the subtraction flags without storing the answer. AND, OR, and XOR perform bit-by-bit logical operations. All these forms set flags; logical operations clear carry and overflow and leave auxiliary carry undefined. Arithmetic carries beyond the selected width are not stored in the destination.
+'To work on a character or count, a program needs arithmetic and tests. The same operand machinery serves four closely related instruction families.',
+'''ADD and SUB alter the destination by addition or subtraction. CMP sets the subtraction flags without storing the answer. AND performs bit-by-bit logical operations. All these forms set flags; logical operations clear carry and overflow and leave auxiliary carry undefined. Arithmetic carries beyond the selected width are not stored in the destination.
 
-The mnemonic table uses four characters per entry, including spaces. A matching name must begin at an entry boundary. The matching position selects an operation number from `014567`: ADD=0, OR=1, AND=4, SUB=5, XOR=6, CMP=7. These are the processor's group numbers, not consecutive entries invented by the assembler. `OP` preserves that choice while the operands are read.
+The mnemonic table uses four characters per entry, including spaces. A matching name must begin at an entry boundary. The matching position selects an operation number from `0457`: ADD=0, AND=4, SUB=5, CMP=7. These are the processor's group numbers, not consecutive entries invented by the assembler. `OP` preserves that choice while the operands are read.
 
 For a register source, routine 4500 emits `8*OP+2+WD` and a register ModR/M byte. For an immediate source, 4400 emits 80H for a byte or 81H for a word. The ModR/M byte has the operation number in its middle field and the destination register in its low field. The immediate follows in the destination's width. We deliberately omit the shorter sign-extended 83H form to keep size decisions fixed.
 
 Both routines take their operands from `A$` through 5000. They change the operand-reader scratch variables, `RD`, `WD`, `R`, `W`, `N`, `X`, and `P`; they preserve `OP`. Memory arithmetic and signed literal syntax are omitted. To represent a negative bit pattern, use its unsigned hexadecimal value, such as 0FFFFH for a word containing all one bits. This fixture is only for inspection.''',
-'ADD AX,BX\nSUB CX,1\nCMP AL,41H\nXOR DX,DX\nAND AL,0DFH\nOR BL,20H','03 C3 81 E9 01 00 80 F8 41 33 D2 80 E0 DF 80 CB 20','ADD AX,AL','Register sizes differ')
+'ADD AX,BX\nSUB CX,1\nCMP AL,41H\nAND AL,0DFH','03 C3 81 E9 01 00 80 F8 41 80 E0 DF','ADD AX,AL','Register sizes differ')
 stage('Reading and writing memory','''4205 IF LEFT$(A1$,1)="[" THEN GOSUB 4700: RETURN
 4221 IF LEFT$(A2$,1)="[" THEN GOSUB 4600: RETURN
 4600 T$=A2$: GOSUB 4800
@@ -440,20 +439,20 @@ The routine takes the destination from `A$`; it changes `T$`, the numeric-reader
 
 In the test, CALL occupies offsets 0100H-0102H. SAY begins at 0108H, so the displacement is five. The routine displays C and returns to the termination code.''',
 'CALL SAY\nMOV AX,4C00H\nINT 21H\nSAY:\nMOV DL,43H\nMOV AH,2\nINT 21H\nRET','E8 05 00 B8 00 4C CD 21 B2 43 B4 02 CD 21 C3','CALL LOST','Undefined label',run='C')
-stage('Short conditional branches','''4036 I=INSTR("JB  JAE JE  JNE JBE JA  JL  JGE JLE JG  ",M$+" ")
+stage('Short conditional branches','''4036 I=INSTR("JB  JAE JE  JNE JBE JA  ",M$+" ")
 4038 IF I>0 THEN IF (I-1) MOD 4=0 THEN BC=(I-1)/4: GOSUB 5600: RETURN
 5600 T$=A$: GOSUB 2000
 5610 RV=N-(256+P+2)
 5620 IF PS=2 THEN IF RV<-128 OR RV>127 THEN E$="Branch out of range": GOTO 9000
-5630 C$=MID$("234567CDEF",BC+1,1)
+5630 C$=MID$("234567",BC+1,1)
 5640 X=112+INSTR("0123456789ABCDEF",C$)-1: GOSUB 3000
 5650 X=RV-256*INT(RV/256): GOSUB 3000
 5660 RETURN
 ''',
 'A comparison becomes useful when it can select the next instruction. The 8088 gives these conditional transfers a signed one-byte reach, so the assembler must check the distance.',
-'''The supported unsigned conditions are JB (below), JAE (above or equal), JE (equal), JNE (not equal), JBE (below or equal), and JA (above). For signed comparisons use JL, JGE, JLE, and JG. JE and JNE work for either interpretation. The processor stores bit patterns; the branch instruction chooses how the comparison flags are interpreted.
+'''The supported unsigned conditions are JB (below), JAE (above or equal), JE (equal), JNE (not equal), JBE (below or equal), and JA (above). JE and JNE work for either interpretation. The processor stores bit patterns; the branch instruction chooses how the comparison flags are interpreted.
 
-The opcode table selects 72H through 77H and 7CH through 7FH. These conditions test carry, zero, sign, and overflow as shown in the reference. CMP must be near enough in the execution path that intervening instructions have not changed the flags it set. MOV, PUSH, POP, CALL, RET, and the branches do not themselves alter arithmetic flags; a called routine may do so.
+The opcode table selects 72H through 77H. These conditions test carry and zero as shown in the reference. CMP must be near enough in the execution path that intervening instructions have not changed the flags it set. MOV, PUSH, POP, CALL, RET, and the branches do not themselves alter arithmetic flags; a called routine may do so.
 
 Routine 5600 subtracts `256+P+2`, the address after this two-byte instruction, from the destination. Pass one does not check the reach of an unresolved name. Pass two requires a result from -128 through +127 inclusive. Subtracting `256*INT(RV/256)` converts a negative displacement to its unsigned byte pattern without BASIC's signed logical operators. The routine changes `T$`, the value-reader scratch variables, `RV`, `C$`, `X`, and `P`; `BC` retains the selected condition.
 

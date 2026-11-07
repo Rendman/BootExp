@@ -29,8 +29,9 @@ assert not any(re.fullmatch(r'A(?:1[3-9]|[2-4][0-9])\.ASM',n) for n in manifest)
 full=json.loads((ROOT/'qa/asm86a/package-files.json').read_text())
 assert 'ASMA0.ASM' in full and 'A12.ASM' in full
 assert not any(f'A{n:02}.ASM' in full for n in range(1,12))
-assert all(f'A{n:02}.ASM' in full for n in range(13,41))
-for n in range(13,41):
- p=next((C.parent/'asm86a').glob(f'{n:02}-*.md'));meta=tomllib.loads(p.read_text().split('+++')[1]);assert meta['weight']==n-12 and meta['title'].startswith(f'{n-12:02} ')
+retained=[c['number'] for c in json.loads((ROOT/'qa/asm86a/checkpoints.json').read_text()) if c['number']>12]
+assert all(f'A{n:02}.ASM' in full for n in retained)
+for index,n in enumerate(retained,1):
+ p=next((C.parent/'asm86a').glob(f'{n:02}-*.md'));meta=tomllib.loads(p.read_text().split('+++')[1]);assert meta['weight']==index and meta['title'].startswith(f'{index:02} ')
 assert 'Copy `ASM1.ASM` to `A13.ASM`' in next((C.parent/'asm86a').glob('13-*.md')).read_text()
 print(f'PASS ASMA0: 12 articles, independent reference/programs, {len(manifest)} source-only files, canonical seed and A13 handoff, separate archives and legacy source links')

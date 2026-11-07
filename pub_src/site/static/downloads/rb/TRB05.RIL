@@ -1,0 +1,1 @@
+bytes b[2];fn main(){b[0]=65;putc(b[0]);}

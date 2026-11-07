@@ -29,7 +29,7 @@ BRDEST:
 DW 0
 ```
 
-Insert after old physical line 2197.
+Insert after old physical line 2189.
 
 Insert:
 
@@ -73,7 +73,7 @@ NAMELEN:
 DW 0
 ```
 
-Insert after old physical line 2195.
+Insert after old physical line 2187.
 
 Insert:
 
@@ -365,13 +365,13 @@ COPY A25.ASM SOURCE.ASM
 CHECK ASM1
 ```
 
-Require `OK RESULT.COM 05078 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 05014 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A25.COM
 ```
 
-VIEW.BAS must report A25.COM length 5078 bytes. Keep that executable and source together.
+VIEW.BAS must report A25.COM length 5014 bytes. Keep that executable and source together.
 
 ## Acceptance check
 

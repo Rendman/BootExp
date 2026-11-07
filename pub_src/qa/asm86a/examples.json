@@ -12,11 +12,11 @@
   {
     "name": "FRAME",
     "output": "A",
-    "binary_bytes": 43,
-    "hex": "B8 41 00 50 E8 0B 00 8A D0 B4 02 CD 21 B8 00 4C CD 21 55 8B EC 81 EC 02 00 8B 86 04 00 89 86 FE",
+    "binary_bytes": 45,
+    "hex": "B8 41 00 50 E8 0F 00 81 C4 02 00 8A D0 B4 02 CD 21 B8 00 4C CD 21 55 8B EC 81 EC 02 00 8B 86 04",
     "bad_before": "[BP+4]",
     "bad_after": "[SP+4]",
-    "bad_line": 13,
+    "bad_line": 14,
     "bad_code": 1
   },
   {
@@ -32,11 +32,11 @@
   {
     "name": "COPYTEXT",
     "output": "Hi",
-    "binary_bytes": 37,
-    "hex": "FC BE 21 01 BF 23 01 B9 02 00 F3 A4 BE 23 01 B9 02 00 8A 14 B4 02 CD 21 46 49 75 F6 B8 00 4C CD",
-    "bad_before": "REP MOVSB",
-    "bad_after": "REP RET",
-    "bad_line": 5,
+    "binary_bytes": 40,
+    "hex": "FC BE 24 01 BF 26 01 B9 02 00 AC AA 49 75 FB BE 26 01 B9 02 00 8A 14 B4 02 CD 21 46 49 75 F6 B8",
+    "bad_before": "LODSB",
+    "bad_after": "LODSB 1",
+    "bad_line": 6,
     "bad_code": 1
   }
 ]

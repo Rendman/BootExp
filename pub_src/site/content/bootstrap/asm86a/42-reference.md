@@ -1,6 +1,6 @@
 +++
 title = "30 \u00b7 ASM86 reference"
-weight = 30
+weight = 26
 description = "The accepted language, fixed encodings, storage layout, and failure contract."
 download = "ASM86.ASM"
 download_group = "tools/asm86"
@@ -67,19 +67,18 @@ Here r8/r16 mean an ordinary byte/word register; r/m means a register or support
 | Family | Accepted forms |
 |---|---|
 | MOV | ordinary register with register, memory, or immediate; memory with ordinary register or width-qualified immediate; segment register with r16 or word memory in either direction, except CS as destination |
-| ADD, OR, ADC, SBB, AND, SUB, XOR, CMP | ordinary register with register or memory; memory with ordinary register; register or width-qualified memory with immediate |
-| TEST | ordinary register with r/m, r/m with ordinary register, or r/m with immediate; memory width required when not inferred |
+| ADD, OR, AND, SUB, XOR, CMP | ordinary register with register or memory; memory with ordinary register; register or width-qualified memory with immediate |
 | INC, DEC, PUSH, POP | ordinary word register only |
-| NEG, NOT, MUL, IMUL, DIV, IDIV | one r/m8 or r/m16 operand; explicit width for memory |
-| SHL/SAL, SHR, SAR, ROL, ROR, RCL, RCR | r/m8 or r/m16, count 1 or CL; explicit width for memory |
+| MUL, DIV | one r/m8 or r/m16 operand; explicit width for memory |
+| SHL, SHR | r/m8 or r/m16, count 1 or CL; explicit width for memory |
 | LEA | r16, supported memory address; no segment override |
 | CALL, JMP | direct word target, ordinary word register, or near word memory operand |
-| RET | no operand, or immediate word argument-release count |
+| RET | no operand |
 | INT | immediate byte |
-| NOP, CLD | no operands |
-| LODSB, LODSW, STOSB, STOSW, MOVSB, MOVSW | no operands; REP allowed only with these six spellings |
+| CLD | no operands |
+| LODSB, STOSB | no operands |
 
-IMUL and IDIV use the original single-operand accumulator conventions. Multiplication and division register pairs, flags, divide faults, segment defaults, and string-register effects are CPU behavior, not hidden assembler services. Consult Intel, *The 8086 Family User's Manual*, October 1979, instruction descriptions and encoding tables.
+Multiplication and division register pairs, flags, divide faults, segment defaults, and string-register effects are CPU behavior, not hidden assembler services. Consult Intel, *The 8086 Family User's Manual*, October 1979, instruction descriptions and encoding tables.
 
 There is no PUSH immediate, later-CPU near conditional opcode, two- or three-operand IMUL, immediate shift count other than one, far call/jump, general prefix syntax, or complete Intel instruction vocabulary. These omissions keep the accepted language and implementation bounded. The processor may have other forms that this assembler does not accept.
 
@@ -87,7 +86,7 @@ Immediate arithmetic keeps the full-width group encoding; it does not select a s
 
 ## Conditional transfers
 
-JB, JAE, JE, JNE, JBE, JA, JL, JGE, JLE, and JG are supported. JC aliases JB; JNC aliases JAE; JZ aliases JE; JNZ aliases JNE. Unsigned and signed comparisons use different condition families. Ordinary Jcc remains short: the target minus the address after the instruction must be between -128 and +127.
+JB, JAE, JE, JNE, JBE, JA, and JC are supported. JC aliases JB for service carry. The bootstrap tools use unsigned comparisons and equality; signed condition spellings are omitted. Ordinary Jcc remains short: the target minus the address after the instruction must be between -128 and +127.
 
 Write NEAR explicitly for a distant conditional:
 
@@ -103,7 +102,7 @@ There is no generated skip-label definition and no extra symbol-table record. Si
 
 | Resource | ASM86 bound |
 |---|---|
-| Executable produced by ASM1 | 6422 bytes |
+| Executable produced by ASM1 | 5995 bytes |
 | Input/output blocks | 4096 bytes each |
 | Definitions | 8192 |
 | Name length | 31 characters |

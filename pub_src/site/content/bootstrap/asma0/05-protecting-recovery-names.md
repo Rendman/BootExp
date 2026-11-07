@@ -29,7 +29,7 @@ TMPNAME:
 DB 65,83,77,65,46,84,77,80,0
 ```
 
-Insert after old physical line 1183.
+Insert after old physical line 1178.
 
 Insert:
 
@@ -128,9 +128,9 @@ MOV [RDPOS],AX
 
 ## Build the stopping point
 
-Run `CHECK ASMKEEP`, enter `A05` at `Source name:`, and require `OK 02846 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. It creates A05.COM.
+Run `CHECK ASMKEEP`, enter `A05` at `Source name:`, and require `OK 02806 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. It creates A05.COM.
 
-VIEW.BAS must report A05.COM length 2846 bytes. Keep that executable and source together.
+VIEW.BAS must report A05.COM length 2806 bytes. Keep that executable and source together.
 
 ## Acceptance check
 

@@ -1,190 +1,297 @@
 {
-  "NOP": {
-    "class": 0,
-    "effect": 0
-  },
-  "HALT": {
-    "class": 0,
-    "effect": 5
-  },
-  "LABEL": {
-    "class": 3,
-    "effect": 3
-  },
-  "LIT": {
-    "class": 1,
-    "effect": 0
-  },
-  "EXIT": {
-    "class": 0,
-    "effect": 5
-  },
-  "WORD": {
-    "class": 5,
-    "effect": 0
-  },
-  "LD": {
-    "class": 2,
-    "effect": 0
-  },
-  "ST": {
-    "class": 2,
-    "effect": 0
-  },
-  "BYTE": {
-    "class": 4,
-    "effect": 0
-  },
-  "LDB": {
-    "class": 2,
-    "effect": 0
-  },
-  "STB": {
-    "class": 2,
-    "effect": 0
-  },
-  "PUSH": {
-    "class": 0,
-    "effect": 1
-  },
-  "POP": {
-    "class": 0,
-    "effect": 2
-  },
-  "ADD": {
-    "class": 0,
-    "effect": 2
-  },
-  "SUB": {
-    "class": 0,
-    "effect": 2
-  },
-  "AND": {
-    "class": 0,
-    "effect": 2
-  },
-  "OR": {
-    "class": 0,
-    "effect": 2
-  },
-  "XOR": {
-    "class": 0,
-    "effect": 2
-  },
-  "ADDR": {
-    "class": 2,
-    "effect": 0
-  },
-  "FETCH": {
-    "class": 0,
-    "effect": 0
-  },
-  "FETCHB": {
-    "class": 0,
-    "effect": 0
-  },
-  "PUT": {
-    "class": 0,
-    "effect": 2
-  },
-  "PUTB": {
-    "class": 0,
-    "effect": 2
-  },
-  "BUFFER": {
-    "class": 6,
-    "effect": 0
-  },
-  "JMP": {
-    "class": 2,
-    "effect": 5
-  },
-  "JZ": {
-    "class": 7,
-    "effect": 3
-  },
-  "JNZ": {
-    "class": 7,
-    "effect": 3
-  },
-  "EQ": {
-    "class": 7,
-    "effect": 4
-  },
-  "NE": {
-    "class": 7,
-    "effect": 4
-  },
-  "ULT": {
-    "class": 7,
-    "effect": 4
-  },
-  "ULE": {
-    "class": 7,
-    "effect": 4
-  },
-  "UGT": {
-    "class": 7,
-    "effect": 4
-  },
-  "UGE": {
-    "class": 7,
-    "effect": 4
-  },
-  "SLT": {
-    "class": 7,
-    "effect": 4
-  },
-  "SLE": {
-    "class": 7,
-    "effect": 4
-  },
-  "SGT": {
-    "class": 7,
-    "effect": 4
-  },
-  "SGE": {
-    "class": 7,
-    "effect": 4
-  },
-  "CALL": {
-    "class": 2,
-    "effect": 3
-  },
-  "RET": {
-    "class": 0,
-    "effect": 5
-  },
-  "STATUS": {
-    "class": 0,
-    "effect": 0
-  },
-  "PUTC": {
-    "class": 0,
-    "effect": 3
-  },
-  "GETC": {
-    "class": 0,
-    "effect": 3
-  },
-  "OPEN": {
-    "class": 0,
-    "effect": 3
-  },
-  "CREATE": {
-    "class": 0,
-    "effect": 3
-  },
-  "READ": {
-    "class": 0,
-    "effect": 6
-  },
-  "WRITE": {
-    "class": 0,
-    "effect": 6
-  },
-  "CLOSE": {
-    "class": 0,
-    "effect": 3
-  }
+  "EXIT": [
+    0,
+    4,
+    "MOV AH,4CH\nINT 21H\n"
+  ],
+  "LABEL": [
+    2,
+    0,
+    "U_@:\n"
+  ],
+  "LIT": [
+    1,
+    0,
+    "MOV AX,#\n"
+  ],
+  "ADDR": [
+    2,
+    0,
+    "MOV AX,U_@\n"
+  ],
+  "WORD": [
+    3,
+    4,
+    "U_@:\nDW #\n"
+  ],
+  "BUFFER": [
+    3,
+    4,
+    "U_@:\nRESB #\n"
+  ],
+  "LD": [
+    2,
+    0,
+    "MOV AX,[U_@]\n"
+  ],
+  "ST": [
+    2,
+    0,
+    "MOV [U_@],AX\n"
+  ],
+  "FETCH": [
+    0,
+    0,
+    "MOV BX,AX\nMOV AX,[BX]\n"
+  ],
+  "FETCHB": [
+    0,
+    0,
+    "MOV BX,AX\nMOV AL,[BX]\nMOV AH,0\n"
+  ],
+  "PUSH": [
+    0,
+    1,
+    "PUSH AX\n"
+  ],
+  "POP": [
+    0,
+    2,
+    "POP AX\n"
+  ],
+  "PUT": [
+    0,
+    2,
+    "POP BX\nMOV [BX],AX\n"
+  ],
+  "PUTB": [
+    0,
+    2,
+    "POP BX\nMOV [BX],AL\n"
+  ],
+  "ADD": [
+    0,
+    2,
+    "POP BX\nADD AX,BX\n"
+  ],
+  "AND": [
+    0,
+    2,
+    "POP BX\nAND AX,BX\n"
+  ],
+  "OR": [
+    0,
+    2,
+    "POP BX\nOR AX,BX\n"
+  ],
+  "XOR": [
+    0,
+    2,
+    "POP BX\nXOR AX,BX\n"
+  ],
+  "SUB": [
+    0,
+    2,
+    "POP BX\nSUB BX,AX\nMOV AX,BX\n"
+  ],
+  "MUL": [
+    0,
+    2,
+    "POP BX\nMUL BX\n"
+  ],
+  "DIV": [
+    0,
+    2,
+    "MOV BX,AX\nPOP AX\nCMP BX,0\nJE NEAR R_STACKFAIL\nXOR DX,DX\nDIV BX\n"
+  ],
+  "MOD": [
+    0,
+    2,
+    "MOV BX,AX\nPOP AX\nCMP BX,0\nJE NEAR R_STACKFAIL\nXOR DX,DX\nDIV BX\nMOV AX,DX\n"
+  ],
+  "SHL": [
+    0,
+    2,
+    "MOV CX,AX\nAND CX,15\nPOP AX\nSHL AX,CL\n"
+  ],
+  "SHR": [
+    0,
+    2,
+    "MOV CX,AX\nAND CX,15\nPOP AX\nSHR AX,CL\n"
+  ],
+  "CEQ": [
+    0,
+    2,
+    "POP BX\nCMP BX,AX\nMOV AX,0\nJNE $+3\nINC AX\n"
+  ],
+  "CNE": [
+    0,
+    2,
+    "POP BX\nCMP BX,AX\nMOV AX,0\nJE $+3\nINC AX\n"
+  ],
+  "CULT": [
+    0,
+    2,
+    "POP BX\nCMP BX,AX\nMOV AX,0\nJAE $+3\nINC AX\n"
+  ],
+  "CULE": [
+    0,
+    2,
+    "POP BX\nCMP BX,AX\nMOV AX,0\nJA $+3\nINC AX\n"
+  ],
+  "CUGT": [
+    0,
+    2,
+    "POP BX\nCMP BX,AX\nMOV AX,0\nJBE $+3\nINC AX\n"
+  ],
+  "CUGE": [
+    0,
+    2,
+    "POP BX\nCMP BX,AX\nMOV AX,0\nJB $+3\nINC AX\n"
+  ],
+  "JZ": [
+    2,
+    4,
+    "CMP AX,0\nJNE $+5\nJMP U_@\n"
+  ],
+  "JNZ": [
+    2,
+    4,
+    "CMP AX,0\nJE $+5\nJMP U_@\n"
+  ],
+  "JMP": [
+    2,
+    4,
+    "JMP U_@\n"
+  ],
+  "CALL": [
+    2,
+    0,
+    "CALL U_@\n"
+  ],
+  "PROC": [
+    4,
+    0,
+    "U_@:\nPUSH BP\nMOV BP,SP\nSUB SP,#\nCMP SP,0F000H\nJB NEAR R_STACKFAIL\n"
+  ],
+  "RETURN": [
+    0,
+    4,
+    "MOV SP,BP\nPOP BP\nRET\n"
+  ],
+  "INVOKE": [
+    5,
+    0,
+    "CALL U_@\nADD SP,#\n"
+  ],
+  "LOCAL": [
+    1,
+    0,
+    "MOV AX,[BP-#]\n"
+  ],
+  "SETLOCAL": [
+    1,
+    0,
+    "MOV [BP-#],AX\n"
+  ],
+  "LADDR": [
+    1,
+    0,
+    "LEA AX,[BP-#]\n"
+  ],
+  "PARAM": [
+    1,
+    0,
+    "MOV AX,[BP+#]\n"
+  ],
+  "PADDR": [
+    1,
+    0,
+    "LEA AX,[BP+#]\n"
+  ],
+  "LITS": [
+    6,
+    0,
+    ""
+  ],
+  "PUTC": [
+    0,
+    0,
+    "CALL R_PUTC\n"
+  ],
+  "OPEN": [
+    0,
+    0,
+    "CALL R_OPEN\n"
+  ],
+  "CREATE": [
+    0,
+    0,
+    "CALL R_CREATE\n"
+  ],
+  "CLOSE": [
+    0,
+    0,
+    "CALL R_CLOSE\n"
+  ],
+  "STATUS": [
+    0,
+    0,
+    "MOV AX,[R_STATUS]\n"
+  ],
+  "READ": [
+    0,
+    3,
+    "POP DX\nPOP BX\nCALL R_READ\n"
+  ],
+  "WRITE": [
+    0,
+    3,
+    "POP DX\nPOP BX\nCALL R_WRITE\n"
+  ],
+  "DELETE": [
+    0,
+    0,
+    "CALL R_DELETE\n"
+  ],
+  "EXISTS": [
+    0,
+    0,
+    "CALL R_EXISTS\n"
+  ],
+  "ALLOC": [
+    0,
+    0,
+    "CALL R_ALLOC\n"
+  ],
+  "FREEBLOCK": [
+    0,
+    0,
+    "CALL R_FREEBLOCK\n"
+  ],
+  "RENAME": [
+    0,
+    2,
+    "POP DX\nCALL R_RENAME\n"
+  ],
+  "GET8": [
+    0,
+    2,
+    "POP BX\nMOV CX,1\nCALL R_GETMEM\n"
+  ],
+  "GET16": [
+    0,
+    2,
+    "POP BX\nMOV CX,2\nCALL R_GETMEM\n"
+  ],
+  "SET8": [
+    0,
+    3,
+    "POP DX\nPOP BX\nMOV CX,1\nCALL R_SETMEM\n"
+  ],
+  "SET16": [
+    0,
+    3,
+    "POP DX\nPOP BX\nMOV CX,2\nCALL R_SETMEM\n"
+  ]
 }

@@ -1,1 +1,1 @@
-==
+fn main(){putc(twice(32)+1);}fn twice(x){return x*2;}

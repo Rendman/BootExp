@@ -1,7 +1,0 @@
-fn main() {
-    let mut x=65;
-    { let mut x=66; putc(x); }
-    store16(&x,67);
-    putc(x);
-    return 0;
-}

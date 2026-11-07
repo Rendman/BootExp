@@ -12,7 +12,7 @@ def copy(p,name=None,image=volume):subprocess.run(['mcopy','-o','-i',image,str(p
 def dos(name,s):p=scratch/name;p.write_bytes(s.replace('\n','\r\n').encode('ascii'));return p
 copy(ROOT/'workbench/bootasm/CHECK.BAT')
 copy(W/'TMAKE.BAT')
-for p,name in [(ROOT/'workbench/asm86a/ASM86A.COM','ASMAKEEP.COM'),(ROOT/'workbench/ir86/IRWIDE.ASM','IRWIDE.ASM'),(ROOT/'workbench/rill/RILLBOOT.IR','RILLBOOT.IR')]+[(W/(n+'.RIL'),n+'.RIL') for n in ['RILL','IR86','ASM86A']]:copy(p,name)
+for p,name in [(ROOT/'workbench/asm86a/ASM86A.COM','ASMAKEEP.COM'),(ROOT/'workbench/ir86/IRWIDE.ASM','IRWIDE.ASM'),(ROOT/'workbench/rill/RILLBOOT.IR','RILLBOOT.IR'),(ROOT/'workbench/rill/RILL.IR','RILL.IR'),(W/'TSMALL.RIL','TSMALL.RIL')]+[(W/(n+'.RIL'),n+'.RIL') for n in ['RILL','IR86','ASM86A']]:copy(p,name)
 commands=['C:',r'A:\COMMAND /C TMAKE >TMAKE.LOG']
 copy(dos('HI.RIL','fn main(){putc(72);putc(73);return 0;}\n'))
 commands += ['COPY HI.RIL SOURCE.RIL >NUL',r'A:\COMMAND /C CHECK R2 >HI.CMP','COPY RESULT.IR SOURCE.IR >NUL',r'A:\COMMAND /C CHECK I2 >HI.TRN','COPY RESULT.ASM SOURCE.ASM >NUL',r'A:\COMMAND /C CHECK A2 >HI.BLD','COPY RESULT.COM HI.COM >NUL',r'A:\COMMAND /C CHECK HI >HI.OUT','ECHO DONE >DONE.TXT']
@@ -28,7 +28,7 @@ try:
  s=socket.socket(socket.AF_UNIX);s.connect(monitor);s.sendall(b'quit\n');s.close();p.wait(timeout=10)
  logs=[]
  buildlog=subprocess.check_output(['mtype','-i',volume,'::TMAKE.LOG']);(scratch/'TMAKE.LOG').write_bytes(buildlog)
- assert buildlog.count(b'PASS ')==9 and b'FAIL' not in buildlog,buildlog
+ assert buildlog.count(b'PASS ')==10 and b'FAIL' not in buildlog,buildlog
  for stem,name in [('R','RILL'),('I','IR86'),('A','ASM86A')]:
   for gen in [0,1,2]:
    data=subprocess.check_output(['mtype','-i',volume,'::'+stem+str(gen)+'.COM']);assert data==(W/(name+'.COM')).read_bytes(),(stem,gen,'different executable')

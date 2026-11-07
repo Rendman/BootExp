@@ -28,7 +28,7 @@ RMDISP:
 DW 0
 ```
 
-Insert after old physical line 2469.
+Insert after old physical line 2461.
 
 Insert:
 
@@ -531,13 +531,13 @@ COPY A30.ASM SOURCE.ASM
 CHECK ASM1
 ```
 
-Require `OK RESULT.COM 05670 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 05606 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A30.COM
 ```
 
-VIEW.BAS must report A30.COM length 5670 bytes. Keep that executable and source together.
+VIEW.BAS must report A30.COM length 5606 bytes. Keep that executable and source together.
 
 ## Acceptance check
 

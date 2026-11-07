@@ -56,8 +56,7 @@ import runpy
 runpy.run_path(str(ROOT/'tools/package_asm86.py'),run_name='__main__')
 runpy.run_path(str(ROOT/'tools/package_asma0.py'),run_name='__main__')
 runpy.run_path(str(ROOT/'tools/package_asm86a.py'),run_name='__main__')
-runpy.run_path(str(ROOT/'tools/package_ir86.py'),run_name='__main__')
-runpy.run_path(str(ROOT/'tools/package_rill.py'),run_name='__main__')
+runpy.run_path(str(ROOT/'tools/package_ladder.py'),run_name='__main__')
 
 runpy.run_path(str(ROOT/'tools/package_toolchain.py'),run_name='__main__')
 runpy.run_path(str(ROOT/'tools/package_compiler_collections.py'),run_name='__main__')

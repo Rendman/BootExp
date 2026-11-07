@@ -238,7 +238,7 @@ The following old source remains in place:
 
 ```rill
 fn builtin() {
-    let mut p = "PUTC\01\0POP\nPUTC\0GETC\00\0GETC\0STATUS\00\0STATUS\0OPEN\01\0POP\nOPEN\0CREATE\01\0POP\nCREATE\0CLOSE\01\0POP\nCLOSE\0READ\03\0POP\nREAD\0WRITE\03\0POP\nWRITE\0EXISTS\01\0POP\nEXISTS\0DELETE\01\0POP\nDELETE\0RENAME\02\0POP\nRENAME\0ALLOC\01\0POP\nALLOC\0FREE\01\0POP\nFREEBLOCK\0GET8\02\0POP\nGET8\0GET16\02\0POP\nGET16\0SET8\03\0POP\nSET8\0SET16\03\0POP\nSET16\0LOAD8\01\0POP\nFETCHB\0LOAD16\01\0POP\nFETCH\0STORE8\02\0POP\nPUTB\0STORE16\02\0POP\nPUT\0EXIT\01\0POP\nEXIT\0\0";
+    let mut p = "PUTC\01\0POP\nPUTC\0STATUS\00\0STATUS\0OPEN\01\0POP\nOPEN\0CREATE\01\0POP\nCREATE\0CLOSE\01\0POP\nCLOSE\0READ\03\0POP\nREAD\0WRITE\03\0POP\nWRITE\0EXISTS\01\0POP\nEXISTS\0DELETE\01\0POP\nDELETE\0RENAME\02\0POP\nRENAME\0ALLOC\01\0POP\nALLOC\0FREE\01\0POP\nFREEBLOCK\0GET8\02\0POP\nGET8\0GET16\02\0POP\nGET16\0SET8\03\0POP\nSET8\0SET16\03\0POP\nSET16\0LOAD8\01\0POP\nFETCHB\0LOAD16\01\0POP\nFETCH\0STORE8\02\0POP\nPUTB\0STORE16\02\0POP\nPUT\0EXIT\01\0POP\nEXIT\0\0";
 ```
 
 ### Edit 10
@@ -1146,7 +1146,7 @@ COPY RC43.RIL SOURCE.RIL
 CHECK RILLBOOT
 ```
 
-Require `OK RESULT.IR 0000049941` and PASS. Copy RESULT.IR to SOURCE.IR.
+Require `OK RESULT.IR 0000049992` and PASS. Copy RESULT.IR to SOURCE.IR.
 
 ```dos
 CHECK IWKEEP
@@ -1154,13 +1154,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000102922 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 26625 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000103091 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 26617 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RC43.COM
 ```
 
-VIEW.BAS must report RC43.COM length 26625 bytes. Keep this executable and its source together.
+VIEW.BAS must report RC43.COM length 26617 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -1206,7 +1206,7 @@ INVOKE F_MAIN 0
 RETURN
 ```
 
-VIEW.BAS must show length 152 bytes. This is a complete program. Copy it to SOURCE.IR, run CHECK IWKEEP, copy the accepted RESULT.ASM to SOURCE.ASM, and run CHECK ASMAKEEP. Require OK and PASS at both steps. VIEW.BAS must report RESULT.COM length 1117. Copy that file to TRY.COM; CHECK TRY displays `HI` and reports PASS.
+VIEW.BAS must show length 152 bytes. This is a complete program. Copy it to SOURCE.IR, run CHECK IWKEEP, copy the accepted RESULT.ASM to SOURCE.ASM, and run CHECK ASMAKEEP. Require OK and PASS at both steps. VIEW.BAS must report RESULT.COM length 1069. Copy that file to TRY.COM; CHECK TRY displays `HI` and reports PASS.
 
 ## A rejection or boundary check
 

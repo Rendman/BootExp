@@ -8,7 +8,7 @@ aliases = ["/bootstrap/rill/133-the-compiler-self-build/"]
 reader_names = 1
 +++
 
-RC43.RIL is the complete RILL compiler, saved as RILL.RIL. The IR-written seed built its first executable. VIEW.BAS must report **26625 bytes** for that RILL-written compiler. Preserve RC43.COM as R0.COM.
+RC43.RIL is the complete RILL compiler, saved as RILL.RIL. The IR-written seed built its first executable. VIEW.BAS must report **26617 bytes** for that RILL-written compiler. Preserve RC43.COM as R0.COM.
 
 ## Build the first native self-copy
 
@@ -44,7 +44,7 @@ COPY RESULT.COM R2.COM
 COMP R0.COM R2.COM <NO.TXT
 ```
 
-Require each OK and PASS and no COMP differences. R0, R1, and R2 must all have length 26625. This is a compiler written in RILL compiling the same RILL compiler source, through the published IR translator and assembler.
+Require each OK and PASS and no COMP differences. R0, R1, and R2 must all have length 26617. This is a compiler written in RILL compiling the same RILL compiler source, through the published IR translator and assembler.
 
 ## A rejected input must stay rejected
 

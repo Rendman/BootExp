@@ -34,6 +34,11 @@ def seed_source(parts=False):
  code['STOREMEM']=code['STOREMEM'].replace('STOREOK:\n','STOREOK:\nMOV AL,[P1]\nCMP AL,0\nJE STOREPREFIX\nCALL EMIT\nSTOREPREFIX:\n')
  code['IMMEDVALUE']=code['IMMEDVALUE'].replace('JE BYTEVALUE\n','JNE IMMEDWORD\nJMP BYTEVALUE\nIMMEDWORD:\n')
  f=dict(fields)
+ # ASM1 adds the one bit operation used by the full assembler's implementation.
+ row='DB 88,79,82,0,0,0,4,6\n'
+ f['OPTAB']+=row
+ oldcount=len(fields['OPTAB'].splitlines())-1
+ code['STATEMENT']=code['STATEMENT'].replace(f'MOV CX,{oldcount}\n',f'MOV CX,{oldcount+1}\n')
  for k in ['EXTP','FNAME','COMEXT','ASMEXT','OUTPTR']:f.pop(k,None)
  f['OKMSG']=fieldtext('OKMSG','OK RESULT.COM $')
  for k,t in [('SRCNAME','SOURCE.ASM\0'),('TMPNAME','ASMA.TMP\0'),('RESNAME','RESULT.COM\0'),('BAKNAME','RESULT.BAK\0'),('RECOVERMSG','Recovery: inspect ASMA.TMP and RESULT.BAK\r\n$')]:f[k]=fieldtext(k,t)
@@ -100,13 +105,13 @@ def full_source(parts=False,profile="full",fit=True):
  a=reader.index('CMP AL,97\n');b=reader.index('KEEPCHAR:\n',a)
  reader=reader[:a]+reader[b:]
  code['READLINE']=reader
- rows=fields['OPTAB'].splitlines()[1:]
+ rows=f['OPTAB'].splitlines()[1:]
+ oldcount=len(rows)
  def row(name,kind,parameter):return 'DB '+','.join(str(b) for b in name.encode().ljust(6,b'\0')+bytes([kind,parameter]))
- rows=[row('RET',14,195) if v.startswith('DB 82,69,84,') else v for v in rows]
- additional=[('RESB',12,0),('RESW',12,1),('LEA',11,0),('ADC',4,2),('SBB',4,3),('TEST',15,0),('NEG',9,3),('NOT',9,2),('MUL',9,4),('IMUL',9,5),('DIV',9,6),('IDIV',9,7),('SHL',10,4),('SAL',10,4),('SHR',10,5),('SAR',10,7),('ROL',10,0),('ROR',10,1),('RCL',10,2),('RCR',10,3),('LODSW',2,173),('STOSW',2,171),('MOVSB',2,164),('MOVSW',2,165),('REP',13,243),('JZ',8,116),('JNZ',8,117),('JC',8,114),('JNC',8,115)]
+ additional=[('RESB',12,0),('RESW',12,1),('LEA',11,0),('MUL',9,4),('DIV',9,6),('SHL',10,4),('SHR',10,5),('JC',8,114)]
  rows.extend(row(*r) for r in additional)
  f['OPTAB']='OPTAB:\n'+'\n'.join(rows)+'\n'
- code['STATEMENT']=code['STATEMENT'].replace('MOV CX,31\n',f'MOV CX,{len(rows)}\n')
+ code['STATEMENT']=code['STATEMENT'].replace(f'MOV CX,{oldcount}\n',f'MOV CX,{len(rows)}\n')
  f['STRINGTAB']='STRINGTAB:\n'+'\n'.join(row(n,2,v) for n,v in [('MOVSB',164),('MOVSW',165),('STOSB',170),('STOSW',171),('LODSB',172),('LODSW',173)])+'\n'
  for k in ['EXPRDEPTH','NAMELEN','MEMDISP','RMDISP','IMMVAL','BRDEST']:f[k]=k+':\nDW 0\n'
  for k in ['EXWIDTH','MOD','ADDRMASK','MEMHAD','MEMSIGN','M1','RMKIND','RMREG','RMWIDTH','RMMOD','RMPREFIX','ENCWIDTH','ENCOP','REGFIELD','STRINGOP']:f[k]=k+':\nDB 0\n'

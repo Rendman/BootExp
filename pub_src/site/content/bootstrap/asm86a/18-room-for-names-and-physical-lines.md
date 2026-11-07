@@ -869,13 +869,13 @@ COPY A18.ASM SOURCE.ASM
 CHECK ASM1
 ```
 
-Require `OK RESULT.COM 04057 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 04017 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A18.COM
 ```
 
-VIEW.BAS must report A18.COM length 4057 bytes. Keep that executable and source together.
+VIEW.BAS must report A18.COM length 4017 bytes. Keep that executable and source together.
 
 ## Acceptance check
 

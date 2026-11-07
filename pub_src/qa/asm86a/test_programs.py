@@ -6,7 +6,7 @@ for name,out in [('HELLO',b'Hello\r\n'),('FRAME',b'A'),('BRIDGE',b'B'),('COPYTEX
  source=(W/(name+'.ASM')).read_bytes();r=run_assembler(image,source);assert r.exitcode==0,(name,r.output)
  code=r.files['RESULT.COM'];(W/(name+'.COM')).write_bytes(code)
  child=DosMachine().run(code);assert child.exitcode==0 and child.output==out,(name,child.output)
- edits={'HELLO':('DB "Hello",13,10','DB "Hello,13,10',18,1),'FRAME':('[BP+4]','[SP+4]',17,1),'BRIDGE':('JNE NEAR SHOW','JNE SHOW',3,4),'COPYTEXT':('REP MOVSB','REP RET',5,1)}
+ edits={'HELLO':('DB "Hello",13,10','DB "Hello,13,10',18,1),'FRAME':('[BP+4]','[SP+4]',17,1),'BRIDGE':('JNE NEAR SHOW','JNE SHOW',3,4),'COPYTEXT':('LODSB','LODSB 1',5,1)}
  before,after,_,category=edits[name];text=source.decode().replace('\r\n','\n');badtext=text.replace(before,after,1)
  line=next(i for i,(a,b) in enumerate(zip(text.splitlines(),badtext.splitlines()),1) if a!=b)
  bad=run_assembler(image,badtext,{'RESULT.COM':b'OLD'})

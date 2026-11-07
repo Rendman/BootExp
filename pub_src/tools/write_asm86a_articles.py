@@ -2,7 +2,7 @@
 from publication_names import write_page
 from pathlib import Path
 from difflib import SequenceMatcher
-import json,re
+import json,re,tomllib
 ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/asm86a';Q=ROOT/'qa/asm86a';C=ROOT/'site/content/bootstrap/asm86a';C.mkdir(parents=True,exist_ok=True)
 cases=json.loads((Q/'checkpoints.json').read_text());examples=json.loads((Q/'examples.json').read_text())
 def fence(kind,s):return '```'+kind+'\n'+s.rstrip('\n')+'\n```\n\n'
@@ -11,9 +11,10 @@ def front(title,weight,description,download,cartoon=None):
  if cartoon:s+=f'cartoon = "{cartoon}"\n'
  return s+'+++\n\n'
 def slug(s):return re.sub('[^a-z0-9]+','-',s.lower()).strip('-')
-previous=(ROOT/'workbench/asm86/ASM86.ASM').read_text().splitlines();patches=[]
+previous=(ROOT/'workbench/asm86/ASM86.ASM').read_text().splitlines();patches=[];previous_number=None
+chapters={c['number']:i for i,c in enumerate([r for r in cases if r['number']>12],1)}
 for case in cases:
- n=case['number'];collection='asma0' if n<=12 else 'asm86a';chapter=n if n<=12 else n-12;C=ROOT/'site/content/bootstrap'/collection;C.mkdir(parents=True,exist_ok=True);name=f'A{n:02}';oldfile='ASM86.ASM' if n==1 else 'ASMA0.ASM' if n==13 else f'A{n-1:02}.ASM';lines=(W/(name+'.ASM')).read_text().splitlines();page=f'{n:02}-{slug(case["title"])}.md'
+ n=case['number'];collection='asma0' if n<=12 else 'asm86a';chapter=n if n<=12 else chapters[n];C=ROOT/'site/content/bootstrap'/collection;C.mkdir(parents=True,exist_ok=True);name=f'A{n:02}';oldfile='ASM86.ASM' if n==1 else 'ASMA0.ASM' if n==13 else f'A{previous_number:02}.ASM';lines=(W/(name+'.ASM')).read_text().splitlines();page=f'{n:02}-{slug(case["title"])}.md'
  t=front(f'{chapter:02} · '+case['title'],chapter,case['description'],name+'.ASM',case.get('cartoon'))+case['why']+'\n\n## The working parts\n\n'+case['explain']+'\n\n## Enter the source\n\n'
  if n<=12:
   t=t.replace('+++\n\n',f'aliases = [\"/bootstrap/asm86a/{page[:-3]}/\"]\n+++\n\n',1)
@@ -77,16 +78,32 @@ for case in cases:
  elif n<20:t+='Check ES at helper exits, the saved page segment and offset, record padding, and the complete spelling comparison. Check carry after every DOS memory call. A successful allocation does not initialize its contents.\n'
  elif n<25:t+='Check saved expression values across EMIT, the unresolved-reference flag, and fixed statement lengths in both passes. Quoted text bypasses mnemonic folding. A reserve count must be checked before multiplication or output.\n'
  else:t+='Check descriptor width, segment selection, ModR/M bits, displacement order, and registers changed by EMIT. Use the printed bytes to distinguish a parser mistake from an encoding mistake. Keep the branch size the same in both passes.\n'
- write_page((C/page),t);patches.append(dict(number=n,chapter=chapter,collection=collection,page=page,base=oldfile,changes=changes));previous=lines
+ # Keep a single article per retained source and preserve earlier route names.
+ routes=[]
+ removed={36:[34,35],37:[38,39]}.get(n,[])
+ old_specs=json.loads((ROOT/'tools/asm86a_installments.json').read_text())
+ for missing in removed:
+  old_case=next(c for c in old_specs if c['number']==missing)
+  routes.append('/bootstrap/asm86a/'+f'{missing:02}-'+slug(old_case['title'])+'/')
+ for oldpage in [p for number in [n,*removed] for p in C.glob(f'{number:02}-*.md')]:
+  metadata=tomllib.loads(oldpage.read_text().split('+++')[1]);routes+=metadata.get('aliases',[])
+  if oldpage.name!=page:
+   routes.append('/bootstrap/'+collection+'/'+oldpage.stem+'/');oldpage.unlink()
+ if routes:
+  frontmeta=tomllib.loads(t.split('+++')[1]);routes+=frontmeta.get('aliases',[])
+  routes=sorted(set(routes)-{'/bootstrap/'+collection+'/'+page[:-3]+'/'})
+  t=re.sub(r'^aliases = .*\n','',t,flags=re.M)
+  t=t.replace('+++\n\n','aliases = '+json.dumps(routes)+'\n+++\n\n',1)
+ write_page((C/page),t);patches.append(dict(number=n,chapter=chapter,collection=collection,page=page,base=oldfile,changes=changes));previous=lines;previous_number=n
 (Q/'article-patches.json').write_text(json.dumps(patches,indent=2)+'\n')
 # Whole-program examples and their measured rejection edits.
-t=front('31 · Complete assembly programs',31,'Strings, a stack frame, a distant conditional, and repeated byte movement.','ASM86A.ZIP')
+t=front('27 · Complete assembly programs',27,'Strings, a stack frame, a distant conditional, and explicit byte movement.','ASM86A.ZIP')
 t+='Use the completed ASMAKEEP.COM. For each NAME.ASM below, copy it to SOURCE.ASM and run CHECK ASMAKEEP. Require OK and PASS before copying RESULT.COM to NAME.COM. Inspect it with VIEW.BAS before running CHECK NAME.\n\n'
-notes={'HELLO':'DOS function 40H writes a counted string. Both carry and the returned count are checked. Quoted data preserves the mixed case; CR and LF are explicit bytes.', 'FRAME':'CALL pushes the return address; PUSH BP saves the caller frame. BP+4 addresses the word argument. BP-2 is a local word after SUB SP,2. Restoring SP and BP precedes RET 2, which releases the argument. BP-based memory defaults to SS.', 'BRIDGE':'The nonzero word takes JNE NEAR across a zero-filled region. The opposite short branch skips E9 and its word displacement when the condition is false. The intervening bytes are never executed.', 'COPYTEXT':'A COM program begins with DS and ES selecting the program segment. CLD makes movement advance. REP MOVSB copies two bytes, then the output loop prints the copy. REP consumes CX; the output loop loads its own count.'}
+notes={'HELLO':'DOS function 40H writes a counted string. Both carry and the returned count are checked. Quoted data preserves the mixed case; CR and LF are explicit bytes.', 'FRAME':'CALL pushes the return address; PUSH BP saves the caller frame. BP+4 addresses the word argument. BP-2 is a local word after SUB SP,2. Restoring SP and BP precedes RET. The caller releases its argument with ADD SP,2. BP-based memory defaults to SS.', 'BRIDGE':'The nonzero word takes JNE NEAR across a zero-filled region. The opposite short branch skips E9 and its word displacement when the condition is false. The intervening bytes are never executed.', 'COPYTEXT':'A COM program begins with DS and ES selecting the program segment. CLD makes movement advance. The LODSB/STOSB loop copies two bytes, then the output loop prints the copy. The copy loop consumes CX; the output loop loads its own count.'}
 for r in examples:
  name=r['name'];t+='## '+name+'\n\n'+fence('asm',(W/(name+'.ASM')).read_text())+notes[name]+'\n\n'
  t+=f'Require `OK RESULT.COM {r["binary_bytes"]:05} bytes` and PASS. VIEW.BAS must report length {r["binary_bytes"]} and these first thirty-two bytes:\n\n'+fence('text',r['hex'])
  t+=f'After saving RESULT.COM as {name}.COM, CHECK {name} displays '+json.dumps(r['output'])+' and reports PASS. Here `\\r\\n` means carriage return followed by line feed.\n\n'
  t+='For a separate rejection, copy the source to BAD.ASM. Replace `'+r['bad_before']+'` with `'+r['bad_after']+'`. Copy BAD.ASM to SOURCE.ASM and run CHECK ASMAKEEP. Require '+f'`ERROR {r["bad_line"]:010} CODE {r["bad_code"]}` and FAIL. The accepted RESULT.COM must remain unchanged; an unexpected PASS fails the check. Restore the accepted source before rebuilding.\n\n'
 write_page((C/'43-programs.md'),t)
-print('Rendered 12 ASMA0 and 28 ASM86A checkpoints and the complete ASM86A programs.')
+print('Rendered 12 ASMA0 and 24 ASM86A checkpoints and the complete ASM86A programs.')

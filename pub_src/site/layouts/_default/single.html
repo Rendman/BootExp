@@ -1,6 +1,6 @@
 {{ define "main" }}
 {{ $key := .CurrentSection.Params.collection_key | default "" }}
-<header class="article-heading"><p class="eyebrow">{{ .CurrentSection.Params.tool_id }} · {{ if eq $key "asm86" }}THE ASSEMBLY CONSTRUCTION{{ else if eq $key "asma0" }}THE STREAMING SEED{{ else if eq $key "asm86a" }}THE LARGER ASSEMBLER{{ else if eq $key "ir86" }}THE INTERMEDIATE LANGUAGE{{ else if eq $key "rill" }}THE COMPILER IN IR{{ else if eq $key "rb" }}THE COMPILER SEED{{ else if eq $key "rc" }}THE COMPILER IN RILL{{ else }}THE BASIC CONSTRUCTION{{ end }}</p><h1>{{ .Title }}</h1><p class="deck">{{ .Description }}</p></header>
+<header class="article-heading"><p class="eyebrow">{{ .CurrentSection.Params.tool_id }} · {{ if eq $key "asm86" }}THE ASSEMBLY CONSTRUCTION{{ else if eq $key "asma0" }}THE STREAMING SEED{{ else if eq $key "asm86a" }}THE LARGER ASSEMBLER{{ else if eq $key "ir86" }}THE INTERMEDIATE LANGUAGE{{ else if eq $key "rill" }}THE COMPILER IN IR{{ else if eq $key "rb" }}THE COMPILER SEED{{ else if eq $key "rc" }}THE COMPILER IN RILL{{ else if eq $key "toolchain" }}REBUILDING THE TOOLS{{ else }}THE BASIC CONSTRUCTION{{ end }}</p><h1>{{ .Title }}</h1><p class="deck">{{ .Description }}</p></header>
 {{ if .Params.checkpoint }}<p class="checkpoint-note">Stopping point: <code>{{ .Params.checkpoint }}</code> · Save before testing.</p>{{ end }}
 <article class="prose">{{ .Content }}</article>
 {{ if eq $key "bootasm" }}

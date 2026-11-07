@@ -110,7 +110,7 @@ COPY RC34.RIL SOURCE.RIL
 CHECK RILLBOOT
 ```
 
-Require `OK RESULT.IR 0000030368` and PASS. Copy RESULT.IR to SOURCE.IR.
+Require `OK RESULT.IR 0000030353` and PASS. Copy RESULT.IR to SOURCE.IR.
 
 ```dos
 CHECK IWKEEP
@@ -118,13 +118,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000065503 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 20109 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000065152 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 20049 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RC34.COM
 ```
 
-VIEW.BAS must report RC34.COM length 20109 bytes. Keep this executable and its source together.
+VIEW.BAS must report RC34.COM length 20049 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 

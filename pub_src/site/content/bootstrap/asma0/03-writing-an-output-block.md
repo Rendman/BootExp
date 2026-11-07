@@ -29,7 +29,7 @@ INOPEN:
 DB 0
 ```
 
-Remove this exact source at old physical positions 1132–1133:
+Remove this exact source at old physical positions 1127–1128:
 
 ```asm
 OUTPTR:
@@ -55,7 +55,7 @@ RDLEN:
 DW 0
 ```
 
-Insert after old physical line 1128.
+Insert after old physical line 1123.
 
 Insert:
 
@@ -83,7 +83,7 @@ SRCNAME:
 DB 83,79,85,82,67,69,46,65,83,77,0
 ```
 
-Remove this exact source at old physical positions 1120–1121:
+Remove this exact source at old physical positions 1115–1116:
 
 ```asm
 RESNAME:
@@ -627,9 +627,9 @@ MOV [SYMC],AX
 
 ## Build the stopping point
 
-Run `CHECK ASMKEEP`, enter `A03` at `Source name:`, and require `OK 02605 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. It creates A03.COM.
+Run `CHECK ASMKEEP`, enter `A03` at `Source name:`, and require `OK 02565 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. It creates A03.COM.
 
-VIEW.BAS must report A03.COM length 2605 bytes. Keep that executable and source together.
+VIEW.BAS must report A03.COM length 2565 bytes. Keep that executable and source together.
 
 ## Acceptance check
 

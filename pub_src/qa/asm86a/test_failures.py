@@ -51,7 +51,7 @@ class ChangedSource(AssemblerMachine):
    self.opens+=1
    if self.opens==2:self.files['SOURCE.ASM']=self.second
   return super().interrupt(c,number,_)
-for first,second in [(b'X:\nDB 0\n',b'NOP\nX:\n'),(b'X:\n',b';\n')]:
+for first,second in [(b'X:\nDB 0\n',b'DB 0\nX:\n'),(b'X:\n',b';\n')]:
  r=ChangedSource(first,second).run(image);assert r.exitcode==1 and b'CODE 3' in r.output and r.files['RESULT.COM']==b'OLD' and not r.allocations
  logs.append('PASS changed pass-two definition or missing definition preserves prior output')
 (Q/'failure-results.txt').write_text('\n'.join(logs)+'\n');print('PASS',len(logs),'allocation, I/O, publication, recovery, and phase-failure checks')

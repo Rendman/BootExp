@@ -1,0 +1,51 @@
+PASS R01: project IR/assembler build; exact result and status
+PASS R02: project IR/assembler build; exact result and status
+PASS R03: project IR/assembler build; exact result and status
+PASS R04: project IR/assembler build; exact result and status
+PASS R05: project IR/assembler build; exact result and status
+PASS R06: project IR/assembler build; exact result and status
+PASS R07: project IR/assembler build; exact result and status; source rejection preserves previous output
+PASS R08: project IR/assembler build; exact result and status
+PASS R09: project IR/assembler build; exact result and status
+PASS R10: project IR/assembler build; exact result and status; source rejection preserves previous output
+PASS R11: project IR/assembler build; exact result and status; source rejection preserves previous output
+PASS R12: project IR/assembler build; exact result and status
+PASS R13: project IR/assembler build; exact result and status
+PASS R14: project IR/assembler build; exact result and status
+PASS R15: project IR/assembler build; exact result and status
+PASS R16: project IR/assembler build; exact result and status
+PASS R17: project IR/assembler build; exact result and status
+PASS R18: project IR/assembler build; exact result and status
+PASS R19: project IR/assembler build; exact result and status
+PASS R20: project IR/assembler build; exact result and status
+PASS R21: project IR/assembler build; exact result and status
+PASS R22: project IR/assembler build; exact result and status
+PASS R23: project IR/assembler build; exact result and status
+PASS R24: project IR/assembler build; exact result and status
+PASS R25: project IR/assembler build; exact result and status
+PASS R26: project IR/assembler build; exact result and status
+PASS R27: project IR/assembler build; exact result and status
+PASS R28: project IR/assembler build; exact result and status
+PASS R29: project IR/assembler build; exact result and status
+PASS R30: project IR/assembler build; exact result and status
+PASS R31: project IR/assembler build; exact result and status
+PASS R32: project IR/assembler build; exact result and status; source rejection preserves previous output
+PASS R33: project IR/assembler build; exact result and status; source rejection preserves previous output
+PASS R34: project IR/assembler build; exact result and status; source rejection preserves previous output
+PASS R35: project IR/assembler build; exact result and status; source rejection preserves previous output
+PASS R36: project IR/assembler build; exact result and status; source rejection preserves previous output
+PASS R37: project IR/assembler build; exact result and status; source rejection preserves previous output
+PASS R38: project IR/assembler build; exact result and status; source rejection preserves previous output
+PASS R39: project IR/assembler build; exact result and status; source rejection preserves previous output
+PASS RB01: project IR/assembler build; exact result and status; source rejection preserves previous output
+PASS RB02: project IR/assembler build; exact result and status; source rejection preserves previous output
+PASS RB03: project IR/assembler build; exact result and status; source rejection preserves previous output
+PASS RB04: project IR/assembler build; exact result and status; source rejection preserves previous output
+PASS RB05: project IR/assembler build; exact result and status; source rejection preserves previous output
+PASS RB06: project IR/assembler build; exact result and status; source rejection preserves previous output
+PASS RB07: project IR/assembler build; exact result and status; source rejection preserves previous output
+PASS RB08: project IR/assembler build; exact result and status; source rejection preserves previous output
+PASS RB09: project IR/assembler build; exact result and status; source rejection preserves previous output
+PASS RB10: project IR/assembler build; exact result and status; source rejection preserves previous output
+PASS RB11: project IR/assembler build; exact result and status; source rejection preserves previous output
+PASS RB12: project IR/assembler build; exact result and status; source rejection preserves previous output

@@ -49,4 +49,4 @@ Run GWBASIC VIEW.BAS and enter the full filename to check both length and hexade
 
 ## The seed handoff
 
-A12.ASM is ASM1.ASM. ASMKEEP builds the 3342-byte executable; ASM1 must then reproduce it through both self-assembly comparisons. Save that tested ASM1.COM separately. The ASM86 workbench begins by copying this completed source, so the seed's routines need not be typed again.
+A12.ASM is ASM1.ASM. ASMKEEP builds the 3302-byte executable; ASM1 must then reproduce it through both self-assembly comparisons. Save that tested ASM1.COM separately. The ASM86 workbench begins by copying this completed source, so the seed's routines need not be typed again.

@@ -25,16 +25,17 @@ Copy `ASM0.ASM` to `A01.ASM`. Apply the following edits **from the bottom of the
 Unchanged source immediately before this edit:
 
 ```asm
-DB 74,71,69,0,0,0,8,125
-DB 74,76,69,0,0,0,8,126
-DB 74,71,0,0,0,0,8,127
+DB 74,78,69,0,0,0,8,117
+DB 74,66,69,0,0,0,8,118
+DB 74,65,0,0,0,0,8,119
 ```
 
-Insert after old physical line 1150.
+Insert after old physical line 1144.
 
 Insert:
 
 ```asm
+DB 88,79,82,0,0,0,4,6
 
 SRCNAME:
 DB 83,79,85,82,67,69,46,65,83,77,0
@@ -218,7 +219,36 @@ The following old source stays in place:
 JMP EMITWORD
 ```
 
-### Change 8 near `WRITEOUT:`
+### Change 8 near `INSTRUCTION:`
+
+Unchanged source immediately before this edit:
+
+```asm
+INSTRUCTION:
+DEC SI
+MOV BX,OPTAB
+```
+
+Remove this exact source at old physical positions 599–599:
+
+```asm
+MOV CX,25
+```
+
+Replace it with:
+
+```asm
+MOV CX,26
+```
+
+The following old source stays in place:
+
+```asm
+MOV AX,8
+CALL LOOK
+```
+
+### Change 9 near `WRITEOUT:`
 
 Unchanged source immediately before this edit:
 
@@ -293,7 +323,7 @@ The following old source stays in place:
 NEXTBYTE:
 ```
 
-### Change 9 near `WRITEOUT:`
+### Change 10 near `WRITEOUT:`
 
 Unchanged source immediately before this edit:
 
@@ -324,7 +354,7 @@ MOV DX,OKMSG
 CALL TEXT
 ```
 
-### Change 10 near `WRITEOUT:`
+### Change 11 near `WRITEOUT:`
 
 Unchanged source immediately before this edit:
 
@@ -355,7 +385,7 @@ MOV BX,[HANDLE]
 MOV AH,3EH
 ```
 
-### Change 11 near `WRITEOUT:`
+### Change 12 near `WRITEOUT:`
 
 Unchanged source immediately before this edit:
 
@@ -386,7 +416,7 @@ CMP AX,CX
 JNE FILEBAD
 ```
 
-### Change 12 near `WRITEOUT:`
+### Change 13 near `WRITEOUT:`
 
 Unchanged source immediately before this edit:
 
@@ -417,7 +447,7 @@ MOV [HANDLE],AX
 MOV BX,AX
 ```
 
-### Change 13 near `WRITEOUT:`
+### Change 14 near `WRITEOUT:`
 
 Unchanged source immediately before this edit:
 
@@ -449,7 +479,7 @@ MOV CX,0
 MOV AH,3CH
 ```
 
-### Change 14 near `CLOSEFILE:`
+### Change 15 near `CLOSEFILE:`
 
 Unchanged source immediately before this edit:
 
@@ -481,7 +511,7 @@ The following old source stays in place:
 RET
 ```
 
-### Change 15 near `INPUTOPEN:`
+### Change 16 near `INPUTOPEN:`
 
 Unchanged source immediately before this edit:
 
@@ -506,7 +536,7 @@ The following old source stays in place:
 RET
 ```
 
-### Change 16 near `OPENFILE:`
+### Change 17 near `OPENFILE:`
 
 Unchanged source immediately before this edit:
 
@@ -535,7 +565,7 @@ MOV AX,3D00H
 INT 21H
 ```
 
-### Change 17 near `ROOM:`
+### Change 18 near `ROOM:`
 
 Unchanged source immediately before this edit:
 
@@ -560,7 +590,7 @@ MOV AL,1
 MOV [PASS],AL
 ```
 
-### Change 18 at the entry
+### Change 19 at the entry
 
 Remove this exact source at old physical positions 1–1:
 
@@ -583,9 +613,9 @@ CLD
 
 ## Build the stopping point
 
-Run `CHECK ASMKEEP`, enter `A01` at `Source name:`, and require `OK 02521 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. It creates A01.COM.
+Run `CHECK ASMKEEP`, enter `A01` at `Source name:`, and require `OK 02481 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. It creates A01.COM.
 
-VIEW.BAS must report A01.COM length 2521 bytes. Keep that executable and source together.
+VIEW.BAS must report A01.COM length 2481 bytes. Keep that executable and source together.
 
 ## Acceptance check
 

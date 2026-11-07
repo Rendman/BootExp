@@ -2,7 +2,7 @@
 from pathlib import Path
 import json,shutil,zipfile
 ROOT=Path(__file__).resolve().parents[1];SOURCE=ROOT/'workbench/toolchain';Q=ROOT/'qa/compiler_collections';Q.mkdir(parents=True,exist_ok=True)
-for collection,family,last,canonical in [('rb','rill-seed-series',47,'RILLBOOT.IR'),('rc','rill-self-series',43,'RILL.RIL')]:
+for collection,family,last,canonical in [('rc','rill-self-series',43,'RILL.RIL')]:
  W=ROOT/'workbench'/collection;D=ROOT/'site/static/downloads'/collection
  for p in [W,D]:p.mkdir(parents=True,exist_ok=True)
  files=['ASM86A.ASM','IRWIDE.ASM','RILLBOOT.IR','VIEW.BAS','CHECK.BAT','README.TXT']

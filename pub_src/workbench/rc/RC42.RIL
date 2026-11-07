@@ -356,7 +356,7 @@ fn statement() {
 }
 
 fn builtin() {
-    let mut p = "PUTC\01\0POP\nPUTC\0GETC\00\0GETC\0STATUS\00\0STATUS\0OPEN\01\0POP\nOPEN\0CREATE\01\0POP\nCREATE\0CLOSE\01\0POP\nCLOSE\0READ\03\0POP\nREAD\0WRITE\03\0POP\nWRITE\0EXISTS\01\0POP\nEXISTS\0DELETE\01\0POP\nDELETE\0RENAME\02\0POP\nRENAME\0ALLOC\01\0POP\nALLOC\0FREE\01\0POP\nFREEBLOCK\0GET8\02\0POP\nGET8\0GET16\02\0POP\nGET16\0SET8\03\0POP\nSET8\0SET16\03\0POP\nSET16\0LOAD8\01\0POP\nFETCHB\0LOAD16\01\0POP\nFETCH\0STORE8\02\0POP\nPUTB\0STORE16\02\0POP\nPUT\0EXIT\01\0POP\nEXIT\0\0";
+    let mut p = "PUTC\01\0POP\nPUTC\0STATUS\00\0STATUS\0OPEN\01\0POP\nOPEN\0CREATE\01\0POP\nCREATE\0CLOSE\01\0POP\nCLOSE\0READ\03\0POP\nREAD\0WRITE\03\0POP\nWRITE\0EXISTS\01\0POP\nEXISTS\0DELETE\01\0POP\nDELETE\0RENAME\02\0POP\nRENAME\0ALLOC\01\0POP\nALLOC\0FREE\01\0POP\nFREEBLOCK\0GET8\02\0POP\nGET8\0GET16\02\0POP\nGET16\0SET8\03\0POP\nSET8\0SET16\03\0POP\nSET16\0LOAD8\01\0POP\nFETCHB\0LOAD16\01\0POP\nFETCH\0STORE8\02\0POP\nPUTB\0STORE16\02\0POP\nPUT\0EXIT\01\0POP\nEXIT\0\0";
     let mut i = 0; let mut same = 0;
     while load8(p) {
         i = 0; same = 1;
@@ -443,8 +443,8 @@ fn primary() {
     if tok == 2 { outstr("LIT "); outnum(value); newline(); lex(); return 0; }
     if tok == 3 { outstr("LITS "); outstr(string); newline(); lex(); return 0; }
     if tok == 40 { lex(); expr(1); expect(41); return 0; }
-    if tok == 45 { lex(); expr(8); return outstr("NEG\r\n"); }
-    if tok == 126 { lex(); expr(8); return outstr("NOT\r\n"); }
+    if tok == 45 { lex(); expr(8); return outstr("PUSH\r\nLIT 65535\r\nXOR\r\nPUSH\r\nLIT 1\r\nADD\r\n"); }
+    if tok == 126 { lex(); expr(8); return outstr("PUSH\r\nLIT 65535\r\nXOR\r\n"); }
     if tok == 33 { lex(); expr(8); return outstr("PUSH\r\nLIT 0\r\nCEQ\r\n"); }
     if tok == 38 {
         lex(); if tok != 1 { fail(2); } resolve();

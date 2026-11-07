@@ -39,8 +39,8 @@ fn primary() {
     if tok == 2 { outstr("LIT "); outnum(value); newline(); lex(); return 0; }
     if tok == 3 { outstr("LITS "); outstr(string); newline(); lex(); return 0; }
     if tok == 40 { lex(); expr(1); expect(41); return 0; }
-    if tok == 45 { lex(); expr(8); return outstr("NEG\r\n"); }
-    if tok == 126 { lex(); expr(8); return outstr("NOT\r\n"); }
+    if tok == 45 { lex(); expr(8); return outstr("PUSH\r\nLIT 65535\r\nXOR\r\nPUSH\r\nLIT 1\r\nADD\r\n"); }
+    if tok == 126 { lex(); expr(8); return outstr("PUSH\r\nLIT 65535\r\nXOR\r\n"); }
     if tok == 33 { lex(); expr(8); return outstr("PUSH\r\nLIT 0\r\nCEQ\r\n"); }
     if tok == 38 {
         lex(); if tok != 1 { fail(2); } resolve();
@@ -103,7 +103,7 @@ COPY RC35.RIL SOURCE.RIL
 CHECK RILLBOOT
 ```
 
-Require `OK RESULT.IR 0000034114` and PASS. Copy RESULT.IR to SOURCE.IR.
+Require `OK RESULT.IR 0000034165` and PASS. Copy RESULT.IR to SOURCE.IR.
 
 ```dos
 CHECK IWKEEP
@@ -111,13 +111,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000072941 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 21399 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000073110 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 21391 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RC35.COM
 ```
 
-VIEW.BAS must report RC35.COM length 21399 bytes. Keep this executable and its source together.
+VIEW.BAS must report RC35.COM length 21391 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 

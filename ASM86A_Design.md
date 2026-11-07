@@ -1,11 +1,11 @@
 # ASM86: the capacity-building bootstrap step
 
-Status: implemented and verified. The ASM1 collection has twelve native construction checkpoints, its own reference, and three complete programs. The following ASM86 collection has twenty-eight construction checkpoints, a complete ladder exercise, a language/memory reference, and four complete programs. The streaming IR and systems RILL workbenches use this capacity to build a complete RILL-written toolchain; the initial smaller milestones remain separately named builders.
+Status: implemented and verified. The ASM1 collection has twelve native construction checkpoints, its own reference, and three complete programs. The following ASM86 collection has twenty-four construction checkpoints, a complete ladder exercise, a language/memory reference, and four complete programs. The streaming IR and systems RILL workbenches use this capacity to build a complete RILL-written toolchain; the initial smaller milestones remain separately named builders.
 
 ## Position in the chain
 
 ```text
-GW-BASIC -> BOOTASM -> ASM0 -> ASM1 -> ASM86 -> expanded IR86 -> expanded RILL
+GW-BASIC -> BOOTASM -> ASM0 -> ASM1 -> ASM86 -> IR86 -> RILL0 -> RILLBOOT -> RILL
 ```
 
 ASM86 is a native 8086/8088 assembler, distributed as a DOS `.COM` program. Its first implementation is written in assembly accepted by the ASM1 seed. It removes the small assembler's output-buffer and symbol-storage ceilings before those ceilings shape the next languages.
@@ -17,7 +17,7 @@ The construction has two separate article collections:
 
 This distinction is necessary. ASM0 can build at most 8192 executable bytes with 256 symbols. An assembler built within those bounds can nevertheless stream a much larger executable to disk. Its own workspace and the program it assembles are separate things.
 
-The unchanged ASM0 directly builds the 3342-byte ASM1. ASM1 builds the 6422-byte ASM86. Both reproduce their initial executable in two self-assembly generations. Native DOS 3.10 checks also rebuild the tools, IR86, RILL, and complete example programs. The results are retained in `pub_src/qa/asm86a/`.
+The unchanged ASM0 directly builds the 3302-byte ASM1. ASM1 builds the 5995-byte ASM86. Both reproduce their initial executable in two self-assembly generations. Native DOS 3.10 checks also rebuild the tools, IR86, RILL, and complete example programs. The results are retained in `pub_src/qa/asm86a/`.
 
 ## Fixed files
 
@@ -154,10 +154,10 @@ Retain ASM0 forms and fixed instruction encodings so the published project sourc
 
 - **Data and constants:** DB quoted byte strings with case preserved and doubled quotes for a literal quote; existing numeric DB/DW lists; zero-materializing RESB/RESW; earlier-resolved EQU constants; `$`; unary plus/minus and parenthesized addition/subtraction. Counts and constants affecting layout must resolve in pass one. Forward/cyclic EQU definitions are not supported.
 - **Segment access:** the seed's segment-register moves and ES override, followed by explicit segment overrides on supported memory operands. MOV to CS is rejected.
-- **Addressing and frames:** the legal 8086 BX/BP/SI/DI effective-address combinations, direct addresses, and displacements; LEA; near indirect CALL/JMP; RET with a word operand. A written displacement uses a fixed word encoding; the special bare [BP] form uses its required zero displacement. No pass-dependent displacement shortening.
-- **Word/byte operations:** ADC/SBB, TEST, NEG/NOT, unsigned MUL/DIV, signed one-operand IMUL/IDIV, and 8086 shifts/rotates by one or CL. Register/immediate forms come first, then memory forms with explicit width where no register supplies it.
-- **Byte movement:** LODSW/STOSW, MOVSB/MOVSW, and REP on explicitly supported string forms. No arbitrary prefix combinations are accepted.
-- **Conditional transfers:** existing short branches and clear aliases such as JZ/JNZ, plus explicit `Jcc NEAR label`. The NEAR form is an opposite short branch over a three-byte near JMP: five bytes, no extra symbol-table entry. It is an assembler expansion, not a later-CPU near-conditional opcode. Ordinary Jcc remains short and range-checked.
+- **Addressing and frames:** the legal 8086 BX/BP/SI/DI effective-address combinations, direct addresses, and displacements; LEA; near indirect CALL/JMP; plain RET with explicit argument release in the caller. A written displacement uses a fixed word encoding; the special bare [BP] form uses its required zero displacement. No pass-dependent displacement shortening.
+- **Word operations:** unsigned MUL/DIV and logical SHL/SHR by one or CL, with an explicit width where no register supplies it.
+- **Byte movement:** inherit the explicit LODSB/STOSB operations used by the implementations; omit repeat and wider string families.
+- **Conditional transfers:** the six required unsigned/equality branches, JC for service carry, and explicit `Jcc NEAR label`. The NEAR form is an opposite short branch over a three-byte near JMP: five bytes, no extra symbol-table entry. It is an assembler expansion, not a later-CPU near-conditional opcode. Ordinary Jcc remains short and range-checked.
 
 No PUSH immediate, two-/three-operand IMUL, immediate shift count other than one, or other later-CPU encoding is silently admitted. Additional CPU forms are not accepted merely because an emulator can run them.
 
@@ -167,7 +167,7 @@ Layout values are evaluated as words with checked context-specific narrowing. In
 
 ## Gradual construction order
 
-The published construction splits these capability groups into twelve ASM1 checkpoints and twenty-eight ASM86 checkpoints, each ending with its own self-assembly handoff. Disk checkpoint names remain A01 through A40; the ASM86 articles restart chapter numbering at 01 while retaining A13 as their first source filename. Both collections have their own workbench, language reference, programs, and source archive. The source generators and the forty-checkpoint verification chain remain shared under pub_src/tools and pub_src/qa/asm86a.
+The published construction splits these capability groups into twelve ASM1 checkpoints and twenty-four ASM86 checkpoints, each ending with its own self-assembly handoff. Disk checkpoint names remain A01 through A40; the ASM86 articles restart chapter numbering at 01 while retaining A13 as their first source filename. Both collections have their own workbench, language reference, programs, and source archive. The source generators and the shared checkpoint verification chain remain shared under pub_src/tools and pub_src/qa/asm86a.
 
 1. Fixed source name and an owned temporary-file copy diagnostic; inspect file length and bytes rather than executing copied data.
 2. Block input, with EOF, short reads, and boundary-crossing line endings.
@@ -179,7 +179,7 @@ The published construction splits these capability groups into twelve ASM1 check
 8. ASM1 direct build and two matching self-assembly generations. This is the first mandatory bootstrap gate.
 9. A small allocated-memory diagnostic, built by ASM1, followed by page-boundary symbol storage and cleanup.
 10. Exact-spelling bucket lookup, 8192-symbol capacity, long names, longer lines, and checked word-pair source counters.
-11. Quoted data and constants, followed by addressing, arithmetic, and string-operation families in small additions.
+11. Quoted data and constants, followed by addressing, unsigned arithmetic and logical shifts in small additions.
 12. Explicit long conditional expansion, full compatibility checks, two matching ASM86 self-assemblies, and the complete chain.
 
 Preserve working executables before each handoff. No new source instruction may be used until its builder accepts it. If a seed source exceeds ASM0's limits, move nonessential feature additions past the seed's self-build; do not change ASM0's published capacity or use an outside encoder.
@@ -201,7 +201,7 @@ Preserve working executables before each handoff. No new source instruction may 
 
 The streaming IRWIDE bridge and the IR-written RILLBOOT compiler seed are implemented. IR86 uses procedures, parameter/local slots, literal data, word arithmetic, and opaque allocated-block services without exposing native registers or segments. Source and output are streamed rather than kept in a whole-file buffer.
 
-The RILL-written compiler, IR86, and ASM86 build through that native seed chain and reproduce all three executables through two closed-loop generations. General identifiers, initialized symbol records, lexical scopes, procedures, local state, byte buffers, strings, and portable file/block services replace the initial compiler's one-letter-variable and 1024-byte-result constraints. The assembler keeps its 8192-symbol and 61184-byte image contract. See [TOOLCHAIN_Design.md](TOOLCHAIN_Design.md) and the complete toolchain exercise.
+The RILL-written compiler, IR86, and ASM86 build through that native seed chain and reproduce all three executables through two closed-loop generations. The initial compiler already uses the shared identifier, record, scope and stream implementations. Its continuation adds the grammar and portable services needed by the compiler source. The assembler keeps its 8192-symbol and 61184-byte image contract. See [TOOLCHAIN_Design.md](TOOLCHAIN_Design.md) and the complete toolchain exercise.
 
 The COM execution profile still has a real near-code/image limit. Allocated workspace makes larger compilers practical; it does not create a multisegment executable. Linker and executable-format work remain separate milestones.
 

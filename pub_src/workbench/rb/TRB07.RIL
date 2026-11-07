@@ -1,1 +1,1 @@
-A
+fn main(){putc(value());}fn value(){return 65;}

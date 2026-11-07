@@ -1,35 +1,19 @@
-THE BOOTSTRAP PROJECT - RILLBOOT
-A practical course in small-system software
+BOOTSTRAP EXPERIMENT - RILLBOOT
 
-The compiler construction: first RILL -> RILLBOOT compiler seed -> RILL.
-The preceding native ladder is BOOTASM -> ASM0 -> ASM1 -> ASM86
--> streaming IR86. Use the same DOS 3.10 and period BASIC workbench.
-All files here are ASCII/CRLF/8.3 source. No executable is supplied.
+Read the matching workbench and construction articles in order.
+Use your own DOS 3.10 and period BASIC interpreter.
+VIEW.BAS inspects lengths and bytes. CHECK.BAT checks program status.
+Require each fresh OK and PASS before copying a result to the next tool.
+Sources are ASCII with DOS line endings and 8.3 filenames.
+No executable, interpreter, or outside compiler is included.
 
-ASM86.ASM and IRWIDE.ASM: unchanged native prerequisite sources.
-Preserve their tested executables as ASMAKEEP.COM and IWKEEP.COM.
-VIEW.BAS and CHECK.BAT: unchanged inspection and status helpers.
-RB01 through RB47: complete construction checkpoint sources.
-T-prefixed and X-prefixed RIL files: exact acceptance/rejection inputs.
-RILLBOOT.IR: complete compiler source, identical to the final checkpoint.
-Early checkpoints are executable helper diagnostics. An emitted text
-fragment is inspected as text; it is not a complete compiler result.
-Require each fresh OK and PASS before copying the next result.
+Begin by copying the completed small RILL0.IR to RB01.IR.
+RB01.IR through RB12.IR extend that working compiler.
+RILLBOOT.IR is identical to RB12.IR.
+Use IRKEEP and ASMAKEEP. Preserve RILLBOOT.COM for the RILL compiler.
+Every continuation accepts the preceding language subset.
 
-RILLBOOT sources are IR, built with IWKEEP and ASMAKEEP. At the final
-checkpoint preserve RB47.COM as RILLBOOT.COM and RB47.IR as RILLBOOT.IR.
-The eight E-prefixed RIL programs use that completed compiler seed.
-RILLBOOT reads SOURCE.RIL and streams RESULT.IR via RILL.TMP/RILL.BAK.
-Copy accepted RESULT.IR to SOURCE.IR for IWKEEP; copy its accepted
-RESULT.ASM to SOURCE.ASM for ASMAKEEP. Preserve every accepted output.
-The separate RILL collection expresses this same compiler in RILL.
-
-Use fixed SOURCE.RIL/RESULT.IR, SOURCE.IR/RESULT.ASM and
-SOURCE.ASM/RESULT.COM files in a hard-disk directory. Keep each builder
-separately named. Inspect existing temporary/backup files before a run.
-Source rejection preserves accepted output; failed publication can
-leave recovery files. Require a new successful status before using it.
-The shared systems language has 24-character folded names, 512 global
-or procedure symbols, sixteen parameters and live local words, lexical
-scopes, recursive calls, byte buffers, strings and opaque file/block
-services. Consult the exact language reference for all bounds.
+Early helper output can be an incomplete fragment; inspect its bytes.
+Execute only programs identified as complete in their article.
+Source rejection preserves accepted output. A failed publication may
+leave temporary or backup files; inspect those before a new run.

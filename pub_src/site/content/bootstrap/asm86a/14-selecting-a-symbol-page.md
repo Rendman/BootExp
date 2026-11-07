@@ -13,33 +13,13 @@ A page selector and offset must travel together inside a table helper.
 
 SYMPTR takes an ID from one through 8192 in AX. Subtracting one yields a page number in groups of 1024 and an index within that page. Forty times the index is the record offset in BX; ES selects its allocated page. RECORDPTR saves that offset.
 
-The entry diagnostic selects ID 8192, writes and reads word 42, restores ES, and displays 00042. It uses the final record slot in the final page. Ordinary assembler processing still uses the retained seed table; the test does not make an arbitrary offset into a main-segment pointer.
+The entry diagnostic selects ID 8192, writes and reads word 42, restores ES, and compares the loaded word with 42 and rejects a mismatch. It uses the final record slot in the final page. Ordinary assembler processing still uses the retained seed table; the test does not make an arbitrary offset into a main-segment pointer.
 
 ## Enter the source
 
 Copy `A13.ASM` to `A14.ASM`. Apply the following edits **from the bottom of the old file upward**. Physical positions locate an edit in the unchanged old file; use the nearby label and printed context to identify it. Keep all other source. The Z labels are ordinary implementation labels for explicit short-branch bridges.
 
-### Change 1 near `HASHSEG:`
-
-Unchanged source immediately before this edit:
-
-```asm
-
-HASHSEG:
-DW 0
-```
-
-Remove this exact source at old physical positions 1664–1666:
-
-```asm
-
-READYMSG:
-DB 77,69,77,79,82,89,32,82,69,65,68,89,13,10,36
-```
-
-There is no replacement source.
-
-### Change 2 near `MEMCOUNT:`
+### Change 1 near `MEMCOUNT:`
 
 Unchanged source immediately before this edit:
 
@@ -48,7 +28,7 @@ MEMCOUNT:
 DW 0
 ```
 
-Insert after old physical line 1658.
+Insert after old physical line 1647.
 
 Insert:
 
@@ -64,44 +44,7 @@ MEMSEGS:
 DW 0,0,0,0,0,0,0,0
 ```
 
-### Change 3 near `EARLYTEST:`
-
-Unchanged source immediately before this edit:
-
-```asm
-RET
-
-EARLYTEST:
-```
-
-Remove this exact source at old physical positions 1449–1449:
-
-```asm
-MOV DX,READYMSG
-```
-
-Replace it with:
-
-```asm
-MOV AX,8192
-CALL SYMPTR
-MOV AX,42
-MOV ES:[BX],AX
-MOV AX,ES:[BX]
-MOV DX,CS
-MOV ES,DX
-CALL NUMBER
-MOV DX,NEWLINE
-```
-
-The following old source stays in place:
-
-```asm
-CALL TEXT
-RET
-```
-
-### Change 4 near `MEMFREED:`
+### Change 2 near `MEMFREED:`
 
 Unchanged source immediately before this edit:
 
@@ -110,7 +53,7 @@ MOV ES,AX
 RET
 ```
 
-Insert after old physical line 1447.
+Insert after old physical line 1446.
 
 Insert:
 
@@ -141,13 +84,53 @@ ADD AX,CX
 MOV BX,AX
 MOV [RECORDPTR],BX
 RET
+
+EARLYTEST:
+MOV AX,8192
+CALL SYMPTR
+MOV AX,42
+MOV ES:[BX],AX
+MOV AX,ES:[BX]
+MOV DX,CS
+MOV ES,DX
+CMP AX,42
+JE EARLYPASS
+MOV AX,7
+JMP ERROR
+EARLYPASS:
+RET
 ```
 
 The following old source stays in place:
 
 ```asm
-EARLYTEST:
-MOV DX,READYMSG
+OKMSG:
+DB 79,75,32,82,69,83,85,76,84,46,67,79,77,32,36
+```
+
+### Change 3 near `ROOM:`
+
+Unchanged source immediately before this edit:
+
+```asm
+JMP ERROR
+ROOM:
+CALL MEMINIT
+```
+
+Insert after old physical line 9.
+
+Insert:
+
+```asm
+CALL EARLYTEST
+```
+
+The following old source stays in place:
+
+```asm
+CALL PREFLIGHT
+MOV AL,1
 ```
 
 ## Build the stopping point
@@ -157,13 +140,13 @@ COPY A14.ASM SOURCE.ASM
 CHECK ASM1
 ```
 
-Require `OK RESULT.COM 03784 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 03747 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A14.COM
 ```
 
-VIEW.BAS must report A14.COM length 3784 bytes. Keep that executable and source together.
+VIEW.BAS must report A14.COM length 3747 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -188,7 +171,6 @@ CHECK A14
 Require:
 
 ```text
-00042
 OK RESULT.COM 00011 bytes
 PASS
 ```
@@ -217,7 +199,6 @@ CHECK A14
 Require:
 
 ```text
-00042
 ERROR 00001 CODE 1
 FAIL
 ```

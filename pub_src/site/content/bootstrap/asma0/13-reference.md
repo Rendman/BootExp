@@ -48,8 +48,8 @@ Ordinary byte registers are AL, CL, DL, BL, AH, CH, DH, BH. Their encoding numbe
 | INC, DEC, PUSH, POP | Ordinary word register only |
 | INT | One byte value |
 | CALL, JMP | One direct near target value |
-| JB, JAE, JE, JNE, JBE, JA, JL, JGE, JLE, JG | Direct short target, checked for -128 through +127 reach |
-| NOP, RET, CLD, LODSB, STOSB | No operands; RET has no immediate |
+| JB, JAE, JE, JNE, JBE, JA | Direct short target, checked for -128 through +127 reach |
+| RET, CLD, LODSB, STOSB | No operands; RET has no immediate |
 
 Memory belongs only to the ordinary MOV forms. [BX] and a direct [value] default to DS. The seed also accepts ES: on those memory forms. An ordinary register supplies width; there is no BYTE/WORD qualifier, immediate-to-memory MOV, segment-register/memory MOV, arithmetic on memory, indexed address combination, or displacement expression.
 
@@ -76,7 +76,7 @@ CALL uses E8H and JMP E9H, followed by `target-(instruction offset+3)` as a word
 
 | Resource | Bound |
 |---|---|
-| Seed executable | 3342 bytes, built by ASM0 |
+| Seed executable | 3302 bytes, built by ASM0 |
 | Definitions | 2048 records |
 | Name/token content | 16 characters |
 | Physical line content | 120 characters |

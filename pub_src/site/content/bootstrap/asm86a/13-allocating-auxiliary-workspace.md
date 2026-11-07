@@ -13,7 +13,7 @@ A full symbol table should not compete with resident code for the same segment.
 
 MEMINIT checks the owned main segment, retains 1000H paragraphs with DOS function 4AH, allocates eight A00H-paragraph pages and one 200H-paragraph bucket block, and clears every bucket head. Returned segments are saved in MEMSEGS; HASHSEG follows the eight page words.
 
-MEMFREE releases recorded allocations and restores ES to the main segment. Partial-allocation failure uses the same cleanup. The assembler still uses its seed symbol table in this checkpoint; MEMORY READY confirms the auxiliary setup completed before normal assembly.
+MEMFREE releases recorded allocations and restores ES to the main segment. Partial-allocation failure uses the same cleanup. The assembler still uses its seed symbol table in this checkpoint; normal checked assembly confirms the auxiliary setup completed.
 
 ## Enter the source
 
@@ -29,7 +29,7 @@ P1:
 DB 0
 ```
 
-Insert after old physical line 1463.
+Insert after old physical line 1458.
 
 Insert:
 
@@ -46,9 +46,6 @@ DW 0,0,0,0,0,0,0,0
 
 HASHSEG:
 DW 0
-
-READYMSG:
-DB 77,69,77,79,82,89,32,82,69,65,68,89,13,10,36
 ```
 
 ### Change 2 near `SEGBAD:`
@@ -156,11 +153,6 @@ JMP MEMFREELOOP
 MEMFREED:
 MOV AX,CS
 MOV ES,AX
-RET
-
-EARLYTEST:
-MOV DX,READYMSG
-CALL TEXT
 RET
 ```
 
@@ -1599,7 +1591,6 @@ Insert:
 
 ```asm
 CALL MEMINIT
-CALL EARLYTEST
 ```
 
 The following old source stays in place:
@@ -1616,13 +1607,13 @@ COPY A13.ASM SOURCE.ASM
 CHECK ASM1
 ```
 
-Require `OK RESULT.COM 03722 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 03657 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A13.COM
 ```
 
-VIEW.BAS must report A13.COM length 3722 bytes. Keep that executable and source together.
+VIEW.BAS must report A13.COM length 3657 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -1647,7 +1638,6 @@ CHECK A13
 Require:
 
 ```text
-MEMORY READY
 OK RESULT.COM 00011 bytes
 PASS
 ```
@@ -1676,7 +1666,6 @@ CHECK A13
 Require:
 
 ```text
-MEMORY READY
 ERROR 00001 CODE 1
 FAIL
 ```

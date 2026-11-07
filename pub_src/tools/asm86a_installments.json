@@ -212,7 +212,7 @@
     "title": "Allocating auxiliary workspace",
     "description": "Shrink the main allocation and request owned DOS work blocks.",
     "why": "A full symbol table should not compete with resident code for the same segment.",
-    "explain": "MEMINIT checks the owned main segment, retains 1000H paragraphs with DOS function 4AH, allocates eight A00H-paragraph pages and one 200H-paragraph bucket block, and clears every bucket head. Returned segments are saved in MEMSEGS; HASHSEG follows the eight page words.\n\nMEMFREE releases recorded allocations and restores ES to the main segment. Partial-allocation failure uses the same cleanup. The assembler still uses its seed symbol table in this checkpoint; MEMORY READY confirms the auxiliary setup completed before normal assembly.",
+    "explain": "MEMINIT checks the owned main segment, retains 1000H paragraphs with DOS function 4AH, allocates eight A00H-paragraph pages and one 200H-paragraph bucket block, and clears every bucket head. Returned segments are saved in MEMSEGS; HASHSEG follows the eight page words.\n\nMEMFREE releases recorded allocations and restores ES to the main segment. Partial-allocation failure uses the same cleanup. The assembler still uses its seed symbol table in this checkpoint; normal checked assembly confirms the auxiliary setup completed.",
     "fixture": "MOV DL,41H\nMOV AH,2\nINT 21H\nMOV AX,4C00H\nINT 21H\n",
     "expected": "B241B402CD21B8004CCD21",
     "program_output": "A",
@@ -223,14 +223,14 @@
       "line": 1,
       "code": 1
     },
-    "prefix": "MEMORY READY\r\n"
+    "prefix": ""
   },
   {
     "number": 14,
     "title": "Selecting a symbol page",
     "description": "Translate a stable symbol ID into a page and offset.",
     "why": "A page selector and offset must travel together inside a table helper.",
-    "explain": "SYMPTR takes an ID from one through 8192 in AX. Subtracting one yields a page number in groups of 1024 and an index within that page. Forty times the index is the record offset in BX; ES selects its allocated page. RECORDPTR saves that offset.\n\nThe entry diagnostic selects ID 8192, writes and reads word 42, restores ES, and displays 00042. It uses the final record slot in the final page. Ordinary assembler processing still uses the retained seed table; the test does not make an arbitrary offset into a main-segment pointer.",
+    "explain": "SYMPTR takes an ID from one through 8192 in AX. Subtracting one yields a page number in groups of 1024 and an index within that page. Forty times the index is the record offset in BX; ES selects its allocated page. RECORDPTR saves that offset.\n\nThe entry diagnostic selects ID 8192, writes and reads word 42, restores ES, and compares the loaded word with 42 and rejects a mismatch. It uses the final record slot in the final page. Ordinary assembler processing still uses the retained seed table; the test does not make an arbitrary offset into a main-segment pointer.",
     "fixture": "MOV DL,41H\nMOV AH,2\nINT 21H\nMOV AX,4C00H\nINT 21H\n",
     "expected": "B241B402CD21B8004CCD21",
     "program_output": "A",
@@ -241,14 +241,14 @@
       "line": 1,
       "code": 1
     },
-    "prefix": "00042\r\n"
+    "prefix": ""
   },
   {
     "number": 15,
     "title": "Writing a complete symbol record",
     "description": "Initialize spelling, value, link, flags, and kind together.",
     "why": "Allocated RAM is not guaranteed to contain zeroes.",
-    "explain": "RECORDWRITE clears a forty-byte record, copies the current zero-terminated name, writes DEFVALUE, the prior bucket HEADID, and DEFTYPE, then installs SYMID as the bucket head. Name padding and pass flags therefore have known values.\n\nThe diagnostic creates a PAGED record with value 12345 and reads it through SYMPTR. It restores ES before displaying the result. The record writer changes the working registers and record/bucket cursors; the input name and explicit fields are its interface.",
+    "explain": "RECORDWRITE clears a forty-byte record, copies the current zero-terminated name, writes DEFVALUE, the prior bucket HEADID, and DEFTYPE, then installs SYMID as the bucket head. Name padding and pass flags therefore have known values.\n\nThe diagnostic creates a PAGED record with value 12345 and reads it through SYMPTR. It restores ES before comparing the result with 12345. The record writer changes the working registers and record/bucket cursors; the input name and explicit fields are its interface.",
     "fixture": "MOV DL,41H\nMOV AH,2\nINT 21H\nMOV AX,4C00H\nINT 21H\n",
     "expected": "B241B402CD21B8004CCD21",
     "program_output": "A",
@@ -259,14 +259,14 @@
       "line": 1,
       "code": 1
     },
-    "prefix": "12345\r\n"
+    "prefix": ""
   },
   {
     "number": 16,
     "title": "Looking up the complete spelling",
     "description": "Use buckets to find candidates and compare every character.",
     "why": "A hash narrows a search but cannot decide whether two names are equal.",
-    "explain": "SYMLOOK folds the name into a sixteen-bit rotating hash, selects one of 4096 word buckets, then follows record IDs. Every candidate is compared with the complete spelling through its zero terminator. HEADID retains the original bucket head while SYMID follows the chain.\n\nThe entry test looks up PAGED before insertion, writes its record into the selected bucket, then looks it up again and displays 12345. It restores the line cursor and ES. Colliding names remain distinct; no name is accepted merely because its hash matches.",
+    "explain": "SYMLOOK folds the name into a sixteen-bit rotating hash, selects one of 4096 word buckets, then follows record IDs. Every candidate is compared with the complete spelling through its zero terminator. HEADID retains the original bucket head while SYMID follows the chain.\n\nThe entry test looks up PAGED before insertion, writes its record into the selected bucket, then looks it up again and compares the saved value with 12345 and rejects a mismatch. It restores the line cursor and ES. Colliding names remain distinct; no name is accepted merely because its hash matches.",
     "fixture": "MOV DL,41H\nMOV AH,2\nINT 21H\nMOV AX,4C00H\nINT 21H\n",
     "expected": "B241B402CD21B8004CCD21",
     "program_output": "A",
@@ -277,7 +277,7 @@
       "line": 1,
       "code": 1
     },
-    "prefix": "12345\r\n",
+    "prefix": "",
     "cartoon": "asm86a-cloakroom.png"
   },
   {
@@ -401,19 +401,19 @@
   },
   {
     "number": 24,
-    "title": "A conditional bridge",
-    "description": "Reach a distant target using a fixed five-byte 8086 expansion.",
-    "why": "A conditional transfer may need to cross more than a signed-byte displacement.",
-    "explain": "SHORTJUMP recognizes an explicit NEAR qualifier. It emits the opposite short opcode with displacement three, followed by a near JMP whose displacement is calculated from the end of all five bytes. BRDEST retains the target while EMIT changes AX.\n\nThe expansion uses no extra symbol record. Ordinary conditionals remain short and range-checked. JZ/JNZ and JC/JNC are documented aliases for the corresponding existing conditions; there is no later-CPU near-conditional instruction.",
-    "fixture": "MOV AX,0\nCMP AX,0\nJNE NEAR BAD\nMOV DL,41H\nMOV AH,2\nINT 21H\nMOV AX,4C00H\nINT 21H\nRESB 200\nBAD:\nMOV AX,4C01H\nINT 21H\n",
-    "expected": null,
-    "program_output": "A",
+    "title": "The carry branch spelling",
+    "description": "Use JC where a runtime service returns carry.",
+    "why": "DOS services report carry; JC names that condition directly.",
+    "explain": "JC has the same condition code as JB. Add one table record using the existing short-branch encoder. No new decoder is required.",
+    "fixture": "JC X\nDB 0\nX:\nJC X\n",
+    "expected": "72010072FE",
+    "program_output": null,
     "program_exit": 0,
     "bad": {
       "kind": "source",
-      "text": "JNE 400H\n",
+      "text": "JNC X\nX:\n",
       "line": 1,
-      "code": 4
+      "code": 1
     },
     "cartoon": "asm86a-bridge.png"
   },
@@ -521,17 +521,17 @@
   },
   {
     "number": 31,
-    "title": "Arithmetic on a memory operand",
-    "description": "Extend the familiar arithmetic groups without changing operand order.",
-    "why": "The same effective-address descriptor can serve arithmetic as well as MOV.",
-    "explain": "MATHOPERANDS selects the direction bit when a register is the destination, or uses a memory/register form when memory is the destination. Immediate arithmetic uses the full byte or word immediate group. There is no value-dependent shortening.\n\nADC and SBB use their native carry/borrow groups. TEST uses its own register/memory or immediate opcode and does not store a result. Memory-to-memory arithmetic remains invalid. The executed test deliberately produces carry, then uses ADC to obtain ASCII A.",
-    "fixture": "MOV AX,65535\nADD AX,1\nADC AX,64\nMOV DL,AL\nMOV AH,2\nINT 21H\nMOV AX,4C00H\nINT 21H\n",
-    "expected": null,
-    "program_output": "A",
+    "title": "Arithmetic through memory",
+    "description": "Apply the existing word arithmetic to a memory operand.",
+    "why": "The runtime checks words in its allocated-block descriptors.",
+    "explain": "Reuse the operand descriptors and fixed word displacement choices. The arithmetic direction bit selects a register or memory destination; an immediate memory operand requires an explicit width. The runtime needs CMP WORD [SI],0.",
+    "fixture": "ADD AX,[SI]\nSUB [DI],BX\nCMP BYTE [BX],1\n",
+    "expected": "0304291D803F01",
+    "program_output": null,
     "program_exit": 0,
     "bad": {
       "kind": "source",
-      "text": "ADD [BX],[SI]\n",
+      "text": "ADD [BX],[DI]\n",
       "line": 1,
       "code": 1
     }
@@ -606,30 +606,30 @@
   },
   {
     "number": 36,
-    "title": "Multiply and divide groups",
-    "description": "Expose the original 8086 single-operand arithmetic forms.",
-    "why": "The group encoder can supply multiplication and division without new operand syntax.",
-    "explain": "MUL, IMUL, DIV, and IDIV add extension fields four through seven to GROUP. The source has one explicit byte or word operand; the processor supplies its defined accumulator/result registers. The test uses word MUL and DIV with divisor one.\n\nThese are the original single-operand forms. Two- or three-operand IMUL is rejected. Programs must prepare the implicit dividend and avoid zero divisors or quotient overflow; the assembler cannot prove runtime arithmetic safety.",
-    "fixture": "MOV AX,65\nMOV BX,1\nMUL BX\nDIV BX\nMOV DL,AL\nMOV AH,2\nINT 21H\nMOV AX,4C00H\nINT 21H\n",
-    "expected": null,
-    "program_output": "A",
+    "title": "Unsigned multiply and divide",
+    "description": "Provide the word arithmetic needed by the compiler.",
+    "why": "Word expressions and decimal formatting need unsigned multiplication and division.",
+    "explain": "MUL and DIV use the 8086 group encodings for one register or memory operand. The runtime checks a zero divisor before DIV; signed variants are outside the bootstrap assembler.",
+    "fixture": "MUL BX\nDIV BL\n",
+    "expected": "F7E3F6F3",
+    "program_output": null,
     "program_exit": 0,
     "bad": {
       "kind": "source",
-      "text": "MOV AX,AL\n",
+      "text": "MUL AX,BX\n",
       "line": 1,
       "code": 1
     }
   },
   {
     "number": 37,
-    "title": "A single-bit shift",
-    "description": "Use the original fixed-count shift encoding.",
-    "why": "The 8086 has a dedicated form for shifting once.",
-    "explain": "SHIFT saves the r/m descriptor, requires a comma and a resolved count of one, then emits D0H or D1H with the operation's field. SHL, SHR, and SAR choose logical-left, logical-right, and arithmetic-right behavior.\n\nNo immediate-count byte is emitted. Counts zero or two are rejected rather than encoded with a later-CPU instruction. The test doubles 32 with SHL by one, then adds one and displays A.",
-    "fixture": "MOV AX,32\nSHL AX,1\nADD AX,1\nMOV DL,AL\nMOV AH,2\nINT 21H\nMOV AX,4C00H\nINT 21H\n",
-    "expected": null,
-    "program_output": "A",
+    "title": "Logical word shifts",
+    "description": "Shift by one or a saved count in CL.",
+    "why": "The tool implementations need bit masks and word shifts.",
+    "explain": "SHL and SHR accept count one or CL. The virtual machine masks the source count to fifteen before selecting the native CL form. Rotate, arithmetic-shift, and alternate spellings are omitted.",
+    "fixture": "SHL AX,1\nSHR AX,CL\n",
+    "expected": "D1E0D3E8",
+    "program_output": null,
     "program_exit": 0,
     "bad": {
       "kind": "source",

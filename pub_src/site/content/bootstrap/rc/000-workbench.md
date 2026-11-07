@@ -39,6 +39,6 @@ The complete compiler streams 4096-byte blocks. Symbol storage uses an opaque al
 
 ## Preserve the self-build handoff
 
-After RC43 passes, copy RC43.RIL to RILL.RIL and RC43.COM to R0.COM. The seed-built compiler is 26625 bytes. The self-build exercise uses R0, then R1, to compile the same source through the preserved native translator and assembler. Both resulting executables must match R0.
+After RC43 passes, copy RC43.RIL to RILL.RIL and RC43.COM to R0.COM. The seed-built compiler is 26617 bytes. The self-build exercise uses R0, then R1, to compile the same source through the preserved native translator and assembler. Both resulting executables must match R0.
 
-The complete toolchain exercise also builds IR86.RIL and ASM86.RIL, then lets the RILL-written trio rebuild all three tools through two matching generations. Keep RILLBOOT, IWKEEP, and ASMAKEEP as reproducible predecessors.
+Continue with [Rebuilding Our Tools in RILL](../../toolchain/index.html) after both compiler comparisons match. Its workbench uses R0 to construct IR86.RIL and ASM86.RIL, then lets the RILL-written trio rebuild all three tools through two matching generations. Keep RILLBOOT, IWKEEP, and ASMAKEEP as reproducible predecessors.

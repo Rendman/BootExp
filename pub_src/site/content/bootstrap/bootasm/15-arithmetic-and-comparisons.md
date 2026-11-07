@@ -7,7 +7,7 @@ download_group = "tools/bootasm"
 reader_names = 1
 +++
 
-To work on a character or count, a program needs arithmetic and tests. The same operand machinery serves six closely related instruction families.
+To work on a character or count, a program needs arithmetic and tests. The same operand machinery serves four closely related instruction families.
 
 ## At the keyboard
 
@@ -16,9 +16,9 @@ Load the preceding checkpoint, `BA14.BAS`. Keep its working copy. Insert the oth
 BASIC line numbers are part of the source. Enter a whole numbered line when replacing it.
 
 ```basic
-4030 I=INSTR("ADD OR  AND SUB XOR CMP ",M$+" ")
+4030 I=INSTR("ADD AND SUB CMP ",M$+" ")
 4032 IF I>0 THEN IF (I-1) MOD 4=0 THEN GOSUB 4390: RETURN
-4390 OP=VAL(MID$("014567",(I-1)/4+1,1)): GOTO 4400
+4390 OP=VAL(MID$("0457",(I-1)/4+1,1)): GOTO 4400
 4400 GOSUB 5000: T$=A1$: GOSUB 6000
 4410 IF R<0 THEN E$="Register required": GOTO 9000
 4420 RD=R: WD=W
@@ -55,9 +55,9 @@ Keep this filename for the stopping point; it is not a second program to type.
 
 ## How it works
 
-ADD and SUB alter the destination by addition or subtraction. CMP sets the subtraction flags without storing the answer. AND, OR, and XOR perform bit-by-bit logical operations. All these forms set flags; logical operations clear carry and overflow and leave auxiliary carry undefined. Arithmetic carries beyond the selected width are not stored in the destination.
+ADD and SUB alter the destination by addition or subtraction. CMP sets the subtraction flags without storing the answer. AND performs bit-by-bit logical operations. All these forms set flags; logical operations clear carry and overflow and leave auxiliary carry undefined. Arithmetic carries beyond the selected width are not stored in the destination.
 
-The mnemonic table uses four characters per entry, including spaces. A matching name must begin at an entry boundary. The matching position selects an operation number from `014567`: ADD=0, OR=1, AND=4, SUB=5, XOR=6, CMP=7. These are the processor's group numbers, not consecutive entries invented by the assembler. `OP` preserves that choice while the operands are read.
+The mnemonic table uses four characters per entry, including spaces. A matching name must begin at an entry boundary. The matching position selects an operation number from `0457`: ADD=0, AND=4, SUB=5, CMP=7. These are the processor's group numbers, not consecutive entries invented by the assembler. `OP` preserves that choice while the operands are read.
 
 For a register source, routine 4500 emits `8*OP+2+WD` and a register ModR/M byte. For an immediate source, 4400 emits 80H for a byte or 81H for a word. The ModR/M byte has the operation number in its middle field and the destination register in its low field. The immediate follows in the destination's width. We deliberately omit the shorter sign-extended 83H form to keep size decisions fixed.
 
@@ -71,9 +71,7 @@ At DOS, create `T15.ASM` with the following exact source. `COPY CON T15.ASM` acc
 ADD AX,BX
 SUB CX,1
 CMP AL,41H
-XOR DX,DX
 AND AL,0DFH
-OR BL,20H
 ```
 
 From DOS start the checkpoint:
@@ -82,16 +80,16 @@ From DOS start the checkpoint:
 GWBASIC BA15.BAS
 ```
 
-At its source-name prompt enter `T15` without an extension. The success report must name `T15.COM` and report **17 bytes**. After the program ends at BASIC's `Ok` prompt, inspect the file:
+At its source-name prompt enter `T15` without an extension. The success report must name `T15.COM` and report **12 bytes**. After the program ends at BASIC's `Ok` prompt, inspect the file:
 
 ```basic
 RUN "VIEW.BAS"
 ```
 
-At `File:` enter `T15.COM`. The viewer must report length 17 and these bytes (spaces and line wrapping are immaterial):
+At `File:` enter `T15.COM`. The viewer must report length 12 and these bytes (spaces and line wrapping are immaterial):
 
 ```text
-03 C3 81 E9 01 00 80 F8 41 33 D2 80 E0 DF 80 CB 20
+03 C3 81 E9 01 00 80 F8 41 80 E0 DF
 ```
 
 This is an encoding or data fixture. Inspect it with the viewer; **do not execute it**.

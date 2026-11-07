@@ -30,7 +30,7 @@ OWNTMP:
 DB 0
 ```
 
-Insert after old physical line 1156.
+Insert after old physical line 1151.
 
 Insert:
 
@@ -55,7 +55,7 @@ TMPNAME:
 DB 65,83,77,65,46,84,77,80,0
 ```
 
-Insert after old physical line 1136.
+Insert after old physical line 1131.
 
 Insert:
 
@@ -193,9 +193,9 @@ CALL TEXT
 
 ## Build the stopping point
 
-Run `CHECK ASMKEEP`, enter `A04` at `Source name:`, and require `OK 02766 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. It creates A04.COM.
+Run `CHECK ASMKEEP`, enter `A04` at `Source name:`, and require `OK 02726 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. It creates A04.COM.
 
-VIEW.BAS must report A04.COM length 2766 bytes. Keep that executable and source together.
+VIEW.BAS must report A04.COM length 2726 bytes. Keep that executable and source together.
 
 ## Acceptance check
 

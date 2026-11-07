@@ -7,10 +7,11 @@
     "base": "ASM86.ASM",
     "changes": [
       {
-        "a1": 1150,
-        "a2": 1150,
+        "a1": 1144,
+        "a2": 1144,
         "old": [],
         "new": [
+          "DB 88,79,82,0,0,0,4,6",
           "",
           "SRCNAME:",
           "DB 83,79,85,82,67,69,46,65,83,77,0",
@@ -25,9 +26,9 @@
           "DW 24576"
         ],
         "context": [
-          "DB 74,71,69,0,0,0,8,125",
-          "DB 74,76,69,0,0,0,8,126",
-          "DB 74,71,0,0,0,0,8,127"
+          "DB 74,78,69,0,0,0,8,117",
+          "DB 74,66,69,0,0,0,8,118",
+          "DB 74,65,0,0,0,0,8,119"
         ],
         "after": []
       },
@@ -151,6 +152,25 @@
         "after": [
           "JMP EMITWORD",
           ""
+        ]
+      },
+      {
+        "a1": 598,
+        "a2": 599,
+        "old": [
+          "MOV CX,25"
+        ],
+        "new": [
+          "MOV CX,26"
+        ],
+        "context": [
+          "INSTRUCTION:",
+          "DEC SI",
+          "MOV BX,OPTAB"
+        ],
+        "after": [
+          "MOV AX,8",
+          "CALL LOOK"
         ]
       },
       {
@@ -428,8 +448,8 @@
     "base": "A01.ASM",
     "changes": [
       {
-        "a1": 1100,
-        "a2": 1100,
+        "a1": 1095,
+        "a2": 1095,
         "old": [],
         "new": [
           "RDPOS:",
@@ -559,8 +579,8 @@
     "base": "A02.ASM",
     "changes": [
       {
-        "a1": 1131,
-        "a2": 1133,
+        "a1": 1126,
+        "a2": 1128,
         "old": [
           "OUTPTR:",
           "DW 24576"
@@ -580,8 +600,8 @@
         "after": []
       },
       {
-        "a1": 1128,
-        "a2": 1128,
+        "a1": 1123,
+        "a2": 1123,
         "old": [],
         "new": [
           "OUTCNT:",
@@ -602,8 +622,8 @@
         ]
       },
       {
-        "a1": 1119,
-        "a2": 1121,
+        "a1": 1114,
+        "a2": 1116,
         "old": [
           "RESNAME:",
           "DB 82,69,83,85,76,84,46,67,79,77,0"
@@ -1028,8 +1048,8 @@
     "base": "A03.ASM",
     "changes": [
       {
-        "a1": 1156,
-        "a2": 1156,
+        "a1": 1151,
+        "a2": 1151,
         "old": [],
         "new": [
           "",
@@ -1050,8 +1070,8 @@
         "after": []
       },
       {
-        "a1": 1136,
-        "a2": 1136,
+        "a1": 1131,
+        "a2": 1131,
         "old": [],
         "new": [
           "RECOVERMSG:",
@@ -1175,8 +1195,8 @@
     "base": "A04.ASM",
     "changes": [
       {
-        "a1": 1183,
-        "a2": 1183,
+        "a1": 1178,
+        "a2": 1178,
         "old": [],
         "new": [
           "BAKNAME:",
@@ -1270,8 +1290,8 @@
     "base": "A05.ASM",
     "changes": [
       {
-        "a1": 1218,
-        "a2": 1218,
+        "a1": 1213,
+        "a2": 1213,
         "old": [],
         "new": [
           "RESNAME:",
@@ -1403,8 +1423,8 @@
     "base": "A06.ASM",
     "changes": [
       {
-        "a1": 1295,
-        "a2": 1295,
+        "a1": 1290,
+        "a2": 1290,
         "old": [],
         "new": [
           "ENDPC:",
@@ -2159,8 +2179,8 @@
     "base": "A09.ASM",
     "changes": [
       {
-        "a1": 1349,
-        "a2": 1349,
+        "a1": 1344,
+        "a2": 1344,
         "old": [],
         "new": [
           "",
@@ -2178,8 +2198,8 @@
         "after": []
       },
       {
-        "a1": 1332,
-        "a2": 1332,
+        "a1": 1327,
+        "a2": 1327,
         "old": [],
         "new": [
           "SEGCODE:",
@@ -2507,8 +2527,8 @@
     "base": "ASMA0.ASM",
     "changes": [
       {
-        "a1": 1463,
-        "a2": 1463,
+        "a1": 1458,
+        "a2": 1458,
         "old": [],
         "new": [
           "",
@@ -2522,10 +2542,7 @@
           "DW 0,0,0,0,0,0,0,0",
           "",
           "HASHSEG:",
-          "DW 0",
-          "",
-          "READYMSG:",
-          "DB 77,69,77,79,82,89,32,82,69,65,68,89,13,10,36"
+          "DW 0"
         ],
         "context": [
           "",
@@ -2629,11 +2646,6 @@
           "MEMFREED:",
           "MOV AX,CS",
           "MOV ES,AX",
-          "RET",
-          "",
-          "EARLYTEST:",
-          "MOV DX,READYMSG",
-          "CALL TEXT",
           "RET"
         ],
         "context": [
@@ -3609,8 +3621,7 @@
         "a2": 8,
         "old": [],
         "new": [
-          "CALL MEMINIT",
-          "CALL EARLYTEST"
+          "CALL MEMINIT"
         ],
         "context": [
           "MOV AX,7",
@@ -3632,24 +3643,8 @@
     "base": "A13.ASM",
     "changes": [
       {
-        "a1": 1663,
-        "a2": 1666,
-        "old": [
-          "",
-          "READYMSG:",
-          "DB 77,69,77,79,82,89,32,82,69,65,68,89,13,10,36"
-        ],
-        "new": [],
-        "context": [
-          "",
-          "HASHSEG:",
-          "DW 0"
-        ],
-        "after": []
-      },
-      {
-        "a1": 1658,
-        "a2": 1658,
+        "a1": 1647,
+        "a2": 1647,
         "old": [],
         "new": [
           "RECORDPTR:",
@@ -3667,35 +3662,8 @@
         ]
       },
       {
-        "a1": 1448,
-        "a2": 1449,
-        "old": [
-          "MOV DX,READYMSG"
-        ],
-        "new": [
-          "MOV AX,8192",
-          "CALL SYMPTR",
-          "MOV AX,42",
-          "MOV ES:[BX],AX",
-          "MOV AX,ES:[BX]",
-          "MOV DX,CS",
-          "MOV ES,DX",
-          "CALL NUMBER",
-          "MOV DX,NEWLINE"
-        ],
-        "context": [
-          "RET",
-          "",
-          "EARLYTEST:"
-        ],
-        "after": [
-          "CALL TEXT",
-          "RET"
-        ]
-      },
-      {
-        "a1": 1447,
-        "a2": 1447,
+        "a1": 1446,
+        "a2": 1446,
         "old": [],
         "new": [
           "SYMPTR:",
@@ -3724,6 +3692,21 @@
           "MOV BX,AX",
           "MOV [RECORDPTR],BX",
           "RET",
+          "",
+          "EARLYTEST:",
+          "MOV AX,8192",
+          "CALL SYMPTR",
+          "MOV AX,42",
+          "MOV ES:[BX],AX",
+          "MOV AX,ES:[BX]",
+          "MOV DX,CS",
+          "MOV ES,DX",
+          "CMP AX,42",
+          "JE EARLYPASS",
+          "MOV AX,7",
+          "JMP ERROR",
+          "EARLYPASS:",
+          "RET",
           ""
         ],
         "context": [
@@ -3732,8 +3715,25 @@
           ""
         ],
         "after": [
-          "EARLYTEST:",
-          "MOV DX,READYMSG"
+          "OKMSG:",
+          "DB 79,75,32,82,69,83,85,76,84,46,67,79,77,32,36"
+        ]
+      },
+      {
+        "a1": 9,
+        "a2": 9,
+        "old": [],
+        "new": [
+          "CALL EARLYTEST"
+        ],
+        "context": [
+          "JMP ERROR",
+          "ROOM:",
+          "CALL MEMINIT"
+        ],
+        "after": [
+          "CALL PREFLIGHT",
+          "MOV AL,1"
         ]
       }
     ]
@@ -3746,8 +3746,8 @@
     "base": "A14.ASM",
     "changes": [
       {
-        "a1": 1701,
-        "a2": 1701,
+        "a1": 1698,
+        "a2": 1698,
         "old": [],
         "new": [
           "",
@@ -3762,8 +3762,8 @@
         "after": []
       },
       {
-        "a1": 1696,
-        "a2": 1696,
+        "a1": 1693,
+        "a2": 1693,
         "old": [],
         "new": [
           "BUCKET:",
@@ -3790,6 +3790,25 @@
         "after": [
           "MEMSEGS:",
           "DW 0,0,0,0,0,0,0,0"
+        ]
+      },
+      {
+        "a1": 1482,
+        "a2": 1483,
+        "old": [
+          "CMP AX,42"
+        ],
+        "new": [
+          "CMP AX,12345"
+        ],
+        "context": [
+          "MOV AX,ES:[BX]",
+          "MOV DX,CS",
+          "MOV ES,DX"
+        ],
+        "after": [
+          "JE EARLYPASS",
+          "MOV AX,7"
         ]
       },
       {
@@ -4044,8 +4063,8 @@
     "base": "A16.ASM",
     "changes": [
       {
-        "a1": 1830,
-        "a2": 1832,
+        "a1": 1827,
+        "a2": 1829,
         "old": [
           "TESTNAME:",
           "DB 80,65,71,69,68,0"
@@ -4062,8 +4081,8 @@
         "after": []
       },
       {
-        "a1": 1824,
-        "a2": 1824,
+        "a1": 1821,
+        "a2": 1821,
         "old": [],
         "new": [
           "DEFSEEN:",
@@ -4081,8 +4100,8 @@
         ]
       },
       {
-        "a1": 1631,
-        "a2": 1634,
+        "a1": 1633,
+        "a2": 1636,
         "old": [
           "",
           "SYMNEXT:",
@@ -4101,7 +4120,7 @@
       },
       {
         "a1": 1587,
-        "a2": 1598,
+        "a2": 1600,
         "old": [
           "CALL RECORDWRITE",
           "CALL SYMLOOK",
@@ -4111,9 +4130,11 @@
           "MOV AX,ES:[BX]",
           "MOV DX,CS",
           "MOV ES,DX",
-          "CALL NUMBER",
-          "MOV DX,NEWLINE",
-          "CALL TEXT"
+          "CMP AX,12345",
+          "JE EARLYPASS",
+          "MOV AX,7",
+          "JMP ERROR",
+          "EARLYPASS:"
         ],
         "new": [
           "MOV ES:[BX],AX"
@@ -5486,8 +5507,8 @@
     "base": "A18.ASM",
     "changes": [
       {
-        "a1": 1832,
-        "a2": 1832,
+        "a1": 1827,
+        "a2": 1827,
         "old": [],
         "new": [
           "",
@@ -6145,8 +6166,8 @@
     "base": "A20.ASM",
     "changes": [
       {
-        "a1": 1970,
-        "a2": 1970,
+        "a1": 1965,
+        "a2": 1965,
         "old": [],
         "new": [
           "EXPRDEPTH:",
@@ -6556,8 +6577,8 @@
     "base": "A21.ASM",
     "changes": [
       {
-        "a1": 2064,
-        "a2": 2064,
+        "a1": 2059,
+        "a2": 2059,
         "old": [],
         "new": [
           "NAMELEN:",
@@ -6685,7 +6706,7 @@
         ],
         "after": [
           "MOV BX,OPTAB",
-          "MOV CX,31"
+          "MOV CX,26"
         ]
       },
       {
@@ -6808,17 +6829,17 @@
     "base": "A22.ASM",
     "changes": [
       {
-        "a1": 2012,
-        "a2": 2012,
+        "a1": 2007,
+        "a2": 2007,
         "old": [],
         "new": [
           "DB 82,69,83,66,0,0,12,0",
           "DB 82,69,83,87,0,0,12,1"
         ],
         "context": [
-          "DB 74,71,69,0,0,0,8,125",
-          "DB 74,76,69,0,0,0,8,126",
-          "DB 74,71,0,0,0,0,8,127"
+          "DB 74,66,69,0,0,0,8,118",
+          "DB 74,65,0,0,0,0,8,119",
+          "DB 88,79,82,0,0,0,4,6"
         ],
         "after": [
           "",
@@ -6903,10 +6924,10 @@
         "a1": 717,
         "a2": 718,
         "old": [
-          "MOV CX,31"
+          "MOV CX,26"
         ],
         "new": [
-          "MOV CX,33"
+          "MOV CX,28"
         ],
         "context": [
           "POP SI",
@@ -6924,12 +6945,12 @@
     "number": 24,
     "chapter": 12,
     "collection": "asm86a",
-    "page": "24-a-conditional-bridge.md",
+    "page": "24-the-carry-branch-spelling.md",
     "base": "A23.ASM",
     "changes": [
       {
-        "a1": 2158,
-        "a2": 2158,
+        "a1": 2153,
+        "a2": 2153,
         "old": [],
         "new": [
           "BRDEST:",
@@ -6947,17 +6968,14 @@
         ]
       },
       {
-        "a1": 2056,
-        "a2": 2056,
+        "a1": 2051,
+        "a2": 2051,
         "old": [],
         "new": [
-          "DB 74,90,0,0,0,0,8,116",
-          "DB 74,78,90,0,0,0,8,117",
-          "DB 74,67,0,0,0,0,8,114",
-          "DB 74,78,67,0,0,0,8,115"
+          "DB 74,67,0,0,0,0,8,114"
         ],
         "context": [
-          "DB 74,71,0,0,0,0,8,127",
+          "DB 88,79,82,0,0,0,4,6",
           "DB 82,69,83,66,0,0,12,0",
           "DB 82,69,83,87,0,0,12,1"
         ],
@@ -7040,10 +7058,10 @@
         "a1": 717,
         "a2": 718,
         "old": [
-          "MOV CX,33"
+          "MOV CX,28"
         ],
         "new": [
-          "MOV CX,37"
+          "MOV CX,29"
         ],
         "context": [
           "POP SI",
@@ -7065,8 +7083,8 @@
     "base": "A24.ASM",
     "changes": [
       {
-        "a1": 2197,
-        "a2": 2197,
+        "a1": 2189,
+        "a2": 2189,
         "old": [],
         "new": [
           "",
@@ -7102,8 +7120,8 @@
         ]
       },
       {
-        "a1": 2195,
-        "a2": 2195,
+        "a1": 2187,
+        "a2": 2187,
         "old": [],
         "new": [
           "RMDISP:",
@@ -7321,8 +7339,8 @@
     "base": "A25.ASM",
     "changes": [
       {
-        "a1": 2255,
-        "a2": 2255,
+        "a1": 2247,
+        "a2": 2247,
         "old": [],
         "new": [
           "DB 0",
@@ -7346,8 +7364,8 @@
         ]
       },
       {
-        "a1": 2236,
-        "a2": 2236,
+        "a1": 2228,
+        "a2": 2228,
         "old": [],
         "new": [
           "EXWIDTH:",
@@ -7642,8 +7660,8 @@
     "base": "A26.ASM",
     "changes": [
       {
-        "a1": 2285,
-        "a2": 2285,
+        "a1": 2277,
+        "a2": 2277,
         "old": [],
         "new": [
           "DB 0",
@@ -7664,8 +7682,8 @@
         ]
       },
       {
-        "a1": 2275,
-        "a2": 2275,
+        "a1": 2267,
+        "a2": 2267,
         "old": [],
         "new": [
           "MEMDISP:",
@@ -8179,8 +8197,8 @@
     "base": "A28.ASM",
     "changes": [
       {
-        "a1": 2427,
-        "a2": 2427,
+        "a1": 2419,
+        "a2": 2419,
         "old": [],
         "new": [
           "MEMSIGN:",
@@ -8400,8 +8418,8 @@
     "base": "A29.ASM",
     "changes": [
       {
-        "a1": 2469,
-        "a2": 2469,
+        "a1": 2461,
+        "a2": 2461,
         "old": [],
         "new": [
           "IMMVAL:",
@@ -8806,28 +8824,9 @@
     "number": 31,
     "chapter": 19,
     "collection": "asm86a",
-    "page": "31-arithmetic-on-a-memory-operand.md",
+    "page": "31-arithmetic-through-memory.md",
     "base": "A30.ASM",
     "changes": [
-      {
-        "a1": 2363,
-        "a2": 2363,
-        "old": [],
-        "new": [
-          "DB 65,68,67,0,0,0,4,2",
-          "DB 83,66,66,0,0,0,4,3",
-          "DB 84,69,83,84,0,0,15,0"
-        ],
-        "context": [
-          "DB 74,71,0,0,0,0,8,127",
-          "DB 82,69,83,66,0,0,12,0",
-          "DB 82,69,83,87,0,0,12,1"
-        ],
-        "after": [
-          "DB 74,90,0,0,0,0,8,116",
-          "DB 74,78,90,0,0,0,8,117"
-        ]
-      },
       {
         "a1": 2224,
         "a2": 2224,
@@ -8858,11 +8857,6 @@
           "CALL CHECKWIDTH",
           "MOV AL,[REG]",
           "MOV [REGFIELD],AL",
-          "MOV AL,[TYPE]",
-          "CMP AL,15",
-          "JNE ZMATHOPER5",
-          "JMP MATHTEST",
-          "ZMATHOPER5:",
           "MOV AL,[OP]",
           "CALL TIMES8",
           "MOV DL,[ENCWIDTH]",
@@ -8872,17 +8866,14 @@
           "MATHTOREG:",
           "MOV AL,[KIND]",
           "CMP AL,2",
-          "JBE ZMATHOPER6",
+          "JBE ZMATHOPER5",
           "JMP TWOBAD",
-          "ZMATHOPER6:",
+          "ZMATHOPER5:",
           "CALL RMCURRENT",
           "MOV AL,[W1]",
           "CALL CHECKWIDTH",
           "MOV AL,[R1]",
           "MOV [REGFIELD],AL",
-          "MOV AL,[TYPE]",
-          "CMP AL,15",
-          "JE MATHTEST",
           "MOV AL,[OP]",
           "CALL TIMES8",
           "ADD AL,2",
@@ -8890,35 +8881,20 @@
           "ADD AL,DL",
           "MOV [ENCOP],AL",
           "JMP ENCODE",
-          "MATHTEST:",
-          "MOV AL,[ENCWIDTH]",
-          "ADD AL,132",
-          "MOV [ENCOP],AL",
-          "JMP ENCODE",
           "MATHIMMEDIATE:",
           "MOV AX,[VAL]",
           "MOV [IMMVAL],AX",
           "MOV AL,[K1]",
           "CMP AL,2",
-          "JBE ZMATHOPER7",
+          "JBE ZMATHOPER6",
           "JMP TWOBAD",
-          "ZMATHOPER7:",
+          "ZMATHOPER6:",
           "CALL RMFIRST",
           "CALL KNOWNWIDTH",
           "MOV AL,[OP]",
           "MOV [REGFIELD],AL",
-          "MOV AL,[TYPE]",
-          "CMP AL,15",
-          "JE TESTIMMEDIATE",
           "MOV AL,[ENCWIDTH]",
           "ADD AL,128",
-          "MOV [ENCOP],AL",
-          "JMP MATHIMMEMIT",
-          "TESTIMMEDIATE:",
-          "MOV AL,0",
-          "MOV [REGFIELD],AL",
-          "MOV AL,[ENCWIDTH]",
-          "ADD AL,246",
           "MOV [ENCOP],AL",
           "MATHIMMEMIT:",
           "CALL ENCODE",
@@ -9052,25 +9028,6 @@
           "CALL OPERAND",
           "MOV AL,[TYPE]"
         ]
-      },
-      {
-        "a1": 849,
-        "a2": 850,
-        "old": [
-          "MOV CX,37"
-        ],
-        "new": [
-          "MOV CX,40"
-        ],
-        "context": [
-          "POP SI",
-          "CALL RESTORENAME",
-          "MOV BX,OPTAB"
-        ],
-        "after": [
-          "MOV AX,8",
-          "CALL LOOK"
-        ]
       }
     ]
   },
@@ -9082,25 +9039,25 @@
     "base": "A31.ASM",
     "changes": [
       {
-        "a1": 2392,
-        "a2": 2392,
+        "a1": 2364,
+        "a2": 2364,
         "old": [],
         "new": [
           "DB 76,69,65,0,0,0,11,0"
         ],
         "context": [
-          "DB 74,71,0,0,0,0,8,127",
+          "DB 88,79,82,0,0,0,4,6",
           "DB 82,69,83,66,0,0,12,0",
           "DB 82,69,83,87,0,0,12,1"
         ],
         "after": [
-          "DB 65,68,67,0,0,0,4,2",
-          "DB 83,66,66,0,0,0,4,3"
+          "DB 74,67,0,0,0,0,8,114",
+          ""
         ]
       },
       {
-        "a1": 2253,
-        "a2": 2253,
+        "a1": 2230,
+        "a2": 2230,
         "old": [],
         "new": [
           "LEAOP:",
@@ -9166,10 +9123,10 @@
         "a1": 849,
         "a2": 850,
         "old": [
-          "MOV CX,40"
+          "MOV CX,29"
         ],
         "new": [
-          "MOV CX,41"
+          "MOV CX,30"
         ],
         "context": [
           "POP SI",
@@ -9261,118 +9218,33 @@
     ]
   },
   {
-    "number": 34,
+    "number": 36,
     "chapter": 22,
     "collection": "asm86a",
-    "page": "34-returning-and-releasing-arguments.md",
+    "page": "36-unsigned-multiply-and-divide.md",
     "base": "A33.ASM",
     "changes": [
       {
-        "a1": 2420,
-        "a2": 2421,
-        "old": [
-          "DB 82,69,84,0,0,0,2,195"
-        ],
-        "new": [
-          "DB 82,69,84,0,0,0,14,195"
-        ],
-        "context": [
-          "DB 68,66,0,0,0,0,1,0",
-          "DB 68,87,0,0,0,0,1,1",
-          "DB 78,79,80,0,0,0,2,144"
-        ],
-        "after": [
-          "DB 67,76,68,0,0,0,2,252",
-          "DB 76,79,68,83,66,0,2,172"
-        ]
-      },
-      {
-        "a1": 2311,
-        "a2": 2311,
+        "a1": 2423,
+        "a2": 2423,
         "old": [],
         "new": [
-          "RETURNOP:",
-          "PUSH SI",
-          "CALL SCAN",
-          "MOV AL,[0CC00H]",
-          "CMP AL,0",
-          "JNE RETURNVALUE",
-          "POP SI",
-          "MOV AL,195",
-          "CALL EMIT",
-          "JMP FINISH",
-          "RETURNVALUE:",
-          "POP AX",
-          "CALL VALUE",
-          "PUSH AX",
-          "MOV AL,194",
-          "CALL EMIT",
-          "POP AX",
-          "CALL EMITWORD",
-          "JMP FINISH",
+          "DB 77,85,76,0,0,0,9,4",
+          "DB 68,73,86,0,0,0,9,6"
+        ],
+        "context": [
+          "DB 82,69,83,66,0,0,12,0",
+          "DB 82,69,83,87,0,0,12,1",
+          "DB 76,69,65,0,0,0,11,0"
+        ],
+        "after": [
+          "DB 74,67,0,0,0,0,8,114",
           ""
-        ],
-        "context": [
-          "MOV [ENCOP],AL",
-          "JMP ENCODE",
-          ""
-        ],
-        "after": [
-          "OKMSG:",
-          "DB 79,75,32,82,69,83,85,76,84,46,67,79,77,32,36"
         ]
       },
       {
-        "a1": 898,
-        "a2": 898,
-        "old": [],
-        "new": [
-          "CMP AL,14",
-          "JNE DISPATCH14",
-          "CALL RETURNOP",
-          "RET",
-          "DISPATCH14:"
-        ],
-        "context": [
-          "CALL RESERVE",
-          "RET",
-          "DISPATCH12:"
-        ],
-        "after": [
-          "CALL TWOOPERANDS",
-          "CALL FINISH"
-        ]
-      }
-    ]
-  },
-  {
-    "number": 35,
-    "chapter": 23,
-    "collection": "asm86a",
-    "page": "35-word-and-byte-unary-operations.md",
-    "base": "A34.ASM",
-    "changes": [
-      {
-        "a1": 2479,
-        "a2": 2479,
-        "old": [],
-        "new": [
-          "DB 78,69,71,0,0,0,9,3",
-          "DB 78,79,84,0,0,0,9,2"
-        ],
-        "context": [
-          "DB 65,68,67,0,0,0,4,2",
-          "DB 83,66,66,0,0,0,4,3",
-          "DB 84,69,83,84,0,0,15,0"
-        ],
-        "after": [
-          "DB 74,90,0,0,0,0,8,116",
-          "DB 74,78,90,0,0,0,8,117"
-        ]
-      },
-      {
-        "a1": 2336,
-        "a2": 2336,
+        "a1": 2288,
+        "a2": 2288,
         "old": [],
         "new": [
           "GROUP:",
@@ -9394,8 +9266,8 @@
           ""
         ],
         "context": [
-          "CALL EMITWORD",
-          "JMP FINISH",
+          "MOV [ENCOP],AL",
+          "JMP ENCODE",
           ""
         ],
         "after": [
@@ -9428,58 +9300,10 @@
         "a1": 849,
         "a2": 850,
         "old": [
-          "MOV CX,41"
+          "MOV CX,30"
         ],
         "new": [
-          "MOV CX,43"
-        ],
-        "context": [
-          "POP SI",
-          "CALL RESTORENAME",
-          "MOV BX,OPTAB"
-        ],
-        "after": [
-          "MOV AX,8",
-          "CALL LOOK"
-        ]
-      }
-    ]
-  },
-  {
-    "number": 36,
-    "chapter": 24,
-    "collection": "asm86a",
-    "page": "36-multiply-and-divide-groups.md",
-    "base": "A35.ASM",
-    "changes": [
-      {
-        "a1": 2503,
-        "a2": 2503,
-        "old": [],
-        "new": [
-          "DB 77,85,76,0,0,0,9,4",
-          "DB 73,77,85,76,0,0,9,5",
-          "DB 68,73,86,0,0,0,9,6",
-          "DB 73,68,73,86,0,0,9,7"
-        ],
-        "context": [
-          "DB 84,69,83,84,0,0,15,0",
-          "DB 78,69,71,0,0,0,9,3",
-          "DB 78,79,84,0,0,0,9,2"
-        ],
-        "after": [
-          "DB 74,90,0,0,0,0,8,116",
-          "DB 74,78,90,0,0,0,8,117"
-        ]
-      },
-      {
-        "a1": 849,
-        "a2": 850,
-        "old": [
-          "MOV CX,43"
-        ],
-        "new": [
-          "MOV CX,47"
+          "MOV CX,32"
         ],
         "context": [
           "POP SI",
@@ -9495,33 +9319,32 @@
   },
   {
     "number": 37,
-    "chapter": 25,
+    "chapter": 23,
     "collection": "asm86a",
-    "page": "37-a-single-bit-shift.md",
+    "page": "37-logical-word-shifts.md",
     "base": "A36.ASM",
     "changes": [
       {
-        "a1": 2507,
-        "a2": 2507,
+        "a1": 2447,
+        "a2": 2447,
         "old": [],
         "new": [
           "DB 83,72,76,0,0,0,10,4",
-          "DB 83,72,82,0,0,0,10,5",
-          "DB 83,65,82,0,0,0,10,7"
+          "DB 83,72,82,0,0,0,10,5"
         ],
         "context": [
-          "DB 73,77,85,76,0,0,9,5",
-          "DB 68,73,86,0,0,0,9,6",
-          "DB 73,68,73,86,0,0,9,7"
+          "DB 76,69,65,0,0,0,11,0",
+          "DB 77,85,76,0,0,0,9,4",
+          "DB 68,73,86,0,0,0,9,6"
         ],
         "after": [
-          "DB 74,90,0,0,0,0,8,116",
-          "DB 74,78,90,0,0,0,8,117"
+          "DB 74,67,0,0,0,0,8,114",
+          ""
         ]
       },
       {
-        "a1": 2358,
-        "a2": 2358,
+        "a1": 2310,
+        "a2": 2310,
         "old": [],
         "new": [
           "SHIFT:",
@@ -9541,6 +9364,8 @@
           "ZSHIFT2:",
           "CALL SCAN",
           "CALL REGISTER",
+          "CMP AX,1",
+          "JE SHIFTCL",
           "CALL VALUE",
           "CMP AX,1",
           "JNE SHIFTRANGE",
@@ -9601,241 +9426,10 @@
         "a1": 849,
         "a2": 850,
         "old": [
-          "MOV CX,47"
+          "MOV CX,32"
         ],
         "new": [
-          "MOV CX,50"
-        ],
-        "context": [
-          "POP SI",
-          "CALL RESTORENAME",
-          "MOV BX,OPTAB"
-        ],
-        "after": [
-          "MOV AX,8",
-          "CALL LOOK"
-        ]
-      }
-    ]
-  },
-  {
-    "number": 38,
-    "chapter": 26,
-    "collection": "asm86a",
-    "page": "38-cl-shifts-and-rotates.md",
-    "base": "A37.ASM",
-    "changes": [
-      {
-        "a1": 2556,
-        "a2": 2556,
-        "old": [],
-        "new": [
-          "DB 82,79,76,0,0,0,10,0",
-          "DB 82,79,82,0,0,0,10,1",
-          "DB 82,67,76,0,0,0,10,2",
-          "DB 82,67,82,0,0,0,10,3"
-        ],
-        "context": [
-          "DB 83,72,76,0,0,0,10,4",
-          "DB 83,72,82,0,0,0,10,5",
-          "DB 83,65,82,0,0,0,10,7"
-        ],
-        "after": [
-          "DB 74,90,0,0,0,0,8,116",
-          "DB 74,78,90,0,0,0,8,117"
-        ]
-      },
-      {
-        "a1": 2554,
-        "a2": 2554,
-        "old": [],
-        "new": [
-          "DB 83,65,76,0,0,0,10,4"
-        ],
-        "context": [
-          "DB 68,73,86,0,0,0,9,6",
-          "DB 73,68,73,86,0,0,9,7",
-          "DB 83,72,76,0,0,0,10,4"
-        ],
-        "after": [
-          "DB 83,72,82,0,0,0,10,5",
-          "DB 83,65,82,0,0,0,10,7"
-        ]
-      },
-      {
-        "a1": 2380,
-        "a2": 2380,
-        "old": [],
-        "new": [
-          "CMP AX,1",
-          "JE SHIFTCL"
-        ],
-        "context": [
-          "ZSHIFT2:",
-          "CALL SCAN",
-          "CALL REGISTER"
-        ],
-        "after": [
-          "CALL VALUE",
-          "CMP AX,1"
-        ]
-      },
-      {
-        "a1": 849,
-        "a2": 850,
-        "old": [
-          "MOV CX,50"
-        ],
-        "new": [
-          "MOV CX,55"
-        ],
-        "context": [
-          "POP SI",
-          "CALL RESTORENAME",
-          "MOV BX,OPTAB"
-        ],
-        "after": [
-          "MOV AX,8",
-          "CALL LOOK"
-        ]
-      }
-    ]
-  },
-  {
-    "number": 39,
-    "chapter": 27,
-    "collection": "asm86a",
-    "page": "39-repeated-byte-and-word-movement.md",
-    "base": "A38.ASM",
-    "changes": [
-      {
-        "a1": 2723,
-        "a2": 2723,
-        "old": [],
-        "new": [
-          "STRINGOP:",
-          "DB 0",
-          ""
-        ],
-        "context": [
-          "REGFIELD:",
-          "DB 0",
-          ""
-        ],
-        "after": [
-          "LINEHI:",
-          "DW 0"
-        ]
-      },
-      {
-        "a1": 2663,
-        "a2": 2663,
-        "old": [],
-        "new": [
-          "STRINGTAB:",
-          "DB 77,79,86,83,66,0,2,164",
-          "DB 77,79,86,83,87,0,2,165",
-          "DB 83,84,79,83,66,0,2,170",
-          "DB 83,84,79,83,87,0,2,171",
-          "DB 76,79,68,83,66,0,2,172",
-          "DB 76,79,68,83,87,0,2,173",
-          ""
-        ],
-        "context": [
-          "UNRESOLVED:",
-          "DB 0",
-          ""
-        ],
-        "after": [
-          "EXPRDEPTH:",
-          "DW 0"
-        ]
-      },
-      {
-        "a1": 2563,
-        "a2": 2563,
-        "old": [],
-        "new": [
-          "DB 76,79,68,83,87,0,2,173",
-          "DB 83,84,79,83,87,0,2,171",
-          "DB 77,79,86,83,66,0,2,164",
-          "DB 77,79,86,83,87,0,2,165",
-          "DB 82,69,80,0,0,0,13,243"
-        ],
-        "context": [
-          "DB 82,79,82,0,0,0,10,1",
-          "DB 82,67,76,0,0,0,10,2",
-          "DB 82,67,82,0,0,0,10,3"
-        ],
-        "after": [
-          "DB 74,90,0,0,0,0,8,116",
-          "DB 74,78,90,0,0,0,8,117"
-        ]
-      },
-      {
-        "a1": 2406,
-        "a2": 2406,
-        "old": [],
-        "new": [
-          "REPEAT:",
-          "CALL SCAN",
-          "MOV BX,STRINGTAB",
-          "MOV CX,6",
-          "MOV AX,8",
-          "CALL LOOK",
-          "CMP BX,0",
-          "JNE ZREPEAT1",
-          "JMP TWOBAD",
-          "ZREPEAT1:",
-          "ADD BX,7",
-          "MOV AL,[BX]",
-          "MOV [STRINGOP],AL",
-          "MOV AL,243",
-          "CALL EMIT",
-          "MOV AL,[STRINGOP]",
-          "CALL EMIT",
-          "JMP FINISH",
-          ""
-        ],
-        "context": [
-          "MOV AX,4",
-          "JMP ERROR",
-          ""
-        ],
-        "after": [
-          "OKMSG:",
-          "DB 79,75,32,82,69,83,85,76,84,46,67,79,77,32,36"
-        ]
-      },
-      {
-        "a1": 908,
-        "a2": 908,
-        "old": [],
-        "new": [
-          "CMP AL,13",
-          "JNE DISPATCH13",
-          "CALL REPEAT",
-          "RET",
-          "DISPATCH13:"
-        ],
-        "context": [
-          "CALL RESERVE",
-          "RET",
-          "DISPATCH12:"
-        ],
-        "after": [
-          "CMP AL,14",
-          "JNE DISPATCH14"
-        ]
-      },
-      {
-        "a1": 849,
-        "a2": 850,
-        "old": [
-          "MOV CX,55"
-        ],
-        "new": [
-          "MOV CX,60"
+          "MOV CX,34"
         ],
         "context": [
           "POP SI",
@@ -9851,10 +9445,10 @@
   },
   {
     "number": 40,
-    "chapter": 28,
+    "chapter": 24,
     "collection": "asm86a",
     "page": "40-proving-the-larger-assembler.md",
-    "base": "A39.ASM",
+    "base": "A37.ASM",
     "changes": []
   }
 ]

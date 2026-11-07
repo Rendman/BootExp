@@ -24,12 +24,12 @@ Copy `A31.ASM` to `A32.ASM`. Apply the following edits **from the bottom of the 
 Unchanged source immediately before this edit:
 
 ```asm
-DB 74,71,0,0,0,0,8,127
+DB 88,79,82,0,0,0,4,6
 DB 82,69,83,66,0,0,12,0
 DB 82,69,83,87,0,0,12,1
 ```
 
-Insert after old physical line 2392.
+Insert after old physical line 2364.
 
 Insert:
 
@@ -40,8 +40,7 @@ DB 76,69,65,0,0,0,11,0
 The following old source stays in place:
 
 ```asm
-DB 65,68,67,0,0,0,4,2
-DB 83,66,66,0,0,0,4,3
+DB 74,67,0,0,0,0,8,114
 ```
 
 ### Change 2 near `MATHIMMEMIT:`
@@ -53,7 +52,7 @@ CALL ENCODE
 JMP EMITIMM
 ```
 
-Insert after old physical line 2253.
+Insert after old physical line 2230.
 
 Insert:
 
@@ -135,13 +134,13 @@ MOV BX,OPTAB
 Remove this exact source at old physical positions 850–850:
 
 ```asm
-MOV CX,40
+MOV CX,29
 ```
 
 Replace it with:
 
 ```asm
-MOV CX,41
+MOV CX,30
 ```
 
 The following old source stays in place:
@@ -158,13 +157,13 @@ COPY A32.ASM SOURCE.ASM
 CHECK ASM1
 ```
 
-Require `OK RESULT.COM 05881 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 05729 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A32.COM
 ```
 
-VIEW.BAS must report A32.COM length 5881 bytes. Keep that executable and source together.
+VIEW.BAS must report A32.COM length 5729 bytes. Keep that executable and source together.
 
 ## Acceptance check
 

@@ -29,7 +29,7 @@ OUTHANDLE:
 DW 0
 ```
 
-Insert after old physical line 1295.
+Insert after old physical line 1290.
 
 Insert:
 
@@ -229,9 +229,9 @@ MOV [RDPOS],AX
 
 ## Build the stopping point
 
-Run `CHECK ASMKEEP`, enter `A07` at `Source name:`, and require `OK 03056 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. It creates A07.COM.
+Run `CHECK ASMKEEP`, enter `A07` at `Source name:`, and require `OK 03016 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. It creates A07.COM.
 
-VIEW.BAS must report A07.COM length 3056 bytes. Keep that executable and source together.
+VIEW.BAS must report A07.COM length 3016 bytes. Keep that executable and source together.
 
 ## Acceptance check
 

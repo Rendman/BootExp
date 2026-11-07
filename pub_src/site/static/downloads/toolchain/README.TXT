@@ -10,18 +10,19 @@ ASMA0.ASM and ASM86A.ASM are the unchanged native assembler milestones.
 IRWIDE.ASM is the streaming native IR86 bootstrap translator.
 RILLBOOT.IR is the compiler seed, authored in processor-neutral IR86.
 RILL.RIL, IR86.RIL, ASM86A.RIL implement the three tools in RILL.
-TMAKE.BAT builds both seed tools and all three RILL implementations,
+TMAKE.BAT builds the native translator and compiler seed. RILLBOOT
+builds R0; R0 then builds the RILL-written translator and assembler. It
 then rebuilds each tool twice using only the RILL implementations.
 VIEW.BAS and CHECK.BAT are the unchanged workbench helpers.
-IW01.ASM through IW23.ASM: native streaming IR construction.
-RB01.IR through RB47.IR: the IR-written compiler construction.
+IW01.ASM through IW23.ASM: identical aliases of IR01 through IR23.
+RILL.IR: the completed first compiler, continued by RB01 through RB12.
 RC01.RIL through RC43.RIL: the compiler written in RILL.
 T-prefixed inputs and X-prefixed rejection cases accompany those tools.
 The named example RIL/IR files accompany the interface articles.
 
 Use your own DOS 3.10 and its period BASIC interpreter. Begin with the
-completed ASM86A workbench: ASMAKEEP.COM must be the tested 6422-byte
-native assembler. Keep it and the sources on a separate labeled disk.
+completed ASM86A workbench: ASMAKEEP.COM must be the tested 5995-byte
+native assembler. TMAKE also rebuilds RILL0 and runs its HI program. Keep it and the sources on a separate labeled disk.
 TMAKE deliberately preserves that builder. Do not start from a supplied
 binary: none is present. Use a hard-disk working directory, with enough
 space for source files, generated IR/assembly, and preserved executables.

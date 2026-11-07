@@ -36,12 +36,23 @@ for name in ['DELETE','EXISTS','ALLOC','FREEBLOCK']:op(name,0,0,'CALL R_'+name+'
 op('RENAME',0,2,'POP DX\nCALL R_RENAME\n')
 for name,width in [('GET8',1),('GET16',2)]:op(name,0,2,f'POP BX\nMOV CX,{width}\nCALL R_GETMEM\n')
 for name,width in [('SET8',1),('SET16',2)]:op(name,0,3,f'POP DX\nPOP BX\nMOV CX,{width}\nCALL R_SETMEM\n')
+# Only the operations needed by the compiler constructions and their outputs.
+for unused in 'BYTE CSGE CSGT CSLE CSLT EQ GETC HALT LDB NE NEG NOP NOT RET SETPARAM SGE SGT SLE SLT STB UGE UGT ULE ULT'.split():OPS.pop(unused,None)
 HEADER='CLD\nCMP SP,0FFFEH\nJNE NEAR R_STACKFAIL\nCALL U_MAIN\nMOV AH,4CH\nINT 21H\n'
 def near(s):return re.sub(r'^(J(?:B|AE|E|NE|BE|A|L|GE|LE|G|C|NC)) ([A-Z_][A-Z0-9_]*)$',r'\1 NEAR \2',s,flags=re.M)
-RUNTIME=near('\n'.join(PARTS[n] for n in part_names(32))+'\n'+(ROOT/'tools/ir86_wide_runtime.asm').read_text())
+RUNTIME=near('\n'.join(PARTS[n] for n in part_names(32) if n!='GETC')+'\n'+(ROOT/'tools/ir86_wide_runtime.asm').read_text())
 LITS='MOV AX,S_?\nJMP I_?\nS_?:\nDB '
 LITSEND='0\nI_?:\n'
-def source(ops=None,runtime=None,driver=None,frames=True,strings=True):
+def templatefield(name,text):
+ # These are assembly-text constants. Quoted DB makes the hand-entered backend
+ # readable; only the project assembler turns its data declarations into bytes.
+ rows=[]
+ for line in text.splitlines():
+  if line:rows.append('DB "'+line.replace('"','""')+'",13,10')
+  else:rows.append('DB 13,10')
+ rows.append('DB 0')
+ return name+':\n'+'\n'.join(rows)+'\n'
+def source(ops=None,runtime=None,driver=None,frames=True,strings=True,roots=()):
  prune=ops is not None or driver is not None
  ops=OPS if ops is None else ops
  runtime=RUNTIME if runtime is None else runtime
@@ -52,7 +63,7 @@ def source(ops=None,runtime=None,driver=None,frames=True,strings=True):
  code['CLEANUP']=code['CLEANUP'].replace('CALL MEMFREE\n','')
  code.update(blocks(ROOT/'tools/ir86_wide.asm'))
  if driver is not None:code['START']=driver
- statement=code['STATEMENT']
+ statement=code['STATEMENT'].replace('CMP AX,T_SETPARAM\nJE PARAMOFFSET\n','')
  if not frames:
   statement=statement.replace('CMP AL,4\nJE STATPROC\n','').replace('CMP AL,5\nJE STATINVOKE\n','')
   a=statement.index('STATPROC:\n');b=statement.index('STATSTRING:\n',a);statement=statement[:a]+statement[b:]
@@ -65,10 +76,10 @@ def source(ops=None,runtime=None,driver=None,frames=True,strings=True):
  for n in ['TOTALLO','TOTALHI','NUMV','TPL','DEPTH','PARAMS','LOCALS','STRID']:f[n]=n+':\nDW 0\n'
  for n in ['IRCLASS','IRDELTA']:f[n]=n+':\nDB 0\n'
  f['IRNAME']='IRNAME:\nRESB 32\n'
- for name,text in [('HEADER',HEADER),('RUNTIME',runtime),('LITS',LITS),('LITSEND',LITSEND),('STRINGNEXT','\nDB ')]+[(n,r[2]) for n,r in OPS.items() if n!='LITS']:f['T_'+name]=fieldtext('T_'+name,text.replace('\n','\r\n')+'\0')
+ for name,text in [('HEADER',HEADER),('RUNTIME',runtime),('LITS',LITS),('LITSEND',LITSEND),('STRINGNEXT','\nDB ')]+[(n,r[2]) for n,r in OPS.items() if n!='LITS']:f['T_'+name]=templatefield('T_'+name,text) if text.endswith('\n') else fieldtext('T_'+name,text.replace('\n','\r\n')+'\0')
  f['IRTAB']='IRTAB:\n'+''.join('DB '+','.join(str(b) for b in n.encode().ljust(10,b'\0')+bytes([c,d,0,0]))+'\nDW T_'+n+'\n' for n,(c,d,t) in ops.items())
  owners={n:k for k,v in code.items() for n in re.findall(r'^([A-Z][A-Z0-9_]*):$',v,re.M)}
- used={'START'} if prune else set(code)
+ used=({'START'}|set(selected)|set(roots)) if prune else set(code)
  while True:
   refs=set(re.findall(r'\b[A-Z][A-Z0-9_]*\b','\n'.join(code[k] for k in used)))
   needed={owners[r] for r in refs if r in owners}

@@ -82,13 +82,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000032103 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 14575 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000031872 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 14527 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RC13.COM
 ```
 
-VIEW.BAS must report RC13.COM length 14575 bytes. Keep this executable and its source together.
+VIEW.BAS must report RC13.COM length 14527 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 

@@ -20,12 +20,8 @@ PASS encoding MOV AX,[BX+0]
 PASS encoding MOV WORD [BX],1234H
 PASS encoding MOV BYTE [DI],255
 PASS encoding ADD AX,[SI]
-PASS encoding ADC AX,BX
 PASS encoding LEA AX,[BX+SI+4]
 PASS encoding SHL AX,1
-PASS encoding IMUL BX
-PASS encoding REP MOVSB
-PASS encoding JZ X
 PASS encoding DW FORWARD-$
 PASS five-byte 8086 conditional expansion JB
 PASS five-byte 8086 conditional expansion JAE
@@ -33,10 +29,19 @@ PASS five-byte 8086 conditional expansion JE
 PASS five-byte 8086 conditional expansion JNE
 PASS five-byte 8086 conditional expansion JBE
 PASS five-byte 8086 conditional expansion JA
-PASS five-byte 8086 conditional expansion JL
-PASS five-byte 8086 conditional expansion JGE
-PASS five-byte 8086 conditional expansion JLE
-PASS five-byte 8086 conditional expansion JG
+PASS reject RET 4
+PASS reject NOP
+PASS reject ADC AX,BX
+PASS reject SBB AX,BX
+PASS reject NEG AX
+PASS reject NOT AX
+PASS reject IMUL BX
+PASS reject IDIV BX
+PASS reject SAR AX,CL
+PASS reject ROL AX,1
+PASS reject REP MOVSB
+PASS reject JZ X
+PASS reject JL X
 PASS reject MOV CS,AX
 PASS reject MOV AX,CS:[BX+SI+DI]
 PASS reject MOV AX,[AX]

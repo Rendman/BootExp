@@ -6,7 +6,7 @@ ROOT=Path(__file__).resolve().parents[1]
 def fence(k,s):return '```'+k+'\n'+s.rstrip('\n')+'\n```\n\n'
 t='''+++
 title = "Complete RC programs"
-weight = 48
+weight = 46
 description = "Recursion, checked allocated storage, and counted files through the RILL-written compiler."
 download = "RC.ZIP"
 download_group = "rc"
@@ -26,8 +26,7 @@ for c in json.loads((ROOT/'qa/compiler_collections/rc-examples.json').read_text(
  t+='\n\nFor a separate rejection, save BAD.RIL:\n\n'+fence('rill',c['bad'])+fence('dos','COPY BAD.RIL SOURCE.RIL\nCHECK R0')+f'Require `{c["error"]}` and FAIL. The accepted RESULT.IR must remain unchanged. An unexpected PASS fails the check. Restore the accepted source before building again.\n\n'
 write_page((ROOT/'site/content/bootstrap/rc/048-programs.md'),t)
 
-# Both compiler implementations accept one shared language contract.
-reference_path=ROOT/'site/content/bootstrap/rb/132-the-rill-systems-language.md'
-reference=prepare(reference_path,reference_path.read_text()).split('## Program structure',1)[1]
-header='+++\ntitle = "The RILL language reference"\nweight = 44\ndescription = "The complete language used by the compiler, IR86, and ASM86 implementations."\ndownload = "RILL.RIL"\ndownload_group = "tools/rill"\nreader_names = 1\n+++\n\nRILL constructs RILL.RIL, a compiler written in the same language it accepts. RILLBOOT builds its first executable; R0 and the next two compiler generations reproduce it. The language contract is the same as the completed RILLBOOT compiler seed. ASM86.RIL and IR86.RIL use this same language.\n\n## Program structure'
-write_page((ROOT/'site/content/bootstrap/rc/044-reference.md'),header+reference)
+# The seed accepts a proper subset; the final compiler has its own reference.
+reference=(ROOT/'tools/rill_reference.md').read_text()
+header='+++\ntitle = "The RILL language reference"\nweight = 44\ndescription = "The language used to write and rebuild the compiler, IR86, and ASM86."\ndownload = "RILL.RIL"\ndownload_group = "tools/rill"\nreader_names = 1\n+++\n\nRILLBOOT builds the first RILL compiler from RILL.RIL. R0 and its next two compiler generations reproduce it. RILL adds the word operators and pointer wrappers used by the later tools.\n\n'
+write_page(ROOT/'site/content/bootstrap/rc/044-reference.md',header+reference)

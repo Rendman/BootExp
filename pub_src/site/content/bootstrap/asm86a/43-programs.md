@@ -1,7 +1,7 @@
 +++
-title = "31 \u00b7 Complete assembly programs"
-weight = 31
-description = "Strings, a stack frame, a distant conditional, and repeated byte movement."
+title = "27 \u00b7 Complete assembly programs"
+weight = 27
+description = "Strings, a stack frame, a distant conditional, and explicit byte movement."
 download = "ASM86.ZIP"
 download_group = "tools/asm86"
 reader_names = 1
@@ -51,6 +51,7 @@ For a separate rejection, copy the source to BAD.ASM. Replace `DB "Hello",13,10`
 MOV AX,65
 PUSH AX
 CALL F
+ADD SP,2
 MOV DL,AL
 MOV AH,2
 INT 21H
@@ -65,20 +66,20 @@ MOV [BP-2],AX
 MOV AX,[BP-2]
 MOV SP,BP
 POP BP
-RET 2
+RET
 ```
 
-CALL pushes the return address; PUSH BP saves the caller frame. BP+4 addresses the word argument. BP-2 is a local word after SUB SP,2. Restoring SP and BP precedes RET 2, which releases the argument. BP-based memory defaults to SS.
+CALL pushes the return address; PUSH BP saves the caller frame. BP+4 addresses the word argument. BP-2 is a local word after SUB SP,2. Restoring SP and BP precedes RET. The caller releases its argument with ADD SP,2. BP-based memory defaults to SS.
 
-Require `OK RESULT.COM 00043 bytes` and PASS. VIEW.BAS must report length 43 and these first thirty-two bytes:
+Require `OK RESULT.COM 00045 bytes` and PASS. VIEW.BAS must report length 45 and these first thirty-two bytes:
 
 ```text
-B8 41 00 50 E8 0B 00 8A D0 B4 02 CD 21 B8 00 4C CD 21 55 8B EC 81 EC 02 00 8B 86 04 00 89 86 FE
+B8 41 00 50 E8 0F 00 81 C4 02 00 8A D0 B4 02 CD 21 B8 00 4C CD 21 55 8B EC 81 EC 02 00 8B 86 04
 ```
 
 After saving RESULT.COM as FRAME.COM, CHECK FRAME displays "A" and reports PASS. Here `\r\n` means carriage return followed by line feed.
 
-For a separate rejection, copy the source to BAD.ASM. Replace `[BP+4]` with `[SP+4]`. Copy BAD.ASM to SOURCE.ASM and run CHECK ASMAKEEP. Require `ERROR 0000000013 CODE 1` and FAIL. The accepted RESULT.COM must remain unchanged; an unexpected PASS fails the check. Restore the accepted source before rebuilding.
+For a separate rejection, copy the source to BAD.ASM. Replace `[BP+4]` with `[SP+4]`. Copy BAD.ASM to SOURCE.ASM and run CHECK ASMAKEEP. Require `ERROR 0000000014 CODE 1` and FAIL. The accepted RESULT.COM must remain unchanged; an unexpected PASS fails the check. Restore the accepted source before rebuilding.
 
 ## BRIDGE
 
@@ -116,7 +117,11 @@ CLD
 MOV SI,TEXT
 MOV DI,DEST
 MOV CX,2
-REP MOVSB
+COPYLOOP:
+LODSB
+STOSB
+DEC CX
+JNE COPYLOOP
 MOV SI,DEST
 MOV CX,2
 SHOW:
@@ -134,15 +139,15 @@ DEST:
 RESB 2
 ```
 
-A COM program begins with DS and ES selecting the program segment. CLD makes movement advance. REP MOVSB copies two bytes, then the output loop prints the copy. REP consumes CX; the output loop loads its own count.
+A COM program begins with DS and ES selecting the program segment. CLD makes movement advance. The LODSB/STOSB loop copies two bytes, then the output loop prints the copy. The copy loop consumes CX; the output loop loads its own count.
 
-Require `OK RESULT.COM 00037 bytes` and PASS. VIEW.BAS must report length 37 and these first thirty-two bytes:
+Require `OK RESULT.COM 00040 bytes` and PASS. VIEW.BAS must report length 40 and these first thirty-two bytes:
 
 ```text
-FC BE 21 01 BF 23 01 B9 02 00 F3 A4 BE 23 01 B9 02 00 8A 14 B4 02 CD 21 46 49 75 F6 B8 00 4C CD
+FC BE 24 01 BF 26 01 B9 02 00 AC AA 49 75 FB BE 26 01 B9 02 00 8A 14 B4 02 CD 21 46 49 75 F6 B8
 ```
 
 After saving RESULT.COM as COPYTEXT.COM, CHECK COPYTEXT displays "Hi" and reports PASS. Here `\r\n` means carriage return followed by line feed.
 
-For a separate rejection, copy the source to BAD.ASM. Replace `REP MOVSB` with `REP RET`. Copy BAD.ASM to SOURCE.ASM and run CHECK ASMAKEEP. Require `ERROR 0000000005 CODE 1` and FAIL. The accepted RESULT.COM must remain unchanged; an unexpected PASS fails the check. Restore the accepted source before rebuilding.
+For a separate rejection, copy the source to BAD.ASM. Replace `LODSB` with `LODSB 1`. Copy BAD.ASM to SOURCE.ASM and run CHECK ASMAKEEP. Require `ERROR 0000000006 CODE 1` and FAIL. The accepted RESULT.COM must remain unchanged; an unexpected PASS fails the check. Restore the accepted source before rebuilding.
 

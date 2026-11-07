@@ -1,4 +1,3 @@
-NOP
 RET
 CLD
 LODSB

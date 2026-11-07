@@ -18,4 +18,4 @@ Twenty-eight construction installments use the saved filenames A13.ASM through A
 
 Read the workbench first and preserve ASM1.COM as the preceding builder. Preserve the completed ASM86.COM separately as ASMAKEEP.COM. The fixed files remain SOURCE.ASM and RESULT.COM; the processor remains the 8086/8088 and output remains DOS `.COM`.
 
-The complete source link above is ASM86.ASM. The [ASM86 disk sources](../../downloads/tools/asm86/ASM86.ZIP) include the verified seed prerequisite, all twenty-eight construction checkpoints, fixtures, helpers, and examples. The [ASM1 disk sources](../../downloads/tools/asm1/ASM1.ZIP) contain the seed's own construction. Neither archive supplies preassembled programs.
+The complete source link above is ASM86.ASM. The [ASM86 disk sources](../../downloads/tools/asm86/ASM86.ZIP) include the verified seed prerequisite, all twenty-four construction checkpoints, fixtures, helpers, and examples. The [ASM1 disk sources](../../downloads/tools/asm1/ASM1.ZIP) contain the seed's own construction. Neither archive supplies preassembled programs.

@@ -14,14 +14,15 @@ The Hugo source lives in `pub_src/site`; generated pages go to root `public/`. T
 | RILL0 | Our First Compiler |
 | RILLBOOT | A Compiler for Writing Tools |
 | RILL | A Compiler Written in Its Own Language |
+| Toolchain | Rebuilding Our Tools in RILL |
 
-Each collection has its own workbench, reference, complete examples, and source archive. Reader downloads use these tool names. Existing article URLs and saved checkpoint filenames remain stable. Internal production paths retain their established names; [pub_src/README.md](pub_src/README.md) explains the mapping.
+The tool constructions have their own workbenches, references, complete examples, and source archives. The final collection begins after the compiler self-builds and brings the three tools together. Reader downloads use these tool names. Existing article URLs and saved checkpoint filenames remain stable. Internal production paths retain their established names; [pub_src/README.md](pub_src/README.md) explains the mapping.
 
-The complete chain builds a RILL-written compiler (26,625 bytes), IR86 translator (31,472 bytes), and ASM86 assembler (32,404 bytes), then reproduces all three through two closed-loop generations. The RILLBOOT seed is written in IR86. The native ASM86 is built through ASM1 and ASM0 from the BASIC foundation.
+The complete chain builds a RILL-written compiler (26,617 bytes), IR86 translator (29,678 bytes), and ASM86 assembler (30,911 bytes), then reproduces all three through two closed-loop generations. The RILLBOOT seed is written in IR86. The native ASM86 is built through ASM1 and ASM0 from the BASIC foundation.
 
 IR86 and RILL stream bounded input/output blocks. The language supplies general identifiers, word expressions, recursive procedures with parameters and local state, lexical scopes, byte buffers, literal strings, and portable file/allocated-block services. IR remains processor-independent; the 8086/DOS binding keeps native conventions private. Output remains DOS `.COM`, with an explicit 61,184-byte profile. The RILL-written assembler retains 8,192 symbols in allocated pages.
 
-The existing collections contain the initial bootstrap milestones and their separately named builders. The continuation adds 23 native IR checkpoints, 47 IR-written compiler checkpoints, and 43 RILL-written compiler checkpoints, followed by complete tool sources and closed-loop rebuild instructions. Read [the systems workbench](pub_src/site/content/bootstrap/rb/033-the-systems-workbench.md), [the language reference](pub_src/site/content/bootstrap/rb/132-the-rill-systems-language.md), or [the complete toolchain exercise](pub_src/site/content/bootstrap/rc/135-the-complete-toolchain.md). [TOOLCHAIN_Design.md](TOOLCHAIN_Design.md) records the architecture and verification.
+The required path contains one native IR construction (23 checkpoints), a small compiler constructed from shared routines (39 checkpoints), twelve complete compiler extensions, and 43 checkpoints for the compiler written in RILL. RILLBOOT continues the accepted RILL0 source. Each extension retains the preceding language. See [the compiler workbench](pub_src/site/content/bootstrap/rb/000-workbench.md), [its reference](pub_src/site/content/bootstrap/rb/900-language-reference.md), and [the complete toolchain exercise](pub_src/site/content/bootstrap/toolchain/03-building-the-toolchain.md). [TOOLCHAIN_Design.md](TOOLCHAIN_Design.md) describes source continuity and verification.
 
 ## Publish with GitHub Pages
 

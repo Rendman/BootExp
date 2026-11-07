@@ -29,7 +29,7 @@ UNRESOLVED:
 DB 0
 ```
 
-Insert after old physical line 1832.
+Insert after old physical line 1827.
 
 Insert:
 
@@ -348,13 +348,13 @@ COPY A19.ASM SOURCE.ASM
 CHECK ASM1
 ```
 
-Require `OK RESULT.COM 04326 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 04286 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A19.COM
 ```
 
-VIEW.BAS must report A19.COM length 4326 bytes. Keep that executable and source together.
+VIEW.BAS must report A19.COM length 4286 bytes. Keep that executable and source together.
 
 ## Acceptance check
 

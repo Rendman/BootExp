@@ -20,7 +20,7 @@ Require OK and PASS at every build. Preserve each source/executable.
 A03 through A06 copy data; inspect that output, never execute it.
 Only fixtures expressly identified as complete programs may be run.
 
-ASMA0.COM is 3342 bytes. Compare both self-assembly generations with
+ASMA0.COM is 3302 bytes. Compare both self-assembly generations with
 its ASM86-built original. The seed uses fixed SOURCE.ASM/RESULT.COM,
 1024-byte input/output blocks, 2048 symbols, sixteen-character names,
 120-character physical lines, and at most 65535 lines per pass.

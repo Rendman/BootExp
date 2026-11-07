@@ -1,6 +1,6 @@
 """Reconstruct every new checkpoint from its actual printed source edits."""
 from pathlib import Path
-import json,re,zipfile
+import json,re,zipfile,tomllib
 ROOT=Path(__file__).resolve().parents[2];W=ROOT/'workbench/toolchain';Q=ROOT/'qa/toolchain';C=ROOT/'site/content/bootstrap';D=ROOT/'site/static/downloads/toolchain'
 programs={'ir-extensions':(ROOT/'workbench/asm86a/ASM86A.ASM').read_text().splitlines(),'rill-seed-series':[],'rill-self-series':[]};counts={k:0 for k in programs}
 for stage in json.loads((Q/'article-patches.json').read_text()):
@@ -20,7 +20,7 @@ for stage in json.loads((Q/'article-patches.json').read_text()):
 assert counts=={'ir-extensions':23,'rill-seed-series':47,'rill-self-series':43},counts
 for a,b in [('IW23.ASM','IRWIDE.ASM'),('RB47.IR','RILLBOOT.IR'),('RC43.RIL','RILL.RIL')]:assert (W/a).read_bytes()==(W/b).read_bytes(),(a,b,'canonical handoff')
 for name,group in [('BOOTASM.BAS','bootasm'),('ASM86.ASM','asm86'),('ASMA0.ASM','asma0'),('ASM86A.ASM','asm86a'),('VIEW.BAS','bootasm'),('CHECK.BAT','bootasm'),('IRWIDE.ASM','ir86'),('RILLBOOT.IR','rill')]:assert (W/name).read_bytes()==(ROOT/'workbench'/group/name).read_bytes(),name
-for name,group,page in [('IR86','ir86','061-ir86-in-rill.md'),('ASM86A','rc','134-asm86a-in-rill.md')]:
+for name,group,page in [('IR86','toolchain','01-ir86-in-rill.md'),('ASM86A','toolchain','02-asm86-in-rill.md')]:
  blocks=re.findall(r'```rill\n(.*?)\n```',(C/group/page).read_text(),re.S)
  strip=lambda s:[r for r in s.splitlines() if r.strip()]
  assert strip('\n'.join(blocks))==strip((W/(name+'.RIL')).read_text()),name+' source notebook'
@@ -46,5 +46,26 @@ for family in counts:
 import sys
 sys.path.insert(0,str(ROOT/'tools'))
 from publication_names import names
-pipeline=(C/'rc/135-the-complete-toolchain.md').read_text();assert re.search(r'```dos\n(ECHO OFF\n.*?)\n```',pipeline,re.S)[1]+'\n'==names((W/'TMAKE.BAT').read_text())
+pipeline=(C/'toolchain/03-building-the-toolchain.md').read_text();assert re.search(r'```dos\n(ECHO OFF\n.*?)\n```',pipeline,re.S)[1]+'\n'==names((W/'TMAKE.BAT').read_text())
+# The RILL ports can only be introduced after the compiler self-builds.
+expected={'00-workbench.md':0,'01-ir86-in-rill.md':1,'02-asm86-in-rill.md':2,'03-building-the-toolchain.md':3,'04-comparing-generations.md':4}
+assert len(list((C/'toolchain').glob('*.md')))==6
+for page,weight in expected.items():assert tomllib.loads((C/'toolchain'/page).read_text().split('+++')[1])['weight']==weight
+assert tomllib.loads((C/'toolchain/_index.md').read_text().split('+++')[1])['weight']>tomllib.loads((C/'rc/_index.md').read_text().split('+++')[1])['weight']
+assert 'download = "IRWIDE.ASM"' in (C/'ir86/_index.md').read_text()
+assert (C/'rc/133-the-compiler-self-build.md').exists()
+assert not (C/'ir86/061-ir86-in-rill.md').exists()
+assert not any((C/'rc'/p).exists() for p in ['134-asm86a-in-rill.md','135-the-complete-toolchain.md'])
+for page,routes in {
+ '01-ir86-in-rill.md':['/bootstrap/ir86/061-ir86-in-rill/'],
+ '02-asm86-in-rill.md':['/bootstrap/rc/134-asm86a-in-rill/','/bootstrap/rill/134-asm86a-in-rill/'],
+ '03-building-the-toolchain.md':['/bootstrap/rc/135-the-complete-toolchain/','/bootstrap/rill/135-the-complete-toolchain/']}.items():
+ assert tomllib.loads((C/'toolchain'/page).read_text().split('+++')[1])['aliases']==routes
+compare=(C/'toolchain/04-comparing-generations.md').read_text()
+for tool in ['A','I','R']:
+ for generation in [1,2]:assert f'COMP {tool}0.COM {tool}{generation}.COM <NO.TXT' in compare
+assert 'CHECK R2' in compare and 'CHECK I2' in compare and 'CHECK A2' in compare
+packages=json.loads((ROOT/'qa/reader-packages.json').read_text())
+for name in ['IR86.RIL','ASM86.RIL','TMAKE.BAT']:
+ assert name in packages['toolchain']['files'] and name not in packages['rill']['files']
 print(f'PASS toolchain: 23 native IR + 47 IR-compiler + 43 RILL-compiler printed edits reconstruct exact sources; complete port notebooks, examples, handoffs, and {len(files)} ASCII/CRLF/8.3 archive sources agree')

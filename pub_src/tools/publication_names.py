@@ -10,7 +10,8 @@ SERIES={
  'ir86':('IR86','Building an Intermediate Language'),
  'rill':('RILL0','Our First Compiler'),
  'rb':('RILLBOOT','A Compiler for Writing Tools'),
- 'rc':('RILL','A Compiler Written in Its Own Language')}
+ 'rc':('RILL','A Compiler Written in Its Own Language'),
+ 'toolchain':('TOOLCHAIN','Rebuilding Our Tools in RILL')}
 WORDS={'ASM86':'ASM0','ASMA0':'ASM1','ASM86A':'ASM86','RB':'RILLBOOT','RC':'RILL'}
 TOKEN=re.compile(r'\b(?:RILL\.(?:IR|ASM|COM|ZIP)|ASM86A|ASMA0|ASM86|RB|RC)\b')
 def names(s):return TOKEN.sub(lambda m:'RILL0'+m[0][4:] if m[0].startswith('RILL.') else WORDS[m[0]],s)
@@ -19,6 +20,20 @@ def filename(name):
  if stem=='RILL' and ext in ['IR','ASM','COM','ZIP']:stem='RILL0'
  else:stem=WORDS.get(stem,stem)
  return stem+sep+ext
+def reader_text(group,original,text):
+ """Give each canonical archive instructions for its current collection."""
+ newline='\r\n' if '\r\n' in text else '\n'
+ text=names(text.replace('\r\n','\n'))
+ if original=='README.TXT':
+  text=text.replace('first RILL -> RILLBOOT','RILL0 -> RILLBOOT')
+  if group=='rc':
+   text=text.replace('IR86.RIL and ASM86.RIL are the translator and assembler in RILL.\nTMAKE.BAT builds all three tools and both closed-loop generations.\nThe complete TOOLCHN.ZIP also contains earlier continuation sources.',
+    'After both compiler self-builds match, continue with Rebuilding Our\nTools in RILL. Its TOOLCHN.ZIP supplies IR86.RIL, ASM86.RIL, and\nTMAKE.BAT for the complete three-tool builds and comparisons.')
+  if group=='toolchain':
+   text=text.replace('Use your own DOS 3.10 and its period BASIC interpreter. Begin with the\ncompleted ASM86 workbench: ASMAKEEP.COM must be the tested 6422-byte\nnative assembler.',
+    'Use your own DOS 3.10 and its period BASIC interpreter. For this article\ncollection, first complete the RILL compiler and both self-build checks.\nPreserve R0.COM, IWKEEP.COM, and the tested 6422-byte ASMAKEEP.COM.')
+ return text.replace('\n',newline)
+
 HELP_TITLES={
  'PRINT':'Printing a String','PRINTNUM':'Printing a Number','PRINT32':'Counting Beyond 65535',
  'ERROR':'Reporting an Error','FAIL':'Reporting an Error','LETTER':'Recognizing Identifier Characters','DIGIT':'Recognizing Decimal Digits',

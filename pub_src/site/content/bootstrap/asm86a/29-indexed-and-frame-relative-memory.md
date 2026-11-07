@@ -28,7 +28,7 @@ MEMHAD:
 DB 0
 ```
 
-Insert after old physical line 2427.
+Insert after old physical line 2419.
 
 Insert:
 
@@ -300,13 +300,13 @@ COPY A29.ASM SOURCE.ASM
 CHECK ASM1
 ```
 
-Require `OK RESULT.COM 05634 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 05570 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A29.COM
 ```
 
-VIEW.BAS must report A29.COM length 5634 bytes. Keep that executable and source together.
+VIEW.BAS must report A29.COM length 5570 bytes. Keep that executable and source together.
 
 ## Acceptance check
 

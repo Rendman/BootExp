@@ -262,8 +262,6 @@ fn statement() {
     if kind == 9 { return group(); }
     if kind == 10 { return shift(); }
     if kind == 12 { return reserve(); }
-    if kind == 13 { return repeat(); }
-    if kind == 14 { return retop(); }
     operand(); savefirst(); scan(); if !same(token,",") { fail(1); } operand(); finish();
     if kind == 3 { return movop(); }
     if kind == 11 { return leaop(); }
@@ -312,17 +310,6 @@ fn conditional() {
     else { n = n-(pc+2); if pass == 2 { if n > 127 { if n < 65408 { fail(4); } } } emit(op); emit(n); }
     return 0;
 }
-fn retop() {
-    scan(); if token[0] == 0 { emit(195); return 0; }
-    let mut n = expression(); finish(); emit(194); emitword(n); return 0;
-}
-fn repeat() {
-    scan(); let mut n = 0;
-    if same(token,"MOVSB") { n = 164; } if same(token,"MOVSW") { n = 165; }
-    if same(token,"STOSB") { n = 170; } if same(token,"STOSW") { n = 171; }
-    if same(token,"LODSB") { n = 172; } if same(token,"LODSW") { n = 173; }
-    if n == 0 { fail(1); } finish(); emit(243); emit(n); return 0;
-}
 fn group() { operand(); finish(); if okind > 2 { fail(1); } knownwidth(); encode(246+width,op); return 0; }
 fn shift() {
     operand(); savefirst(); scan(); if !same(token,",") { fail(1); } scan();
@@ -351,16 +338,16 @@ fn mathop() {
     let mut n = val; let mut rightreg = reg; let mut rightwidth = width; let mut code = 0;
     if okind == 3 {
         usefirst(); if okind > 2 { fail(1); } knownwidth();
-        if kind == 15 { encode(246+width,0); } else { encode(128+width,op); }
+        encode(128+width,op);
         immediate(n); return 0;
     }
     if k == 1 {
         if okind > 2 { fail(1); } checkwidth(w);
-        code = op*8+2+width; if kind == 15 { code = 132+width; } encode(code,r); return 0;
+        code = op*8+2+width; encode(code,r); return 0;
     }
     if k != 2 { fail(1); } if okind != 1 { fail(1); }
     usefirst(); checkwidth(rightwidth); code = op*8+width;
-    if kind == 15 { code = 132+width; } encode(code,rightreg); return 0;
+    encode(code,rightreg); return 0;
 }
 fn leaop() {
     if load16(first) != 1 { fail(1); } if load16(first+2) != 1 { fail(1); }

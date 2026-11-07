@@ -77,7 +77,7 @@ final='BOOTASM.BAS'
 valid=[
  ('EMPTY','',b''),
  ('NUMBERS','DB 0,255\nDW 0,32768,65535',bytes.fromhex('00 FF 00 00 00 80 FF FF')),
- ('FIXED','NOP\nRET\nCLD\nLODSB\nSTOSB',bytes.fromhex('90 C3 FC AC AA')),
+ ('FIXED','RET\nCLD\nLODSB\nSTOSB',bytes.fromhex('C3 FC AC AA')),
  ('BACK','HERE:\nDB 1\nDW HERE',bytes.fromhex('01 00 01')),
  ('ALIAS','A:\nB:\nDW A,B',bytes.fromhex('00 01 00 01')),
  ('MEMORY','MOV BX,DATA\nMOV AL,[BX]\nMOV [DATA],AX\nDATA:\nDW 0',bytes.fromhex('BB 09 01 8A 07 89 06 09 01 00 00')),
@@ -101,6 +101,7 @@ for name,text,expected in valid:
     RESULT.append(f'PASS boundary {name}');print(RESULT[-1],flush=True)
 
 invalid=[
+ ('UNUSED','NOP','Unknown instruction'),('UNUSEDOR','OR AX,BX','Unknown instruction'),('UNUSEDX','XOR AX,BX','Unknown instruction'),('SIGNED','JL 100H','Unknown instruction'),
  ('BIGBYTE','DB 256','Byte out of range'),('BIGWORD','DW 65536','Number too large'),
  ('BADHEX','DB 12ZH','Bad number'),('NEGATIVE','DB -1','Bad label'),
  ('EXPR','DW 1+2','Bad number'),('BADLABEL','1NAME:\nDB 0','Bad label'),
@@ -155,12 +156,12 @@ for name,expected,output,exitcode in [
 
 # All supported condition opcodes, both arithmetic directions, and immediate groups.
 encoding_cases=[
- ('BRANCHES','JB END\nJAE END\nJE END\nJNE END\nJBE END\nJA END\nJL END\nJGE END\nJLE END\nJG END\nEND:',
-  '72 12 73 10 74 0E 75 0C 76 0A 77 08 7C 06 7D 04 7E 02 7F 00'),
- ('REGOPS','ADD AX,BX\nOR AX,BX\nAND AX,BX\nSUB AX,BX\nXOR AX,BX\nCMP AX,BX',
-  '03 C3 0B C3 23 C3 2B C3 33 C3 3B C3'),
- ('IMMOPS','ADD AX,1\nOR AX,2\nAND AX,3\nSUB AX,4\nXOR AX,5\nCMP AX,6',
-  '81 C0 01 00 81 C8 02 00 81 E0 03 00 81 E8 04 00 81 F0 05 00 81 F8 06 00'),
+ ('BRANCHES','JB END\nJAE END\nJE END\nJNE END\nJBE END\nJA END\nEND:',
+  '72 0A 73 08 74 06 75 04 76 02 77 00'),
+ ('REGOPS','ADD AX,BX\nAND AX,BX\nSUB AX,BX\nCMP AX,BX',
+  '03 C3 23 C3 2B C3 3B C3'),
+ ('IMMOPS','ADD AX,1\nAND AX,3\nSUB AX,4\nCMP AX,6',
+  '81 C0 01 00 81 E0 03 00 81 E8 04 00 81 F8 06 00'),
  ('BYTEREG','MOV AL,1\nMOV CL,2\nMOV DL,3\nMOV BL,4\nMOV AH,5\nMOV CH,6\nMOV DH,7\nMOV BH,8',
   'B0 01 B1 02 B2 03 B3 04 B4 05 B5 06 B6 07 B7 08'),
  ('WORDREG','MOV AX,1\nMOV CX,2\nMOV DX,3\nMOV BX,4\nMOV SP,5\nMOV BP,6\nMOV SI,7\nMOV DI,8',

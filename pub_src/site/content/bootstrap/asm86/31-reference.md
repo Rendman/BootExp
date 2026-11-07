@@ -59,17 +59,15 @@ Here `r8` is any byte register, `r16` any ordinary word register, `r` a register
 | `MOV r,[BX]` / `MOV [BX],r` | 2 | Load or store at DS:BX |
 | `MOV r,[value]` / `MOV [value],r` | 4 | Load or store at a direct DS offset |
 | `ADD r,r` / `SUB r,r` / `CMP r,r` | 2 | Equal-width registers; CMP does not store the subtraction |
-| `AND r,r` / `OR r,r` / `XOR r,r` | 2 | Equal-width bitwise operations |
-| `ADD/SUB/CMP/AND/OR/XOR r8,imm` | 3 | Full byte immediate |
-| `ADD/SUB/CMP/AND/OR/XOR r16,imm` | 4 | Full word immediate; no 83H shortening |
+| `AND r,r` / `OR r,r` | 2 | Equal-width bitwise operations |
+| `ADD/SUB/CMP/AND/OR r8,imm` | 3 | Full byte immediate |
+| `ADD/SUB/CMP/AND/OR r16,imm` | 4 | Full word immediate; no 83H shortening |
 | `INC r16` / `DEC r16` | 1 | Change by one; carry flag preserved |
 | `PUSH r16` / `POP r16` | 1 | Transfer a word through SS:SP |
 | `INT value` | 2 | Interrupt number 0 through 255 |
 | `CALL value` | 3 | Near relative call; pushes return offset |
 | `JMP value` | 3 | Near relative jump |
 | `JB/JAE/JE/JNE/JBE/JA value` | 2 | Short conditional branch, unsigned comparisons |
-| `JL/JGE/JLE/JG value` | 2 | Short conditional branch, signed comparisons |
-| `NOP` | 1 | 90H |
 | `RET` | 1 | C3H; near return without an immediate |
 | `CLD` | 1 | FCH; clear direction flag |
 | `LODSB` | 1 | ACH; DS:SI to AL, then adjust SI |
@@ -83,7 +81,7 @@ For MOV immediate, use B0H plus the byte register number or B8H plus the word re
 
 For register-to-register MOV, use 8AH for bytes or 8BH for words. The ModR/M byte is `192 + 8*destination + source`. For memory loads use the same opcode; for stores use 88H or 89H. The memory ModR/M byte is `8*register + 7` for [BX], or `8*register + 6` followed by a word offset for a direct address.
 
-The arithmetic group numbers are ADD=0, OR=1, AND=4, SUB=5, XOR=6, CMP=7. For a register source the opcode is `8*group + 2 + width`, where width is zero for byte or one for word. The ModR/M byte uses the same register rule as MOV. For immediate arithmetic the opcode is 80H or 81H and ModR/M is `192 + 8*group + destination`; the full-width immediate follows.
+The arithmetic group numbers are ADD=0, OR=1, AND=4, SUB=5, CMP=7. For a register source the opcode is `8*group + 2 + width`, where width is zero for byte or one for word. The ModR/M byte uses the same register rule as MOV. For immediate arithmetic the opcode is 80H or 81H and ModR/M is `192 + 8*group + destination`; the full-width immediate follows.
 
 Near CALL is E8H and near JMP is E9H. Their displacement is `target - (instruction offset + 3)`, represented as a 16-bit word. Conditional branches subtract `instruction offset + 2` and require -128 through +127 in pass two. No branch relaxation occurs.
 
@@ -95,10 +93,6 @@ Near CALL is E8H and near JMP is E9H. Their displacement is `target - (instructi
 | JNE | 75H | ZF=0 |
 | JBE | 76H | CF=1 or ZF=1 |
 | JA | 77H | CF=0 and ZF=0 |
-| JL | 7CH | SF differs from OF |
-| JGE | 7DH | SF equals OF |
-| JLE | 7EH | ZF=1 or SF differs from OF |
-| JG | 7FH | ZF=0 and SF equals OF |
 
 CF is carry, ZF is zero, SF is sign, and OF is signed overflow. CMP sets the flags as though subtracting its source from its destination. The branch must test the intended flags before another instruction changes them. An out-of-range conditional transfer must be written explicitly as an opposite short condition around a near JMP.
 
@@ -130,7 +124,7 @@ The program retains DOS's common CS, DS, ES, and SS segment. CLD at entry establ
 | NUMBER | AX to five displayed decimal digits | Preserves all word registers; flags are scratch |
 | ERROR | AX=code, LINENO=line to report and status one | Does not return; DOS closes process handles |
 
-The instruction table has 31 eight-byte records: six zero-padded name bytes, a class byte, and a parameter byte. Classes are data=1, fixed=2, MOV=3, arithmetic=4, single-register=5, INT=6, near transfer=7, and short transfer=8. The register table has sixteen four-byte records: two name characters, zero, and a code. Word register codes have eight added; the low three bits are the CPU register encoding.
+The instruction table has 25 eight-byte records: six zero-padded name bytes, a class byte, and a parameter byte. Classes are data=1, fixed=2, MOV=3, arithmetic=4, single-register=5, INT=6, near transfer=7, and short transfer=8. The register table has sixteen four-byte records: two name characters, zero, and a code. Word register codes have eight added; the low three bits are the CPU register encoding.
 
 A symbol record occupies twenty bytes: up to sixteen name characters and a zero, padding through byte seventeen, then its loaded offset at bytes eighteen and nineteen. Pass one rejects duplicates and records addresses; pass two requires every definition to retain its address. Fixed-length encodings keep those addresses stable. Undefined references are provisional zeroes on pass one and errors on pass two. Byte-range and conditional-branch checks therefore cannot accept an unresolved final address.
 

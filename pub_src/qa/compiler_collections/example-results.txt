@@ -6,4 +6,4 @@ PASS EBYTES: RB/RC identical IR, assembly and executable; exact runtime/file out
 PASS ESTRING: RB/RC identical IR, assembly and executable; exact runtime/file output, rejection and preservation
 PASS EHEAP: RB/RC identical IR, assembly and executable; exact runtime/file output, rejection and preservation
 PASS ECOPY: RB/RC identical IR, assembly and executable; exact runtime/file output, rejection and preservation
-PASS RB-to-RC handoff: seed builds canonical RILL, two self-builds reproduce 26625 bytes
+PASS RB-to-RC handoff: seed builds canonical RILL, two self-builds reproduce identical bytes

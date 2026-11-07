@@ -419,15 +419,15 @@ VALUE still preserves SI. The symbol path may change the lookup scratch register
 
 Our test emits a word before the byte it names. TEXT therefore has loaded offset 0102H. A named address is an ordinary unsigned value: DW can hold it, while DB rejects a value above 255. Expressions such as TEXT+1 remain outside the language.''',
  **spec(labels=True,stored=True,symbolic=True),fixture='DW TEXT\r\nTEXT:\r\nDB 65\r\n',image='02 01 41',bad={'kind':'source','text':'DW MISSING\r\n','line':1,'code':3})
-FEATURES+=['NOP','RET','CLD','LODSB','STOSB']
+FEATURES+=['RET','CLD','LODSB','STOSB']
 add('Fixed instruction bytes','Five no-operand mnemonics use the same table dispatcher.',
 'We shall add machine instructions whose complete encodings are one fixed byte each.',
 '''The new OPTAB records have class two and carry their opcode in the parameter byte. FIXED sends that byte through EMIT, then calls FINISH to reject an extra operand.
 
-NOP is 90H. RET is the near return C3H. CLD is FCH and selects increasing indexes for string instructions. LODSB, ACH, loads AL from DS:SI and adjusts SI; STOSB, AAH, stores AL at ES:DI and adjusts DI. Their direction depends on the direction flag. They are plain, single instructions; no repeat prefix is accepted.
+RET is the near return C3H. CLD is FCH and selects increasing indexes for string instructions. LODSB, ACH, loads AL from DS:SI and adjusts SI; STOSB, AAH, stores AL at ES:DI and adjusts DI. Their direction depends on the direction flag. They are plain, single instructions; no repeat prefix is accepted.
 
 FIXED changes AL, PC, OUTPTR, and the scanner scratch state. It receives its opcode through OP and its argument cursor through SI. These encodings do not make the fixture safe to execute: its stack and index registers have not been prepared. Inspect the bytes only.''',
- **spec(labels=True,stored=True,symbolic=True),fixture='NOP\r\nRET\r\nCLD\r\nLODSB\r\nSTOSB\r\n',image='90 C3 FC AC AA',bad={'kind':'source','text':'NOP 1\r\n','line':1,'code':1})
+ **spec(labels=True,stored=True,symbolic=True),fixture='RET\r\nCLD\r\nLODSB\r\nSTOSB\r\n',image='C3 FC AC AA',bad={'kind':'source','text':'RET 1\r\n','line':1,'code':1})
 FEATURES+=['MOV']
 add('A register and an immediate','Determine MOV size from its destination register.',
 'We shall add MOV with a register destination and a numeric or named immediate value.',
@@ -465,17 +465,17 @@ In the test, DL holds Z and AH holds function 02H. INT 21H displays the characte
 
 INTERRUPT changes VALUE's scratch registers, AX, PC, OUTPTR, and flags. Its temporary saved AX costs two stack bytes. The interrupt instruction itself causes the processor to save flags, CS, and IP while the service runs; the caller must use the documented DOS register interface, not treat a software interrupt as an ordinary subroutine.''',
  **spec(labels=True,stored=True,symbolic=True,copies=True),fixture='MOV DL,5AH\r\nMOV AH,2\r\nINT 21H\r\nMOV AX,4C00H\r\nINT 21H\r\n',image='B2 5A B4 02 CD 21 B8 00 4C CD 21',executable='Z',bad={'kind':'source','text':'INT 256\r\n','line':1,'code':4})
-FEATURES+=['ADD','OR','AND','SUB','XOR','CMP']
+FEATURES+=['ADD','OR','AND','SUB','CMP']
 add('Arithmetic and comparisons','Select a group number, register form, or full-width immediate.',
-'Six related instruction families can share the operand reader and much of their encoding work.',
-'''The class-four parameters are the processor's group numbers: ADD=0, OR=1, AND=4, SUB=5, XOR=6, and CMP=7. They are not a consecutive numbering invented by this assembler.
+'Five related instruction families can share the operand reader and much of their encoding work.',
+'''The class-four parameters are the processor's group numbers: ADD=0, OR=1, AND=4, SUB=5, and CMP=7. They are not a consecutive numbering invented by this assembler.
 
 TWOOPERANDS requires a register destination. For a register source, SAMEWIDTH checks the widths and the opcode is eight times OP plus two plus W1. REGMOD supplies the ordinary two-register ModR/M byte.
 
 For an immediate source, the opcode is 80H for a byte or 81H for a word. ModR/M is 192 plus eight times OP plus the destination register. IMMEDVALUE emits the full selected width. The shorter sign-extended 83H form is deliberately omitted, keeping instruction sizes independent of a value's eventual address.
 
-ADD and SUB store their arithmetic result; CMP sets subtraction flags without storing it. AND, OR, and XOR operate on corresponding bits. The assembled operations affect flags; the parser and encoding helpers also use flags internally, so the assembler saves state in fields rather than depending on a comparison across a helper call. Memory arithmetic and signed literal syntax remain excluded.''',
- **spec(labels=True,stored=True,symbolic=True,copies=True,math=True),fixture='ADD AX,BX\r\nSUB CX,1\r\nCMP AL,41H\r\nXOR DX,DX\r\nAND AL,0DFH\r\nOR BL,20H\r\n',image='03 C3 81 E9 01 00 80 F8 41 33 D2 80 E0 DF 80 CB 20',bad={'kind':'source','text':'ADD AX,AL\r\n','line':1,'code':1})
+ADD and SUB store their arithmetic result; CMP sets subtraction flags without storing it. AND and OR operate on corresponding bits. The assembled operations affect flags; the parser and encoding helpers also use flags internally, so the assembler saves state in fields rather than depending on a comparison across a helper call. Memory arithmetic and signed literal syntax remain excluded.''',
+ **spec(labels=True,stored=True,symbolic=True,copies=True,math=True),fixture='ADD AX,BX\r\nSUB CX,1\r\nCMP AL,41H\r\nAND AL,0DFH\r\nOR BL,20H\r\n',image='03 C3 81 E9 01 00 80 F8 41 80 E0 DF 80 CB 20',bad={'kind':'source','text':'ADD AX,AL\r\n','line':1,'code':1})
 add('Moving through memory','Use BX or one direct offset; let the register determine width.',
 'We shall add bracketed MOV operands without adding an expression parser or the processor\'s entire addressing vocabulary.',
 '''An opening bracket selects MEMORY. The inner token BX selects r/m=7; every other inner token is a value or label and selects r/m=6 with a direct word offset. A closing bracket is required. KIND=2 identifies memory, REG holds that r/m number, and VAL holds the direct offset when needed.
@@ -497,10 +497,10 @@ NEARJUMP preserves the computed displacement on the stack while emitting the opc
 
 The complete test calls SAY, which displays C, then returns to the termination code. SAY begins five bytes beyond the return address, so the CALL displacement is 0005H.''',
  **spec(labels=True,stored=True,symbolic=True,copies=True,memory=True,math=True),fixture='CALL SAY\r\nMOV AX,4C00H\r\nINT 21H\r\nSAY:\r\nMOV DL,43H\r\nMOV AH,2\r\nINT 21H\r\nRET\r\n',image='E8 05 00 B8 00 4C CD 21 B2 43 B4 02 CD 21 C3',executable='C',bad={'kind':'source','text':'CALL LOST\r\n','line':1,'code':3})
-FEATURES+=['JB','JAE','JE','JNE','JBE','JA','JL','JGE','JLE','JG']
+FEATURES+=['JB','JAE','JE','JNE','JBE','JA']
 add('Short conditional branches','A signed byte selects a nearby path from the flags.',
-'A comparison needs a way to select a path. We shall add the ten short conditions and reject a destination outside their signed-byte reach.',
-'''Class eight carries the condition opcode: 72H through 77H for unsigned comparisons, and 7CH through 7FH for signed comparisons. JE and JNE test equality for either interpretation. The reference gives the flag expressions for every accepted spelling.
+'A comparison needs a way to select a path. We shall add the six short conditions and reject a destination outside their signed-byte reach.',
+'''Class eight carries the condition opcode: 72H through 77H for unsigned comparisons. JE and JNE test equality for either interpretation. The reference gives the flag expressions for every accepted spelling.
 
 SHORTJUMP subtracts PC plus two from the target. Pass one accepts a placeholder for an unknown name. Pass two accepts unsigned word results 0000H through 007FH or FF80H through FFFFH, the bit patterns for displacements zero through 127 or minus 128 through minus one. Any other result selects range code 4.
 

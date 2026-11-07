@@ -29,7 +29,7 @@ DB 0
 MOD:
 ```
 
-Insert after old physical line 2285.
+Insert after old physical line 2277.
 
 Insert:
 
@@ -57,7 +57,7 @@ NAMELEN:
 DW 0
 ```
 
-Insert after old physical line 2275.
+Insert after old physical line 2267.
 
 Insert:
 
@@ -370,13 +370,13 @@ COPY A27.ASM SOURCE.ASM
 CHECK ASM1
 ```
 
-Require `OK RESULT.COM 05402 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 05338 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A27.COM
 ```
 
-VIEW.BAS must report A27.COM length 5402 bytes. Keep that executable and source together.
+VIEW.BAS must report A27.COM length 5338 bytes. Keep that executable and source together.
 
 ## Acceptance check
 

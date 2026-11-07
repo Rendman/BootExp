@@ -129,10 +129,10 @@ def full_stage(n):
   code['CLEANUP']=code['CLEANUP'].replace('CLEANEND:\nRET','CLEANEND:\nCALL MEMFREE\nRET')
   test='EARLYTEST:\n'
   if n==13:
-   test+='MOV DX,READYMSG\nCALL TEXT\nRET\n';f['READYMSG']=fieldtext('READYMSG','MEMORY READY\r\n$')
+   code['START']=code['START'].replace('CALL EARLYTEST\n','')
   if n>=14:
    code['SYMPTR']=core['SYMPTR']
-   if n==14:test+='MOV AX,8192\nCALL SYMPTR\nMOV AX,42\nMOV ES:[BX],AX\nMOV AX,ES:[BX]\nMOV DX,CS\nMOV ES,DX\nCALL NUMBER\nMOV DX,NEWLINE\nCALL TEXT\nRET\n'
+   if n==14:test+='MOV AX,8192\nCALL SYMPTR\nMOV AX,42\nMOV ES:[BX],AX\nMOV AX,ES:[BX]\nMOV DX,CS\nMOV ES,DX\nCMP AX,42\nJE EARLYPASS\nMOV AX,7\nJMP ERROR\nEARLYPASS:\nRET\n'
   if n>=15:
    code['RECORDWRITE']=core['RECORDWRITE'].replace('0CC00H','4080H')
    test+='PUSH SI\nMOV SI,TESTNAME\nMOV DI,4080H\nCALL COPYZ\nPOP SI\n'
@@ -145,9 +145,9 @@ def full_stage(n):
    test+='MOV AX,[SYMID]\nCALL RECORDWRITE\n'
    if n==16:test+='CALL SYMLOOK\nMOV AX,[SYMID]\nCALL SYMPTR\n'
    else:test+='MOV AX,8192\nCALL SYMPTR\n'
-   test+='ADD BX,32\nMOV AX,ES:[BX]\nMOV DX,CS\nMOV ES,DX\nCALL NUMBER\nMOV DX,NEWLINE\nCALL TEXT\nRET\n'
+   test+='ADD BX,32\nMOV AX,ES:[BX]\nMOV DX,CS\nMOV ES,DX\nCMP AX,12345\nJE EARLYPASS\nMOV AX,7\nJMP ERROR\nEARLYPASS:\nRET\n'
    f['TESTNAME']=fieldtext('TESTNAME','PAGED\0')
-  code['EARLYTEST']=test
+  if n>=14:code['EARLYTEST']=test
   return assemble_source(code,f,True)
  code,f=core,dict(wf)
  if n==17:
@@ -245,7 +245,6 @@ JMP MEMFINISH
  if n>=35:code['GROUP']=whole['GROUP']
  if n>=37:
   code['SHIFT']=whole['SHIFT']
-  if n==37:code['SHIFT']=code['SHIFT'].replace('CMP AX,1\nJE SHIFTCL\n','')
  if n>=39:code['REPEAT']=whole['REPEAT']
  allowed={'DB','DW','NOP','RET','CLD','LODSB','STOSB','MOV','ADD','OR','AND','SUB','XOR','CMP','INC','DEC','PUSH','POP','INT','CALL','JMP','JB','JAE','JE','JNE','JBE','JA','JL','JGE','JLE','JG'}
  for at,names in [(23,'RESB RESW'),(24,'JZ JNZ JC JNC'),(31,'ADC SBB TEST'),(32,'LEA'),(35,'NEG NOT'),(36,'MUL DIV IMUL IDIV'),(37,'SHL SHR SAR'),(38,'SAL ROL ROR RCL RCR'),(39,'LODSW STOSW MOVSB MOVSW REP')]:
@@ -262,7 +261,7 @@ JMP MEMFINISH
 
 def source(n):return seed_stage(n) if n<=12 else full_stage(n)
 def build_all():
- cases=json.loads((ROOT/'tools/asm86a_installments.json').read_text())
+ cases=[c for c in json.loads((ROOT/'tools/asm86a_installments.json').read_text()) if c['number'] not in [34,35,38,39]]
  for c in cases:
   n=c['number'];dos(W/f'A{n:02}.ASM',source(n))
   if c.get('fixture') is not None:dos(W/f'T{n:02}.ASM',c['fixture'])

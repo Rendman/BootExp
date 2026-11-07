@@ -1,1 +1,1 @@
-ADD [BX],[SI]
+ADD [BX],[DI]

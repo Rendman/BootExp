@@ -1,1 +1,0 @@
-fn main(){let mut x=65;let mut y=0;y=x;putc(y);}

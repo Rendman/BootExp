@@ -119,7 +119,7 @@ COPY RC41.RIL SOURCE.RIL
 CHECK RILLBOOT
 ```
 
-Require `OK RESULT.IR 0000044186` and PASS. Copy RESULT.IR to SOURCE.IR.
+Require `OK RESULT.IR 0000044237` and PASS. Copy RESULT.IR to SOURCE.IR.
 
 ```dos
 CHECK IWKEEP
@@ -127,13 +127,13 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require IR86 `OK RESULT.ASM 0000091705 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 24715 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000091874 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 24707 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RC41.COM
 ```
 
-VIEW.BAS must report RC41.COM length 24715 bytes. Keep this executable and its source together.
+VIEW.BAS must report RC41.COM length 24707 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -182,7 +182,7 @@ LIT 0
 RETURN
 ```
 
-VIEW.BAS must show length 238 bytes. This is a complete program. Copy it to SOURCE.IR, run CHECK IWKEEP, copy the accepted RESULT.ASM to SOURCE.ASM, and run CHECK ASMAKEEP. Require OK and PASS at both steps. VIEW.BAS must report RESULT.COM length 1131. Copy that file to TRY.COM; CHECK TRY displays `AB` and reports PASS.
+VIEW.BAS must show length 238 bytes. This is a complete program. Copy it to SOURCE.IR, run CHECK IWKEEP, copy the accepted RESULT.ASM to SOURCE.ASM, and run CHECK ASMAKEEP. Require OK and PASS at both steps. VIEW.BAS must report RESULT.COM length 1083. Copy that file to TRY.COM; CHECK TRY displays `AB` and reports PASS.
 
 After inspection, delete this deliberately created RILL.TMP before another checkpoint. The file is diagnostic text, not an interrupted accepted compiler build.
 

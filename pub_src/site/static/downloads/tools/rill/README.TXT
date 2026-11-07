@@ -1,7 +1,7 @@
 THE BOOTSTRAP PROJECT - RILL
 A practical course in small-system software
 
-The compiler construction: first RILL -> RILLBOOT compiler seed -> RILL.
+The compiler construction: RILL0 -> RILLBOOT compiler seed -> RILL.
 The preceding native ladder is BOOTASM -> ASM0 -> ASM1 -> ASM86
 -> streaming IR86. Use the same DOS 3.10 and period BASIC workbench.
 All files here are ASCII/CRLF/8.3 source. No executable is supplied.
@@ -22,9 +22,9 @@ Compile RILL sources with RILLBOOT, then IWKEEP and ASMAKEEP.
 Preserve RC43.COM as R0.COM and RC43.RIL as RILL.RIL. R0 compiles
 that same source to R1, then R1 to R2; both must match R0 exactly.
 ERECUR.RIL, EHEAP.RIL and ECOPY.RIL are complete compiler examples.
-IR86.RIL and ASM86.RIL are the translator and assembler in RILL.
-TMAKE.BAT builds all three tools and both closed-loop generations.
-The complete TOOLCHN.ZIP also contains earlier continuation sources.
+After both compiler self-builds match, continue with Rebuilding Our
+Tools in RILL. Its TOOLCHN.ZIP supplies IR86.RIL, ASM86.RIL, and
+TMAKE.BAT for the complete three-tool builds and comparisons.
 
 Use fixed SOURCE.RIL/RESULT.IR, SOURCE.IR/RESULT.ASM and
 SOURCE.ASM/RESULT.COM files in a hard-disk directory. Keep each builder

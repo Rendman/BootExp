@@ -453,22 +453,21 @@
     "title": "Fixed instruction bytes",
     "description": "Five no-operand mnemonics use the same table dispatcher.",
     "why": "We shall add machine instructions whose complete encodings are one fixed byte each.",
-    "explain": "The new OPTAB records have class two and carry their opcode in the parameter byte. FIXED sends that byte through EMIT, then calls FINISH to reject an extra operand.\n\nNOP is 90H. RET is the near return C3H. CLD is FCH and selects increasing indexes for string instructions. LODSB, ACH, loads AL from DS:SI and adjusts SI; STOSB, AAH, stores AL at ES:DI and adjusts DI. Their direction depends on the direction flag. They are plain, single instructions; no repeat prefix is accepted.\n\nFIXED changes AL, PC, OUTPTR, and the scanner scratch state. It receives its opcode through OP and its argument cursor through SI. These encodings do not make the fixture safe to execute: its stack and index registers have not been prepared. Inspect the bytes only.",
+    "explain": "The new OPTAB records have class two and carry their opcode in the parameter byte. FIXED sends that byte through EMIT, then calls FINISH to reject an extra operand.\n\nRET is the near return C3H. CLD is FCH and selects increasing indexes for string instructions. LODSB, ACH, loads AL from DS:SI and adjusts SI; STOSB, AAH, stores AL at ES:DI and adjusts DI. Their direction depends on the direction flag. They are plain, single instructions; no repeat prefix is accepted.\n\nFIXED changes AL, PC, OUTPTR, and the scanner scratch state. It receives its opcode through OP and its argument cursor through SI. These encodings do not make the fixture safe to execute: its stack and index registers have not been prepared. Inspect the bytes only.",
     "names": [
       "DB",
       "DW",
-      "NOP",
       "RET",
       "CLD",
       "LODSB",
       "STOSB"
     ],
-    "fixture": "NOP\r\nRET\r\nCLD\r\nLODSB\r\nSTOSB\r\n",
+    "fixture": "RET\r\nCLD\r\nLODSB\r\nSTOSB\r\n",
     "payload": "",
-    "image": "90 C3 FC AC AA",
+    "image": "C3 FC AC AA",
     "bad": {
       "kind": "source",
-      "text": "NOP 1\r\n",
+      "text": "RET 1\r\n",
       "line": 1,
       "code": 1
     },
@@ -476,8 +475,8 @@
     "cartoon": null,
     "number": 21,
     "source": "AS21.ASM",
-    "lines": 815,
-    "binary_bytes": 1733
+    "lines": 814,
+    "binary_bytes": 1725
   },
   {
     "title": "A register and an immediate",
@@ -487,7 +486,6 @@
     "names": [
       "DB",
       "DW",
-      "NOP",
       "RET",
       "CLD",
       "LODSB",
@@ -507,8 +505,8 @@
     "cartoon": null,
     "number": 22,
     "source": "AS22.ASM",
-    "lines": 909,
-    "binary_bytes": 1922
+    "lines": 908,
+    "binary_bytes": 1914
   },
   {
     "title": "Two register operands",
@@ -518,7 +516,6 @@
     "names": [
       "DB",
       "DW",
-      "NOP",
       "RET",
       "CLD",
       "LODSB",
@@ -538,8 +535,8 @@
     "cartoon": null,
     "number": 23,
     "source": "AS23.ASM",
-    "lines": 937,
-    "binary_bytes": 1982
+    "lines": 936,
+    "binary_bytes": 1974
   },
   {
     "title": "Single-register families",
@@ -549,7 +546,6 @@
     "names": [
       "DB",
       "DW",
-      "NOP",
       "RET",
       "CLD",
       "LODSB",
@@ -573,8 +569,8 @@
     "cartoon": null,
     "number": 24,
     "source": "AS24.ASM",
-    "lines": 960,
-    "binary_bytes": 2057
+    "lines": 959,
+    "binary_bytes": 2049
   },
   {
     "title": "Assembling a DOS request",
@@ -584,7 +580,6 @@
     "names": [
       "DB",
       "DW",
-      "NOP",
       "RET",
       "CLD",
       "LODSB",
@@ -609,18 +604,17 @@
     "cartoon": null,
     "number": 25,
     "source": "AS25.ASM",
-    "lines": 977,
-    "binary_bytes": 2094
+    "lines": 976,
+    "binary_bytes": 2086
   },
   {
     "title": "Arithmetic and comparisons",
     "description": "Select a group number, register form, or full-width immediate.",
-    "why": "Six related instruction families can share the operand reader and much of their encoding work.",
-    "explain": "The class-four parameters are the processor's group numbers: ADD=0, OR=1, AND=4, SUB=5, XOR=6, and CMP=7. They are not a consecutive numbering invented by this assembler.\n\nTWOOPERANDS requires a register destination. For a register source, SAMEWIDTH checks the widths and the opcode is eight times OP plus two plus W1. REGMOD supplies the ordinary two-register ModR/M byte.\n\nFor an immediate source, the opcode is 80H for a byte or 81H for a word. ModR/M is 192 plus eight times OP plus the destination register. IMMEDVALUE emits the full selected width. The shorter sign-extended 83H form is deliberately omitted, keeping instruction sizes independent of a value's eventual address.\n\nADD and SUB store their arithmetic result; CMP sets subtraction flags without storing it. AND, OR, and XOR operate on corresponding bits. The assembled operations affect flags; the parser and encoding helpers also use flags internally, so the assembler saves state in fields rather than depending on a comparison across a helper call. Memory arithmetic and signed literal syntax remain excluded.",
+    "why": "Five related instruction families can share the operand reader and much of their encoding work.",
+    "explain": "The class-four parameters are the processor's group numbers: ADD=0, OR=1, AND=4, SUB=5, and CMP=7. They are not a consecutive numbering invented by this assembler.\n\nTWOOPERANDS requires a register destination. For a register source, SAMEWIDTH checks the widths and the opcode is eight times OP plus two plus W1. REGMOD supplies the ordinary two-register ModR/M byte.\n\nFor an immediate source, the opcode is 80H for a byte or 81H for a word. ModR/M is 192 plus eight times OP plus the destination register. IMMEDVALUE emits the full selected width. The shorter sign-extended 83H form is deliberately omitted, keeping instruction sizes independent of a value's eventual address.\n\nADD and SUB store their arithmetic result; CMP sets subtraction flags without storing it. AND and OR operate on corresponding bits. The assembled operations affect flags; the parser and encoding helpers also use flags internally, so the assembler saves state in fields rather than depending on a comparison across a helper call. Memory arithmetic and signed literal syntax remain excluded.",
     "names": [
       "DB",
       "DW",
-      "NOP",
       "RET",
       "CLD",
       "LODSB",
@@ -635,12 +629,11 @@
       "OR",
       "AND",
       "SUB",
-      "XOR",
       "CMP"
     ],
-    "fixture": "ADD AX,BX\r\nSUB CX,1\r\nCMP AL,41H\r\nXOR DX,DX\r\nAND AL,0DFH\r\nOR BL,20H\r\n",
+    "fixture": "ADD AX,BX\r\nSUB CX,1\r\nCMP AL,41H\r\nAND AL,0DFH\r\nOR BL,20H\r\n",
     "payload": "",
-    "image": "03 C3 81 E9 01 00 80 F8 41 33 D2 80 E0 DF 80 CB 20",
+    "image": "03 C3 81 E9 01 00 80 F8 41 80 E0 DF 80 CB 20",
     "bad": {
       "kind": "source",
       "text": "ADD AX,AL\r\n",
@@ -651,8 +644,8 @@
     "cartoon": null,
     "number": 26,
     "source": "AS26.ASM",
-    "lines": 1012,
-    "binary_bytes": 2228
+    "lines": 1010,
+    "binary_bytes": 2212
   },
   {
     "title": "Moving through memory",
@@ -662,7 +655,6 @@
     "names": [
       "DB",
       "DW",
-      "NOP",
       "RET",
       "CLD",
       "LODSB",
@@ -677,7 +669,6 @@
       "OR",
       "AND",
       "SUB",
-      "XOR",
       "CMP"
     ],
     "fixture": "MOV AL,[BX]\r\nMOV [BX],AL\r\nMOV AX,[200H]\r\nMOV [200H],AX\r\n",
@@ -693,8 +684,8 @@
     "cartoon": null,
     "number": 27,
     "source": "AS27.ASM",
-    "lines": 1090,
-    "binary_bytes": 2417
+    "lines": 1088,
+    "binary_bytes": 2401
   },
   {
     "title": "Near calls and jumps",
@@ -704,7 +695,6 @@
     "names": [
       "DB",
       "DW",
-      "NOP",
       "RET",
       "CLD",
       "LODSB",
@@ -719,7 +709,6 @@
       "OR",
       "AND",
       "SUB",
-      "XOR",
       "CMP",
       "CALL",
       "JMP"
@@ -737,18 +726,17 @@
     "cartoon": null,
     "number": 28,
     "source": "AS28.ASM",
-    "lines": 1111,
-    "binary_bytes": 2474
+    "lines": 1109,
+    "binary_bytes": 2458
   },
   {
     "title": "Short conditional branches",
     "description": "A signed byte selects a nearby path from the flags.",
-    "why": "A comparison needs a way to select a path. We shall add the ten short conditions and reject a destination outside their signed-byte reach.",
-    "explain": "Class eight carries the condition opcode: 72H through 77H for unsigned comparisons, and 7CH through 7FH for signed comparisons. JE and JNE test equality for either interpretation. The reference gives the flag expressions for every accepted spelling.\n\nSHORTJUMP subtracts PC plus two from the target. Pass one accepts a placeholder for an unknown name. Pass two accepts unsigned word results 0000H through 007FH or FF80H through FFFFH, the bit patterns for displacements zero through 127 or minus 128 through minus one. Any other result selects range code 4.\n\nOnly AL is emitted as the displacement byte. AX is saved while the opcode is emitted, then restored. VALUE's scratch registers, AX, DX, PC, OUTPTR, and flags may change. There is no silent widening or processor upgrade.\n\nA distant conditional transfer must be written as the opposite nearby condition around a three-byte near JMP. That pattern is also visible in the assembler's own source wherever a shared error exit is farther away than a short branch can reach. A CALL can reach a handler without asking a conditional branch to span the whole handler.\n\nThe complete test displays 0, 1, and 2. CMP DL,33H sets the flags for JB; no flag-changing instruction lies between that comparison and its branch.",
+    "why": "A comparison needs a way to select a path. We shall add the six short conditions and reject a destination outside their signed-byte reach.",
+    "explain": "Class eight carries the condition opcode: 72H through 77H for unsigned comparisons. JE and JNE test equality for either interpretation. The reference gives the flag expressions for every accepted spelling.\n\nSHORTJUMP subtracts PC plus two from the target. Pass one accepts a placeholder for an unknown name. Pass two accepts unsigned word results 0000H through 007FH or FF80H through FFFFH, the bit patterns for displacements zero through 127 or minus 128 through minus one. Any other result selects range code 4.\n\nOnly AL is emitted as the displacement byte. AX is saved while the opcode is emitted, then restored. VALUE's scratch registers, AX, DX, PC, OUTPTR, and flags may change. There is no silent widening or processor upgrade.\n\nA distant conditional transfer must be written as the opposite nearby condition around a three-byte near JMP. That pattern is also visible in the assembler's own source wherever a shared error exit is farther away than a short branch can reach. A CALL can reach a handler without asking a conditional branch to span the whole handler.\n\nThe complete test displays 0, 1, and 2. CMP DL,33H sets the flags for JB; no flag-changing instruction lies between that comparison and its branch.",
     "names": [
       "DB",
       "DW",
-      "NOP",
       "RET",
       "CLD",
       "LODSB",
@@ -763,7 +751,6 @@
       "OR",
       "AND",
       "SUB",
-      "XOR",
       "CMP",
       "CALL",
       "JMP",
@@ -772,11 +759,7 @@
       "JE",
       "JNE",
       "JBE",
-      "JA",
-      "JL",
-      "JGE",
-      "JLE",
-      "JG"
+      "JA"
     ],
     "fixture": "MOV DL,30H\r\nAGAIN:\r\nMOV AH,2\r\nINT 21H\r\nINC DX\r\nCMP DL,33H\r\nJB AGAIN\r\nMOV AX,4C00H\r\nINT 21H\r\n",
     "payload": "",
@@ -791,7 +774,7 @@
     "cartoon": "asm86-signals.png",
     "number": 29,
     "source": "AS29.ASM",
-    "lines": 1150,
-    "binary_bytes": 2622
+    "lines": 1144,
+    "binary_bytes": 2574
   }
 ]

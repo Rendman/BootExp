@@ -8,11 +8,11 @@ download_group = "tools/asm0"
 reader_names = 1
 +++
 
-A comparison needs a way to select a path. We shall add the ten short conditions and reject a destination outside their signed-byte reach.
+A comparison needs a way to select a path. We shall add the six short conditions and reject a destination outside their signed-byte reach.
 
 ## How it works
 
-Class eight carries the condition opcode: 72H through 77H for unsigned comparisons, and 7CH through 7FH for signed comparisons. JE and JNE test equality for either interpretation. The reference gives the flag expressions for every accepted spelling.
+Class eight carries the condition opcode: 72H through 77H for unsigned comparisons. JE and JNE test equality for either interpretation. The reference gives the flag expressions for every accepted spelling.
 
 SHORTJUMP subtracts PC plus two from the target. Pass one accepts a placeholder for an unknown name. Pass two accepts unsigned word results 0000H through 007FH or FF80H through FFFFH, the bit patterns for displacements zero through 127 or minus 128 through minus one. Any other result selects range code 4.
 
@@ -36,7 +36,7 @@ DB 67,65,76,76,0,0,7,232
 DB 74,77,80,0,0,0,7,233
 ```
 
-Insert after old physical line 1111, before the following old line.
+Insert after old physical line 1109, before the following old line.
 
 Insert this source:
 
@@ -47,10 +47,6 @@ DB 74,69,0,0,0,0,8,116
 DB 74,78,69,0,0,0,8,117
 DB 74,66,69,0,0,0,8,118
 DB 74,65,0,0,0,0,8,119
-DB 74,76,0,0,0,0,8,124
-DB 74,71,69,0,0,0,8,125
-DB 74,76,69,0,0,0,8,126
-DB 74,71,0,0,0,0,8,127
 ```
 
 ### Change 2: following `NEARJUMP:`
@@ -129,13 +125,13 @@ MOV BX,OPTAB
 Remove these exact old lines (physical lines 599–599 of `AS28.ASM`):
 
 ```asm
-MOV CX,21
+MOV CX,19
 ```
 
 Put this source in their place:
 
 ```asm
-MOV CX,31
+MOV CX,25
 ```
 
 ## Build and stop
@@ -146,7 +142,7 @@ Use the BASIC assembler prepared in the workbench guide:
 GWBASIC BOOTASM.BAS
 ```
 
-Enter `AS29` at its source prompt. Require `OK AS29.COM 2622 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.
+Enter `AS29` at its source prompt. Require `OK AS29.COM 2574 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.
 
 Use `COPY CON T29.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
 

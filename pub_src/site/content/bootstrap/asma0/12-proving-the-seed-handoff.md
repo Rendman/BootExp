@@ -22,9 +22,9 @@ Copy `A11.ASM` to `A12.ASM`. The tested source is retained without edits. This s
 
 ## Build the stopping point
 
-Run `CHECK ASMKEEP`, enter `A12` at `Source name:`, and require `OK 03342 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. It creates A12.COM.
+Run `CHECK ASMKEEP`, enter `A12` at `Source name:`, and require `OK 03302 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. It creates A12.COM.
 
-VIEW.BAS must report A12.COM length 3342 bytes. Keep that executable and source together.
+VIEW.BAS must report A12.COM length 3302 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -41,11 +41,11 @@ CHECK A12
 Require:
 
 ```text
-OK RESULT.COM 03342 bytes
+OK RESULT.COM 03302 bytes
 PASS
 ```
 
-In VIEW.BAS, inspect RESULT.COM. Require length **3342 bytes** and these first thirty-two bytes:
+In VIEW.BAS, inspect RESULT.COM. Require length **3302 bytes** and these first thirty-two bytes:
 
 ```text
 FC 81 FC FE FF 74 06 B8 07 00 E9 8A 08 E8 5A 09 B0 01 88 06 4F 0C B8 00 00 89 06 43 0C B8 00 50
@@ -61,7 +61,7 @@ CHECK GEN1
 COMP ASM1.COM RESULT.COM <NO.TXT
 ```
 
-Both COMP comparisons must report no differences. GEN1 must report `OK RESULT.COM 03342 bytes` and PASS. COMP may ask whether to compare more files; NO.TXT answers N. Keep the original ASM1.COM separately.
+Both COMP comparisons must report no differences. GEN1 must report `OK RESULT.COM 03302 bytes` and PASS. COMP may ask whether to compare more files; NO.TXT answers N. Keep the original ASM1.COM separately.
 
 Continue with the separate [ASM86 collection](../../asm86a/index.html). For its construction builds, ASM1.COM is the preceding builder. ASMKEEP.COM remains the original ASM0. Their filename interfaces differ; do not overwrite one with the other.
 

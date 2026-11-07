@@ -13,13 +13,22 @@ PASS encoding MOV AX,[BX+0]
 PASS encoding MOV WORD [BX],1234H
 PASS encoding MOV BYTE [DI],255
 PASS encoding ADD AX,[SI]
-PASS encoding ADC AX,BX
 PASS encoding LEA AX,[BX+SI+4]
 PASS encoding SHL AX,1
-PASS encoding IMUL BX
-PASS encoding REP MOVSB
-PASS encoding JZ X
 PASS encoding DW FORWARD-$
+PASS rejection RET 4
+PASS rejection NOP
+PASS rejection ADC AX,BX
+PASS rejection SBB AX,BX
+PASS rejection NEG AX
+PASS rejection NOT AX
+PASS rejection IMUL BX
+PASS rejection IDIV BX
+PASS rejection SAR AX,CL
+PASS rejection ROL AX,1
+PASS rejection REP MOVSB
+PASS rejection JZ X
+PASS rejection JL X
 PASS rejection MOV CS,AX
 PASS rejection MOV AX,CS:[BX+SI+DI]
 PASS rejection MOV AX,[AX]

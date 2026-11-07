@@ -22,14 +22,9 @@ for size in [61184,61185]:
  if size==61184:assert r.exitcode==0 and r.files['RESULT.COM']==bytes(size),r.output
  else:assert r.exitcode==1 and b'ERROR 0000000001 CODE 5' in r.output and r.files['RESULT.COM']==b'OLD',r.output
 logs.append('PASS A23 exact image boundary and overflow rejection')
-# The complete pipeline article's source and exact tool reports.
-text=(C/'41-the-bootstrap-ladder.md').read_text();source=re.search(r'```rill\n(.*?)\n```',text,re.S)[1]+'\n'
-ir=(ROOT/'workbench/ir86/IR86.COM').read_bytes();rill=(ROOT/'workbench/rill/RILL.COM').read_bytes();full=(W/'ASM86A.COM').read_bytes()
-r=DosMachine({'SOURCE.RIL':source.replace('\n','\r\n').encode()}).run(rill)
-assert r.exitcode==0 and r.output==b'OK RESULT.IR 00052\r\n',r.output
-r=DosMachine({'HI.IR':r.files['RESULT.IR']},['HI']).run(ir)
-assert r.exitcode==0 and r.output.endswith(b'OK HI.ASM 02600 text bytes\r\n'),r.output
-r=run_assembler(full,r.files['HI.ASM']);assert r.exitcode==0 and r.output==b'OK RESULT.COM 00480 bytes\r\n',r.output
-child=DosMachine().run(r.files['RESULT.COM']);assert child.exitcode==0 and child.output==b'HI'
-logs.append('PASS printed HI.RIL pipeline: exact compiler, translator, and assembler counts; executable prints HI')
+# The assembler collection stops at its own self-assembly handoff.
+text=(C/'41-the-bootstrap-ladder.md').read_text()
+for command in ['CHECK ASM1','CHECK A0','CHECK A1','COMP A0.COM A1.COM <NO.TXT','COMP A0.COM A2.COM <NO.TXT']:assert command in text
+assert str(len((W/'ASM86A.COM').read_bytes())) in text
+logs.append('PASS printed assembler handoff preserves all builders and compares both self-generations')
 (Q/'reader-results.txt').write_text('\n'.join(logs)+'\n');print('\n'.join(logs))

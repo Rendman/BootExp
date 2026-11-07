@@ -1,6 +1,6 @@
 +++
-title = "28 \u00b7 Proving the larger assembler"
-weight = 28
+title = "24 \u00b7 Proving the larger assembler"
+weight = 24
 description = "Compare the seed-built program with two native self-assembly generations."
 download = "A40.ASM"
 download_group = "tools/asm86"
@@ -17,7 +17,7 @@ The tool uses fixed files, streamed I/O, 8192 exact-spelling symbols, an allocat
 
 ## Enter the source
 
-Copy `A39.ASM` to `A40.ASM`. The tested source is retained without edits. This stopping point proves the executable handoff.
+Copy `A37.ASM` to `A40.ASM`. The tested source is retained without edits. This stopping point proves the executable handoff.
 
 ## Build the stopping point
 
@@ -26,13 +26,13 @@ COPY A40.ASM SOURCE.ASM
 CHECK ASM1
 ```
 
-Require `OK RESULT.COM 06422 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 05995 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A40.COM
 ```
 
-VIEW.BAS must report A40.COM length 6422 bytes. Keep that executable and source together.
+VIEW.BAS must report A40.COM length 5995 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -49,14 +49,14 @@ CHECK A40
 Require:
 
 ```text
-OK RESULT.COM 06422 bytes
+OK RESULT.COM 05995 bytes
 PASS
 ```
 
-In VIEW.BAS, inspect RESULT.COM. Require length **6422 bytes** and these first thirty-two bytes:
+In VIEW.BAS, inspect RESULT.COM. Require length **5995 bytes** and these first thirty-two bytes:
 
 ```text
-FC 81 FC FE FF 74 06 B8 07 00 E9 13 0C E8 D6 0D E8 E4 0C B0 01 88 06 C9 16 B8 00 00 89 06 BF 16
+FC 81 FC FE FF 74 06 B8 07 00 E9 01 0C E8 C4 0D E8 D2 0C B0 01 88 06 1F 16 B8 00 00 89 06 15 16
 ```
 
 Compare the first self-produced executable with the preserved original, then use that new generation to assemble the same source once more:
@@ -69,7 +69,7 @@ CHECK GEN1
 COMP ASM86.COM RESULT.COM <NO.TXT
 ```
 
-Both COMP comparisons must report no differences. GEN1 must report `OK RESULT.COM 06422 bytes` and PASS. COMP may ask whether to compare more files; NO.TXT answers N. Keep the original ASM86.COM separately.
+Both COMP comparisons must report no differences. GEN1 must report `OK RESULT.COM 05995 bytes` and PASS. COMP may ask whether to compare more files; NO.TXT answers N. Keep the original ASM86.COM separately.
 
 ```dos
 COPY ASM86.COM ASMAKEEP.COM

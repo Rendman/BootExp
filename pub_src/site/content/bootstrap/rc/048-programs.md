@@ -1,6 +1,6 @@
 +++
 title = "Complete RILL programs"
-weight = 48
+weight = 46
 description = "Recursion, checked allocated storage, and counted files through the RILL-written compiler."
 download = "RILL.ZIP"
 download_group = "tools/rill"
@@ -35,10 +35,10 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require compiler `OK RESULT.IR 0000000494`, translator `OK RESULT.ASM 0000005903 text bytes`, and assembler `OK RESULT.COM 01237 bytes`, each with PASS **before** the following copy. VIEW.BAS must report length 1237 and these first thirty-two bytes:
+Require compiler `OK RESULT.IR 0000000494`, translator `OK RESULT.ASM 0000005672 text bytes`, and assembler `OK RESULT.COM 01189 bytes`, each with PASS **before** the following copy. VIEW.BAS must report length 1189 and these first thirty-two bytes:
 
 ```text
-FC 81 FC FE FF 74 03 E9 82 04 E8 AA 00 B4 4C CD 21 55 8B EC 81 EC 20 00 81 FC 00 F0 73 03 E9 6B
+FC 81 FC FE FF 74 03 E9 52 04 E8 AA 00 B4 4C CD 21 55 8B EC 81 EC 20 00 81 FC 00 F0 73 03 E9 3B
 ```
 
 ```dos
@@ -91,10 +91,10 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require compiler `OK RESULT.IR 0000000866`, translator `OK RESULT.ASM 0000006446 text bytes`, and assembler `OK RESULT.COM 01334 bytes`, each with PASS **before** the following copy. VIEW.BAS must report length 1334 and these first thirty-two bytes:
+Require compiler `OK RESULT.IR 0000000866`, translator `OK RESULT.ASM 0000006215 text bytes`, and assembler `OK RESULT.COM 01286 bytes`, each with PASS **before** the following copy. VIEW.BAS must report length 1286 and these first thirty-two bytes:
 
 ```text
-FC 81 FC FE FF 74 03 E9 E3 04 E8 0B 01 B4 4C CD 21 55 8B EC 81 EC 20 00 81 FC 00 F0 73 03 E9 CC
+FC 81 FC FE FF 74 03 E9 B3 04 E8 0B 01 B4 4C CD 21 55 8B EC 81 EC 20 00 81 FC 00 F0 73 03 E9 9C
 ```
 
 ```dos
@@ -152,10 +152,10 @@ COPY RESULT.ASM SOURCE.ASM
 CHECK ASMAKEEP
 ```
 
-Require compiler `OK RESULT.IR 0000001476`, translator `OK RESULT.ASM 0000007577 text bytes`, and assembler `OK RESULT.COM 01765 bytes`, each with PASS **before** the following copy. VIEW.BAS must report length 1765 and these first thirty-two bytes:
+Require compiler `OK RESULT.IR 0000001476`, translator `OK RESULT.ASM 0000007346 text bytes`, and assembler `OK RESULT.COM 01717 bytes`, each with PASS **before** the following copy. VIEW.BAS must report length 1717 and these first thirty-two bytes:
 
 ```text
-FC 81 FC FE FF 74 03 E9 92 06 E8 BA 02 B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+FC 81 FC FE FF 74 03 E9 62 06 E8 BA 02 B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 ```
 
 ```dos

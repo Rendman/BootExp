@@ -1,1 +1,11 @@
-65535
+bytes b[1];
+fn main(){
+ b[0]=65;
+ delete("OLD.TXT");if status(){return 1;}
+ let mut h=create("TEMP.TXT");if status(){return 1;}
+ if write(h,b,1)!=1{return 1;}
+ close(h);if status(){return 1;}
+ rename("TEMP.TXT","OLD.TXT");if status(){return 1;}
+ if exists("TEMP.TXT"){return 1;}
+ return exists("OLD.TXT")!=1;
+}

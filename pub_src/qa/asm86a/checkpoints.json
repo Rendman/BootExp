@@ -15,7 +15,7 @@
       "line": 1,
       "code": 1
     },
-    "binary_bytes": 2521,
+    "binary_bytes": 2481,
     "target_bytes": 11,
     "target_hex": "B2 41 B4 02 CD 21 B8 00 4C CD 21",
     "builder": "ASM86"
@@ -36,11 +36,11 @@
       "line": 1,
       "code": 1
     },
-    "binary_bytes": 2589,
+    "cartoon": "asm86a-press.png",
+    "binary_bytes": 2549,
     "target_bytes": 11,
     "target_hex": "B2 41 B4 02 CD 21 B8 00 4C CD 21",
-    "builder": "ASM86",
-    "cartoon": "asm86a-press.png"
+    "builder": "ASM86"
   },
   {
     "number": 3,
@@ -58,7 +58,7 @@
       "code": 6
     },
     "output_file": "ASMA.TMP",
-    "binary_bytes": 2605,
+    "binary_bytes": 2565,
     "target_bytes": 5,
     "target_hex": "41 42 43 0D 0A",
     "builder": "ASM86"
@@ -79,7 +79,7 @@
       "code": 6
     },
     "output_file": "ASMA.TMP",
-    "binary_bytes": 2766,
+    "binary_bytes": 2726,
     "target_bytes": 5,
     "target_hex": "41 42 43 0D 0A",
     "builder": "ASM86"
@@ -101,7 +101,7 @@
       "code": 8
     },
     "output_file": "ASMA.TMP",
-    "binary_bytes": 2846,
+    "binary_bytes": 2806,
     "target_bytes": 5,
     "target_hex": "41 42 43 0D 0A",
     "builder": "ASM86"
@@ -122,7 +122,7 @@
       "code": 6
     },
     "output_file": "RESULT.COM",
-    "binary_bytes": 2980,
+    "binary_bytes": 2940,
     "target_bytes": 5,
     "target_hex": "41 42 43 0D 0A",
     "builder": "ASM86"
@@ -143,7 +143,7 @@
       "line": 1,
       "code": 1
     },
-    "binary_bytes": 3056,
+    "binary_bytes": 3016,
     "target_bytes": 11,
     "target_hex": "B2 41 B4 02 CD 21 B8 00 4C CD 21",
     "builder": "ASM86"
@@ -164,7 +164,7 @@
       "line": 1,
       "code": 1
     },
-    "binary_bytes": 3068,
+    "binary_bytes": 3028,
     "target_bytes": 11,
     "target_hex": "B2 41 B4 02 CD 21 B8 00 4C CD 21",
     "builder": "ASM86"
@@ -185,7 +185,7 @@
       "line": 1,
       "code": 1
     },
-    "binary_bytes": 3068,
+    "binary_bytes": 3028,
     "target_bytes": 11,
     "target_hex": "B2 41 B4 02 CD 21 B8 00 4C CD 21",
     "builder": "ASM86"
@@ -206,7 +206,7 @@
       "line": 1,
       "code": 1
     },
-    "binary_bytes": 3307,
+    "binary_bytes": 3267,
     "target_bytes": 11,
     "target_hex": "B2 41 B4 02 CD 21 B8 00 4C CD 21",
     "builder": "ASM86"
@@ -227,7 +227,7 @@
       "line": 1,
       "code": 1
     },
-    "binary_bytes": 3342,
+    "binary_bytes": 3302,
     "target_bytes": 11,
     "target_hex": "B2 41 B4 02 CD 21 B8 00 4C CD 21",
     "builder": "ASM86"
@@ -250,9 +250,9 @@
     },
     "fixture_ref": "ASMA0.ASM",
     "self_build": true,
-    "binary_bytes": 3342,
-    "target_bytes": 3342,
-    "target_hex": "FC 81 FC FE FF 74 06 B8 07 00 E9 8A 08 E8 5A 09 B0 01 88 06 4F 0C B8 00 00 89 06 43 0C B8 00 50 89 06 45 0C B8 00 01 89 06 41 0C B8 00 00 89 06 3F 0C 89 06 FA 0D 89 06 FC 0D 89 06 FE 0D 88 06",
+    "binary_bytes": 3302,
+    "target_bytes": 3302,
+    "target_hex": "FC 81 FC FE FF 74 06 B8 07 00 E9 8A 08 E8 5A 09 B0 01 88 06 4F 0C B8 00 00 89 06 43 0C B8 00 50 89 06 45 0C B8 00 01 89 06 41 0C B8 00 00 89 06 3F 0C 89 06 D2 0D 89 06 D4 0D 89 06 D6 0D 88 06",
     "builder": "ASM86"
   },
   {
@@ -260,7 +260,7 @@
     "title": "Allocating auxiliary workspace",
     "description": "Shrink the main allocation and request owned DOS work blocks.",
     "why": "A full symbol table should not compete with resident code for the same segment.",
-    "explain": "MEMINIT checks the owned main segment, retains 1000H paragraphs with DOS function 4AH, allocates eight A00H-paragraph pages and one 200H-paragraph bucket block, and clears every bucket head. Returned segments are saved in MEMSEGS; HASHSEG follows the eight page words.\n\nMEMFREE releases recorded allocations and restores ES to the main segment. Partial-allocation failure uses the same cleanup. The assembler still uses its seed symbol table in this checkpoint; MEMORY READY confirms the auxiliary setup completed before normal assembly.",
+    "explain": "MEMINIT checks the owned main segment, retains 1000H paragraphs with DOS function 4AH, allocates eight A00H-paragraph pages and one 200H-paragraph bucket block, and clears every bucket head. Returned segments are saved in MEMSEGS; HASHSEG follows the eight page words.\n\nMEMFREE releases recorded allocations and restores ES to the main segment. Partial-allocation failure uses the same cleanup. The assembler still uses its seed symbol table in this checkpoint; normal checked assembly confirms the auxiliary setup completed.",
     "fixture": "MOV DL,41H\nMOV AH,2\nINT 21H\nMOV AX,4C00H\nINT 21H\n",
     "expected": "B241B402CD21B8004CCD21",
     "program_output": "A",
@@ -271,8 +271,8 @@
       "line": 1,
       "code": 1
     },
-    "prefix": "MEMORY READY\r\n",
-    "binary_bytes": 3722,
+    "prefix": "",
+    "binary_bytes": 3657,
     "target_bytes": 11,
     "target_hex": "B2 41 B4 02 CD 21 B8 00 4C CD 21",
     "builder": "ASMA0"
@@ -282,7 +282,7 @@
     "title": "Selecting a symbol page",
     "description": "Translate a stable symbol ID into a page and offset.",
     "why": "A page selector and offset must travel together inside a table helper.",
-    "explain": "SYMPTR takes an ID from one through 8192 in AX. Subtracting one yields a page number in groups of 1024 and an index within that page. Forty times the index is the record offset in BX; ES selects its allocated page. RECORDPTR saves that offset.\n\nThe entry diagnostic selects ID 8192, writes and reads word 42, restores ES, and displays 00042. It uses the final record slot in the final page. Ordinary assembler processing still uses the retained seed table; the test does not make an arbitrary offset into a main-segment pointer.",
+    "explain": "SYMPTR takes an ID from one through 8192 in AX. Subtracting one yields a page number in groups of 1024 and an index within that page. Forty times the index is the record offset in BX; ES selects its allocated page. RECORDPTR saves that offset.\n\nThe entry diagnostic selects ID 8192, writes and reads word 42, restores ES, and compares the loaded word with 42 and rejects a mismatch. It uses the final record slot in the final page. Ordinary assembler processing still uses the retained seed table; the test does not make an arbitrary offset into a main-segment pointer.",
     "fixture": "MOV DL,41H\nMOV AH,2\nINT 21H\nMOV AX,4C00H\nINT 21H\n",
     "expected": "B241B402CD21B8004CCD21",
     "program_output": "A",
@@ -293,8 +293,8 @@
       "line": 1,
       "code": 1
     },
-    "prefix": "00042\r\n",
-    "binary_bytes": 3784,
+    "prefix": "",
+    "binary_bytes": 3747,
     "target_bytes": 11,
     "target_hex": "B2 41 B4 02 CD 21 B8 00 4C CD 21",
     "builder": "ASMA0"
@@ -304,7 +304,7 @@
     "title": "Writing a complete symbol record",
     "description": "Initialize spelling, value, link, flags, and kind together.",
     "why": "Allocated RAM is not guaranteed to contain zeroes.",
-    "explain": "RECORDWRITE clears a forty-byte record, copies the current zero-terminated name, writes DEFVALUE, the prior bucket HEADID, and DEFTYPE, then installs SYMID as the bucket head. Name padding and pass flags therefore have known values.\n\nThe diagnostic creates a PAGED record with value 12345 and reads it through SYMPTR. It restores ES before displaying the result. The record writer changes the working registers and record/bucket cursors; the input name and explicit fields are its interface.",
+    "explain": "RECORDWRITE clears a forty-byte record, copies the current zero-terminated name, writes DEFVALUE, the prior bucket HEADID, and DEFTYPE, then installs SYMID as the bucket head. Name padding and pass flags therefore have known values.\n\nThe diagnostic creates a PAGED record with value 12345 and reads it through SYMPTR. It restores ES before comparing the result with 12345. The record writer changes the working registers and record/bucket cursors; the input name and explicit fields are its interface.",
     "fixture": "MOV DL,41H\nMOV AH,2\nINT 21H\nMOV AX,4C00H\nINT 21H\n",
     "expected": "B241B402CD21B8004CCD21",
     "program_output": "A",
@@ -315,8 +315,8 @@
       "line": 1,
       "code": 1
     },
-    "prefix": "12345\r\n",
-    "binary_bytes": 3926,
+    "prefix": "",
+    "binary_bytes": 3889,
     "target_bytes": 11,
     "target_hex": "B2 41 B4 02 CD 21 B8 00 4C CD 21",
     "builder": "ASMA0"
@@ -326,7 +326,7 @@
     "title": "Looking up the complete spelling",
     "description": "Use buckets to find candidates and compare every character.",
     "why": "A hash narrows a search but cannot decide whether two names are equal.",
-    "explain": "SYMLOOK folds the name into a sixteen-bit rotating hash, selects one of 4096 word buckets, then follows record IDs. Every candidate is compared with the complete spelling through its zero terminator. HEADID retains the original bucket head while SYMID follows the chain.\n\nThe entry test looks up PAGED before insertion, writes its record into the selected bucket, then looks it up again and displays 12345. It restores the line cursor and ES. Colliding names remain distinct; no name is accepted merely because its hash matches.",
+    "explain": "SYMLOOK folds the name into a sixteen-bit rotating hash, selects one of 4096 word buckets, then follows record IDs. Every candidate is compared with the complete spelling through its zero terminator. HEADID retains the original bucket head while SYMID follows the chain.\n\nThe entry test looks up PAGED before insertion, writes its record into the selected bucket, then looks it up again and compares the saved value with 12345 and rejects a mismatch. It restores the line cursor and ES. Colliding names remain distinct; no name is accepted merely because its hash matches.",
     "fixture": "MOV DL,41H\nMOV AH,2\nINT 21H\nMOV AX,4C00H\nINT 21H\n",
     "expected": "B241B402CD21B8004CCD21",
     "program_output": "A",
@@ -337,12 +337,12 @@
       "line": 1,
       "code": 1
     },
-    "prefix": "12345\r\n",
-    "binary_bytes": 4071,
+    "prefix": "",
+    "cartoon": "asm86a-cloakroom.png",
+    "binary_bytes": 4034,
     "target_bytes": 11,
     "target_hex": "B2 41 B4 02 CD 21 B8 00 4C CD 21",
-    "builder": "ASMA0",
-    "cartoon": "asm86a-cloakroom.png"
+    "builder": "ASMA0"
   },
   {
     "number": 17,
@@ -360,7 +360,7 @@
       "line": 2,
       "code": 3
     },
-    "binary_bytes": 4057,
+    "binary_bytes": 4017,
     "target_bytes": 2,
     "target_hex": "00 01",
     "builder": "ASMA0"
@@ -381,7 +381,7 @@
       "line": 1,
       "code": 3
     },
-    "binary_bytes": 4057,
+    "binary_bytes": 4017,
     "target_bytes": 2,
     "target_hex": "00 01",
     "builder": "ASMA0"
@@ -402,7 +402,7 @@
       "line": 1,
       "code": 1
     },
-    "binary_bytes": 4326,
+    "binary_bytes": 4286,
     "target_bytes": 1,
     "target_hex": "01",
     "builder": "ASMA0"
@@ -423,7 +423,7 @@
       "line": 1,
       "code": 1
     },
-    "binary_bytes": 4412,
+    "binary_bytes": 4372,
     "target_bytes": 11,
     "target_hex": "48 65 6C 6C 6F 3B 20 78 0D 0A 00",
     "builder": "ASMA0"
@@ -444,7 +444,7 @@
       "line": 1,
       "code": 2
     },
-    "binary_bytes": 4605,
+    "binary_bytes": 4565,
     "target_bytes": 4,
     "target_hex": "03 03 03 03",
     "builder": "ASMA0"
@@ -465,7 +465,7 @@
       "line": 1,
       "code": 3
     },
-    "binary_bytes": 4728,
+    "binary_bytes": 4688,
     "target_bytes": 2,
     "target_hex": "03 00",
     "builder": "ASMA0"
@@ -486,32 +486,32 @@
       "line": 1,
       "code": 5
     },
-    "binary_bytes": 4828,
+    "binary_bytes": 4788,
     "target_bytes": 23,
     "target_hex": "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
     "builder": "ASMA0"
   },
   {
     "number": 24,
-    "title": "A conditional bridge",
-    "description": "Reach a distant target using a fixed five-byte 8086 expansion.",
-    "why": "A conditional transfer may need to cross more than a signed-byte displacement.",
-    "explain": "SHORTJUMP recognizes an explicit NEAR qualifier. It emits the opposite short opcode with displacement three, followed by a near JMP whose displacement is calculated from the end of all five bytes. BRDEST retains the target while EMIT changes AX.\n\nThe expansion uses no extra symbol record. Ordinary conditionals remain short and range-checked. JZ/JNZ and JC/JNC are documented aliases for the corresponding existing conditions; there is no later-CPU near-conditional instruction.",
-    "fixture": "MOV AX,0\nCMP AX,0\nJNE NEAR BAD\nMOV DL,41H\nMOV AH,2\nINT 21H\nMOV AX,4C00H\nINT 21H\nRESB 200\nBAD:\nMOV AX,4C01H\nINT 21H\n",
-    "expected": null,
-    "program_output": "A",
+    "title": "The carry branch spelling",
+    "description": "Use JC where a runtime service returns carry.",
+    "why": "DOS services report carry; JC names that condition directly.",
+    "explain": "JC has the same condition code as JB. Add one table record using the existing short-branch encoder. No new decoder is required.",
+    "fixture": "JC X\nDB 0\nX:\nJC X\n",
+    "expected": "72010072FE",
+    "program_output": null,
     "program_exit": 0,
     "bad": {
       "kind": "source",
-      "text": "JNE 400H\n",
+      "text": "JNC X\nX:\n",
       "line": 1,
-      "code": 4
+      "code": 1
     },
-    "binary_bytes": 4951,
-    "target_bytes": 228,
-    "target_hex": "B8 00 00 81 F8 00 00 74 03 E9 D3 00 B2 41 B4 02 CD 21 B8 00 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
-    "builder": "ASMA0",
-    "cartoon": "asm86a-bridge.png"
+    "cartoon": "asm86a-bridge.png",
+    "binary_bytes": 4887,
+    "target_bytes": 5,
+    "target_hex": "72 01 00 72 FE",
+    "builder": "ASMA0"
   },
   {
     "number": 25,
@@ -529,7 +529,7 @@
       "line": 1,
       "code": 3
     },
-    "binary_bytes": 5078,
+    "binary_bytes": 5014,
     "target_bytes": 6,
     "target_hex": "8B 06 34 12 89 07",
     "builder": "ASMA0"
@@ -550,7 +550,7 @@
       "line": 1,
       "code": 3
     },
-    "binary_bytes": 5190,
+    "binary_bytes": 5126,
     "target_bytes": 6,
     "target_hex": "8B 06 34 12 89 07",
     "builder": "ASMA0"
@@ -571,7 +571,7 @@
       "line": 1,
       "code": 3
     },
-    "binary_bytes": 5402,
+    "binary_bytes": 5338,
     "target_bytes": 6,
     "target_hex": "8B 06 34 12 89 07",
     "builder": "ASMA0"
@@ -592,7 +592,7 @@
       "line": 1,
       "code": 1
     },
-    "binary_bytes": 5510,
+    "binary_bytes": 5446,
     "target_bytes": 7,
     "target_hex": "8B 06 34 12 26 88 07",
     "builder": "ASMA0"
@@ -613,7 +613,7 @@
       "line": 1,
       "code": 1
     },
-    "binary_bytes": 5634,
+    "binary_bytes": 5570,
     "target_bytes": 48,
     "target_hex": "B8 07 00 50 E8 12 00 81 C4 02 00 8B D0 80 C2 30 B4 02 CD 21 B8 00 4C CD 21 55 8B EC 81 EC 02 00 8B 86 04 00 89 86 FE FF 8B 86 FE FF 8B E5 5D C3",
     "builder": "ASMA0"
@@ -634,30 +634,30 @@
       "line": 1,
       "code": 1
     },
-    "binary_bytes": 5670,
+    "binary_bytes": 5606,
     "target_bytes": 19,
     "target_hex": "C6 06 12 01 41 8A 16 12 01 B4 02 CD 21 B8 00 4C CD 21 00",
     "builder": "ASMA0"
   },
   {
     "number": 31,
-    "title": "Arithmetic on a memory operand",
-    "description": "Extend the familiar arithmetic groups without changing operand order.",
-    "why": "The same effective-address descriptor can serve arithmetic as well as MOV.",
-    "explain": "MATHOPERANDS selects the direction bit when a register is the destination, or uses a memory/register form when memory is the destination. Immediate arithmetic uses the full byte or word immediate group. There is no value-dependent shortening.\n\nADC and SBB use their native carry/borrow groups. TEST uses its own register/memory or immediate opcode and does not store a result. Memory-to-memory arithmetic remains invalid. The executed test deliberately produces carry, then uses ADC to obtain ASCII A.",
-    "fixture": "MOV AX,65535\nADD AX,1\nADC AX,64\nMOV DL,AL\nMOV AH,2\nINT 21H\nMOV AX,4C00H\nINT 21H\n",
-    "expected": null,
-    "program_output": "A",
+    "title": "Arithmetic through memory",
+    "description": "Apply the existing word arithmetic to a memory operand.",
+    "why": "The runtime checks words in its allocated-block descriptors.",
+    "explain": "Reuse the operand descriptors and fixed word displacement choices. The arithmetic direction bit selects a register or memory destination; an immediate memory operand requires an explicit width. The runtime needs CMP WORD [SI],0.",
+    "fixture": "ADD AX,[SI]\nSUB [DI],BX\nCMP BYTE [BX],1\n",
+    "expected": "0304291D803F01",
+    "program_output": null,
     "program_exit": 0,
     "bad": {
       "kind": "source",
-      "text": "ADD [BX],[SI]\n",
+      "text": "ADD [BX],[DI]\n",
       "line": 1,
       "code": 1
     },
-    "binary_bytes": 5797,
-    "target_bytes": 22,
-    "target_hex": "B8 FF FF 81 C0 01 00 81 D0 40 00 8A D0 B4 02 CD 21 B8 00 4C CD 21",
+    "binary_bytes": 5645,
+    "target_bytes": 7,
+    "target_hex": "03 04 29 1D 80 3F 01",
     "builder": "ASMA0"
   },
   {
@@ -676,7 +676,7 @@
       "line": 1,
       "code": 1
     },
-    "binary_bytes": 5881,
+    "binary_bytes": 5729,
     "target_bytes": 23,
     "target_hex": "BB 15 01 BE 01 00 8D 10 8B DA 8A 17 B4 02 CD 21 B8 00 4C CD 21 58 41",
     "builder": "ASMA0"
@@ -697,83 +697,41 @@
       "line": 1,
       "code": 1
     },
-    "binary_bytes": 5945,
+    "binary_bytes": 5793,
     "target_bytes": 17,
     "target_hex": "BB 0A 01 FF D3 B8 00 4C CD 21 B2 41 B4 02 CD 21 C3",
     "builder": "ASMA0"
   },
   {
-    "number": 34,
-    "title": "Returning and releasing arguments",
-    "description": "Encode the optional near-return adjustment explicitly.",
-    "why": "A callee can return while discarding a stated amount of argument storage.",
-    "explain": "A bare RET remains C3H. RET followed by a word expression emits C2H and that word. The return address is removed first, then the stack adjustment is applied by the processor.\n\nThe test passes a word, establishes BP, reads the argument, restores BP, and uses RET 2. The assembler accepts the encoding; agreeing on argument ownership remains a program calling-convention responsibility.",
-    "fixture": "MOV AX,65\nPUSH AX\nCALL F\nMOV DL,AL\nMOV AH,2\nINT 21H\nMOV AX,4C00H\nINT 21H\nF:\nPUSH BP\nMOV BP,SP\nMOV AX,[BP+4]\nPOP BP\nRET 2\n",
-    "expected": null,
-    "program_output": "A",
-    "program_exit": 0,
-    "bad": {
-      "kind": "source",
-      "text": "RET LOST\n",
-      "line": 1,
-      "code": 3
-    },
-    "binary_bytes": 5993,
-    "target_bytes": 29,
-    "target_hex": "B8 41 00 50 E8 0B 00 8A D0 B4 02 CD 21 B8 00 4C CD 21 55 8B EC 8B 86 04 00 5D C2 02 00",
-    "builder": "ASMA0"
-  },
-  {
-    "number": 35,
-    "title": "Word and byte unary operations",
-    "description": "Select NEG and NOT through the shared r/m group.",
-    "why": "Negation and bit inversion have fixed operand widths and a common encoding structure.",
-    "explain": "GROUP parses a register or explicitly sized memory operand, selects its known width, and emits F6H or F7H with the table's extension field. NEG uses field three and NOT field two.\n\nA memory operand needs a size because there is no second register to supply one. The test turns one into FFFFH with NEG, then into zero with NOT, and adds 65 for a visible A.",
-    "fixture": "MOV AX,1\nNEG AX\nNOT AX\nADD AX,65\nMOV DL,AL\nMOV AH,2\nINT 21H\nMOV AX,4C00H\nINT 21H\n",
-    "expected": null,
-    "program_output": "A",
-    "program_exit": 0,
-    "bad": {
-      "kind": "source",
-      "text": "MOV AX,AL\n",
-      "line": 1,
-      "code": 1
-    },
-    "binary_bytes": 6064,
-    "target_bytes": 22,
-    "target_hex": "B8 01 00 F7 D8 F7 D0 81 C0 41 00 8A D0 B4 02 CD 21 B8 00 4C CD 21",
-    "builder": "ASMA0"
-  },
-  {
     "number": 36,
-    "title": "Multiply and divide groups",
-    "description": "Expose the original 8086 single-operand arithmetic forms.",
-    "why": "The group encoder can supply multiplication and division without new operand syntax.",
-    "explain": "MUL, IMUL, DIV, and IDIV add extension fields four through seven to GROUP. The source has one explicit byte or word operand; the processor supplies its defined accumulator/result registers. The test uses word MUL and DIV with divisor one.\n\nThese are the original single-operand forms. Two- or three-operand IMUL is rejected. Programs must prepare the implicit dividend and avoid zero divisors or quotient overflow; the assembler cannot prove runtime arithmetic safety.",
-    "fixture": "MOV AX,65\nMOV BX,1\nMUL BX\nDIV BX\nMOV DL,AL\nMOV AH,2\nINT 21H\nMOV AX,4C00H\nINT 21H\n",
-    "expected": null,
-    "program_output": "A",
+    "title": "Unsigned multiply and divide",
+    "description": "Provide the word arithmetic needed by the compiler.",
+    "why": "Word expressions and decimal formatting need unsigned multiplication and division.",
+    "explain": "MUL and DIV use the 8086 group encodings for one register or memory operand. The runtime checks a zero divisor before DIV; signed variants are outside the bootstrap assembler.",
+    "fixture": "MUL BX\nDIV BL\n",
+    "expected": "F7E3F6F3",
+    "program_output": null,
     "program_exit": 0,
     "bad": {
       "kind": "source",
-      "text": "MOV AX,AL\n",
+      "text": "MUL AX,BX\n",
       "line": 1,
       "code": 1
     },
-    "binary_bytes": 6096,
-    "target_bytes": 21,
-    "target_hex": "B8 41 00 BB 01 00 F7 E3 F7 F3 8A D0 B4 02 CD 21 B8 00 4C CD 21",
+    "binary_bytes": 5864,
+    "target_bytes": 4,
+    "target_hex": "F7 E3 F6 F3",
     "builder": "ASMA0"
   },
   {
     "number": 37,
-    "title": "A single-bit shift",
-    "description": "Use the original fixed-count shift encoding.",
-    "why": "The 8086 has a dedicated form for shifting once.",
-    "explain": "SHIFT saves the r/m descriptor, requires a comma and a resolved count of one, then emits D0H or D1H with the operation's field. SHL, SHR, and SAR choose logical-left, logical-right, and arithmetic-right behavior.\n\nNo immediate-count byte is emitted. Counts zero or two are rejected rather than encoded with a later-CPU instruction. The test doubles 32 with SHL by one, then adds one and displays A.",
-    "fixture": "MOV AX,32\nSHL AX,1\nADD AX,1\nMOV DL,AL\nMOV AH,2\nINT 21H\nMOV AX,4C00H\nINT 21H\n",
-    "expected": null,
-    "program_output": "A",
+    "title": "Logical word shifts",
+    "description": "Shift by one or a saved count in CL.",
+    "why": "The tool implementations need bit masks and word shifts.",
+    "explain": "SHL and SHR accept count one or CL. The virtual machine masks the source count to fifteen before selecting the native CL form. Rotate, arithmetic-shift, and alternate spellings are omitted.",
+    "fixture": "SHL AX,1\nSHR AX,CL\n",
+    "expected": "D1E0D3E8",
+    "program_output": null,
     "program_exit": 0,
     "bad": {
       "kind": "source",
@@ -781,51 +739,9 @@
       "line": 1,
       "code": 4
     },
-    "binary_bytes": 6229,
-    "target_bytes": 20,
-    "target_hex": "B8 20 00 D1 E0 81 C0 01 00 8A D0 B4 02 CD 21 B8 00 4C CD 21",
-    "builder": "ASMA0"
-  },
-  {
-    "number": 38,
-    "title": "CL shifts and rotates",
-    "description": "Accept the variable-count forms supported by the 8086.",
-    "why": "The byte register CL supplies the processor's variable count.",
-    "explain": "SHIFT recognizes CL and selects D2H or D3H instead of the count-one opcode. ROL/ROR rotate bits within the operand; RCL/RCR rotate through carry. SAL is an alias for SHL. The descriptor and width checks are unchanged.\n\nThe source does not acquire arbitrary immediate counts. The test rotates 32 left by the count one in CL, then forms ASCII A. Flag behavior and count preparation remain responsibilities of the emitted program.",
-    "fixture": "MOV AX,32\nMOV CL,1\nROL AX,CL\nADD AX,1\nMOV DL,AL\nMOV AH,2\nINT 21H\nMOV AX,4C00H\nINT 21H\n",
-    "expected": null,
-    "program_output": "A",
-    "program_exit": 0,
-    "bad": {
-      "kind": "source",
-      "text": "SHL AX,2\n",
-      "line": 1,
-      "code": 4
-    },
-    "binary_bytes": 6275,
-    "target_bytes": 22,
-    "target_hex": "B8 20 00 B1 01 D3 C0 81 C0 01 00 8A D0 B4 02 CD 21 B8 00 4C CD 21",
-    "builder": "ASMA0"
-  },
-  {
-    "number": 39,
-    "title": "Repeated byte and word movement",
-    "description": "Restrict REP to the explicitly supported string instructions.",
-    "why": "A block move should name its count and source/destination convention clearly.",
-    "explain": "REPEAT looks up MOVSB, MOVSW, STOSB, STOSW, LODSB, or LODSW in STRINGTAB, emits F3H and the fixed operation, then requires end of statement. Other REP combinations are rejected. CLD establishes forward movement; the program supplies the relevant segment registers, pointers, and CX.\n\nThe complete test copies Hi into declared storage with REP MOVSB, then displays the copy. These are genuine 8086 forms. The assembler does not initialize a program's copy count or direction flag for it.",
-    "fixture": "CLD\nMOV SI,TEXT\nMOV DI,DEST\nMOV CX,2\nREP MOVSB\nMOV SI,DEST\nMOV CX,2\nSHOW:\nMOV DL,[SI]\nMOV AH,2\nINT 21H\nINC SI\nDEC CX\nJNE SHOW\nMOV AX,4C00H\nINT 21H\nTEXT:\nDB \"Hi\"\nDEST:\nRESB 2\n",
-    "expected": null,
-    "program_output": "Hi",
-    "program_exit": 0,
-    "bad": {
-      "kind": "source",
-      "text": "REP RET\n",
-      "line": 1,
-      "code": 1
-    },
-    "binary_bytes": 6422,
-    "target_bytes": 37,
-    "target_hex": "FC BE 21 01 BF 23 01 B9 02 00 F3 A4 BE 23 01 B9 02 00 8A 14 B4 02 CD 21 46 49 75 F6 B8 00 4C CD 21 48 69 00 00",
+    "binary_bytes": 5995,
+    "target_bytes": 4,
+    "target_hex": "D1 E0 D3 E8",
     "builder": "ASMA0"
   },
   {
@@ -846,9 +762,9 @@
     },
     "fixture_ref": "ASM86A.ASM",
     "self_build": true,
-    "binary_bytes": 6422,
-    "target_bytes": 6422,
-    "target_hex": "FC 81 FC FE FF 74 06 B8 07 00 E9 13 0C E8 D6 0D E8 E4 0C B0 01 88 06 C9 16 B8 00 00 89 06 BF 16 B8 00 01 89 06 BD 16 B8 00 00 89 06 BB 16 89 06 E0 19 89 06 E2 19 89 06 E4 19 89 06 5C 19 89 06",
+    "binary_bytes": 5995,
+    "target_bytes": 5995,
+    "target_hex": "FC 81 FC FE FF 74 06 B8 07 00 E9 01 0C E8 C4 0D E8 D2 0C B0 01 88 06 1F 16 B8 00 00 89 06 15 16 B8 00 01 89 06 13 16 B8 00 00 89 06 11 16 89 06 35 18 89 06 37 18 89 06 39 18 89 06 E2 17 89 06",
     "builder": "ASMA0"
   }
 ]

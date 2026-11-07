@@ -29,7 +29,7 @@ DB 0
 RMPREFIX:
 ```
 
-Insert after old physical line 2255.
+Insert after old physical line 2247.
 
 Insert:
 
@@ -60,7 +60,7 @@ BRDEST:
 DW 0
 ```
 
-Insert after old physical line 2236.
+Insert after old physical line 2228.
 
 Insert:
 
@@ -427,13 +427,13 @@ COPY A26.ASM SOURCE.ASM
 CHECK ASM1
 ```
 
-Require `OK RESULT.COM 05190 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 05126 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A26.COM
 ```
 
-VIEW.BAS must report A26.COM length 5190 bytes. Keep that executable and source together.
+VIEW.BAS must report A26.COM length 5126 bytes. Keep that executable and source together.
 
 ## Acceptance check
 

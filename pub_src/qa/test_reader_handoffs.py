@@ -14,10 +14,10 @@ _,image=ir(source('rillboot','RILLBOOT.IR'));assert image==(W/'RILLBOOT.COM').re
 r=run(image,source('rill','RILL.RIL'),'RIL');assert r.exitcode==0
 _,compiler=ir(r.files['RESULT.IR']);assert compiler==(W/'RILL.COM').read_bytes()
 for name,binary in [('IR86.RIL','IR86.COM'),('ASM86.RIL','ASM86A.COM')]:
- r=run(compiler,source('rill',name),'RIL');assert r.exitcode==0
+ r=run(compiler,source('toolchain',name),'RIL');assert r.exitcode==0
  _,image=ir(r.files['RESULT.IR']);assert image==(W/binary).read_bytes()
 # Both authored scalar-check forms must reject a deliberately wrong expected value.
-seedcase=(ROOT/'workbench/toolchain/RB05.IR').read_text();a,b=seedcase.split('PROC PRINT',1)
+seedcase=(ROOT/'workbench/rill/R05.IR').read_text();a,b=seedcase.split('PROC PRINT',1)
 assert 'LIT 1\nCNE\nRETURN' in a;a=a.replace('LIT 1\nCNE\nRETURN','LIT 0\nCNE\nRETURN')
 _,image=ir((a+'PROC PRINT'+b).encode());assert run(image).exitcode==1
 selfcase=(ROOT/'workbench/toolchain/RC05.RIL').read_text();assert 'return (letter(95))!=1;' in selfcase

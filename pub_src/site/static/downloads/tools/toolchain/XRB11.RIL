@@ -1,1 +1,1 @@
-"open
+fn main(){putc(65536);}

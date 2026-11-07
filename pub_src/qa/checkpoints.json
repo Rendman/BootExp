@@ -71,17 +71,17 @@
   },
   {
     "title": "Instructions without operands",
-    "why": "A mnemonic is a name for an instruction. Five instructions with fixed one-byte encodings let us add names without yet designing an operand parser.",
-    "explain": "The dispatcher sets `X` to -1, meaning that no fixed instruction has matched. A match replaces it with an opcode, the byte which tells the processor what to do. Routine 4900 checks that there is no argument before passing `X` to the emitter. It changes `P`, preserving the source arguments.\n\n`NOP` performs no operation. `RET` takes a return address from the stack. `CLD` clears the direction flag so string instructions advance their indexes. `LODSB` loads AL from DS:SI, then advances or retreats SI according to that flag. `STOSB` stores AL at ES:DI and adjusts DI. DS and ES are segment registers; SI and DI are index registers. These last instructions are included for explicit byte-by-byte work, rather than repeated string operations.\n\nAt this checkpoint we are checking encodings only. In particular, a stray RET or string instruction is not a complete test program: the stack, segment registers, and indexes must have suitable values. Inspect this fixture without running it.",
+    "why": "A mnemonic is a name for an instruction. Four instructions with fixed one-byte encodings let us add names without yet designing an operand parser.",
+    "explain": "The dispatcher sets `X` to -1, meaning that no fixed instruction has matched. A match replaces it with an opcode, the byte which tells the processor what to do. Routine 4900 checks that there is no argument before passing `X` to the emitter. It changes `P`, preserving the source arguments.\n\n`RET` takes a return address from the stack. `CLD` clears the direction flag so string instructions advance their indexes. `LODSB` loads AL from DS:SI, then advances or retreats SI according to that flag. `STOSB` stores AL at ES:DI and adjusts DI. DS and ES are segment registers; SI and DI are index registers. These last instructions are included for explicit byte-by-byte work, rather than repeated string operations.\n\nAt this checkpoint we are checking encodings only. In particular, a stray RET or string instruction is not a complete test program: the stack, segment registers, and indexes must have suitable values. Inspect this fixture without running it.",
     "fixture": "T07",
-    "expected": "90 C3 FC AC AA",
-    "bad": "NOP 1",
+    "expected": "C3 FC AC AA",
+    "bad": "RET 1",
     "diagnostic": "Unexpected operand",
     "run": null,
     "number": 7,
     "source": "BA07.BAS",
-    "patch_lines": 9,
-    "total_lines": 90
+    "patch_lines": 8,
+    "total_lines": 89
   },
   {
     "title": "Loading a register",
@@ -95,7 +95,7 @@
     "number": 8,
     "source": "BA08.BAS",
     "patch_lines": 22,
-    "total_lines": 112
+    "total_lines": 111
   },
   {
     "title": "Making a DOS request",
@@ -109,7 +109,7 @@
     "number": 9,
     "source": "BA09.BAS",
     "patch_lines": 4,
-    "total_lines": 116
+    "total_lines": 115
   },
   {
     "title": "Counting twice",
@@ -123,7 +123,7 @@
     "number": 10,
     "source": "BA10.BAS",
     "patch_lines": 3,
-    "total_lines": 118
+    "total_lines": 117
   },
   {
     "title": "Giving positions names",
@@ -137,7 +137,7 @@
     "number": 11,
     "source": "BA11.BAS",
     "patch_lines": 23,
-    "total_lines": 141
+    "total_lines": 140
   },
   {
     "title": "Using names as values",
@@ -151,7 +151,7 @@
     "number": 12,
     "source": "BA12.BAS",
     "patch_lines": 5,
-    "total_lines": 146
+    "total_lines": 145
   },
   {
     "title": "Copying between registers",
@@ -165,7 +165,7 @@
     "number": 13,
     "source": "BA13.BAS",
     "patch_lines": 6,
-    "total_lines": 152
+    "total_lines": 151
   },
   {
     "title": "The stack and single-register work",
@@ -179,21 +179,21 @@
     "number": 14,
     "source": "BA14.BAS",
     "patch_lines": 8,
-    "total_lines": 160
+    "total_lines": 159
   },
   {
     "title": "Arithmetic and comparisons",
-    "why": "To work on a character or count, a program needs arithmetic and tests. The same operand machinery serves six closely related instruction families.",
-    "explain": "ADD and SUB alter the destination by addition or subtraction. CMP sets the subtraction flags without storing the answer. AND, OR, and XOR perform bit-by-bit logical operations. All these forms set flags; logical operations clear carry and overflow and leave auxiliary carry undefined. Arithmetic carries beyond the selected width are not stored in the destination.\n\nThe mnemonic table uses four characters per entry, including spaces. A matching name must begin at an entry boundary. The matching position selects an operation number from `014567`: ADD=0, OR=1, AND=4, SUB=5, XOR=6, CMP=7. These are the processor's group numbers, not consecutive entries invented by the assembler. `OP` preserves that choice while the operands are read.\n\nFor a register source, routine 4500 emits `8*OP+2+WD` and a register ModR/M byte. For an immediate source, 4400 emits 80H for a byte or 81H for a word. The ModR/M byte has the operation number in its middle field and the destination register in its low field. The immediate follows in the destination's width. We deliberately omit the shorter sign-extended 83H form to keep size decisions fixed.\n\nBoth routines take their operands from `A$` through 5000. They change the operand-reader scratch variables, `RD`, `WD`, `R`, `W`, `N`, `X`, and `P`; they preserve `OP`. Memory arithmetic and signed literal syntax are omitted. To represent a negative bit pattern, use its unsigned hexadecimal value, such as 0FFFFH for a word containing all one bits. This fixture is only for inspection.",
+    "why": "To work on a character or count, a program needs arithmetic and tests. The same operand machinery serves four closely related instruction families.",
+    "explain": "ADD and SUB alter the destination by addition or subtraction. CMP sets the subtraction flags without storing the answer. AND performs bit-by-bit logical operations. All these forms set flags; logical operations clear carry and overflow and leave auxiliary carry undefined. Arithmetic carries beyond the selected width are not stored in the destination.\n\nThe mnemonic table uses four characters per entry, including spaces. A matching name must begin at an entry boundary. The matching position selects an operation number from `0457`: ADD=0, AND=4, SUB=5, CMP=7. These are the processor's group numbers, not consecutive entries invented by the assembler. `OP` preserves that choice while the operands are read.\n\nFor a register source, routine 4500 emits `8*OP+2+WD` and a register ModR/M byte. For an immediate source, 4400 emits 80H for a byte or 81H for a word. The ModR/M byte has the operation number in its middle field and the destination register in its low field. The immediate follows in the destination's width. We deliberately omit the shorter sign-extended 83H form to keep size decisions fixed.\n\nBoth routines take their operands from `A$` through 5000. They change the operand-reader scratch variables, `RD`, `WD`, `R`, `W`, `N`, `X`, and `P`; they preserve `OP`. Memory arithmetic and signed literal syntax are omitted. To represent a negative bit pattern, use its unsigned hexadecimal value, such as 0FFFFH for a word containing all one bits. This fixture is only for inspection.",
     "fixture": "T15",
-    "expected": "03 C3 81 E9 01 00 80 F8 41 33 D2 80 E0 DF 80 CB 20",
+    "expected": "03 C3 81 E9 01 00 80 F8 41 80 E0 DF",
     "bad": "ADD AX,AL",
     "diagnostic": "Register sizes differ",
     "run": null,
     "number": 15,
     "source": "BA15.BAS",
     "patch_lines": 17,
-    "total_lines": 177
+    "total_lines": 176
   },
   {
     "title": "Reading and writing memory",
@@ -207,7 +207,7 @@
     "number": 16,
     "source": "BA16.BAS",
     "patch_lines": 20,
-    "total_lines": 197
+    "total_lines": 196
   },
   {
     "title": "Calling and jumping",
@@ -221,12 +221,12 @@
     "number": 17,
     "source": "BA17.BAS",
     "patch_lines": 7,
-    "total_lines": 204
+    "total_lines": 203
   },
   {
     "title": "Short conditional branches",
     "why": "A comparison becomes useful when it can select the next instruction. The 8088 gives these conditional transfers a signed one-byte reach, so the assembler must check the distance.",
-    "explain": "The supported unsigned conditions are JB (below), JAE (above or equal), JE (equal), JNE (not equal), JBE (below or equal), and JA (above). For signed comparisons use JL, JGE, JLE, and JG. JE and JNE work for either interpretation. The processor stores bit patterns; the branch instruction chooses how the comparison flags are interpreted.\n\nThe opcode table selects 72H through 77H and 7CH through 7FH. These conditions test carry, zero, sign, and overflow as shown in the reference. CMP must be near enough in the execution path that intervening instructions have not changed the flags it set. MOV, PUSH, POP, CALL, RET, and the branches do not themselves alter arithmetic flags; a called routine may do so.\n\nRoutine 5600 subtracts `256+P+2`, the address after this two-byte instruction, from the destination. Pass one does not check the reach of an unresolved name. Pass two requires a result from -128 through +127 inclusive. Subtracting `256*INT(RV/256)` converts a negative displacement to its unsigned byte pattern without BASIC's signed logical operators. The routine changes `T$`, the value-reader scratch variables, `RV`, `C$`, `X`, and `P`; `BC` retains the selected condition.\n\nThere is no automatic long conditional branch on an 8088. To reach a distant destination, branch on the opposite condition to a nearby label, then use a near JMP. That sequence belongs in the source, where its size and meaning are visible.\n\nThe executable test starts DL at the character 0, displays it, advances to the next character, and repeats until DL reaches the character 3. DOS function 02H leaves DL available for this loop; AH is loaded each time.",
+    "explain": "The supported unsigned conditions are JB (below), JAE (above or equal), JE (equal), JNE (not equal), JBE (below or equal), and JA (above). JE and JNE work for either interpretation. The processor stores bit patterns; the branch instruction chooses how the comparison flags are interpreted.\n\nThe opcode table selects 72H through 77H. These conditions test carry and zero as shown in the reference. CMP must be near enough in the execution path that intervening instructions have not changed the flags it set. MOV, PUSH, POP, CALL, RET, and the branches do not themselves alter arithmetic flags; a called routine may do so.\n\nRoutine 5600 subtracts `256+P+2`, the address after this two-byte instruction, from the destination. Pass one does not check the reach of an unresolved name. Pass two requires a result from -128 through +127 inclusive. Subtracting `256*INT(RV/256)` converts a negative displacement to its unsigned byte pattern without BASIC's signed logical operators. The routine changes `T$`, the value-reader scratch variables, `RV`, `C$`, `X`, and `P`; `BC` retains the selected condition.\n\nThere is no automatic long conditional branch on an 8088. To reach a distant destination, branch on the opposite condition to a nearby label, then use a near JMP. That sequence belongs in the source, where its size and meaning are visible.\n\nThe executable test starts DL at the character 0, displays it, advances to the next character, and repeats until DL reaches the character 3. DOS function 02H leaves DL available for this loop; AH is loaded each time.",
     "fixture": "T18",
     "expected": "B2 30 B4 02 CD 21 42 80 FA 33 72 F6 B8 00 4C CD 21",
     "bad": "JE 400H",
@@ -235,6 +235,6 @@
     "number": 18,
     "source": "BA18.BAS",
     "patch_lines": 9,
-    "total_lines": 213
+    "total_lines": 212
   }
 ]

@@ -28,7 +28,7 @@ EXPRDEPTH:
 DW 0
 ```
 
-Insert after old physical line 2064.
+Insert after old physical line 2059.
 
 Insert:
 
@@ -191,7 +191,7 @@ The following old source stays in place:
 
 ```asm
 MOV BX,OPTAB
-MOV CX,31
+MOV CX,26
 ```
 
 ### Change 6 near `AFTERWORD:`
@@ -365,13 +365,13 @@ COPY A22.ASM SOURCE.ASM
 CHECK ASM1
 ```
 
-Require `OK RESULT.COM 04728 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 04688 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A22.COM
 ```
 
-VIEW.BAS must report A22.COM length 4728 bytes. Keep that executable and source together.
+VIEW.BAS must report A22.COM length 4688 bytes. Keep that executable and source together.
 
 ## Acceptance check
 

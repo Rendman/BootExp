@@ -20,7 +20,7 @@ COPY AS29.ASM ASM0.ASM
 GWBASIC BOOTASM.BAS
 ```
 
-Enter `ASM0`. Require `OK ASM0.COM 2622 bytes`, allowing BASIC's extra numeric spaces. Return with `SYSTEM`, then preserve the result:
+Enter `ASM0`. Require `OK ASM0.COM 2574 bytes`, allowing BASIC's extra numeric spaces. Return with `SYSTEM`, then preserve the result:
 
 ```dos
 COPY ASM0.COM ASMKEEP.COM
@@ -55,13 +55,13 @@ COPY ASM0.ASM AGAIN.ASM
 CHECK SELF
 ```
 
-Enter `AGAIN`. Require `OK 02622 bytes` and PASS. Compare the second generation:
+Enter `AGAIN`. Require `OK 02574 bytes` and PASS. Compare the second generation:
 
 ```dos
 COMP SELF.COM AGAIN.COM
 ```
 
-Again require the matching-files report, no differing bytes, and answer N. Both generated files must be exactly 2,622 bytes. A failed assembly is not a new generation, even if an older file with the requested name remains on disk.
+Again require the matching-files report, no differing bytes, and answer N. Both generated files must be exactly 2,574 bytes. A failed assembly is not a new generation, even if an older file with the requested name remains on disk.
 
 ## Check a failure through the native copy
 

@@ -1,1 +1,0 @@
-fn main(){let mut x=48;while x<51{putc(x);x=x+1;}}

@@ -1,1 +1,2 @@
-JNE 400H
+JNC X
+X:

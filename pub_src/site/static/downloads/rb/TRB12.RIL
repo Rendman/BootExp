@@ -1,1 +1,7 @@
-+
+fn main(){
+ let mut h=alloc(100);if status(){return 1;}
+ set16(h,98,4660);if status(){free(h);return 1;}
+ let mut n=get16(h,98);
+ set8(h,0,65);putc(get8(h,0));
+ free(h);return n!=4660;
+}

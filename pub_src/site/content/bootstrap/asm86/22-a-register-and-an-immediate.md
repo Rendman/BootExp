@@ -33,7 +33,7 @@ DB 76,79,68,83,66,0,2,172
 DB 83,84,79,83,66,0,2,170
 ```
 
-Insert after old physical line 815, before the following old line.
+Insert after old physical line 814, before the following old line.
 
 Insert this source:
 
@@ -196,13 +196,13 @@ MOV BX,OPTAB
 Remove these exact old lines (physical lines 544–544 of `AS21.ASM`):
 
 ```asm
-MOV CX,7
+MOV CX,6
 ```
 
 Put this source in their place:
 
 ```asm
-MOV CX,8
+MOV CX,7
 ```
 
 ### Change 7: following `DEFINEBAD:`
@@ -254,7 +254,7 @@ Use the BASIC assembler prepared in the workbench guide:
 GWBASIC BOOTASM.BAS
 ```
 
-Enter `AS22` at its source prompt. Require `OK AS22.COM 1922 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.
+Enter `AS22` at its source prompt. Require `OK AS22.COM 1914 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.
 
 Use `COPY CON T22.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
 

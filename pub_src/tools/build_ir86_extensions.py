@@ -35,11 +35,35 @@ specs=[
 ('File publication services','Normalize existence, deletion, and rename without exposing DOS error values.','PROC MAIN 0 0\nLITS "A"\nEXISTS\nPUSH\nLIT 1\nCNE\nRETURN\n','EXISTS DELETE RENAME',None),
 ('Allocated block handles','Allocate byte extents beyond the main image and release owned blocks.','WORD H 0\nPROC MAIN 0 0\nLIT 40960\nALLOC\nST H\nSTATUS\nJNZ BAD\nLD H\nFREEBLOCK\nSTATUS\nRETURN\nLABEL BAD\nLIT 1\nRETURN\n','ALLOC FREEBLOCK',None),
 ('Checked block access','Validate an opaque block and byte extent before reading or writing a word.','WORD H 0\nPROC MAIN 0 0\nLIT 40960\nALLOC\nST H\nLD H\nPUSH\nLIT 40958\nPUSH\nLIT 4660\nSET16\nLD H\nPUSH\nLIT 40958\nGET16\nPUSH\nLIT 4660\nCNE\nPUSH\nLD H\nFREEBLOCK\nPOP\nRETURN\n','GET8 GET16 SET8 SET16',None)]
+# The first native translator grows through this single construction.
+# No second translator restarts from the assembler after RILL0.
+clean=[]
+for n,(title,why,fixture,adds,driver) in enumerate(specs,1):
+ fixture=fixture.replace('HALT\n','LIT 0\nEXIT\n').replace('BYTE Y 65','WORD Y 65').replace('BYTE B 65','WORD B 65').replace('SETPARAM 0','SETLOCAL 0')
+ import re
+ fixture=re.sub(r'^EQ (\w+)$',r'CEQ\nJNZ \1',fixture,flags=re.M)
+ if n==4:adds='LIT EXIT'
+ if n==5:adds='LABEL LIT EXIT'
+ if n==7:adds='LD ST ADDR FETCH';fixture=fixture.replace('FETCHB','FETCH')
+ if n==8:adds='PUSH POP ADD SUB AND OR XOR'
+ if n==9:adds='JMP JZ JNZ CEQ'
+ if n==10:
+  title='Writing through an address';why='Store a word through a portable pointer and inspect the saved result.';adds='PUT PUTB'
+  fixture='WORD X 0\nLABEL MAIN\nADDR X\nPUSH\nLIT 65\nPUT\nLD X\nEXIT\n'
+ if n==12:
+  title='Reading a declared byte';why='Zero-extend one byte from declared storage without a processor register in the source.';adds='FETCHB'
+  fixture='WORD X 65\nLABEL MAIN\nADDR X\nFETCHB\nPUTC\nLIT 0\nEXIT\n'
+ adds=' '.join(op for op in adds.split() if op in OPS)
+ if n==18:adds+=' CALL'
+ if n==23:fixture=fixture.replace('POP\nRETURN','RETURN') # preserve the comparison across FREEBLOCK below
+ if n==23:fixture=fixture.replace('PUSH\nLD H\nFREEBLOCK\nRETURN','SETLOCAL 0\nLD H\nFREEBLOCK\nLOCAL 0\nRETURN').replace('PROC MAIN 0 0','PROC MAIN 0 1')
+ clean.append((title,why,fixture,adds,driver))
+specs=clean
 def runtime(level):
  selected=[]
  for n in ['RESULT','PUTC','GETC','OPEN','CREATE','FILE','FIND','READ','WRITE','CLOSE','STATUS','BYTE','FILEDATA','TRANSFERDATA']:
   at={'RESULT':11,'PUTC':11,'GETC':12,'OPEN':13,'CREATE':14,'FILE':13,'FIND':15,'READ':15,'WRITE':16,'CLOSE':17,'STATUS':11,'BYTE':11,'FILEDATA':13,'TRANSFERDATA':15}[n]
-  if level>=at:selected.append(PARTS[n])
+  if level>=at and n!='GETC':selected.append(PARTS[n])
  ext=(ROOT/'tools/ir86_wide_runtime.asm').read_text()
  if level>=21:selected.append(ext[:ext.index('R_ALLOC:')])
  if level>=22:
@@ -53,7 +77,7 @@ def build():
  for n,(title,why,fixture,adds,driver) in enumerate(specs,1):
   for name in adds.split():active[name]=OPS[name]
   if n==23:text=source()
-  else:text=source(active,runtime(n),driver,frames=n>=18,strings=n>=20)
+  else:text=source(active,runtime(n),driver,frames=n>=18,strings=n>=20,roots=(('EMITCHAR','OUTTEXT') if n>=3 else ())+ (('OUTNUM','EXPAND','NUMARG','NAMEARG') if n>=4 else ()))
   filename=f'IW{n:02}.ASM';(W/filename).write_bytes(text.replace('\n','\r\n').encode('ascii'))
   (W/f'TIW{n:02}.IR').write_bytes(fixture.replace('\r\n','\n').replace('\n','\r\n').encode())
   cases.append(dict(number=n,title=title,why=why,source=filename,fixture=fixture,diagnostic=n<=4,raw=n==3))

@@ -31,7 +31,7 @@ DB 83,84,79,83,66,0,2,170
 DB 77,79,86,0,0,0,3,0
 ```
 
-Insert after old physical line 937, before the following old line.
+Insert after old physical line 936, before the following old line.
 
 Insert this source:
 
@@ -108,13 +108,13 @@ MOV BX,OPTAB
 Remove these exact old lines (physical lines 568–568 of `AS23.ASM`):
 
 ```asm
-MOV CX,8
+MOV CX,7
 ```
 
 Put this source in their place:
 
 ```asm
-MOV CX,12
+MOV CX,11
 ```
 
 ## Build and stop
@@ -125,7 +125,7 @@ Use the BASIC assembler prepared in the workbench guide:
 GWBASIC BOOTASM.BAS
 ```
 
-Enter `AS24` at its source prompt. Require `OK AS24.COM 2057 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.
+Enter `AS24` at its source prompt. Require `OK AS24.COM 2049 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.
 
 Use `COPY CON T24.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
 

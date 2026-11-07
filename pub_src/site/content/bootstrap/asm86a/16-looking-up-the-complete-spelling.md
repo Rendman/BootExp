@@ -14,7 +14,7 @@ A hash narrows a search but cannot decide whether two names are equal.
 
 SYMLOOK folds the name into a sixteen-bit rotating hash, selects one of 4096 word buckets, then follows record IDs. Every candidate is compared with the complete spelling through its zero terminator. HEADID retains the original bucket head while SYMID follows the chain.
 
-The entry test looks up PAGED before insertion, writes its record into the selected bucket, then looks it up again and displays 12345. It restores the line cursor and ES. Colliding names remain distinct; no name is accepted merely because its hash matches.
+The entry test looks up PAGED before insertion, writes its record into the selected bucket, then looks it up again and compares the saved value with 12345 and rejects a mismatch. It restores the line cursor and ES. Colliding names remain distinct; no name is accepted merely because its hash matches.
 
 ## Enter the source
 
@@ -194,13 +194,13 @@ COPY A16.ASM SOURCE.ASM
 CHECK ASM1
 ```
 
-Require `OK RESULT.COM 04071 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 04034 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A16.COM
 ```
 
-VIEW.BAS must report A16.COM length 4071 bytes. Keep that executable and source together.
+VIEW.BAS must report A16.COM length 4034 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -225,7 +225,6 @@ CHECK A16
 Require:
 
 ```text
-12345
 OK RESULT.COM 00011 bytes
 PASS
 ```
@@ -254,7 +253,6 @@ CHECK A16
 Require:
 
 ```text
-12345
 ERROR 00001 CODE 1
 FAIL
 ```

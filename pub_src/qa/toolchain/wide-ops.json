@@ -1,14 +1,4 @@
 {
-  "NOP": [
-    0,
-    0,
-    "NOP\n"
-  ],
-  "HALT": [
-    0,
-    4,
-    "MOV AX,4C00H\nINT 21H\n"
-  ],
   "EXIT": [
     0,
     4,
@@ -34,11 +24,6 @@
     4,
     "U_@:\nDW #\n"
   ],
-  "BYTE": [
-    3,
-    4,
-    "U_@:\nDB #\n"
-  ],
   "BUFFER": [
     3,
     4,
@@ -54,16 +39,6 @@
     0,
     "MOV [U_@],AX\n"
   ],
-  "LDB": [
-    2,
-    0,
-    "MOV AL,[U_@]\nMOV AH,0\n"
-  ],
-  "STB": [
-    2,
-    0,
-    "MOV [U_@],AL\n"
-  ],
   "FETCH": [
     0,
     0,
@@ -73,16 +48,6 @@
     0,
     0,
     "MOV BX,AX\nMOV AL,[BX]\nMOV AH,0\n"
-  ],
-  "NEG": [
-    0,
-    0,
-    "NEG AX\n"
-  ],
-  "NOT": [
-    0,
-    0,
-    "NOT AX\n"
   ],
   "PUSH": [
     0,
@@ -154,105 +119,35 @@
     2,
     "MOV CX,AX\nAND CX,15\nPOP AX\nSHR AX,CL\n"
   ],
-  "EQ": [
-    2,
-    2,
-    "POP BX\nCMP BX,AX\nJNE $+5\nJMP U_@\n"
-  ],
   "CEQ": [
     0,
     2,
     "POP BX\nCMP BX,AX\nMOV AX,0\nJNE $+3\nINC AX\n"
-  ],
-  "NE": [
-    2,
-    2,
-    "POP BX\nCMP BX,AX\nJE $+5\nJMP U_@\n"
   ],
   "CNE": [
     0,
     2,
     "POP BX\nCMP BX,AX\nMOV AX,0\nJE $+3\nINC AX\n"
   ],
-  "ULT": [
-    2,
-    2,
-    "POP BX\nCMP BX,AX\nJAE $+5\nJMP U_@\n"
-  ],
   "CULT": [
     0,
     2,
     "POP BX\nCMP BX,AX\nMOV AX,0\nJAE $+3\nINC AX\n"
-  ],
-  "ULE": [
-    2,
-    2,
-    "POP BX\nCMP BX,AX\nJA $+5\nJMP U_@\n"
   ],
   "CULE": [
     0,
     2,
     "POP BX\nCMP BX,AX\nMOV AX,0\nJA $+3\nINC AX\n"
   ],
-  "UGT": [
-    2,
-    2,
-    "POP BX\nCMP BX,AX\nJBE $+5\nJMP U_@\n"
-  ],
   "CUGT": [
     0,
     2,
     "POP BX\nCMP BX,AX\nMOV AX,0\nJBE $+3\nINC AX\n"
   ],
-  "UGE": [
-    2,
-    2,
-    "POP BX\nCMP BX,AX\nJB $+5\nJMP U_@\n"
-  ],
   "CUGE": [
     0,
     2,
     "POP BX\nCMP BX,AX\nMOV AX,0\nJB $+3\nINC AX\n"
-  ],
-  "SLT": [
-    2,
-    2,
-    "POP BX\nCMP BX,AX\nJGE $+5\nJMP U_@\n"
-  ],
-  "CSLT": [
-    0,
-    2,
-    "POP BX\nCMP BX,AX\nMOV AX,0\nJGE $+3\nINC AX\n"
-  ],
-  "SLE": [
-    2,
-    2,
-    "POP BX\nCMP BX,AX\nJG $+5\nJMP U_@\n"
-  ],
-  "CSLE": [
-    0,
-    2,
-    "POP BX\nCMP BX,AX\nMOV AX,0\nJG $+3\nINC AX\n"
-  ],
-  "SGT": [
-    2,
-    2,
-    "POP BX\nCMP BX,AX\nJLE $+5\nJMP U_@\n"
-  ],
-  "CSGT": [
-    0,
-    2,
-    "POP BX\nCMP BX,AX\nMOV AX,0\nJLE $+3\nINC AX\n"
-  ],
-  "SGE": [
-    2,
-    2,
-    "POP BX\nCMP BX,AX\nJL $+5\nJMP U_@\n"
-  ],
-  "CSGE": [
-    0,
-    2,
-    "POP BX\nCMP BX,AX\nMOV AX,0\nJL $+3\nINC AX\n"
   ],
   "JZ": [
     2,
@@ -273,11 +168,6 @@
     2,
     0,
     "CALL U_@\n"
-  ],
-  "RET": [
-    0,
-    4,
-    "RET\n"
   ],
   "PROC": [
     4,
@@ -314,11 +204,6 @@
     0,
     "MOV AX,[BP+#]\n"
   ],
-  "SETPARAM": [
-    1,
-    0,
-    "MOV [BP+#],AX\n"
-  ],
   "PADDR": [
     1,
     0,
@@ -333,11 +218,6 @@
     0,
     0,
     "CALL R_PUTC\n"
-  ],
-  "GETC": [
-    0,
-    0,
-    "CALL R_GETC\n"
   ],
   "OPEN": [
     0,

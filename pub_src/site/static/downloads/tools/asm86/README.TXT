@@ -9,7 +9,7 @@ BOOTASM.BAS  Completed BASIC foundation, unchanged.
 ASM0.ASM    Preceding native assembler, unchanged.
 ASM1.ASM    Seed, identical to A12.ASM; built directly with ASM0.
 ASM86.ASM   Complete assembler, identical to A40.ASM; built by ASM1.
-A13.ASM through A40.ASM: twenty-eight construction checkpoints.
+A13 through A33, A36, A37, A40: twenty-four construction checkpoints.
 A12.ASM: identical to the verified ASM1 prerequisite.
 Tnn.ASM and Xnn.ASM: acceptance and rejection inputs where applicable.
 VIEW.BAS and CHECK.BAT: unchanged viewer and immediate DOS checker.
@@ -19,12 +19,12 @@ LONGSRC.BAS and SYMS.BAS: BASIC generators of source text only.
 Use your own DOS 3.10 and period GW-BASIC interpreter. Note its banner.
 Build ASM0 with BOOTASM.BAS; preserve it as ASMKEEP.COM.
 The ASM1 collection uses ASMKEEP to build A01 through A12.
-The completed seed is 3342 bytes, with two matching self-builds.
+The completed seed is 3302 bytes, with two matching self-builds.
 Keep the tested ASM1.COM to build A13 through A40.
 
 For a fixed-file build: COPY A13.ASM SOURCE.ASM; CHECK ASM1.
 Require OK and PASS, then COPY RESULT.COM A13.COM before testing.
-The complete ASM86 is 6422 bytes; preserve it as ASMAKEEP.COM.
+The complete ASM86 is 5995 bytes; preserve it as ASMAKEEP.COM.
 It has no filename prompt. ASMKEEP remains the original ASM0.
 SOURCE.ASM is reopened for two passes and must remain unchanged.
 RESULT.COM is the published output; ASMA.TMP and RESULT.BAK are

@@ -84,9 +84,9 @@ SEGREGISTER:
 
 ## Build the stopping point
 
-Run `CHECK ASMKEEP`, enter `A11` at `Source name:`, and require `OK 03342 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. It creates A11.COM.
+Run `CHECK ASMKEEP`, enter `A11` at `Source name:`, and require `OK 03302 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. It creates A11.COM.
 
-VIEW.BAS must report A11.COM length 3342 bytes. Keep that executable and source together.
+VIEW.BAS must report A11.COM length 3302 bytes. Keep that executable and source together.
 
 ## Acceptance check
 

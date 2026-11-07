@@ -30,7 +30,7 @@ CLEANFAIL:
 DB 0
 ```
 
-Insert after old physical line 1349.
+Insert after old physical line 1344.
 
 Insert:
 
@@ -52,7 +52,7 @@ ENDPC:
 DW 0
 ```
 
-Insert after old physical line 1332.
+Insert after old physical line 1327.
 
 Insert:
 
@@ -380,9 +380,9 @@ CALL LOOK
 
 ## Build the stopping point
 
-Run `CHECK ASMKEEP`, enter `A10` at `Source name:`, and require `OK 03307 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. It creates A10.COM.
+Run `CHECK ASMKEEP`, enter `A10` at `Source name:`, and require `OK 03267 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. It creates A10.COM.
 
-VIEW.BAS must report A10.COM length 3307 bytes. Keep that executable and source together.
+VIEW.BAS must report A10.COM length 3267 bytes. Keep that executable and source together.
 
 ## Acceptance check
 

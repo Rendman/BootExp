@@ -16,12 +16,12 @@ Load the preceding checkpoint, `BA17.BAS`. Keep its working copy. Insert the oth
 BASIC line numbers are part of the source. Enter a whole numbered line when replacing it.
 
 ```basic
-4036 I=INSTR("JB  JAE JE  JNE JBE JA  JL  JGE JLE JG  ",M$+" ")
+4036 I=INSTR("JB  JAE JE  JNE JBE JA  ",M$+" ")
 4038 IF I>0 THEN IF (I-1) MOD 4=0 THEN BC=(I-1)/4: GOSUB 5600: RETURN
 5600 T$=A$: GOSUB 2000
 5610 RV=N-(256+P+2)
 5620 IF PS=2 THEN IF RV<-128 OR RV>127 THEN E$="Branch out of range": GOTO 9000
-5630 C$=MID$("234567CDEF",BC+1,1)
+5630 C$=MID$("234567",BC+1,1)
 5640 X=112+INSTR("0123456789ABCDEF",C$)-1: GOSUB 3000
 5650 X=RV-256*INT(RV/256): GOSUB 3000
 5660 RETURN
@@ -47,9 +47,9 @@ Keep this filename for the stopping point; it is not a second program to type.
 
 ## How it works
 
-The supported unsigned conditions are JB (below), JAE (above or equal), JE (equal), JNE (not equal), JBE (below or equal), and JA (above). For signed comparisons use JL, JGE, JLE, and JG. JE and JNE work for either interpretation. The processor stores bit patterns; the branch instruction chooses how the comparison flags are interpreted.
+The supported unsigned conditions are JB (below), JAE (above or equal), JE (equal), JNE (not equal), JBE (below or equal), and JA (above). JE and JNE work for either interpretation. The processor stores bit patterns; the branch instruction chooses how the comparison flags are interpreted.
 
-The opcode table selects 72H through 77H and 7CH through 7FH. These conditions test carry, zero, sign, and overflow as shown in the reference. CMP must be near enough in the execution path that intervening instructions have not changed the flags it set. MOV, PUSH, POP, CALL, RET, and the branches do not themselves alter arithmetic flags; a called routine may do so.
+The opcode table selects 72H through 77H. These conditions test carry and zero as shown in the reference. CMP must be near enough in the execution path that intervening instructions have not changed the flags it set. MOV, PUSH, POP, CALL, RET, and the branches do not themselves alter arithmetic flags; a called routine may do so.
 
 Routine 5600 subtracts `256+P+2`, the address after this two-byte instruction, from the destination. Pass one does not check the reach of an unresolved name. Pass two requires a result from -128 through +127 inclusive. Subtracting `256*INT(RV/256)` converts a negative displacement to its unsigned byte pattern without BASIC's signed logical operators. The routine changes `T$`, the value-reader scratch variables, `RV`, `C$`, `X`, and `P`; `BC` retains the selected condition.
 

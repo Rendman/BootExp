@@ -262,8 +262,6 @@ fn statement() {
     if kind == 9 { return group(); }
     if kind == 10 { return shift(); }
     if kind == 12 { return reserve(); }
-    if kind == 13 { return repeat(); }
-    if kind == 14 { return retop(); }
     operand(); savefirst(); scan(); if !same(token,",") { fail(1); } operand(); finish();
     if kind == 3 { return movop(); }
     if kind == 11 { return leaop(); }
@@ -312,17 +310,6 @@ fn conditional() {
     else { n = n-(pc+2); if pass == 2 { if n > 127 { if n < 65408 { fail(4); } } } emit(op); emit(n); }
     return 0;
 }
-fn retop() {
-    scan(); if token[0] == 0 { emit(195); return 0; }
-    let mut n = expression(); finish(); emit(194); emitword(n); return 0;
-}
-fn repeat() {
-    scan(); let mut n = 0;
-    if same(token,"MOVSB") { n = 164; } if same(token,"MOVSW") { n = 165; }
-    if same(token,"STOSB") { n = 170; } if same(token,"STOSW") { n = 171; }
-    if same(token,"LODSB") { n = 172; } if same(token,"LODSW") { n = 173; }
-    if n == 0 { fail(1); } finish(); emit(243); emit(n); return 0;
-}
 fn group() { operand(); finish(); if okind > 2 { fail(1); } knownwidth(); encode(246+width,op); return 0; }
 fn shift() {
     operand(); savefirst(); scan(); if !same(token,",") { fail(1); } scan();
@@ -351,16 +338,16 @@ fn mathop() {
     let mut n = val; let mut rightreg = reg; let mut rightwidth = width; let mut code = 0;
     if okind == 3 {
         usefirst(); if okind > 2 { fail(1); } knownwidth();
-        if kind == 15 { encode(246+width,0); } else { encode(128+width,op); }
+        encode(128+width,op);
         immediate(n); return 0;
     }
     if k == 1 {
         if okind > 2 { fail(1); } checkwidth(w);
-        code = op*8+2+width; if kind == 15 { code = 132+width; } encode(code,r); return 0;
+        code = op*8+2+width; encode(code,r); return 0;
     }
     if k != 2 { fail(1); } if okind != 1 { fail(1); }
     usefirst(); checkwidth(rightwidth); code = op*8+width;
-    if kind == 15 { code = 132+width; } encode(code,rightreg); return 0;
+    encode(code,rightreg); return 0;
 }
 fn leaop() {
     if load16(first) != 1 { fail(1); } if load16(first+2) != 1 { fail(1); }
@@ -433,8 +420,7 @@ fn print32(hi,lo) {
 fn initops() {
     opentry("DB",1,0);
     opentry("DW",1,1);
-    opentry("NOP",2,144);
-    opentry("RET",14,195);
+    opentry("RET",2,195);
     opentry("CLD",2,252);
     opentry("LODSB",2,172);
     opentry("STOSB",2,170);
@@ -443,7 +429,6 @@ fn initops() {
     opentry("OR",4,1);
     opentry("AND",4,4);
     opentry("SUB",4,5);
-    opentry("XOR",4,6);
     opentry("CMP",4,7);
     opentry("INC",5,64);
     opentry("DEC",5,72);
@@ -458,38 +443,14 @@ fn initops() {
     opentry("JNE",8,117);
     opentry("JBE",8,118);
     opentry("JA",8,119);
-    opentry("JL",8,124);
-    opentry("JGE",8,125);
-    opentry("JLE",8,126);
-    opentry("JG",8,127);
+    opentry("XOR",4,6);
     opentry("RESB",12,0);
     opentry("RESW",12,1);
     opentry("LEA",11,0);
-    opentry("ADC",4,2);
-    opentry("SBB",4,3);
-    opentry("TEST",15,0);
-    opentry("NEG",9,3);
-    opentry("NOT",9,2);
     opentry("MUL",9,4);
-    opentry("IMUL",9,5);
     opentry("DIV",9,6);
-    opentry("IDIV",9,7);
     opentry("SHL",10,4);
-    opentry("SAL",10,4);
     opentry("SHR",10,5);
-    opentry("SAR",10,7);
-    opentry("ROL",10,0);
-    opentry("ROR",10,1);
-    opentry("RCL",10,2);
-    opentry("RCR",10,3);
-    opentry("LODSW",2,173);
-    opentry("STOSW",2,171);
-    opentry("MOVSB",2,164);
-    opentry("MOVSW",2,165);
-    opentry("REP",13,243);
-    opentry("JZ",8,116);
-    opentry("JNZ",8,117);
     opentry("JC",8,114);
-    opentry("JNC",8,115);
     return 0;
 }

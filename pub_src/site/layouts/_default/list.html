@@ -1,6 +1,6 @@
 {{ define "main" }}
 {{ $key := .Params.collection_key | default "" }}
-<header class="article-heading{{ if .Params.cover }} cover{{ end }}"><p class="eyebrow">{{ with .Params.tool_id }}{{ . }} · {{ end }}{{ if eq $key "bootasm" }}COLLECTION ONE · THE BASIC CONSTRUCTION{{ else if eq $key "asm86" }}COLLECTION TWO · THE ASSEMBLY CONSTRUCTION{{ else if eq $key "asma0" }}COLLECTION THREE · THE STREAMING SEED{{ else if eq $key "asm86a" }}COLLECTION FOUR · THE LARGER ASSEMBLER{{ else if eq $key "ir86" }}COLLECTION FIVE · THE INTERMEDIATE LANGUAGE{{ else if eq $key "rill" }}COLLECTION SIX · THE COMPILER IN IR{{ else if eq $key "rb" }}COLLECTION SEVEN · THE COMPILER SEED{{ else if eq $key "rc" }}COLLECTION EIGHT · THE COMPILER IN RILL{{ else }}THE BOOTSTRAP EXPERIMENT{{ end }}</p><h1>{{ .Title }}</h1><p class="deck">{{ .Description }}</p></header>
+<header class="article-heading{{ if .Params.cover }} cover{{ end }}"><p class="eyebrow">{{ with .Params.tool_id }}{{ . }} · {{ end }}{{ if eq $key "bootasm" }}COLLECTION ONE · THE BASIC CONSTRUCTION{{ else if eq $key "asm86" }}COLLECTION TWO · THE ASSEMBLY CONSTRUCTION{{ else if eq $key "asma0" }}COLLECTION THREE · THE STREAMING SEED{{ else if eq $key "asm86a" }}COLLECTION FOUR · THE LARGER ASSEMBLER{{ else if eq $key "ir86" }}COLLECTION FIVE · THE INTERMEDIATE LANGUAGE{{ else if eq $key "rill" }}COLLECTION SIX · THE COMPILER IN IR{{ else if eq $key "rb" }}COLLECTION SEVEN · THE COMPILER SEED{{ else if eq $key "rc" }}COLLECTION EIGHT · THE COMPILER IN RILL{{ else if eq $key "toolchain" }}COLLECTION NINE · REBUILDING THE TOOLS{{ else }}THE BOOTSTRAP EXPERIMENT{{ end }}</p><h1>{{ .Title }}</h1><p class="deck">{{ .Description }}</p></header>
 {{ if eq $key "bootasm" }}<div class="cover-sample"><pre>MOV DL,42H     B2 42
 MOV AH,2       B4 02
 INT 21H        CD 21</pre><p>A small assembler.<br>Every line within reach.</p></div>{{ end }}
@@ -8,7 +8,7 @@ INT 21H        CD 21</pre><p>A small assembler.<br>Every line within reach.</p><
 INT 21H        CD 21
 RET            C3</pre><p>From a BASIC foundation<br>to an assembler that builds itself.</p></div>{{ end }}
 {{ if eq $key "asma0" }}<div class="cover-sample"><pre>MOV AX,ES       8C C0
-MOV ES,BX       8E C3</pre><p>A streaming seed.<br>Built by ASM86, then by itself.</p></div>{{ end }}
+MOV ES,BX       8E C3</pre><p>A streaming seed.<br>Built by ASM0, then by itself.</p></div>{{ end }}
 {{ if eq $key "asm86a" }}<div class="cover-sample"><pre>JNE NEAR DEST   74 03 E9 FB 00
 ; 0100H to 0200H</pre><p>Another rung in the bootstrap ladder.<br>Long sources, bounded working blocks.</p></div>{{ end }}
 {{ if eq $key "ir86" }}<div class="cover-sample"><pre>LIT 7    MOV AX,7

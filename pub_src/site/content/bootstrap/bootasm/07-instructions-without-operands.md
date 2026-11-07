@@ -7,7 +7,7 @@ download_group = "tools/bootasm"
 reader_names = 1
 +++
 
-A mnemonic is a name for an instruction. Five instructions with fixed one-byte encodings let us add names without yet designing an operand parser.
+A mnemonic is a name for an instruction. Four instructions with fixed one-byte encodings let us add names without yet designing an operand parser.
 
 ## At the keyboard
 
@@ -17,7 +17,6 @@ BASIC line numbers are part of the source. Enter a whole numbered line when repl
 
 ```basic
 4010 X=-1
-4012 IF M$="NOP" THEN X=144
 4014 IF M$="RET" THEN X=195
 4016 IF M$="CLD" THEN X=252
 4018 IF M$="LODSB" THEN X=172
@@ -49,7 +48,7 @@ Keep this filename for the stopping point; it is not a second program to type.
 
 The dispatcher sets `X` to -1, meaning that no fixed instruction has matched. A match replaces it with an opcode, the byte which tells the processor what to do. Routine 4900 checks that there is no argument before passing `X` to the emitter. It changes `P`, preserving the source arguments.
 
-`NOP` performs no operation. `RET` takes a return address from the stack. `CLD` clears the direction flag so string instructions advance their indexes. `LODSB` loads AL from DS:SI, then advances or retreats SI according to that flag. `STOSB` stores AL at ES:DI and adjusts DI. DS and ES are segment registers; SI and DI are index registers. These last instructions are included for explicit byte-by-byte work, rather than repeated string operations.
+`RET` takes a return address from the stack. `CLD` clears the direction flag so string instructions advance their indexes. `LODSB` loads AL from DS:SI, then advances or retreats SI according to that flag. `STOSB` stores AL at ES:DI and adjusts DI. DS and ES are segment registers; SI and DI are index registers. These last instructions are included for explicit byte-by-byte work, rather than repeated string operations.
 
 At this checkpoint we are checking encodings only. In particular, a stray RET or string instruction is not a complete test program: the stack, segment registers, and indexes must have suitable values. Inspect this fixture without running it.
 
@@ -58,7 +57,6 @@ At this checkpoint we are checking encodings only. In particular, a stray RET or
 At DOS, create `T07.ASM` with the following exact source. `COPY CON T07.ASM` accepts text from the keyboard; finish with Ctrl-Z and Enter. Ctrl-Z is the end-of-input keystroke, not a character to include in a source line. A text editor which saves plain ASCII is also suitable.
 
 ```asm
-NOP
 RET
 CLD
 LODSB
@@ -71,16 +69,16 @@ From DOS start the checkpoint:
 GWBASIC BA07.BAS
 ```
 
-At its source-name prompt enter `T07` without an extension. The success report must name `T07.COM` and report **5 bytes**. After the program ends at BASIC's `Ok` prompt, inspect the file:
+At its source-name prompt enter `T07` without an extension. The success report must name `T07.COM` and report **4 bytes**. After the program ends at BASIC's `Ok` prompt, inspect the file:
 
 ```basic
 RUN "VIEW.BAS"
 ```
 
-At `File:` enter `T07.COM`. The viewer must report length 5 and these bytes (spaces and line wrapping are immaterial):
+At `File:` enter `T07.COM`. The viewer must report length 4 and these bytes (spaces and line wrapping are immaterial):
 
 ```text
-90 C3 FC AC AA
+C3 FC AC AA
 ```
 
 This is an encoding or data fixture. Inspect it with the viewer; **do not execute it**.
@@ -90,7 +88,7 @@ This is an encoding or data fixture. Inspect it with the viewer; **do not execut
 Create `X07.ASM` containing:
 
 ```asm
-NOP 1
+RET 1
 ```
 
 Reload `BA07.BAS` and run it with source name `X07`. Expect `ERROR line 1 : Unexpected operand`; BASIC may print extra spaces around the line number. There must be no `OK` report. On a fresh workbench there must be no `X07.COM`. If an older file exists, it is left unchanged and must not be mistaken for a new result.

@@ -68,7 +68,7 @@ def patches(old,new,kind,oldname):
   changes.append(dict(a1=a,a2=b,old=removed,new=added,context=before,after=after))
  return t,changes
 allpatches=[]
-for family,collection,offset,prefix,language in [('ir-extensions','ir86',36,'IW','asm'),('rill-seed-series','rb',33,'RB','ir'),('rill-self-series','rc',88,'RC','rill')]:
+for family,collection,offset,prefix,language in [('rill-self-series','rc',88,'RC','rill')]:
  cases=json.loads((Q/(family+'.json')).read_text());old=(ROOT/'workbench/asm86a/ASM86A.ASM').read_text().splitlines() if prefix=='IW' else [];oldname='ASM86A.ASM' if old else None
  for c in cases:
   n=c['number'];name=f'{prefix}{n:02}';weight=offset+n;page=f'{weight:03}-{prefix.lower()}-{slug(c["title"])}.md';source=(W/c['source']).read_text().splitlines()
@@ -162,7 +162,7 @@ for family,collection,offset,prefix,language in [('ir-extensions','ir86',36,'IW'
   old=source;oldname=c['source']
 (Q/'article-patches.json').write_text(json.dumps(allpatches,indent=2)+'\n')
 # Each new language capability has a short, complete program and a concrete rejection.
-for i,c in enumerate(json.loads((Q/'examples.json').read_text()),81):
+for i,c in enumerate([],81):
  t=front(c['title'],i-32,c['why'],c['name']+'.RIL')+c['why']+'\n\nSave '+c['name']+'.RIL:\n\n'+fence('rill',c['source'])
  t+=fence('dos',f'COPY {c["name"]}.RIL SOURCE.RIL\nCHECK RILLBOOT\nCOPY RESULT.IR SOURCE.IR\nCHECK IWKEEP\nCOPY RESULT.ASM SOURCE.ASM\nCHECK ASMAKEEP')
  t+=f'Require `OK RESULT.IR {c["ir_bytes"]:010}`, translator `OK RESULT.ASM {c["assembly_bytes"]:010} text bytes`, and assembler `OK RESULT.COM {c["binary_bytes"]:05} bytes`, each with PASS **before** the following copy. VIEW.BAS must show result length {c["binary_bytes"]} and these first thirty-two bytes:\n\n'+fence('text',c['hex'])

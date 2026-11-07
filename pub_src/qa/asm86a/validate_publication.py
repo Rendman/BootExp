@@ -5,7 +5,7 @@ ROOT=Path(__file__).resolve().parents[2];W=ROOT/'workbench/asm86a';Q=ROOT/'qa/as
 program=(ROOT/'workbench/asm86/ASM86.ASM').read_text().splitlines();cases=json.loads((Q/'checkpoints.json').read_text())
 for stage,case in zip(json.loads((Q/'article-patches.json').read_text()),cases):
  n=stage['number'];collection=stage['collection'];chapter=stage['chapter'];text=(C.parent/collection/stage['page']).read_text();
- assert collection==('asma0' if n<=12 else 'asm86a') and chapter==(n if n<=12 else n-12)
+ assert collection==('asma0' if n<=12 else 'asm86a') and chapter==(n if n<=12 else 1+[c['number'] for c in cases if c['number']>12].index(n))
  if n==13:assert stage['base']=='ASMA0.ASM'
  sections=re.split(r'### Change \d+[^\n]*\n',text)[1:]
  assert len(sections)==len(stage['changes']),(n,'printed edit count')
@@ -45,8 +45,8 @@ for n,name in [(9,'SYMS'),(17,'SYMS'),(19,'LONGSRC')]:
  assert blocks==[expected.rstrip('\n')],(n,'BASIC text generator')
  assert len(blocks[0].splitlines())<=50
 for img in ['press','cloakroom','bridge']:assert (ROOT/f'site/static/images/asm86a-{img}.png').is_file()
-assert len(list(C.glob('*.md')))==33
+assert len(list(C.glob('*.md')))==29
 assert len(list((C.parent/'asma0').glob('*.md')))==16
 for n in [0,41,42,43]:assert len(list(C.glob(f'{n:02}-*.md')))==1
 assert 'BOOTASM → ASM0 → ASM1 → ASM86 → IR86 → RILL' in (C/'_index.md').read_text()
-print(f'PASS ASMA0/ASM86A: all 12 seed and 28 larger-assembler printed edits reconstruct exact source; {len(files)} source-only archive files match ASCII/CRLF/8.3 downloads; fixtures, programs, text generators, and assets agree')
+print(f'PASS ASMA0/ASM86A: all 12 seed and 24 larger-assembler printed edits reconstruct exact source; {len(files)} source-only archive files match ASCII/CRLF/8.3 downloads; fixtures, programs, text generators, and assets agree')

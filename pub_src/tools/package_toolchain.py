@@ -3,10 +3,14 @@ from pathlib import Path
 import shutil,json,zipfile
 ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/toolchain';D=ROOT/'site/static/downloads/toolchain';D.mkdir(parents=True,exist_ok=True)
 def dos(name,s):(W/name).write_bytes(s.replace('\r\n','\n').replace('\n','\r\n').encode('ascii'))
-for name,group in [('BOOTASM.BAS','bootasm'),('VIEW.BAS','bootasm'),('CHECK.BAT','bootasm'),('ASM86.ASM','asm86'),('ASMA0.ASM','asma0'),('ASM86A.ASM','asm86a'),('IRWIDE.ASM','ir86'),('RILLBOOT.IR','rill')]:shutil.copyfile(ROOT/'workbench'/group/name,W/name)
+for name,group in [('BOOTASM.BAS','bootasm'),('VIEW.BAS','bootasm'),('CHECK.BAT','bootasm'),('ASM86.ASM','asm86'),('ASMA0.ASM','asma0'),('ASM86A.ASM','asm86a'),('IRWIDE.ASM','ir86'),('RILLBOOT.IR','rill'),('RILL.IR','rill')]:shutil.copyfile(ROOT/'workbench'/group/name,W/name)
 commands=['ECHO OFF','IF NOT EXIST ASMAKEEP.COM GOTO MISSING','COPY IRWIDE.ASM SOURCE.ASM >NUL','ASMAKEEP','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.COM IRWIDE.COM >NUL','COPY RILLBOOT.IR SOURCE.IR >NUL','IRWIDE','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.ASM SOURCE.ASM >NUL','ASMAKEEP','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.COM RILLBOOT.COM >NUL']
+# Preserve the first complete compiler as a required construction milestone.
+dos('TSMALL.RIL','fn main(){putc(72);putc(73);return 0;}\n')
+insert=commands.index('COPY RILLBOOT.IR SOURCE.IR >NUL')
+commands[insert:insert]=['COPY RILL.IR SOURCE.IR >NUL','IRWIDE','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.ASM SOURCE.ASM >NUL','ASMAKEEP','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.COM RILL0.COM >NUL','COPY TSMALL.RIL SOURCE.RIL >NUL','RILL0','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.IR SOURCE.IR >NUL','IRWIDE','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.ASM SOURCE.ASM >NUL','ASMAKEEP','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.COM STEST.COM >NUL','STEST','IF ERRORLEVEL 1 GOTO FAILED','ECHO PASS RILL0 PROGRAM']
 for name,stem in [('RILL','R'),('IR86','I'),('ASM86A','A')]:
- commands += [f'COPY {name}.RIL SOURCE.RIL >NUL','RILLBOOT','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.IR SOURCE.IR >NUL','IRWIDE','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.ASM SOURCE.ASM >NUL','ASMAKEEP','IF ERRORLEVEL 1 GOTO FAILED',f'COPY RESULT.COM {stem}0.COM >NUL',f'ECHO PASS {name} INITIAL BUILD']
+ commands += [f'COPY {name}.RIL SOURCE.RIL >NUL','RILLBOOT' if name=='RILL' else 'R0','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.IR SOURCE.IR >NUL','IRWIDE','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.ASM SOURCE.ASM >NUL','ASMAKEEP','IF ERRORLEVEL 1 GOTO FAILED',f'COPY RESULT.COM {stem}0.COM >NUL',f'ECHO PASS {name} INITIAL BUILD']
 for gen in [1,2]:
  for name,stem in [('RILL','R'),('IR86','I'),('ASM86A','A')]:
   commands += [f'COPY {name}.RIL SOURCE.RIL >NUL',f'R{gen-1}','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.IR SOURCE.IR >NUL',f'I{gen-1}','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.ASM SOURCE.ASM >NUL',f'A{gen-1}','IF ERRORLEVEL 1 GOTO FAILED',f'COPY RESULT.COM {stem}{gen}.COM >NUL',f'ECHO PASS {name} GENERATION {gen}']
@@ -24,18 +28,19 @@ ASMA0.ASM and ASM86A.ASM are the unchanged native assembler milestones.
 IRWIDE.ASM is the streaming native IR86 bootstrap translator.
 RILLBOOT.IR is the compiler seed, authored in processor-neutral IR86.
 RILL.RIL, IR86.RIL, ASM86A.RIL implement the three tools in RILL.
-TMAKE.BAT builds both seed tools and all three RILL implementations,
+TMAKE.BAT builds the native translator and compiler seed. RILLBOOT
+builds R0; R0 then builds the RILL-written translator and assembler. It
 then rebuilds each tool twice using only the RILL implementations.
 VIEW.BAS and CHECK.BAT are the unchanged workbench helpers.
-IW01.ASM through IW23.ASM: native streaming IR construction.
-RB01.IR through RB47.IR: the IR-written compiler construction.
+IW01.ASM through IW23.ASM: identical aliases of IR01 through IR23.
+RILL.IR: the completed first compiler, continued by RB01 through RB12.
 RC01.RIL through RC43.RIL: the compiler written in RILL.
 T-prefixed inputs and X-prefixed rejection cases accompany those tools.
 The named example RIL/IR files accompany the interface articles.
 
 Use your own DOS 3.10 and its period BASIC interpreter. Begin with the
-completed ASM86A workbench: ASMAKEEP.COM must be the tested 6422-byte
-native assembler. Keep it and the sources on a separate labeled disk.
+completed ASM86A workbench: ASMAKEEP.COM must be the tested 5995-byte
+native assembler. TMAKE also rebuilds RILL0 and runs its HI program. Keep it and the sources on a separate labeled disk.
 TMAKE deliberately preserves that builder. Do not start from a supplied
 binary: none is present. Use a hard-disk working directory, with enough
 space for source files, generated IR/assembly, and preserved executables.
@@ -76,7 +81,7 @@ ownership checking or a claim of memory safety. Consult the references.
 Every archive member is ASCII source with DOS line endings and an
 8.3 name. No preassembled executable or historical interpreter is here.
 ''')
-files=['BOOTASM.BAS','ASM86.ASM','ASMA0.ASM','ASM86A.ASM','IRWIDE.ASM','RILLBOOT.IR','RILL.RIL','IR86.RIL','ASM86A.RIL','VIEW.BAS','CHECK.BAT','TMAKE.BAT','README.TXT']
+files=['BOOTASM.BAS','ASM86.ASM','ASMA0.ASM','ASM86A.ASM','IRWIDE.ASM','RILLBOOT.IR','RILL.RIL','IR86.RIL','ASM86A.RIL','VIEW.BAS','CHECK.BAT','TMAKE.BAT','README.TXT','RILL.IR','TSMALL.RIL']
 files+=sorted(p.name for p in W.glob('E*.RIL'))+sorted(p.name for p in W.glob('E*.IR'))
 for family,prefix,ext in [('ir-extensions','IW','IR'),('rill-seed-series','RB','RIL'),('rill-self-series','RC','RIL')]:
  for c in json.loads((ROOT/'qa/toolchain'/(family+'.json')).read_text()):

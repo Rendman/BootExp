@@ -25,7 +25,7 @@ reference=lambda p:p.read_text().split('## Program structure',1)[1]
 assert reference(C/'rb/132-the-rill-systems-language.md')==reference(C/'rc/044-reference.md')
 assert len(list((C/'rill').glob('*.md')))==34
 assert len(list((C/'rb').glob('*.md')))==58
-assert len(list((C/'rc').glob('*.md')))==50
+assert len(list((C/'rc').glob('*.md')))==48
 text=(C/'rc/048-programs.md').read_text();blocks=re.findall(r'```rill\n(.*?)\n```',text,re.S)
 for i,c in enumerate(json.loads((Q/'rc-examples.json').read_text())):
  assert blocks[2*i]+'\n'==(ROOT/'workbench/rc'/(c['name']+'.RIL')).read_text()

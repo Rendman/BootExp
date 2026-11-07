@@ -18,13 +18,13 @@ PASS AS17: 1379 bytes; visible checkpoint result; rejection and old-output prese
 PASS AS18: 1498 bytes; visible checkpoint result; rejection and old-output preservation
 PASS AS19: 1631 bytes; visible checkpoint result; rejection and old-output preservation
 PASS AS20: 1673 bytes; visible checkpoint result; rejection and old-output preservation
-PASS AS21: 1733 bytes; visible checkpoint result; rejection and old-output preservation
-PASS AS22: 1922 bytes; visible checkpoint result; rejection and old-output preservation
-PASS AS23: 1982 bytes; visible checkpoint result; rejection and old-output preservation
-PASS AS24: 2057 bytes; visible checkpoint result; rejection and old-output preservation
-PASS AS25: 2094 bytes; visible checkpoint result; rejection and old-output preservation
-PASS AS26: 2228 bytes; visible checkpoint result; rejection and old-output preservation
-PASS AS27: 2417 bytes; visible checkpoint result; rejection and old-output preservation
-PASS AS28: 2474 bytes; visible checkpoint result; rejection and old-output preservation
-PASS AS29: 2622 bytes; visible checkpoint result; rejection and old-output preservation
+PASS AS21: 1725 bytes; visible checkpoint result; rejection and old-output preservation
+PASS AS22: 1914 bytes; visible checkpoint result; rejection and old-output preservation
+PASS AS23: 1974 bytes; visible checkpoint result; rejection and old-output preservation
+PASS AS24: 2049 bytes; visible checkpoint result; rejection and old-output preservation
+PASS AS25: 2086 bytes; visible checkpoint result; rejection and old-output preservation
+PASS AS26: 2212 bytes; visible checkpoint result; rejection and old-output preservation
+PASS AS27: 2401 bytes; visible checkpoint result; rejection and old-output preservation
+PASS AS28: 2458 bytes; visible checkpoint result; rejection and old-output preservation
+PASS AS29: 2574 bytes; visible checkpoint result; rejection and old-output preservation
 PASS: two self-assembly generations match every byte of the first native executable
