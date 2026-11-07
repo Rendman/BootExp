@@ -5,7 +5,7 @@ ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/toolchain';Q=ROOT/'qa
 s=(ROOT/'tools/rill_self.ril').read_text();start=s.index('fn main(');data=s[:start];pieces=re.split(r'(?m)(?=^fn )',s[start:]);procs={re.match(r'fn (\w+)',p)[1]:p for p in pieces if p.strip()};args={n:re.match(r'fn \w+\(([^)]*)\)',p)[1].split(',') for n,p in procs.items()};args={n:[a.strip() for a in v if a.strip()] for n,v in args.items()}
 entries=[]
 def add(key,title,body,expected='',fixture=None,bad=None,code=None,fragment=None,complete=False):entries.append(dict(key=key,title=title,body=body,expected=expected,fixture=fixture,bad=bad,code=code,fragment=fragment,complete=complete))
-setup='table=alloc(22000);'
+setup='table=alloc(23680);'
 record='setident("ABC");rectype=1;recval=12345;reclevel=0;record(0);globals=1;'
 opened='output=create("RILL.TMP");own=1;'
 read='input=open("SOURCE.RIL");if status(){fail(1);}next();lex();'
@@ -51,7 +51,7 @@ add('globalword','Compile a global word',setup+opened+read+'globalword();'+close
 add('globalbuffer','Compile a byte extent',setup+opened+read+'globalbuffer();'+closed,'OK RILL.TMP\r\n','bytes abc[8];','bytes abc[0];',5,fragment='BUFFER V_ABC 00008\r\n')
 add('declare','Initialize a scoped slot',setup+opened+read+'level=1;declare();'+closed,'OK RILL.TMP\r\n','let mut x=7;','let mut x=x;',4,fragment='LIT 00007\r\nSETLOCAL 00000\r\n')
 add('block','Scope entry and restoration',setup+opened+read+'block();'+closed,'OK RILL.TMP\r\n','{}','{putc(65);}',2,fragment='')
-add('statement','Structured statements in RILL',setup+opened+read+'outstr("PROC MAIN 0 16\\r\\n");block();outstr("LIT 0\\r\\nRETURN\\r\\n");'+closed,'OK RILL.TMP\r\n','{let mut x=65;while x<67{putc(x);x=x+1;}}','{putc();}',4,complete=True)
+add('statement','Structured statements in RILL',setup+opened+read+'outstr("PROC MAIN 0 64\\r\\n");block();outstr("LIT 0\\r\\nRETURN\\r\\n");'+closed,'OK RILL.TMP\r\n','{let mut x=65;while x<67{putc(x);x=x+1;}}','{putc();}',4,complete=True)
 add('function','Compile a complete procedure',setup+opened+read+'function();outstr("PROC MAIN 0 0\\r\\nINVOKE F_MAIN 0\\r\\nRETURN\\r\\n");'+closed,'OK RILL.TMP\r\n','fn main(){putc(65);return 0;}','fn main(a,a){}',4,complete=True)
 add('main','The compiler compiles its own language',None,'','fn main(){putc(72);putc(73);return 0;}','fn main(){return 65536;}',3,complete=True)
 

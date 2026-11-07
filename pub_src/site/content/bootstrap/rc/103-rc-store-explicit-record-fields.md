@@ -51,13 +51,13 @@ bytes string[512];
 Remove this source at old physical positions 35–35 in RC14.RIL:
 
 ```rill
-fn main(){table=alloc(22000);setident("ABC");return (find(0,0))!=65535;}
+fn main(){table=alloc(23680);setident("ABC");return (find(0,0))!=65535;}
 ```
 
 Replace it with:
 
 ```rill
-fn main(){table=alloc(22000);rectype=1;recval=12345;reclevel=0;recordfields(0);return (tword(34))!=12345;}
+fn main(){table=alloc(23680);rectype=1;recval=12345;reclevel=0;recordfields(0);return (tword(34))!=12345;}
 ```
 
 The following old source remains in place:

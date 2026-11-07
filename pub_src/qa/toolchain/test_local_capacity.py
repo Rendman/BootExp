@@ -1,4 +1,4 @@
-"""Exercise the post-self-build local/frame limits through actual tools."""
+"""Exercise RILL's local/frame limits through actual tools."""
 from common import *
 from portable import Machine
 import json,re
@@ -25,11 +25,16 @@ facts['error']=r.output.decode().strip()
 logs.append('PASS local 65 rejected with code 5; accepted RESULT.IR preserved')
 
 source='fn main(){'+''.join(f'let mut v{i}={i};' for i in range(16))+'return v15;}'
-for image in [(ROOT/'workbench/rill/RILL.COM').read_bytes(),(W/'RILLBOOT.COM').read_bytes(),(W/'RC43.COM').read_bytes()]:
+for image in [(ROOT/'workbench/rill/RILL.COM').read_bytes(),(W/'RILLBOOT.COM').read_bytes()]:
  r=run(image,source,'RIL');assert r.exitcode==0,r.output
  r=run(image,source.replace('return v15;','let mut extra=0;return v15;'),'RIL',{'RESULT.IR':old})
  assert r.exitcode==1 and r.files['RESULT.IR']==old and b'CODE 00005' in r.output,r.output
-logs.append('PASS RILL0, RILLBOOT and RC43 retain the 16-local boundary')
+logs.append('PASS RILL0 and RILLBOOT retain the 16-local boundary')
+image=(W/'RC43.COM').read_bytes()
+r=run(image,(W/'TLOCAL.RIL').read_bytes(),'RIL');assert r.exitcode==0,r.output
+r=run(image,(W/'XLOCAL.RIL').read_bytes(),'RIL',{'RESULT.IR':old})
+assert r.exitcode==1 and r.files['RESULT.IR']==old and b'CODE 00005' in r.output,r.output
+logs.append('PASS seed-built RC43 already accepts 64 locals and rejects local 65')
 (Q/'local-capacity.json').write_text(json.dumps(facts,indent=2)+'\n')
 (Q/'local-capacity-results.txt').write_text('\n'.join(logs)+'\n')
 print('\n'.join(logs))

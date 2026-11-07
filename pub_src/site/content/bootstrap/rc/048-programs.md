@@ -1,13 +1,13 @@
 +++
 title = "Complete RILL programs"
-weight = 47
+weight = 46
 description = "Recursion, checked allocated storage, and counted files through the RILL-written compiler."
 download = "RILL.ZIP"
 download_group = "tools/rill"
 reader_names = 1
 +++
 
-Use R0.COM, the completed RC44 compiler after its self-build comparisons. Keep IWKEEP and ASMAKEEP as the translator and assembler. These three programs stay within the subset accepted by the RILLBOOT seed. Both compilers produce the required program behavior. RILL reserves sixty-four local slots per function while RILLBOOT reserves sixteen, so their generated frames and executable bytes differ.
+Use R0.COM, the completed RILL compiler after its self-build comparisons. Keep IWKEEP and ASMAKEEP as the translator and assembler. These three programs stay within the subset accepted by the RILLBOOT seed. Both compilers produce the required program behavior. RILL reserves sixty-four local slots per function while RILLBOOT reserves sixteen, so their generated frames and executable bytes differ.
 
 ## Recursive procedures
 
@@ -38,7 +38,7 @@ CHECK ASMAKEEP
 Require compiler `OK RESULT.IR 0000000494`, translator `OK RESULT.ASM 0000005672 text bytes`, and assembler `OK RESULT.COM 01189 bytes`, each with PASS **before** the following copy. VIEW.BAS must report length 1189 and these first thirty-two bytes:
 
 ```text
-FC 81 FC FE FF 74 03 E9 52 04 E8 AA 00 B4 4C CD 21 55 8B EC 81 EC 20 00 81 FC 00 F0 73 03 E9 3B
+FC 81 FC FE FF 74 03 E9 52 04 E8 AA 00 B4 4C CD 21 55 8B EC 81 EC 80 00 81 FC 00 F0 73 03 E9 3B
 ```
 
 ```dos
@@ -94,7 +94,7 @@ CHECK ASMAKEEP
 Require compiler `OK RESULT.IR 0000000866`, translator `OK RESULT.ASM 0000006215 text bytes`, and assembler `OK RESULT.COM 01286 bytes`, each with PASS **before** the following copy. VIEW.BAS must report length 1286 and these first thirty-two bytes:
 
 ```text
-FC 81 FC FE FF 74 03 E9 B3 04 E8 0B 01 B4 4C CD 21 55 8B EC 81 EC 20 00 81 FC 00 F0 73 03 E9 9C
+FC 81 FC FE FF 74 03 E9 B3 04 E8 0B 01 B4 4C CD 21 55 8B EC 81 EC 80 00 81 FC 00 F0 73 03 E9 9C
 ```
 
 ```dos

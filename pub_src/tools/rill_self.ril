@@ -39,7 +39,7 @@ fn main() {
     output = create("RILL.TMP");
     if status() != 0 { fail(1); }
     own = 1;
-    table = alloc(22000);
+    table = alloc(23680);
     if status() != 0 { fail(5); }
     next(); lex();
     while tok != 0 {
@@ -227,7 +227,7 @@ fn newglobal(kind) {
     return record(p);
 }
 fn newlocal(kind) {
-    if localcount >= 32 { fail(5); }
+    if localcount >= 80 { fail(5); }
     rectype = kind;
     let mut p = 20480+localcount*40; localcount = localcount+1;
     return record(p);
@@ -313,7 +313,7 @@ fn function() {
     }
     if oldargs != 65535 { if oldargs != argc { fail(4); } }
     set16(table,p+34,argc);
-    outstr("PROC F_"); outname(p); outchar(32); outnum(argc); outstr(" 16\r\n");
+    outstr("PROC F_"); outname(p); outchar(32); outnum(argc); outstr(" 64\r\n");
     lex(); block(); outstr("LIT 0\r\nRETURN\r\n"); return 0;
 }
 fn block() {
@@ -328,7 +328,7 @@ fn declare() {
     lex(); if !isword("MUT") { fail(2); } lex(); if tok != 1 { fail(2); }
     let mut old = find(20480,localcount);
     if old != 65535 { if reclevel == level { fail(4); } }
-    if nextlocal >= 16 { fail(5); }
+    if nextlocal >= 64 { fail(5); }
     let mut slot = nextlocal;
     recval = slot; reclevel = level; let mut p = newlocal(8); nextlocal = nextlocal+1;
     lex(); expect(61); expr(1); set16(table,p+32,5);

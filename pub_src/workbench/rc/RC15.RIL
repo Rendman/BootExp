@@ -32,7 +32,7 @@ bytes outbuf[4096];
 bytes ident[32];
 bytes string[512];
 
-fn main(){table=alloc(22000);rectype=1;recval=12345;reclevel=0;recordfields(0);return (tword(34))!=12345;}
+fn main(){table=alloc(23680);rectype=1;recval=12345;reclevel=0;recordfields(0);return (tword(34))!=12345;}
 
 fn next() {
     if ch == 10 {

@@ -20,13 +20,13 @@ HELP={
 'EXPECT':'Compare the current token before advancing. On success, leave the following token ready; a caller must not advance once more accidentally.',
 'ISWORD':'Check the token class and every character through the zero terminator. A keyword prefix is insufficient: FN and FNN are different spellings.',
 'SETIDENT':'Copy an explicit terminated spelling into IDENT. This is a table-test helper as well as a way to ask for a required entry without depending on the current source token.',
-'TWORD':'An offset is meaningful only together with the TABLE block handle. GET16 reads the canonical low-byte-first word after validating its extent.',
+'TWORD':'An offset is meaningful only together with the TABLE block handle. GET16 reads the canonical low-byte-first word after validating its extent. Allocate 23680 bytes: 20480 for 512 global/procedure records and 3200 for eighty parameter/local records. Later routines use these same two regions.',
 'TBYTE':'Use the same opaque block with a byte offset. GET8 returns a zero-extended byte; it does not reveal a segment selector or native address.',
 'WRITEFIELD':'Pass the record offset and word value explicitly. SET16 performs a checked two-byte access. The caller chooses a field offset within its own record.',
 'RECORDFIELDS':'Kind, value or slot, and lexical level are distinct word fields. Store them explicitly after initializing a record rather than relying on new memory containing zeroes.',
 'RECORD':'Initialize the entire forty-byte record, copy the complete spelling, then write the explicit fields. The global region begins at zero in TABLE; the local region begins at byte offset 20480.',
 'NEWGLOBAL':'Append one global or procedure record, bounded by 512 entries. The record offset remains stable even after scanning changes IDENT.',
-'NEWLOCAL':'Append a record in the separate local-name region. Its slot number and lexical level are explicit fields. The region has room for parameters and live local bindings, not a second global namespace.',
+'NEWLOCAL':'Append a record in the separate local-name region. Its slot number and lexical level are explicit fields. Eighty records provide room for sixteen parameters and sixty-four live local bindings. Reject another entry before writing beyond byte 23679.',
 'FIND':'Search entries from the end toward the beginning and compare complete spellings. This selects the innermost active binding. Return 65535 for absence; offset zero is a valid found record.',
 'LOOKGLOBAL':'Restrict FIND to the active global entries. A local shadow must not change how a procedure definition is found.',
 'RESOLVE':'Search active local bindings first, then globals. Save the found offset separately from kind and value fields; recursive parsing can replace the shared search result.',
@@ -48,10 +48,10 @@ HELP={
 'CALLARGS':'Evaluate arguments from left to right and save each emitted result. Check the complete argument count against the intrinsic or procedure record. INVOKE consumes precisely those words and preserves older expression operands.',
 'GLOBALWORD':'A global mutable word has a literal initializer and a stable V_ name. Reject duplicates before emitting its declaration.',
 'GLOBALBUFFER':'Declare a nonempty global byte extent. The buffer is materialized in the COM image. Extra allocated blocks are a different service and are not pointers into this declaration.',
-'DECLARE':'Allocate a local slot and record its lexical level. Mark it unavailable during its own initializer, then publish the binding after acceptance. Save its slot across recursive expression parsing.',
+'DECLARE':'Allocate a local slot and record its lexical level. Mark it unavailable during its own initializer, then publish the binding after acceptance. Save its slot across recursive expression parsing. Slot numbers run from zero through sixty-three; the sixty-fifth live local is a capacity error.',
 'BLOCK':'Save the active local-name count and next local slot at entry. Restore both at the closing brace. This permits a nested binding to shadow an outer one without permanently consuming its name or slot.',
 'STATEMENT':'Keep assignment destinations, false targets, and loop targets in local slots. An if/else join and a while back edge meet with no expression temporaries. Parse every statement even after an explicit return.',
-'FUNCTION':'Record the procedure name before scanning parameters, verify any earlier call arity, and create parameter bindings. PROC reserves the bounded local frame. Every normal fall-through ends with return value zero.',
+'FUNCTION':'Record the procedure name before scanning parameters, verify any earlier call arity, and create parameter bindings. Each procedure accepts at most sixteen parameters. PROC reserves sixty-four local words, matching the declaration routine and IR86 frame bound. Those 128 local bytes are reserved on every call, even when fewer slots are used; parameters, return state and expression temporaries need additional stack space. The native stack guard still applies. Every normal fall-through ends with return value zero.',
 'MAIN':'Open the fixed source, stream accepted IR through an owned temporary file, and verify all pending procedures. Require an argument-free main. Publish only after parsing, source close, flush, and output close succeed.'}
 def helper(c):return HELP.get(c.get('key','').upper(),'Keep the input fields, result, and scratch state explicit. Use the saved descriptor and checked stream interfaces rather than retaining a complete source or output image.')
 def patches(old,new,kind,oldname):
@@ -155,11 +155,13 @@ for family,collection,offset,prefix,language in [('rill-self-series','rc',88,'RC
    'BLOCK':'Check the saved name count and next local slot at block entry and restoration at its closing brace.'}
   hint=hints.get(key,'Compare '+c.get('key','the new routine')+' with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.')
   t+='## If the result differs\n\n'+hint+'\n'
-  if prefix=='RC' and c['key']=='main':t+='\nPreserve RC43.COM as R0.COM. Keep RC43.RIL unchanged for the first two compiler self-build comparisons. The following local-storage extension is applied only after those comparisons match.\n'
-  publish(collection,page,t)
+  if prefix=='RC' and c['key']=='main':
+   from rill_storage_checks import render
+   t+='\n'+render()+'\nPreserve RC43.COM as RBOOT.COM and RC43.RIL as RILL.RIL. The self-build exercise uses that source to establish R0 with the RILL frame convention, then compares R0, R1 and R2.\n'
+  routes=None
+  if prefix=='RC' and c['key']=='function':routes=['/bootstrap/rill/'+Path(page).stem+'/', '/bootstrap/rc/134-more-local-storage/']
+  publish(collection,page,t,aliases=routes)
   allpatches.append(dict(family=family,number=n,collection=collection,page=page,base=oldname,kind=language,changes=changes,source=c['source']))
   old=source;oldname=c['source']
 (Q/'article-patches.json').write_text(json.dumps(allpatches,indent=2)+'\n')
 print('Rendered the RILL-written compiler construction')
-import runpy
-runpy.run_path(str(ROOT/'tools/write_rill_locals_article.py'),run_name='__main__')

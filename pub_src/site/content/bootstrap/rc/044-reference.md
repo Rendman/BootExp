@@ -7,7 +7,7 @@ download_group = "tools/rill"
 reader_names = 1
 +++
 
-RILLBOOT builds the first RILL compiler from RC43.RIL. After its self-build comparisons, RC44 extends the local capacity. RILL.RIL is that completed RC44 source; R0 and its next two compiler generations reproduce it. RILL adds the word operators and pointer wrappers used by the later tools.
+RILLBOOT builds the completed RILL compiler from RC43.RIL, saved as RILL.RIL. That compiler already supports sixty-four live locals. Its first self-build establishes R0 with RILL's own frame convention; R0 and its next two compiler generations reproduce it. RILL adds the word operators and pointer wrappers used by the later tools.
 
 ## Program structure
 

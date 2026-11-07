@@ -65,7 +65,7 @@ fn main(){setident("PUTC");builtin();return (recval)!=1;}
 Replace it with:
 
 ```rill
-fn main(){table=alloc(22000);setident("ABC");rectype=1;recval=12345;reclevel=0;record(0);globals=1;resolveoptional();return (rectype)!=1;}
+fn main(){table=alloc(23680);setident("ABC");rectype=1;recval=12345;reclevel=0;record(0);globals=1;resolveoptional();return (rectype)!=1;}
 ```
 
 The following old source remains in place:

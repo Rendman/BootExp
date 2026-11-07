@@ -11,8 +11,7 @@ Preserve their tested executables as ASMAKEEP.COM and IWKEEP.COM.
 VIEW.BAS and CHECK.BAT: unchanged inspection and status helpers.
 RC01 through RC43: complete construction checkpoint sources.
 T-prefixed and X-prefixed RIL files: exact acceptance/rejection inputs.
-RILL.RIL: complete compiler source, identical to RC44.RIL.
-RC44.RIL: the 64-local extension after the first self-build comparisons.
+RILL.RIL: complete compiler source, identical to RC43.RIL.
 Early checkpoints are executable helper diagnostics. An emitted text
 fragment is inspected as text; it is not a complete compiler result.
 Require each fresh OK and PASS before copying the next result.
@@ -20,9 +19,9 @@ Require each fresh OK and PASS before copying the next result.
 Begin with the completed RILLBOOT collection and its RILLBOOT.COM.
 RILLBOOT.IR is its unchanged source, built with IWKEEP and ASMAKEEP.
 Compile RILL sources with RILLBOOT, then IWKEEP and ASMAKEEP.
-Preserve RC43.COM for the first self-build comparisons of RC43.RIL.
-Then apply RC44, compiled with the tested RC43. Compile RC44 with itself
-to establish R0 using 64-slot frames; save RC44.RIL as RILL.RIL.
+RC43 already supports 64 locals. Preserve its seed-built executable
+as RBOOT.COM and its source as RILL.RIL. RBOOT compiles that same
+source to establish R0 using the RILL compiler's own 64-slot frames.
 R0 compiles that same source to R1, then R1 to R2; both match R0 exactly.
 TLOCAL.RIL, XLOCAL.RIL and TSCOPE.RIL check local/frame bounds and reuse.
 ERECUR.RIL, EHEAP.RIL and ECOPY.RIL are complete compiler examples.

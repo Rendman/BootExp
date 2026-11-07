@@ -296,7 +296,7 @@ fn declare() {
 Unchanged source immediately before the edit:
 
 ```rill
-    outstr("PROC F_"); outname(p); outchar(32); outnum(argc); outstr(" 16\r\n");
+    outstr("PROC F_"); outname(p); outchar(32); outnum(argc); outstr(" 64\r\n");
     lex(); block(); outstr("LIT 0\r\nRETURN\r\n"); return 0;
 }
 ```
@@ -731,7 +731,7 @@ The following old source remains in place:
 
 ```rill
 fn newlocal(kind) {
-    if localcount >= 32 { fail(5); }
+    if localcount >= 80 { fail(5); }
 ```
 
 ### Edit 30
@@ -1067,7 +1067,7 @@ Remove this source at old physical positions 34–36 in RC42.RIL:
 
 ```rill
 
-fn main(){table=alloc(22000);output=create("RILL.TMP");own=1;input=open("SOURCE.RIL");if status(){fail(1);}next();lex();function();outstr("PROC MAIN 0 0\r\nINVOKE F_MAIN 0\r\nRETURN\r\n");flush();close(output);output=0;own=0;return 0;}
+fn main(){table=alloc(23680);output=create("RILL.TMP");own=1;input=open("SOURCE.RIL");if status(){fail(1);}next();lex();function();outstr("PROC MAIN 0 0\r\nINVOKE F_MAIN 0\r\nRETURN\r\n");flush();close(output);output=0;own=0;return 0;}
 ```
 
 Replace it with:
@@ -1081,7 +1081,7 @@ fn main() {
     output = create("RILL.TMP");
     if status() != 0 { fail(1); }
     own = 1;
-    table = alloc(22000);
+    table = alloc(23680);
     if status() != 0 { fail(5); }
     next(); lex();
     while tok != 0 {
@@ -1188,7 +1188,7 @@ PASS
 TYPE RESULT.IR. Its complete IR is:
 
 ```ir
-PROC F_MAIN 00000 16
+PROC F_MAIN 00000 64
 LIT 00072
 PUSH
 POP
@@ -1234,4 +1234,108 @@ An unexpected PASS fails the rejection. The pre-existing RESULT.IR must remain u
 
 Compare main with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.
 
-Preserve RC43.COM as R0.COM. Keep RC43.RIL unchanged for the first two compiler self-build comparisons. The following local-storage extension is applied only after those comparisons match.
+## Local and parameter capacity
+
+The completed compiler now combines the record, scope, and frame routines. Create TLOCAL.RIL:
+
+```rill
+fn check(a0,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15){
+let mut v0=0;let mut v1=1;let mut v2=2;let mut v3=3;let mut v4=4;let mut v5=5;let mut v6=6;let mut v7=7;
+let mut v8=8;let mut v9=9;let mut v10=10;let mut v11=11;let mut v12=12;let mut v13=13;let mut v14=14;let mut v15=15;
+let mut v16=16;let mut v17=17;let mut v18=18;let mut v19=19;let mut v20=20;let mut v21=21;let mut v22=22;let mut v23=23;
+let mut v24=24;let mut v25=25;let mut v26=26;let mut v27=27;let mut v28=28;let mut v29=29;let mut v30=30;let mut v31=31;
+let mut v32=32;let mut v33=33;let mut v34=34;let mut v35=35;let mut v36=36;let mut v37=37;let mut v38=38;let mut v39=39;
+let mut v40=40;let mut v41=41;let mut v42=42;let mut v43=43;let mut v44=44;let mut v45=45;let mut v46=46;let mut v47=47;
+let mut v48=48;let mut v49=49;let mut v50=50;let mut v51=51;let mut v52=52;let mut v53=53;let mut v54=54;let mut v55=55;
+let mut v56=56;let mut v57=57;let mut v58=58;let mut v59=59;let mut v60=60;let mut v61=61;let mut v62=62;let mut v63=63;
+if (v0!=0) | (v1!=1) | (v2!=2) | (v3!=3) | (v4!=4) | (v5!=5) | (v6!=6) | (v7!=7) {return 1;}
+if (v8!=8) | (v9!=9) | (v10!=10) | (v11!=11) | (v12!=12) | (v13!=13) | (v14!=14) | (v15!=15) {return 1;}
+if (v16!=16) | (v17!=17) | (v18!=18) | (v19!=19) | (v20!=20) | (v21!=21) | (v22!=22) | (v23!=23) {return 1;}
+if (v24!=24) | (v25!=25) | (v26!=26) | (v27!=27) | (v28!=28) | (v29!=29) | (v30!=30) | (v31!=31) {return 1;}
+if (v32!=32) | (v33!=33) | (v34!=34) | (v35!=35) | (v36!=36) | (v37!=37) | (v38!=38) | (v39!=39) {return 1;}
+if (v40!=40) | (v41!=41) | (v42!=42) | (v43!=43) | (v44!=44) | (v45!=45) | (v46!=46) | (v47!=47) {return 1;}
+if (v48!=48) | (v49!=49) | (v50!=50) | (v51!=51) | (v52!=52) | (v53!=53) | (v54!=54) | (v55!=55) {return 1;}
+if (v56!=56) | (v57!=57) | (v58!=58) | (v59!=59) | (v60!=60) | (v61!=61) | (v62!=62) | (v63!=63) {return 1;}
+return (a0!=0)|(a15!=15);
+}
+fn main(){return check(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);}
+```
+
+```dos
+COPY TLOCAL.RIL SOURCE.RIL
+CHECK RC43
+COPY RESULT.IR SOURCE.IR
+CHECK IWKEEP
+COPY RESULT.ASM SOURCE.ASM
+CHECK ASMAKEEP
+COPY RESULT.COM TRY.COM
+CHECK TRY
+```
+
+Require compiler `OK RESULT.IR 0000005625`, translator `OK RESULT.ASM 0000015732 text bytes`, and assembler `OK RESULT.COM 03098 bytes`, with PASS before each following copy. TRY must return zero and report PASS; it needs no display routine. VIEW.BAS must show 3098 bytes and these first thirty-two bytes:
+
+```text
+FC 81 FC FE FF 74 03 E9 C7 0B E8 1F 08 B4 4C CD 21 55 8B EC 81 EC 80 00 81 FC 00 F0 73 03 E9 B0
+```
+
+## Reject one more live local
+
+Copy TLOCAL.RIL to XLOCAL.RIL. Just before `return (a0!=0)|(a15!=15);`, insert:
+
+```rill
+let mut extra=0;
+```
+
+```dos
+COPY XLOCAL.RIL SOURCE.RIL
+CHECK RC43
+```
+
+Require `ERROR 0000000018 CODE 00005` and FAIL. The accepted RESULT.IR must remain unchanged; keep a copy for comparison before this check.
+
+## Reusing local slots
+
+Create TSCOPE.RIL using the following skeleton. At each comment, copy the eight declaration lines for v0 through v63 from TLOCAL.RIL; the comments are placement markers. There are two sibling scopes, each filling all sixty-four slots.
+
+```rill
+let mut result=0;
+ fn reuse(){
+ {
+ // Copy the eight declaration lines here.
+ v63=17;result=result+v63;
+ }
+ {
+ // Copy the same eight declaration lines here.
+ v63=29;result=result+v63;
+ }
+ return 0;
+ }
+ fn main(){
+ let mut v63=7;
+ {let mut v63=9;if v63!=9{return 1;}}
+ reuse();
+ return (result!=46)|(v63!=7);
+ }
+```
+
+The complete disk source has the declarations in place. It checks both slot reuse between sibling scopes and restoration of an outer binding after a shadowing block.
+
+```dos
+COPY TSCOPE.RIL SOURCE.RIL
+CHECK RC43
+COPY RESULT.IR SOURCE.IR
+CHECK IWKEEP
+COPY RESULT.ASM SOURCE.ASM
+CHECK ASMAKEEP
+COPY RESULT.COM TRY.COM
+CHECK TRY
+```
+
+Require compiler `OK RESULT.IR 0000004080`, translator `OK RESULT.ASM 0000010171 text bytes`, and assembler `OK RESULT.COM 02133 bytes`, with PASS before each following copy. TRY must return zero and report PASS; it needs no display routine. VIEW.BAS must show 2133 bytes and these first thirty-two bytes:
+
+```text
+FC 81 FC FE FF 74 03 E9 02 08 E8 5A 04 B4 4C CD 21 00 00 55 8B EC 81 EC 80 00 81 FC 00 F0 73 03
+```
+
+
+Preserve RC43.COM as RBOOT.COM and RC43.RIL as RILL.RIL. The self-build exercise uses that source to establish R0 with the RILL frame convention, then compares R0, R1 and R2.

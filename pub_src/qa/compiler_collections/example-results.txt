@@ -6,4 +6,4 @@ PASS EBYTES: RILLBOOT/RILL equivalent program behavior with their respective fra
 PASS ESTRING: RILLBOOT/RILL equivalent program behavior with their respective frame sizes; exact runtime/file output, rejection and preservation
 PASS EHEAP: RILLBOOT/RILL equivalent program behavior with their respective frame sizes; exact runtime/file output, rejection and preservation
 PASS ECOPY: RILLBOOT/RILL equivalent program behavior with their respective frame sizes; exact runtime/file output, rejection and preservation
-PASS RC43-to-RC44 handoff: first self-built compiler builds canonical RILL, two self-builds reproduce identical bytes
+PASS RILLBOOT-to-RC43 handoff and matching RILL self-build generations

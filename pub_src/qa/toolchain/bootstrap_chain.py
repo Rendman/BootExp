@@ -24,14 +24,8 @@ bridge=run(bridge.files['RESULT.COM']);assert bridge.exitcode==0 and bridge.outp
 r=run(irboot,(ROOT/'workbench/rill/RILLBOOT.IR').read_bytes());assert r.exitcode==0,r.output
 r=run(nativeasm,r.files['RESULT.ASM'],'ASM');assert r.exitcode==0,r.output
 rillboot=r.files['RESULT.COM'];images={}
-initial=(W/'RC43.RIL').read_bytes()
-for generation in range(2):
- r=run(rillboot,initial,'RIL');assert r.exitcode==0,r.output
- r=run(irboot,r.files['RESULT.IR']);assert r.exitcode==0,r.output
- r=run(nativeasm,r.files['RESULT.ASM'],'ASM');assert r.exitcode==0,r.output
- image=r.files['RESULT.COM']
- if generation:assert image==rillboot,'RC43 self-build differs'
- rillboot=image
+# Build the completed RILL compiler with the seed, then let it establish
+# the first compiler generation using its own 64-slot frame convention.
 r=run(rillboot,(W/'RILL.RIL').read_bytes(),'RIL');assert r.exitcode==0,r.output
 r=run(irboot,r.files['RESULT.IR']);assert r.exitcode==0,r.output
 r=run(nativeasm,r.files['RESULT.ASM'],'ASM');assert r.exitcode==0,r.output

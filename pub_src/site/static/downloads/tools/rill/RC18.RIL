@@ -32,7 +32,7 @@ bytes outbuf[4096];
 bytes ident[32];
 bytes string[512];
 
-fn main(){table=alloc(22000);setident("ABC");recval=7;newlocal(5);return (tword(20514))!=7;}
+fn main(){table=alloc(23680);setident("ABC");recval=7;newlocal(5);return (tword(20514))!=7;}
 
 fn next() {
     if ch == 10 {
@@ -187,7 +187,7 @@ fn newglobal(kind) {
 }
 
 fn newlocal(kind) {
-    if localcount >= 32 { fail(5); }
+    if localcount >= 80 { fail(5); }
     rectype = kind;
     let mut p = 20480+localcount*40; localcount = localcount+1;
     return record(p);

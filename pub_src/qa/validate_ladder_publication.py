@@ -36,9 +36,9 @@ def check():
  assert (ROOT/'workbench/rill/RILLBOOT.IR').read_text().splitlines()==previous['rill-seed-series']
  # The RILL-written compiler still has its own exact construction.
  old=[];selfpatches=json.loads((Q/'article-patches.json').read_text())
- assert len(selfpatches)==len(json.loads((Q/'rill-self-series.json').read_text()))+1==44
+ assert len(selfpatches)==len(json.loads((Q/'rill-self-series.json').read_text()))==43
  for s in selfpatches:
-  assert s['family']==('rill-local-extension' if s['number']==44 else 'rill-self-series')
+  assert s['family']=='rill-self-series'
   text=(C/'rc'/s['page']).read_text()
   sections=re.split(r'### Edit \d+\n\n',text)[1:]
   if s['base']:assert len(sections)==len(s['changes'])
@@ -54,8 +54,8 @@ def check():
   assert old==(ROOT/'workbench/toolchain'/s['source']).read_text().splitlines()
  assert old==(ROOT/'workbench/toolchain/RILL.RIL').read_text().splitlines()
  # Reconstruct the local-capacity exercises from their printed instructions.
- extension=(C/'rc/134-more-local-storage.md').read_text()
- blocks=re.findall(r'```rill\n(.*?)\n```',extension,re.S)
+ complete=(C/'rc'/selfpatches[-1]['page']).read_text()
+ blocks=re.findall(r'```rill\n(.*?)\n```',complete,re.S)
  local=next(b for b in blocks if b.startswith('fn check('))+'\n'
  work=ROOT/'workbench/toolchain'
  assert local==(work/'TLOCAL.RIL').read_text()

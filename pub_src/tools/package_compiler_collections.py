@@ -6,7 +6,7 @@ for collection,family,last,canonical in [('rc','rill-self-series',43,'RILL.RIL')
  W=ROOT/'workbench'/collection;D=ROOT/'site/static/downloads'/collection
  for p in [W,D]:p.mkdir(parents=True,exist_ok=True)
  files=['ASM86A.ASM','IRWIDE.ASM','RILLBOOT.IR','VIEW.BAS','CHECK.BAT','README.TXT']
- if collection=='rc':files+=['RILL.RIL','IR86.RIL','ASM86A.RIL','TMAKE.BAT','RC44.RIL','TLOCAL.RIL','XLOCAL.RIL','TSCOPE.RIL']
+ if collection=='rc':files+=['RILL.RIL','IR86.RIL','ASM86A.RIL','TMAKE.BAT','TLOCAL.RIL','XLOCAL.RIL','TSCOPE.RIL']
  prefix=collection.upper()
  for c in json.loads((ROOT/'qa/toolchain'/(family+'.json')).read_text()):
   files.append(c['source']);n=c['number']
@@ -28,8 +28,7 @@ Preserve their tested executables as ASMAKEEP.COM and IWKEEP.COM.
 VIEW.BAS and CHECK.BAT: unchanged inspection and status helpers.
 {prefix}01 through {prefix}{last:02}: complete construction checkpoint sources.
 T-prefixed and X-prefixed RIL files: exact acceptance/rejection inputs.
-{canonical}: complete compiler source, identical to RC44.RIL.
-RC44.RIL: the 64-local extension after the first self-build comparisons.
+{canonical}: complete compiler source, identical to RC43.RIL.
 Early checkpoints are executable helper diagnostics. An emitted text
 fragment is inspected as text; it is not a complete compiler result.
 Require each fresh OK and PASS before copying the next result.
@@ -38,9 +37,9 @@ Require each fresh OK and PASS before copying the next result.
  text+='''Begin with the completed RB collection and its RILLBOOT.COM.
 RILLBOOT.IR is its unchanged source, built with IWKEEP and ASMAKEEP.
 Compile RC sources with RILLBOOT, then IWKEEP and ASMAKEEP.
-Preserve RC43.COM for the first self-build comparisons of RC43.RIL.
-Then apply RC44, compiled with the tested RC43. Compile RC44 with itself
-to establish R0 using 64-slot frames; save RC44.RIL as RILL.RIL.
+RC43 already supports 64 locals. Preserve its seed-built executable
+as RBOOT.COM and its source as RILL.RIL. RBOOT compiles that same
+source to establish R0 using the RILL compiler's own 64-slot frames.
 R0 compiles that same source to R1, then R1 to R2; both match R0 exactly.
 TLOCAL.RIL, XLOCAL.RIL and TSCOPE.RIL check local/frame bounds and reuse.
 ERECUR.RIL, EHEAP.RIL and ECOPY.RIL are complete compiler examples.

@@ -1,4 +1,5 @@
 PASS TLOCAL.RIL: native and portable execution; zero status without display scaffolding
 PASS TSCOPE.RIL: native and portable execution; zero status without display scaffolding
 PASS local 65 rejected with code 5; accepted RESULT.IR preserved
-PASS RILL0, RILLBOOT and RC43 retain the 16-local boundary
+PASS RILL0 and RILLBOOT retain the 16-local boundary
+PASS seed-built RC43 already accepts 64 locals and rejects local 65

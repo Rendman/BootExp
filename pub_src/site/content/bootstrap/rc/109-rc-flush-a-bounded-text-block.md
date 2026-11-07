@@ -59,7 +59,7 @@ bytes string[512];
 Remove this source at old physical positions 35–35 in RC20.RIL:
 
 ```rill
-fn main(){table=alloc(22000);setident("ABC");rectype=1;recval=12345;reclevel=0;record(0);globals=1;resolve();return (recval)!=12345;}
+fn main(){table=alloc(23680);setident("ABC");rectype=1;recval=12345;reclevel=0;record(0);globals=1;resolve();return (recval)!=12345;}
 ```
 
 Replace it with:

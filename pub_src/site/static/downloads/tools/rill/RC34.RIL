@@ -32,7 +32,7 @@ bytes outbuf[4096];
 bytes ident[32];
 bytes string[512];
 
-fn main(){table=alloc(22000);setident("ABC");rectype=1;recval=12345;reclevel=0;record(0);globals=1;output=create("RILL.TMP");own=1;input=open("SOURCE.RIL");if status(){fail(1);}next();lex();expr(1);if tok!=0{fail(2);}flush();close(output);output=0;own=0;return 0;}
+fn main(){table=alloc(23680);setident("ABC");rectype=1;recval=12345;reclevel=0;record(0);globals=1;output=create("RILL.TMP");own=1;input=open("SOURCE.RIL");if status(){fail(1);}next();lex();expr(1);if tok!=0{fail(2);}flush();close(output);output=0;own=0;return 0;}
 
 fn next() {
     if ch == 10 {
@@ -187,7 +187,7 @@ fn newglobal(kind) {
 }
 
 fn newlocal(kind) {
-    if localcount >= 32 { fail(5); }
+    if localcount >= 80 { fail(5); }
     rectype = kind;
     let mut p = 20480+localcount*40; localcount = localcount+1;
     return record(p);

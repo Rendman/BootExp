@@ -207,7 +207,7 @@
   {
     "key": "tword",
     "title": "A word in an opaque block",
-    "body": "table=alloc(22000);set16(table,100,4660);return (tword(100))!=4660;",
+    "body": "table=alloc(23680);set16(table,100,4660);return (tword(100))!=4660;",
     "expected": "",
     "fixture": null,
     "bad": null,
@@ -226,7 +226,7 @@
   {
     "key": "tbyte",
     "title": "A byte in an opaque block",
-    "body": "table=alloc(22000);set16(table,100,4660);return (tbyte(100))!=52;",
+    "body": "table=alloc(23680);set16(table,100,4660);return (tbyte(100))!=52;",
     "expected": "",
     "fixture": null,
     "bad": null,
@@ -245,7 +245,7 @@
   {
     "key": "find",
     "title": "Search records by complete spelling",
-    "body": "table=alloc(22000);setident(\"ABC\");return (find(0,0))!=65535;",
+    "body": "table=alloc(23680);setident(\"ABC\");return (find(0,0))!=65535;",
     "expected": "",
     "fixture": null,
     "bad": null,
@@ -264,7 +264,7 @@
   {
     "key": "recordfields",
     "title": "Store explicit record fields",
-    "body": "table=alloc(22000);rectype=1;recval=12345;reclevel=0;recordfields(0);return (tword(34))!=12345;",
+    "body": "table=alloc(23680);rectype=1;recval=12345;reclevel=0;recordfields(0);return (tword(34))!=12345;",
     "expected": "",
     "fixture": null,
     "bad": null,
@@ -283,7 +283,7 @@
   {
     "key": "record",
     "title": "Initialize every record byte",
-    "body": "table=alloc(22000);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;return (tword(34))!=12345;",
+    "body": "table=alloc(23680);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;return (tword(34))!=12345;",
     "expected": "",
     "fixture": null,
     "bad": null,
@@ -302,7 +302,7 @@
   {
     "key": "newglobal",
     "title": "Append a global record",
-    "body": "table=alloc(22000);setident(\"ABC\");recval=12345;newglobal(1);return (tword(34))!=12345;",
+    "body": "table=alloc(23680);setident(\"ABC\");recval=12345;newglobal(1);return (tword(34))!=12345;",
     "expected": "",
     "fixture": null,
     "bad": null,
@@ -321,7 +321,7 @@
   {
     "key": "newlocal",
     "title": "A scoped local record",
-    "body": "table=alloc(22000);setident(\"ABC\");recval=7;newlocal(5);return (tword(20514))!=7;",
+    "body": "table=alloc(23680);setident(\"ABC\");recval=7;newlocal(5);return (tword(20514))!=7;",
     "expected": "",
     "fixture": null,
     "bad": null,
@@ -340,7 +340,7 @@
   {
     "key": "lookglobal",
     "title": "Select the global namespace",
-    "body": "table=alloc(22000);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;lookglobal();return (recval)!=12345;",
+    "body": "table=alloc(23680);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;lookglobal();return (recval)!=12345;",
     "expected": "",
     "fixture": null,
     "bad": null,
@@ -359,7 +359,7 @@
   {
     "key": "resolve",
     "title": "Choose the innermost binding",
-    "body": "table=alloc(22000);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;resolve();return (recval)!=12345;",
+    "body": "table=alloc(23680);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;resolve();return (recval)!=12345;",
     "expected": "",
     "fixture": null,
     "bad": null,
@@ -544,7 +544,7 @@
   {
     "key": "outname",
     "title": "Emit the stored spelling",
-    "body": "table=alloc(22000);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;output=create(\"RILL.TMP\");own=1;outname(0);flush();close(output);output=0;own=0;return 0;",
+    "body": "table=alloc(23680);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;output=create(\"RILL.TMP\");own=1;outname(0);flush();close(output);output=0;own=0;return 0;",
     "expected": "",
     "fixture": null,
     "bad": null,
@@ -584,7 +584,7 @@
   {
     "key": "resolveoptional",
     "title": "Record a call before its definition",
-    "body": "table=alloc(22000);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;resolveoptional();return (rectype)!=1;",
+    "body": "table=alloc(23680);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;resolveoptional();return (rectype)!=1;",
     "expected": "",
     "fixture": null,
     "bad": null,
@@ -643,7 +643,7 @@
   {
     "key": "expr",
     "title": "Precedence climbing in RILL",
-    "body": "table=alloc(22000);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;output=create(\"RILL.TMP\");own=1;input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();expr(1);if tok!=0{fail(2);}flush();close(output);output=0;own=0;return 0;",
+    "body": "table=alloc(23680);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;output=create(\"RILL.TMP\");own=1;input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();expr(1);if tok!=0{fail(2);}flush();close(output);output=0;own=0;return 0;",
     "expected": "",
     "fixture": "1+2*3",
     "bad": "(1)",
@@ -664,7 +664,7 @@
   {
     "key": "primary",
     "title": "Values, addresses, and names",
-    "body": "table=alloc(22000);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;output=create(\"RILL.TMP\");own=1;input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();expr(1);if tok!=0{fail(2);}flush();close(output);output=0;own=0;return 0;",
+    "body": "table=alloc(23680);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;output=create(\"RILL.TMP\");own=1;input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();expr(1);if tok!=0{fail(2);}flush();close(output);output=0;own=0;return 0;",
     "expected": "",
     "fixture": "ABC+1",
     "bad": "UNKNOWN",
@@ -685,7 +685,7 @@
   {
     "key": "callargs",
     "title": "Calls inside expressions",
-    "body": "table=alloc(22000);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;output=create(\"RILL.TMP\");own=1;input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();expr(1);if tok!=0{fail(2);}flush();close(output);output=0;own=0;return 0;",
+    "body": "table=alloc(23680);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;output=create(\"RILL.TMP\");own=1;input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();expr(1);if tok!=0{fail(2);}flush();close(output);output=0;own=0;return 0;",
     "expected": "",
     "fixture": "putc(65)",
     "bad": "get8(1)",
@@ -706,7 +706,7 @@
   {
     "key": "globalword",
     "title": "Compile a global word",
-    "body": "table=alloc(22000);output=create(\"RILL.TMP\");own=1;input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();globalword();flush();close(output);output=0;own=0;return 0;",
+    "body": "table=alloc(23680);output=create(\"RILL.TMP\");own=1;input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();globalword();flush();close(output);output=0;own=0;return 0;",
     "expected": "",
     "fixture": "let mut abc=65;",
     "bad": "let abc=65;",
@@ -727,7 +727,7 @@
   {
     "key": "globalbuffer",
     "title": "Compile a byte extent",
-    "body": "table=alloc(22000);output=create(\"RILL.TMP\");own=1;input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();globalbuffer();flush();close(output);output=0;own=0;return 0;",
+    "body": "table=alloc(23680);output=create(\"RILL.TMP\");own=1;input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();globalbuffer();flush();close(output);output=0;own=0;return 0;",
     "expected": "",
     "fixture": "bytes abc[8];",
     "bad": "bytes abc[0];",
@@ -748,7 +748,7 @@
   {
     "key": "declare",
     "title": "Initialize a scoped slot",
-    "body": "table=alloc(22000);output=create(\"RILL.TMP\");own=1;input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();level=1;declare();flush();close(output);output=0;own=0;return 0;",
+    "body": "table=alloc(23680);output=create(\"RILL.TMP\");own=1;input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();level=1;declare();flush();close(output);output=0;own=0;return 0;",
     "expected": "",
     "fixture": "let mut x=7;",
     "bad": "let mut x=x;",
@@ -769,7 +769,7 @@
   {
     "key": "block",
     "title": "Scope entry and restoration",
-    "body": "table=alloc(22000);output=create(\"RILL.TMP\");own=1;input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();block();flush();close(output);output=0;own=0;return 0;",
+    "body": "table=alloc(23680);output=create(\"RILL.TMP\");own=1;input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();block();flush();close(output);output=0;own=0;return 0;",
     "expected": "",
     "fixture": "{}",
     "bad": "{putc(65);}",
@@ -790,7 +790,7 @@
   {
     "key": "statement",
     "title": "Structured statements in RILL",
-    "body": "table=alloc(22000);output=create(\"RILL.TMP\");own=1;input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();outstr(\"PROC MAIN 0 16\\r\\n\");block();outstr(\"LIT 0\\r\\nRETURN\\r\\n\");flush();close(output);output=0;own=0;return 0;",
+    "body": "table=alloc(23680);output=create(\"RILL.TMP\");own=1;input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();outstr(\"PROC MAIN 0 64\\r\\n\");block();outstr(\"LIT 0\\r\\nRETURN\\r\\n\");flush();close(output);output=0;own=0;return 0;",
     "expected": "",
     "fixture": "{let mut x=65;while x<67{putc(x);x=x+1;}}",
     "bad": "{putc();}",
@@ -803,9 +803,9 @@
     "ir_bytes": 44237,
     "assembly_bytes": 91874,
     "console": "",
-    "result": "PROC MAIN 0 16\r\nLIT 00065\r\nSETLOCAL 00000\r\nLABEL B_00001\r\nLOCAL 00000\r\nPUSH\r\nLIT 00067\r\nCULT\r\nJZ B_00002\r\nLOCAL 00000\r\nPUSH\r\nPOP\r\nPUTC\r\nLADDR 00000\r\nPUSH\r\nLOCAL 00000\r\nPUSH\r\nLIT 00001\r\nADD\r\nPUT\r\nJMP B_00001\r\nLABEL B_00002\r\nLIT 0\r\nRETURN\r\n",
+    "result": "PROC MAIN 0 64\r\nLIT 00065\r\nSETLOCAL 00000\r\nLABEL B_00001\r\nLOCAL 00000\r\nPUSH\r\nLIT 00067\r\nCULT\r\nJZ B_00002\r\nLOCAL 00000\r\nPUSH\r\nPOP\r\nPUTC\r\nLADDR 00000\r\nPUSH\r\nLOCAL 00000\r\nPUSH\r\nLIT 00001\r\nADD\r\nPUT\r\nJMP B_00001\r\nLABEL B_00002\r\nLIT 0\r\nRETURN\r\n",
     "result_bytes": 238,
-    "result_hex": "50 52 4F 43 20 4D 41 49 4E 20 30 20 31 36 0D 0A 4C 49 54 20 30 30 30 36 35 0D 0A 53 45 54 4C 4F",
+    "result_hex": "50 52 4F 43 20 4D 41 49 4E 20 30 20 36 34 0D 0A 4C 49 54 20 30 30 30 36 35 0D 0A 53 45 54 4C 4F",
     "program_bytes": 1083,
     "program_output": "AB",
     "error": "ERROR 0000000001 CODE 00004\r\n"
@@ -813,7 +813,7 @@
   {
     "key": "function",
     "title": "Compile a complete procedure",
-    "body": "table=alloc(22000);output=create(\"RILL.TMP\");own=1;input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();function();outstr(\"PROC MAIN 0 0\\r\\nINVOKE F_MAIN 0\\r\\nRETURN\\r\\n\");flush();close(output);output=0;own=0;return 0;",
+    "body": "table=alloc(23680);output=create(\"RILL.TMP\");own=1;input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();function();outstr(\"PROC MAIN 0 0\\r\\nINVOKE F_MAIN 0\\r\\nRETURN\\r\\n\");flush();close(output);output=0;own=0;return 0;",
     "expected": "",
     "fixture": "fn main(){putc(65);return 0;}",
     "bad": "fn main(a,a){}",
@@ -826,9 +826,9 @@
     "ir_bytes": 46660,
     "assembly_bytes": 96277,
     "console": "",
-    "result": "PROC F_MAIN 00000 16\r\nLIT 00065\r\nPUSH\r\nPOP\r\nPUTC\r\nLIT 00000\r\nRETURN\r\nLIT 0\r\nRETURN\r\nPROC MAIN 0 0\r\nINVOKE F_MAIN 0\r\nRETURN\r\n",
+    "result": "PROC F_MAIN 00000 64\r\nLIT 00065\r\nPUSH\r\nPOP\r\nPUTC\r\nLIT 00000\r\nRETURN\r\nLIT 0\r\nRETURN\r\nPROC MAIN 0 0\r\nINVOKE F_MAIN 0\r\nRETURN\r\n",
     "result_bytes": 124,
-    "result_hex": "50 52 4F 43 20 46 5F 4D 41 49 4E 20 30 30 30 30 30 20 31 36 0D 0A 4C 49 54 20 30 30 30 36 35 0D",
+    "result_hex": "50 52 4F 43 20 46 5F 4D 41 49 4E 20 30 30 30 30 30 20 36 34 0D 0A 4C 49 54 20 30 30 30 36 35 0D",
     "program_bytes": 1061,
     "program_output": "A",
     "error": "ERROR 0000000001 CODE 00004\r\n"
@@ -849,9 +849,9 @@
     "ir_bytes": 49992,
     "assembly_bytes": 103091,
     "console": "OK RESULT.IR 0000000152\r\n",
-    "result": "PROC F_MAIN 00000 16\r\nLIT 00072\r\nPUSH\r\nPOP\r\nPUTC\r\nLIT 00073\r\nPUSH\r\nPOP\r\nPUTC\r\nLIT 00000\r\nRETURN\r\nLIT 0\r\nRETURN\r\nPROC MAIN 0 0\r\nINVOKE F_MAIN 0\r\nRETURN\r\n",
+    "result": "PROC F_MAIN 00000 64\r\nLIT 00072\r\nPUSH\r\nPOP\r\nPUTC\r\nLIT 00073\r\nPUSH\r\nPOP\r\nPUTC\r\nLIT 00000\r\nRETURN\r\nLIT 0\r\nRETURN\r\nPROC MAIN 0 0\r\nINVOKE F_MAIN 0\r\nRETURN\r\n",
     "result_bytes": 152,
-    "result_hex": "50 52 4F 43 20 46 5F 4D 41 49 4E 20 30 30 30 30 30 20 31 36 0D 0A 4C 49 54 20 30 30 30 37 32 0D",
+    "result_hex": "50 52 4F 43 20 46 5F 4D 41 49 4E 20 30 30 30 30 30 20 36 34 0D 0A 4C 49 54 20 30 30 30 37 32 0D",
     "program_bytes": 1069,
     "program_output": "HI",
     "error": "ERROR 0000000001 CODE 00003\r\n"

@@ -9,11 +9,9 @@ commands=['ECHO OFF','IF NOT EXIST ASMAKEEP.COM GOTO MISSING','COPY IRWIDE.ASM S
 dos('TSMALL.RIL','fn main(){putc(72);putc(73);return 0;}\n')
 insert=commands.index('COPY RILLBOOT.IR SOURCE.IR >NUL')
 commands[insert:insert]=['COPY RILL.IR SOURCE.IR >NUL','IRWIDE','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.ASM SOURCE.ASM >NUL','ASMAKEEP','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.COM RILL0.COM >NUL','COPY TSMALL.RIL SOURCE.RIL >NUL','RILL0','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.IR SOURCE.IR >NUL','IRWIDE','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.ASM SOURCE.ASM >NUL','ASMAKEEP','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.COM STEST.COM >NUL','STEST','IF ERRORLEVEL 1 GOTO FAILED','ECHO PASS RILL0 PROGRAM']
-for builder,target in [('RILLBOOT','RC43'),('RC43','RSELF')]:
- commands += ['COPY RC43.RIL SOURCE.RIL >NUL',builder,'IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.IR SOURCE.IR >NUL','IRWIDE','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.ASM SOURCE.ASM >NUL','ASMAKEEP','IF ERRORLEVEL 1 GOTO FAILED',f'COPY RESULT.COM {target}.COM >NUL']
-commands += ['COPY RILL.RIL SOURCE.RIL >NUL','RSELF','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.IR SOURCE.IR >NUL','IRWIDE','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.ASM SOURCE.ASM >NUL','ASMAKEEP','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.COM RC44.COM >NUL']
+commands += ['COPY RILL.RIL SOURCE.RIL >NUL','RILLBOOT','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.IR SOURCE.IR >NUL','IRWIDE','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.ASM SOURCE.ASM >NUL','ASMAKEEP','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.COM RBOOT.COM >NUL']
 for name,stem in [('RILL','R'),('IR86','I'),('ASM86A','A')]:
- commands += [f'COPY {name}.RIL SOURCE.RIL >NUL','RC44' if name=='RILL' else 'R0','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.IR SOURCE.IR >NUL','IRWIDE','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.ASM SOURCE.ASM >NUL','ASMAKEEP','IF ERRORLEVEL 1 GOTO FAILED',f'COPY RESULT.COM {stem}0.COM >NUL',f'ECHO PASS {name} INITIAL BUILD']
+ commands += [f'COPY {name}.RIL SOURCE.RIL >NUL','RBOOT' if name=='RILL' else 'R0','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.IR SOURCE.IR >NUL','IRWIDE','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.ASM SOURCE.ASM >NUL','ASMAKEEP','IF ERRORLEVEL 1 GOTO FAILED',f'COPY RESULT.COM {stem}0.COM >NUL',f'ECHO PASS {name} INITIAL BUILD']
 for gen in [1,2]:
  for name,stem in [('RILL','R'),('IR86','I'),('ASM86A','A')]:
   commands += [f'COPY {name}.RIL SOURCE.RIL >NUL',f'R{gen-1}','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.IR SOURCE.IR >NUL',f'I{gen-1}','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.ASM SOURCE.ASM >NUL',f'A{gen-1}','IF ERRORLEVEL 1 GOTO FAILED',f'COPY RESULT.COM {stem}{gen}.COM >NUL',f'ECHO PASS {name} GENERATION {gen}']
@@ -33,16 +31,16 @@ IRWIDE.ASM is the streaming native IR86 bootstrap translator.
 RILLBOOT.IR is the compiler seed, authored in processor-neutral IR86.
 RILL.RIL, IR86.RIL, ASM86A.RIL implement the three tools in RILL.
 TMAKE.BAT rebuilds the native translator, RILL0 and its HI program,
-then the compiler seed. RILLBOOT builds RC43, which compiles its own
-source to RSELF. RSELF builds the RC44 extension, which recompiles
-its own source with 64-slot frames to establish R0;
+then the compiler seed. RILLBOOT builds the completed RC43 compiler
+as RBOOT. RBOOT compiles the same source with 64-slot frames to
+establish R0;
 R0 then builds the RILL-written translator and assembler. It
 then rebuilds each tool twice using only the RILL implementations.
 VIEW.BAS and CHECK.BAT are the unchanged workbench helpers.
 IW01.ASM through IW23.ASM: identical aliases of IR01 through IR23.
 RILL.IR: the completed first compiler, continued by RB01 through RB12.
 RC01.RIL through RC43.RIL: the compiler written in RILL.
-RC44.RIL and RILL.RIL: its post-self-build 64-local extension.
+RILL.RIL: identical to the completed RC43.RIL, with 64 local slots.
 TLOCAL.RIL, XLOCAL.RIL, TSCOPE.RIL: local/frame boundary exercises.
 T-prefixed inputs and X-prefixed rejection cases accompany those tools.
 The named example RIL/IR files accompany the interface articles.
@@ -91,7 +89,7 @@ ownership checking or a claim of memory safety. Consult the references.
 Every archive member is ASCII source with DOS line endings and an
 8.3 name. No preassembled executable or historical interpreter is here.
 ''')
-files=['BOOTASM.BAS','ASM86.ASM','ASMA0.ASM','ASM86A.ASM','IRWIDE.ASM','RILLBOOT.IR','RILL.RIL','IR86.RIL','ASM86A.RIL','VIEW.BAS','CHECK.BAT','TMAKE.BAT','README.TXT','RILL.IR','TSMALL.RIL','RC44.RIL','TLOCAL.RIL','XLOCAL.RIL','TSCOPE.RIL']
+files=['BOOTASM.BAS','ASM86.ASM','ASMA0.ASM','ASM86A.ASM','IRWIDE.ASM','RILLBOOT.IR','RILL.RIL','IR86.RIL','ASM86A.RIL','VIEW.BAS','CHECK.BAT','TMAKE.BAT','README.TXT','RILL.IR','TSMALL.RIL','TLOCAL.RIL','XLOCAL.RIL','TSCOPE.RIL']
 files+=sorted(p.name for p in W.glob('E*.RIL'))+sorted(p.name for p in W.glob('E*.IR'))
 for family,prefix,ext in [('ir-extensions','IW','IR'),('rill-seed-series','RB','RIL'),('rill-self-series','RC','RIL')]:
  for c in json.loads((ROOT/'qa/toolchain'/(family+'.json')).read_text()):

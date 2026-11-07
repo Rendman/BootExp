@@ -32,7 +32,7 @@ bytes outbuf[4096];
 bytes ident[32];
 bytes string[512];
 
-fn main(){table=alloc(22000);output=create("RILL.TMP");own=1;input=open("SOURCE.RIL");if status(){fail(1);}next();lex();outstr("PROC MAIN 0 16\r\n");block();outstr("LIT 0\r\nRETURN\r\n");flush();close(output);output=0;own=0;return 0;}
+fn main(){table=alloc(23680);output=create("RILL.TMP");own=1;input=open("SOURCE.RIL");if status(){fail(1);}next();lex();outstr("PROC MAIN 0 64\r\n");block();outstr("LIT 0\r\nRETURN\r\n");flush();close(output);output=0;own=0;return 0;}
 
 fn next() {
     if ch == 10 {
@@ -187,7 +187,7 @@ fn newglobal(kind) {
 }
 
 fn newlocal(kind) {
-    if localcount >= 32 { fail(5); }
+    if localcount >= 80 { fail(5); }
     rectype = kind;
     let mut p = 20480+localcount*40; localcount = localcount+1;
     return record(p);
@@ -283,7 +283,7 @@ fn declare() {
     lex(); if !isword("MUT") { fail(2); } lex(); if tok != 1 { fail(2); }
     let mut old = find(20480,localcount);
     if old != 65535 { if reclevel == level { fail(4); } }
-    if nextlocal >= 16 { fail(5); }
+    if nextlocal >= 64 { fail(5); }
     let mut slot = nextlocal;
     recval = slot; reclevel = level; let mut p = newlocal(8); nextlocal = nextlocal+1;
     lex(); expect(61); expr(1); set16(table,p+32,5);

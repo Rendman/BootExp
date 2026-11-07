@@ -2,7 +2,7 @@
 from pathlib import Path
 import json
 from build_ir86_wide import OPS,HEADER,RUNTIME
-from rill_local_capacity import extend,fixtures
+from rill_local_capacity import fixtures
 ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/toolchain'
 def quote(s):return json.dumps(s,ensure_ascii=True).replace('\\u0000','\\0')
 def dos(p,s):p.write_bytes(s.replace('\r\n','\n').replace('\n','\r\n').encode('ascii'))
@@ -12,9 +12,8 @@ s+='    return 0;\n}\nfn header() { outstr('+quote(HEADER.replace('\n','\r\n'))+
 rt=RUNTIME.replace('\n','\r\n')
 for i in range(0,len(rt),240):s+='    outstr('+quote(rt[i:i+240])+');\n'
 s+='    return 0;\n}\n';dos(W/'IR86.RIL',s)
-compiler=extend((ROOT/'tools/rill_self.ril').read_text())
+compiler=(ROOT/'tools/rill_self.ril').read_text()
 dos(W/'RILL.RIL',compiler)
-dos(W/'RC44.RIL',compiler)
 for name,source in fixtures().items():dos(W/name,source)
 print('Prepared authored RILL translator and backend data tables')
 

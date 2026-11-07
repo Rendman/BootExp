@@ -10,7 +10,7 @@ reader_names = 1
 
 ## The working parts
 
-Append a record in the separate local-name region. Its slot number and lexical level are explicit fields. The region has room for parameters and live local bindings, not a second global namespace.
+Append a record in the separate local-name region. Its slot number and lexical level are explicit fields. Eighty records provide room for sixteen parameters and sixty-four live local bindings. Reject another entry before writing beyond byte 23679.
 
 ## Enter the source
 
@@ -31,7 +31,7 @@ Insert:
 
 ```rill
 fn newlocal(kind) {
-    if localcount >= 32 { fail(5); }
+    if localcount >= 80 { fail(5); }
     rectype = kind;
     let mut p = 20480+localcount*40; localcount = localcount+1;
     return record(p);
@@ -56,13 +56,13 @@ bytes string[512];
 Remove this source at old physical positions 35–35 in RC17.RIL:
 
 ```rill
-fn main(){table=alloc(22000);setident("ABC");recval=12345;newglobal(1);return (tword(34))!=12345;}
+fn main(){table=alloc(23680);setident("ABC");recval=12345;newglobal(1);return (tword(34))!=12345;}
 ```
 
 Replace it with:
 
 ```rill
-fn main(){table=alloc(22000);setident("ABC");recval=7;newlocal(5);return (tword(20514))!=7;}
+fn main(){table=alloc(23680);setident("ABC");recval=7;newlocal(5);return (tword(20514))!=7;}
 ```
 
 The following old source remains in place:

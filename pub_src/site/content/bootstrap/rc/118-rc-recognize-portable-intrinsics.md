@@ -64,7 +64,7 @@ bytes string[512];
 Remove this source at old physical positions 35–35 in RC29.RIL:
 
 ```rill
-fn main(){table=alloc(22000);setident("ABC");rectype=1;recval=12345;reclevel=0;record(0);globals=1;output=create("RILL.TMP");own=1;outname(0);flush();close(output);output=0;own=0;return 0;}
+fn main(){table=alloc(23680);setident("ABC");rectype=1;recval=12345;reclevel=0;record(0);globals=1;output=create("RILL.TMP");own=1;outname(0);flush();close(output);output=0;own=0;return 0;}
 ```
 
 Replace it with:

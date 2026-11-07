@@ -19,11 +19,11 @@ for c in json.loads((ROOT/'qa/toolchain/examples.json').read_text()):
  if c['name'] in ['ERECUR','EHEAP','ECOPY']:records.append(c)
  logs.append('PASS '+c['name']+(': RILL-only language example' if len(outputs)==1 else ': RILLBOOT/RILL equivalent program behavior with their respective frame sizes')+'; exact runtime/file output, rejection and preservation')
 source=(W/'RILL.RIL').read_bytes();compiled=run((W/'RC43.COM').read_bytes(),source,'RIL');assert compiled.exitcode==0
-_,image=ir(compiled.files['RESULT.IR']);assert image==(W/'RC44BOOT.COM').read_bytes()
-for generation in range(3):
+_,image=ir(compiled.files['RESULT.IR']);assert image==(W/'RILL.COM').read_bytes()
+for generation in range(2):
  r=run(image,source,'RIL');assert r.exitcode==0;_,again=ir(r.files['RESULT.IR'])
- if generation:assert again==image
+ assert again==image
  image=again
 assert image==(W/'RILL.COM').read_bytes()
-logs.append('PASS RC43-to-RC44 handoff: first self-built compiler builds canonical RILL, two self-builds reproduce identical bytes')
+logs.append('PASS RILLBOOT-to-RC43 handoff and matching RILL self-build generations')
 (Q/'rc-examples.json').write_text(json.dumps(records,indent=2)+'\n');(Q/'example-results.txt').write_text('\n'.join(logs)+'\n');print('\n'.join(logs))

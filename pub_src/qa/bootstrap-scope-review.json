@@ -6275,7 +6275,7 @@
     "not_observed_intrinsics": [],
     "not_observed_syntax": [],
     "successor_resources": {
-      "source": "workbench/toolchain/RC44.RIL",
+      "source": "workbench/toolchain/RC43.RIL",
       "global_and_procedure_names": 76,
       "largest_parameter_list": 2,
       "longest_string_bytes": 357

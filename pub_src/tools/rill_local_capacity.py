@@ -1,18 +1,4 @@
-"""Four authored source edits following the first compiler self-build."""
-
-# 512 global records occupy 20480 bytes; 80 local records occupy 3200.
-EDITS = [
-    ('table = alloc(22000);', 'table = alloc(23680);'),
-    ('if localcount >= 32 { fail(5); }', 'if localcount >= 80 { fail(5); }'),
-    ('outnum(argc); outstr(" 16\\r\\n");', 'outnum(argc); outstr(" 64\\r\\n");'),
-    ('if nextlocal >= 16 { fail(5); }', 'if nextlocal >= 64 { fail(5); }'),
-]
-
-def extend(source):
-    for old, new in EDITS:
-        assert source.count(old) == 1, old
-        source = source.replace(old, new)
-    return source
+"""Authored acceptance fixtures for RILL local storage and procedure frames."""
 
 def fixtures():
     args = ','.join(f'a{i}' for i in range(16))

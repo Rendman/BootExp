@@ -13,7 +13,6 @@ def dos(name,s):p=scratch/name;p.write_bytes(s.replace('\n','\r\n').encode('asci
 copy(ROOT/'workbench/bootasm/CHECK.BAT')
 copy(W/'TMAKE.BAT')
 for p,name in [(ROOT/'workbench/asm86a/ASM86A.COM','ASMAKEEP.COM'),(ROOT/'workbench/ir86/IRWIDE.ASM','IRWIDE.ASM'),(ROOT/'workbench/rill/RILLBOOT.IR','RILLBOOT.IR'),(ROOT/'workbench/rill/RILL.IR','RILL.IR'),(W/'TSMALL.RIL','TSMALL.RIL')]+[(W/(n+'.RIL'),n+'.RIL') for n in ['RILL','IR86','ASM86A']]:copy(p,name)
-copy(W/'RC43.RIL')
 commands=['C:',r'A:\COMMAND /C TMAKE >TMAKE.LOG']
 copy(dos('HI.RIL','fn main(){putc(72);putc(73);return 0;}\n'))
 commands += ['COPY HI.RIL SOURCE.RIL >NUL',r'A:\COMMAND /C CHECK R2 >HI.CMP','COPY RESULT.IR SOURCE.IR >NUL',r'A:\COMMAND /C CHECK I2 >HI.TRN','COPY RESULT.ASM SOURCE.ASM >NUL',r'A:\COMMAND /C CHECK A2 >HI.BLD','COPY RESULT.COM HI.COM >NUL',r'A:\COMMAND /C CHECK HI >HI.OUT','ECHO DONE >DONE.TXT']
@@ -30,9 +29,9 @@ try:
  logs=[]
  buildlog=subprocess.check_output(['mtype','-i',volume,'::TMAKE.LOG']);(scratch/'TMAKE.LOG').write_bytes(buildlog)
  assert buildlog.count(b'PASS ')==10 and b'FAIL' not in buildlog,buildlog
- initial=subprocess.check_output(['mtype','-i',volume,'::RC43.COM'])
- assert initial==subprocess.check_output(['mtype','-i',volume,'::RSELF.COM'])==(W/'RC43.COM').read_bytes()
- logs.append('PASS DOS 3.10 RC43 self-build before the 64-local extension')
+ initial=subprocess.check_output(['mtype','-i',volume,'::RBOOT.COM'])
+ assert initial==(W/'RC43.COM').read_bytes()
+ logs.append('PASS DOS 3.10 RILLBOOT builds completed RC43 before the RILL self-build')
  for stem,name in [('R','RILL'),('I','IR86'),('A','ASM86A')]:
   for gen in [0,1,2]:
    data=subprocess.check_output(['mtype','-i',volume,'::'+stem+str(gen)+'.COM']);assert data==(W/(name+'.COM')).read_bytes(),(stem,gen,'different executable')

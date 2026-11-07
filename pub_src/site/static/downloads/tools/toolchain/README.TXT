@@ -11,16 +11,16 @@ IRWIDE.ASM is the streaming native IR86 bootstrap translator.
 RILLBOOT.IR is the compiler seed, authored in processor-neutral IR86.
 RILL.RIL, IR86.RIL, ASM86.RIL implement the three tools in RILL.
 TMAKE.BAT rebuilds the native translator, RILL0 and its HI program,
-then the compiler seed. RILLBOOT builds RC43, which compiles its own
-source to RSELF. RSELF builds the RC44 extension, which recompiles
-its own source with 64-slot frames to establish R0;
+then the compiler seed. RILLBOOT builds the completed RC43 compiler
+as RBOOT. RBOOT compiles the same source with 64-slot frames to
+establish R0;
 R0 then builds the RILL-written translator and assembler. It
 then rebuilds each tool twice using only the RILL implementations.
 VIEW.BAS and CHECK.BAT are the unchanged workbench helpers.
 IW01.ASM through IW23.ASM: identical aliases of IR01 through IR23.
 RILL0.IR: the completed first compiler, continued by RB01 through RB12.
 RC01.RIL through RC43.RIL: the compiler written in RILL.
-RC44.RIL and RILL.RIL: its post-self-build 64-local extension.
+RILL.RIL: identical to the completed RC43.RIL, with 64 local slots.
 TLOCAL.RIL, XLOCAL.RIL, TSCOPE.RIL: local/frame boundary exercises.
 T-prefixed inputs and X-prefixed rejection cases accompany those tools.
 The named example RIL/IR files accompany the interface articles.

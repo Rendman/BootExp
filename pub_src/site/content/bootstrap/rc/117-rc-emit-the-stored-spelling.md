@@ -58,7 +58,7 @@ fn main(){output=create("RILL.TMP");own=1;labeljump(7);flush();close(output);out
 Replace it with:
 
 ```rill
-fn main(){table=alloc(22000);setident("ABC");rectype=1;recval=12345;reclevel=0;record(0);globals=1;output=create("RILL.TMP");own=1;outname(0);flush();close(output);output=0;own=0;return 0;}
+fn main(){table=alloc(23680);setident("ABC");rectype=1;recval=12345;reclevel=0;record(0);globals=1;output=create("RILL.TMP");own=1;outname(0);flush();close(output);output=0;own=0;return 0;}
 ```
 
 The following old source remains in place:

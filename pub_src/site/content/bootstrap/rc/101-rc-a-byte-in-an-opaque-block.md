@@ -51,13 +51,13 @@ bytes string[512];
 Remove this source at old physical positions 35–35 in RC12.RIL:
 
 ```rill
-fn main(){table=alloc(22000);set16(table,100,4660);return (tword(100))!=4660;}
+fn main(){table=alloc(23680);set16(table,100,4660);return (tword(100))!=4660;}
 ```
 
 Replace it with:
 
 ```rill
-fn main(){table=alloc(22000);set16(table,100,4660);return (tbyte(100))!=52;}
+fn main(){table=alloc(23680);set16(table,100,4660);return (tbyte(100))!=52;}
 ```
 
 The following old source remains in place:

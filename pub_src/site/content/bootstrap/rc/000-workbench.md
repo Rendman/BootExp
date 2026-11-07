@@ -39,6 +39,6 @@ The complete compiler streams 4096-byte blocks. Symbol storage uses an opaque al
 
 ## Preserve the self-build handoff
 
-After RC43 passes, preserve RC43.RIL unchanged and copy RC43.COM to R0.COM. The seed-built compiler is 26617 bytes. The self-build exercise uses R0, then R1, to compile the same source through the preserved native translator and assembler. Both resulting executables must match R0.
+The storage and procedure lessons build the sixty-four-local capacity into RC43. After RC43 passes, save its source as RILL.RIL and its executable as RBOOT.COM. The seed-built compiler is 26617 bytes. RBOOT compiles that unchanged source to establish R0 with sixty-four-slot frames. The following two self-builds produce R1 and R2; both must match R0.
 
-After both compiler comparisons match, complete [More Local Storage](../134-more-local-storage/index.html). It extends RILL to sixty-four live locals while retaining sixteen parameters. Save RC44.RIL as RILL.RIL and establish matching R0/R1/R2 copies as described there. Then continue with [Rebuilding Our Tools in RILL](../../toolchain/index.html). Its workbench uses R0 to construct IR86.RIL and ASM86.RIL, then lets the RILL-written trio rebuild all three tools through two matching generations. Keep RILLBOOT, IWKEEP, and ASMAKEEP as reproducible predecessors.
+After both compiler comparisons match, continue with [Rebuilding Our Tools in RILL](../../toolchain/index.html). Its workbench uses R0 to construct IR86.RIL and ASM86.RIL, then lets the RILL-written trio rebuild all three tools through two matching generations. Keep RILLBOOT, IWKEEP, and ASMAKEEP as reproducible predecessors.

@@ -40,11 +40,11 @@ for name in re.findall(r'(?m)^COPY (\S+) SOURCE\.',batch):
  if not name.startswith('RESULT.'):assert (D/'toolchain'/name).exists(),name
 assert 'COPY ASM86.RIL SOURCE.RIL' in batch
 commands=batch.splitlines()
-for name,builder in [('RILL','RSELF'),('IR86','R0'),('ASM86','R0')]:
+for name,builder in [('RILL','RILLBOOT'),('IR86','R0'),('ASM86','R0')]:
  i=commands.index(f'COPY {name}.RIL SOURCE.RIL >NUL');assert commands[i+1]==builder,(name,'minimum seed handoff')
 assert commands.count('RILLBOOT')==1
-assert commands.count('COPY RC43.RIL SOURCE.RIL >NUL')==2
-assert 'COPY RESULT.COM RSELF.COM >NUL' in commands
+assert 'COPY RESULT.COM RBOOT.COM >NUL' in commands
+assert commands.count('RBOOT')==1
 assert commands.count('COPY RILL.RIL SOURCE.RIL >NUL')==4
-assert commands.count('RC44')==1
+assert 'RC44' not in batch and 'RSELF' not in batch
 print(f'PASS reader publication: 9 named series; {count} canonical source members; all compiler stopping checks use natural reports, status assertions or exact file bytes; batch prerequisites resolve')

@@ -7,7 +7,7 @@ download_group = "tools/toolchain"
 reader_names = 1
 +++
 
-Complete the RILL compiler construction, its first self-build comparisons, and the RC44 local-storage extension first. R0.COM is the 26617-byte compiler built from RC44.RIL, saved as RILL.RIL. Keep the matching compiler copies and source on a separate labeled disk.
+Complete the RILL compiler construction and its self-build comparisons first. R0.COM is the 26617-byte compiler built from RC43.RIL, saved as RILL.RIL. Keep the matching compiler copies and source on a separate labeled disk.
 
 Use the same DOS 3.10 and period BASIC workbench. CHECK.BAT reports executable status immediately; VIEW.BAS shows exact file length and bytes. Use TYPE for generated assembly and IR text.
 
@@ -15,7 +15,7 @@ Use the same DOS 3.10 and period BASIC workbench. CHECK.BAT reports executable s
 
 | Preserved executable | Source | Job |
 |---|---|---|
-| R0.COM | RILL.RIL, identical to RC44.RIL | Compile the RILL tool sources into IR |
+| R0.COM | RILL.RIL, identical to RC43.RIL | Compile the RILL tool sources into IR |
 | IWKEEP.COM | IR86.ASM, identical to IR23.ASM; IRWIDE.ASM is the same source | Translate IR into assembly |
 | ASMAKEEP.COM | Native ASM86.ASM, identical to A40.ASM | Assemble that text into a COM image |
 

@@ -10,7 +10,7 @@ reader_names = 1
 
 ## The working parts
 
-An offset is meaningful only together with the TABLE block handle. GET16 reads the canonical low-byte-first word after validating its extent.
+An offset is meaningful only together with the TABLE block handle. GET16 reads the canonical low-byte-first word after validating its extent. Allocate 23680 bytes: 20480 for 512 global/procedure records and 3200 for eighty parameter/local records. Later routines use these same two regions.
 
 ## Enter the source
 
@@ -57,7 +57,7 @@ fn main(){setident("ABC");tok=1;return isword("ABC")!=1;}
 Replace it with:
 
 ```rill
-fn main(){table=alloc(22000);set16(table,100,4660);return (tword(100))!=4660;}
+fn main(){table=alloc(23680);set16(table,100,4660);return (tword(100))!=4660;}
 ```
 
 The following old source remains in place:

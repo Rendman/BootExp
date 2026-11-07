@@ -10,13 +10,13 @@ reader_names = 1
 
 The same virtual-machine operations, with a RILL parser and a separate native binding.
 
-The complete IR86.RIL below uses the ordinary RILL language and portable services. Begin after the RC44 local-storage extension and its self-build comparisons. Build it with the preserved R0 compiler, then IWKEEP and ASMAKEEP. Require a fresh OK and PASS at each boundary before copying the next result. Preserve the resulting executable as I0.COM; VIEW.BAS must show **29678 bytes**.
+The complete IR86.RIL below uses the ordinary RILL language and portable services. Begin after the completed RILL compiler and its self-build comparisons. Build it with the preserved R0 compiler, then IWKEEP and ASMAKEEP. Require a fresh OK and PASS at each boundary before copying the next result. Preserve the resulting executable as I0.COM; VIEW.BAS must show **29678 bytes**.
 
 The scanner and statement decoder implement the IR contract. The operation records contain argument classes, stack effects, and authored assembly templates. The header and runtime procedures are the 8086/DOS binding. They are not physical-register operations in the language. The input line and ordinary token stay bounded; RESULT.ASM streams through its owned temporary file.
 
 ## Complete source, by routine
 
-Start a plain text IR86.RIL. Enter the declarations, then append each complete procedure in the displayed order. These are parts of one complete tool; a copied fragment is not a standalone program. The completed RC44 local-storage extension supplies R0. Preserve the native IWKEEP and ASMAKEEP as its translator and assembler.
+Start a plain text IR86.RIL. Enter the declarations, then append each complete procedure in the displayed order. These are parts of one complete tool; a copied fragment is not a standalone program. The compiler self-build exercise supplies R0. Preserve the native IWKEEP and ASMAKEEP as its translator and assembler.
 
 ### Declarations
 

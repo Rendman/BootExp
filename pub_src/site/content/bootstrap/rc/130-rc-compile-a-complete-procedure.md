@@ -4,13 +4,13 @@ weight = 42
 description = "Record the procedure name before scanning parameters, verify any earlier call arity, and create parameter bindings."
 download = "RC42.RIL"
 download_group = "tools/rill"
-aliases = ["/bootstrap/rill/130-rc-compile-a-complete-procedure/"]
+aliases = ["/bootstrap/rill/130-rc-compile-a-complete-procedure/", "/bootstrap/rc/134-more-local-storage/"]
 reader_names = 1
 +++
 
 ## The working parts
 
-Record the procedure name before scanning parameters, verify any earlier call arity, and create parameter bindings. PROC reserves the bounded local frame. Every normal fall-through ends with return value zero.
+Record the procedure name before scanning parameters, verify any earlier call arity, and create parameter bindings. Each procedure accepts at most sixteen parameters. PROC reserves sixty-four local words, matching the declaration routine and IR86 frame bound. Those 128 local bytes are reserved on every call, even when fewer slots are used; parameters, return state and expression temporaries need additional stack space. The native stack guard still applies. Every normal fall-through ends with return value zero.
 
 ## Enter the source
 
@@ -49,7 +49,7 @@ fn function() {
     }
     if oldargs != 65535 { if oldargs != argc { fail(4); } }
     set16(table,p+34,argc);
-    outstr("PROC F_"); outname(p); outchar(32); outnum(argc); outstr(" 16\r\n");
+    outstr("PROC F_"); outname(p); outchar(32); outnum(argc); outstr(" 64\r\n");
     lex(); block(); outstr("LIT 0\r\nRETURN\r\n"); return 0;
 }
 ```
@@ -73,13 +73,13 @@ bytes string[512];
 Remove this source at old physical positions 35–35 in RC41.RIL:
 
 ```rill
-fn main(){table=alloc(22000);output=create("RILL.TMP");own=1;input=open("SOURCE.RIL");if status(){fail(1);}next();lex();outstr("PROC MAIN 0 16\r\n");block();outstr("LIT 0\r\nRETURN\r\n");flush();close(output);output=0;own=0;return 0;}
+fn main(){table=alloc(23680);output=create("RILL.TMP");own=1;input=open("SOURCE.RIL");if status(){fail(1);}next();lex();outstr("PROC MAIN 0 64\r\n");block();outstr("LIT 0\r\nRETURN\r\n");flush();close(output);output=0;own=0;return 0;}
 ```
 
 Replace it with:
 
 ```rill
-fn main(){table=alloc(22000);output=create("RILL.TMP");own=1;input=open("SOURCE.RIL");if status(){fail(1);}next();lex();function();outstr("PROC MAIN 0 0\r\nINVOKE F_MAIN 0\r\nRETURN\r\n");flush();close(output);output=0;own=0;return 0;}
+fn main(){table=alloc(23680);output=create("RILL.TMP");own=1;input=open("SOURCE.RIL");if status(){fail(1);}next();lex();function();outstr("PROC MAIN 0 0\r\nINVOKE F_MAIN 0\r\nRETURN\r\n");flush();close(output);output=0;own=0;return 0;}
 ```
 
 The following old source remains in place:
@@ -133,7 +133,7 @@ The checker must report PASS. Inspect the emitted file below.
 TYPE RILL.TMP. Its complete IR is:
 
 ```ir
-PROC F_MAIN 00000 16
+PROC F_MAIN 00000 64
 LIT 00065
 PUSH
 POP
