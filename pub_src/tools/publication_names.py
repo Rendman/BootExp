@@ -29,9 +29,6 @@ def reader_text(group,original,text):
   if group=='rc':
    text=text.replace('IR86.RIL and ASM86.RIL are the translator and assembler in RILL.\nTMAKE.BAT builds all three tools and both closed-loop generations.\nThe complete TOOLCHN.ZIP also contains earlier continuation sources.',
     'After both compiler self-builds match, continue with Rebuilding Our\nTools in RILL. Its TOOLCHN.ZIP supplies IR86.RIL, ASM86.RIL, and\nTMAKE.BAT for the complete three-tool builds and comparisons.')
-  if group=='toolchain':
-   text=text.replace('Use your own DOS 3.10 and its period BASIC interpreter. Begin with the\ncompleted ASM86 workbench: ASMAKEEP.COM must be the tested 6422-byte\nnative assembler.',
-    'Use your own DOS 3.10 and its period BASIC interpreter. For this article\ncollection, first complete the RILL compiler and both self-build checks.\nPreserve R0.COM, IWKEEP.COM, and the tested 6422-byte ASMAKEEP.COM.')
  return text.replace('\n',newline)
 
 HELP_TITLES={

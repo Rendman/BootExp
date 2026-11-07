@@ -15,10 +15,12 @@ for c in json.loads((ROOT/'qa/asm86a/checkpoints.json').read_text()):
  for name in names:shutil.copyfile(ROOT/'workbench/asm86a'/name,W/name)
  files+=names
 for name in ['HELLO','MEMORY','COUNT']:shutil.copyfile(ROOT/'workbench/asm86'/(name+'.ASM'),W/(name+'.ASM'));files.append(name+'.ASM')
-readme='''THE BOOTSTRAP PROJECT - ASMA0
+seed_bytes=next(c['binary_bytes'] for c in json.loads((ROOT/'qa/asm86a/checkpoints.json').read_text()) if c['number']==12)
+readme=f'''THE BOOTSTRAP PROJECT - ASMA0
 A practical course in small-system software
 
-The ladder: BOOTASM -> ASM86 -> ASMA0 -> ASM86A -> IR86 -> RILL.
+The ladder: BOOTASM -> ASM86 -> ASMA0 -> ASM86A -> IR86 -> RILL0
+-> RILLBOOT -> RILL.
 ASMA0 is the streaming seed collection, built directly by ASM86.
 Read its workbench, construction articles, reference, and programs.
 
@@ -37,7 +39,7 @@ Require OK and PASS at every build. Preserve each source/executable.
 A03 through A06 copy data; inspect that output, never execute it.
 Only fixtures expressly identified as complete programs may be run.
 
-ASMA0.COM is 3302 bytes. Compare both self-assembly generations with
+ASMA0.COM is {seed_bytes} bytes. Compare both self-assembly generations with
 its ASM86-built original. The seed uses fixed SOURCE.ASM/RESULT.COM,
 1024-byte input/output blocks, 2048 symbols, sixteen-character names,
 120-character physical lines, and at most 65535 lines per pass.

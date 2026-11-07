@@ -95,7 +95,7 @@ The seed executes entirely in its original 64 KB DOS segment. It needs no alloca
 
 Unused gaps remain reserved. Validate a full segment before using the high workspace. The seed's resident-image ceiling is 16,128 bytes; its first build is subject to ASM0's smaller 8192-byte ceiling. Neither ceiling limits the image being assembled to disk.
 
-The seed retains ASM0's accepted forms and adds only what the larger assembler implementation needs immediately: MOV between ordinary word and segment registers, excluding CS as a destination, and ES overrides on the existing MOV memory forms. Its implementation uses only ASM0-accepted instructions. Encoding a new instruction is distinct from executing that instruction in the assembler itself.
+The seed retains ASM0's accepted forms and adds only what the larger assembler implementation needs immediately: XOR, MOV between ordinary word and segment registers, excluding CS as a destination, and ES overrides on the existing MOV memory forms. Its implementation uses only ASM0-accepted instructions. Encoding a new instruction is distinct from executing that instruction in the assembler itself.
 
 The first complete ASM86 source uses this seed vocabulary, names no longer than sixteen characters, and lines no longer than 120 characters. Larger source-language features are implemented by that source; they are not prerequisites for assembling it.
 
@@ -167,7 +167,7 @@ Layout values are evaluated as words with checked context-specific narrowing. In
 
 ## Gradual construction order
 
-The published construction splits these capability groups into twelve ASM1 checkpoints and twenty-four ASM86 checkpoints, each ending with its own self-assembly handoff. Disk checkpoint names remain A01 through A40; the ASM86 articles restart chapter numbering at 01 while retaining A13 as their first source filename. Both collections have their own workbench, language reference, programs, and source archive. The source generators and the shared checkpoint verification chain remain shared under pub_src/tools and pub_src/qa/asm86a.
+The published construction splits these capability groups into twelve ASM1 checkpoints and twenty-four ASM86 checkpoints, each ending with its own self-assembly handoff. The retained disk checkpoints are A01–A33, A36, A37, and A40; the ASM86 articles restart chapter numbering at 01 while retaining A13 as their first source filename. Both collections have their own workbench, language reference, programs, and source archive. The source generators and the shared checkpoint verification chain remain shared under pub_src/tools and pub_src/qa/asm86a.
 
 1. Fixed source name and an owned temporary-file copy diagnostic; inspect file length and bytes rather than executing copied data.
 2. Block input, with EOF, short reads, and boundary-crossing line endings.

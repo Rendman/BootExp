@@ -1,4 +1,4 @@
-"""Package the IR-written and RILL-written compiler constructions separately."""
+"""Package the RILL-written compiler; package_ladder supplies RILL0/RILLBOOT."""
 from pathlib import Path
 import json,shutil,zipfile
 ROOT=Path(__file__).resolve().parents[1];SOURCE=ROOT/'workbench/toolchain';Q=ROOT/'qa/compiler_collections';Q.mkdir(parents=True,exist_ok=True)
@@ -6,7 +6,7 @@ for collection,family,last,canonical in [('rc','rill-self-series',43,'RILL.RIL')
  W=ROOT/'workbench'/collection;D=ROOT/'site/static/downloads'/collection
  for p in [W,D]:p.mkdir(parents=True,exist_ok=True)
  files=['ASM86A.ASM','IRWIDE.ASM','RILLBOOT.IR','VIEW.BAS','CHECK.BAT','README.TXT']
- if collection=='rc':files+=['RILL.RIL','IR86.RIL','ASM86A.RIL','TMAKE.BAT']
+ if collection=='rc':files+=['RILL.RIL','IR86.RIL','ASM86A.RIL','TMAKE.BAT','RC44.RIL','TLOCAL.RIL','XLOCAL.RIL','TSCOPE.RIL']
  prefix=collection.upper()
  for c in json.loads((ROOT/'qa/toolchain'/(family+'.json')).read_text()):
   files.append(c['source']);n=c['number']
@@ -18,7 +18,7 @@ for collection,family,last,canonical in [('rc','rill-self-series',43,'RILL.RIL')
  text=f'''THE BOOTSTRAP PROJECT - {prefix}
 A practical course in small-system software
 
-The compiler construction: first RILL -> RB compiler seed -> RC.
+The compiler construction: RILL0 -> RB compiler seed -> RC.
 The preceding native ladder is BOOTASM -> ASM86 -> ASMA0 -> ASM86A
 -> streaming IR86. Use the same DOS 3.10 and period BASIC workbench.
 All files here are ASCII/CRLF/8.3 source. No executable is supplied.
@@ -28,27 +28,21 @@ Preserve their tested executables as ASMAKEEP.COM and IWKEEP.COM.
 VIEW.BAS and CHECK.BAT: unchanged inspection and status helpers.
 {prefix}01 through {prefix}{last:02}: complete construction checkpoint sources.
 T-prefixed and X-prefixed RIL files: exact acceptance/rejection inputs.
-{canonical}: complete compiler source, identical to the final checkpoint.
+{canonical}: complete compiler source, identical to RC44.RIL.
+RC44.RIL: the 64-local extension after the first self-build comparisons.
 Early checkpoints are executable helper diagnostics. An emitted text
 fragment is inspected as text; it is not a complete compiler result.
 Require each fresh OK and PASS before copying the next result.
 
 '''
- if collection=='rb':
-  text+='''RB sources are IR, built with IWKEEP and ASMAKEEP. At the final
-checkpoint preserve RB47.COM as RILLBOOT.COM and RB47.IR as RILLBOOT.IR.
-The eight E-prefixed RIL programs use that completed compiler seed.
-RILLBOOT reads SOURCE.RIL and streams RESULT.IR via RILL.TMP/RILL.BAK.
-Copy accepted RESULT.IR to SOURCE.IR for IWKEEP; copy its accepted
-RESULT.ASM to SOURCE.ASM for ASMAKEEP. Preserve every accepted output.
-The separate RC collection expresses this same compiler in RILL.
-'''
- else:
-  text+='''Begin with the completed RB collection and its RILLBOOT.COM.
+ text+='''Begin with the completed RB collection and its RILLBOOT.COM.
 RILLBOOT.IR is its unchanged source, built with IWKEEP and ASMAKEEP.
 Compile RC sources with RILLBOOT, then IWKEEP and ASMAKEEP.
-Preserve RC43.COM as R0.COM and RC43.RIL as RILL.RIL. R0 compiles
-that same source to R1, then R1 to R2; both must match R0 exactly.
+Preserve RC43.COM for the first self-build comparisons of RC43.RIL.
+Then apply RC44, compiled with the tested RC43. Compile RC44 with itself
+to establish R0 using 64-slot frames; save RC44.RIL as RILL.RIL.
+R0 compiles that same source to R1, then R1 to R2; both match R0 exactly.
+TLOCAL.RIL, XLOCAL.RIL and TSCOPE.RIL check local/frame bounds and reuse.
 ERECUR.RIL, EHEAP.RIL and ECOPY.RIL are complete compiler examples.
 IR86.RIL and ASM86A.RIL are the translator and assembler in RILL.
 TMAKE.BAT builds all three tools and both closed-loop generations.
@@ -60,10 +54,11 @@ SOURCE.ASM/RESULT.COM files in a hard-disk directory. Keep each builder
 separately named. Inspect existing temporary/backup files before a run.
 Source rejection preserves accepted output; failed publication can
 leave recovery files. Require a new successful status before using it.
-The shared systems language has 24-character folded names, 512 global
-or procedure symbols, sixteen parameters and live local words, lexical
+The complete RILL language has 24-character folded names, 512 global
+or procedure symbols, sixteen parameters and sixty-four live local words, lexical
 scopes, recursive calls, byte buffers, strings and opaque file/block
-services. Consult the exact language reference for all bounds.
+services. RILLBOOT accepts the subset used to implement that compiler.
+Consult each compiler's own reference for accepted syntax and bounds.
 '''
  (W/'README.TXT').write_bytes(text.replace('\n','\r\n').encode('ascii'))
  for name in files:

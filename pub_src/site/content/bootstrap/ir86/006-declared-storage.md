@@ -1,14 +1,14 @@
 +++
 title = "06 \u00b7 Declared storage"
 weight = 6
-description = "Give named byte and word storage fixed sizes and materialize larger buffers with RESB."
+description = "Declare initialized words with WORD and byte extents with BUFFER; emit larger storage with RESB."
 download = "IR06.ASM"
 download_group = "tools/ir86"
 reader_names = 1
 aliases = ["/bootstrap/ir86/042-iw-declared-storage/", "/bootstrap/ir86/06-substituting-a-name/"]
 +++
 
-Give named byte and word storage fixed sizes and materialize larger buffers with RESB.
+Declare initialized words with WORD and byte extents with BUFFER; emit larger storage with RESB.
 
 ## Enter the source
 

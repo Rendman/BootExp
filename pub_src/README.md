@@ -2,7 +2,22 @@
 
 Reader hierarchy: BOOTASM -> ASM0 -> ASM1 -> ASM86 -> IR86 -> RILL0 -> RILLBOOT -> RILL, followed by the toolchain in RILL. Site source is site/, generated HTML is ../public/, period source is workbench/, manuscript arrangement is tools/, and verification is qa/. Internal asm86/asma0/asm86a and rill/rb/rc paths retain the established production keys; tools/publication_names.py maps reader names and downloads.
 
-Every executable comes from published BASIC or project assemblers/translators/compilers. Source arrangement scripts select authored text and backend templates; they never parse a bootstrap language or encode machine instructions. Archives contain ASCII/CRLF/8.3 source, fixtures and inspection helpers, without executables or historical interpreters.
+Every bootstrap executable comes from published BASIC or project assemblers/translators/compilers. Source arrangement scripts select authored text and backend templates; they never parse a bootstrap language or encode machine instructions. Archives contain ASCII/CRLF/8.3 source, fixtures and inspection helpers, without executables or historical interpreters.
+
+
+| Internal source directory | Reader tool | Complete reader source |
+|---|---|---|
+| `workbench/bootasm` | BOOTASM | `BOOTASM.BAS` |
+| `workbench/asm86` | ASM0 | `ASM0.ASM` (internal `ASM86.ASM`) |
+| `workbench/asma0`, `workbench/asm86a` | ASM1 seed | `ASM1.ASM` (internal `ASMA0.ASM`, A12) |
+| `workbench/asm86a` | Native ASM86 | `ASM86.ASM` (internal `ASM86A.ASM`, A40) |
+| `workbench/ir86` | Native IR86 | `IR86.ASM`, identical to `IRWIDE.ASM` and IR23 |
+| `workbench/rill` | RILL0 | `RILL0.IR` (internal `RILL.IR`, R39) |
+| `workbench/toolchain`, `workbench/rb` | RILLBOOT | `RILLBOOT.IR`, identical to RB12 |
+| `workbench/toolchain`, `workbench/rc` | RILL compiler | `RILL.RIL`, identical to RC44 |
+| `workbench/toolchain` | RILL-written tools | `IR86.RIL`, `ASM86.RIL` (internal `ASM86A.RIL`) |
+
+Canonical reader downloads live under `site/static/downloads/tools/<tool>/`. Legacy download directories retain their internal names. The RILL0 archive is `RILL0.ZIP`; the final compiler archive is `RILL.ZIP`. Generation-zero `workbench/toolchain/RILL0.IR` is generated IR for the full RILL compiler, distinct from the initial compiler's authored `workbench/rill/RILL.IR`.
 
 ## Continuing source constructions
 
@@ -10,7 +25,7 @@ Every executable comes from published BASIC or project assemblers/translators/co
 - build_asm86a_series.py arranges twelve ASM1 and twenty-four ASM86 checkpoints. The omitted unary, signed arithmetic, rotate, repeat/string and branch-alias rows are not needed by successor sources. Keep the broader addressing, explicit long conditional expansion, data expressions, bounds and recovery that the runtime needs.
 - build_ir86.py arranges one native construction, IR01..IR23. The working text translator grows into the frame/string/workspace translator. IR86.ASM and IRWIDE.ASM are identical; IW source names remain internal aliases, not a second article sequence.
 - compiler_profiles.py selects shared authored routines from rill_bootstrap.ir. build_compiler_ladder.py arranges R01..R39 and then RB01..RB12. RILL0 and RILLBOOT retain the same scanner, symbol layout, emitter and parser. Every RB stage is a complete extension of the previous compiler. The seed omits syntax and wrappers absent from the RILL compiler construction.
-- build_rill_self_series.py arranges RC01..RC43 from rill_self.ril. prepare_toolchain_sources.py arranges the authored RILL compiler/translator/assembler sources and backend text tables. RILLBOOT builds RILL; that compiler builds the two ports. Two closed-loop generations reproduce each tool exactly.
+- build_rill_self_series.py arranges RC01..RC43 from rill_self.ril. prepare_toolchain_sources.py arranges the authored RILL compiler/translator/assembler sources and backend text tables. RILLBOOT builds RILL; that compiler builds the two ports. After the RC43 self-builds, rill_local_capacity.py supplies four authored edits for RC44: 64 local slots, 80 active name records, and a 23680-byte table. RC44 compiles itself with the larger frames before establishing the final comparison baseline. Two closed-loop generations reproduce each tool exactly.
 
 Source generation clears measured facts. Run the relevant native checks before article generation. write_ladder_articles.py publishes the continuing IR/RILL0/RILLBOOT series, write_toolchain_articles.py publishes RC, write_rc_programs.py publishes final compiler examples/reference, and write_toolchain_guides.py publishes self-builds, exact port notebooks and rebuild instructions. Earlier article URLs redirect to the current working part. package_sources.py refreshes all nine archives; it does not generate executables or rewrite articles.
 
@@ -27,6 +42,7 @@ python3 pub_src/qa/toolchain/common.py
 python3 pub_src/qa/toolchain/test_ir_extensions.py
 python3 pub_src/qa/toolchain/test_compiler_ladder.py
 python3 pub_src/qa/toolchain/self_compiler.py
+python3 pub_src/qa/toolchain/test_local_capacity.py
 python3 pub_src/qa/toolchain/build_ports.py
 python3 pub_src/qa/toolchain/rebuild.py
 python3 pub_src/qa/toolchain/test_rill_self_series.py

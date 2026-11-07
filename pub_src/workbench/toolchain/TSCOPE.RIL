@@ -1,0 +1,27 @@
+let mut result=0;
+fn reuse(){
+{
+let mut v0=0;let mut v1=1;let mut v2=2;let mut v3=3;let mut v4=4;let mut v5=5;let mut v6=6;let mut v7=7;
+let mut v8=8;let mut v9=9;let mut v10=10;let mut v11=11;let mut v12=12;let mut v13=13;let mut v14=14;let mut v15=15;
+let mut v16=16;let mut v17=17;let mut v18=18;let mut v19=19;let mut v20=20;let mut v21=21;let mut v22=22;let mut v23=23;
+let mut v24=24;let mut v25=25;let mut v26=26;let mut v27=27;let mut v28=28;let mut v29=29;let mut v30=30;let mut v31=31;
+let mut v32=32;let mut v33=33;let mut v34=34;let mut v35=35;let mut v36=36;let mut v37=37;let mut v38=38;let mut v39=39;
+let mut v40=40;let mut v41=41;let mut v42=42;let mut v43=43;let mut v44=44;let mut v45=45;let mut v46=46;let mut v47=47;
+let mut v48=48;let mut v49=49;let mut v50=50;let mut v51=51;let mut v52=52;let mut v53=53;let mut v54=54;let mut v55=55;
+let mut v56=56;let mut v57=57;let mut v58=58;let mut v59=59;let mut v60=60;let mut v61=61;let mut v62=62;let mut v63=63;
+v63=17;result=result+v63;
+}
+{
+let mut v0=0;let mut v1=1;let mut v2=2;let mut v3=3;let mut v4=4;let mut v5=5;let mut v6=6;let mut v7=7;
+let mut v8=8;let mut v9=9;let mut v10=10;let mut v11=11;let mut v12=12;let mut v13=13;let mut v14=14;let mut v15=15;
+let mut v16=16;let mut v17=17;let mut v18=18;let mut v19=19;let mut v20=20;let mut v21=21;let mut v22=22;let mut v23=23;
+let mut v24=24;let mut v25=25;let mut v26=26;let mut v27=27;let mut v28=28;let mut v29=29;let mut v30=30;let mut v31=31;
+let mut v32=32;let mut v33=33;let mut v34=34;let mut v35=35;let mut v36=36;let mut v37=37;let mut v38=38;let mut v39=39;
+let mut v40=40;let mut v41=41;let mut v42=42;let mut v43=43;let mut v44=44;let mut v45=45;let mut v46=46;let mut v47=47;
+let mut v48=48;let mut v49=49;let mut v50=50;let mut v51=51;let mut v52=52;let mut v53=53;let mut v54=54;let mut v55=55;
+let mut v56=56;let mut v57=57;let mut v58=58;let mut v59=59;let mut v60=60;let mut v61=61;let mut v62=62;let mut v63=63;
+v63=29;result=result+v63;
+}
+return 0;
+}
+fn main(){let mut v63=7;{let mut v63=9;if v63!=9{return 1;}}reuse();return (result!=46)|(v63!=7);}

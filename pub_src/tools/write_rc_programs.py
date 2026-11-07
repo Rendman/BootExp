@@ -6,13 +6,13 @@ ROOT=Path(__file__).resolve().parents[1]
 def fence(k,s):return '```'+k+'\n'+s.rstrip('\n')+'\n```\n\n'
 t='''+++
 title = "Complete RC programs"
-weight = 46
+weight = 47
 description = "Recursion, checked allocated storage, and counted files through the RILL-written compiler."
 download = "RC.ZIP"
 download_group = "rc"
 +++
 
-Use R0.COM, the completed RC compiler built by RILLBOOT. Keep IWKEEP and ASMAKEEP as the translator and assembler. These programs use the same language accepted by the RB seed; their IR and executable bytes must agree through both compilers.
+Use R0.COM, the completed RC44 compiler after its self-build comparisons. Keep IWKEEP and ASMAKEEP as the translator and assembler. These three programs stay within the subset accepted by the RB seed. Both compilers produce the required program behavior. RILL reserves sixty-four local slots per function while RILLBOOT reserves sixteen, so their generated frames and executable bytes differ.
 
 '''
 for c in json.loads((ROOT/'qa/compiler_collections/rc-examples.json').read_text()):
@@ -28,5 +28,5 @@ write_page((ROOT/'site/content/bootstrap/rc/048-programs.md'),t)
 
 # The seed accepts a proper subset; the final compiler has its own reference.
 reference=(ROOT/'tools/rill_reference.md').read_text()
-header='+++\ntitle = "The RILL language reference"\nweight = 44\ndescription = "The language used to write and rebuild the compiler, IR86, and ASM86."\ndownload = "RILL.RIL"\ndownload_group = "tools/rill"\nreader_names = 1\n+++\n\nRILLBOOT builds the first RILL compiler from RILL.RIL. R0 and its next two compiler generations reproduce it. RILL adds the word operators and pointer wrappers used by the later tools.\n\n'
+header='+++\ntitle = "The RILL language reference"\nweight = 44\ndescription = "The language used to write and rebuild the compiler, IR86, and ASM86."\ndownload = "RILL.RIL"\ndownload_group = "tools/rill"\nreader_names = 1\n+++\n\nRILLBOOT builds the first RILL compiler from RC43.RIL. After its self-build comparisons, RC44 extends the local capacity. RILL.RIL is that completed RC44 source; R0 and its next two compiler generations reproduce it. RILL adds the word operators and pointer wrappers used by the later tools.\n\n'
 write_page(ROOT/'site/content/bootstrap/rc/044-reference.md',header+reference)

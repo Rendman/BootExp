@@ -8,7 +8,7 @@ reader_names = 1
 aliases = ["/bootstrap/rill/08-opening-and-closing-the-source/"]
 +++
 
-Keep the token kind, numeric value, and complete spelling separate. Fold identifiers while preserving source text. Reject decimal overflow before a word wraps.
+Skip whitespace and line comments, and recognize punctuation and paired operators. Identifier, number, and string paths still reject input in this checkpoint.
 
 ## Enter the source
 

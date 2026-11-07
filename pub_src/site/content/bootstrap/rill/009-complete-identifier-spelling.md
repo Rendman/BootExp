@@ -8,7 +8,7 @@ reader_names = 1
 aliases = ["/bootstrap/rill/09-a-bounded-byte-reader/"]
 +++
 
-Keep the token kind, numeric value, and complete spelling separate. Fold identifiers while preserving source text. Reject decimal overflow before a word wraps.
+Copy each complete identifier into IDENT, fold its letters to uppercase, and enforce the 24-character bound. Punctuation remains available; numeric and quoted tokens still reject input.
 
 ## Enter the source
 

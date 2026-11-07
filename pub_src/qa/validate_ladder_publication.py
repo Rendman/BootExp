@@ -36,9 +36,9 @@ def check():
  assert (ROOT/'workbench/rill/RILLBOOT.IR').read_text().splitlines()==previous['rill-seed-series']
  # The RILL-written compiler still has its own exact construction.
  old=[];selfpatches=json.loads((Q/'article-patches.json').read_text())
- assert len(selfpatches)==len(json.loads((Q/'rill-self-series.json').read_text()))==43
+ assert len(selfpatches)==len(json.loads((Q/'rill-self-series.json').read_text()))+1==44
  for s in selfpatches:
-  assert s['family']=='rill-self-series'
+  assert s['family']==('rill-local-extension' if s['number']==44 else 'rill-self-series')
   text=(C/'rc'/s['page']).read_text()
   sections=re.split(r'### Edit \d+\n\n',text)[1:]
   if s['base']:assert len(sections)==len(s['changes'])
@@ -52,6 +52,18 @@ def check():
    else:assert '\n'.join(e['new']) in text
    old[a:b]=e['new']
   assert old==(ROOT/'workbench/toolchain'/s['source']).read_text().splitlines()
+ assert old==(ROOT/'workbench/toolchain/RILL.RIL').read_text().splitlines()
+ # Reconstruct the local-capacity exercises from their printed instructions.
+ extension=(C/'rc/134-more-local-storage.md').read_text()
+ blocks=re.findall(r'```rill\n(.*?)\n```',extension,re.S)
+ local=next(b for b in blocks if b.startswith('fn check('))+'\n'
+ work=ROOT/'workbench/toolchain'
+ assert local==(work/'TLOCAL.RIL').read_text()
+ assert local.replace('return (a0!=0)','let mut extra=0;\nreturn (a0!=0)')==(work/'XLOCAL.RIL').read_text()
+ rows='\n'.join(local.splitlines()[1:9])
+ skeleton=next(b for b in blocks if b.startswith('let mut result=0;'))
+ scope=re.sub(r'// Copy (?:the|the same) eight declaration lines here\.',lambda _:rows,skeleton)
+ assert re.sub(r'\s+','',scope)==re.sub(r'\s+','',(work/'TSCOPE.RIL').read_text())
  # Both later port notebooks reproduce their exact authored source by routine.
  for name,page in [('IR86','01-ir86-in-rill.md'),('ASM86A','02-asm86-in-rill.md')]:
   text=(C/'toolchain'/page).read_text();part=text.split('## Complete source, by routine\n\n')[1].split('## Complete build\n\n')[0]

@@ -1,7 +1,8 @@
 THE BOOTSTRAP PROJECT - ASMA0
 A practical course in small-system software
 
-The ladder: BOOTASM -> ASM86 -> ASMA0 -> ASM86A -> IR86 -> RILL.
+The ladder: BOOTASM -> ASM86 -> ASMA0 -> ASM86A -> IR86 -> RILL0
+-> RILLBOOT -> RILL.
 ASMA0 is the streaming seed collection, built directly by ASM86.
 Read its workbench, construction articles, reference, and programs.
 

@@ -1,3 +1,4 @@
+PASS DOS 3.10 RC43 self-build before the 64-local extension
 PASS DOS 3.10 RILL generation 0: compiler, translator, assembler, and exact executable
 PASS DOS 3.10 RILL generation 1: compiler, translator, assembler, and exact executable
 PASS DOS 3.10 RILL generation 2: compiler, translator, assembler, and exact executable

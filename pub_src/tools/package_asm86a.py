@@ -4,10 +4,14 @@ import json,shutil,zipfile
 ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/asm86a';D=ROOT/'site/static/downloads/asm86a';D.mkdir(parents=True,exist_ok=True)
 for name in ['BOOTASM.BAS','VIEW.BAS','CHECK.BAT']:shutil.copyfile(ROOT/'workbench/bootasm'/name,W/name)
 shutil.copyfile(ROOT/'workbench/asm86/ASM86.ASM',W/'ASM86.ASM')
-readme='''THE BOOTSTRAP PROJECT - ASM86A
+facts=json.loads((ROOT/'qa/asm86a/checkpoints.json').read_text())
+seed_bytes=next(c['binary_bytes'] for c in facts if c['number']==12)
+native_bytes=next(c['binary_bytes'] for c in facts if c['number']==40)
+readme=f'''THE BOOTSTRAP PROJECT - ASM86A
 A practical course in small-system software
 
-The bootstrap ladder: BOOTASM -> ASM86 -> ASMA0 -> ASM86A -> IR86 -> RILL.
+The bootstrap ladder: BOOTASM -> ASM86 -> ASMA0 -> ASM86A -> IR86
+-> RILL0 -> RILLBOOT -> RILL.
 Begin with the separate completed ASMA0 collection and its self-builds.
 Read the workbench, then the construction articles in order.
 
@@ -25,12 +29,12 @@ LONGSRC.BAS and SYMS.BAS: BASIC generators of source text only.
 Use your own DOS 3.10 and period GW-BASIC interpreter. Note its banner.
 Build ASM86 with BOOTASM.BAS; preserve it as ASMKEEP.COM.
 The ASMA0 collection uses ASMKEEP to build A01 through A12.
-The completed seed is 3302 bytes, with two matching self-builds.
-Keep the tested ASMA0.COM to build A13 through A40.
+The completed seed is {seed_bytes} bytes, with two matching self-builds.
+Keep the tested ASMA0.COM to build A13-A33, A36, A37 and A40.
 
 For a fixed-file build: COPY A13.ASM SOURCE.ASM; CHECK ASMA0.
 Require OK and PASS, then COPY RESULT.COM A13.COM before testing.
-The complete ASM86A is 5995 bytes; preserve it as ASMAKEEP.COM.
+The complete ASM86A is {native_bytes} bytes; preserve it as ASMAKEEP.COM.
 It has no filename prompt. ASMKEEP remains the original ASM86.
 SOURCE.ASM is reopened for two passes and must remain unchanged.
 RESULT.COM is the published output; ASMA.TMP and RESULT.BAK are

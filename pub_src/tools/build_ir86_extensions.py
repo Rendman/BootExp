@@ -17,7 +17,7 @@ specs=[
 ('Publishing streamed assembly text','Copy a byte stream through a checked output block and recoverable publication.','ABC\r\n','',copy),
 ('An operation record','Look up the complete mnemonic and inspect its argument-class field.','LIT\n','LIT HALT',lookup),
 ('The first text translator','Expand names and literal operands into a complete native assembly file.','LABEL MAIN\nLIT 0\nHALT\n','LABEL LIT HALT NOP EXIT',None),
-('Declared storage','Give named byte and word storage fixed sizes and materialize larger buffers with RESB.','WORD X 0\nBYTE Y 65\nBUFFER B 300\nLABEL MAIN\nHALT\n','WORD BYTE BUFFER',None),
+('Declared storage','Declare initialized words with WORD and byte extents with BUFFER; emit larger storage with RESB.','WORD X 0\nBYTE Y 65\nBUFFER B 300\nLABEL MAIN\nHALT\n','WORD BYTE BUFFER',None),
 ('Addresses and indirect storage','Keep byte addresses and canonical word loads independent of physical registers.','WORD X 65\nLABEL MAIN\nADDR X\nFETCHB\nEXIT\n','LD ST LDB STB ADDR FETCH FETCHB',None),
 ('Saved expression operands','Check push/pop depth and apply word arithmetic before a control boundary.','LABEL MAIN\nLIT 7\nPUSH\nLIT 7\nSUB\nEXIT\n','PUSH POP ADD SUB AND OR XOR PUT PUTB',None),
 ('Conditions without extra skip definitions','Use fixed native conditional bridges while keeping branch semantics in the virtual machine.','LABEL MAIN\nLIT 7\nPUSH\nLIT 7\nEQ GOOD\nLIT 1\nEXIT\nLABEL GOOD\nHALT\n','JMP JZ JNZ EQ NE ULT ULE UGT UGE SLT SLE SGT SGE',None),

@@ -23,4 +23,4 @@ The work proceeds in four installments:
 
 Read the workbench first. The complete source notebooks group each tool by its declarations and procedures. Keep the native builders separately named while building and checking their RILL replacements.
 
-The [disk source collection](../../downloads/tools/toolchain/TOOLCHN.ZIP) includes RILL.RIL, IR86.RIL, ASM86.RIL, TMAKE.BAT, the native prerequisites, inspection helpers, and all earlier continuation checkpoints and fixtures. It contains source only. The language and target contracts remain those established by the completed RILL, native IR86, and ASM86 collections.
+The [disk source collection](../../downloads/tools/toolchain/TOOLCHN.ZIP) includes RILL.RIL, IR86.RIL, ASM86.RIL, TMAKE.BAT, the native prerequisites, inspection helpers, and the native IR, RILLBOOT, and RILL compiler continuation checkpoints and fixtures. The separate RILL0 source collection supplies R01 through R39. It contains source only. The language and target contracts remain those established by the completed RILL, native IR86, and ASM86 collections.

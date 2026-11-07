@@ -7,7 +7,7 @@ download_group = "tools/rill0"
 reader_names = 1
 +++
 
-Compile a numeric value, parenthesized expression, local binding, or accepted builtin call. Keep the binding metadata in local slots across nested parsing.
+Resolve a local binding or builtin name and save its metadata before scanning further. Numeric and parenthesized primaries remain available. Argument parsing still reaches the rejecting CALLARGS stub in this checkpoint.
 
 ## Enter the source
 

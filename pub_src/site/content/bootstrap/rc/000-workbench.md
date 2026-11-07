@@ -7,11 +7,11 @@ download_group = "tools/rill"
 reader_names = 1
 +++
 
-Complete the RILLBOOT collection first, including its language programs. Preserve RB47.COM as RILLBOOT.COM and RB47.IR as RILLBOOT.IR. Keep IWKEEP.COM as the native streaming IR translator and ASMAKEEP.COM as the native ASM86. Use the same DOS 3.10, period BASIC, CHECK.BAT, and VIEW.BAS workbench.
+Complete the RILLBOOT collection first, including each complete-compiler acceptance program. Preserve RB12.COM as RILLBOOT.COM and RB12.IR as RILLBOOT.IR. Keep IWKEEP.COM as the native streaming IR translator and ASMAKEEP.COM as the native ASM86. Use the same DOS 3.10, period BASIC, CHECK.BAT, and VIEW.BAS workbench.
 
 ## Start the RILL implementation
 
-RC01.RIL starts a new source file in RILL; it is not an edit to RB47.IR. The procedures retain the seed implementation's jobs while expressing them in the language the seed accepts. Later articles copy the preceding RILL source and apply exact edits from the bottom upward. Keep the saved RCxx filenames as printed.
+RC01.RIL starts a new source file in RILL; it is not an edit to RB12.IR. The procedures retain the seed implementation's jobs while expressing them in the language the seed accepts. Later articles copy the preceding RILL source and apply exact edits from the bottom upward. Keep the saved RCxx filenames as printed.
 
 ```dos
 COPY RC01.RIL SOURCE.RIL
@@ -39,6 +39,6 @@ The complete compiler streams 4096-byte blocks. Symbol storage uses an opaque al
 
 ## Preserve the self-build handoff
 
-After RC43 passes, copy RC43.RIL to RILL.RIL and RC43.COM to R0.COM. The seed-built compiler is 26617 bytes. The self-build exercise uses R0, then R1, to compile the same source through the preserved native translator and assembler. Both resulting executables must match R0.
+After RC43 passes, preserve RC43.RIL unchanged and copy RC43.COM to R0.COM. The seed-built compiler is 26617 bytes. The self-build exercise uses R0, then R1, to compile the same source through the preserved native translator and assembler. Both resulting executables must match R0.
 
-Continue with [Rebuilding Our Tools in RILL](../../toolchain/index.html) after both compiler comparisons match. Its workbench uses R0 to construct IR86.RIL and ASM86.RIL, then lets the RILL-written trio rebuild all three tools through two matching generations. Keep RILLBOOT, IWKEEP, and ASMAKEEP as reproducible predecessors.
+After both compiler comparisons match, complete [More Local Storage](../134-more-local-storage/index.html). It extends RILL to sixty-four live locals while retaining sixteen parameters. Save RC44.RIL as RILL.RIL and establish matching R0/R1/R2 copies as described there. Then continue with [Rebuilding Our Tools in RILL](../../toolchain/index.html). Its workbench uses R0 to construct IR86.RIL and ASM86.RIL, then lets the RILL-written trio rebuild all three tools through two matching generations. Keep RILLBOOT, IWKEEP, and ASMAKEEP as reproducible predecessors.

@@ -3185,5 +3185,92 @@
       }
     ],
     "source": "RC43.RIL"
+  },
+  {
+    "family": "rill-local-extension",
+    "number": 44,
+    "collection": "rc",
+    "page": "134-more-local-storage.md",
+    "base": "RC43.RIL",
+    "kind": "rill",
+    "changes": [
+      {
+        "a1": 330,
+        "a2": 331,
+        "old": [
+          "    if nextlocal >= 16 { fail(5); }"
+        ],
+        "new": [
+          "    if nextlocal >= 64 { fail(5); }"
+        ],
+        "context": [
+          "    lex(); if !isword(\"MUT\") { fail(2); } lex(); if tok != 1 { fail(2); }",
+          "    let mut old = find(20480,localcount);",
+          "    if old != 65535 { if reclevel == level { fail(4); } }"
+        ],
+        "after": [
+          "    let mut slot = nextlocal;",
+          "    recval = slot; reclevel = level; let mut p = newlocal(8); nextlocal = nextlocal+1;"
+        ]
+      },
+      {
+        "a1": 315,
+        "a2": 316,
+        "old": [
+          "    outstr(\"PROC F_\"); outname(p); outchar(32); outnum(argc); outstr(\" 16\\r\\n\");"
+        ],
+        "new": [
+          "    outstr(\"PROC F_\"); outname(p); outchar(32); outnum(argc); outstr(\" 64\\r\\n\");"
+        ],
+        "context": [
+          "    }",
+          "    if oldargs != 65535 { if oldargs != argc { fail(4); } }",
+          "    set16(table,p+34,argc);"
+        ],
+        "after": [
+          "    lex(); block(); outstr(\"LIT 0\\r\\nRETURN\\r\\n\"); return 0;",
+          "}"
+        ]
+      },
+      {
+        "a1": 229,
+        "a2": 230,
+        "old": [
+          "    if localcount >= 32 { fail(5); }"
+        ],
+        "new": [
+          "    if localcount >= 80 { fail(5); }"
+        ],
+        "context": [
+          "    return record(p);",
+          "}",
+          "fn newlocal(kind) {"
+        ],
+        "after": [
+          "    rectype = kind;",
+          "    let mut p = 20480+localcount*40; localcount = localcount+1;"
+        ]
+      },
+      {
+        "a1": 41,
+        "a2": 42,
+        "old": [
+          "    table = alloc(22000);"
+        ],
+        "new": [
+          "    table = alloc(23680);"
+        ],
+        "context": [
+          "    output = create(\"RILL.TMP\");",
+          "    if status() != 0 { fail(1); }",
+          "    own = 1;"
+        ],
+        "after": [
+          "    if status() != 0 { fail(5); }",
+          "    next(); lex();"
+        ]
+      }
+    ],
+    "source": "RC44.RIL"
   }
 ]

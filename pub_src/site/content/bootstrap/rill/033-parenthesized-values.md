@@ -7,7 +7,7 @@ download_group = "tools/rill0"
 reader_names = 1
 +++
 
-Compile a numeric value, parenthesized expression, local binding, or accepted builtin call. Keep the binding metadata in local slots across nested parsing.
+Compile numeric literals and parenthesized expressions through the existing EXPR routine. Name and call paths are still rejected.
 
 ## Enter the source
 

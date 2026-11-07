@@ -11,17 +11,19 @@ for c in json.loads((ROOT/'qa/toolchain/examples.json').read_text()):
   text=r.files['RESULT.IR'];assembly,image=ir(text);n=run(image,files={k:v.encode() for k,v in c.get('files',{}).items()})
   assert n.exitcode==0 and n.output==c['output'].encode(),(name,c['name'],n.output)
   if c.get('result_file'):assert n.files[c['result_file']]==c['files']['IN.TXT'].encode()
-  bad=run((W/(name+'.COM')).read_bytes(),c['bad'],'RIL',{'RESULT.IR':text})
+  bad=run((W/(name+'.COM')).read_bytes(),c['bad'].replace('\r\n','\n').rstrip('\n').replace('\n','\r\n')+'\r\n','RIL',{'RESULT.IR':text})
   assert bad.exitcode==1 and bad.output.decode().strip()==c['error'] and bad.files['RESULT.IR']==text
   outputs.append((text,assembly,image))
- assert all(o==outputs[0] for o in outputs),c['name']
  text,assembly,image=outputs[-1]
  assert (len(text),len(assembly),len(image))==(c['ir_bytes'],c['assembly_bytes'],c['binary_bytes']),c['name']
  if c['name'] in ['ERECUR','EHEAP','ECOPY']:records.append(c)
- logs.append('PASS '+c['name']+': RB/RC identical IR, assembly and executable; exact runtime/file output, rejection and preservation')
-source=(W/'RILL.RIL').read_bytes();compiled=run((W/'RILLBOOT.COM').read_bytes(),source,'RIL');assert compiled.exitcode==0
-_,image=ir(compiled.files['RESULT.IR']);assert image==(W/'RILL.COM').read_bytes()
-for _ in range(2):
- r=run(image,source,'RIL');assert r.exitcode==0;_,again=ir(r.files['RESULT.IR']);assert again==image;image=again
-logs.append('PASS RB-to-RC handoff: seed builds canonical RILL, two self-builds reproduce identical bytes')
+ logs.append('PASS '+c['name']+(': RILL-only language example' if len(outputs)==1 else ': RILLBOOT/RILL equivalent program behavior with their respective frame sizes')+'; exact runtime/file output, rejection and preservation')
+source=(W/'RILL.RIL').read_bytes();compiled=run((W/'RC43.COM').read_bytes(),source,'RIL');assert compiled.exitcode==0
+_,image=ir(compiled.files['RESULT.IR']);assert image==(W/'RC44BOOT.COM').read_bytes()
+for generation in range(3):
+ r=run(image,source,'RIL');assert r.exitcode==0;_,again=ir(r.files['RESULT.IR'])
+ if generation:assert again==image
+ image=again
+assert image==(W/'RILL.COM').read_bytes()
+logs.append('PASS RC43-to-RC44 handoff: first self-built compiler builds canonical RILL, two self-builds reproduce identical bytes')
 (Q/'rc-examples.json').write_text(json.dumps(records,indent=2)+'\n');(Q/'example-results.txt').write_text('\n'.join(logs)+'\n');print('\n'.join(logs))

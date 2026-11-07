@@ -5,7 +5,7 @@ description = "Walk zero-terminated text, preserving its pointer across a byte o
 download = "R01.IR"
 download_group = "tools/rill0"
 reader_names = 1
-aliases = ["/bootstrap/rill/001-a-terminated-text-pointer/"]
+aliases = ["/bootstrap/rill/001-a-terminated-text-pointer/", "/bootstrap/rill/01-a-program-in-the-intermediate-language/"]
 +++
 
 Walk zero-terminated text, preserving its pointer across a byte output call. This display routine remains part of the compiler diagnostics.

@@ -5,7 +5,7 @@ description = "Validate an opaque block and byte extent before reading or writin
 download = "IR23.ASM"
 download_group = "tools/ir86"
 reader_names = 1
-aliases = ["/bootstrap/ir86/036-streaming-workbench/", "/bootstrap/ir86/059-iw-checked-block-access/", "/bootstrap/ir86/060-the-streaming-ir-contract/", "/bootstrap/ir86/23-signed-comparisons/", "/bootstrap/ir86/24-calling-a-procedure/", "/bootstrap/ir86/25-preparing-dos-registers/", "/bootstrap/ir86/26-calling-dos-and-testing-carry/", "/bootstrap/ir86/27-reading-a-byte-or-end-of-input/", "/bootstrap/ir86/27-the-complete-pipeline/", "/bootstrap/ir86/28-opening-an-opaque-file-handle/", "/bootstrap/ir86/29-creating-an-output-file/", "/bootstrap/ir86/29-programs/", "/bootstrap/ir86/30-reading-into-a-byte-buffer/", "/bootstrap/ir86/31-writing-bytes-with-an-explicit-count/", "/bootstrap/ir86/32-closing-a-portable-handle/"]
+aliases = ["/bootstrap/ir86/036-streaming-workbench/", "/bootstrap/ir86/059-iw-checked-block-access/", "/bootstrap/ir86/23-signed-comparisons/", "/bootstrap/ir86/24-calling-a-procedure/", "/bootstrap/ir86/25-preparing-dos-registers/", "/bootstrap/ir86/26-calling-dos-and-testing-carry/", "/bootstrap/ir86/27-reading-a-byte-or-end-of-input/", "/bootstrap/ir86/27-the-complete-pipeline/", "/bootstrap/ir86/28-opening-an-opaque-file-handle/", "/bootstrap/ir86/29-creating-an-output-file/", "/bootstrap/ir86/29-programs/", "/bootstrap/ir86/30-reading-into-a-byte-buffer/", "/bootstrap/ir86/31-writing-bytes-with-an-explicit-count/", "/bootstrap/ir86/32-closing-a-portable-handle/"]
 +++
 
 Validate an opaque block and byte extent before reading or writing a word.

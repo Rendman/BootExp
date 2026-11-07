@@ -1,0 +1,21 @@
+fn check(a0,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15){
+let mut v0=0;let mut v1=1;let mut v2=2;let mut v3=3;let mut v4=4;let mut v5=5;let mut v6=6;let mut v7=7;
+let mut v8=8;let mut v9=9;let mut v10=10;let mut v11=11;let mut v12=12;let mut v13=13;let mut v14=14;let mut v15=15;
+let mut v16=16;let mut v17=17;let mut v18=18;let mut v19=19;let mut v20=20;let mut v21=21;let mut v22=22;let mut v23=23;
+let mut v24=24;let mut v25=25;let mut v26=26;let mut v27=27;let mut v28=28;let mut v29=29;let mut v30=30;let mut v31=31;
+let mut v32=32;let mut v33=33;let mut v34=34;let mut v35=35;let mut v36=36;let mut v37=37;let mut v38=38;let mut v39=39;
+let mut v40=40;let mut v41=41;let mut v42=42;let mut v43=43;let mut v44=44;let mut v45=45;let mut v46=46;let mut v47=47;
+let mut v48=48;let mut v49=49;let mut v50=50;let mut v51=51;let mut v52=52;let mut v53=53;let mut v54=54;let mut v55=55;
+let mut v56=56;let mut v57=57;let mut v58=58;let mut v59=59;let mut v60=60;let mut v61=61;let mut v62=62;let mut v63=63;
+if (v0!=0) | (v1!=1) | (v2!=2) | (v3!=3) | (v4!=4) | (v5!=5) | (v6!=6) | (v7!=7) {return 1;}
+if (v8!=8) | (v9!=9) | (v10!=10) | (v11!=11) | (v12!=12) | (v13!=13) | (v14!=14) | (v15!=15) {return 1;}
+if (v16!=16) | (v17!=17) | (v18!=18) | (v19!=19) | (v20!=20) | (v21!=21) | (v22!=22) | (v23!=23) {return 1;}
+if (v24!=24) | (v25!=25) | (v26!=26) | (v27!=27) | (v28!=28) | (v29!=29) | (v30!=30) | (v31!=31) {return 1;}
+if (v32!=32) | (v33!=33) | (v34!=34) | (v35!=35) | (v36!=36) | (v37!=37) | (v38!=38) | (v39!=39) {return 1;}
+if (v40!=40) | (v41!=41) | (v42!=42) | (v43!=43) | (v44!=44) | (v45!=45) | (v46!=46) | (v47!=47) {return 1;}
+if (v48!=48) | (v49!=49) | (v50!=50) | (v51!=51) | (v52!=52) | (v53!=53) | (v54!=54) | (v55!=55) {return 1;}
+if (v56!=56) | (v57!=57) | (v58!=58) | (v59!=59) | (v60!=60) | (v61!=61) | (v62!=62) | (v63!=63) {return 1;}
+let mut extra=0;
+return (a0!=0)|(a15!=15);
+}
+fn main(){return check(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);}

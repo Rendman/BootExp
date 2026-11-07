@@ -24,6 +24,18 @@ bridge=run(bridge.files['RESULT.COM']);assert bridge.exitcode==0 and bridge.outp
 r=run(irboot,(ROOT/'workbench/rill/RILLBOOT.IR').read_bytes());assert r.exitcode==0,r.output
 r=run(nativeasm,r.files['RESULT.ASM'],'ASM');assert r.exitcode==0,r.output
 rillboot=r.files['RESULT.COM'];images={}
+initial=(W/'RC43.RIL').read_bytes()
+for generation in range(2):
+ r=run(rillboot,initial,'RIL');assert r.exitcode==0,r.output
+ r=run(irboot,r.files['RESULT.IR']);assert r.exitcode==0,r.output
+ r=run(nativeasm,r.files['RESULT.ASM'],'ASM');assert r.exitcode==0,r.output
+ image=r.files['RESULT.COM']
+ if generation:assert image==rillboot,'RC43 self-build differs'
+ rillboot=image
+r=run(rillboot,(W/'RILL.RIL').read_bytes(),'RIL');assert r.exitcode==0,r.output
+r=run(irboot,r.files['RESULT.IR']);assert r.exitcode==0,r.output
+r=run(nativeasm,r.files['RESULT.ASM'],'ASM');assert r.exitcode==0,r.output
+rillboot=r.files['RESULT.COM']
 for name in ['RILL','IR86','ASM86A']:
  r=run(rillboot if name=='RILL' else images['RILL'],(W/(name+'.RIL')).read_bytes(),'RIL');assert r.exitcode==0,(name,r.output)
  r=run(irboot,r.files['RESULT.IR']);assert r.exitcode==0,(name,r.output)

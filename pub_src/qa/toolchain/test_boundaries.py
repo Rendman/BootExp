@@ -15,7 +15,7 @@ for trans in [native_ir,translator]:
   r=run(trans,source,files={'RESULT.ASM':b'OLD'});assert r.exitcode==1 and r.files['RESULT.ASM']==b'OLD',r.output
  logs.append('PASS native/RILL translator rejects leftover branch operands and word overflow')
 source=''.join(f'let mut g{i}=0;\n' for i in range(511))+'fn main(){return 0;}';accepted(source);rejected(source.replace('fn main','let mut extra=0;\nfn main'),5);logs.append('PASS exact 512 global/procedure records and overflow')
-source='fn main(){'+''.join(f'let mut v{i}={i};' for i in range(16))+'return v15;}';accepted(source);rejected(source.replace('return v15;','let mut extra=0;return v15;'),5);logs.append('PASS exact sixteen active locals and overflow')
+source='fn main(){'+''.join(f'let mut v{i}={i};' for i in range(64))+'return v63;}';accepted(source);rejected(source.replace('return v63;','let mut extra=0;return v63;'),5);logs.append('PASS exact sixty-four active locals and overflow')
 args=','.join('a'+str(i) for i in range(16));vals=','.join(str(i) for i in range(16));accepted(f'fn f({args}){{return a15;}}fn main(){{return f({vals});}}');rejected(f'fn f({args},extra){{return 0;}}fn main(){{return 0;}}',5);logs.append('PASS sixteen parameters and overflow')
 accepted('fn main(){let mut abcdefghijklmnopqrstuvwx=7;return abcdefghijklmnopqrstuvwx;}');rejected('fn main(){let mut abcdefghijklmnopqrstuvwxy=7;return 0;}',4);logs.append('PASS complete 24-character names and rejection of character 25')
 accepted('// comment\n'*65536+'fn main(){return 0;}');r=rejected('// comment\n'*65536+'bad',2);assert b'ERROR 0000065537' in r.output,r.output;logs.append('PASS streamed source beyond 65535 lines and full decimal error line')

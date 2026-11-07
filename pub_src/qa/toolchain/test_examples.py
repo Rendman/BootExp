@@ -9,7 +9,7 @@ for c in cases:
  native=run(image,files=given);p=Machine(given,data_base=0x4000,handle_base=137,block_base=707).run(text)
  assert native.exitcode==p.exitcode==0 and native.output==p.output==c['output'].encode(),(c['name'],native.output,native.exitcode,p.output)
  if c.get('result_file'):assert native.files[c['result_file']]==p.files[c['result_file']]==given['IN.TXT']
- bad=run((W/'RILL.COM').read_bytes(),c['bad'],'RIL',{'RESULT.IR':b'OLD'})
+ bad=run((W/'RILL.COM').read_bytes(),c['bad'].replace('\r\n','\n').rstrip('\n').replace('\n','\r\n')+'\r\n','RIL',{'RESULT.IR':b'OLD'})
  assert bad.exitcode==1 and bad.files['RESULT.IR']==b'OLD' and re.search(rb'CODE 0*'+str(c['code']).encode()+rb'\r\n',bad.output),(c['name'],bad.output)
  c.update(ir_bytes=len(text),assembly_bytes=len(a),binary_bytes=len(image),hex=image[:32].hex(' ').upper(),error=bad.output.decode().strip())
  logs.append('PASS '+c['name']+': complete source, native/portable output and files, exact rejection and preservation')

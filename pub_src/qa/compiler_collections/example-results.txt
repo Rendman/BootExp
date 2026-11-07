@@ -1,9 +1,9 @@
-PASS EWORDS: RB/RC identical IR, assembly and executable; exact runtime/file output, rejection and preservation
-PASS EARGS: RB/RC identical IR, assembly and executable; exact runtime/file output, rejection and preservation
-PASS ERECUR: RB/RC identical IR, assembly and executable; exact runtime/file output, rejection and preservation
-PASS ESCOPE: RB/RC identical IR, assembly and executable; exact runtime/file output, rejection and preservation
-PASS EBYTES: RB/RC identical IR, assembly and executable; exact runtime/file output, rejection and preservation
-PASS ESTRING: RB/RC identical IR, assembly and executable; exact runtime/file output, rejection and preservation
-PASS EHEAP: RB/RC identical IR, assembly and executable; exact runtime/file output, rejection and preservation
-PASS ECOPY: RB/RC identical IR, assembly and executable; exact runtime/file output, rejection and preservation
-PASS RB-to-RC handoff: seed builds canonical RILL, two self-builds reproduce identical bytes
+PASS EWORDS: RILL-only language example; exact runtime/file output, rejection and preservation
+PASS EARGS: RILLBOOT/RILL equivalent program behavior with their respective frame sizes; exact runtime/file output, rejection and preservation
+PASS ERECUR: RILLBOOT/RILL equivalent program behavior with their respective frame sizes; exact runtime/file output, rejection and preservation
+PASS ESCOPE: RILL-only language example; exact runtime/file output, rejection and preservation
+PASS EBYTES: RILLBOOT/RILL equivalent program behavior with their respective frame sizes; exact runtime/file output, rejection and preservation
+PASS ESTRING: RILLBOOT/RILL equivalent program behavior with their respective frame sizes; exact runtime/file output, rejection and preservation
+PASS EHEAP: RILLBOOT/RILL equivalent program behavior with their respective frame sizes; exact runtime/file output, rejection and preservation
+PASS ECOPY: RILLBOOT/RILL equivalent program behavior with their respective frame sizes; exact runtime/file output, rejection and preservation
+PASS RC43-to-RC44 handoff: first self-built compiler builds canonical RILL, two self-builds reproduce identical bytes

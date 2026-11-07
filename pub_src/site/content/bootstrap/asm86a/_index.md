@@ -14,7 +14,7 @@ collection_key = "asm86a"
 
 The construction adds separately allocated symbol pages, exact-spelling bucket lookup, 8,192 symbols with names up to 31 characters, longer lines, and checked word-pair source counts. Expressions, quoted data, constants, zero-filled storage, legal 8086 memory-address combinations, frame-related instructions, and explicit conditional bridges receive their own stopping points.
 
-Twenty-eight construction installments use the saved filenames A13.ASM through A40.ASM. The first starts from a copy of ASM1.ASM; the existing seed routines are retained. A complete ladder exercise, a language and memory reference, and four complete programs close the collection.
+Twenty-four construction installments use A13–A33, A36, A37, and A40 as their saved source filenames. The first starts from a copy of ASM1.ASM; the existing seed routines are retained. A complete ladder exercise, a language and memory reference, and four complete programs close the collection.
 
 Read the workbench first and preserve ASM1.COM as the preceding builder. Preserve the completed ASM86.COM separately as ASMAKEEP.COM. The fixed files remain SOURCE.ASM and RESULT.COM; the processor remains the 8086/8088 and output remains DOS `.COM`.
 

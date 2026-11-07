@@ -1,3 +1,7 @@
-PASS RILL generation 0: 49992 IR bytes, 26617 native bytes
-PASS RILL generation 1: 49992 IR bytes, 26617 native bytes
-PASS RILL generation 2: 49992 IR bytes, 26617 native bytes
+PASS RC43 generation 0: 26617 identical native bytes
+PASS RC43 generation 1: 26617 identical native bytes
+PASS RC43 generation 2: 26617 identical native bytes
+PASS RC44 predecessor build: 49992 IR bytes, 26617 native bytes
+PASS RC44 generation 0: 49992 IR bytes, 26617 native bytes
+PASS RC44 generation 1: 49992 IR bytes, 26617 native bytes; identical to previous generation
+PASS RC44 generation 2: 49992 IR bytes, 26617 native bytes; identical to previous generation

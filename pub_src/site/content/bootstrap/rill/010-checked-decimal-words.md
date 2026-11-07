@@ -8,7 +8,7 @@ reader_names = 1
 aliases = ["/bootstrap/rill/10-punctuation-and-comments/"]
 +++
 
-Keep the token kind, numeric value, and complete spelling separate. Fold identifiers while preserving source text. Reject decimal overflow before a word wraps.
+Accumulate decimal VALUE only after checking that the next digit fits a word. TOK identifies a number; CH retains the first following character. Names and punctuation keep their earlier behavior; strings are still rejected.
 
 ## Enter the source
 

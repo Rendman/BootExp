@@ -1,13 +1,13 @@
 +++
 title = "Complete RILL programs"
-weight = 46
+weight = 47
 description = "Recursion, checked allocated storage, and counted files through the RILL-written compiler."
 download = "RILL.ZIP"
 download_group = "tools/rill"
 reader_names = 1
 +++
 
-Use R0.COM, the completed RILL compiler built by RILLBOOT. Keep IWKEEP and ASMAKEEP as the translator and assembler. These programs use the same language accepted by the RILLBOOT seed; their IR and executable bytes must agree through both compilers.
+Use R0.COM, the completed RC44 compiler after its self-build comparisons. Keep IWKEEP and ASMAKEEP as the translator and assembler. These three programs stay within the subset accepted by the RILLBOOT seed. Both compilers produce the required program behavior. RILL reserves sixty-four local slots per function while RILLBOOT reserves sixteen, so their generated frames and executable bytes differ.
 
 ## Recursive procedures
 
@@ -58,7 +58,7 @@ COPY BAD.RIL SOURCE.RIL
 CHECK R0
 ```
 
-Require `ERROR 0000000001 CODE 00004` and FAIL. The accepted RESULT.IR must remain unchanged. An unexpected PASS fails the check. Restore the accepted source before building again.
+Require `ERROR 0000000002 CODE 00004` and FAIL. The accepted RESULT.IR must remain unchanged. An unexpected PASS fails the check. Restore the accepted source before building again.
 
 ## Opaque memory blocks
 

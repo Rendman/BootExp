@@ -1,5 +1,5 @@
 +++
-title = "30 \u00b7 ASM86 reference"
+title = "26 \u00b7 ASM86 reference"
 weight = 26
 description = "The accepted language, fixed encodings, storage layout, and failure contract."
 download = "ASM86.ASM"
@@ -114,7 +114,7 @@ There is no generated skip-label definition and no extra symbol-table record. Si
 
 The image occupies offsets 0100H through EFFFH at most. F000H is a valid end label, but no additional byte may be emitted there. F000H–FFFFH is reserved for the generated program's stack. This is a chosen COM execution profile; allocated assembler workspace does not enlarge a target's code segment. Empty output is valid for inspection only.
 
-ASM1 retains the old instruction grammar plus ordinary-word/segment MOV excluding CS destination and ES overrides on the old MOV memory forms. It has no quoted data, EQU, RESB/RESW, new expressions, general addressing, or NEAR conditional qualifier. Its own source fits unchanged ASM0's 256-definition, 4000-line, 120-character, 8192-byte limits. The full ASM86 source uses only ASM1's language. New accepted source forms are not prerequisites for building their implementation.
+ASM1 adds XOR, ordinary-word/segment MOV excluding CS destination, and ES overrides on the old MOV memory forms. It has no quoted data, EQU, RESB/RESW, new expressions, general addressing, or NEAR conditional qualifier. Its own source fits unchanged ASM0's 256-definition, 4000-line, 120-character, 8192-byte limits. The full ASM86 source uses only ASM1's language. New accepted source forms are not prerequisites for building their implementation.
 
 | Main-segment offsets | ASM86 use |
 |---|---|

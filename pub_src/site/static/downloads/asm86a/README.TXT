@@ -1,7 +1,8 @@
 THE BOOTSTRAP PROJECT - ASM86A
 A practical course in small-system software
 
-The bootstrap ladder: BOOTASM -> ASM86 -> ASMA0 -> ASM86A -> IR86 -> RILL.
+The bootstrap ladder: BOOTASM -> ASM86 -> ASMA0 -> ASM86A -> IR86
+-> RILL0 -> RILLBOOT -> RILL.
 Begin with the separate completed ASMA0 collection and its self-builds.
 Read the workbench, then the construction articles in order.
 
@@ -20,7 +21,7 @@ Use your own DOS 3.10 and period GW-BASIC interpreter. Note its banner.
 Build ASM86 with BOOTASM.BAS; preserve it as ASMKEEP.COM.
 The ASMA0 collection uses ASMKEEP to build A01 through A12.
 The completed seed is 3302 bytes, with two matching self-builds.
-Keep the tested ASMA0.COM to build A13 through A40.
+Keep the tested ASMA0.COM to build A13-A33, A36, A37 and A40.
 
 For a fixed-file build: COPY A13.ASM SOURCE.ASM; CHECK ASMA0.
 Require OK and PASS, then COPY RESULT.COM A13.COM before testing.

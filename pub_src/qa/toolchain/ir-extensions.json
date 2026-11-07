@@ -72,7 +72,7 @@
   {
     "number": 6,
     "title": "Declared storage",
-    "why": "Give named byte and word storage fixed sizes and materialize larger buffers with RESB.",
+    "why": "Declare initialized words with WORD and byte extents with BUFFER; emit larger storage with RESB.",
     "source": "IW06.ASM",
     "fixture": "WORD X 0\nWORD Y 65\nBUFFER B 300\nLABEL MAIN\nLIT 0\nEXIT\n",
     "diagnostic": false,

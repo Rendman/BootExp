@@ -17,22 +17,23 @@ GW-BASIC
       ASM1
         ASM86
           native streaming IR86
-            IR-written RILL compiler seed
-              RILL-written compiler, IR86, and ASM86
-                two matching rebuild generations
+            RILL0
+              IR-written RILLBOOT compiler seed
+                RILL-written compiler, IR86, and ASM86
+                  two matching rebuild generations
 ```
 
-ASM1 is the streaming-seed collection between ASM0 and ASM86. The [RILLBOOT collection](../../rb/index.html) constructs RILLBOOT, the IR-written compiler seed. The [RILL collection](../../rc/index.html) constructs the compiler in RILL and proves its self-builds. The final three source programs are RILL.RIL, IR86.RIL, and ASM86.RIL. They share the published language, not a special tool-building escape.
+ASM1 is the streaming-seed collection between ASM0 and ASM86. The [RILLBOOT collection](../../rb/index.html) constructs RILLBOOT, the IR-written compiler seed. The [RILL collection](../../rc/index.html) constructs the compiler in RILL, proves its first self-builds, then adds sixty-four local slots and establishes matching copies of the extended compiler. The final three source programs are RILL.RIL, IR86.RIL, and ASM86.RIL. They share the published language, not a special tool-building escape.
 
 ## Reproduce the disk workbench
 
-Begin with the tested native 6422-byte ASM86 preserved as ASMAKEEP.COM. Keep its BASIC/native ladder sources. Copy the source collection to a hard-disk work directory and run:
+Begin with the tested native 5995-byte ASM86 preserved as ASMAKEEP.COM. Keep its BASIC/native ladder sources. Copy the source collection to a hard-disk work directory and run:
 
 ```dos
 TMAKE
 ```
 
-TMAKE first builds IRWIDE.COM (10255 bytes) with ASMAKEEP. That native translator and assembler build RILLBOOT.COM (21111 bytes) from the authored RILLBOOT.IR. The compiler seed builds R0.COM from RILL.RIL. R0 then compiles IR86.RIL and ASM86.RIL, using the native translator and assembler to establish I0 and A0. It prints a visible PASS after each successfully completed build and stops at the first nonzero status.
+TMAKE first builds IRWIDE.COM (10255 bytes) with ASMAKEEP. That native translator and assembler rebuild RILL0, then compile and run its HI program. They next build RILLBOOT.COM (21111 bytes) from the authored RILLBOOT.IR. The compiler seed builds RC43.COM, which compiles its unchanged source to RSELF.COM. RSELF builds the RC44 extension from RILL.RIL; RC44 then recompiles that source with sixty-four-slot frames to establish R0.COM. R0 then compiles IR86.RIL and ASM86.RIL, using the native translator and assembler to establish I0 and A0. TMAKE checks every tool status immediately and stops at the first nonzero status. Its visible PASS markers identify the RILL0 program and each completed initial or rebuild pipeline for the three full tools.
 
 The A/I/R letters below mean assembler, IR translator, and RILL compiler:
 
@@ -78,8 +79,38 @@ COPY RESULT.ASM SOURCE.ASM >NUL
 ASMAKEEP
 IF ERRORLEVEL 1 GOTO FAILED
 COPY RESULT.COM RILLBOOT.COM >NUL
-COPY RILL.RIL SOURCE.RIL >NUL
+COPY RC43.RIL SOURCE.RIL >NUL
 RILLBOOT
+IF ERRORLEVEL 1 GOTO FAILED
+COPY RESULT.IR SOURCE.IR >NUL
+IRWIDE
+IF ERRORLEVEL 1 GOTO FAILED
+COPY RESULT.ASM SOURCE.ASM >NUL
+ASMAKEEP
+IF ERRORLEVEL 1 GOTO FAILED
+COPY RESULT.COM RC43.COM >NUL
+COPY RC43.RIL SOURCE.RIL >NUL
+RC43
+IF ERRORLEVEL 1 GOTO FAILED
+COPY RESULT.IR SOURCE.IR >NUL
+IRWIDE
+IF ERRORLEVEL 1 GOTO FAILED
+COPY RESULT.ASM SOURCE.ASM >NUL
+ASMAKEEP
+IF ERRORLEVEL 1 GOTO FAILED
+COPY RESULT.COM RSELF.COM >NUL
+COPY RILL.RIL SOURCE.RIL >NUL
+RSELF
+IF ERRORLEVEL 1 GOTO FAILED
+COPY RESULT.IR SOURCE.IR >NUL
+IRWIDE
+IF ERRORLEVEL 1 GOTO FAILED
+COPY RESULT.ASM SOURCE.ASM >NUL
+ASMAKEEP
+IF ERRORLEVEL 1 GOTO FAILED
+COPY RESULT.COM RC44.COM >NUL
+COPY RILL.RIL SOURCE.RIL >NUL
+RC44
 IF ERRORLEVEL 1 GOTO FAILED
 COPY RESULT.IR SOURCE.IR >NUL
 IRWIDE

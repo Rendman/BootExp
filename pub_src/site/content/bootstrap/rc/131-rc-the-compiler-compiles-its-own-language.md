@@ -1234,4 +1234,4 @@ An unexpected PASS fails the rejection. The pre-existing RESULT.IR must remain u
 
 Compare main with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.
 
-Preserve RC43.COM as R0.COM and RC43.RIL as RILL.RIL. The same source is the input for the two compiler self-build comparisons.
+Preserve RC43.COM as R0.COM. Keep RC43.RIL unchanged for the first two compiler self-build comparisons. The following local-storage extension is applied only after those comparisons match.

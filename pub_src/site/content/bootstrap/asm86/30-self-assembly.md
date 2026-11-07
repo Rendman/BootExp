@@ -7,7 +7,7 @@ download_group = "tools/asm0"
 reader_names = 1
 +++
 
-We have a native assembler whose source uses the same instruction forms it accepts. That fact makes a stronger test possible than assembling a handful of small examples: let it assemble the complete source, then repeat the job with the newly built program.
+We have a native assembler whose source uses instruction forms within its accepted language. That fact makes a stronger test possible than assembling a handful of small examples: let it assemble the complete source, then repeat the job with the newly built program.
 
 There is no source addition in this installment. `ASM0.ASM` is exactly the saved `AS29.ASM`. The spelling, record order, fixed instruction lengths, and 0100H origin must produce the same bytes regardless of which implementation reads them.
 
@@ -32,7 +32,7 @@ At `Source name:` enter `SELF`. Require:
 
 ```text
 Source name: SELF
-OK 02622 bytes
+OK 02574 bytes
 PASS
 ```
 

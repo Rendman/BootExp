@@ -50,6 +50,6 @@ CHECK HI
 
 Require OK and PASS before each copy. HI displays HI and reports PASS.
 
-For a rejection, give R2 SOURCE.RIL containing `fn main(){return missing();}`. Require `ERROR 0000000001 CODE 00004` and FAIL. RESULT.IR must remain unchanged. An unexpected PASS fails the check. Restore the accepted source before another run.
+For a rejection, give R2 SOURCE.RIL containing `fn main(){return missing();}`. With a final CR/LF after the source line, require `ERROR 0000000002 CODE 00004` and FAIL. RESULT.IR must remain unchanged. An unexpected PASS fails the check. Restore the accepted source before another run.
 
 Keep the source, preserved native builders, and matching generations separately labeled. A toolchain is established by reproducible successful translations and executable behavior, not by retaining an unexplained binary.

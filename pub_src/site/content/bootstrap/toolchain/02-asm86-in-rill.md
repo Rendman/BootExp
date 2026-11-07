@@ -10,7 +10,7 @@ reader_names = 1
 
 The streaming assembler, symbol pages, and 8086 encodings implemented in RILL.
 
-The complete ASM86.RIL below uses the ordinary RILL language and portable services. Begin with the completed RILL compiler self-build. Build it with the preserved R0 compiler, then IWKEEP and ASMAKEEP. Require a fresh OK and PASS at each boundary before copying the next result. Preserve the resulting executable as A0.COM; VIEW.BAS must show **30911 bytes**.
+The complete ASM86.RIL below uses the ordinary RILL language and portable services. Begin after the RC44 local-storage extension and its self-build comparisons. Build it with the preserved R0 compiler, then IWKEEP and ASMAKEEP. Require a fresh OK and PASS at each boundary before copying the next result. Preserve the resulting executable as A0.COM; VIEW.BAS must show **30911 bytes**.
 
 The parser, two passes, exact-spelling hash chains, symbol-page selection, fixed-width operands, and emitters have the same jobs as in the native ASM86 construction. Each symbol record is initialized explicitly. Its page is an opaque block handle and its record location a byte offset. No processor segment is exposed to the RILL implementation.
 
@@ -18,7 +18,7 @@ The encodings retain the native assembler's fixed choices: explicit word displac
 
 ## Complete source, by routine
 
-Start a plain text ASM86.RIL. Enter the declarations, then append each complete procedure in the displayed order. These are parts of one complete tool; a copied fragment is not a standalone program. The completed RILL compiler self-build supplies R0. Preserve the native IWKEEP and ASMAKEEP as its translator and assembler.
+Start a plain text ASM86.RIL. Enter the declarations, then append each complete procedure in the displayed order. These are parts of one complete tool; a copied fragment is not a standalone program. The completed RC44 local-storage extension supplies R0. Preserve the native IWKEEP and ASMAKEEP as its translator and assembler.
 
 ### Declarations
 

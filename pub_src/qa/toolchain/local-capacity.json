@@ -1,0 +1,22 @@
+{
+  "initial_compiler_bytes": 26617,
+  "boot_binary_bytes": 26617,
+  "boot_ir_bytes": 49992,
+  "boot_assembly_bytes": 103091,
+  "binary_bytes": 26617,
+  "ir_bytes": 49992,
+  "assembly_bytes": 103091,
+  "TLOCAL.RIL": {
+    "ir_bytes": 5625,
+    "assembly_bytes": 15732,
+    "binary_bytes": 3098,
+    "hex": "FC 81 FC FE FF 74 03 E9 C7 0B E8 1F 08 B4 4C CD 21 55 8B EC 81 EC 80 00 81 FC 00 F0 73 03 E9 B0"
+  },
+  "TSCOPE.RIL": {
+    "ir_bytes": 4080,
+    "assembly_bytes": 10171,
+    "binary_bytes": 2133,
+    "hex": "FC 81 FC FE FF 74 03 E9 02 08 E8 5A 04 B4 4C CD 21 00 00 55 8B EC 81 EC 80 00 81 FC 00 F0 73 03"
+  },
+  "error": "ERROR 0000000018 CODE 00005"
+}

@@ -1,4 +1,4 @@
-"""Render exact source edits and results measured by the published native tools."""
+"""Render the RILL-written compiler edits and native-measured stopping tests."""
 from pathlib import Path
 from difflib import SequenceMatcher
 import re,json
@@ -118,7 +118,7 @@ for family,collection,offset,prefix,language in [('rill-self-series','rc',88,'RC
     if c['program_exit']:t+=f'It deliberately returns {c["program_exit"]}; the checker reports FAIL. This verifies the program\'s explicit exit value.\n\n'
     elif c['program_output']:t+='It displays `'+c['program_output']+'` and reports PASS.\n\n'
     else:t+='It returns zero and the checker reports PASS.\n\n'
-   if n==23:t+=fence('dos','COPY IW23.COM IRWIDE.COM\nCOPY IRWIDE.COM IWKEEP.COM')+'Preserve IWKEEP as the fixed-file translator. The earlier IRKEEP retains its source-name prompt. IRWIDE.ASM and IW23.ASM are identical.\n\n'
+   if n==23:t+=fence('dos','COPY IW23.COM IRWIDE.COM\nCOPY IRWIDE.COM IWKEEP.COM')+'Preserve IWKEEP as the fixed-file translator. IRKEEP and IWKEEP are identical fixed-file translator aliases. IRWIDE.ASM and IW23.ASM are identical.\n\n'
   elif 'result' in c:
    resultname='RESULT.IR' if c['key'].upper()=='MAIN' else 'RILL.TMP'
    if c['complete']:
@@ -155,21 +155,11 @@ for family,collection,offset,prefix,language in [('rill-self-series','rc',88,'RC
    'BLOCK':'Check the saved name count and next local slot at block entry and restoration at its closing brace.'}
   hint=hints.get(key,'Compare '+c.get('key','the new routine')+' with the printed addition. Check its arguments and saved state across calls, then inspect the generated text or bytes.')
   t+='## If the result differs\n\n'+hint+'\n'
-  if prefix=='RB' and c['key']=='MAIN':t+='\nPreserve RB47.COM as RILLBOOT.COM and RB47.IR as RILLBOOT.IR. This compiler seed was built entirely through the native IR86 and ASM86A tools. Continue with the complete programs in this collection, then the separate [RC collection](../../rc/index.html).\n'
-  if prefix=='RC' and c['key']=='main':t+='\nPreserve RC43.COM as R0.COM and RC43.RIL as RILL.RIL. The same source is the input for the two compiler self-build comparisons.\n'
+  if prefix=='RC' and c['key']=='main':t+='\nPreserve RC43.COM as R0.COM. Keep RC43.RIL unchanged for the first two compiler self-build comparisons. The following local-storage extension is applied only after those comparisons match.\n'
   publish(collection,page,t)
   allpatches.append(dict(family=family,number=n,collection=collection,page=page,base=oldname,kind=language,changes=changes,source=c['source']))
   old=source;oldname=c['source']
 (Q/'article-patches.json').write_text(json.dumps(allpatches,indent=2)+'\n')
-# Each new language capability has a short, complete program and a concrete rejection.
-for i,c in enumerate([],81):
- t=front(c['title'],i-32,c['why'],c['name']+'.RIL')+c['why']+'\n\nSave '+c['name']+'.RIL:\n\n'+fence('rill',c['source'])
- t+=fence('dos',f'COPY {c["name"]}.RIL SOURCE.RIL\nCHECK RILLBOOT\nCOPY RESULT.IR SOURCE.IR\nCHECK IWKEEP\nCOPY RESULT.ASM SOURCE.ASM\nCHECK ASMAKEEP')
- t+=f'Require `OK RESULT.IR {c["ir_bytes"]:010}`, translator `OK RESULT.ASM {c["assembly_bytes"]:010} text bytes`, and assembler `OK RESULT.COM {c["binary_bytes"]:05} bytes`, each with PASS **before** the following copy. VIEW.BAS must show result length {c["binary_bytes"]} and these first thirty-two bytes:\n\n'+fence('text',c['hex'])
- t+=f'Copy RESULT.COM to {c["name"]}.COM. '
- if c.get('files'):t+='Create IN.TXT with `ECHO A short copy.>IN.TXT`. '
- t+='CHECK '+c['name']+' '+('displays '+json.dumps(c['output'])+' and ' if c['output'] else '')+'reports PASS. '
- if c.get('result_file'):t+='COMP IN.TXT OUT.TXT must report no differences; answer N to its compare-more-files question. Empty and binary input are valid too. A missing IN.TXT must report FAIL before creating OUT.TXT. '
- t+='Here `\\r\\n` means carriage return and line feed.\n\nFor a separate source rejection, create BAD.RIL:\n\n'+fence('rill',c['bad'])+fence('dos','COPY BAD.RIL SOURCE.RIL\nCHECK RILLBOOT')+'Require:\n\n'+fence('text',c['error']+'\nFAIL')+'The older RESULT.IR must remain unchanged. An unexpected PASS fails the rejection check. Restore the accepted source before another build.\n'
- publish('rb',f'{i:03}-{slug(c["title"])}.md',t)
-print('Rendered native IR, compiler seed, RILL compiler, and complete language examples')
+print('Rendered the RILL-written compiler construction')
+import runpy
+runpy.run_path(str(ROOT/'tools/write_rill_locals_article.py'),run_name='__main__')

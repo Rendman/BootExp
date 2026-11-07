@@ -2,7 +2,7 @@ THE BOOTSTRAP PROJECT - THE TOOLCHAIN IN RILL
 A practical course in small-system software
 
 The ladder is BOOTASM -> ASM86 -> ASMA0 -> ASM86A -> streaming IR86
--> IR-written RILL compiler seed -> RILL-written compiler, translator,
+-> RILL0 -> IR-written RILLBOOT seed -> RILL-written compiler, translator,
 and assembler -> two matching rebuild generations of all three tools.
 
 BOOTASM.BAS and ASM86.ASM are the unchanged published foundation.
@@ -10,25 +10,31 @@ ASMA0.ASM and ASM86A.ASM are the unchanged native assembler milestones.
 IRWIDE.ASM is the streaming native IR86 bootstrap translator.
 RILLBOOT.IR is the compiler seed, authored in processor-neutral IR86.
 RILL.RIL, IR86.RIL, ASM86A.RIL implement the three tools in RILL.
-TMAKE.BAT builds the native translator and compiler seed. RILLBOOT
-builds R0; R0 then builds the RILL-written translator and assembler. It
+TMAKE.BAT rebuilds the native translator, RILL0 and its HI program,
+then the compiler seed. RILLBOOT builds RC43, which compiles its own
+source to RSELF. RSELF builds the RC44 extension, which recompiles
+its own source with 64-slot frames to establish R0;
+R0 then builds the RILL-written translator and assembler. It
 then rebuilds each tool twice using only the RILL implementations.
 VIEW.BAS and CHECK.BAT are the unchanged workbench helpers.
 IW01.ASM through IW23.ASM: identical aliases of IR01 through IR23.
 RILL.IR: the completed first compiler, continued by RB01 through RB12.
 RC01.RIL through RC43.RIL: the compiler written in RILL.
+RC44.RIL and RILL.RIL: its post-self-build 64-local extension.
+TLOCAL.RIL, XLOCAL.RIL, TSCOPE.RIL: local/frame boundary exercises.
 T-prefixed inputs and X-prefixed rejection cases accompany those tools.
 The named example RIL/IR files accompany the interface articles.
 
 Use your own DOS 3.10 and its period BASIC interpreter. Begin with the
 completed ASM86A workbench: ASMAKEEP.COM must be the tested 5995-byte
-native assembler. TMAKE also rebuilds RILL0 and runs its HI program. Keep it and the sources on a separate labeled disk.
+native assembler. Keep it and the sources on a separate labeled disk.
 TMAKE deliberately preserves that builder. Do not start from a supplied
 binary: none is present. Use a hard-disk working directory, with enough
 space for source files, generated IR/assembly, and preserved executables.
 The full course archive need not fit a single 360 KB floppy.
 
-TMAKE prints each tool's OK followed by a visible PASS at each build.
+TMAKE checks each tool status immediately. Its PASS markers identify
+the RILL0 program and completed initial/rebuild tool pipelines.
 A nonzero tool status immediately stops the batch with FAIL. Stop at
 that first error; old output never proves a new successful translation.
 A0.COM/I0.COM/R0.COM are the first RILL-written assembler/IR/compiler.
@@ -55,9 +61,9 @@ word expressions, and quoted strings suffice to write the tools.
 The target remains a COM image with at most 61184 emitted bytes.
 The assembler retains 8192 symbols using separately allocated pages.
 RILL supports 512 global/function symbols, 24-character folded names,
-16 parameters, 16 simultaneously live local words, and block/expression
+16 parameters, 64 simultaneously live local words, and block/expression
 nesting of at most 16. Byte buffers are global; use allocated blocks for
-larger tables. This is a bounded systems language, without Rust's
+larger tables. This is a bounded systems language, without
 ownership checking or a claim of memory safety. Consult the references.
 
 Every archive member is ASCII source with DOS line endings and an

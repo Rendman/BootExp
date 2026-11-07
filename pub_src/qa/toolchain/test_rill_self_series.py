@@ -11,7 +11,7 @@ for c in cases:
  else:assert r.output.decode()==c['expected'],(n,c['title'],r.output,c['expected'])
  c.update(binary_bytes=len(image),ir_bytes=len(text),assembly_bytes=len(a),console=r.output.decode())
  result=r.files.get('RILL.TMP')
- if c['key']=='main':result=r.files['RESULT.IR'];assert image==(W/'RILL.COM').read_bytes()
+ if c['key']=='main':result=r.files['RESULT.IR'];assert image==(W/'RC43.COM').read_bytes()
  if c['fragment'] is not None:assert result==c['fragment'].encode(),(n,result,c['fragment'])
  if result is not None:c.update(result=result.decode(),result_bytes=len(result),result_hex=result[:32].hex(' ').upper())
  if c['complete']:

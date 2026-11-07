@@ -2,18 +2,18 @@
 title = "The compiler self-build"
 weight = 45
 description = "Compare two compiler generations made from the same RILL source."
-download = "RILL.RIL"
+download = "RC43.RIL"
 download_group = "tools/rill"
 aliases = ["/bootstrap/rill/133-the-compiler-self-build/"]
 reader_names = 1
 +++
 
-RC43.RIL is the complete RILL compiler, saved as RILL.RIL. The IR-written seed built its first executable. VIEW.BAS must report **26617 bytes** for that RILL-written compiler. Preserve RC43.COM as R0.COM.
+RC43.RIL is the first complete RILL compiler. Keep this source unchanged for the comparisons below. The IR-written seed built its first executable. VIEW.BAS must report **26617 bytes** for that RILL-written compiler. Preserve RC43.COM as R0.COM.
 
 ## Build the first native self-copy
 
 ```dos
-COPY RILL.RIL SOURCE.RIL
+COPY RC43.RIL SOURCE.RIL
 CHECK R0
 COPY RESULT.IR SOURCE.IR
 CHECK IWKEEP
@@ -34,7 +34,7 @@ Require no differences. NO.TXT answers N if COMP asks whether to compare more fi
 ## Let that copy do the same job
 
 ```dos
-COPY RILL.RIL SOURCE.RIL
+COPY RC43.RIL SOURCE.RIL
 CHECK R1
 COPY RESULT.IR SOURCE.IR
 CHECK IWKEEP
@@ -59,6 +59,6 @@ COPY BAD.RIL SOURCE.RIL
 CHECK R2
 ```
 
-Require `ERROR 0000000001 CODE 00004` and FAIL. The accepted RESULT.IR must remain unchanged. An unexpected PASS fails the check. Restore RILL.RIL as SOURCE.RIL before another self-build.
+With a final CR/LF after the source line, require `ERROR 0000000002 CODE 00004` and FAIL. The accepted RESULT.IR must remain unchanged. An unexpected PASS fails the check. Restore RC43.RIL as SOURCE.RIL before another self-build.
 
 The compiler seed remains a reproducible predecessor. Keep its IR source, the native IR bridge, and the original native assembler on a separate labeled disk.
