@@ -96,7 +96,12 @@ def prepare(path,text):
  return '+++'+front+'+++'+body
 
 def write_page(path,text):
- path=Path(path);path.write_text(prepare(path,text))
+ path=Path(path);text=prepare(path,text)
+ group=path.relative_to(CONTENT).parts[0]
+ if path.name=='_index.md' and group in SERIES:
+  from series_overviews import with_overview
+  text=with_overview(group,text)
+ path.write_text(text)
 
 if __name__=='__main__':
  for p in CONTENT.rglob('*.md'):write_page(p,p.read_text())

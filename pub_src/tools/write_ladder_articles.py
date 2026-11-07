@@ -2,7 +2,7 @@
 from pathlib import Path
 from difflib import SequenceMatcher
 import json,re,tomllib
-from publication_names import ROOT,SERIES,filename,HELP_TITLES
+from publication_names import ROOT,SERIES,filename,HELP_TITLES,write_page
 from compiler_profiles import profile,render
 C=ROOT/'site/content/bootstrap';Q=ROOT/'qa/toolchain';W=ROOT/'workbench/toolchain'
 def fence(k,s):return '```'+k+'\n'+s.replace('\r\n','\n').rstrip('\n')+'\n```\n\n'
@@ -72,7 +72,7 @@ for group,family,folder,prefix in [('ir86','ir-extensions',ROOT/'workbench/ir86'
  if group=='ir86':body='This collection builds one native translator from a bounded reader through procedure frames, strings, file streams, and allocated workspace. The first small translator grows into the translator that builds the compiler. ASM86 assembles every stage.\n\nThe language defines word values, a virtual accumulator, an expression stack, byte addresses, and opaque service handles. The 8086 instructions appear in the backend templates and DOS binding; they are not part of the IR program interface.'
  elif group=='rill':body='Build a small compiler in the processor-independent IR language. Its scanner, record layout, local bindings, streamed emitter, and parser are the working parts that RILLBOOT extends. The first language has one fn main(), mutable local words, + and -, unsigned comparisons, assignments, if/else, while, putc, status, exit, and return.'
  else:body='Continue the completed RILL0 source. Add word arithmetic, masks, strings, global storage, procedures, and the file and workspace services needed to compile the RILL compiler. Every continuation remains a working compiler for its preceding subset. The seed deliberately omits XOR, left shift, unary minus, bitwise complement, explicit address-of, and unused intrinsic wrappers; RILL adds the operations needed by the later tool sources.'
- (dest/'_index.md').write_text(cover+body+'\n\nRead the workbench first. The [source collection](../../downloads/tools/'+SERIES[group][0].lower()+'/'+archive+') contains plain source and test files.\n')
+ write_page(dest/'_index.md',cover+body+'\n\nRead the workbench first. The [source collection](../../downloads/tools/'+SERIES[group][0].lower()+'/'+archive+') contains plain source and test files.\n')
  work='000-workbench.md';routes=sorted(set(alias_for[0])-{'/bootstrap/'+group+'/000-workbench/'})
  text=front(group,'The '+SERIES[group][0]+' workbench',0,source,archive,routes)+source+'\n\nKeep VIEW.BAS and CHECK.BAT from the BOOTASM workbench. Work in an ordinary DOS hard-disk directory. Fixed names avoid adding a filename parser to each tool. Require a fresh OK and PASS before copying an output into the next stage.\n\n'
  if group=='ir86':text+=fence('dos','COPY IR01.ASM SOURCE.ASM\nCHECK ASMAKEEP\nCOPY RESULT.COM IR01.COM')

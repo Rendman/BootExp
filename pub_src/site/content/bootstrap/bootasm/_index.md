@@ -12,6 +12,17 @@ collection_key = "bootasm"
 
 The processor does not read `MOV DL,42H`. It reads bytes. An assembler is the program which performs that translation, and a small one is within reach of a BASIC programmer.
 
+## What we're adding
+
+- **Named instructions and data:** Translate a small assembly vocabulary into bytes so programs can be entered and understood without calculating every opcode by hand.
+- **Labels and two passes:** Resolve named addresses, including forward references, so inserting code does not require renumbering every branch destination.
+- **A BASIC implementation:** Use the interpreter already on the workbench to create the first assembler without an outside assembler or compiler.
+- **DOS program files and byte inspection:** Write runnable .COM files and inspect their contents so every small addition has a concrete result to check.
+
+**Removing:** None; this collection establishes the first assembler.
+
+## The construction
+
 This collection builds BOOTASM from its first disk byte to a two-pass assembler with named addresses, a modest instruction vocabulary, and DOS `.COM` output. It is the first tool in the Bootstrap Experiment and the BASIC foundation for the assembly-language collection, ASM0.
 
 Begin with **The workbench**, then follow the eighteen numbered installments in order. The first writes and inspects one byte. Each subsequent installment adds one small capability and provides a saved stopping point.

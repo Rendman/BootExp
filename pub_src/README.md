@@ -29,6 +29,8 @@ Canonical reader downloads live under `site/static/downloads/tools/<tool>/`. Leg
 
 Source generation clears measured facts. Run the relevant native checks before article generation. write_ladder_articles.py publishes the continuing IR/RILL0/RILLBOOT series, write_toolchain_articles.py publishes RC, write_rc_programs.py publishes final compiler examples/reference, and write_toolchain_guides.py publishes self-builds, exact port notebooks and rebuild instructions. Earlier article URLs redirect to the current working part. package_sources.py refreshes all nine archives; it does not generate executables or rewrite articles.
 
+series_overviews.py supplies each collection cover's "What we're adding" section: the additions and their purpose, plus explicit removal notes. publication_names.write_page retains that section when a cover is regenerated. Run `python3 pub_src/tools/publication_names.py` from the repository root to refresh these summaries after editing them.
+
 ## Verification commands
 
 Run from the repository root. PC-BASIC requires Python 3.11; the locally installed interpreter is in tools/python-pcbasic207. CPU execution and static inspection use the retained dependencies under tools/python. With uv, prefix BASIC commands with `uv run --offline --python 3.11 --no-project`.

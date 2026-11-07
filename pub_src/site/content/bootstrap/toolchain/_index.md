@@ -12,6 +12,17 @@ collection_key = "toolchain"
 
 The RILL compiler now compiles its own source. We can use that language to write the IR translator and assembler, then let the three RILL-written tools rebuild the complete trio.
 
+## What we're adding
+
+- **IR86 written in RILL:** Implement the established IR parser and native binding in RILL so the translator can be rebuilt by the RILL compiler.
+- **ASM86 written in RILL:** Implement streamed assembly, symbol pages and instruction encoding in RILL so the assembler can join the same rebuild process.
+- **An explicit bootstrap handoff:** Use the preserved native builders to establish the first RILL implementations so each replacement has a known source and builder.
+- **Two complete rebuild generations:** Let the RILL-written compiler, translator and assembler rebuild all three tools and compare corresponding executables so the complete toolchain is reproducible.
+
+**Removing:** The rebuild generations' dependence on the native translator and assembler. The preserved native tools still establish the initial RILL builds; the accepted languages, encodings and image bounds remain the same.
+
+## The construction
+
 Begin after **A Compiler Written in Its Own Language**, including its compiler self-build comparisons. Preserve R0.COM, IWKEEP.COM, and ASMAKEEP.COM. Each has a known source and a successful build behind it.
 
 The work proceeds in four installments:
