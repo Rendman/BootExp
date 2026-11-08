@@ -6,6 +6,25 @@ from difflib import SequenceMatcher
 import json,re,tomllib
 ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/asm86';Q=ROOT/'qa/asm86';C=ROOT/'site/content/bootstrap/asm86';C.mkdir(parents=True,exist_ok=True)
 cases=json.loads((Q/'checkpoints.json').read_text());examples=json.loads((Q/'examples.json').read_text())
+SEED_STORY_OPENINGS={
+ 1:"ASM0 can assemble its own source now. I keep that working copy beside the BASIC listing and copy its source to begin ASM1. Before changing how it handles files, I want its success report to name the file it has written.",
+ 2:"I follow the source reader in my notebook: it asks DOS for one byte, then asks again for the next. I want to collect a small block at once and let the reader hand those bytes to the parser one at a time. The parser should still receive the same characters in the same order.",
+ 3:"The output buffer still has to hold every byte of the assembled program. I want to write a block when it fills and reuse that space. I'll first try the writer by copying a few characters from one file to another, with the parser left out of the path.",
+ 4:"The copy writer creates its temporary file before opening the source. If that open fails, an empty file remains. I need to keep track of which handles are open and which file this run created, so the error routine can clean up after itself.",
+ 5:"I have given the temporary file a fixed name, but finding that name on disk does not tell me where it came from. It might be left from an interrupted run. I want the program to stop and let me inspect it before creating anything under the same name.",
+ 6:"The copied bytes are safely in a closed temporary file. I want to give that file the result name while keeping a way back if a rename fails. I write the three filenames in my notebook and follow where the accepted copy would be after each DOS call.",
+ 7:"I have checked the writer with copied characters. Now I can put the parser back in the path and send it assembly source again. Pass one will count the instruction bytes; pass two will feed them to the block writer as they are made.",
+ 8:"I look at the comments and labels in my source: much of what I type never becomes an instruction byte. The block reader can keep going through a long file, but its line counter still stops at 4000. I'll extend that counter's permitted range while keeping a check against wraparound.",
+ 9:"With the whole-image output buffer gone, I can give more room to names. I redraw the memory sketch before moving anything, marking the line, token, two file blocks, symbol records and stack. Each needs its own part of the segment.",
+ 10:"My memory sketch still fits inside one segment. Reading the segment-register MOV forms in the processor manual shows me how another program could select storage elsewhere. I'll teach ASM1 to encode those forms using instructions ASM0 already accepts.",
+ 11:"Selecting a segment register is only part of addressing storage elsewhere. A memory instruction must also use that segment. I'll add the explicit `ES:` spelling and follow the extra prefix byte into the output, keeping the ordinary offset and width rules in place.",
+ 12:"I save the accepted source as ASM1.ASM and keep the copy ASM0 built. I've changed how the assembler reads, writes and uses its workspace. I want the same evidence I required of ASM0: two self-built copies that match the preserved executable byte for byte.",
+}
+SEED_STORY_AFTER_CHECKS={
+ 3:"The viewer shows `41 42 43 0D 0A`, matching the characters and line ending I put in the source file. I can trace this small copy through the reader, the output block and DOS before involving instruction encoding again.",
+ 7:"The instruction bytes match the earlier result. I trace them from the parser through EMIT to the disk file; they no longer accumulate in a buffer for the whole program. I can erase that buffer from the memory sketch.",
+ 12:"I put the matching generations beside the ASM0-built copy, still under its own name. Looking back at the memory sketch, I can account for the space I have reused and the file routines doing the work. ASM1 can reproduce itself with that arrangement.",
+}
 def fence(kind,s):return '```'+kind+'\n'+s.rstrip('\n')+'\n```\n\n'
 def front(title,weight,description,download,cartoon=None):
  s='+++\n'+f'title = {json.dumps(title)}\nweight = {weight}\ndescription = {json.dumps(description)}\ndownload = "{download}"\n'
@@ -16,7 +35,7 @@ previous=(ROOT/'workbench/asm0/ASM86.ASM').read_text().splitlines();patches=[];p
 chapters={c['number']:i for i,c in enumerate([r for r in cases if r['number']>12],1)}
 for case in cases:
  n=case['number'];collection='asma0' if n<=12 else 'asm86a';chapter=n if n<=12 else chapters[n];C=ROOT/'site/content/bootstrap'/directory_name(collection);C.mkdir(parents=True,exist_ok=True);name=f'A{n:02}';oldfile='ASM86.ASM' if n==1 else 'ASMA0.ASM' if n==13 else f'A{previous_number:02}.ASM';lines=(W/(name+'.ASM')).read_text().splitlines();page=f'{n:02}-{slug(case["title"])}.md'
- t=front(f'{chapter:02} · '+case['title'],chapter,case['description'],name+'.ASM',case.get('cartoon'))+case['why']+'\n\n## The working parts\n\n'+case['explain']+'\n\n## Enter the source\n\n'
+ t=front(f'{chapter:02} · '+case['title'],chapter,case['description'],name+'.ASM',case.get('cartoon'))+SEED_STORY_OPENINGS.get(n,case['why'])+'\n\n## The working parts\n\n'+case['explain']+'\n\n## Enter the source\n\n'
  if n<=12:
   t=t.replace('+++\n\n',f'aliases = [\"/bootstrap/asm86a/{page[:-3]}/\"]\n+++\n\n',1)
   (ROOT/'site/content/bootstrap/asm86'/page).unlink(missing_ok=True)
@@ -51,9 +70,12 @@ for case in cases:
   alias='ASMA0' if n==12 else 'ASM86A'
   t+='Compare the first self-produced executable with the preserved original, then use that new generation to assemble the same source once more:\n\n'+fence('dos',f'ECHO N>NO.TXT\nCOMP {alias}.COM RESULT.COM <NO.TXT\nCOPY RESULT.COM GEN1.COM\nCHECK GEN1\nCOMP {alias}.COM RESULT.COM <NO.TXT')
   t+=f'Both COMP comparisons must report no differences. GEN1 must report `OK RESULT.COM {case["binary_bytes"]:05} bytes` and PASS. COMP may ask whether to compare more files; NO.TXT answers N. Keep the original {alias}.COM separately.\n\n'
+  if n in SEED_STORY_AFTER_CHECKS:t+=SEED_STORY_AFTER_CHECKS[n]+'\n\n'
   if n==12:t+='Continue with the separate [ASM86A collection](../../asm86a/index.html). For its construction builds, ASMA0.COM is the preceding builder. ASMKEEP.COM remains the original ASM86. Both use the fixed work files; preserve each builder under its own name.\n\n'
   else:t+=fence('dos','COPY ASM86A.COM ASMAKEEP.COM')+'ASMAKEEP.COM is the preserved fixed-file assembler. ASMKEEP.COM still names the original ASM86.\n\n'
- else:t+='The byte inspection is the stopping check for this encoding exercise. Keep the result as data.\n\n'
+ else:
+  t+='The byte inspection is the stopping check for this encoding exercise. Keep the result as data.\n\n'
+  if n in SEED_STORY_AFTER_CHECKS:t+=SEED_STORY_AFTER_CHECKS[n]+'\n\n'
  t+='## A rejection check\n\n';bad=case['bad']
  if n in [3,4,5]:t+='After inspecting the successful copy, delete ASMA.TMP. It belongs to this copy exercise.\n\n'
  if bad['kind']=='source':

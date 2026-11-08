@@ -10,7 +10,7 @@ reader_names = 1
 url = "/bootstrap/asma0/02-reading-an-input-block/"
 +++
 
-A sequential reader can handle a long file with bounded working storage.
+I follow the source reader in my notebook: it asks DOS for one byte, then asks again for the next. I want to collect a small block at once and let the reader hand those bytes to the parser one at a time. The parser should still receive the same characters in the same order.
 
 ## The working parts
 

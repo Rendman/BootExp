@@ -9,7 +9,7 @@ reader_names = 1
 url = "/bootstrap/asma0/10-encoding-segment-register-moves/"
 +++
 
-Allocated workspace needs a way to select a segment, but the seed itself can remain in one segment.
+My memory sketch still fits inside one segment. Reading the segment-register MOV forms in the processor manual shows me how another program could select storage elsewhere. I'll teach ASM1 to encode those forms using instructions ASM0 already accepts.
 
 ## The working parts
 

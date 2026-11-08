@@ -9,7 +9,7 @@ reader_names = 1
 url = "/bootstrap/asma0/06-publishing-a-closed-result/"
 +++
 
-A result should be replaced only after all its bytes and its close have succeeded.
+The copied bytes are safely in a closed temporary file. I want to give that file the result name while keeping a way back if a rename fails. I write the three filenames in my notebook and follow where the accepted copy would be after each DOS call.
 
 ## The working parts
 

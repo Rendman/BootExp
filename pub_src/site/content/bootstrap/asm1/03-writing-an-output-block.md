@@ -9,7 +9,7 @@ reader_names = 1
 url = "/bootstrap/asma0/03-writing-an-output-block/"
 +++
 
-The emitter needs a working file writer before it can replace the assembler image buffer.
+The output buffer still has to hold every byte of the assembled program. I want to write a block when it fills and reuse that space. I'll first try the writer by copying a few characters from one file to another, with the parser left out of the path.
 
 ## The working parts
 
@@ -662,6 +662,8 @@ In VIEW.BAS, inspect ASMA.TMP. Require length **5 bytes** and these complete con
 ```
 
 The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
+
+The viewer shows `41 42 43 0D 0A`, matching the characters and line ending I put in the source file. I can trace this small copy through the reader, the output block and DOS before involving instruction encoding again.
 
 ## A rejection check
 

@@ -11,7 +11,11 @@ collection_key = "asma0"
 url = "/bootstrap/asma0/"
 +++
 
-**BOOTASM → ASM0 → ASM1 → ASM86 → IR86 → RILL0 → RILLBOOT → RILL.** ASM1 is the streaming seed in this bootstrap ladder. The completed ASM0 builds its first executable directly; the seed then assembles its own source twice and reproduces that executable.
+ASM0 has made its own working copy. I can build an assembler without returning to BASIC, but I still have to work within the room I gave it. Every output byte waits in memory until assembly is finished, and there is space for only 256 labels. I open the notebook to the memory sketch: making another tool will mean deciding what really needs to stay there.
+
+I'll call this next assembler **ASM1**. I want it to read and write through small blocks, keeping the source and the growing executable on disk. The space freed from the old output buffer can hold more names. ASM0 will build the first copy, and I will ask ASM1 to reproduce that copy before trusting it as a builder.
+
+**BOOTASM → ASM0 → ASM1 → ASM86 → IR86 → RILL0 → RILLBOOT → RILL.** ASM1 is the streaming seed in this bootstrap ladder. It provides the file handling, symbol capacity and segment-access forms needed to construct ASM86.
 
 ## What we're adding
 

@@ -9,7 +9,7 @@ reader_names = 1
 url = "/bootstrap/asma0/05-protecting-recovery-names/"
 +++
 
-An earlier interrupted run may have left a file worth recovering.
+I have given the temporary file a fixed name, but finding that name on disk does not tell me where it came from. It might be left from an interrupted run. I want the program to stop and let me inspect it before creating anything under the same name.
 
 ## The working parts
 

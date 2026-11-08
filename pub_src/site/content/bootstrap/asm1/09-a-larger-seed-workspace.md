@@ -9,7 +9,7 @@ reader_names = 1
 url = "/bootstrap/asma0/09-a-larger-seed-workspace/"
 +++
 
-Streamed output frees the old image buffer, making room for more definitions.
+With the whole-image output buffer gone, I can give more room to names. I redraw the memory sketch before moving anything, marking the line, token, two file blocks, symbol records and stack. Each needs its own part of the segment.
 
 ## The working parts
 

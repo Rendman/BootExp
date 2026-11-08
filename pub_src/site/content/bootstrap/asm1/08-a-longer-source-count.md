@@ -9,7 +9,7 @@ reader_names = 1
 url = "/bootstrap/asma0/08-a-longer-source-count/"
 +++
 
-A source file can contain much more text than its executable contains bytes.
+I look at the comments and labels in my source: much of what I type never becomes an instruction byte. The block reader can keep going through a long file, but its line counter still stops at 4000. I'll extend that counter's permitted range while keeping a check against wraparound.
 
 ## The working parts
 

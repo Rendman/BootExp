@@ -9,7 +9,7 @@ reader_names = 1
 url = "/bootstrap/asma0/07-streaming-the-two-assembly-passes/"
 +++
 
-The tested block writer can now receive bytes as pass two produces them.
+I have checked the writer with copied characters. Now I can put the parser back in the path and send it assembly source again. Pass one will count the instruction bytes; pass two will feed them to the block writer as they are made.
 
 ## The working parts
 
@@ -268,6 +268,8 @@ B2 41 B4 02 CD 21 B8 00 4C CD 21
 ```
 
 The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
+
+The instruction bytes match the earlier result. I trace them from the parser through EMIT to the disk file; they no longer accumulate in a buffer for the whole program. I can erase that buffer from the memory sketch.
 
 ## A rejection check
 

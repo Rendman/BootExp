@@ -8,6 +8,8 @@ reader_names = 1
 url = "/bootstrap/asma0/00-workbench/"
 +++
 
+I put the tested ASM0 copy aside before opening its source again. Beside the routine notes I draw a map of its memory: code, working values, buffers, names and stack. As I move those boundaries, I want to be able to find both the bytes and the source that made my last working assembler.
+
 Begin with the completed BOOTASM and ASM0 collections. Keep BOOTASM.BAS, ASM0.ASM, VIEW.BAS, CHECK.BAT, and the tested ASM0.COM. Use the same DOS 3.10 and period GW-BASIC workbench. GWBASIC in these instructions means the interpreter's actual disk name; note its startup banner.
 
 ## Preserve the builder

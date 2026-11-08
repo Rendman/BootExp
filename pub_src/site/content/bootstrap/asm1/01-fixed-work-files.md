@@ -9,7 +9,7 @@ reader_names = 1
 url = "/bootstrap/asma0/01-fixed-work-files/"
 +++
 
-Retain the completed assembler and its fixed SOURCE.ASM/RESULT.COM contract while preparing the streaming construction.
+ASM0 can assemble its own source now. I keep that working copy beside the BASIC listing and copy its source to begin ASM1. Before changing how it handles files, I want its success report to name the file it has written.
 
 ## The working parts
 

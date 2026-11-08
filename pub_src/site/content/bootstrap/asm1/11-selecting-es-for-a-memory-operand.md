@@ -9,7 +9,7 @@ reader_names = 1
 url = "/bootstrap/asma0/11-selecting-es-for-a-memory-operand/"
 +++
 
-A word in another allocated segment needs both an offset and a segment selection.
+Selecting a segment register is only part of addressing storage elsewhere. A memory instruction must also use that segment. I'll add the explicit `ES:` spelling and follow the extra prefix byte into the output, keeping the ordinary offset and width rules in place.
 
 ## The working parts
 

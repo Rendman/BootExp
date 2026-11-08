@@ -9,7 +9,7 @@ reader_names = 1
 url = "/bootstrap/asma0/12-proving-the-seed-handoff/"
 +++
 
-A successor becomes a rung of the ladder only when its preceding builder can make it.
+I save the accepted source as ASM1.ASM and keep the copy ASM0 built. I've changed how the assembler reads, writes and uses its workspace. I want the same evidence I required of ASM0: two self-built copies that match the preserved executable byte for byte.
 
 ## The working parts
 
@@ -63,6 +63,8 @@ COMP ASM1.COM RESULT.COM <NO.TXT
 ```
 
 Both COMP comparisons must report no differences. GEN1 must report `OK RESULT.COM 03302 bytes` and PASS. COMP may ask whether to compare more files; NO.TXT answers N. Keep the original ASM1.COM separately.
+
+I put the matching generations beside the ASM0-built copy, still under its own name. Looking back at the memory sketch, I can account for the space I have reused and the file routines doing the work. ASM1 can reproduce itself with that arrangement.
 
 Continue with the separate [ASM86 collection](../../asm86a/index.html). For its construction builds, ASM1.COM is the preceding builder. ASMKEEP.COM remains the original ASM0. Both use the fixed work files; preserve each builder under its own name.
 

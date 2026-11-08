@@ -9,7 +9,7 @@ reader_names = 1
 url = "/bootstrap/asma0/04-cleaning-an-interrupted-output/"
 +++
 
-A failed assembly must not leave its own partial temporary output looking usable.
+The copy writer creates its temporary file before opening the source. If that open fails, an empty file remains. I need to keep track of which handles are open and which file this run created, so the error routine can clean up after itself.
 
 ## The working parts
 

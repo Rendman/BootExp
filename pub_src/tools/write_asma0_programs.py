@@ -11,6 +11,8 @@ description = "A terminated greeting, a byte copied through memory, and a short 
 download = "ASMA0.ZIP"
 +++
 
+I return to the greeting, the stored letter and the counted loop. Their results are familiar, which helps me follow what the file-handling changes have left intact. The completed seed can still do these small jobs while keeping its file buffers bounded.
+
 These programs use the completed ASMA0 seed. Its fixed input is SOURCE.ASM and its output is RESULT.COM. Preserve each accepted output under the program's own filename before another assembly. Run an output only after a fresh OK and PASS and a VIEW.BAS inspection.
 
 '''
