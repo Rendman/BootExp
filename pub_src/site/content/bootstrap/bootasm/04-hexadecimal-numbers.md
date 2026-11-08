@@ -7,7 +7,7 @@ download_group = "tools/bootasm"
 reader_names = 1
 +++
 
-Machine-code tables are easier to read in hexadecimal. The byte writer need not change; only the reader of numbers needs another base.
+The numbers in my notebook come from tables written in hexadecimal. I've been converting them to decimal for BOOTASM. I want to copy `41H` into the source and still be able to compare it with the manual and the viewer.
 
 ## At the keyboard
 

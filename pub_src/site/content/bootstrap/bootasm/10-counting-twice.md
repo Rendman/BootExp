@@ -7,7 +7,7 @@ download_group = "tools/bootasm"
 reader_names = 1
 +++
 
-A source file can be read once to count its bytes and again to collect them. We shall establish those two passes while all operands are still numeric.
+I've begun pencilling the address beside each instruction in my notebook. An extra byte changes every address below it. BOOTASM already counts the bytes it writes; I want it to make a counting pass before it collects the output.
 
 ## At the keyboard
 

@@ -7,7 +7,7 @@ download_group = "tools/bootasm"
 reader_names = 1
 +++
 
-The counting pass knows where each source line will lie. We can give a position a name without emitting another byte.
+My notebook has words such as START and FINISH beside the addresses. Those words are easier to recognize than another column of numbers. I'll give BOOTASM a table in which to record them, along with the positions found by its counting pass.
 
 ## At the keyboard
 

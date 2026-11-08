@@ -7,7 +7,7 @@ download_group = "tools/bootasm"
 reader_names = 1
 +++
 
-A comparison becomes useful when it can select the next instruction. The 8088 gives these conditional transfers a signed one-byte reach, so the assembler must check the distance.
+The routine can print a character and return. Now I want a program to repeat a job and decide when to stop. I already have comparisons; the missing part is a jump that can use their result.
 
 ## At the keyboard
 
@@ -100,6 +100,8 @@ CHECK T18
 ```
 
 It must display `012`, followed on a new line by `PASS` from the batch file. `FAIL` means the program returned a nonzero status. The checker is printed in the workbench section.
+
+I follow the loop in the listing with a pencil: display, advance, compare, and go around again. When `012` appears and the program returns to DOS, I can explain both why it repeated and why it stopped.
 
 ## An error worth catching
 

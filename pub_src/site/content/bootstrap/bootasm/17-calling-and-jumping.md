@@ -7,7 +7,7 @@ download_group = "tools/bootasm"
 reader_names = 1
 +++
 
-A routine can now do useful work, but we need to reach it and return. Near CALL and JMP share the same address calculation.
+In BASIC I can give a piece of work its own routine and reach it with `GOSUB`. I want to organize my assembly source that way too: call a named routine, let it do its job, and return to the instruction after the call.
 
 ## At the keyboard
 

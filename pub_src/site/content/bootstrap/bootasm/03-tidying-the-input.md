@@ -7,7 +7,7 @@ download_group = "tools/bootasm"
 reader_names = 1
 +++
 
-Indentation and a note in the margin should not spoil a source line. We can improve that without changing the byte writer.
+I want to leave myself a note beside a byte and indent a line so I can find it again. The magazine listings do that, but my little reader expects everything in just the right place. I'll let it clear away spaces and comments before it tries to understand a line.
 
 ## At the keyboard
 

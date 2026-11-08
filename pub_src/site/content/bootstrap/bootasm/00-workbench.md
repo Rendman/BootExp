@@ -7,6 +7,8 @@ download_group = "tools/bootasm"
 reader_names = 1
 +++
 
+The BASIC manual is open beside the keyboard, and I've made a work directory for the experiment. Before I start, I want a simple habit: save a working version before changing it. If tonight's idea goes wrong, I want to be able to get back to yesterday's program.
+
 Use a DOS work directory containing GW-BASIC, or keep the interpreter on your DOS command path. The instructions call it `GWBASIC`; substitute the name on your own disk if it differs. Start it once without a filename and note its version banner. Use the period GW-BASIC supplied with your MS-DOS 3.10 distribution; DOS and BASIC have independent version numbers.
 
 The listings use ordinary line-numbered GW-BASIC, sequential text input, and one-byte random records. They do not require a separate BASIC compiler. About 60 KB of BASIC program-and-data space is a suitable workbench; BOOTASM's byte array alone occupies 8,192 bytes. The collection's storage and recursion notes appear in the reference.

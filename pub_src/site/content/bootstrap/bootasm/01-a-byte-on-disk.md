@@ -7,7 +7,9 @@ download_group = "tools/bootasm"
 reader_names = 1
 +++
 
-Before writing an assembler, we need to know how BASIC can put an exact byte on disk. Our first program accepts one decimal value and writes a one-byte file. A second, smaller program shows that byte and the file's length. Type and test them as two separate programs.
+I'm starting with 65, the character code for A. I want BASIC to put that byte in a file, and I want a separate program to show me what is there. If the value or the length is wrong, I want to find out while I still have only one byte to account for.
+
+Our first program accepts one decimal value and writes a one-byte file. A second, smaller program shows that byte and the file's length. Type and test them as two separate programs.
 
 ## One byte
 
@@ -78,6 +80,8 @@ Length: 1
 BASIC may add spaces around numbers. The length must be one, and the hexadecimal byte must be 41. Hexadecimal is a compact way to write bytes; 41H means decimal 65. The viewer uses HEX$ and supplies a leading zero when needed. It shows sixteen bytes per display line.
 
 The viewer takes its filename in `F$`, opens one-byte random records, and uses LOF for the exact length. `N` holds that length and `I` the current record. GET fills `B$`, and ASC reads its byte value. A valid zero-length file reports `Length: 0` and stops. The sequential-input OPEN at line 25 checks that the file already exists before the random OPEN; otherwise random access could create a missing file. A missing or unreadable file produces `Cannot read file. BASIC error` with BASIC's error number; it is not reported as an empty result.
+
+I have a file whose contents I can account for, down to its single byte. I save the writer and viewer before changing either. Those are two working pieces of the workbench.
 
 ## Rejecting a bad value
 

@@ -7,7 +7,7 @@ download_group = "tools/bootasm"
 reader_names = 1
 +++
 
-The processor uses 16-bit quantities as well as bytes. A define-word directive gives us a direct way to check their order on disk.
+The next entry in my notebook is `1234H`. I can work out its two bytes, but I need to be careful about their order. I'll add `DW` so I can give BOOTASM the whole value and then inspect what it writes.
 
 ## At the keyboard
 
@@ -85,6 +85,8 @@ At `File:` enter `RESULT.COM`. The viewer must report length 5 and these bytes (
 ```
 
 This is an encoding or data fixture. Inspect it with the viewer; **do not execute it**.
+
+The viewer shows `34 12`. I check the manual again and put a small note in the margin: low byte first. It is an easy detail to forget while reading the number from left to right.
 
 ## An error worth catching
 

@@ -7,7 +7,7 @@ download_group = "tools/bootasm"
 reader_names = 1
 +++
 
-A recorded address can replace a hand-counted constant. We shall allow a name wherever a whole numeric value is accepted, including a name defined farther down the source.
+BOOTASM can record a name, but I still have to put a number in an operand. I want to write the name there and have the assembler find its value, even when the definition is farther down the file.
 
 ## At the keyboard
 
@@ -81,6 +81,8 @@ At `File:` enter `RESULT.COM`. The viewer must report length 3 and these bytes (
 ```
 
 This is an encoding or data fixture. Inspect it with the viewer; **do not execute it**.
+
+Now a line can say what it refers to. If I insert bytes before `TEXT`, I can assemble again and let BOOTASM find its new address. The name in my source can stay the same.
 
 ## An error worth catching
 

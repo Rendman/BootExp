@@ -125,6 +125,8 @@ DB 256
 
 Return to DOS, copy `X02.ASM` to `SOURCE.ASM`, then run `GWBASIC BA02.BAS`. Expect `ERROR line 1 : Byte out of range`; BASIC may print extra spaces around the line number. There must be no `OK` report. The accepted `RESULT.COM` must remain unchanged. Preserve it as HOLD.COM before this test and compare the files afterward; an older result must not be mistaken for a new successful assembly.
 
+I don't want a mistyped number to cost me the file that worked. Seeing the same bytes after the rejected input tells me this version is worth keeping.
+
 ## If the result differs
 
 Check the changed line numbers first, then compare the test source with the listing above. A BASIC error names a BASIC line; `ERROR line` names a line in the assembly input. A missing source file produces a BASIC file error. Keep the preceding checkpoint until both the byte check and rejection check agree.

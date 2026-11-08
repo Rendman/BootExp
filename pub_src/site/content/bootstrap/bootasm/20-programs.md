@@ -7,7 +7,9 @@ download_group = "tools/bootasm"
 reader_names = 1
 +++
 
-These programs use the completed assembler. Save the tested final checkpoint as `BOOTASM.BAS` and preserve another ASCII copy as `BOOTKEEP.BAS`:
+The instruction table is still beside the keyboard. I use it to check BOOTASM's work, while the assembler takes care of translating my source. These three complete programs give me something useful to do with the tool I've built.
+
+Save the tested final checkpoint as `BOOTASM.BAS` and preserve another ASCII copy as `BOOTKEEP.BAS`:
 
 ```basic
 LOAD "BA18.BAS"
@@ -94,3 +96,5 @@ B8 01 4C CD 21
 `CHECK FAIL` must print FAIL. This is the intended result: DOS function 4CH receives the return code one in AL. For comparison, change 4C01H to 4C00H, assemble again, inspect `B8 00 4C CD 21`, and run `CHECK FAIL` again. It must now print PASS. This pair proves that the batch check reports both outcomes rather than treating a quiet return as success.
 
 If both tests give the same report, inspect the new bytes and make certain the ERRORLEVEL test immediately follows the executed program in CHECK.BAT. Do not launch a viewer or another program between the return and the status test.
+
+At the start I had DOS, BASIC and an instruction table. Alongside them I now have `BOOTASM.BAS`, a viewer, and a set of programs whose bytes I can explain. I save `BOOTKEEP.BAS` with the tested sources. This is a tool I am ready to use.

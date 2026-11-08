@@ -7,7 +7,7 @@ download_group = "tools/bootasm"
 reader_names = 1
 +++
 
-We can load registers, but a complete program must also ask DOS to do something and then return control to it. INT supplies that connection.
+I've taught BOOTASM the `MOV` from the magazine listing. I can inspect its bytes, but I still need a way to ask DOS to display the character and finish the program. That gives `INT` a very definite job.
 
 ## At the keyboard
 
@@ -87,6 +87,8 @@ CHECK T09
 ```
 
 It must display `B`, followed on a new line by `PASS` from the batch file. `FAIL` means the program returned a nonzero status. The checker is printed in the workbench section.
+
+The `B` on the screen is the character from the instruction in my notebook. I go back over the bytes once more, then save the source and the accepted program under their own names. I have used my assembler to make a complete program that runs under DOS.
 
 ## An error worth catching
 

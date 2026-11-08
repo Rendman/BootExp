@@ -34,6 +34,26 @@ DESCRIPTIONS = {
     'Calling and jumping': 'Near transfers, return addresses, and relative displacements.',
     'Short conditional branches': "Let the flags choose a path, within a signed byte's reach.",
 }
+STORY_OPENINGS = {
+    'Tidying the input': "I want to leave myself a note beside a byte and indent a line so I can find it again. The magazine listings do that, but my little reader expects everything in just the right place. I'll let it clear away spaces and comments before it tries to understand a line.",
+    'Hexadecimal numbers': "The numbers in my notebook come from tables written in hexadecimal. I've been converting them to decimal for BOOTASM. I want to copy `41H` into the source and still be able to compare it with the manual and the viewer.",
+    'Putting a word on disk': "The next entry in my notebook is `1234H`. I can work out its two bytes, but I need to be careful about their order. I'll add `DW` so I can give BOOTASM the whole value and then inspect what it writes.",
+    'Making a DOS request': "I've taught BOOTASM the `MOV` from the magazine listing. I can inspect its bytes, but I still need a way to ask DOS to display the character and finish the program. That gives `INT` a very definite job.",
+    'Counting twice': "I've begun pencilling the address beside each instruction in my notebook. An extra byte changes every address below it. BOOTASM already counts the bytes it writes; I want it to make a counting pass before it collects the output.",
+    'Giving positions names': "My notebook has words such as START and FINISH beside the addresses. Those words are easier to recognize than another column of numbers. I'll give BOOTASM a table in which to record them, along with the positions found by its counting pass.",
+    'Using names as values': "BOOTASM can record a name, but I still have to put a number in an operand. I want to write the name there and have the assembler find its value, even when the definition is farther down the file.",
+    'Calling and jumping': "In BASIC I can give a piece of work its own routine and reach it with `GOSUB`. I want to organize my assembly source that way too: call a named routine, let it do its job, and return to the instruction after the call.",
+    'Short conditional branches': "The routine can print a character and return. Now I want a program to repeat a job and decide when to stop. I already have comparisons; the missing part is a jump that can use their result.",
+}
+STORY_AFTER_CHECKS = {
+    'Putting a word on disk': "The viewer shows `34 12`. I check the manual again and put a small note in the margin: low byte first. It is an easy detail to forget while reading the number from left to right.",
+    'Making a DOS request': "The `B` on the screen is the character from the instruction in my notebook. I go back over the bytes once more, then save the source and the accepted program under their own names. I have used my assembler to make a complete program that runs under DOS.",
+    'Using names as values': "Now a line can say what it refers to. If I insert bytes before `TEXT`, I can assemble again and let BOOTASM find its new address. The name in my source can stay the same.",
+    'Short conditional branches': "I follow the loop in the listing with a pencil: display, advance, compare, and go around again. When `012` appears and the program returns to DOS, I can explain both why it repeated and why it stopped.",
+}
+STORY_AFTER_REJECTIONS = {
+    'Reading a source file': "I don't want a mistyped number to cost me the file that worked. Seeing the same bytes after the rejected input tells me this version is worth keeping.",
+}
 def stage(title,code,why,explain,fixture,expected,bad,diagnostic,*,remove=(),run=None):
     stages.append(dict(title=title,patch=lines(code),why=why,explain=explain,fixture=fixture,
                        expected=expected,bad=bad,diagnostic=diagnostic,remove=remove,run=run))
@@ -505,7 +525,7 @@ description = "{DESCRIPTIONS[s['title']]}"
 checkpoint = "{name}"
 +++
 
-{s['why']}
+{STORY_OPENINGS.get(s['title'],s['why'])}
 
 ## At the keyboard
 
@@ -571,6 +591,9 @@ CHECK {fixture}
         else: body+='It must display `PASS` from the batch file. '
         body+='`FAIL` means the program returned a nonzero status. The checker is printed in the workbench section.\n\n'
     else: body+='This is an encoding or data fixture. Inspect it with the viewer; **do not execute it**.\n\n'
+    if s['title'] in STORY_AFTER_CHECKS:body+=STORY_AFTER_CHECKS[s['title']]+'\n\n'
+    rejection_story=STORY_AFTER_REJECTIONS.get(s['title'],'')
+    if rejection_story:rejection_story+='\n\n'
     badline=len(s['bad'].splitlines())
     body+=f'''## An error worth catching
 
@@ -582,7 +605,7 @@ Create `X{index:02}.ASM` containing:
 
 Return to DOS, copy `X{index:02}.ASM` to `SOURCE.ASM`, then run `GWBASIC {name}`. Expect `ERROR line {badline} : {s['diagnostic']}`; BASIC may print extra spaces around the line number. There must be no `OK` report. The accepted `RESULT.COM` must remain unchanged. Preserve it as HOLD.COM before this test and compare the files afterward; an older result must not be mistaken for a new successful assembly.
 
-## If the result differs
+{rejection_story}## If the result differs
 
 Check the changed line numbers first, then compare the test source with the listing above. A BASIC error names a BASIC line; `ERROR line` names a line in the assembly input. A missing source file produces a BASIC file error. Keep the preceding checkpoint until both the byte check and rejection check agree.
 '''
