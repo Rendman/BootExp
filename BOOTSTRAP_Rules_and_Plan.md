@@ -47,6 +47,7 @@ The complete toolchain is implemented and verified. Unchanged ASM0 builds ASM1, 
 - Keep real limitations explicit. Distinguish CPU capabilities from the smaller language our assembler accepts. Do not imply support for full C merely because the assembler can support a small compiler.
 - Explain all limitations fully, including why each limitation was chosen.
 - Use natural, concrete prose consistent with the 1986 setting. Avoid formulaic or AI-sounding language.
+- Carry the young programmer's first-person story forward as the tools grow. Collection openings and occasional transitions should show his next discovery, difficulty or practical need at that stage, without repeatedly retelling the origin story. Keep technical instructions clear and let his knowledge develop with the construction.
 - Double-check all produced text and code for correctness.
 
 ## 3. Reference PC build

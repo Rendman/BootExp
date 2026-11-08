@@ -10,7 +10,9 @@ tool_id = "BOOTASM"
 collection_key = "bootasm"
 +++
 
-The processor does not read `MOV DL,42H`. It reads bytes. An assembler is the program which performs that translation, and a small one is within reach of a BASIC programmer.
+I've found `MOV DL,42H` in a magazine listing. The instruction table in my manual gives its bytes as `B2 42`. With no assembler to do the translation, I'm doing the looking up myself. BASIC can read text and write files; I want to teach it to take over that job.
+
+I'll call the program **BOOTASM**. To begin, I want to write a single byte to disk and check it. Once I can trust that small piece, I can start giving it instruction names to translate.
 
 ## What we're adding
 
