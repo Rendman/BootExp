@@ -1,0 +1,1068 @@
+// EDIT86 construction checkpoint.
+let mut undo=0;
+let mut uhead=0;
+let mut ucount=0;
+let mut input=0;
+let mut inopen=0;
+let mut output=0;
+let mut outopen=0;
+let mut own=0;
+let mut keep=0;
+let mut active=0;
+let mut dirty=0;
+let mut message=0;
+let mut crow=0;
+let mut vertical=0;
+let mut layout=1;
+let mut allrows=1;
+let mut onerow=0;
+let mut nlen=0;
+bytes pages[16];
+bytes gap[4];
+bytes gapend[4];
+bytes length[4];
+bytes space[4];
+bytes cap[4];
+bytes target[4];
+bytes top[4];
+bytes start[4];
+bytes col[4];
+bytes scroll[4];
+bytes prefer[4];
+bytes oldtop[4];
+bytes oldscroll[4];
+bytes at[4];
+bytes probe[4];
+bytes matchpos[4];
+bytes work[4];
+bytes other[4];
+bytes io[4096];
+bytes rowbuf[80];
+bytes needle[65];
+bytes query[65];
+fn main(){
+    store16(cap+2,4);
+    copypos(gapend,cap);
+    copypos(space,cap);
+    if reserved(){
+        fatal("Recovery files EDIT.TMP or EDIT.BAK already exist.");
+    }
+    allocate();
+    loadfile();
+    copypos(gap,length);
+    copypos(target,top);
+    movegap(target);
+    vbegin();
+    if status(){
+        fatal("EDIT86 requires an 80-column text screen.");
+    }
+    active=1;
+    while 1{
+        refresh();
+        let mut k=key();
+        if status(){
+            fatal("Keyboard service failed.");
+        }
+        message=0;
+        if k==266{
+            if confirm(){
+                return cleanup();
+            }
+        }
+        else{
+            command(k);
+        }
+    }
+    return 0;
+}
+fn command(k){
+    if k==265{
+        savefile();
+        return 0;
+    }
+    if k==268{
+        askfind();
+        vertical=0;
+        return 0;
+    }
+    if k==269{
+        findnext(1);
+        vertical=0;
+        return 0;
+    }
+    if k==267{
+        undone();
+        vertical=0;
+        return 0;
+    }
+    if (k>=258)&(k<=259){
+        updown(k==259,1);
+        return 0;
+    }
+    if (k>=262)&(k<=263){
+        updown(k==263,24);
+        return 0;
+    }
+    vertical=0;
+    if k==256{
+        left();
+        return 0;
+    }
+    if k==257{
+        right();
+        return 0;
+    }
+    if k==260{
+        copypos(target,start);
+        movegap(target);
+        return 0;
+    }
+    if k==261{
+        lineend(target,gap);
+        movegap(target);
+        return 0;
+    }
+    if k==270{
+        zero(target);
+        movegap(target);
+        layout=1;
+        return 0;
+    }
+    if k==271{
+        copypos(target,length);
+        movegap(target);
+        layout=1;
+        return 0;
+    }
+    if k==264{
+        erase(0);
+        return 0;
+    }
+    if k==8{
+        erase(1);
+        return 0;
+    }
+    if k==13{
+        typing(13,10,2);
+        return 0;
+    }
+    if (k==9)|((k>=32)&(k<=126)){
+        typing(k,0,1);
+    }
+    return 0;
+}
+fn filename(){
+    return "EDIT.TXT";
+}
+fn zero(p){
+    store16(p,0);
+    store16(p+2,0);
+    return 0;
+}
+fn copypos(d,s){
+    store16(d,load16(s));
+    store16(d+2,load16(s+2));
+    return 0;
+}
+fn before(a,b){
+    return (load16(a+2)<load16(b+2))|((load16(a+2)==load16(b+2))&(load16(a)<load16(b)));
+}
+fn equal(a,b){
+    return (load16(a)==load16(b))&(load16(a+2)==load16(b+2));
+}
+fn add(p,n){
+    let mut old=load16(p);
+    let mut next=old+n;
+    store16(p,next);
+    if next<old{
+        store16(p+2,load16(p+2)+1);
+    }
+    return 0;
+}
+fn sub(p,n){
+    let mut old=load16(p);
+    store16(p,old-n);
+    if old<n{
+        store16(p+2,load16(p+2)-1);
+    }
+    return 0;
+}
+fn difference(d,a,b){
+    let mut lo=load16(a);
+    let mut other=load16(b);
+    store16(d,lo-other);
+    store16(d+2,load16(a+2)-load16(b+2)-(lo<other));
+    return 0;
+}
+fn handle(lo,hi){
+    return load16(pages+(hi*2+(lo>>15))*2);
+}
+fn peek(p){
+    let mut lo=load16(p);
+    let mut hi=load16(p+2);
+    if (hi>load16(gap+2))|((hi==load16(gap+2))&(lo>=load16(gap))){
+        let mut next=lo+load16(space);
+        hi=hi+load16(space+2)+(next<lo);
+        lo=next;
+    }
+    let mut value=get8(handle(lo,hi),lo&32767);
+    if status(){
+        fatal("Text storage failed.");
+    }
+    return value;
+}
+fn allocate(){
+    let mut i=0;
+    while i<8{
+        let mut h=alloc(32768);
+        if status(){
+            fatal("Not enough DOS memory for 256 KiB text storage.");
+        }
+        store16(pages+i*2,h);
+        i=i+1;
+    }
+    undo=alloc(16384);
+    if status(){
+        fatal("Not enough DOS memory for undo storage.");
+    }
+    return 0;
+}
+fn release(){
+    let mut bad=0;
+    let mut i=0;
+    while i<8{
+        let mut h=load16(pages+i*2);
+        if h{
+            free(h);
+            if status(){
+                bad=1;
+            }
+            store16(pages+i*2,0);
+        }
+        i=i+1;
+    }
+    if undo{
+        free(undo);
+        if status(){
+            bad=1;
+        }
+        undo=0;
+    }
+    return bad;
+}
+fn loadfile(){
+    let mut present=exists(filename());
+    if status(){
+        fatal("Cannot inspect EDIT.TXT.");
+    }
+    if present==0{
+        return 0;
+    }
+    input=open(filename());
+    if status(){
+        fatal("Cannot open EDIT.TXT.");
+    }
+    inopen=1;
+    while 1{
+        let mut request=4096;
+        if load16(length+2)==4{
+            request=1;
+        }
+        else{
+            let mut left=32768-(load16(length)&32767);
+            if request>left{
+                request=left;
+            }
+        }
+        let mut n=read(input,io,request);
+        if status(){
+            fatal("Cannot read EDIT.TXT.");
+        }
+        if n==0{
+            close(input);
+            if status(){
+                fatal("Cannot close EDIT.TXT.");
+            }
+            inopen=0;
+            difference(space,cap,length);
+            return 0;
+        }
+        if load16(length+2)==4{
+            fatal("EDIT.TXT exceeds the 256 KiB text capacity.");
+        }
+        blockload(handle(load16(length),load16(length+2)),load16(length)&32767,io,n);
+        if status(){
+            fatal("Text load exceeds its allocated page.");
+        }
+        add(length,n);
+    }
+    return 0;
+}
+fn movegap(p){
+    if (load16(space)==0)&(load16(space+2)==0){
+        copypos(gap,p);
+        copypos(gapend,p);
+        return 0;
+    }
+    while before(gap,p){
+        difference(work,p,gap);
+        let mut n=32768;
+        if load16(work+2)==0{
+            if load16(work)<n{
+                n=load16(work);
+            }
+        }
+        let mut so=load16(gapend)&32767;
+        let mut dest=load16(gap)&32767;
+        if n>32768-so{
+            n=32768-so;
+        }
+        if n>32768-dest{
+            n=32768-dest;
+        }
+        blockmove(handle(load16(gapend),load16(gapend+2)),so,handle(load16(gap),load16(gap+2)),dest,n);
+        if status(){
+            fatal("Gap move failed.");
+        }
+        add(gap,n);
+        add(gapend,n);
+    }
+    while before(p,gap){
+        difference(work,gap,p);
+        let mut n=32768;
+        if load16(work+2)==0{
+            if load16(work)<n{
+                n=load16(work);
+            }
+        }
+        copypos(at,gap);
+        sub(at,1);
+        copypos(other,gapend);
+        sub(other,1);
+        let mut so=(load16(at)&32767)+1;
+        let mut dest=(load16(other)&32767)+1;
+        if n>so{
+            n=so;
+        }
+        if n>dest{
+            n=dest;
+        }
+        copypos(at,gap);
+        sub(at,n);
+        copypos(other,gapend);
+        sub(other,n);
+        blockmove(handle(load16(at),load16(at+2)),load16(at)&32767,handle(load16(other),load16(other+2)),load16(other)&32767,n);
+        if status(){
+            fatal("Gap move failed.");
+        }
+        sub(gap,n);
+        sub(gapend,n);
+    }
+    return 0;
+}
+fn linebegin(d,p){
+    copypos(d,p);
+    while (load16(d)!=0)|(load16(d+2)!=0){
+        copypos(probe,d);
+        sub(probe,1);
+        let mut c=peek(probe);
+        if (c==13)|(c==10){
+            return 0;
+        }
+        sub(d,1);
+    }
+    return 0;
+}
+fn lineend(d,p){
+    copypos(d,p);
+    while before(d,length){
+        let mut c=peek(d);
+        if (c==13)|(c==10){
+            return 0;
+        }
+        add(d,1);
+    }
+    return 0;
+}
+fn nextline(d,p){
+    lineend(d,p);
+    if before(d,length){
+        let mut c=peek(d);
+        add(d,1);
+        if (c==13)&before(d,length){
+            if peek(d)==10{
+                add(d,1);
+            }
+        }
+    }
+    return 0;
+}
+fn prevline(d,p){
+    linebegin(d,p);
+    if (load16(d)!=0)|(load16(d+2)!=0){
+        sub(d,1);
+        if peek(d)==10{
+            if (load16(d)!=0)|(load16(d+2)!=0){
+                copypos(probe,d);
+                sub(probe,1);
+                if peek(probe)==13{
+                    sub(d,1);
+                }
+            }
+        }
+        linebegin(d,d);
+    }
+    return 0;
+}
+fn column(d,from,to){
+    zero(d);
+    copypos(probe,from);
+    while before(probe,to){
+        let mut c=peek(probe);
+        if c==9{
+            add(d,8-(load16(d)&7));
+        }
+        else{
+            add(d,1);
+        }
+        add(probe,1);
+    }
+    return 0;
+}
+fn toward(d,from,wanted){
+    copypos(d,from);
+    zero(col);
+    while before(d,length){
+        let mut c=peek(d);
+        if (c==13)|(c==10){
+            return 0;
+        }
+        let mut width=1;
+        if c==9{
+            width=8-(load16(col)&7);
+        }
+        add(col,width);
+        if before(wanted,col){
+            return 0;
+        }
+        add(d,1);
+    }
+    return 0;
+}
+fn leftcount(){
+    if (load16(gap)==0)&(load16(gap+2)==0){
+        return 0;
+    }
+    copypos(probe,gap);
+    sub(probe,1);
+    if peek(probe)==10{
+        if (load16(probe)!=0)|(load16(probe+2)!=0){
+            sub(probe,1);
+            if peek(probe)==13{
+                return 2;
+            }
+        }
+    }
+    return 1;
+}
+fn rightcount(){
+    if !before(gap,length){
+        return 0;
+    }
+    if peek(gap)==13{
+        copypos(probe,gap);
+        add(probe,1);
+        if before(probe,length){
+            if peek(probe)==10{
+                return 2;
+            }
+        }
+    }
+    return 1;
+}
+fn left(){
+    let mut n=leftcount();
+    if n{
+        copypos(target,gap);
+        sub(target,n);
+        let mut c=peek(target);
+        if (c==13)|(c==10){
+            layout=1;
+        }
+        movegap(target);
+    }
+    return 0;
+}
+fn right(){
+    let mut n=rightcount();
+    if n{
+        let mut c=peek(gap);
+        if (c==13)|(c==10){
+            layout=1;
+        }
+        copypos(target,gap);
+        add(target,n);
+        movegap(target);
+    }
+    return 0;
+}
+fn updown(down,count){
+    if vertical==0{
+        column(prefer,start,gap);
+        vertical=1;
+    }
+    copypos(target,start);
+    while count{
+        if down{
+            nextline(target,target);
+        }
+        else{
+            prevline(target,target);
+        }
+        count=count-1;
+    }
+    toward(target,target,prefer);
+    movegap(target);
+    layout=1;
+    return 0;
+}
+fn rawinsert(c){
+    set8(handle(load16(gap),load16(gap+2)),load16(gap)&32767,c);
+    if status(){
+        fatal("Text insertion failed.");
+    }
+    add(gap,1);
+    add(length,1);
+    sub(space,1);
+    return 0;
+}
+fn rawdelete(n){
+    add(gapend,n);
+    sub(length,n);
+    add(space,n);
+    return 0;
+}
+fn remember(kind,n,c,d){
+    let mut p=uhead*8;
+    set8(undo,p,kind);
+    set8(undo,p+1,n);
+    set16(undo,p+2,load16(gap));
+    set16(undo,p+4,load16(gap+2));
+    set8(undo,p+6,c);
+    set8(undo,p+7,d);
+    if status(){
+        fatal("Undo storage failed.");
+    }
+    uhead=(uhead+1)&2047;
+    if ucount<2048{
+        ucount=ucount+1;
+    }
+    return 0;
+}
+fn typing(c,d,n){
+    if load16(space+2)==0{
+        if load16(space)<n{
+            message="Buffer full; delete text before inserting.";
+            return 0;
+        }
+    }
+    remember(1,n,0,0);
+    rawinsert(c);
+    if n==2{
+        rawinsert(d);
+        allrows=1;
+        layout=1;
+    }
+    else{
+        onerow=1;
+    }
+    dirty=1;
+    return 0;
+}
+fn erase(back){
+    let mut n=rightcount();
+    if back{
+        n=leftcount();
+        if n{
+            copypos(target,gap);
+            sub(target,n);
+            movegap(target);
+        }
+    }
+    if n{
+        let mut c=peek(gap);
+        let mut d=0;
+        if n==2{
+            copypos(probe,gap);
+            add(probe,1);
+            d=peek(probe);
+        }
+        remember(2,n,c,d);
+        rawdelete(n);
+        dirty=1;
+        if (c==13)|(c==10){
+            allrows=1;
+            layout=1;
+        }
+        else{
+            onerow=1;
+        }
+    }
+    return 0;
+}
+fn undone(){
+    if ucount==0{
+        message="No earlier edit remains in undo storage.";
+        return 0;
+    }
+    uhead=(uhead+2047)&2047;
+    ucount=ucount-1;
+    let mut p=uhead*8;
+    let mut kind=get8(undo,p);
+    let mut n=get8(undo,p+1);
+    store16(target,get16(undo,p+2));
+    store16(target+2,get16(undo,p+4));
+    let mut c=get8(undo,p+6);
+    let mut d=get8(undo,p+7);
+    movegap(target);
+    if kind==1{
+        rawdelete(n);
+    }
+    else{
+        rawinsert(c);
+        if n==2{
+            rawinsert(d);
+        }
+    }
+    dirty=1;
+    allrows=1;
+    layout=1;
+    return 0;
+}
+fn statusline(s){
+    let mut i=0;
+    while i<80{
+        rowbuf[i]=32;
+        i=i+1;
+    }
+    i=0;
+    while load8(s+i){
+        if i==80{
+            vpos(1920);
+            vwrite(rowbuf,80);
+            return 0;
+        }
+        rowbuf[i]=load8(s+i);
+        i=i+1;
+    }
+    vpos(1920);
+    vwrite(rowbuf,80);
+    return 0;
+}
+fn paintrow(row,p){
+    let mut i=0;
+    while i<80{
+        rowbuf[i]=32;
+        i=i+1;
+    }
+    zero(col);
+    while before(p,length){
+        let mut c=peek(p);
+        if (c==13)|(c==10){
+            nextline(p,p);
+            vpos(row*80);
+            vwrite(rowbuf,80);
+            return 0;
+        }
+        let mut width=1;
+        if c==9{
+            width=8-(load16(col)&7);
+            c=32;
+        }
+        else{
+            if (c<32)|(c>126){
+                c=46;
+            }
+        }
+        while width{
+            if !before(col,scroll){
+                difference(work,col,scroll);
+                if (load16(work+2)==0)&(load16(work)<80){
+                    rowbuf[load16(work)]=c;
+                }
+            }
+            add(col,1);
+            width=width-1;
+        }
+        add(p,1);
+    }
+    vpos(row*80);
+    vwrite(rowbuf,80);
+    return 0;
+}
+fn refresh(){
+    if layout{
+        linebegin(start,gap);
+        if before(start,top){
+            copypos(top,start);
+        }
+        copypos(target,top);
+        crow=0;
+        while before(target,start)&(crow<24){
+            nextline(target,target);
+            crow=crow+1;
+        }
+        if crow==24{
+            copypos(top,start);
+            let mut i=0;
+            while i<23{
+                prevline(top,top);
+                i=i+1;
+            }
+            copypos(target,top);
+            crow=0;
+            while before(target,start){
+                nextline(target,target);
+                crow=crow+1;
+            }
+        }
+        layout=0;
+    }
+    column(col,start,gap);
+    if before(col,scroll){
+        copypos(scroll,col);
+    }
+    else{
+        difference(work,col,scroll);
+        if (load16(work+2)!=0)|(load16(work)>=80){
+            copypos(scroll,col);
+            sub(scroll,79);
+        }
+    }
+    difference(work,col,scroll);
+    let mut x=load16(work);
+    if !equal(top,oldtop)|!equal(scroll,oldscroll){
+        allrows=1;
+    }
+    if allrows{
+        copypos(at,top);
+        let mut row=0;
+        while row<24{
+            paintrow(row,at);
+            row=row+1;
+        }
+    }
+    else{
+        if onerow{
+            copypos(at,start);
+            paintrow(crow,at);
+        }
+    }
+    copypos(oldtop,top);
+    copypos(oldscroll,scroll);
+    allrows=0;
+    onerow=0;
+    if message{
+        statusline(message);
+    }
+    else{
+        if dirty{
+            statusline("EDIT86 EDIT.TXT *  F2 Save F3 Find F4 Undo F5 Next F10 Quit");
+        }
+        else{
+            statusline("EDIT86 EDIT.TXT    F2 Save F3 Find F4 Undo F5 Next F10 Quit");
+        }
+    }
+    vpos(crow*80+x);
+    if status(){
+        fatal("Screen service failed.");
+    }
+    return 0;
+}
+fn askfind(){
+    let mut n=0;
+    while 1{
+        let mut i=0;
+        while i<80{
+            rowbuf[i]=32;
+            i=i+1;
+        }
+        rowbuf[0]=70;
+        rowbuf[1]=105;
+        rowbuf[2]=110;
+        rowbuf[3]=100;
+        rowbuf[4]=58;
+        i=0;
+        while i<n{
+            rowbuf[i+6]=query[i];
+            i=i+1;
+        }
+        vpos(1920);
+        vwrite(rowbuf,80);
+        vpos(1926+n);
+        let mut k=key();
+        if k==27{
+            return 0;
+        }
+        if k==13{
+            if n{
+                nlen=n;
+                i=0;
+                while i<n{
+                    needle[i]=query[i];
+                    i=i+1;
+                }
+                findnext(0);
+            }
+            return 0;
+        }
+        if k==8{
+            if n{
+                n=n-1;
+            }
+        }
+        else{
+            if (k>=32)&(k<=126)&(n<64){
+                query[n]=k;
+                n=n+1;
+            }
+        }
+    }
+    return 0;
+}
+fn findnext(skip){
+    if nlen==0{
+        message="Use F3 to enter a literal search string.";
+        return 0;
+    }
+    copypos(probe,gap);
+    if skip{
+        if before(probe,length){
+            add(probe,1);
+        }
+    }
+    while before(probe,length){
+        copypos(matchpos,probe);
+        let mut i=0;
+        let mut found=1;
+        while (i<nlen)&found{
+            if !before(matchpos,length){
+                found=0;
+            }
+            else{
+                if peek(matchpos)!=needle[i]{
+                    found=0;
+                }
+            }
+            if found{
+                add(matchpos,1);
+                i=i+1;
+            }
+        }
+        if found{
+            copypos(target,probe);
+            movegap(target);
+            layout=1;
+            message="Found.";
+            return 0;
+        }
+        add(probe,1);
+    }
+    message="Text not found before end of file.";
+    return 0;
+}
+fn reserved(){
+    let mut found=exists("EDIT.TMP");
+    if status(){
+        return 1;
+    }
+    if found{
+        return 1;
+    }
+    found=exists("EDIT.BAK");
+    if status(){
+        return 1;
+    }
+    return found;
+}
+fn writepart(lo,hi,endlo,endhi){
+    while (hi<endhi)|((hi==endhi)&(lo<endlo)){
+        let mut n=4096;
+        let mut remaining=endlo-lo;
+        let mut high=endhi-hi-(endlo<lo);
+        if high==0{
+            if remaining<n{
+                n=remaining;
+            }
+        }
+        let mut offset=lo&32767;
+        if n>32768-offset{
+            n=32768-offset;
+        }
+        blockread(handle(lo,hi),offset,io,n);
+        if status(){
+            return 0;
+        }
+        let mut done=write(output,io,n);
+        if status(){
+            return 0;
+        }
+        if done!=n{
+            return 0;
+        }
+        let mut next=lo+n;
+        hi=hi+(next<lo);
+        lo=next;
+    }
+    return 1;
+}
+fn abortsave(){
+    if outopen{
+        close(output);
+        if status()==0{
+            outopen=0;
+        }
+    }
+    if own&(outopen==0)&(keep==0){
+        delete("EDIT.TMP");
+        if status()==0{
+            own=0;
+        }
+    }
+    message="Save failed. Inspect EDIT.TMP / EDIT.BAK before retrying.";
+    return 0;
+}
+fn savefile(){
+    if reserved(){
+        message="Recovery files block saving: EDIT.TMP / EDIT.BAK.";
+        return 0;
+    }
+    keep=0;
+    output=create("EDIT.TMP");
+    if status(){
+        message="Cannot create EDIT.TMP.";
+        return 0;
+    }
+    outopen=1;
+    own=1;
+    if !writepart(0,0,load16(gap),load16(gap+2)){
+        return abortsave();
+    }
+    if !writepart(load16(gapend),load16(gapend+2),0,4){
+        return abortsave();
+    }
+    close(output);
+    if status(){
+        return abortsave();
+    }
+    outopen=0;
+    let mut backup=exists(filename());
+    if status(){
+        return abortsave();
+    }
+    if backup{
+        rename(filename(),"EDIT.BAK");
+        if status(){
+            return abortsave();
+        }
+    }
+    rename("EDIT.TMP",filename());
+    if status(){
+        if backup{
+            rename("EDIT.BAK",filename());
+            if status(){
+                keep=1;
+            }
+        }
+        return abortsave();
+    }
+    own=0;
+    if backup{
+        delete("EDIT.BAK");
+        if status(){
+            keep=1;
+            return abortsave();
+        }
+    }
+    dirty=0;
+    message="Saved EDIT.TXT.";
+    return 1;
+}
+fn confirm(){
+    if dirty==0{
+        return 1;
+    }
+    while 1{
+        statusline("Unsaved changes: S save and quit, Q discard, ESC cancel.");
+        let mut k=key();
+        if (k==83)|(k==115){
+            return savefile();
+        }
+        if (k==81)|(k==113){
+            return 1;
+        }
+        if k==27{
+            return 0;
+        }
+    }
+    return 0;
+}
+fn cleanup(){
+    let mut bad=0;
+    if active{
+        vend();
+        if status(){
+            bad=1;
+        }
+        active=0;
+    }
+    if inopen{
+        close(input);
+        if status(){
+            bad=1;
+        }
+        else{
+            inopen=0;
+        }
+    }
+    if outopen{
+        close(output);
+        if status(){
+            bad=1;
+        }
+        else{
+            outopen=0;
+        }
+    }
+    if own&(keep==0)&(outopen==0){
+        delete("EDIT.TMP");
+        if status(){
+            bad=1;
+        }
+        else{
+            own=0;
+        }
+    }
+    if release(){
+        bad=1;
+    }
+    if keep{
+        print("Recovery files retained: inspect EDIT.TMP / EDIT.BAK.\r\n");
+        bad=1;
+    }
+    return bad;
+}
+fn print(s){
+    while load8(s){
+        putc(load8(s));
+        s=s+1;
+    }
+    return 0;
+}
+fn fatal(s){
+    cleanup();
+    print(s);
+    print("\r\n");
+    exit(1);
+    return 0;
+}

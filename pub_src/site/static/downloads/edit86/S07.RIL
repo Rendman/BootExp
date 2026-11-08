@@ -1,0 +1,36 @@
+bytes data[6];
+fn main(){
+    let mut h=alloc(64);
+    if status(){
+        return 1;
+    }
+    blockload(h,0,"ABCDEF",6);
+    blockmove(h,0,h,1,5);
+    let mut bad=status();
+    blockread(h,0,data,6);
+    bad=bad|status();
+    let mut i=0;
+    while i<6{
+        if data[i]!=load8("AABCDE"+i){
+            bad=1;
+        }
+        i=i+1;
+    }
+    blockmove(h,1,h,0,5);
+    bad=bad|status();
+    blockread(h,0,data,6);
+    bad=bad|status();
+    i=0;
+    while i<6{
+        if data[i]!=load8("ABCDEE"+i){
+            bad=1;
+        }
+        i=i+1;
+    }
+    blockmove(h,63,h,0,2);
+    if status()==0{
+        bad=1;
+    }
+    free(h);
+    return bad|status();
+}

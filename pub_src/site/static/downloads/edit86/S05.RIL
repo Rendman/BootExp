@@ -1,0 +1,11 @@
+fn main(){
+    vbegin();
+    if status(){
+        return 1;
+    }
+    vpos(0);
+    vwrite("Press F10",9);
+    let mut k=key();
+    vend();
+    return (k!=266)|status();
+}

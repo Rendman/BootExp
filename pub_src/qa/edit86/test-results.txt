@@ -1,0 +1,8 @@
+PASS color/monochrome screen, literal control-byte display, nine checked allocations and release
+PASS lossless saves, insertion, CR/LF pairs, bare endings, deletion and single-edit undo
+PASS preferred visual column, tabs, Home/End, document ends, paging, vertical/horizontal viewport
+PASS literal search/find-next, search cancel, quit cancel/discard/save
+PASS short reads, page-spanning search and gap transfers, source larger than 128 KiB, live-gap save
+PASS exact 256 KiB capacity, refused growth, deletion/replacement, oversized input preserves original
+PASS reserved recovery names, read/create/short-write/rename failures, partial allocation cleanup, screen rejection
+PASS backup restoration and explicit retained recovery files when restoration or backup removal fails

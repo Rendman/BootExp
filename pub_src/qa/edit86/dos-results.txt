@@ -1,0 +1,3 @@
+PASS DOS 3.10: load 84000 bytes and paint the BIOS text screen
+PASS DOS 3.10: move to document end beyond 64 KiB, insert, save, and verify every resulting byte
+PASS DOS 3.10: return to DOS with CHECK PASS after releasing text and undo blocks

@@ -2,7 +2,7 @@
 
 An original, gradual course in building an 8086/8088 software workbench, starting with an assembler written in GW-BASIC.
 
-The Hugo source lives in `pub_src/site`; generated pages go to root `public/`. The collections follow **BOOTASM → ASM0 → ASM1 → ASM86 → IR86 → RILL0 → RILLBOOT → RILL**, followed by rebuilding the tools in RILL and constructing LINK86:
+The Hugo source lives in `pub_src/site`; generated pages go to root `public/`. The collections follow **BOOTASM → ASM0 → ASM1 → ASM86 → IR86 → RILL0 → RILLBOOT → RILL**, followed by rebuilding the tools in RILL, constructing LINK86 and writing EDIT86:
 
 | Tool | Article series |
 |---|---|
@@ -16,10 +16,13 @@ The Hugo source lives in `pub_src/site`; generated pages go to root `public/`. T
 | RILL | A Compiler Written in Its Own Language |
 | Toolchain | Rebuilding Our Tools in RILL |
 | LINK86 | Linking Our First Modules |
+| EDIT86 | Building Our Screen Editor |
 
-The tool constructions have their own workbenches, references, complete examples, and source archives. The final collection begins after the compiler self-builds and brings the three tools together. Reader downloads use these tool names. Earlier article URLs redirect to their current working parts; the construction pages give the exact checkpoint filenames to save. Internal production paths retain their established names; [pub_src/README.md](pub_src/README.md) explains the mapping.
+The tool constructions have their own workbenches, references, complete examples, and source archives. Rebuilding Our Tools in RILL begins after the compiler self-builds and brings the three tools together. Reader downloads use these tool names. Earlier article URLs redirect to their current working parts; the construction pages give the exact checkpoint filenames to save. Internal production paths retain their established names; [pub_src/README.md](pub_src/README.md) explains the mapping.
 
 After that chain, LINK86 is built in RILL. Its ten construction checkpoints link two hand-entered ASCII object modules into a COM image, with public symbols, near-relative and absolute word relocations. ASM86 object output is not required by this first linker series.
+
+[EDIT86](pub_src/site/content/bootstrap/edit86/_index.md) follows with twenty service/editor checkpoints. Its RILL-written screen editor is 22,073 bytes and uses eight allocated 32 KiB pages for text plus a 16 KiB undo ring. The document and insertion gap share 256 KiB; navigation stays in memory and F2 saves through temporary/backup files. Preserved compiler/translator copies add portable screen, key and bulk-transfer operations with an authored 8086/DOS binding. The main block, document and undo request 336 KiB before DOS/environment overhead. The editor supports long files and lines, navigation, insertion/deletion, literal search, 2048 retained edits and unsaved-quit confirmation, using fixed EDIT.TXT. Its source-only archive includes every checkpoint and builder extension.
 
 The complete chain builds a RILL-written compiler (26,617 bytes), IR86 translator (29,678 bytes), and ASM86 assembler (30,911 bytes), then reproduces all three through two closed-loop generations. The RILLBOOT seed is written in IR86. The native ASM86 is built through ASM1 and ASM0 from the BASIC foundation.
 

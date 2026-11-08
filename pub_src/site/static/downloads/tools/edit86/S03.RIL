@@ -1,0 +1,8 @@
+fn main(){
+    vbegin();
+    if status(){
+        return 1;
+    }
+    vend();
+    return status();
+}

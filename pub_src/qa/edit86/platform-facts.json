@@ -1,0 +1,18 @@
+{
+  "RILLED": {
+    "bootstrap_ir_bytes": 50410,
+    "bootstrap_assembly_bytes": 104969,
+    "bootstrap_binary_bytes": 26840,
+    "ir_bytes": 50410,
+    "assembly_bytes": 108931,
+    "binary_bytes": 27631
+  },
+  "IRED": {
+    "bootstrap_ir_bytes": 42343,
+    "bootstrap_assembly_bytes": 140146,
+    "bootstrap_binary_bytes": 30657,
+    "ir_bytes": 42343,
+    "assembly_bytes": 144108,
+    "binary_bytes": 31448
+  }
+}

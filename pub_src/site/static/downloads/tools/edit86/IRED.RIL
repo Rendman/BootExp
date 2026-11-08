@@ -1,0 +1,348 @@
+// Processor-neutral IR parsing; native assembly belongs to its selected backend.
+let mut input = 0;
+let mut output = 0;
+let mut own = 0;
+let mut backup = 0;
+let mut inpos = 0;
+let mut inlen = 0;
+let mut outlen = 0;
+let mut total = 0;
+let mut totalhi = 0;
+let mut line = 0;
+let mut linehi = 0;
+let mut ended = 0;
+let mut skipline = 0;
+let mut pos = 0;
+let mut length = 0;
+let mut toklen = 0;
+let mut depth = 0;
+let mut params = 0;
+let mut locals = 0;
+let mut strid = 0;
+let mut num = 0;
+let mut entries = 0;
+let mut have_main = 0;
+bytes decimal[10];
+bytes inbuf[4096];
+bytes outbuf[4096];
+bytes source[1024];
+bytes token[64];
+bytes name[32];
+bytes ops[2048];
+fn main() {
+    initops();
+    if exists("IRTX.TMP") != 0 { fail(8); }
+    if exists("IRRES.BAK") != 0 { fail(8); }
+    input = open("SOURCE.IR"); if status() { fail(6); }
+    output = create("IRTX.TMP"); if status() { fail(6); } own = 1;
+    header();
+    while readline() { pos = 0; statement(); }
+    if depth { fail(4); }
+    if have_main == 0 { fail(3); }
+    close(input); if status() { fail(6); }
+    runtime(); flush(); close(output); if status() { fail(6); }
+    let mut present=exists("RESULT.ASM");
+    if status() { fail(6); }
+    if present {
+        rename("RESULT.ASM","IRRES.BAK"); if status() { fail(6); } backup = 1;
+    }
+    rename("IRTX.TMP","RESULT.ASM"); if status() { fail(6); } own = 0;
+    if backup { delete("IRRES.BAK"); if status() { fail(6); } }
+    print("OK RESULT.ASM ");
+    print32(totalhi,total);
+    print(" text bytes\r\n"); return 0;
+}
+fn op(n,kind,delta,t) {
+    let mut p = ops+entries*8;
+    store16(p,n); store16(p+2,kind); store16(p+4,delta); store16(p+6,t);
+    entries = entries+1; if entries > 256 { fail(5); } return 0;
+}
+fn readbyte() {
+    if ended { return 65535; }
+    if inpos == inlen {
+        inlen = read(input,inbuf,4096); if status() { fail(6); } inpos = 0;
+        if inlen == 0 { ended = 1; return 65535; }
+    }
+    let mut c = inbuf[inpos]; inpos = inpos+1;
+    if c == 26 { ended = 1; return 65535; } return c;
+}
+fn readline() {
+    let mut c = 0; length = 0;
+    while 1 {
+        c = readbyte();
+        if c == 65535 { if length == 0 { return 0; } return endline(); }
+        if c == 10 { if skipline { skipline = 0; } else { return endline(); } }
+        else {
+            skipline = 0;
+            if c == 13 { skipline = 1; return endline(); }
+            if c < 32 { if c != 9 { fail(1); } }
+            if c >= 127 { fail(1); }
+            if length == 1023 { fail(5); }
+            source[length] = c; length = length+1;
+        }
+    }
+}
+fn endline() {
+    source[length] = 0; line = line+1;
+    if line == 0 { linehi = linehi+1; if linehi == 0 { fail(5); } } return 1;
+}
+fn scan() {
+    toklen = 0;
+    while source[pos] == 32 | source[pos] == 9 { pos = pos+1; }
+    let mut c = source[pos];
+    if c == 59 { token[0] = 0; return 0; }
+    while c != 0 {
+        if c == 32 { c = 0; }
+        else { if c == 9 { c = 0; } else { if c == 59 { c = 0; } } }
+        if c != 0 {
+            if toklen == 63 { fail(1); }
+            if c >= 97 { if c <= 122 { c = c-32; } }
+            token[toklen] = c; toklen = toklen+1; pos = pos+1; c = source[pos];
+        }
+    }
+    token[toklen] = 0; return 0;
+}
+fn same(a,b) {
+    let mut i = 0;
+    while load8(a+i) == load8(b+i) { if load8(a+i) == 0 { return 1; } i = i+1; }
+    return 0;
+}
+fn namearg() {
+    scan(); if toklen == 0 { fail(3); } if toklen > 29 { fail(3); }
+    let mut i = 0; let mut c = token[0];
+    if letter(c) == 0 { fail(3); }
+    while i < toklen { c = token[i]; if letter(c) == 0 { if c < 48 { fail(3); } if c > 57 { fail(3); } } name[i] = c; i = i+1; }
+    name[i] = 0; return 0;
+}
+fn letter(c) { if c == 95 { return 1; } if c < 65 { return 0; } if c > 90 { return 0; } return 1; }
+fn numarg() {
+    scan(); num = 0;
+    let mut i = 0; let mut radix = 10; let mut end = toklen; let mut d = 0;
+    if end == 0 { fail(2); }
+    if token[0] < 48 { fail(2); } if token[0] > 57 { fail(2); }
+    if token[end-1] == 72 { radix = 16; end = end-1; if end == 0 { fail(2); } }
+    while i < end {
+        d = token[i]; if d >= 65 { d = d-55; } else { d = d-48; }
+        if d >= radix { fail(2); }
+        if num > (65535-d)/radix { fail(2); }
+        num = num*radix+d; i = i+1;
+    }
+    return num;
+}
+fn finish() { scan(); if toklen { fail(1); } return 0; }
+fn statement() {
+    scan(); if toklen == 0 { return 0; }
+    let mut i = 0; let mut p = 0; let mut kind = 0; let mut delta = 0; let mut t = 0;
+    let mut found = 0;
+    while i < entries {
+        p = ops+i*8;
+        if same(load16(p),token) { found = 1; i = entries; } else { i = i+1; }
+    }
+    if found == 0 { fail(1); }
+    kind = load16(p+2); delta = load16(p+4); t = load16(p+6);
+    if kind == 6 { stringout(); return 0; }
+    if kind == 1 { numarg(); }
+    if kind == 2 { namearg(); }
+    if kind == 3 { namearg(); numarg(); }
+    if kind == 4 {
+        if depth { fail(4); }
+        namearg(); numarg(); if num > 16 { fail(1); } params = num;
+        numarg(); if num > 64 { fail(1); } locals = num; num = num*2;
+    }
+    if kind == 5 {
+        namearg(); numarg(); if num > depth { fail(4); }
+        depth = depth-num; num = num*2;
+    }
+    finish();
+    if kind == 2 { if same(t,"U_@:\r\n") { if depth { fail(4); } } }
+    if kind == 4 | same(t,"U_@:\r\n") { if same(name,"MAIN") { have_main = 1; } }
+    if same(t,"MOV AX,[BP-#]\r\n") | same(t,"MOV [BP-#],AX\r\n") | same(t,"LEA AX,[BP-#]\r\n") {
+        if num >= locals { fail(1); } num = (num+1)*2;
+    }
+    if same(t,"MOV AX,[BP+#]\r\n") | same(t,"MOV [BP+#],AX\r\n") | same(t,"LEA AX,[BP+#]\r\n") {
+        if num >= params { fail(1); } num = (params-num)*2+2;
+    }
+    if delta == 1 { if depth == 256 { fail(5); } depth = depth+1; }
+    if delta == 2 { if depth == 0 { fail(4); } depth = depth-1; if kind==2 { if depth { fail(4); } } }
+    if delta == 3 { if depth < 2 { fail(4); } depth = depth-2; }
+    if delta == 4 { if depth { fail(4); } }
+    if delta == 5 { if depth < 4 { fail(4); } depth = depth-4; }
+    if delta == 6 { if depth < 3 { fail(4); } depth = depth-3; }
+    expand(t); return 0;
+}
+fn expand(t) {
+    let mut c = 0;
+    while 1 {
+        c = load8(t); t = t+1; if c == 0 { return 0; }
+        if c == 64 { outstr(name); }
+        else {
+            if c == 35 { outnum(num); }
+            else { if c == 63 { outnum(strid); } else { outchar(c); } }
+        }
+    }
+}
+fn stringout() {
+    strid = strid+1; if strid == 0 { fail(5); }
+    expand("MOV AX,S_?\r\nJMP I_?\r\nS_?:\r\nDB ");
+    while source[pos] == 32 | source[pos] == 9 { pos = pos+1; }
+    if source[pos] != 34 { fail(1); } pos = pos+1;
+    let mut c = 0;
+    while source[pos] != 34 {
+        c = source[pos]; pos = pos+1; if c == 0 { fail(1); }
+        if c == 92 {
+            c = source[pos]; pos = pos+1;
+            if c == 110 { c = 10; }
+            else { if c == 114 { c = 13; }
+            else { if c == 116 { c = 9; }
+            else { if c == 48 { c = 0; }
+            else { if c != 92 { if c != 34 { fail(1); } } } } } }
+        }
+        outnum(c); outstr("\r\nDB ");
+    }
+    pos = pos+1; finish(); expand("0\r\nI_?:\r\n"); return 0;
+}
+fn outchar(c) {
+    outbuf[outlen] = c; outlen = outlen+1; total = total+1;
+    if total == 0 { totalhi = totalhi+1; if totalhi == 0 { fail(5); } }
+    if outlen == 4096 { flush(); } return 0;
+}
+fn flush() {
+    if outlen { let mut n = write(output,outbuf,outlen); if status() { fail(6); } if n != outlen { fail(6); } outlen = 0; } return 0;
+}
+fn outstr(s) { while load8(s) { outchar(load8(s)); s = s+1; } return 0; }
+fn outnum(n) {
+    let mut place = 10000; let mut c = 0;
+    while place { c = 48; while n >= place { n = n-place; c = c+1; } outchar(c); place = place/10; } return 0;
+}
+fn print(s) { while load8(s) { putc(load8(s)); s = s+1; } return 0; }
+fn printnum(n) {
+    let mut place = 10000; let mut c = 0;
+    while place { c = 48; while n >= place { n = n-place; c = c+1; } putc(c); place = place/10; } return 0;
+}
+fn fail(code) {
+    if input { close(input); } if output { close(output); }
+    let mut recovery = 0;
+    if backup { rename("IRRES.BAK","RESULT.ASM"); if status() { recovery = 1; } }
+    if recovery == 0 { if own { delete("IRTX.TMP"); if status() { recovery=1; } } }
+    print("IR ERROR "); print32(linehi,line); print(" CODE "); printnum(code); print("\r\n"); if recovery { print("Recovery: inspect IRTX.TMP and IRRES.BAK\r\n"); } exit(1); return 0;
+}
+
+// Divide a pair of words by ten without requiring a wider machine value.
+fn print32(hi,lo) {
+    let mut i = 0; let mut qhi = 0; let mut rem = 0;
+    let mut qlo = 0; let mut bit = 0;
+    while i < 10 {
+        qhi = hi/10; rem = hi%10; qlo = 0; bit = 32768;
+        while bit {
+            rem = rem*2; if lo & bit { rem = rem+1; }
+            qlo = qlo*2;
+            if rem >= 10 { rem = rem-10; qlo = qlo+1; }
+            bit = bit>>1;
+        }
+        decimal[i] = rem+48; hi = qhi; lo = qlo; i = i+1;
+    }
+    while i { i = i-1; putc(decimal[i]); } return 0;
+}
+
+fn initops() {
+    op("EXIT",0,4,"MOV AH,4CH\r\nINT 21H\r\n");
+    op("LABEL",2,0,"U_@:\r\n");
+    op("LIT",1,0,"MOV AX,#\r\n");
+    op("ADDR",2,0,"MOV AX,U_@\r\n");
+    op("WORD",3,4,"U_@:\r\nDW #\r\n");
+    op("BUFFER",3,4,"U_@:\r\nRESB #\r\n");
+    op("LD",2,0,"MOV AX,[U_@]\r\n");
+    op("ST",2,0,"MOV [U_@],AX\r\n");
+    op("FETCH",0,0,"MOV BX,AX\r\nMOV AX,[BX]\r\n");
+    op("FETCHB",0,0,"MOV BX,AX\r\nMOV AL,[BX]\r\nMOV AH,0\r\n");
+    op("PUSH",0,1,"PUSH AX\r\n");
+    op("POP",0,2,"POP AX\r\n");
+    op("PUT",0,2,"POP BX\r\nMOV [BX],AX\r\n");
+    op("PUTB",0,2,"POP BX\r\nMOV [BX],AL\r\n");
+    op("ADD",0,2,"POP BX\r\nADD AX,BX\r\n");
+    op("AND",0,2,"POP BX\r\nAND AX,BX\r\n");
+    op("OR",0,2,"POP BX\r\nOR AX,BX\r\n");
+    op("XOR",0,2,"POP BX\r\nXOR AX,BX\r\n");
+    op("SUB",0,2,"POP BX\r\nSUB BX,AX\r\nMOV AX,BX\r\n");
+    op("MUL",0,2,"POP BX\r\nMUL BX\r\n");
+    op("DIV",0,2,"MOV BX,AX\r\nPOP AX\r\nCMP BX,0\r\nJE NEAR R_STACKFAIL\r\nXOR DX,DX\r\nDIV BX\r\n");
+    op("MOD",0,2,"MOV BX,AX\r\nPOP AX\r\nCMP BX,0\r\nJE NEAR R_STACKFAIL\r\nXOR DX,DX\r\nDIV BX\r\nMOV AX,DX\r\n");
+    op("SHL",0,2,"MOV CX,AX\r\nAND CX,15\r\nPOP AX\r\nSHL AX,CL\r\n");
+    op("SHR",0,2,"MOV CX,AX\r\nAND CX,15\r\nPOP AX\r\nSHR AX,CL\r\n");
+    op("CEQ",0,2,"POP BX\r\nCMP BX,AX\r\nMOV AX,0\r\nJNE $+3\r\nINC AX\r\n");
+    op("CNE",0,2,"POP BX\r\nCMP BX,AX\r\nMOV AX,0\r\nJE $+3\r\nINC AX\r\n");
+    op("CULT",0,2,"POP BX\r\nCMP BX,AX\r\nMOV AX,0\r\nJAE $+3\r\nINC AX\r\n");
+    op("CULE",0,2,"POP BX\r\nCMP BX,AX\r\nMOV AX,0\r\nJA $+3\r\nINC AX\r\n");
+    op("CUGT",0,2,"POP BX\r\nCMP BX,AX\r\nMOV AX,0\r\nJBE $+3\r\nINC AX\r\n");
+    op("CUGE",0,2,"POP BX\r\nCMP BX,AX\r\nMOV AX,0\r\nJB $+3\r\nINC AX\r\n");
+    op("JZ",2,4,"CMP AX,0\r\nJNE $+5\r\nJMP U_@\r\n");
+    op("JNZ",2,4,"CMP AX,0\r\nJE $+5\r\nJMP U_@\r\n");
+    op("JMP",2,4,"JMP U_@\r\n");
+    op("CALL",2,0,"CALL U_@\r\n");
+    op("PROC",4,0,"U_@:\r\nPUSH BP\r\nMOV BP,SP\r\nSUB SP,#\r\nCMP SP,0F000H\r\nJB NEAR R_STACKFAIL\r\n");
+    op("RETURN",0,4,"MOV SP,BP\r\nPOP BP\r\nRET\r\n");
+    op("INVOKE",5,0,"CALL U_@\r\nADD SP,#\r\n");
+    op("LOCAL",1,0,"MOV AX,[BP-#]\r\n");
+    op("SETLOCAL",1,0,"MOV [BP-#],AX\r\n");
+    op("LADDR",1,0,"LEA AX,[BP-#]\r\n");
+    op("PARAM",1,0,"MOV AX,[BP+#]\r\n");
+    op("PADDR",1,0,"LEA AX,[BP+#]\r\n");
+    op("LITS",6,0,"");
+    op("PUTC",0,0,"CALL R_PUTC\r\n");
+    op("OPEN",0,0,"CALL R_OPEN\r\n");
+    op("CREATE",0,0,"CALL R_CREATE\r\n");
+    op("CLOSE",0,0,"CALL R_CLOSE\r\n");
+    op("STATUS",0,0,"MOV AX,[R_STATUS]\r\n");
+    op("READ",0,3,"POP DX\r\nPOP BX\r\nCALL R_READ\r\n");
+    op("WRITE",0,3,"POP DX\r\nPOP BX\r\nCALL R_WRITE\r\n");
+    op("DELETE",0,0,"CALL R_DELETE\r\n");
+    op("EXISTS",0,0,"CALL R_EXISTS\r\n");
+    op("ALLOC",0,0,"CALL R_ALLOC\r\n");
+    op("FREEBLOCK",0,0,"CALL R_FREEBLOCK\r\n");
+    op("RENAME",0,2,"POP DX\r\nCALL R_RENAME\r\n");
+    op("GET8",0,2,"POP BX\r\nMOV CX,1\r\nCALL R_GETMEM\r\n");
+    op("GET16",0,2,"POP BX\r\nMOV CX,2\r\nCALL R_GETMEM\r\n");
+    op("SET8",0,3,"POP DX\r\nPOP BX\r\nMOV CX,1\r\nCALL R_SETMEM\r\n");
+    op("SET16",0,3,"POP DX\r\nPOP BX\r\nMOV CX,2\r\nCALL R_SETMEM\r\n");
+    op("VBEGIN",0,0,"CALL R_VBEGIN\r\n");
+    op("VEND",0,0,"CALL R_VEND\r\n");
+    op("VPOS",0,0,"CALL R_VPOS\r\n");
+    op("VWRITE",0,2,"POP DX\r\nCALL R_VWRITE\r\n");
+    op("KEY",0,0,"CALL R_KEY\r\n");
+    op("BMOVE",0,5,"POP DI\r\nPOP DX\r\nPOP CX\r\nPOP BX\r\nCALL R_BMOVE\r\n");
+    op("BLOAD",0,6,"POP DX\r\nPOP CX\r\nPOP BX\r\nCALL R_BLOAD\r\n");
+    op("BREAD",0,6,"POP DX\r\nPOP CX\r\nPOP BX\r\nCALL R_BREAD\r\n");
+    return 0;
+}
+fn header() { outstr("CLD\r\nCMP SP,0FFFEH\r\nJNE NEAR R_STACKFAIL\r\nCALL U_MAIN\r\nMOV AH,4CH\r\nINT 21H\r\n"); return 0; }
+fn runtime() {
+    outstr("R_OK:\r\nMOV DX,0\r\nMOV [R_STATUS],DX\r\nRET\r\nR_ERROR:\r\nMOV DX,1\r\nMOV [R_STATUS],DX\r\nRET\r\nR_FAIL:\r\nMOV AX,0\r\nJMP R_ERROR\r\n\r\nR_PUTC:\r\nMOV [R_BYTE],AL\r\nMOV BX,1\r\nMOV CX,1\r\nMOV DX,R_BYTE\r\nMOV AH,40H\r\nINT 21H\r\nJAE NEAR R_PUTCOUNT\r\nJMP R_FAIL\r\nR_PUTC");
+    outstr("OUNT:\r\nCMP AX,1\r\nJE NEAR R_PUTGOOD\r\nJMP R_ERROR\r\nR_PUTGOOD:\r\nJMP R_OK\r\n\r\nR_OPEN:\r\nMOV DX,3D00H\r\nJMP R_FILE\r\n\r\nR_CREATE:\r\nMOV DX,3C00H\r\nJMP R_FILE\r\n\r\nR_FILE:\r\nMOV [R_MODE],DX\r\nMOV [R_NAME],AX\r\nCALL R_FREE\r\nCMP BX,0\r\nJNE NEAR R_HAVESLOT\r\nJMP ");
+    outstr("R_FAIL\r\nR_HAVESLOT:\r\nMOV DX,[R_NAME]\r\nMOV CX,0\r\nMOV AX,[R_MODE]\r\nINT 21H\r\nJAE NEAR R_FILEGOOD\r\nJMP R_FAIL\r\nR_FILEGOOD:\r\nINC AX\r\nMOV DX,[R_MODE]\r\nCMP DX,3C00H\r\nJNE NEAR R_READSLOT\r\nADD AX,8000H\r\nR_READSLOT:\r\nMOV BX,[R_SLOT]\r\nMOV [BX],AX\r\nMOV");
+    outstr(" AX,[R_NUMBER]\r\nJMP R_OK\r\nR_FREE:\r\nMOV BX,R_HANDLES\r\nMOV CX,1\r\nR_NEXTSLOT:\r\nMOV AX,[BX]\r\nCMP AX,0\r\nJE NEAR R_SLOTFOUND\r\nADD BX,2\r\nINC CX\r\nCMP CX,9\r\nJB NEAR R_NEXTSLOT\r\nMOV BX,0\r\nRET\r\nR_SLOTFOUND:\r\nMOV [R_SLOT],BX\r\nMOV [R_NUMBER],CX\r\nRET\r\n\r\n");
+    outstr("R_FIND:\r\nCMP BX,1\r\nJB NEAR R_BADHANDLE\r\nCMP BX,8\r\nJA NEAR R_BADHANDLE\r\nDEC BX\r\nADD BX,BX\r\nADD BX,R_HANDLES\r\nMOV [R_SLOT],BX\r\nMOV BX,[BX]\r\nCMP BX,0\r\nJE NEAR R_BADHANDLE\r\nMOV AX,1\r\nCMP BX,8000H\r\nJB NEAR R_HANDLEKIND\r\nAND BX,7FFFH\r\nMOV AX,2\r\nR");
+    outstr("_HANDLEKIND:\r\nDEC BX\r\nRET\r\nR_BADHANDLE:\r\nMOV AX,0\r\nRET\r\n\r\nR_READ:\r\nMOV [R_COUNT],AX\r\nMOV [R_BUFFER],DX\r\nCALL R_FIND\r\nCMP AX,1\r\nJE NEAR R_READVALID\r\nJMP R_FAIL\r\nR_READVALID:\r\nMOV CX,[R_COUNT]\r\nCMP CX,0\r\nJNE NEAR R_READMORE\r\nMOV AX,0\r\nJMP R_O");
+    outstr("K\r\nR_READMORE:\r\nMOV DX,[R_BUFFER]\r\nMOV AH,3FH\r\nINT 21H\r\nJAE NEAR R_READGOOD\r\nJMP R_FAIL\r\nR_READGOOD:\r\nJMP R_OK\r\n\r\nR_WRITE:\r\nMOV [R_COUNT],AX\r\nMOV [R_BUFFER],DX\r\nCALL R_FIND\r\nCMP AX,2\r\nJE NEAR R_WRITEVALID\r\nJMP R_FAIL\r\nR_WRITEVALID:\r\nMOV CX,");
+    outstr("[R_COUNT]\r\nCMP CX,0\r\nJNE NEAR R_WRITEMORE\r\nMOV AX,0\r\nJMP R_OK\r\nR_WRITEMORE:\r\nMOV DX,[R_BUFFER]\r\nMOV AH,40H\r\nINT 21H\r\nJAE NEAR R_WRITECOUNT\r\nJMP R_FAIL\r\nR_WRITECOUNT:\r\nMOV DX,[R_COUNT]\r\nCMP AX,DX\r\nJE NEAR R_WRITEGOOD\r\nJMP R_ERROR\r\nR_WRITEGOO");
+    outstr("D:\r\nJMP R_OK\r\n\r\nR_CLOSE:\r\nMOV BX,AX\r\nCALL R_FIND\r\nCMP AX,0\r\nJNE NEAR R_CLOSEVALID\r\nJMP R_FAIL\r\nR_CLOSEVALID:\r\nMOV AH,3EH\r\nINT 21H\r\nJAE NEAR R_CLOSEGOOD\r\nJMP R_FAIL\r\nR_CLOSEGOOD:\r\nMOV BX,[R_SLOT]\r\nMOV AX,0\r\nMOV [BX],AX\r\nJMP R_OK\r\n\r\nR_STATUS:");
+    outstr("\r\nDW 0\r\n\r\nR_BYTE:\r\nDB 0\r\n\r\nR_MODE:\r\nDW 0\r\nR_NAME:\r\nDW 0\r\nR_SLOT:\r\nDW 0\r\nR_NUMBER:\r\nDW 0\r\nR_HANDLES:\r\nDW 0,0,0,0,0,0,0,0\r\n\r\nR_COUNT:\r\nDW 0\r\nR_BUFFER:\r\nDW 0\r\n\r\n; Authored portable-services binding. No physical values escape this layer.\r\nR_DEL");
+    outstr("ETE:\r\nMOV DX,AX\r\nMOV AH,41H\r\nINT 21H\r\nJC NEAR R_DFAIL\r\nMOV AX,0\r\nJMP R_OK\r\nR_DFAIL:\r\nJMP R_FAIL\r\nR_RENAME:\r\nMOV DI,AX\r\nMOV AX,DS\r\nMOV ES,AX\r\nMOV AH,56H\r\nINT 21H\r\nJC NEAR R_DFAIL\r\nMOV AX,0\r\nJMP R_OK\r\nR_EXISTS:\r\nMOV DX,AX\r\nMOV AX,3D00H\r\nINT 2");
+    outstr("1H\r\nJC NEAR R_NOFILE\r\nMOV BX,AX\r\nMOV AH,3EH\r\nINT 21H\r\nJC NEAR R_DFAIL\r\nMOV AX,1\r\nJMP R_OK\r\nR_NOFILE:\r\nCMP AX,2\r\nJNE NEAR R_EFAIL\r\nMOV AX,0\r\nJMP R_OK\r\nR_EFAIL:\r\nMOV AX,65535\r\nJMP R_ERROR\r\nR_ALLOC:\r\nCMP AX,0\r\nJE NEAR R_DFAIL\r\nMOV [R_WANT],AX\r");
+    outstr("\nMOV AX,CS\r\nMOV ES,AX\r\nMOV BX,1000H\r\nMOV AH,4AH\r\nINT 21H\r\nJC NEAR R_DFAIL\r\nMOV SI,R_BLOCKS\r\nMOV DI,1\r\nR_ALLOCSLOT:\r\nCMP WORD [SI],0\r\nJE NEAR R_ALLOCFOUND\r\nADD SI,4\r\nINC DI\r\nCMP DI,17\r\nJB NEAR R_ALLOCSLOT\r\nJMP R_FAIL\r\nR_ALLOCFOUND:\r\nMOV BX,[");
+    outstr("R_WANT]\r\nMOV CL,4\r\nSHR BX,CL\r\nMOV AX,[R_WANT]\r\nAND AX,15\r\nCMP AX,0\r\nJE NEAR R_ALLOCROUND\r\nINC BX\r\nR_ALLOCROUND:\r\nMOV AH,48H\r\nINT 21H\r\nJC NEAR R_ALLOCBAD\r\nMOV [SI],AX\r\nMOV AX,[R_WANT]\r\nMOV [SI+2],AX\r\nMOV AX,DI\r\nJMP R_OK\r\nR_ALLOCBAD:\r\nMOV AX,");
+    outstr("CS\r\nMOV ES,AX\r\nJMP R_FAIL\r\nR_BLOCKPTR:\r\nCMP BX,1\r\nJB NEAR R_BLOCKBAD\r\nCMP BX,16\r\nJA NEAR R_BLOCKBAD\r\nDEC BX\r\nSHL BX,1\r\nSHL BX,1\r\nADD BX,R_BLOCKS\r\nMOV SI,BX\r\nMOV BX,[SI]\r\nCMP BX,0\r\nJE NEAR R_BLOCKBAD\r\nMOV ES,BX\r\nMOV BX,[SI+2]\r\nCMP AX,BX\r\nJAE");
+    outstr(" NEAR R_BLOCKBAD\r\nSUB BX,AX\r\nCMP BX,CX\r\nJB NEAR R_BLOCKBAD\r\nMOV BX,AX\r\nMOV AX,1\r\nRET\r\nR_BLOCKBAD:\r\nMOV AX,CS\r\nMOV ES,AX\r\nMOV AX,0\r\nRET\r\nR_GETMEM:\r\nPUSH CX\r\nCALL R_BLOCKPTR\r\nPOP CX\r\nCMP AX,0\r\nJE NEAR R_DFAIL\r\nMOV AL,ES:[BX]\r\nMOV AH,0\r\nCMP CX");
+    outstr(",1\r\nJE NEAR R_MEMDONE\r\nMOV AX,ES:[BX]\r\nR_MEMDONE:\r\nMOV DX,CS\r\nMOV ES,DX\r\nJMP R_OK\r\nR_SETMEM:\r\nMOV [R_MEMVALUE],AX\r\nMOV AX,DX\r\nCALL R_BLOCKPTR\r\nCMP AX,0\r\nJE NEAR R_DFAIL\r\nMOV AX,[R_MEMVALUE]\r\nCMP CX,1\r\nJNE NEAR R_SETWORD\r\nMOV ES:[BX],AL\r\nJMP");
+    outstr(" R_MEMDONE\r\nR_SETWORD:\r\nMOV ES:[BX],AX\r\nJMP R_MEMDONE\r\nR_FREEBLOCK:\r\nMOV BX,AX\r\nCMP BX,1\r\nJB NEAR R_DFAIL\r\nCMP BX,16\r\nJA NEAR R_DFAIL\r\nDEC BX\r\nSHL BX,1\r\nSHL BX,1\r\nADD BX,R_BLOCKS\r\nMOV SI,BX\r\nMOV AX,[SI]\r\nCMP AX,0\r\nJE NEAR R_DFAIL\r\nMOV ES,AX");
+    outstr("\r\nMOV AH,49H\r\nINT 21H\r\nJC NEAR R_FREEBAD\r\nMOV WORD [SI],0\r\nMOV AX,CS\r\nMOV ES,AX\r\nMOV AX,0\r\nJMP R_OK\r\nR_FREEBAD:\r\nMOV AX,CS\r\nMOV ES,AX\r\nJMP R_FAIL\r\nR_STACKFAIL:\r\nMOV AX,4C02H\r\nINT 21H\r\nR_WANT:\r\nDW 0\r\nR_MEMVALUE:\r\nDW 0\r\nR_BLOCKS:\r\nRESW 32\r\n");
+    editorruntime(); return 0;
+}
+fn editorruntime() {
+    let mut file=open("EDITRT.ASM"); if status() { fail(6); }
+    while 1 {
+        let mut count=read(file,inbuf,4096); if status() { close(file); fail(6); }
+        if count==0 { close(file); if status() { fail(6); } return 0; }
+        let mut i=0; while i<count { outchar(inbuf[i]); i=i+1; }
+    }
+    return 0;
+}

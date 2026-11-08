@@ -1,0 +1,7 @@
+PASS largest source from every collection round-trips byte-for-byte; all 863 archive members fit; largest 68485 bytes
+PASS actual 144108-byte generated toolchain assembly edits/saves beyond 64 KiB
+PASS 2048-record undo ring overwrites only the oldest edit and refuses an extra undo
+PASS new-document creation and recovery-name recheck immediately before saving
+PASS long-line visual columns and horizontal scroll beyond 65535 cells without truncation
+PASS complete key map/control aliases, cross-block copying, rejected destination extents and near-address wraps
+PASS formatted reader source and authored editor produce identical executable bytes

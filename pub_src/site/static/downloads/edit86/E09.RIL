@@ -1,0 +1,93 @@
+// EDIT86 construction checkpoint.
+bytes pages[16];
+bytes gapend[4];
+bytes space[4];
+bytes cap[4];
+bytes other[4];
+fn main(){
+    store16(cap+2,4);
+    copypos(gapend,cap);
+    copypos(space,cap);
+    allocate();
+    return cleanup();
+}
+fn copypos(d,s){
+    store16(d,load16(s));
+    store16(d+2,load16(s+2));
+    return 0;
+}
+fn before(a,b){
+    return (load16(a+2)<load16(b+2))|((load16(a+2)==load16(b+2))&(load16(a)<load16(b)));
+}
+fn equal(a,b){
+    return (load16(a)==load16(b))&(load16(a+2)==load16(b+2));
+}
+fn add(p,n){
+    let mut old=load16(p);
+    let mut next=old+n;
+    store16(p,next);
+    if next<old{
+        store16(p+2,load16(p+2)+1);
+    }
+    return 0;
+}
+fn sub(p,n){
+    let mut old=load16(p);
+    store16(p,old-n);
+    if old<n{
+        store16(p+2,load16(p+2)-1);
+    }
+    return 0;
+}
+fn difference(d,a,b){
+    let mut lo=load16(a);
+    let mut other=load16(b);
+    store16(d,lo-other);
+    store16(d+2,load16(a+2)-load16(b+2)-(lo<other));
+    return 0;
+}
+fn allocate(){
+    let mut i=0;
+    while i<8{
+        let mut h=alloc(32768);
+        if status(){
+            fatal("Not enough DOS memory for 256 KiB text storage.");
+        }
+        store16(pages+i*2,h);
+        i=i+1;
+    }
+    return 0;
+}
+fn release(){
+    let mut bad=0;
+    let mut i=0;
+    while i<8{
+        let mut h=load16(pages+i*2);
+        if h{
+            free(h);
+            if status(){
+                bad=1;
+            }
+            store16(pages+i*2,0);
+        }
+        i=i+1;
+    }
+    return bad;
+}
+fn cleanup(){
+    return release();
+}
+fn print(s){
+    while load8(s){
+        putc(load8(s));
+        s=s+1;
+    }
+    return 0;
+}
+fn fatal(s){
+    cleanup();
+    print(s);
+    print("\r\n");
+    exit(1);
+    return 0;
+}

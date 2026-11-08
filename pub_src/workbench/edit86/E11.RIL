@@ -1,0 +1,335 @@
+// EDIT86 construction checkpoint.
+let mut input=0;
+let mut inopen=0;
+let mut output=0;
+let mut outopen=0;
+let mut own=0;
+let mut keep=0;
+let mut dirty=0;
+let mut message=0;
+bytes pages[16];
+bytes gap[4];
+bytes gapend[4];
+bytes length[4];
+bytes space[4];
+bytes cap[4];
+bytes other[4];
+bytes io[4096];
+fn main(){
+    store16(cap+2,4);
+    copypos(gapend,cap);
+    copypos(space,cap);
+    if reserved(){
+        fatal("Recovery files EDIT.TMP or EDIT.BAK already exist.");
+    }
+    allocate();
+    loadfile();
+    copypos(gap,length);
+    let mut saved=savefile();
+    return cleanup()|!saved;
+}
+fn filename(){
+    return "EDIT.TXT";
+}
+fn zero(p){
+    store16(p,0);
+    store16(p+2,0);
+    return 0;
+}
+fn copypos(d,s){
+    store16(d,load16(s));
+    store16(d+2,load16(s+2));
+    return 0;
+}
+fn before(a,b){
+    return (load16(a+2)<load16(b+2))|((load16(a+2)==load16(b+2))&(load16(a)<load16(b)));
+}
+fn equal(a,b){
+    return (load16(a)==load16(b))&(load16(a+2)==load16(b+2));
+}
+fn add(p,n){
+    let mut old=load16(p);
+    let mut next=old+n;
+    store16(p,next);
+    if next<old{
+        store16(p+2,load16(p+2)+1);
+    }
+    return 0;
+}
+fn sub(p,n){
+    let mut old=load16(p);
+    store16(p,old-n);
+    if old<n{
+        store16(p+2,load16(p+2)-1);
+    }
+    return 0;
+}
+fn difference(d,a,b){
+    let mut lo=load16(a);
+    let mut other=load16(b);
+    store16(d,lo-other);
+    store16(d+2,load16(a+2)-load16(b+2)-(lo<other));
+    return 0;
+}
+fn handle(lo,hi){
+    return load16(pages+(hi*2+(lo>>15))*2);
+}
+fn peek(p){
+    let mut lo=load16(p);
+    let mut hi=load16(p+2);
+    if (hi>load16(gap+2))|((hi==load16(gap+2))&(lo>=load16(gap))){
+        let mut next=lo+load16(space);
+        hi=hi+load16(space+2)+(next<lo);
+        lo=next;
+    }
+    let mut value=get8(handle(lo,hi),lo&32767);
+    if status(){
+        fatal("Text storage failed.");
+    }
+    return value;
+}
+fn allocate(){
+    let mut i=0;
+    while i<8{
+        let mut h=alloc(32768);
+        if status(){
+            fatal("Not enough DOS memory for 256 KiB text storage.");
+        }
+        store16(pages+i*2,h);
+        i=i+1;
+    }
+    return 0;
+}
+fn release(){
+    let mut bad=0;
+    let mut i=0;
+    while i<8{
+        let mut h=load16(pages+i*2);
+        if h{
+            free(h);
+            if status(){
+                bad=1;
+            }
+            store16(pages+i*2,0);
+        }
+        i=i+1;
+    }
+    return bad;
+}
+fn loadfile(){
+    let mut present=exists(filename());
+    if status(){
+        fatal("Cannot inspect EDIT.TXT.");
+    }
+    if present==0{
+        return 0;
+    }
+    input=open(filename());
+    if status(){
+        fatal("Cannot open EDIT.TXT.");
+    }
+    inopen=1;
+    while 1{
+        let mut request=4096;
+        if load16(length+2)==4{
+            request=1;
+        }
+        else{
+            let mut left=32768-(load16(length)&32767);
+            if request>left{
+                request=left;
+            }
+        }
+        let mut n=read(input,io,request);
+        if status(){
+            fatal("Cannot read EDIT.TXT.");
+        }
+        if n==0{
+            close(input);
+            if status(){
+                fatal("Cannot close EDIT.TXT.");
+            }
+            inopen=0;
+            difference(space,cap,length);
+            return 0;
+        }
+        if load16(length+2)==4{
+            fatal("EDIT.TXT exceeds the 256 KiB text capacity.");
+        }
+        blockload(handle(load16(length),load16(length+2)),load16(length)&32767,io,n);
+        if status(){
+            fatal("Text load exceeds its allocated page.");
+        }
+        add(length,n);
+    }
+    return 0;
+}
+fn reserved(){
+    let mut found=exists("EDIT.TMP");
+    if status(){
+        return 1;
+    }
+    if found{
+        return 1;
+    }
+    found=exists("EDIT.BAK");
+    if status(){
+        return 1;
+    }
+    return found;
+}
+fn writepart(lo,hi,endlo,endhi){
+    while (hi<endhi)|((hi==endhi)&(lo<endlo)){
+        let mut n=4096;
+        let mut remaining=endlo-lo;
+        let mut high=endhi-hi-(endlo<lo);
+        if high==0{
+            if remaining<n{
+                n=remaining;
+            }
+        }
+        let mut offset=lo&32767;
+        if n>32768-offset{
+            n=32768-offset;
+        }
+        blockread(handle(lo,hi),offset,io,n);
+        if status(){
+            return 0;
+        }
+        let mut done=write(output,io,n);
+        if status(){
+            return 0;
+        }
+        if done!=n{
+            return 0;
+        }
+        let mut next=lo+n;
+        hi=hi+(next<lo);
+        lo=next;
+    }
+    return 1;
+}
+fn abortsave(){
+    if outopen{
+        close(output);
+        if status()==0{
+            outopen=0;
+        }
+    }
+    if own&(outopen==0)&(keep==0){
+        delete("EDIT.TMP");
+        if status()==0{
+            own=0;
+        }
+    }
+    message="Save failed. Inspect EDIT.TMP / EDIT.BAK before retrying.";
+    return 0;
+}
+fn savefile(){
+    if reserved(){
+        message="Recovery files block saving: EDIT.TMP / EDIT.BAK.";
+        return 0;
+    }
+    keep=0;
+    output=create("EDIT.TMP");
+    if status(){
+        message="Cannot create EDIT.TMP.";
+        return 0;
+    }
+    outopen=1;
+    own=1;
+    if !writepart(0,0,load16(gap),load16(gap+2)){
+        return abortsave();
+    }
+    if !writepart(load16(gapend),load16(gapend+2),0,4){
+        return abortsave();
+    }
+    close(output);
+    if status(){
+        return abortsave();
+    }
+    outopen=0;
+    let mut backup=exists(filename());
+    if status(){
+        return abortsave();
+    }
+    if backup{
+        rename(filename(),"EDIT.BAK");
+        if status(){
+            return abortsave();
+        }
+    }
+    rename("EDIT.TMP",filename());
+    if status(){
+        if backup{
+            rename("EDIT.BAK",filename());
+            if status(){
+                keep=1;
+            }
+        }
+        return abortsave();
+    }
+    own=0;
+    if backup{
+        delete("EDIT.BAK");
+        if status(){
+            keep=1;
+            return abortsave();
+        }
+    }
+    dirty=0;
+    message="Saved EDIT.TXT.";
+    return 1;
+}
+fn cleanup(){
+    let mut bad=0;
+    if inopen{
+        close(input);
+        if status(){
+            bad=1;
+        }
+        else{
+            inopen=0;
+        }
+    }
+    if outopen{
+        close(output);
+        if status(){
+            bad=1;
+        }
+        else{
+            outopen=0;
+        }
+    }
+    if own&(keep==0)&(outopen==0){
+        delete("EDIT.TMP");
+        if status(){
+            bad=1;
+        }
+        else{
+            own=0;
+        }
+    }
+    if release(){
+        bad=1;
+    }
+    if keep{
+        print("Recovery files retained: inspect EDIT.TMP / EDIT.BAK.\r\n");
+        bad=1;
+    }
+    return bad;
+}
+fn print(s){
+    while load8(s){
+        putc(load8(s));
+        s=s+1;
+    }
+    return 0;
+}
+fn fatal(s){
+    cleanup();
+    print(s);
+    print("\r\n");
+    exit(1);
+    return 0;
+}

@@ -1,0 +1,15 @@
+fn main(){
+    vbegin();
+    if status(){
+        return 1;
+    }
+    vpos(0);
+    vwrite("EDIT86",6);
+    let mut bad=status();
+    vpos(2000);
+    if status()==0{
+        bad=1;
+    }
+    vend();
+    return bad|status();
+}

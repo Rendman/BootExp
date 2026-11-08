@@ -1,0 +1,190 @@
+// EDIT86 construction checkpoint.
+let mut input=0;
+let mut inopen=0;
+bytes pages[16];
+bytes gap[4];
+bytes gapend[4];
+bytes length[4];
+bytes space[4];
+bytes cap[4];
+bytes target[4];
+bytes other[4];
+bytes io[4096];
+fn main(){
+    store16(cap+2,4);
+    copypos(gapend,cap);
+    copypos(space,cap);
+    allocate();
+    loadfile();
+    copypos(gap,length);
+    let mut bad=(load16(length)!=10)|(load16(length+2)!=0);
+    zero(target);
+    if before(target,length){
+        bad=bad|(peek(target)!=111);
+    }
+    else{
+        bad=1;
+    }
+    return cleanup()|bad;
+}
+fn filename(){
+    return "EDIT.TXT";
+}
+fn zero(p){
+    store16(p,0);
+    store16(p+2,0);
+    return 0;
+}
+fn copypos(d,s){
+    store16(d,load16(s));
+    store16(d+2,load16(s+2));
+    return 0;
+}
+fn before(a,b){
+    return (load16(a+2)<load16(b+2))|((load16(a+2)==load16(b+2))&(load16(a)<load16(b)));
+}
+fn equal(a,b){
+    return (load16(a)==load16(b))&(load16(a+2)==load16(b+2));
+}
+fn add(p,n){
+    let mut old=load16(p);
+    let mut next=old+n;
+    store16(p,next);
+    if next<old{
+        store16(p+2,load16(p+2)+1);
+    }
+    return 0;
+}
+fn sub(p,n){
+    let mut old=load16(p);
+    store16(p,old-n);
+    if old<n{
+        store16(p+2,load16(p+2)-1);
+    }
+    return 0;
+}
+fn difference(d,a,b){
+    let mut lo=load16(a);
+    let mut other=load16(b);
+    store16(d,lo-other);
+    store16(d+2,load16(a+2)-load16(b+2)-(lo<other));
+    return 0;
+}
+fn handle(lo,hi){
+    return load16(pages+(hi*2+(lo>>15))*2);
+}
+fn peek(p){
+    let mut lo=load16(p);
+    let mut hi=load16(p+2);
+    if (hi>load16(gap+2))|((hi==load16(gap+2))&(lo>=load16(gap))){
+        let mut next=lo+load16(space);
+        hi=hi+load16(space+2)+(next<lo);
+        lo=next;
+    }
+    let mut value=get8(handle(lo,hi),lo&32767);
+    if status(){
+        fatal("Text storage failed.");
+    }
+    return value;
+}
+fn allocate(){
+    let mut i=0;
+    while i<8{
+        let mut h=alloc(32768);
+        if status(){
+            fatal("Not enough DOS memory for 256 KiB text storage.");
+        }
+        store16(pages+i*2,h);
+        i=i+1;
+    }
+    return 0;
+}
+fn release(){
+    let mut bad=0;
+    let mut i=0;
+    while i<8{
+        let mut h=load16(pages+i*2);
+        if h{
+            free(h);
+            if status(){
+                bad=1;
+            }
+            store16(pages+i*2,0);
+        }
+        i=i+1;
+    }
+    return bad;
+}
+fn loadfile(){
+    let mut present=exists(filename());
+    if status(){
+        fatal("Cannot inspect EDIT.TXT.");
+    }
+    if present==0{
+        return 0;
+    }
+    input=open(filename());
+    if status(){
+        fatal("Cannot open EDIT.TXT.");
+    }
+    inopen=1;
+    while 1{
+        let mut request=4096;
+        if load16(length+2)==4{
+            request=1;
+        }
+        else{
+            let mut left=32768-(load16(length)&32767);
+            if request>left{
+                request=left;
+            }
+        }
+        let mut n=read(input,io,request);
+        if status(){
+            fatal("Cannot read EDIT.TXT.");
+        }
+        if n==0{
+            close(input);
+            if status(){
+                fatal("Cannot close EDIT.TXT.");
+            }
+            inopen=0;
+            difference(space,cap,length);
+            return 0;
+        }
+        if load16(length+2)==4{
+            fatal("EDIT.TXT exceeds the 256 KiB text capacity.");
+        }
+        blockload(handle(load16(length),load16(length+2)),load16(length)&32767,io,n);
+        if status(){
+            fatal("Text load exceeds its allocated page.");
+        }
+        add(length,n);
+    }
+    return 0;
+}
+fn cleanup(){
+    let mut bad=0;
+    if inopen{
+        close(input);
+        if status(){
+            bad=1;
+        }
+        inopen=0;
+    }
+    return release()|bad;
+}
+fn print(s){
+    while load8(s){
+        putc(load8(s));
+        s=s+1;
+    }
+    return 0;
+}
+fn fatal(s){
+    cleanup();
+    print(s);
+    print("\r\n");
+    exit(1);
+    return 0;
+}

@@ -1,0 +1,5 @@
+fn main(){
+    vbegin();
+    vend();
+    return 0;
+}
