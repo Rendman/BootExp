@@ -1,0 +1,20 @@
+# EDIT86 artwork
+
+Generated with the built-in image_gen tool. These replace the sparse SVG cartoons and match the collection's detailed graphite illustration style.
+
+## Shelf cartoon
+
+Saved asset: `pub_src/site/static/images/edit86-shelf.png`
+
+Final prompt:
+
+Use case: illustration-story. Asset type: original interior cartoon for EDIT86, a hands-on programming magazine course with a 1986 technical setting. Primary request: a richly drawn black-and-white graphite-pencil editorial cartoon illustrating leaving working room in a long manuscript. Scene: an old-fashioned copy editor's workshop with a sturdy wooden bookcase holding a long row of thick manuscript bundles and a movable wooden bookend. A small, expressive anthropomorphic mouse wearing a rolled-sleeve shirt and waistcoat stands securely on a low wooden stool, carefully sliding the bookend to make a generous gap beside the manuscripts; one hand on the bookend, the other steadying the papers. The mouse's face and action must be clear and engaging, anatomically coherent. Manuscript pages have subtle ruled marks, irregular edges, folded corners, paper clips and believable thickness. Add a modest desk corner with a pencil cup and loose pages to ground the scene. Style: accomplished hand-drawn magazine cartoon, rounded expressive character design, confident varied pencil contours, dense but controlled crosshatching, graphite grain, soft rubbed shadows, convincing wood and paper textures, coherent perspective, visible hand-drawn construction. Similar finish to a detailed pencil illustration in a practical 1980s hobby magazine. Landscape composition about 3:2, main action large, airy white paper background fading naturally at the outer edges, no hard frame. Pure black and neutral grays on white, no sepia. This must look like a finished illustration, not an icon, stick figure, geometric SVG, flat vector, diagram or simplistic outline. No lettering, labels, caption, logos, watermark, computers or modern objects; the caption is provided separately in HTML.
+
+## Undo cartoon
+
+Saved asset: `pub_src/site/static/images/edit86-thread.png`
+
+Final prompt:
+
+Use case: illustration-story. Asset type: original interior cartoon beside an undo routine in EDIT86, a practical programming magazine course with a 1986 technical setting. Primary request: a finished, richly textured graphite-pencil cartoon about carefully reversing the last stitch. Scene: a charming elderly male tailor with a large rounded nose, small round spectacles, bushy eyebrows, a neat walrus moustache and rolled-up shirt sleeves under a dark waistcoat sits at a substantial wooden workbench. He wears a focused, slightly amused expression while lifting the LAST loose basting stitch from the edge of a long coat spread across the table, using a small needle in one hand and holding the single visible thread gently taut with the other. The hands and thread must be physically coherent and easily understood. The coat has distinct stitched seams, folded lapels and convincing cloth folds, with just a short clearly visible section of reversible basting near his hands. A small wooden spool and closed sewing scissors rest on the table. A tailor's mannequin with another coat and a shelf of thread spools sit farther back in the workshop. Composition: landscape about 3:2, tailor and the undoing gesture dominate; table diagonally across foreground, some open white paper around the outer edges, natural fading pencil vignette, no hard border. Style: accomplished hand-drawn editorial cartoon with rounded expressive human anatomy, lively variable pencil lines, visible graphite grain, dense controlled crosshatching, soft shaded volumes, convincing timber and fabric textures; visual richness comparable to a carefully finished black-and-white 1980s hobby-magazine illustration. Neutral grayscale on white, no sepia or color. Draw a complete distinctive scene with personality, not simplistic outlines, geometric shapes, flat vector art or a stick figure. No lettering, caption, speech bubbles, logos, watermark, computers, modern screens or modern fashion. Caption supplied separately in HTML.
+
