@@ -25,7 +25,7 @@ facts['error']=r.output.decode().strip()
 logs.append('PASS local 65 rejected with code 5; accepted RESULT.IR preserved')
 
 source='fn main(){'+''.join(f'let mut v{i}={i};' for i in range(16))+'return v15;}'
-for image in [(ROOT/'workbench/rill/RILL.COM').read_bytes(),(W/'RILLBOOT.COM').read_bytes()]:
+for image in [(ROOT/'workbench/rill0/RILL.COM').read_bytes(),(W/'RILLBOOT.COM').read_bytes()]:
  r=run(image,source,'RIL');assert r.exitcode==0,r.output
  r=run(image,source.replace('return v15;','let mut extra=0;return v15;'),'RIL',{'RESULT.IR':old})
  assert r.exitcode==1 and r.files['RESULT.IR']==old and b'CODE 00005' in r.output,r.output

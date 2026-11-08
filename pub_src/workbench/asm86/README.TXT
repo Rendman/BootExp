@@ -1,39 +1,49 @@
-THE BOOTSTRAP PROJECT - ASM86
+THE BOOTSTRAP PROJECT - ASM86A
 A practical course in small-system software
 
-Begin with the completed BOOTASM collection and its BASIC workbench.
-Read The assembly workbench before the construction installments.
+The bootstrap ladder: BOOTASM -> ASM86 -> ASMA0 -> ASM86A -> IR86
+-> RILL0 -> RILLBOOT -> RILL.
+Begin with the separate completed ASMA0 collection and its self-builds.
+Read the workbench, then the construction articles in order.
 
-BOOTASM.BAS The completed BASIC assembler from the BOOTASM collection.
-AS01.ASM through AS28.ASM: complete saved construction checkpoints.
-ASM86.ASM   Completed native assembler, identical to AS28.ASM.
-VIEW.BAS    The unchanged BOOTASM length and hexadecimal byte viewer.
-CHECK.BAT   The unchanged immediate DOS status checker.
-T04.ASM through T28.ASM: checkpoint input fixtures.
-X06.ASM through X28.ASM: source rejection fixtures where applicable.
-HELLO.ASM, MEMORY.ASM, COUNT.ASM: three complete example programs.
+BOOTASM.BAS  Completed BASIC foundation, unchanged.
+ASM86.ASM    Preceding native assembler, unchanged.
+ASMA0.ASM    Seed, identical to A12.ASM; built directly with ASM86.
+ASM86A.ASM   Complete assembler, identical to A40.ASM; built by ASMA0.
+A13 through A33, A36, A37, A40: twenty-four construction checkpoints.
+A12.ASM: identical to the verified ASMA0 prerequisite.
+Tnn.ASM and Xnn.ASM: acceptance and rejection inputs where applicable.
+VIEW.BAS and CHECK.BAT: unchanged viewer and immediate DOS checker.
+HELLO.ASM, FRAME.ASM, BRIDGE.ASM, COPYTEXT.ASM: complete programs.
+LONGSRC.BAS and SYMS.BAS: BASIC generators of source text only.
 
-Use your own DOS and period GW-BASIC interpreter. GWBASIC is the name
-used in the articles; substitute the actual name on your disk.
-COPY AS01.ASM SOURCE.ASM selects the source for GWBASIC BOOTASM.BAS.
-After success, COPY RESULT.COM AS01.COM preserves the executable.
-Require BASIC's OK and byte count; SYSTEM returns to DOS.
-CHECK AS01 executes that complete checkpoint and prints PASS or FAIL.
-Keep BOOTKEEP.BAS and a tested BASIC-built ASMKEEP.COM separately.
+Use your own DOS 3.10 and period GW-BASIC interpreter. Note its banner.
+Build ASM86 with BOOTASM.BAS; preserve it as ASMKEEP.COM.
+The ASMA0 collection uses ASMKEEP to build A01 through A12.
+The completed seed is 3302 bytes, with two matching self-builds.
+Keep the tested ASMA0.COM to build A13-A33, A36, A37 and A40.
 
-AS01 through AS28 are complete executable tools or diagnostics.
-Their output fixtures are usually data or encoding exercises: inspect
-with VIEW.BAS, including file length. Do not execute those outputs.
-Only T24, T27, T28, and the three example programs are expressly
-complete output programs. The rejection cases must report FAIL.
+For a fixed-file build: COPY A13.ASM SOURCE.ASM; CHECK ASMA0.
+Require OK and PASS, then COPY RESULT.COM A13.COM before testing.
+The complete ASM86A is 5995 bytes; preserve it as ASMAKEEP.COM.
+It has no filename prompt. ASMKEEP remains the original ASM86.
+SOURCE.ASM is reopened for two passes and must remain unchanged.
+RESULT.COM is the published output; ASMA.TMP and RESULT.BAK are
+reserved recovery names. Inspect existing recovery files before use.
+Require a fresh OK and PASS before using any result.
 
-Copy the desired source to SOURCE.ASM, then run CHECK ASM86.
-The output is RESULT.COM; copy it to the desired program name.
-Source errors leave an older output unchanged. Require a fresh OK
-before use; an I/O error during writing can leave a partial file.
-The native tool requires a full 64 KB segment and entry SP=FFFEH.
-Its limits are 8192 output bytes, 4000 lines, 120 characters per line,
-16 characters per token/name, and 256 labels. See the reference.
+Many output fixtures are encoding data. Inspect them rather than
+executing them. Run only expressly identified complete programs.
+A40 acceptance input is the canonical ASM86A self-build source.
 
-All source is ASCII with DOS line endings and 8.3 filenames.
-This collection contains no preassembled programs or interpreter.
+The seed streams 1024-byte blocks with 2048 symbols in one segment.
+The complete tool streams 4096-byte blocks and allocates 8192 records
+in eight symbol pages plus a hash block: 392 KiB including its main
+segment, before DOS/environment/allocation overhead. Names may have
+31 characters. Physical lines have at most 1023 characters. Output
+has at most 61184 bytes in the chosen single-segment COM profile.
+Its source language is a selected 8086 subset, not all Intel syntax.
+Consult the reference for exact forms, limits, and recovery behavior.
+
+All packaged files are source, ASCII, DOS line endings, and 8.3 names.
+No preassembled program, DOS copy, or BASIC interpreter is included.

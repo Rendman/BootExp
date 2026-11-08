@@ -1,28 +1,21 @@
-# ASM86 illustration provenance
+# ASM86A illustrations
 
-Generated with the built-in Imagegen tool for this collection. The three drawings were inspected individually. They use different characters and settings from BOOTASM.
+Generated with the built-in imagegen tool. Each original was inspected before use.
 
-## asm86-workshop.png
+## asm86a-press.png
 
-Prompt: Use case: illustration-story. Asset type: original pencil cartoon for the ASM86 collection of a 1986 programming magazine. Wide horizontal black-and-white graphite drawing on pure white paper, restrained crosshatching, no text, no lettering, no border. A mustached machinist in an apron stands between two small identical hand-cranked tabletop lathes, holding a paper blueprint, mildly surprised that the first lathe has produced all the parts for the second. Old-fashioned workshop, expressive original character, dry gentle humor about a tool making a copy of itself. No computers, no logos, no modern devices. Generous white margins.
+Use case: illustration-story. Asset type: original black-and-white pencil cartoon for a hands-on programming magazine with a 1986 technical horizon. Wide graphite drawing on clean white paper, loose confident lines and restrained crosshatching, generous margins. In a modest old newspaper print shop, a cheerful woman press operator feeds one small group of sheets through a hand-fed printing press while an extraordinarily long paper manuscript curls patiently across a nearby table. Her assistant holds a very small empty tray, clearly sufficient for the sheets currently being handled. Gentle visual joke about handling a long job a little at a time. No readable words, numbers, computer, modern equipment, logos, caption, speech bubble, watermark, or color. Original characters and distinct setting; a cartoon scene, not a technical diagram.
 
-Generated images are saved to /home/jd/.codex/generated_images/01a1a358-65b3-7870-a53a-80fef62a9dd0 as /home/jd/.codex/generated_images/01a1a358-65b3-7870-a53a-80fef62a9dd0/exec-79749c4c-3aca-4aa6-b7f3-b99a297dd8a0.png by default.
+Original: `/home/jd/.codex/generated_images/01a1a358-65b3-7870-a53a-80fef62a9dd0/exec-0463b25d-784b-476f-9eca-e296cfca89d7.png`
 
-Published asset: site/static/images/asm86-workshop.png
+## asm86a-cloakroom.png
 
-## asm86-signals.png
+Use case: illustration-story. Asset type: original pencil cartoon for a small-system programming magazine with a 1986 technical horizon. Wide black-and-white graphite drawing on white paper, assured light linework and restrained crosshatching, generous margins. In the cloakroom of an old theater, a composed middle-aged male attendant uses a modest ticket ledger to find a single coat among a surprisingly long row of hanging coats. A concertgoer waits holding a tiny ticket; the attendant carefully compares it with a coat's small tag rather than guessing from the coat's appearance. Slightly exaggerated abundance of storage, warm dry humor. No readable letters or numbers, speech bubbles, captions, computers, machinery, postal counters, railways, logos, watermark, or color. Distinct people and setting, not a diagram.
 
-Prompt: Use case: illustration-story. Asset type: original pencil cartoon for a 1986 programming magazine. Wide horizontal black-and-white graphite spot drawing on clean white paper, no text, no letters, no border. An elderly railway signal operator in a waistcoat carefully measures a tiny siding with a folding ruler, while a comically long toy steam locomotive waits just beside it. Simple countryside railway setting, understated hand-drawn contours and light crosshatching, dry gentle humor about a short branch having limited reach. Original character, no modern equipment or logos, generous whitespace. This is an illustrative cartoon, not a technical diagram.
+Original: `/home/jd/.codex/generated_images/01a1a358-65b3-7870-a53a-80fef62a9dd0/exec-1a33947e-8949-4841-a78d-977fe8033de7.png`
 
-Generated images are saved to /home/jd/.codex/generated_images/01a1a358-65b3-7870-a53a-80fef62a9dd0 as /home/jd/.codex/generated_images/01a1a358-65b3-7870-a53a-80fef62a9dd0/exec-0d6678a7-5e77-49fa-a653-082e0ea49c75.png by default.
+## asm86a-bridge.png
 
-Published asset: site/static/images/asm86-signals.png
+Use case: illustration-story. Asset type: original black-and-white graphite cartoon for a practical programming magazine with a 1986 technical horizon. Wide composition, clean white paper, light confident pencil outlines and restrained crosshatching. On a low wooden theater stage, a kindly stage magician in a slightly oversized tailcoat watches his small rabbit approach a gap between two low platforms. His practical adult assistant has laid a short sturdy plank across the gap and checks it with a carpenter's rule. The rabbit looks sensibly pleased with the ordinary bridge instead of performing an impossible leap. Gentle dry visual humor about a small bridge solving a longer jump. No readable lettering, speech bubbles, caption, logo, watermark, computer, modern gadget, train, or color. Clear simple scene, original characters, no danger, not a technical diagram.
 
-## asm86-postroom.png
-
-Prompt: Use case: illustration-story. Asset type: original pencil cartoon for a 1986 programming magazine. One wide black-and-white graphite drawing, clean white paper, no text, no lettering, no border. A young postal clerk with rolled sleeves carefully matches an envelope to one of several small wooden pigeonholes, while an oversized sack of envelopes waits at his feet. Sparse 1980s postroom, original character, patient methodical expression, quiet dry humor about looking up a name before deciding where something belongs. Crisp pencil line and restrained crosshatching, generous white margins, no computers or logos.
-
-Generated images are saved to /home/jd/.codex/generated_images/01a1a358-65b3-7870-a53a-80fef62a9dd0 as /home/jd/.codex/generated_images/01a1a358-65b3-7870-a53a-80fef62a9dd0/exec-bd02b658-f04f-40e2-b8f2-456ccef05a74.png by default.
-
-Published asset: site/static/images/asm86-postroom.png
-
+Original: `/home/jd/.codex/generated_images/01a1a358-65b3-7870-a53a-80fef62a9dd0/exec-7e66a57e-7ee0-4e0c-92e7-9551b71517ce.png`

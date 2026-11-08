@@ -18,7 +18,7 @@ for name,source in fixtures().items():dos(W/name,source)
 print('Prepared authored RILL translator and backend data tables')
 
 # Opcode metadata is authored data from the published assembler's table.
-text=(ROOT/'workbench/asm86a/ASM86A.ASM').read_text()
+text=(ROOT/'workbench/asm86/ASM86A.ASM').read_text()
 rows=text.split('OPTAB:\n',1)[1].split('\n\n',1)[0].splitlines()
 s=(ROOT/'tools/asm86a_port.ril').read_text()+'\nfn initops() {\n'
 for row in rows:

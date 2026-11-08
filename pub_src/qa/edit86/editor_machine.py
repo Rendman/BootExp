@@ -1,7 +1,7 @@
 """BIOS surface model for executing the actual RILL-built screen editor."""
 from services import ROOT
 import sys
-sys.path.insert(0,str(ROOT/'qa/asm86a'))
+sys.path.insert(0,str(ROOT/'qa/asm86'))
 from machine import AssemblerMachine
 from unicorn.x86_const import *
 class EditorMachine(AssemblerMachine):

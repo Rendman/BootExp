@@ -1,1 +1,1 @@
-DB 256
+MOV AX,AL

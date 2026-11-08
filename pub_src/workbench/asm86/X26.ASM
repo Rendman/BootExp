@@ -1,1 +1,1 @@
-MOV [BX],1
+MOV AX,[BP]

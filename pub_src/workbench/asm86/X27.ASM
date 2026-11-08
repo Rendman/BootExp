@@ -1,1 +1,1 @@
-CALL LOST
+MOV AX,[BP]

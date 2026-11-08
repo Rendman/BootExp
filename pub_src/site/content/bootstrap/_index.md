@@ -1,15 +1,33 @@
 +++
 title = "The Bootstrap Experiment"
 weight = 1
-description = "Building a software workbench from the tools already on the desk."
+description = "An 8088, a BASIC interpreter, and a young programmer determined to make his own tools."
 cover = true
 +++
 
-A program is usually made with another program. An assembler translates instructions into bytes; a compiler translates a language into instructions. Where does the first tool come from?
+It is 1986. I am still in school, and there is usually a programming magazine open beside the computer. Sometimes I type in a listing. Sometimes I change a few things to see what happens. An evening can disappear into finding a missing quotation mark, but getting the program to run makes me want to try something larger.
 
-We shall begin with GW-BASIC on an 8088 personal computer. The first collection builds **BOOTASM**, a small assembler whose complete source can be entered at the keyboard. The next collection, **ASM0**, will use that assembler to build an assembler written in assembly language. **ASM1** uses ASM0 to build a streaming seed and proves it by self-assembly. **ASM86** starts from that verified seed, adding allocated symbol storage and a broader instruction language. After that come an intermediate language called IR86 and a compiler for RILL, a small language with brace-enclosed procedures and structured control flow. The RILL compiler, IR86 translator, and ASM86 assembler are then written in RILL and rebuild the complete trio through two matching generations. LINK86 then builds a small linker from text object records. EDIT86 adds a screen editor written in RILL, with allocated document pages and recoverable saves. Libraries and a small operating system belong farther along the road.
+I have started reading about assembly language and compilers. The articles describe programs that seem much closer to the machine than the BASIC programs I know. I want to write those programs, and I want to understand how the tools that build them work.
 
-That is the direction of the experiment, not a promise to hurry. Each addition must be short enough to type, clear enough to explain, and useful enough to test before another is added.
+The difficulty is getting the tools. The assemblers and compilers advertised in the back of the magazines cost more than I can spend. I have no development package to borrow and nobody nearby with a disk I can use. I keep coming back to articles whose first instruction is to run a program I do not have.
+
+What I do have is DOS, its BASIC interpreter, some manuals, and time at the keyboard.
+
+One question keeps bothering me: somebody had to write the first assembler. What did they use? BASIC can read a text file. It can work with numbers and write bytes to disk. Perhaps I can use it to make a small assembler of my own. It would only have to understand enough instructions to build a useful program.
+
+I begin with a smaller job: write one byte to a file and look at it. Once that works, I can try a sequence of bytes. Then instruction names. Then labels, so I can move a piece of code without calculating all its addresses again. Each working piece gives me something I can use to build the next.
+
+That is how this experiment begins. I want an assembler, a compiler, an editor, and a workbench I can keep extending. I am going to try to make them with the tools already on my desk.
+
+This series is the notebook for that attempt. It contains the source to enter, the reasons for each addition, and the checks that tell us whether it works. If you have DOS and BASIC, you can pull up a chair and build along with me.
+
+## One working tool at a time
+
+The first assembler is **BOOTASM**, written in GW-BASIC. It builds **ASM0**, an assembler written in assembly language. ASM0 builds the streaming **ASM1**, and that seed builds the larger **ASM86**. Each accepted tool becomes the means of constructing another.
+
+From there we build **IR86**, an intermediate language, and the **RILL** compiler through its small, seed, and self-hosted stages. Eventually the compiler, translator, and assembler can rebuild themselves. A linker and screen editor make the workbench more useful; libraries and a small operating system belong farther along the road.
+
+There is no need to finish all of that in one sitting. Every addition should be small enough to type and understand, with a working stopping point worth saving before we continue.
 
 ## A workbench we can understand
 
@@ -25,7 +43,7 @@ The BASIC construction proceeds through small additions and replacements. Existi
 
 ## The collections
 
-BOOTASM, ASM0, ASM1, ASM86, IR86, RILL0, RILLBOOT, RILL, Rebuilding Our Tools in RILL, LINK86, and EDIT86 occupy the same level in this course. Open a collection to find its individual installments. BOOTASM builds the BASIC foundation; ASM0 builds an assembler in assembly language and finishes by assembling its own source twice. ASM1 builds the streaming seed and proves both self-build generations. ASM86 begins with the completed seed source and adds allocated symbols and a broader self-assembled assembler. IR86 builds a translator, then follows its output through assembly to working DOS programs. The ladder is **BOOTASM → ASM0 → ASM1 → ASM86 → IR86 → RILL0 → RILLBOOT → RILL**. IR86 has one continuing native construction. RILL0 and RILLBOOT share the scanner, symbol records, emitter, and parser; the seed extends the working first compiler. These milestones lead to the complete RILL-written trio and two matching rebuild generations. RILL0 constructs the first small compiler in IR86. RILLBOOT constructs the systems-language compiler seed in IR86. RILL expresses that compiler in its own language and proves its self-builds. [Rebuilding Our Tools in RILL](toolchain/index.html) then constructs the RILL-written translator and assembler and closes the complete bootstrap loop.
+Each tool has its own collection, with the individual construction articles beneath it. Follow **BOOTASM → ASM0 → ASM1 → ASM86 → IR86 → RILL0 → RILLBOOT → RILL**. RILL0 grows into RILLBOOT; that seed builds the compiler written in RILL. [Rebuilding Our Tools in RILL](toolchain/index.html) brings the compiler, translator, and assembler together and compares their rebuilds.
 
 This is an original practical course with a 1986 technical setting. It is not a reproduction of, or affiliated with, a historical magazine.
 

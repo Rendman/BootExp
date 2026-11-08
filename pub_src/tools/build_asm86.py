@@ -4,7 +4,7 @@ This prepares source text and articles; only BOOTASM or ASM86 emits COM bytes.
 from pathlib import Path
 import re,json,difflib,sys
 ROOT=Path(__file__).resolve().parents[1]
-WORK=ROOT/'workbench/asm86';CONTENT=ROOT/'site/content/bootstrap/asm86'
+WORK=ROOT/'workbench/asm0';CONTENT=ROOT/'site/content/bootstrap/asm0'
 WORK.mkdir(parents=True,exist_ok=True);CONTENT.mkdir(parents=True,exist_ok=True)
 TEMPLATE=(ROOT/'tools/asm86_template.asm').read_text()
 STARTS=['START','FILEBAD','OPENFILE','CLOSEFILE','WRITEOUT','NEXTBYTE','READLINE','SCAN','LOOK','REGISTER','VALIDNAME','VALUE','SYMBOLVALUE','DEFINE','OPERAND','MEMORY','STATEMENT','DATAITEM','FIXED','SINGLE','INTERRUPT','NEARJUMP','SHORTJUMP','FINISH','TWOOPERANDS','MOVOPERANDS','MOVREG','REGMOD','IMMEDVALUE','LOADMEM','STOREMEM','SAMEWIDTH','TIMES8','BYTEVALUE','EMITWORD','EMIT','COPYZ','TEXT','NUMBER','ERROR','OKMSG']
@@ -534,5 +534,5 @@ for number,stage in enumerate(STAGES,1):
 assert len(STAGES)==28
 # The final checkpoint is the complete reader-facing source.
 dos(WORK/'ASM86.ASM',previous)
-(ROOT/'qa/asm86/checkpoints.json').write_text(json.dumps(manifest,indent=2))
+(ROOT/'qa/asm0/checkpoints.json').write_text(json.dumps(manifest,indent=2))
 print(f'Prepared {len(STAGES)} source checkpoints; final source {len(previous.splitlines())} lines.')

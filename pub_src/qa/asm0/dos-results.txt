@@ -1,0 +1,3 @@
+PASS DOS 3.10: BASIC-produced ASM86 builds SELF.COM; SELF builds AGAIN.COM; both match every byte of the first executable.
+PASS DOS COMP: both generations report Files compare ok.
+PASS DOS CHECK: successful builds report PASS; unequal register widths report ERROR 00001 CODE 1 and FAIL.

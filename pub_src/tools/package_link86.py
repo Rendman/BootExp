@@ -1,7 +1,7 @@
 """Source-only LINK86 checkpoints and hand-entered object fixtures."""
 from pathlib import Path
 import json,shutil,zipfile
-ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/link86';D=ROOT/'site/static/downloads/link86';D.mkdir(parents=True,exist_ok=True)
+ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/link86';D=ROOT/'site/downloads/link86';D.mkdir(parents=True,exist_ok=True)
 for name in ['VIEW.BAS','CHECK.BAT']:shutil.copyfile(ROOT/'workbench/bootasm'/name,W/name)
 text='''THE BOOTSTRAP PROJECT - LINK86
 Linking Our First Modules

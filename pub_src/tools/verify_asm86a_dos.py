@@ -1,7 +1,8 @@
 """Verify native builds, allocated workspace, and the bootstrap ladder under DOS 3.10."""
+from project_paths import directory_name
 from pathlib import Path
 import subprocess,shutil,socket,time
-ROOT=Path(__file__).resolve().parents[1];Q=ROOT/'qa/asm86a';W=ROOT/'workbench/asm86a';scratch=Q/'dos';scratch.mkdir(exist_ok=True)
+ROOT=Path(__file__).resolve().parents[1];Q=ROOT/'qa/asm86';W=ROOT/'workbench/asm86';scratch=Q/'dos';scratch.mkdir(exist_ok=True)
 def dos(name,text):
  p=scratch/name;p.write_bytes(text.replace('\r\n','\n').replace('\n','\r\n').encode('ascii'));return p
 def vm(group,copies,commands,outputs):
@@ -28,7 +29,7 @@ def vm(group,copies,commands,outputs):
   if p.poll() is None:p.terminate();p.wait(timeout=10)
 
 records=[]
-copies=[(ROOT/'workbench/asm86/ASM86.COM','ASM86.COM'),(W/'ASMA0.ASM','ASMA0.ASM'),(W/'ASM86A.ASM','ASM86A.ASM'),(ROOT/'workbench/ir86/IR86.ASM','IR86.ASM'),(ROOT/'workbench/rill/RILL.IR','RILL.IR'),(ROOT/'workbench/rill/HELLO.RIL','RLSRC.RIL')]
+copies=[(ROOT/'workbench/asm0/ASM86.COM','ASM86.COM'),(W/'ASMA0.ASM','ASMA0.ASM'),(W/'ASM86A.ASM','ASM86A.ASM'),(ROOT/'workbench/ir86/IR86.ASM','IR86.ASM'),(ROOT/'workbench/rill0/RILL.IR','RILL.IR'),(ROOT/'workbench/rill0/HELLO.RIL','RLSRC.RIL')]
 for name in ['ASMA0','RILL','RLHI']:copies.append((dos(name+'.IN',name+'\n'),name+'.IN'))
 commands=[r'A:\COMMAND /C CHECK ASM86 <ASMA0.IN >SEED.BLD','COPY ASMA0.ASM SOURCE.ASM >NUL',r'A:\COMMAND /C CHECK ASMA0 >SEED.SEL','COPY RESULT.COM SGEN1.COM >NUL',r'A:\COMMAND /C CHECK SGEN1 >SEED.TWO','COPY RESULT.COM SGEN2.COM >NUL','COPY ASM86A.ASM SOURCE.ASM >NUL',r'A:\COMMAND /C CHECK ASMA0 >FULL.BLD','COPY RESULT.COM AKEEP.COM >NUL',r'A:\COMMAND /C CHECK AKEEP >FULL.SEL','COPY RESULT.COM FGEN1.COM >NUL',r'A:\COMMAND /C CHECK FGEN1 >FULL.TWO','COPY RESULT.COM FGEN2.COM >NUL','COPY IR86.ASM SOURCE.ASM >NUL',r'A:\COMMAND /C CHECK AKEEP >IR.BLD','COPY RESULT.COM IR86.COM >NUL',r'A:\COMMAND /C CHECK IR86 <RILL.IN >RILL.TRN','COPY RILL.ASM SOURCE.ASM >NUL',r'A:\COMMAND /C CHECK AKEEP >RILL.BLD','COPY RESULT.COM RILL.COM >NUL','COPY RLSRC.RIL SOURCE.RIL >NUL',r'A:\COMMAND /C CHECK RILL >RLHI.CMP','COPY RESULT.IR RLHI.IR >NUL',r'A:\COMMAND /C CHECK IR86 <RLHI.IN >RLHI.TRN','COPY RLHI.ASM SOURCE.ASM >NUL',r'A:\COMMAND /C CHECK AKEEP >RLHI.BLD','COPY RESULT.COM RLHI.COM >NUL',r'A:\COMMAND /C CHECK RLHI >RLHI.OUT']
 outputs=['ASMA0.COM','SGEN1.COM','SGEN2.COM','AKEEP.COM','FGEN1.COM','FGEN2.COM','IR86.COM','RILL.COM','RLHI.COM','SEED.BLD','SEED.SEL','SEED.TWO','FULL.BLD','FULL.SEL','FULL.TWO','IR.BLD','RILL.TRN','RILL.BLD','RLHI.CMP','RLHI.TRN','RLHI.BLD','RLHI.OUT']
@@ -37,7 +38,7 @@ for name in ['HELLO','FRAME','BRIDGE','COPYTEXT']:
 b=vm('build',copies,commands,outputs)
 for name in ['ASMA0','SGEN1','SGEN2']:assert (b/(name+'.COM')).read_bytes()==(W/'ASMA0.COM').read_bytes(),name
 for name in ['AKEEP','FGEN1','FGEN2']:assert (b/(name+'.COM')).read_bytes()==(W/'ASM86A.COM').read_bytes(),name
-for folder,name in [('ir86','IR86'),('rill','RILL')]:assert (b/(name+'.COM')).read_bytes()==(ROOT/'workbench'/folder/(name+'.COM')).read_bytes(),name
+for folder,name in [('ir86','IR86'),('rill','RILL')]:assert (b/(name+'.COM')).read_bytes()==(ROOT/'workbench'/directory_name(folder)/(name+'.COM')).read_bytes(),name
 for name in outputs:
  if name.endswith(('.BLD','.SEL','.TWO','.TRN','.CMP','.OUT')):assert b'PASS' in (b/name).read_bytes(),name
 assert b'HI' in (b/'RLHI.OUT').read_bytes()
@@ -120,7 +121,7 @@ DB "LOW MEMORY PASS",13,10,36
 '''
 # This diagnostic is also encoded only by the published assembler.
 import sys
-sys.path.insert(0,str(ROOT/'qa/asm86a'))
+sys.path.insert(0,str(ROOT/'qa/asm86'))
 from machine import run_assembler
 hog=run_assembler((W/'ASM86A.COM').read_bytes(),lowmem);assert hog.exitcode==0,hog.output
 hogfile=scratch/'LOWMEM.COM';hogfile.write_bytes(hog.files['RESULT.COM']);dos('LOWMEM.ASM',lowmem)

@@ -1,7 +1,3 @@
 /public/
 __pycache__/
 *.pyc
-/pub_src/workbench/edit86/*.COM
-/pub_src/qa/edit86/generated/
-/pub_src/qa/edit86/dos/
-/pub_src/qa/edit86/*.img

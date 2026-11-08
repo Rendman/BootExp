@@ -5,7 +5,7 @@ from compiler_publication import publish
 ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/toolchain';Q=ROOT/'qa/toolchain';C=ROOT/'site/content/bootstrap'
 def front(t,n,d,src):return '+++\n'+f'title = {json.dumps(t)}\nweight = {n}\ndescription = {json.dumps(d)}\ndownload = "{src}"\ndownload_group = "toolchain"\n'+'+++\n\n'
 def fence(k,t):return '```'+k+'\n'+t.replace('\r\n','\n').rstrip('\n')+'\n```\n\n'
-facts=json.loads((Q/'self-build-facts.json').read_text());seed=len((W/'RILLBOOT.COM').read_bytes());wide=len((ROOT/'workbench/ir86/IRWIDE.COM').read_bytes());native_assembler=len((ROOT/'workbench/asm86a/ASM86A.COM').read_bytes())
+facts=json.loads((Q/'self-build-facts.json').read_text());seed=len((W/'RILLBOOT.COM').read_bytes());wide=len((ROOT/'workbench/ir86/IRWIDE.COM').read_bytes());native_assembler=len((ROOT/'workbench/asm86/ASM86A.COM').read_bytes())
 (Q/'build-facts.json').write_text(json.dumps({'native_ir_bytes':wide,'ir_compiler_seed_bytes':seed,'tools':facts},indent=2)+'\n')
 capacity=json.loads((Q/'local-capacity.json').read_text())
 t=front('The compiler self-build',133,'Establish the compiler frame convention and compare two matching generations.','RILL.RIL')

@@ -1,56 +1,52 @@
 +++
-title = "The assembly workbench"
+title = "The larger assembler workbench"
 weight = 0
-description = "Use the completed BASIC assembler and prepare a single-segment workspace."
-download = "ASM0.ZIP"
-download_group = "tools/asm0"
+description = "Begin with the verified ASM1 source and preserve its executable as the builder."
+download = "ASM86.ZIP"
+download_group = "tools/asm86"
 reader_names = 1
+url = "/bootstrap/asm86a/00-workbench/"
 +++
 
-Begin with the completed BOOTASM collection: `BOOTASM.BAS`, `VIEW.BAS`, and `CHECK.BAT`. Keep the same DOS 3.10 directory and the period GW-BASIC supplied with your distribution. The instructions call the interpreter `GWBASIC`; use its actual name on your disk. DOS and BASIC version numbers are independent; note the interpreter's startup banner before beginning.
+Begin with the completed ASM1 collection and its two matching self-assembly generations. Keep ASM1.ASM, ASM1.COM, VIEW.BAS, and CHECK.BAT. ASM1 is the fixed-file streaming seed; ASMKEEP.COM remains the earlier fixed-file ASM0.
 
-BOOTASM's assembly language is the language used to write every checkpoint here. There is no other assembler, linker, or supplied executable in the construction. A `.COM` file starts at offset 0100H without an executable header.
+## Begin with the seed source
 
-## Preserve the foundation
-
-At DOS, make an untouched copy:
+The first construction article uses A13.ASM. Start from the completed seed:
 
 ```dos
-COPY BOOTASM.BAS BOOTKEEP.BAS
+COPY ASM1.ASM A13.ASM
 ```
 
-The completed BOOTASM supplies the instruction forms and storage needed to build every ASM0 checkpoint. Its symbol table holds 256 labels, and its output image can contain 4,096 bytes. Use the normal roughly 60 KB BASIC workspace for the program, symbols, and output array.
+Apply the printed edits from the bottom upward. Their old physical positions refer to the unchanged ASM1 source. The article numbering starts at one in this collection; saved checkpoint names continue from A13 through A40 so the disk handoff stays explicit.
 
-Copy AS01.ASM to SOURCE.ASM and run `GWBASIC BOOTASM.BAS`. Require its printed OK RESULT.COM and byte count. SYSTEM returns to DOS; COPY RESULT.COM AS01.COM preserves the executable. BASIC's printed error report is the build result; CHECK.BAT is for a complete assembled .COM program.
+Build the edited source with the preserved seed:
 
-## Keep the steps separate
+```dos
+COPY A13.ASM SOURCE.ASM
+CHECK ASM1
+COPY RESULT.COM A13.COM
+```
 
-Enter `AS01.ASM` from the first installment. Each subsequent installment starts with a copy of the preceding source under the next name. Preserve both source and executable after a successful test. Every checkpoint can still be assembled with BOOTASM; the native program replaces it only after the self-assembly test.
+Require the stated OK count and PASS **before** copying the result. ASM1 writes RESULT.COM; save the checkpoint executable as A13.COM before using it to process a test. Every construction checkpoint in this collection is built by ASM1. Its source uses only the seed's language, even while implementing richer accepted forms.
 
-Sources are plain ASCII with DOS CR/LF line endings and short filenames. `COPY CON T07.ASM` begins a small test file; Ctrl-Z and Enter finish input. The Ctrl-Z keystroke is not a token to type into an instruction. `TYPE T07.ASM` displays the saved text. An editor may be more convenient for the growing assembler; it must save ordinary text without formatting codes.
+## Files and memory
 
-Both BOOTASM and ASM0 read SOURCE.ASM and write RESULT.COM. Select a source with COPY, require fresh success, and copy the accepted result to the program name before using the work files again.
-
-## The native memory arrangement
-
-The native program requires a complete 64 KB segment, with the normal entry stack at FFFEH. It checks SP before using its buffers and reports code 7 if that requirement is not met. Code and static data occupy the low part of the segment; fixed buffers are kept clear of them:
-
-| Offsets | Use |
+| Name | Role |
 |---|---|
-| 0000H–00FFH | DOS program segment prefix; leave it alone |
-| 0100H–20FFH | Reserved image area, maximum 8,192 bytes |
-| 2200H–2278H | Physical source line, 120 characters and a zero |
-| 2300H–2310H | Token, 16 characters and a zero |
-| 3000H–43FFH | 256 symbol records of 20 bytes |
-| 6000H–7FFFH | Output buffer, 8,192 bytes |
-| Near FFFEH | Stack, growing toward lower offsets |
+| SOURCE.ASM | Disk input reopened for each pass |
+| RESULT.COM | Last published result |
+| ASMA.TMP | Owned temporary output |
+| RESULT.BAK | Previous result during publication |
 
-The program does not relocate these buffers or request a second segment. Keep DS, ES, and SS at the DOS entry segment. Its calls are shallow and nonrecursive; reserve the upper 4 KB for the stack and do not place data there. The completed image is under 3 KB, so BOOTASM's 4 KB output bound is sufficient to build it. ASM0's **own** 8 KB output bound is a different limit.
+Keep sources and preserved tools in an ordinary hard-disk directory, with room for both the temporary file and backup. Inspect any existing recovery file before another run. A source rejection must leave RESULT.COM unchanged; a publication failure can require recovery from the named temporary or backup.
 
-## Visible checks
+The first additions retain the seed buffers while allocated-record helpers are tested. The complete assembler retains a 64 KB main segment and allocates eight 40 KiB symbol pages plus an 8 KiB lookup block: 392 KiB before DOS, environment, and allocation overhead. Allocation failure must report FAIL before replacing a result. Code remains near code in the main segment; allocated workspace does not enlarge the target COM image.
 
-Use the BOOTASM workbench's unchanged CHECK.BAT and VIEW.BAS. Run `CHECK AS01` to execute a complete checkpoint and immediately print PASS or FAIL from its DOS return status. The checker accepts a base name without arguments. A missing program reports `Missing program`. DOS may echo its first ECHO OFF command.
+## Read, inspect, and preserve
 
-To inspect a file, run `GWBASIC VIEW.BAS`, enter the complete filename including `.COM`, and compare both length and hexadecimal bytes. Use `SYSTEM` afterward. A zero-byte output is a valid inspection result but is never a runnable program.
+Use DOS 3.10 and the same period BASIC interpreter as the preceding collections. Plain ASCII sources use DOS CR/LF and 8.3 names. Keep the source unchanged through both passes. Console devices and pipes are not substitutes for the reopenable source file.
 
-All AS01 through AS28 checkpoint programs are executable tools or diagnostics. Their **output fixtures** often are just data or encoding exercises. Run an output fixture only when its installment explicitly calls it a complete executable. Use a new test name and require a fresh OK before trusting an output file: source errors leave an older `.COM` untouched, while a disk error during writing can leave a partial file.
+VIEW.BAS reports file length and hexadecimal bytes; SYSTEM returns from BASIC to DOS. CHECK.BAT immediately reports executable status. Encoding fixtures are inspected as data unless an article explicitly identifies a complete program. Do not execute an empty output file.
+
+The final checkpoint is A40.ASM, saved as ASM86.ASM. Preserve its seed-built executable and compare both self-assembly generations. Then copy the tested ASM86.COM to ASMAKEEP.COM. ASM1.COM remains the seed builder, and ASMKEEP.COM remains the original ASM0. Keep all three separately named.

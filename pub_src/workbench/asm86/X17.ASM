@@ -1,2 +1,2 @@
-1BAD:
-DB 0
+SAME:
+SAME:

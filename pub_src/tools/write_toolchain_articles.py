@@ -69,7 +69,7 @@ def patches(old,new,kind,oldname):
  return t,changes
 allpatches=[]
 for family,collection,offset,prefix,language in [('rill-self-series','rc',88,'RC','rill')]:
- cases=json.loads((Q/(family+'.json')).read_text());old=(ROOT/'workbench/asm86a/ASM86A.ASM').read_text().splitlines() if prefix=='IW' else [];oldname='ASM86A.ASM' if old else None
+ cases=json.loads((Q/(family+'.json')).read_text());old=(ROOT/'workbench/asm86/ASM86A.ASM').read_text().splitlines() if prefix=='IW' else [];oldname='ASM86A.ASM' if old else None
  for c in cases:
   n=c['number'];name=f'{prefix}{n:02}';weight=offset+n;page=f'{weight:03}-{prefix.lower()}-{slug(c["title"])}.md';source=(W/c['source']).read_text().splitlines()
   description=c.get('why') or helper(c).split('. ')[0]+'.'

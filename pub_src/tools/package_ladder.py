@@ -1,14 +1,15 @@
 """Package the single IR construction and both continuing compiler milestones."""
+from project_paths import directory_name
 from pathlib import Path
-import json,zipfile,shutil
+import json,zipfile,shutil,re
 from publication_names import ROOT
 Q=ROOT/'qa/toolchain'
 for group,family,prefix,work,complete,archive in [('ir86','ir-extensions','IR','ir86','IR86.ASM','IR86.ZIP'),('rill','rill-initial-series','R','rill','RILL.IR','RILL.ZIP'),('rb','rill-seed-series','RB','toolchain','RILLBOOT.IR','RB.ZIP')]:
- W=ROOT/'workbench'/work;D=ROOT/'site/static/downloads'/group;D.mkdir(exist_ok=True,parents=True)
+ W=ROOT/'workbench'/directory_name(work);D=ROOT/'site/downloads'/directory_name(group);D.mkdir(exist_ok=True,parents=True)
  cases=json.loads((Q/(family+'.json')).read_text());files=[complete,'VIEW.BAS','CHECK.BAT','README.TXT']
  if group!='ir86':
   shutil.copyfile(ROOT/'workbench/ir86/IR86.ASM',W/'IRWIDE.ASM');files.append('IRWIDE.ASM')
- if group=='rb':shutil.copyfile(ROOT/'workbench/rill/RILL.IR',W/'RILL.IR');files.append('RILL.IR')
+ if group=='rb':shutil.copyfile(ROOT/'workbench/rill0/RILL.IR',W/'RILL.IR');files.append('RILL.IR')
  for helper in ['VIEW.BAS','CHECK.BAT']:shutil.copyfile(ROOT/'workbench/bootasm'/helper,W/helper)
  lines=['BOOTSTRAP EXPERIMENT - '+('RILL0' if group=='rill' else 'RILLBOOT' if group=='rb' else 'IR86'),'',
  'Read the matching workbench and construction articles in order.',
@@ -41,9 +42,11 @@ for group,family,prefix,work,complete,archive in [('ir86','ir-extensions','IR','
  if group=='rill':keep|={'RILL.RIL','RILLBOOT.IR'}
  for stale in D.iterdir():
   if stale.is_file() and stale.name not in keep:stale.unlink()
- manifest=ROOT/'qa'/('compiler_collections/rb-files.json' if group=='rb' else group+'/package-files.json')
+ manifest=ROOT/'qa'/('compilers/rb-files.json' if group=='rb' else directory_name(group)+'/package-files.json')
  manifest.write_text(json.dumps(files,indent=2)+'\n')
  if group=='rb':
-  snap=ROOT/'workbench/rb';snap.mkdir(exist_ok=True)
+  snap=ROOT/'workbench/rillboot';snap.mkdir(exist_ok=True)
   for name in files:shutil.copyfile(W/name,snap/name)
+  for stale in snap.iterdir():
+   if stale.is_file() and re.fullmatch(r'(?:T|X)?RB\d+\.(?:IR|RIL|ASM)',stale.name) and stale.name not in files:stale.unlink()
  print('Packaged',group,len(files),'source files')

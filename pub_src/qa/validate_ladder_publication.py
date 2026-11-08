@@ -3,16 +3,17 @@ from pathlib import Path
 import json,re,sys,tomllib,zipfile
 ROOT=Path(__file__).resolve().parents[1];C=ROOT/'site/content/bootstrap';Q=ROOT/'qa/toolchain'
 sys.path.insert(0,str(ROOT/'tools'))
+from project_paths import directory_name
 from publication_names import filename
 
 def check():
  patches=json.loads((Q/'ladder-article-patches.json').read_text())
  previous={};counts={}
  for stage in patches:
-  family=stage['family'];group=stage['collection'];folder=ROOT/stage['folder'];n=stage['number'];text=(C/group/stage['page']).read_text()
+  family=stage['family'];group=stage['collection'];folder=ROOT/stage['folder'];n=stage['number'];text=(C/directory_name(group)/stage['page']).read_text()
   if family not in previous:
-   if group=='ir86':base=(ROOT/'workbench/asm86a/ASM86A.ASM').read_text().splitlines();assert stage['base']=='ASM86.ASM'
-   elif group=='rb':base=(ROOT/'workbench/rill/RILL.IR').read_text().splitlines();assert stage['base']=='RILL0.IR'
+   if group=='ir86':base=(ROOT/'workbench/asm86/ASM86A.ASM').read_text().splitlines();assert stage['base']=='ASM86.ASM'
+   elif group=='rb':base=(ROOT/'workbench/rill0/RILL.IR').read_text().splitlines();assert stage['base']=='RILL0.IR'
    else:base=[];assert stage['base'] is None
   else:base=previous[family]
   sections=re.split(r'### Edit at old physical position \d+\n\n',text)[1:]
@@ -32,14 +33,14 @@ def check():
   previous[family]=list(base);counts[family]=counts.get(family,0)+1
  assert counts=={f:len(json.loads((Q/(f+'.json')).read_text())) for f in counts}
  assert (ROOT/'workbench/ir86/IR86.ASM').read_bytes()==(ROOT/'workbench/ir86/IRWIDE.ASM').read_bytes()
- assert (ROOT/'workbench/rill/RILL.IR').read_text().splitlines()==previous['rill-initial-series']
- assert (ROOT/'workbench/rill/RILLBOOT.IR').read_text().splitlines()==previous['rill-seed-series']
+ assert (ROOT/'workbench/rill0/RILL.IR').read_text().splitlines()==previous['rill-initial-series']
+ assert (ROOT/'workbench/rill0/RILLBOOT.IR').read_text().splitlines()==previous['rill-seed-series']
  # The RILL-written compiler still has its own exact construction.
  old=[];selfpatches=json.loads((Q/'article-patches.json').read_text())
  assert len(selfpatches)==len(json.loads((Q/'rill-self-series.json').read_text()))==43
  for s in selfpatches:
   assert s['family']=='rill-self-series'
-  text=(C/'rc'/s['page']).read_text()
+  text=(C/'rill'/s['page']).read_text()
   sections=re.split(r'### Edit \d+\n\n',text)[1:]
   if s['base']:assert len(sections)==len(s['changes'])
   for i,e in enumerate(s['changes']):
@@ -54,7 +55,7 @@ def check():
   assert old==(ROOT/'workbench/toolchain'/s['source']).read_text().splitlines()
  assert old==(ROOT/'workbench/toolchain/RILL.RIL').read_text().splitlines()
  # Reconstruct the local-capacity exercises from their printed instructions.
- complete=(C/'rc'/selfpatches[-1]['page']).read_text()
+ complete=(C/'rill'/selfpatches[-1]['page']).read_text()
  blocks=re.findall(r'```rill\n(.*?)\n```',complete,re.S)
  local=next(b for b in blocks if b.startswith('fn check('))+'\n'
  work=ROOT/'workbench/toolchain'
@@ -79,15 +80,17 @@ def check():
  for stem in ['A','I','R']:
   for gen in [1,2]:assert f'COMP {stem}0.COM {stem}{gen}.COM' in compare
  # Every legacy archive is independently checked against its source snapshot.
- specs=[('ir86','IR86.ZIP','ir86','ir86/package-files.json'),('rill','RILL.ZIP','rill','rill/package-files.json'),('rb','RB.ZIP','rb','compiler_collections/rb-files.json'),('rc','RC.ZIP','rc','compiler_collections/rc-files.json'),('toolchain','TOOLCHN.ZIP','toolchain','toolchain/package-files.json')]
+ specs=[('ir86','IR86.ZIP','ir86','ir86/package-files.json'),('rill','RILL.ZIP','rill','rill/package-files.json'),('rb','RB.ZIP','rb','compilers/rb-files.json'),('rc','RC.ZIP','rc','compilers/rc-files.json'),('toolchain','TOOLCHN.ZIP','toolchain','toolchain/package-files.json')]
  for group,archive,work,manifest in specs:
-  files=json.loads((ROOT/'qa'/manifest).read_text());dest=ROOT/'site/static/downloads'/group
+  parts=Path(manifest).parts
+  manifest=Path(directory_name(parts[0]),*parts[1:])
+  files=json.loads((ROOT/'qa'/manifest).read_text());dest=ROOT/'site/downloads'/directory_name(group)
   with zipfile.ZipFile(dest/archive) as z:
    assert z.namelist()==files,(group,'archive members')
    for name in files:
     assert re.fullmatch(r'[A-Z0-9_]{1,8}\.[A-Z0-9]{1,3}',name),name
     assert not name.endswith(('.COM','.EXE'))
-    raw=(ROOT/'workbench'/work/name).read_bytes();raw.decode('ascii')
+    raw=(ROOT/'workbench'/directory_name(work)/name).read_bytes();raw.decode('ascii')
     assert b'\n' not in raw.replace(b'\r\n',b''),(group,name,'line endings')
     assert z.read(name)==raw==(dest/name).read_bytes(),(group,name,'source differs')
  print('PASS required native IR, continuing RILL0/RILLBOOT, all RILL compiler edits, exact port notebooks, rebuild commands, and source archives')

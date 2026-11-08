@@ -1,7 +1,7 @@
 """Prepare only the reader's source collection; exclude execution artifacts."""
 from pathlib import Path
 import json,shutil,zipfile,re
-ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/bootasm';D=ROOT/'site/static/downloads/bootasm'
+ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/bootasm';D=ROOT/'site/downloads/bootasm'
 def dos(p,text):p.write_bytes((text.rstrip()+'\n').replace('\r\n','\n').replace('\n','\r\n').encode('ascii'))
 page=ROOT/'site/content/bootstrap/bootasm/00-workbench.md'
 checker=re.search(r'```dos\n(ECHO OFF\n.*?)\n```',page.read_text(),re.S).group(1)

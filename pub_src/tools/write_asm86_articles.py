@@ -4,8 +4,8 @@ from pathlib import Path
 from difflib import SequenceMatcher
 import json,re,tomllib
 ROOT=Path(__file__).resolve().parents[1]
-WORK=ROOT/'workbench/asm86';CONTENT=ROOT/'site/content/bootstrap/asm86'
-CASES=json.loads((ROOT/'qa/asm86/checkpoints.json').read_text())
+WORK=ROOT/'workbench/asm0';CONTENT=ROOT/'site/content/bootstrap/asm0'
+CASES=json.loads((ROOT/'qa/asm0/checkpoints.json').read_text())
 def fence(kind,text,keep=False):return '```'+kind+'\n'+(text if keep else text.rstrip('\n'))+'\n```\n\n'
 def slug(title):return re.sub('[^a-z0-9]+','-',title.lower()).strip('-')
 def front(title,weight,description,download,cartoon=None):
@@ -83,5 +83,5 @@ for case in CASES:
  write_page(CONTENT/filename,text)
  patches.append(dict(number=n,page=filename,changes=changes))
  previous=lines
-(ROOT/'qa/asm86/article-patches.json').write_text(json.dumps(patches,indent=2)+'\n')
+(ROOT/'qa/asm0/article-patches.json').write_text(json.dumps(patches,indent=2)+'\n')
 print('Prepared 28 construction articles and their exact printed-edit record.')

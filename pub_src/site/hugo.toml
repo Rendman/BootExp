@@ -12,3 +12,42 @@ disableKinds = ['taxonomy', 'term', 'RSS', 'sitemap']
     unsafe = false
 [params]
   description = 'A practical course in small-system software.'
+
+# Keep established download URLs while source directories use tool names.
+[module]
+  [[module.mounts]]
+    source = 'static'
+    target = 'static'
+  [[module.mounts]]
+    source = 'downloads/bootasm'
+    target = 'static/downloads/bootasm'
+  [[module.mounts]]
+    source = 'downloads/asm0'
+    target = 'static/downloads/asm86'
+  [[module.mounts]]
+    source = 'downloads/asm1'
+    target = 'static/downloads/asma0'
+  [[module.mounts]]
+    source = 'downloads/asm86'
+    target = 'static/downloads/asm86a'
+  [[module.mounts]]
+    source = 'downloads/ir86'
+    target = 'static/downloads/ir86'
+  [[module.mounts]]
+    source = 'downloads/rill0'
+    target = 'static/downloads/rill'
+  [[module.mounts]]
+    source = 'downloads/rillboot'
+    target = 'static/downloads/rb'
+  [[module.mounts]]
+    source = 'downloads/rill'
+    target = 'static/downloads/rc'
+  [[module.mounts]]
+    source = 'downloads/toolchain'
+    target = 'static/downloads/toolchain'
+  [[module.mounts]]
+    source = 'downloads/link86'
+    target = 'static/downloads/link86'
+  [[module.mounts]]
+    source = 'downloads/edit86'
+    target = 'static/downloads/edit86'

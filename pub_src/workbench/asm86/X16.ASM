@@ -1,1 +1,1 @@
-DW AX
+MOV AX,AL

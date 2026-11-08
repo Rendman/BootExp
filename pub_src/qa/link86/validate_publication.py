@@ -1,7 +1,7 @@
 """Reconstruct the printed linker and inspect its source-only object collection."""
 from pathlib import Path
 import json,re,zipfile
-ROOT=Path(__file__).resolve().parents[2];W=ROOT/'workbench/link86';C=ROOT/'site/content/bootstrap/link86';Q=ROOT/'qa/link86';D=ROOT/'site/static/downloads/link86'
+ROOT=Path(__file__).resolve().parents[2];W=ROOT/'workbench/link86';C=ROOT/'site/content/bootstrap/link86';Q=ROOT/'qa/link86';D=ROOT/'site/downloads/link86'
 old=[];cases=json.loads((Q/'checkpoints.json').read_text());patches=json.loads((Q/'article-patches.json').read_text())
 assert len(cases)==len(patches)==10
 for c,s in zip(cases,patches):

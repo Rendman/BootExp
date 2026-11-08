@@ -2,7 +2,7 @@
 from common import *
 import json,re
 logs=[]
-for family,folder,prefix in [('rill-initial-series',ROOT/'workbench/rill','R'),('rill-seed-series',W,'RB')]:
+for family,folder,prefix in [('rill-initial-series',ROOT/'workbench/rill0','R'),('rill-seed-series',W,'RB')]:
  cases=json.loads((Q/(family+'.json')).read_text())
  for c in cases:
   n=c['number'];assembly,image=ir((folder/c['source']).read_bytes())
@@ -38,7 +38,7 @@ for family,folder,prefix in [('rill-initial-series',ROOT/'workbench/rill','R'),(
  if prefix=='R':
   (folder/'RILL.COM').write_bytes(image);(folder/'RILL.ASM').write_bytes((folder/f'R{final["number"]:02}.ASM').read_bytes())
  else:
-  (ROOT/'workbench/rill/RILLBOOT.COM').write_bytes(image);(W/'RILLBOOT.COM').write_bytes(image)
+  (ROOT/'workbench/rill0/RILLBOOT.COM').write_bytes(image);(W/'RILLBOOT.COM').write_bytes(image)
   (W/'RILLBOOT.ASM').write_bytes((folder/f'RB{final["number"]:02}.ASM').read_bytes())
  (Q/(family+'.json')).write_text(json.dumps(cases,indent=2)+'\n')
  # Exercise core language and failures with actual compiler outputs.

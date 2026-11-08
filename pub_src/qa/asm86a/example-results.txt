@@ -1,4 +1,0 @@
-PASS HELLO: source assembled, native output/status correct, exact printed rejection preserves prior output
-PASS FRAME: source assembled, native output/status correct, exact printed rejection preserves prior output
-PASS BRIDGE: source assembled, native output/status correct, exact printed rejection preserves prior output
-PASS COPYTEXT: source assembled, native output/status correct, exact printed rejection preserves prior output

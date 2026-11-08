@@ -1,9 +1,10 @@
 """Print exact bottom-up source edits and native-measured stopping tests."""
+from project_paths import directory_name
 from publication_names import write_page
 from pathlib import Path
 from difflib import SequenceMatcher
 import json,re,tomllib
-ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/asm86a';Q=ROOT/'qa/asm86a';C=ROOT/'site/content/bootstrap/asm86a';C.mkdir(parents=True,exist_ok=True)
+ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/asm86';Q=ROOT/'qa/asm86';C=ROOT/'site/content/bootstrap/asm86';C.mkdir(parents=True,exist_ok=True)
 cases=json.loads((Q/'checkpoints.json').read_text());examples=json.loads((Q/'examples.json').read_text())
 def fence(kind,s):return '```'+kind+'\n'+s.rstrip('\n')+'\n```\n\n'
 def front(title,weight,description,download,cartoon=None):
@@ -11,14 +12,14 @@ def front(title,weight,description,download,cartoon=None):
  if cartoon:s+=f'cartoon = "{cartoon}"\n'
  return s+'+++\n\n'
 def slug(s):return re.sub('[^a-z0-9]+','-',s.lower()).strip('-')
-previous=(ROOT/'workbench/asm86/ASM86.ASM').read_text().splitlines();patches=[];previous_number=None
+previous=(ROOT/'workbench/asm0/ASM86.ASM').read_text().splitlines();patches=[];previous_number=None
 chapters={c['number']:i for i,c in enumerate([r for r in cases if r['number']>12],1)}
 for case in cases:
- n=case['number'];collection='asma0' if n<=12 else 'asm86a';chapter=n if n<=12 else chapters[n];C=ROOT/'site/content/bootstrap'/collection;C.mkdir(parents=True,exist_ok=True);name=f'A{n:02}';oldfile='ASM86.ASM' if n==1 else 'ASMA0.ASM' if n==13 else f'A{previous_number:02}.ASM';lines=(W/(name+'.ASM')).read_text().splitlines();page=f'{n:02}-{slug(case["title"])}.md'
+ n=case['number'];collection='asma0' if n<=12 else 'asm86a';chapter=n if n<=12 else chapters[n];C=ROOT/'site/content/bootstrap'/directory_name(collection);C.mkdir(parents=True,exist_ok=True);name=f'A{n:02}';oldfile='ASM86.ASM' if n==1 else 'ASMA0.ASM' if n==13 else f'A{previous_number:02}.ASM';lines=(W/(name+'.ASM')).read_text().splitlines();page=f'{n:02}-{slug(case["title"])}.md'
  t=front(f'{chapter:02} · '+case['title'],chapter,case['description'],name+'.ASM',case.get('cartoon'))+case['why']+'\n\n## The working parts\n\n'+case['explain']+'\n\n## Enter the source\n\n'
  if n<=12:
   t=t.replace('+++\n\n',f'aliases = [\"/bootstrap/asm86a/{page[:-3]}/\"]\n+++\n\n',1)
-  (ROOT/'site/content/bootstrap/asm86a'/page).unlink(missing_ok=True)
+  (ROOT/'site/content/bootstrap/asm86'/page).unlink(missing_ok=True)
  t+=f'Copy `{oldfile}` to `{name}.ASM`. '
  edits=[o for o in SequenceMatcher(None,previous,lines,autojunk=False).get_opcodes() if o[0]!='equal'];changes=[]
  if edits:t+='Apply the following edits **from the bottom of the old file upward**. Physical positions locate an edit in the unchanged old file; use the nearby label and printed context to identify it. Keep all other source. The Z labels are ordinary implementation labels for explicit short-branch bridges.\n\n'

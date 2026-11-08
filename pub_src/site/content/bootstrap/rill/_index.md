@@ -1,26 +1,33 @@
 +++
-title = "Our First Compiler"
-weight = 6
-description = "Begin with the completed ASM86 and native IR86 workbenches. Every compiler checkpoint is written in IR86. Translate SOURCE.IR with IRKEEP, copy accepted RESULT.ASM to SOURCE.ASM, then assemble with ASMAKEEP. The finished RILL0 reads SOURCE.RIL and publishes RESULT.IR."
-download = "RILL0.IR"
-download_group = "tools/rill0"
-reader_names = 1
+title = "A Compiler Written in Its Own Language"
+weight = 8
+description = "Write the RILL compiler in RILL and prove matching rebuilds."
 cover = true
-tool_id = "RILL0"
-collection_key = "rill"
+download = "RILL.RIL"
+download_group = "tools/rill"
+reader_names = 1
+tool_id = "RILL"
+collection_key = "rc"
+url = "/bootstrap/rc/"
 +++
 
-Build a small compiler in the processor-independent IR language. Its scanner, record layout, local bindings, streamed emitter, and parser are the working parts that RILLBOOT extends. The first language has one fn main(), mutable local words, + and -, unsigned comparisons, assignments, if/else, while, putc, status, exit, and return.
+**BOOTASM → ASM0 → ASM1 → ASM86 → IR86 → RILL0 → RILLBOOT → RILL.** Begin with the completed RILLBOOT compiler seed, RILLBOOT.COM, and the preserved native IWKEEP and ASMAKEEP. RILL expresses the compiler in the RILL language accepted by that seed.
 
 ## What we're adding
 
-- **Structured source translated into IR:** Add a scanner and parser so expressions, assignments and control statements can be written directly instead of spelling out each IR operation.
-- **Local names and lexical scopes:** Provide up to sixteen live local words, with slots reused at closing braces, so blocks can keep temporary state without permanent global scratch cells.
-- **Expressions and branches:** Compile addition, subtraction, unsigned comparisons, if/else and while so the first language can express useful decisions and repeated work.
-- **A continuing compiler implementation:** Establish the symbol records, bounded streams, parser and publication routines that RILLBOOT extends, keeping this first compiler a required working foundation.
+- **The compiler written in RILL:** Express the scanner, tables, emitter and parser in the language accepted by RILLBOOT so the compiler implementation can be maintained with its own language.
+- **Additional word and pointer operations:** Add XOR, left shift, unary minus, complement, address-of and ordinary word loads/stores so the translator and assembler implementations can express their data and encoding operations.
+- **More local storage:** Build sixty-four live local slots and eighty active parameter/local name records into the storage and procedure lessons, keeping sixteen parameters, so larger functions fit the existing IR frame contract.
+- **Matching compiler generations:** Establish the compiler using its own frame convention, then compare two further self-builds so the completed source reproduces its executable.
 
-**Removing:** None. IR86 remains the compiler output language, and the first RILL language stays small enough to construct gradually.
+**Removing:** No accepted RILLBOOT language features are removed. The native stack guard still bounds active calls even though each emitted procedure reserves a larger local frame.
 
 ## The construction
 
-Read the workbench first. The [source collection](../../downloads/tools/rill0/RILL0.ZIP) contains plain source and test files.
+Forty-three construction articles build the compiler one helper at a time. Each early diagnostic has its own visible test. Names, symbol records, streamed text, expression parsing, lexical scopes, procedure arguments, and complete functions become ordinary RILL procedures. The record-storage, local-declaration and procedure lessons establish sixty-four local slots and sixteen parameters. RC43.RIL is the completed compiler, saved as RILL.RIL.
+
+The reference describes the complete RILL language. RILLBOOT accepts the smaller subset used to write this compiler; the RILL implementation also accepts XOR, left shift, unary minus, bitwise complement, addresses, and ordinary word-pointer loads and stores. Complete programs exercise the RILL-written compiler. The self-build exercise first establishes the compiler using its own sixty-four-slot frame convention, then compares two further generations against that executable. The following [Rebuilding Our Tools in RILL](../toolchain/index.html) collection uses that tested compiler to construct IR86 and ASM86 in RILL and rebuild the complete trio twice.
+
+The [RILL disk sources](../../downloads/tools/rill/RILL.ZIP) include every compiler checkpoint, its fixtures, the compiler seed and native prerequisites, and three complete examples. The separate [toolchain source collection](../../downloads/tools/toolchain/TOOLCHN.ZIP) includes the IR86 and ASM86 replacements and TMAKE.BAT. Both archives contain source only.
+
+Read the workbench first. Keep the IR-written seed, native translator, and native assembler separately named throughout the self-builds.

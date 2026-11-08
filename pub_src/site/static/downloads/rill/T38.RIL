@@ -1,1 +1,0 @@
-{let mut x=65;while x<67{putc(x);x=x+1;}}

@@ -4,7 +4,7 @@ import json,re
 from copy import deepcopy
 from compiler_profiles import ROOT,PROCS,ALIAS,profile,render,main_record_profile
 import compiler_lessons as lessons
-W=ROOT/'workbench/toolchain';Q=ROOT/'qa/toolchain';R=ROOT/'workbench/rill'
+W=ROOT/'workbench/toolchain';Q=ROOT/'qa/toolchain';R=ROOT/'workbench/rill0'
 def dos(p,s):p.write_bytes(s.replace('\r\n','\n').replace('\n','\r\n').encode('ascii'))
 
 def build():

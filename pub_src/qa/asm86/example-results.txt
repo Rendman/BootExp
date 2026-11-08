@@ -1,3 +1,4 @@
-PASS HELLO: 20 bytes, expected display/status, exact rejection diagnostic
-PASS MEMORY: 24 bytes, expected display/status, exact rejection diagnostic
-PASS COUNT: 17 bytes, expected display/status, exact rejection diagnostic
+PASS HELLO: source assembled, native output/status correct, exact printed rejection preserves prior output
+PASS FRAME: source assembled, native output/status correct, exact printed rejection preserves prior output
+PASS BRIDGE: source assembled, native output/status correct, exact printed rejection preserves prior output
+PASS COPYTEXT: source assembled, native output/status correct, exact printed rejection preserves prior output

@@ -1,29 +1,36 @@
-PASS AS01: 24 bytes; visible checkpoint result
-PASS AS02: 110 bytes; visible checkpoint result
-PASS AS03: 164 bytes; visible checkpoint result; rejection and old-output preservation
-PASS AS04: 219 bytes; visible checkpoint result; rejection and old-output preservation
-PASS AS05: 248 bytes; visible checkpoint result; rejection and old-output preservation
-PASS AS06: 456 bytes; visible checkpoint result; rejection and old-output preservation
-PASS AS07: 595 bytes; visible checkpoint result; rejection and old-output preservation
-PASS AS08: 682 bytes; visible checkpoint result; rejection and old-output preservation
-PASS AS09: 678 bytes; visible checkpoint result; rejection and old-output preservation
-PASS AS10: 728 bytes; visible checkpoint result; rejection and old-output preservation
-PASS AS11: 853 bytes; visible checkpoint result; rejection and old-output preservation
-PASS AS12: 911 bytes; visible checkpoint result; rejection and old-output preservation
-PASS AS13: 1068 bytes; visible checkpoint result; rejection and old-output preservation
-PASS AS14: 1102 bytes; visible checkpoint result; rejection and old-output preservation
-PASS AS15: 1118 bytes; visible checkpoint result; rejection and old-output preservation
-PASS AS16: 1228 bytes; visible checkpoint result; rejection and old-output preservation
-PASS AS17: 1347 bytes; visible checkpoint result; rejection and old-output preservation
-PASS AS18: 1488 bytes; visible checkpoint result; rejection and old-output preservation
-PASS AS19: 1530 bytes; visible checkpoint result; rejection and old-output preservation
-PASS AS20: 1582 bytes; visible checkpoint result; rejection and old-output preservation
-PASS AS21: 1771 bytes; visible checkpoint result; rejection and old-output preservation
-PASS AS22: 1831 bytes; visible checkpoint result; rejection and old-output preservation
-PASS AS23: 1906 bytes; visible checkpoint result; rejection and old-output preservation
-PASS AS24: 1943 bytes; visible checkpoint result; rejection and old-output preservation
-PASS AS25: 2069 bytes; visible checkpoint result; rejection and old-output preservation
-PASS AS26: 2258 bytes; visible checkpoint result; rejection and old-output preservation
-PASS AS27: 2315 bytes; visible checkpoint result; rejection and old-output preservation
-PASS AS28: 2431 bytes; visible checkpoint result; rejection and old-output preservation
-PASS: two self-assembly generations match every byte of the first native executable
+PASS A01: ASM86 build, exact acceptance, rejection and prior-output preservation, executable result
+PASS A02: ASM86 build, exact acceptance, rejection and prior-output preservation, executable result
+PASS A03: ASM86 build, exact acceptance, rejection and prior-output preservation, inspected data or self-build
+PASS A04: ASM86 build, exact acceptance, rejection and prior-output preservation, inspected data or self-build
+PASS A05: ASM86 build, exact acceptance, rejection and prior-output preservation, inspected data or self-build
+PASS A06: ASM86 build, exact acceptance, rejection and prior-output preservation, inspected data or self-build
+PASS A07: ASM86 build, exact acceptance, rejection and prior-output preservation, executable result
+PASS A08: ASM86 build, exact acceptance, rejection and prior-output preservation, executable result
+PASS A09: ASM86 build, exact acceptance, rejection and prior-output preservation, executable result
+PASS A10: ASM86 build, exact acceptance, rejection and prior-output preservation, executable result
+PASS A11: ASM86 build, exact acceptance, rejection and prior-output preservation, executable result
+PASS A12: ASM86 build, exact acceptance, rejection and prior-output preservation, inspected data or self-build
+PASS A13: ASMA0 build, exact acceptance, rejection and prior-output preservation, executable result
+PASS A14: ASMA0 build, exact acceptance, rejection and prior-output preservation, executable result
+PASS A15: ASMA0 build, exact acceptance, rejection and prior-output preservation, executable result
+PASS A16: ASMA0 build, exact acceptance, rejection and prior-output preservation, executable result
+PASS A17: ASMA0 build, exact acceptance, rejection and prior-output preservation, inspected data or self-build
+PASS A18: ASMA0 build, exact acceptance, rejection and prior-output preservation, inspected data or self-build
+PASS A19: ASMA0 build, exact acceptance, rejection and prior-output preservation, inspected data or self-build
+PASS A20: ASMA0 build, exact acceptance, rejection and prior-output preservation, inspected data or self-build
+PASS A21: ASMA0 build, exact acceptance, rejection and prior-output preservation, inspected data or self-build
+PASS A22: ASMA0 build, exact acceptance, rejection and prior-output preservation, inspected data or self-build
+PASS A23: ASMA0 build, exact acceptance, rejection and prior-output preservation, inspected data or self-build
+PASS A24: ASMA0 build, exact acceptance, rejection and prior-output preservation, inspected data or self-build
+PASS A25: ASMA0 build, exact acceptance, rejection and prior-output preservation, inspected data or self-build
+PASS A26: ASMA0 build, exact acceptance, rejection and prior-output preservation, inspected data or self-build
+PASS A27: ASMA0 build, exact acceptance, rejection and prior-output preservation, inspected data or self-build
+PASS A28: ASMA0 build, exact acceptance, rejection and prior-output preservation, inspected data or self-build
+PASS A29: ASMA0 build, exact acceptance, rejection and prior-output preservation, executable result
+PASS A30: ASMA0 build, exact acceptance, rejection and prior-output preservation, executable result
+PASS A31: ASMA0 build, exact acceptance, rejection and prior-output preservation, inspected data or self-build
+PASS A32: ASMA0 build, exact acceptance, rejection and prior-output preservation, executable result
+PASS A33: ASMA0 build, exact acceptance, rejection and prior-output preservation, executable result
+PASS A36: ASMA0 build, exact acceptance, rejection and prior-output preservation, inspected data or self-build
+PASS A37: ASMA0 build, exact acceptance, rejection and prior-output preservation, inspected data or self-build
+PASS A40: ASMA0 build, exact acceptance, rejection and prior-output preservation, inspected data or self-build

@@ -1,21 +1,22 @@
 """Package the seed collection without introducing another executable producer."""
+from project_paths import directory_name
 from pathlib import Path
 import json,shutil,zipfile
-ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/asma0';D=ROOT/'site/static/downloads/asma0';Q=ROOT/'qa/asma0'
+ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/asm1';D=ROOT/'site/downloads/asm1';Q=ROOT/'qa/asm1'
 for p in [W,D,Q]:p.mkdir(parents=True,exist_ok=True)
-for name,group in [('BOOTASM.BAS','bootasm'),('ASM86.ASM','asm86'),('VIEW.BAS','bootasm'),('CHECK.BAT','bootasm'),('ASMA0.ASM','asm86a')]:shutil.copyfile(ROOT/'workbench'/group/name,W/name)
-syms=(ROOT/'workbench/asm86a/SYMS.BAS').read_text().replace('10 N=8192','10 N=2048');(W/'SYMS.BAS').write_bytes(syms.replace('\n','\r\n').encode('ascii'))
+for name,group in [('BOOTASM.BAS','bootasm'),('ASM86.ASM','asm86'),('VIEW.BAS','bootasm'),('CHECK.BAT','bootasm'),('ASMA0.ASM','asm86a')]:shutil.copyfile(ROOT/'workbench'/directory_name(group)/name,W/name)
+syms=(ROOT/'workbench/asm86/SYMS.BAS').read_text().replace('10 N=8192','10 N=2048');(W/'SYMS.BAS').write_bytes(syms.replace('\n','\r\n').encode('ascii'))
 files=['BOOTASM.BAS','ASM86.ASM','ASMA0.ASM','VIEW.BAS','CHECK.BAT','SYMS.BAS','README.TXT']
-for c in json.loads((ROOT/'qa/asm86a/checkpoints.json').read_text()):
+for c in json.loads((ROOT/'qa/asm86/checkpoints.json').read_text()):
  n=c['number']
  if n>12:continue
  names=[f'A{n:02}.ASM']
  if c.get('fixture') is not None:names.append(f'T{n:02}.ASM')
  if c['bad']['kind']=='source':names.append(f'X{n:02}.ASM')
- for name in names:shutil.copyfile(ROOT/'workbench/asm86a'/name,W/name)
+ for name in names:shutil.copyfile(ROOT/'workbench/asm86'/name,W/name)
  files+=names
-for name in ['HELLO','MEMORY','COUNT']:shutil.copyfile(ROOT/'workbench/asm86'/(name+'.ASM'),W/(name+'.ASM'));files.append(name+'.ASM')
-seed_bytes=next(c['binary_bytes'] for c in json.loads((ROOT/'qa/asm86a/checkpoints.json').read_text()) if c['number']==12)
+for name in ['HELLO','MEMORY','COUNT']:shutil.copyfile(ROOT/'workbench/asm0'/(name+'.ASM'),W/(name+'.ASM'));files.append(name+'.ASM')
+seed_bytes=next(c['binary_bytes'] for c in json.loads((ROOT/'qa/asm86/checkpoints.json').read_text()) if c['number']==12)
 readme=f'''THE BOOTSTRAP PROJECT - ASMA0
 A practical course in small-system software
 
@@ -58,7 +59,7 @@ is supplied in this source collection.
 (W/'README.TXT').write_bytes(readme.replace('\n','\r\n').encode())
 for name in files:
  shutil.copyfile(W/name,D/name)
- if name!='README.TXT':shutil.copyfile(W/name,ROOT/'site/static/downloads/asm86a'/name)
+ if name!='README.TXT':shutil.copyfile(W/name,ROOT/'site/downloads/asm86'/name)
 archive=D/'ASMA0.ZIP';same=False
 if archive.exists():
  with zipfile.ZipFile(archive) as z:same=z.namelist()==files and all(z.read(n)==(W/n).read_bytes() for n in files)

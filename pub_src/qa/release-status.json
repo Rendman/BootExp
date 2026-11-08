@@ -9,5 +9,15 @@
   "packaged_source_files": 59,
   "original_basic_311_verified": false,
   "original_basic_311_limit": "The archival COMPAQ BASIC 3.11 interpreter reports error 52 on independent OPEN statements in the generic QEMU/SeaBIOS workbench. Cause not established.",
-  "browser_visual_qa": "Unavailable: no connected browser."
+  "browser_visual_qa": "Unavailable: no connected browser.",
+  "original_gwbasic_320_verified": true,
+  "original_gwbasic_320_report": "bootasm/gwbasic32-results.json",
+  "original_gwbasic_320_checks": {
+    "basic_assembler_checkpoints": 17,
+    "boundary_and_rejection_cases": 26,
+    "asm0_construction_stages": 28,
+    "asm0_bytes": 2431,
+    "matching_asm0_self_builds": 2,
+    "environment": "Original GW-BASIC 3.20 under QEMU PC/SeaBIOS and DOS 3.10; original hardware not tested"
+  }
 }

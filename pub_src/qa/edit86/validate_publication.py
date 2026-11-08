@@ -1,7 +1,7 @@
 """Reconstruct the printed editor/service edits and check the source-only archive."""
 from pathlib import Path
 import json,re,zipfile
-ROOT=Path(__file__).resolve().parents[2];W=ROOT/'workbench/edit86';Q=ROOT/'qa/edit86';C=ROOT/'site/content/bootstrap/edit86';D=ROOT/'site/static/downloads/edit86'
+ROOT=Path(__file__).resolve().parents[2];W=ROOT/'workbench/edit86';Q=ROOT/'qa/edit86';C=ROOT/'site/content/bootstrap/edit86';D=ROOT/'site/downloads/edit86'
 cases=json.loads((Q/'checkpoints.json').read_text());patches=json.loads((Q/'article-patches.json').read_text());assert len(cases)==len(patches)==20
 for c,s in zip(cases,patches):
  n=c['number'];text=(C/s['page']).read_text();base=[]

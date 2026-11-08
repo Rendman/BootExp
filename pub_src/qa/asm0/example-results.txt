@@ -1,0 +1,3 @@
+PASS HELLO: 20 bytes, expected display/status, exact rejection diagnostic
+PASS MEMORY: 24 bytes, expected display/status, exact rejection diagnostic
+PASS COUNT: 17 bytes, expected display/status, exact rejection diagnostic

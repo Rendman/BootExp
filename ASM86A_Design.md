@@ -17,7 +17,7 @@ The construction has two separate article collections:
 
 This distinction is necessary. ASM0 can build at most 8192 executable bytes with 256 symbols. An assembler built within those bounds can nevertheless stream a much larger executable to disk. Its own workspace and the program it assembles are separate things.
 
-The unchanged ASM0 directly builds the 3302-byte ASM1. ASM1 builds the 5995-byte ASM86. Both reproduce their initial executable in two self-assembly generations. Native DOS 3.10 checks also rebuild the tools, IR86, RILL, and complete example programs. The results are retained in `pub_src/qa/asm86a/`.
+The unchanged ASM0 directly builds the 3302-byte ASM1. ASM1 builds the 5995-byte ASM86. Both reproduce their initial executable in two self-assembly generations. Native DOS 3.10 checks also rebuild the tools, IR86, RILL, and complete example programs. The results are retained in `pub_src/qa/asm86/`.
 
 ## Fixed files
 
@@ -167,7 +167,7 @@ Layout values are evaluated as words with checked context-specific narrowing. In
 
 ## Gradual construction order
 
-The published construction splits these capability groups into twelve ASM1 checkpoints and twenty-four ASM86 checkpoints, each ending with its own self-assembly handoff. The retained disk checkpoints are A01–A33, A36, A37, and A40; the ASM86 articles restart chapter numbering at 01 while retaining A13 as their first source filename. Both collections have their own workbench, language reference, programs, and source archive. The source generators and the shared checkpoint verification chain remain shared under pub_src/tools and pub_src/qa/asm86a.
+The published construction splits these capability groups into twelve ASM1 checkpoints and twenty-four ASM86 checkpoints, each ending with its own self-assembly handoff. The retained disk checkpoints are A01–A33, A36, A37, and A40; the ASM86 articles restart chapter numbering at 01 while retaining A13 as their first source filename. Both collections have their own workbench, language reference, programs, and source archive. The source generators and the shared checkpoint verification chain remain shared under pub_src/tools and pub_src/qa/asm86.
 
 1. Fixed source name and an owned temporary-file copy diagnostic; inspect file length and bytes rather than executing copied data.
 2. Block input, with EOF, short reads, and boundary-crossing line endings.
@@ -209,6 +209,6 @@ The COM execution profile still has a real near-code/image limit. Allocated work
 
 Memory allocation, block resizing, handle I/O, and rename behavior are checked against Microsoft, *MS-DOS 3.10 Programmer's Reference Manual*, November 1984, memory-management overview and functions 3CH–41H, 48H–4AH, and 56H. The [archived original manual](https://ftpmirror.your.org/pub/misc/bitsavers/pdf/microsoft/msdos_3.10/8411-310-02_MSDOS_3.10_Programmers_Reference_Manual_1984.pdf) is a production reference; reader-facing articles should cite its printed title and sections rather than a web address.
 
-Reader naming and validation: the native assemblers are ASM0, ASM1, and ASM86; the compiler stages are RILL0, RILLBOOT, and RILL. Existing production directory names and ASxx/Axx/Rxx/RBxx/RCxx checkpoint filenames remain stable. Canonical reader source archives are published under pub_src/site/static/downloads/tools. The naming map and descriptive article titles are maintained by pub_src/tools/publication_names.py.
+Reader naming and validation: the native assemblers are ASM0, ASM1, and ASM86; the compiler stages are RILL0, RILLBOOT, and RILL. Production directories use the current lowercase tool names: asm0, asm1, asm86, rill0, rillboot and rill. Keep ASxx/Axx/Rxx/RBxx/RCxx checkpoint filenames and published article/download URLs stable through explicit article URLs and Hugo mounts. Canonical reader source archives are published under pub_src/site/static/downloads/tools. The naming map and descriptive article titles are maintained by pub_src/tools/publication_names.py.
 
 Prefer inspecting the actual emitted file, with its exact length and bytes, when an addition has no retained display behavior. Do not add a formatting routine merely to display internal test state. A pure runtime helper may compare its result and return a status through the existing CHECK.BAT. Keep rejection tests relevant to the new behavior; do not repeat predecessor overflow and missing-file tests in every lesson. Retain natural compiler reports, meaningful program output, and final self-build comparisons.

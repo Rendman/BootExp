@@ -1,11 +1,11 @@
 """Package reader source only, including exact article examples and fixtures."""
 from pathlib import Path
 import json,re,shutil,zipfile
-ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/asm86';D=ROOT/'site/static/downloads/asm86'
+ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/asm0';D=ROOT/'site/downloads/asm0'
 D.mkdir(parents=True,exist_ok=True)
 def dos(name,text):(W/name).write_bytes((text.rstrip()+'\n').replace('\r\n','\n').replace('\n','\r\n').encode('ascii'))
 for name in ['BOOTASM.BAS','VIEW.BAS','CHECK.BAT']:shutil.copyfile(ROOT/'workbench/bootasm'/name,W/name)
-examples=ROOT/'site/content/bootstrap/asm86/32-programs.md'
+examples=ROOT/'site/content/bootstrap/asm0/32-programs.md'
 blocks=re.findall(r'```asm\n(.*?)\n```',examples.read_text(),re.S)
 for name,block in zip(['HELLO','MEMORY','COUNT'],blocks):dos(name+'.ASM',block)
 dos('README.TXT','''THE BOOTSTRAP PROJECT - ASM86
@@ -49,7 +49,7 @@ All source is ASCII with DOS line endings and 8.3 filenames.
 This collection contains no preassembled programs or interpreter.
 ''')
 files=['BOOTASM.BAS','ASM86.ASM','VIEW.BAS','CHECK.BAT','README.TXT','HELLO.ASM','MEMORY.ASM','COUNT.ASM']
-for case in json.loads((ROOT/'qa/asm86/checkpoints.json').read_text()):
+for case in json.loads((ROOT/'qa/asm0/checkpoints.json').read_text()):
  n=case['number'];files.append(case['source'])
  if case['fixture'] is not None:files.append(f'T{n:02}.ASM')
  if case['bad'] and case['bad']['kind']=='source':files.append(f'X{n:02}.ASM')
@@ -63,5 +63,5 @@ if not unchanged:
   for name in files:
    info=zipfile.ZipInfo(name,(1986,1,1,0,0,0));info.compress_type=zipfile.ZIP_DEFLATED
    z.writestr(info,(W/name).read_bytes())
-(ROOT/'qa/asm86/package-files.json').write_text(json.dumps(files,indent=2)+'\n')
+(ROOT/'qa/asm0/package-files.json').write_text(json.dumps(files,indent=2)+'\n')
 print(f'Packaged {len(files)} ASM86 source files')

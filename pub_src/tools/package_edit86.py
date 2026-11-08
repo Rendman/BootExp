@@ -1,7 +1,7 @@
 """Package only the editor's ASCII sources, target binding and reader fixtures."""
 from pathlib import Path
 import json,shutil,zipfile
-ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/edit86';D=ROOT/'site/static/downloads/edit86';D.mkdir(parents=True,exist_ok=True)
+ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/edit86';D=ROOT/'site/downloads/edit86';D.mkdir(parents=True,exist_ok=True)
 for name in ['VIEW.BAS','CHECK.BAT']:shutil.copyfile(ROOT/'workbench/bootasm'/name,W/name)
 text='''THE BOOTSTRAP PROJECT - EDIT86
 Building Our Screen Editor

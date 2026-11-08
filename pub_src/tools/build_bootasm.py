@@ -5,7 +5,7 @@ import json, re, shutil, zipfile
 ROOT=Path(__file__).resolve().parents[1]
 WORK=ROOT/'workbench/bootasm'
 CONTENT=ROOT/'site/content/bootstrap/bootasm'
-DOWNLOAD=ROOT/'site/static/downloads/bootasm'
+DOWNLOAD=ROOT/'site/downloads/bootasm'
 for p in (WORK,CONTENT,DOWNLOAD): p.mkdir(parents=True,exist_ok=True)
 def dos(path,text):
     path.write_bytes((text.rstrip()+'\n').replace('\r\n','\n').replace('\n','\r\n').encode('ascii'))

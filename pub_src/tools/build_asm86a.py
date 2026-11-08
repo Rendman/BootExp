@@ -1,8 +1,8 @@
 """Arrange authored assembly into bootstrap checkpoints; never encode an instruction."""
 from pathlib import Path
 import re,json
-ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/asm86a';Q=ROOT/'qa/asm86a'
-BASE=(ROOT/'workbench/asm86/ASM86.ASM').read_text()
+ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/asm86';Q=ROOT/'qa/asm86'
+BASE=(ROOT/'workbench/asm0/ASM86.ASM').read_text()
 STARTS=['START','FILEBAD','OPENFILE','CLOSEFILE','WRITEOUT','NEXTBYTE','READLINE','SCAN','LOOK','REGISTER','VALIDNAME','VALUE','SYMBOLVALUE','DEFINE','OPERAND','MEMORY','STATEMENT','DATAITEM','FIXED','SINGLE','INTERRUPT','NEARJUMP','SHORTJUMP','FINISH','TWOOPERANDS','MOVOPERANDS','MOVREG','REGMOD','IMMEDVALUE','LOADMEM','STOREMEM','SAMEWIDTH','TIMES8','BYTEVALUE','EMITWORD','EMIT','COPYZ','TEXT','NUMBER','ERROR','OKMSG']
 pos={k:BASE.index(k+':\n') for k in STARTS}
 LIB={k:BASE[pos[k]:pos[v]].strip()+'\n' for k,v in zip(STARTS,STARTS[1:])}

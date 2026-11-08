@@ -52,21 +52,21 @@ def profile(name,accepted,paths,kind='asm'):
  else:used=ir(paths);stats=[]
  return {'tool':name,'consumers':[str(p.relative_to(ROOT)) for p in paths],'accepted':sorted(accepted),'observed':sorted(used),'not_observed_candidates':sorted(set(accepted)-set(used)), 'witnesses':{k:sorted(v) for k,v in sorted(used.items())},'resources':stats}
 
-names=set(json.loads((Q/'asm86/checkpoints.json').read_text())[-1]['names'])
+names=set(json.loads((Q/'asm0/checkpoints.json').read_text())[-1]['names'])
 result={'status':'REVIEW PENDING','meaning':'Usage candidates are not deletion proofs. Complete successor construction, self-builds, runtime bindings, failure behavior and readability must also be checked. Required teaching stages are retained; their code must evolve into the following implementation.','profiles':[]}
-result['profiles'].append(profile('BOOTASM',names-{'OR'},sorted((W/'asm86').glob('AS[0-9][0-9].ASM'))))
-result['profiles'].append(profile('ASM0',names,[W/f'asm86a/A{n:02}.ASM' for n in range(1,13)]+[W/'asm86/ASM86.ASM']))
-result['profiles'].append(profile('ASM1',table(W/'asm86a/ASMA0.ASM'),[W/'asm86a'/c['source'] if 'source' in c else W/'asm86a'/f'A{c["number"]:02}.ASM' for c in json.loads((Q/'asm86a/checkpoints.json').read_text()) if c['number']>12]+[W/'asm86a/ASMA0.ASM']))
+result['profiles'].append(profile('BOOTASM',names-{'OR'},sorted((W/'asm0').glob('AS[0-9][0-9].ASM'))))
+result['profiles'].append(profile('ASM0',names,[W/f'asm86/A{n:02}.ASM' for n in range(1,13)]+[W/'asm0/ASM86.ASM']))
+result['profiles'].append(profile('ASM1',table(W/'asm86/ASMA0.ASM'),[W/'asm86'/c['source'] if 'source' in c else W/'asm86'/f'A{c["number"]:02}.ASM' for c in json.loads((Q/'asm86/checkpoints.json').read_text()) if c['number']>12]+[W/'asm86/ASMA0.ASM']))
 # The assembler stays a builder until the RILL-written assembler exists. Include emitted code,
 # not merely the assembly used to implement the native translator.
 generated=[W/'toolchain/RILLBOOT.ASM',W/'toolchain/RILL0.ASM',Q/'toolchain/generated/IR86.ASM',Q/'toolchain/generated/ASM86A.ASM']
 for p in generated:
  if not p.exists():raise SystemExit('Run the native seed/compiler/port builds before auditing: '+str(p))
-result['profiles'].append(profile('ASM86',table(W/'asm86a/ASM86A.ASM'),[W/'toolchain'/c['source'] for c in json.loads((Q/'toolchain/ir-extensions.json').read_text())]+generated))
-wide_consumers=[W/'rill'/c['source'] for c in json.loads((Q/'toolchain/rill-initial-series.json').read_text())]+[W/'toolchain'/c['source'] for c in json.loads((Q/'toolchain/rill-seed-series.json').read_text())]+[W/'toolchain/RILL0.IR',W/'toolchain/IR86.IR',W/'toolchain/ASM86A.IR']
+result['profiles'].append(profile('ASM86',table(W/'asm86/ASM86A.ASM'),[W/'toolchain'/c['source'] for c in json.loads((Q/'toolchain/ir-extensions.json').read_text())]+generated))
+wide_consumers=[W/'rill0'/c['source'] for c in json.loads((Q/'toolchain/rill-initial-series.json').read_text())]+[W/'toolchain'/c['source'] for c in json.loads((Q/'toolchain/rill-seed-series.json').read_text())]+[W/'toolchain/RILL0.IR',W/'toolchain/IR86.IR',W/'toolchain/ASM86A.IR']
 result['profiles'].append(profile('Native IR86',json.loads((Q/'toolchain/wide-ops.json').read_text()),wide_consumers,kind='ir'))
 calls,operators,stats=rill(sorted((W/'toolchain').glob('RC[0-9][0-9].RIL')))
-seed=(W/'rill/RILLBOOT.IR').read_text()
+seed=(W/'rill0/RILLBOOT.IR').read_text()
 accepted={n.lower() for n in re.findall(r'([A-Z][A-Z0-9_]*)\\0[0-9]\\0',seed)}
 seed_extras=[]
 for description,token,label in [('bitwise XOR','^','BINXOR'),('left shift','<<','BINSHL'),('unary minus','unary -','PRIMARYNEG'),('bitwise complement','~','PRIMARYNOT'),('explicit address-of','unary &','PRIMARYADDR')]:

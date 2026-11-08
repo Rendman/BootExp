@@ -1,10 +1,10 @@
 """Package ASCII/CRLF/8.3 reader sources, never executable artifacts."""
 from pathlib import Path
 import json,shutil,zipfile
-ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/asm86a';D=ROOT/'site/static/downloads/asm86a';D.mkdir(parents=True,exist_ok=True)
+ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/asm86';D=ROOT/'site/downloads/asm86';D.mkdir(parents=True,exist_ok=True)
 for name in ['BOOTASM.BAS','VIEW.BAS','CHECK.BAT']:shutil.copyfile(ROOT/'workbench/bootasm'/name,W/name)
-shutil.copyfile(ROOT/'workbench/asm86/ASM86.ASM',W/'ASM86.ASM')
-facts=json.loads((ROOT/'qa/asm86a/checkpoints.json').read_text())
+shutil.copyfile(ROOT/'workbench/asm0/ASM86.ASM',W/'ASM86.ASM')
+facts=json.loads((ROOT/'qa/asm86/checkpoints.json').read_text())
 seed_bytes=next(c['binary_bytes'] for c in facts if c['number']==12)
 native_bytes=next(c['binary_bytes'] for c in facts if c['number']==40)
 readme=f'''THE BOOTSTRAP PROJECT - ASM86A
@@ -59,7 +59,7 @@ No preassembled program, DOS copy, or BASIC interpreter is included.
 '''
 (W/'README.TXT').write_bytes(readme.replace('\n','\r\n').encode('ascii'))
 files=['BOOTASM.BAS','ASM86.ASM','ASMA0.ASM','ASM86A.ASM','VIEW.BAS','CHECK.BAT','README.TXT','LONGSRC.BAS','SYMS.BAS','A12.ASM']
-for c in json.loads((ROOT/'qa/asm86a/checkpoints.json').read_text()):
+for c in json.loads((ROOT/'qa/asm86/checkpoints.json').read_text()):
  n=c['number']
  if n<=12:continue
  files.append(f'A{n:02}.ASM')
@@ -76,4 +76,4 @@ if not same:
  with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED) as z:
   for name in files:
    info=zipfile.ZipInfo(name,(1986,1,1,0,0,0));info.compress_type=zipfile.ZIP_DEFLATED;z.writestr(info,(W/name).read_bytes())
-(ROOT/'qa/asm86a/package-files.json').write_text(json.dumps(files,indent=2)+'\n');print(f'Packaged {len(files)} ASM86A source files')
+(ROOT/'qa/asm86/package-files.json').write_text(json.dumps(files,indent=2)+'\n');print(f'Packaged {len(files)} ASM86A source files')

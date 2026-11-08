@@ -1,6 +1,6 @@
 from pathlib import Path
 import sys
-ROOT=Path(__file__).resolve().parents[2];sys.path.insert(0,str(ROOT/'qa/asm86a'))
+ROOT=Path(__file__).resolve().parents[2];sys.path.insert(0,str(ROOT/'qa/asm86'))
 from machine import AssemblerMachine,run_assembler
 W=ROOT/'workbench/toolchain';Q=ROOT/'qa/toolchain'
 def run(image,source=None,kind='IR',files=None,limit=2_000_000_000):
@@ -8,7 +8,7 @@ def run(image,source=None,kind='IR',files=None,limit=2_000_000_000):
  if source is not None:f['SOURCE.'+kind]=source.encode('ascii') if isinstance(source,str) else source
  return AssemblerMachine(f).run(image,limit=limit)
 def asm(source):
- r=run_assembler((ROOT/'workbench/asm86a/ASM86A.COM').read_bytes(),source)
+ r=run_assembler((ROOT/'workbench/asm86/ASM86A.COM').read_bytes(),source)
  if r.exitcode:
   (Q/'failed-source.asm').write_bytes(source.encode() if isinstance(source,str) else source)
   raise AssertionError(bytes(r.output))

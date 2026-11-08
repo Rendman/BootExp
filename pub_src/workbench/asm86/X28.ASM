@@ -1,1 +1,1 @@
-JE 400H
+MOV AX,BYTE [BX]

@@ -1,6 +1,7 @@
-"""Keep reader names distinct from stable production paths and checkpoint filenames."""
+"""Publish current tool names and retain established source filenames and URLs."""
 from pathlib import Path
 import json,re,tomllib
+from project_paths import directory_name,collection_key
 ROOT=Path(__file__).resolve().parents[1];CONTENT=ROOT/'site/content/bootstrap'
 SERIES={
  'bootasm':('BOOTASM','Our First Assembler'),
@@ -61,7 +62,7 @@ for group,family in [('rb','rill-seed-series'),('rc','rill-self-series')]:
 
 def prepare(path,text):
  """Rename prose/commands without changing any printed implementation or expected bytes."""
- path=Path(path);rel=path.relative_to(CONTENT);group=rel.parts[0]
+ path=Path(path);rel=path.relative_to(CONTENT);group=collection_key(rel.parts[0])
  if group not in SERIES:return text
  front,body=text.split('+++',2)[1:];meta=tomllib.loads(front)
  if meta.get('reader_names')==1:return text
@@ -83,7 +84,7 @@ def prepare(path,text):
  body=re.sub(r'(complete |separate )\d+-line (program|viewer)',r'\1\2',body)
  if path.name=='_index.md':newtitle=title
  else:
-  heading=TITLES.get(rel.as_posix())
+  heading=TITLES.get((Path(group)/Path(*rel.parts[1:])).as_posix())
   newtitle=(f'{meta.get("weight",0):02} · '+heading) if heading else names(meta['title'])
  front=re.sub(r'(?m)^title = .*$',lambda _: 'title = '+json.dumps(newtitle),front,count=1)
  if 'description' in meta:front=re.sub(r'(?m)^description = .*$',lambda _:'description = '+json.dumps(names(meta['description'])),front,count=1)
@@ -100,7 +101,13 @@ def prepare(path,text):
 
 def write_page(path,text):
  path=Path(path);text=prepare(path,text)
- group=path.relative_to(CONTENT).parts[0]
+ group=collection_key(path.relative_to(CONTENT).parts[0])
+ if directory_name(group)!=group:
+  front,body=text.split('+++',2)[1:]
+  url='/bootstrap/'+group+'/'+('' if path.name=='_index.md' else path.stem+'/')
+  if re.search(r'(?m)^url = ',front):front=re.sub(r'(?m)^url = .*$',lambda _:'url = '+json.dumps(url),front)
+  else:front+='url = '+json.dumps(url)+'\n'
+  text='+++'+front+'+++'+body
  if path.name=='_index.md' and group in SERIES:
   from series_overviews import with_overview
   text=with_overview(group,text)

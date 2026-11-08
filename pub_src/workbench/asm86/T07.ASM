@@ -1,1 +1,5 @@
-db 1,2 ; a note
+MOV DL,41H
+MOV AH,2
+INT 21H
+MOV AX,4C00H
+INT 21H

@@ -1,4 +1,5 @@
 """Publish the continuing native translator and compiler constructions."""
+from project_paths import directory_name
 from pathlib import Path
 from difflib import SequenceMatcher
 import json,re,tomllib
@@ -49,8 +50,8 @@ EXPLAIN={
  'STATEMENT':'Compile assignments, local declarations, if/else, and while with saved branch destinations. Every branch boundary has an empty expression stack.',
  'MAIN':'Open the fixed source and stream generated text through an owned temporary file. Publish it only after the full source, final flush, and both closes succeed.'}
 patches=[]
-for group,family,folder,prefix in [('ir86','ir-extensions',ROOT/'workbench/ir86','IR'),('rill','rill-initial-series',ROOT/'workbench/rill','R'),('rb','rill-seed-series',W,'RB')]:
- cases=json.loads((Q/(family+'.json')).read_text());dest=C/group
+for group,family,folder,prefix in [('ir86','ir-extensions',ROOT/'workbench/ir86','IR'),('rill','rill-initial-series',ROOT/'workbench/rill0','R'),('rb','rill-seed-series',W,'RB')]:
+ cases=json.loads((Q/(family+'.json')).read_text());dest=C/directory_name(group)
  # Preserve all prior routes as direct aliases to the corresponding working part.
  oldpages=[]
  for p in dest.glob('*.md'):
@@ -78,8 +79,8 @@ for group,family,folder,prefix in [('ir86','ir-extensions',ROOT/'workbench/ir86'
  if group=='ir86':text+=fence('dos','COPY IR01.ASM SOURCE.ASM\nCHECK ASMAKEEP\nCOPY RESULT.COM IR01.COM')
  else:text+=fence('dos','COPY '+cases[0]['source']+' SOURCE.IR\nCHECK IRKEEP\nCOPY RESULT.ASM SOURCE.ASM\nCHECK ASMAKEEP\nCOPY RESULT.COM '+prefix+'01.COM')
  text+='An early stopping point may produce a fragment rather than a complete program. Inspect its length and bytes with VIEW.BAS; execute it only when the article gives a complete program. Recovery names protect an interrupted publication: inspect them before trying again.\n'
- (dest/work).write_text(text)
- old=(ROOT/'workbench/asm86a/ASM86A.ASM').read_text().splitlines() if group=='ir86' else (ROOT/'workbench/rill/RILL.IR').read_text().splitlines() if group=='rb' else []
+ write_page(dest/work,text)
+ old=(ROOT/'workbench/asm86/ASM86A.ASM').read_text().splitlines() if group=='ir86' else (ROOT/'workbench/rill0/RILL.IR').read_text().splitlines() if group=='rb' else []
  oldname='ASM86.ASM' if group=='ir86' else 'RILL0.IR' if group=='rb' else None
  for c in cases:
   if group=='rill' and c['key'] not in ['LEX','PRIMARY','PREC','RESOLVEOPTIONAL','MAIN']:c['title']=HELP_TITLES.get(c['key'],c['title'])
@@ -136,7 +137,7 @@ for group,family,folder,prefix in [('ir86','ir-extensions',ROOT/'workbench/ir86'
    if group=='ir86':text+=fence('dos',f'COPY {name}.COM IRKEEP.COM\nCOPY IRKEEP.COM IWKEEP.COM')+'IR86.ASM and this final source are identical. Continue with [RILL0](../../rill/index.html).\n'
    elif group=='rill':text+=fence('dos',f'COPY {name}.COM RLKEEP.COM')+'RILL0.IR is this final source. Continue by editing it in [RILLBOOT](../../rb/index.html).\n'
    else:text+=fence('dos',f'COPY {name}.COM RILLBOOT.COM')+'RILLBOOT.IR is this final source. Continue with the [compiler written in RILL](../../rc/index.html).\n'
-  (dest/page).write_text(text);patches.append(dict(family=family,number=n,collection=group,page=page,base=oldname,kind='asm' if group=='ir86' else 'ir',source=src,folder=str(folder.relative_to(ROOT)),changes=changes));old=new;oldname=src
+  write_page(dest/page,text);patches.append(dict(family=family,number=n,collection=group,page=page,base=oldname,kind='asm' if group=='ir86' else 'ir',source=src,folder=str(folder.relative_to(ROOT)),changes=changes));old=new;oldname=src
  # Exact minimal contract, separate from the target implementation.
  aliases=sorted(set(alias_for[len(cases)+1]+alias_for[len(cases)+2]) - {'/bootstrap/'+group+'/900-language-reference/'})
  text=front(group,SERIES[group][0]+' language reference',900,'The accepted language and its bounded implementation.',download,aliases)
@@ -151,6 +152,6 @@ for group,family,folder,prefix in [('ir86','ir-extensions',ROOT/'workbench/ir86'
   if group=='rill':text+='There is exactly one argument-free `fn main(){...}`. Its builtin calls are putc(value), status(), and exit(value). No strings, globals, user procedures, multiply, divide, bit operators, or byte-input intrinsic are accepted. RILLBOOT adds the syntax needed to compile the compiler while retaining these implementations.\n'
   else:text+='RILLBOOT adds `*`, `/`, `%`, `&`, `|`, `>>`, logical `!`, zero-terminated string literals and escapes, global mutable words with literal initializers, global `bytes name[size];` buffers, indexed bytes, procedure parameters, and recursive calls. Calls evaluate arguments from left to right. Declarations may occur after calls; final acceptance rejects an undefined procedure or inconsistent arity. The table has 512 global/procedure records and 32 active local records. Each procedure has at most sixteen parameters and sixteen live local words.\n\nBuiltin calls are putc, status, exit, load8, open, create, close, read, write, exists, delete, rename, alloc, free, get8, get16, set8, and set16. The first three and load8 take respectively 1, 0, 1, and 1 arguments; file read/write and block stores take 3; rename and block loads take 2; other services take 1. Handles are opaque. read returns zero at EOF; a failure can also return zero, so check status immediately. A short positive read contains data; require exact write progress. File transfers preserve all byte values, including Control-Z. The native binding supplies eight file slots and sixteen allocated-block slots.\n\nRILLBOOT omits ^, <<, unary -, ~, explicit address-of, getc, load16, store8, and store16 because the compiler source does not need them. The RILL-written compiler adds the operators and pointer wrappers required by its tool successors.\n'
   text+='\nBoth milestones use the same 40-byte symbol record layout, 4096-byte file blocks, checked two-word text counters, scanner, parser state, and RILL.TMP/RILL.BAK publication. Source rejection preserves an accepted RESULT.IR; a failed publication may leave recovery files.\n'
- (dest/'900-language-reference.md').write_text(text)
+ write_page(dest/'900-language-reference.md',text)
 (Q/'ladder-article-patches.json').write_text(json.dumps(patches,indent=2)+'\n')
 print('Published continuing IR86, RILL0 and RILLBOOT constructions')

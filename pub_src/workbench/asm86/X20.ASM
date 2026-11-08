@@ -1,1 +1,1 @@
-RET 1
+DB "open

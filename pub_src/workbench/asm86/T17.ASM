@@ -1,2 +1,2 @@
-START:
-DB 65
+HERE:
+DW HERE

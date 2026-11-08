@@ -1,0 +1,454 @@
+{
+  "interpreter": "Microsoft GW-BASIC 3.20",
+  "startup_banner": [
+    "GW-BASIC 3.20",
+    "(C) Copyright Microsoft 1983,1984,1985,1986",
+    "60332 Bytes free",
+    "Ok"
+  ],
+  "interpreter_bytes": 78864,
+  "interpreter_sha256": "03e3fdf75f8a8533d04be41bac3ce643bffcfd74e70cbcdde9310e9beee06852",
+  "dos": "COMPAQ Personal Computer DOS Version  3.10",
+  "machine": "QEMU PC/SeaBIOS, 640 KiB conventional memory",
+  "published_basic_sources_changed": false,
+  "basic_checkpoints": [
+    {
+      "source": "BA02.BAS",
+      "bytes": 3,
+      "exact_bytes": true,
+      "rejection": "Byte out of range",
+      "accepted_output_preserved": true,
+      "executed": false
+    },
+    {
+      "source": "BA03.BAS",
+      "bytes": 3,
+      "exact_bytes": true,
+      "rejection": "Bad number",
+      "accepted_output_preserved": true,
+      "executed": false
+    },
+    {
+      "source": "BA04.BAS",
+      "bytes": 3,
+      "exact_bytes": true,
+      "rejection": "Bad number",
+      "accepted_output_preserved": true,
+      "executed": false
+    },
+    {
+      "source": "BA05.BAS",
+      "bytes": 4,
+      "exact_bytes": true,
+      "rejection": "Missing value",
+      "accepted_output_preserved": true,
+      "executed": false
+    },
+    {
+      "source": "BA06.BAS",
+      "bytes": 5,
+      "exact_bytes": true,
+      "rejection": "Number too large",
+      "accepted_output_preserved": true,
+      "executed": false
+    },
+    {
+      "source": "BA07.BAS",
+      "bytes": 4,
+      "exact_bytes": true,
+      "rejection": "Unexpected operand",
+      "accepted_output_preserved": true,
+      "executed": false
+    },
+    {
+      "source": "BA08.BAS",
+      "bytes": 8,
+      "exact_bytes": true,
+      "rejection": "Byte out of range",
+      "accepted_output_preserved": true,
+      "executed": false
+    },
+    {
+      "source": "BA09.BAS",
+      "bytes": 11,
+      "exact_bytes": true,
+      "rejection": "Byte out of range",
+      "accepted_output_preserved": true,
+      "executed": true
+    },
+    {
+      "source": "BA10.BAS",
+      "bytes": 5,
+      "exact_bytes": true,
+      "rejection": "Byte out of range",
+      "accepted_output_preserved": true,
+      "executed": true
+    },
+    {
+      "source": "BA11.BAS",
+      "bytes": 2,
+      "exact_bytes": true,
+      "rejection": "Duplicate label",
+      "accepted_output_preserved": true,
+      "executed": false
+    },
+    {
+      "source": "BA12.BAS",
+      "bytes": 3,
+      "exact_bytes": true,
+      "rejection": "Undefined label",
+      "accepted_output_preserved": true,
+      "executed": false
+    },
+    {
+      "source": "BA13.BAS",
+      "bytes": 6,
+      "exact_bytes": true,
+      "rejection": "Register sizes differ",
+      "accepted_output_preserved": true,
+      "executed": false
+    },
+    {
+      "source": "BA14.BAS",
+      "bytes": 4,
+      "exact_bytes": true,
+      "rejection": "Word register required",
+      "accepted_output_preserved": true,
+      "executed": false
+    },
+    {
+      "source": "BA15.BAS",
+      "bytes": 12,
+      "exact_bytes": true,
+      "rejection": "Register sizes differ",
+      "accepted_output_preserved": true,
+      "executed": false
+    },
+    {
+      "source": "BA16.BAS",
+      "bytes": 12,
+      "exact_bytes": true,
+      "rejection": "Register required",
+      "accepted_output_preserved": true,
+      "executed": false
+    },
+    {
+      "source": "BA17.BAS",
+      "bytes": 15,
+      "exact_bytes": true,
+      "rejection": "Undefined label",
+      "accepted_output_preserved": true,
+      "executed": true
+    },
+    {
+      "source": "BA18.BAS",
+      "bytes": 17,
+      "exact_bytes": true,
+      "rejection": "Branch out of range",
+      "accepted_output_preserved": true,
+      "executed": true
+    }
+  ],
+  "boundaries": {
+    "cases": [
+      {
+        "case": "EMPTY",
+        "accepted": true,
+        "bytes": 0
+      },
+      {
+        "case": "WORDS",
+        "accepted": true,
+        "bytes": 8
+      },
+      {
+        "case": "FIXED",
+        "accepted": true,
+        "bytes": 4
+      },
+      {
+        "case": "MEMORY",
+        "accepted": true,
+        "bytes": 11
+      },
+      {
+        "case": "NEAR",
+        "accepted": true,
+        "bytes": 7
+      },
+      {
+        "case": "JPLUS",
+        "accepted": true,
+        "bytes": 2
+      },
+      {
+        "case": "JMINUS",
+        "accepted": true,
+        "bytes": 128
+      },
+      {
+        "case": "FULL",
+        "accepted": true,
+        "bytes": 4096
+      },
+      {
+        "case": "SYMBOLS",
+        "accepted": true,
+        "bytes": 256
+      },
+      {
+        "case": "LINES",
+        "accepted": true,
+        "bytes": 0
+      },
+      {
+        "case": "LOWER",
+        "accepted": true,
+        "bytes": 2
+      },
+      {
+        "case": "BIGBYTE",
+        "accepted": false,
+        "diagnostic": "Byte out of range",
+        "accepted_output_preserved": true
+      },
+      {
+        "case": "BIGWORD",
+        "accepted": false,
+        "diagnostic": "Number too large",
+        "accepted_output_preserved": true
+      },
+      {
+        "case": "BADHEX",
+        "accepted": false,
+        "diagnostic": "Bad number",
+        "accepted_output_preserved": true
+      },
+      {
+        "case": "DUP",
+        "accepted": false,
+        "diagnostic": "Duplicate label",
+        "accepted_output_preserved": true
+      },
+      {
+        "case": "UNDEF",
+        "accepted": false,
+        "diagnostic": "Undefined label",
+        "accepted_output_preserved": true
+      },
+      {
+        "case": "REGNAME",
+        "accepted": false,
+        "diagnostic": "Reserved label",
+        "accepted_output_preserved": true
+      },
+      {
+        "case": "MISMATCH",
+        "accepted": false,
+        "diagnostic": "Register sizes differ",
+        "accepted_output_preserved": true
+      },
+      {
+        "case": "MEMIMM",
+        "accepted": false,
+        "diagnostic": "Register required",
+        "accepted_output_preserved": true
+      },
+      {
+        "case": "NEWCPU",
+        "accepted": false,
+        "diagnostic": "Unknown instruction",
+        "accepted_output_preserved": true
+      },
+      {
+        "case": "JTOOFAR",
+        "accepted": false,
+        "diagnostic": "Branch out of range",
+        "accepted_output_preserved": true
+      },
+      {
+        "case": "OVERFLOW",
+        "accepted": false,
+        "diagnostic": "Program too large",
+        "accepted_output_preserved": true
+      },
+      {
+        "case": "MANYLAB",
+        "accepted": false,
+        "diagnostic": "Too many labels",
+        "accepted_output_preserved": true
+      },
+      {
+        "case": "MANYLINE",
+        "accepted": false,
+        "diagnostic": "Too many source lines",
+        "accepted_output_preserved": true
+      },
+      {
+        "case": "LONG",
+        "accepted": false,
+        "diagnostic": "Source line too long",
+        "accepted_output_preserved": true
+      },
+      {
+        "case": "TRAIL",
+        "accepted": false,
+        "diagnostic": "Missing value",
+        "accepted_output_preserved": true
+      }
+    ],
+    "truncation": true,
+    "byte_writer": true,
+    "viewer": true,
+    "complete_programs": [
+      "HELLO",
+      "COPYBYTE",
+      "FAIL"
+    ]
+  },
+  "asm0_construction": [
+    {
+      "source": "AS01.ASM",
+      "bytes": 24,
+      "exact_bytes": true
+    },
+    {
+      "source": "AS02.ASM",
+      "bytes": 110,
+      "exact_bytes": true
+    },
+    {
+      "source": "AS03.ASM",
+      "bytes": 164,
+      "exact_bytes": true
+    },
+    {
+      "source": "AS04.ASM",
+      "bytes": 219,
+      "exact_bytes": true
+    },
+    {
+      "source": "AS05.ASM",
+      "bytes": 248,
+      "exact_bytes": true
+    },
+    {
+      "source": "AS06.ASM",
+      "bytes": 456,
+      "exact_bytes": true
+    },
+    {
+      "source": "AS07.ASM",
+      "bytes": 595,
+      "exact_bytes": true
+    },
+    {
+      "source": "AS08.ASM",
+      "bytes": 682,
+      "exact_bytes": true
+    },
+    {
+      "source": "AS09.ASM",
+      "bytes": 678,
+      "exact_bytes": true
+    },
+    {
+      "source": "AS10.ASM",
+      "bytes": 728,
+      "exact_bytes": true
+    },
+    {
+      "source": "AS11.ASM",
+      "bytes": 853,
+      "exact_bytes": true
+    },
+    {
+      "source": "AS12.ASM",
+      "bytes": 911,
+      "exact_bytes": true
+    },
+    {
+      "source": "AS13.ASM",
+      "bytes": 1068,
+      "exact_bytes": true
+    },
+    {
+      "source": "AS14.ASM",
+      "bytes": 1102,
+      "exact_bytes": true
+    },
+    {
+      "source": "AS15.ASM",
+      "bytes": 1118,
+      "exact_bytes": true
+    },
+    {
+      "source": "AS16.ASM",
+      "bytes": 1228,
+      "exact_bytes": true
+    },
+    {
+      "source": "AS17.ASM",
+      "bytes": 1347,
+      "exact_bytes": true
+    },
+    {
+      "source": "AS18.ASM",
+      "bytes": 1488,
+      "exact_bytes": true
+    },
+    {
+      "source": "AS19.ASM",
+      "bytes": 1530,
+      "exact_bytes": true
+    },
+    {
+      "source": "AS20.ASM",
+      "bytes": 1582,
+      "exact_bytes": true
+    },
+    {
+      "source": "AS21.ASM",
+      "bytes": 1771,
+      "exact_bytes": true
+    },
+    {
+      "source": "AS22.ASM",
+      "bytes": 1831,
+      "exact_bytes": true
+    },
+    {
+      "source": "AS23.ASM",
+      "bytes": 1906,
+      "exact_bytes": true
+    },
+    {
+      "source": "AS24.ASM",
+      "bytes": 1943,
+      "exact_bytes": true
+    },
+    {
+      "source": "AS25.ASM",
+      "bytes": 2069,
+      "exact_bytes": true
+    },
+    {
+      "source": "AS26.ASM",
+      "bytes": 2258,
+      "exact_bytes": true
+    },
+    {
+      "source": "AS27.ASM",
+      "bytes": 2315,
+      "exact_bytes": true
+    },
+    {
+      "source": "AS28.ASM",
+      "bytes": 2431,
+      "exact_bytes": true
+    }
+  ],
+  "asm0_bytes": 2431,
+  "asm0_matching_self_builds": 2,
+  "passed": true
+}

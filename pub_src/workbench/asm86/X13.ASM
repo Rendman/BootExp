@@ -1,1 +1,1 @@
-NOPE 1
+MOV AX,AL

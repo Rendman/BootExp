@@ -1,0 +1,25 @@
+GW-BASIC 3.20
+(C) Copyright Microsoft 1983,1984,1985,1986
+60332 Bytes free
+Ok
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1LIST   2RUN   3LOAD"  4SAVE"  5CONT  6,"LPT1 7TRON  8TROFF 9KEY    0SCREEN

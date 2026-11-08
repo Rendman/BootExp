@@ -1,1 +1,1 @@
-0GH
+MOV AX,AL

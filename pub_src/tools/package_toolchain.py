@@ -1,9 +1,10 @@
 """Package the authored bootstrap and self-hosting sources without executables."""
+from project_paths import directory_name
 from pathlib import Path
-import shutil,json,zipfile
-ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/toolchain';D=ROOT/'site/static/downloads/toolchain';D.mkdir(parents=True,exist_ok=True)
+import shutil,json,zipfile,re
+ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/toolchain';D=ROOT/'site/downloads/toolchain';D.mkdir(parents=True,exist_ok=True)
 def dos(name,s):(W/name).write_bytes(s.replace('\r\n','\n').replace('\n','\r\n').encode('ascii'))
-for name,group in [('BOOTASM.BAS','bootasm'),('VIEW.BAS','bootasm'),('CHECK.BAT','bootasm'),('ASM86.ASM','asm86'),('ASMA0.ASM','asma0'),('ASM86A.ASM','asm86a'),('IRWIDE.ASM','ir86'),('RILLBOOT.IR','rill'),('RILL.IR','rill')]:shutil.copyfile(ROOT/'workbench'/group/name,W/name)
+for name,group in [('BOOTASM.BAS','bootasm'),('VIEW.BAS','bootasm'),('CHECK.BAT','bootasm'),('ASM86.ASM','asm86'),('ASMA0.ASM','asma0'),('ASM86A.ASM','asm86a'),('IRWIDE.ASM','ir86'),('RILLBOOT.IR','rill'),('RILL.IR','rill')]:shutil.copyfile(ROOT/'workbench'/directory_name(group)/name,W/name)
 commands=['ECHO OFF','IF NOT EXIST ASMAKEEP.COM GOTO MISSING','COPY IRWIDE.ASM SOURCE.ASM >NUL','ASMAKEEP','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.COM IRWIDE.COM >NUL','COPY RILLBOOT.IR SOURCE.IR >NUL','IRWIDE','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.ASM SOURCE.ASM >NUL','ASMAKEEP','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.COM RILLBOOT.COM >NUL']
 # Preserve the first complete compiler as a required construction milestone.
 dos('TSMALL.RIL','fn main(){putc(72);putc(73);return 0;}\n')
@@ -17,7 +18,7 @@ for gen in [1,2]:
   commands += [f'COPY {name}.RIL SOURCE.RIL >NUL',f'R{gen-1}','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.IR SOURCE.IR >NUL',f'I{gen-1}','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.ASM SOURCE.ASM >NUL',f'A{gen-1}','IF ERRORLEVEL 1 GOTO FAILED',f'COPY RESULT.COM {stem}{gen}.COM >NUL',f'ECHO PASS {name} GENERATION {gen}']
 commands += ['ECHO BUILDS COMPLETE - COMPARE THE GENERATIONS','GOTO END',':MISSING','ECHO MISSING TESTED ASMAKEEP.COM','GOTO END',':FAILED','ECHO FAIL - STOP AT THE FIRST TOOL ERROR',':END']
 dos('TMAKE.BAT','\n'.join(commands)+'\n')
-native_bytes=next(c['binary_bytes'] for c in json.loads((ROOT/'qa/asm86a/checkpoints.json').read_text()) if c['number']==40)
+native_bytes=next(c['binary_bytes'] for c in json.loads((ROOT/'qa/asm86/checkpoints.json').read_text()) if c['number']==40)
 dos('README.TXT',f'''THE BOOTSTRAP PROJECT - THE TOOLCHAIN IN RILL
 A practical course in small-system software
 
@@ -98,6 +99,14 @@ for family,prefix,ext in [('ir-extensions','IW','IR'),('rill-seed-series','RB','
   if c.get('bad') is not None:files.append(f'X{prefix}{n:02}.'+ext)
 
 for name in files:shutil.copyfile(W/name,D/name)
+# These directories own generated publication files. Retire compiler-seed
+# checkpoints absent from the active construction, keeping other work files.
+seed_files=set(json.loads((ROOT/'qa/compilers/rb-files.json').read_text()))
+shared_files=set(files)|seed_files
+for stale in W.iterdir():
+ if stale.is_file() and re.fullmatch(r'(?:T|X)?RB\d+\.(?:IR|RIL|ASM)',stale.name) and stale.name not in shared_files:stale.unlink()
+for stale in D.iterdir():
+ if stale.is_file() and stale.name not in set(files)|{'TOOLCHN.ZIP'}:stale.unlink()
 archive=D/'TOOLCHN.ZIP';same=False
 if archive.exists():
  with zipfile.ZipFile(archive) as z:same=z.namelist()==files and all(z.read(n)==(W/n).read_bytes() for n in files)
@@ -107,5 +116,5 @@ if not same:
    info=zipfile.ZipInfo(name,(1986,1,1,0,0,0));info.compress_type=zipfile.ZIP_DEFLATED;z.writestr(info,(W/name).read_bytes())
 (ROOT/'qa/toolchain/package-files.json').write_text(json.dumps(files,indent=2)+'\n')
 # Keep complete-source icons useful at the parent tool collection level.
-for group,name in [('ir86','IR86.RIL'),('ir86','IRWIDE.ASM'),('rill','RILL.RIL'),('rill','RILLBOOT.IR')]:shutil.copyfile(W/name,ROOT/'site/static/downloads'/group/name)
+for group,name in [('ir86','IR86.RIL'),('ir86','IRWIDE.ASM'),('rill','RILL.RIL'),('rill','RILLBOOT.IR')]:shutil.copyfile(W/name,ROOT/'site/downloads'/directory_name(group)/name)
 print(f'Packaged {len(files)} toolchain source files')

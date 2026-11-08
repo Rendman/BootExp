@@ -1,0 +1,4 @@
+RET
+CLD
+LODSB
+STOSB

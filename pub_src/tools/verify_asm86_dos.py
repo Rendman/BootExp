@@ -3,7 +3,7 @@ Historical DOS files stay in local QA; they are never packaged for readers.
 """
 from pathlib import Path
 import subprocess,shutil,socket,time
-ROOT=Path(__file__).resolve().parents[1];Q=ROOT/'qa/asm86';W=ROOT/'workbench/asm86'
+ROOT=Path(__file__).resolve().parents[1];Q=ROOT/'qa/asm0';W=ROOT/'workbench/asm0'
 boot=Q/'boot.img';disk=Q/'work.img';scratch=Q/'dos';scratch.mkdir(exist_ok=True)
 shutil.copyfile(ROOT/'qa/dos-original.img',boot)
 subprocess.run(['mformat','-C','-f','360','-i',str(disk),'::'],check=True)

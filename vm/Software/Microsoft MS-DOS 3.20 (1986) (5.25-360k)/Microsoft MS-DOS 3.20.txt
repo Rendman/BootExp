@@ -1,0 +1,23 @@
+Microsoft MS-DOS 3.20
+Released in 1986 by Microsoft
+For 100% IBM PC compatibles
+
+Image quality: Unmodified
+
+Microsoft DOS 3.2 is the first release offered as a "vanilla" boxed
+set directly to consumers, instead of just OEMs.
+
+This version adds mainstream support for 720K 3.5" floppy drives,
+although some 2.x OEM versions also supported 720K disks.
+
+A new RAMDRIVE.SYS supports creating a ram disk in conventional, EMS,
+or XMS memory.
+
+This is the "vanilla" Microsoft release, intended to run on IBM PCs
+and 100% hardware compatible clones.
+
+Reportedly, this specific release has a bug that prevents it from
+running on a genuine IBM PC model 5150 if it happens to have the very
+original Rev.1 BIOS 04/24/1981 or Rev.2 BIOS 10/19/1981.
+
+Archive includes two 5.25" 360k floppy disk images.

@@ -1,3 +1,1 @@
-DW TEXT
-TEXT:
-DB 65
+DB 1

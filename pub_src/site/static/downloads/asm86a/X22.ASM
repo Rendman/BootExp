@@ -1,2 +1,0 @@
-N EQU LATER
-LATER:

@@ -2,12 +2,13 @@
 from pathlib import Path
 import json,re,sys,tomllib,zipfile
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'tools'))
+from project_paths import directory_name
 from publication_names import SERIES,names,filename,reader_text
 C=ROOT/'site/content/bootstrap';D=ROOT/'site/static/downloads/tools'
 manifest=json.loads((ROOT/'qa/reader-packages.json').read_text());count=0
 assert set(manifest)=={'bootasm','asm0','asm1','asm86','ir86','rill0','rillboot','rill','toolchain','link86','edit86'}
 for group,m in manifest.items():
- with zipfile.ZipFile(D/group/m['archive']) as z,zipfile.ZipFile(ROOT/'site/static/downloads'/m['legacy_group']/m['legacy_archive']) as old:
+ with zipfile.ZipFile(D/group/m['archive']) as z,zipfile.ZipFile(ROOT/'site/downloads'/directory_name(m['legacy_group'])/m['legacy_archive']) as old:
   assert z.namelist()==list(m['files'])
   for new,original in m['files'].items():
    assert filename(original)==new and re.fullmatch(r'[A-Z0-9_]{1,8}\.[A-Z0-9]{1,3}',new)
@@ -18,14 +19,14 @@ for group,m in manifest.items():
    expected.decode('ascii');assert b'\n' not in expected.replace(b'\r\n',b''),(group,new)
    count+=1
 for group,(tool,title) in SERIES.items():
- meta=tomllib.loads((C/group/'_index.md').read_text().split('+++')[1])
+ meta=tomllib.loads((C/directory_name(group)/'_index.md').read_text().split('+++')[1])
  assert meta['title']==title and meta['tool_id']==tool and meta['collection_key']==group
  assert meta['download_group']=='tools/'+tool.lower()
  assert (D/tool.lower()/meta['download']).exists()
 for family,group in [('rill-initial-series','rill'),('rill-seed-series','rb'),('rill-self-series','rc')]:
  cases=json.loads((ROOT/'qa/toolchain'/(family+'.json')).read_text())
  for c in cases:
-  page=next(p for p in (C/group).glob('*.md') if tomllib.loads(p.read_text().split('+++')[1]).get('download')==c['source'])
+  page=next(p for p in (C/directory_name(group)).glob('*.md') if tomllib.loads(p.read_text().split('+++')[1]).get('download')==c['source'])
   text=page.read_text();assert 'preceding-language word boundary' not in text and 'Check a representable-word boundary' not in text
   if c.get('check_value') is not None:assert c['console']=='' and 'adds no display routine' in text
   if 'result' in c and not c['complete']:

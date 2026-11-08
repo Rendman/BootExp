@@ -1,9 +1,10 @@
 """Package the RILL-written compiler; package_ladder supplies RILL0/RILLBOOT."""
+from project_paths import directory_name
 from pathlib import Path
 import json,shutil,zipfile
-ROOT=Path(__file__).resolve().parents[1];SOURCE=ROOT/'workbench/toolchain';Q=ROOT/'qa/compiler_collections';Q.mkdir(parents=True,exist_ok=True)
+ROOT=Path(__file__).resolve().parents[1];SOURCE=ROOT/'workbench/toolchain';Q=ROOT/'qa/compilers';Q.mkdir(parents=True,exist_ok=True)
 for collection,family,last,canonical in [('rc','rill-self-series',43,'RILL.RIL')]:
- W=ROOT/'workbench'/collection;D=ROOT/'site/static/downloads'/collection
+ W=ROOT/'workbench'/directory_name(collection);D=ROOT/'site/downloads'/directory_name(collection)
  for p in [W,D]:p.mkdir(parents=True,exist_ok=True)
  files=['ASM86A.ASM','IRWIDE.ASM','RILLBOOT.IR','VIEW.BAS','CHECK.BAT','README.TXT']
  if collection=='rc':files+=['RILL.RIL','IR86.RIL','ASM86A.RIL','TMAKE.BAT','TLOCAL.RIL','XLOCAL.RIL','TSCOPE.RIL']

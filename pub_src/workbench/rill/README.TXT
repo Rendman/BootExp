@@ -1,19 +1,41 @@
-BOOTSTRAP EXPERIMENT - RILL0
+THE BOOTSTRAP PROJECT - RC
+A practical course in small-system software
 
-Read the matching workbench and construction articles in order.
-Use your own DOS 3.10 and period BASIC interpreter.
-VIEW.BAS inspects lengths and bytes. CHECK.BAT checks program status.
-Require each fresh OK and PASS before copying a result to the next tool.
-Sources are ASCII with DOS line endings and 8.3 filenames.
-No executable, interpreter, or outside compiler is included.
+The compiler construction: RILL0 -> RB compiler seed -> RC.
+The preceding native ladder is BOOTASM -> ASM86 -> ASMA0 -> ASM86A
+-> streaming IR86. Use the same DOS 3.10 and period BASIC workbench.
+All files here are ASCII/CRLF/8.3 source. No executable is supplied.
 
-R01.IR through R39.IR construct the small compiler.
-RILL.IR is identical to R39.IR.
-Translate SOURCE.IR with IRKEEP; assemble SOURCE.ASM with ASMAKEEP.
-The compiler uses SOURCE.RIL -> RESULT.IR. Preserve RLKEEP.COM.
-Continue this same compiler source in the RILLBOOT collection.
+ASM86A.ASM and IRWIDE.ASM: unchanged native prerequisite sources.
+Preserve their tested executables as ASMAKEEP.COM and IWKEEP.COM.
+VIEW.BAS and CHECK.BAT: unchanged inspection and status helpers.
+RC01 through RC43: complete construction checkpoint sources.
+T-prefixed and X-prefixed RIL files: exact acceptance/rejection inputs.
+RILL.RIL: complete compiler source, identical to RC43.RIL.
+Early checkpoints are executable helper diagnostics. An emitted text
+fragment is inspected as text; it is not a complete compiler result.
+Require each fresh OK and PASS before copying the next result.
 
-Early helper output can be an incomplete fragment; inspect its bytes.
-Execute only programs identified as complete in their article.
-Source rejection preserves accepted output. A failed publication may
-leave temporary or backup files; inspect those before a new run.
+Begin with the completed RB collection and its RILLBOOT.COM.
+RILLBOOT.IR is its unchanged source, built with IWKEEP and ASMAKEEP.
+Compile RC sources with RILLBOOT, then IWKEEP and ASMAKEEP.
+RC43 already supports 64 locals. Preserve its seed-built executable
+as RBOOT.COM and its source as RILL.RIL. RBOOT compiles that same
+source to establish R0 using the RILL compiler's own 64-slot frames.
+R0 compiles that same source to R1, then R1 to R2; both match R0 exactly.
+TLOCAL.RIL, XLOCAL.RIL and TSCOPE.RIL check local/frame bounds and reuse.
+ERECUR.RIL, EHEAP.RIL and ECOPY.RIL are complete compiler examples.
+IR86.RIL and ASM86A.RIL are the translator and assembler in RILL.
+TMAKE.BAT builds all three tools and both closed-loop generations.
+The complete TOOLCHN.ZIP also contains earlier continuation sources.
+
+Use fixed SOURCE.RIL/RESULT.IR, SOURCE.IR/RESULT.ASM and
+SOURCE.ASM/RESULT.COM files in a hard-disk directory. Keep each builder
+separately named. Inspect existing temporary/backup files before a run.
+Source rejection preserves accepted output; failed publication can
+leave recovery files. Require a new successful status before using it.
+The complete RILL language has 24-character folded names, 512 global
+or procedure symbols, sixteen parameters and sixty-four live local words, lexical
+scopes, recursive calls, byte buffers, strings and opaque file/block
+services. RILLBOOT accepts the subset used to implement that compiler.
+Consult each compiler's own reference for accepted syntax and bounds.

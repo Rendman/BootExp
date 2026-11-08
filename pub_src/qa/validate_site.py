@@ -33,7 +33,7 @@ for p in (CONTENT/'bootstrap').rglob('*.md'):
   if not redirect.is_file():errors.append(f'Missing legacy redirect: {alias}');continue
   soup=BeautifulSoup(redirect.read_text(),'html.parser')
   link=soup.select_one('link[rel="canonical"]');refresh=soup.select_one('meta[http-equiv="refresh"]');a=soup.select_one('a[href]')
-  expected=PUBLIC/p.relative_to(CONTENT).with_suffix('')/'index.html'
+  expected=PUBLIC/meta['url'].strip('/')/'index.html' if meta.get('url') else PUBLIC/p.relative_to(CONTENT).with_suffix('')/'index.html'
   if not link or not refresh or not a:errors.append(f'Incomplete legacy redirect: {alias}');continue
   target=link['href']
   if target.startswith('/') or (redirect.parent/target).resolve()!=expected.resolve():errors.append(f'Incorrect portable redirect: {alias}')
@@ -41,14 +41,14 @@ for p in (CONTENT/'bootstrap').rglob('*.md'):
   for prefix in ['', '/BootExp']:
    actual=urljoin(f'https://example.invalid{prefix}{alias}index.html',target)
    if actual!=f'https://example.invalid{prefix}/{expected.relative_to(PUBLIC).as_posix()}':errors.append(f'Incorrect hosted redirect: {alias}')
-for p in (ROOT/'site/static/downloads/bootasm').iterdir():
+for p in (ROOT/'site/downloads/bootasm').iterdir():
  if p.suffix.upper() in {'.BAS','.ASM','.BAT','.TXT'}:
   b=p.read_bytes()
   if b'\n' in b.replace(b'\r\n',b''):errors.append(f'{p}: non-DOS line endings')
   try:b.decode('ascii')
   except UnicodeDecodeError:errors.append(f'{p}: non-ASCII source')
   if len(p.stem)>8 or len(p.suffix)>4:errors.append(f'{p}: not an 8.3 name')
-with zipfile.ZipFile(ROOT/'site/static/downloads/bootasm/BOOTASM.ZIP') as z:
+with zipfile.ZipFile(ROOT/'site/downloads/bootasm/BOOTASM.ZIP') as z:
  if len(z.namelist())!=59:errors.append('Unexpected archive file count')
  for name in z.namelist():
   if z.read(name)!=(WORK/name).read_bytes():errors.append(f'Archive differs: {name}')
@@ -67,9 +67,10 @@ for i in range(2,19):
  if 'ERROR line' not in p.read_text():errors.append(f'{p}: missing visible rejection')
 if (WORK/'BOOTASM.BAS').read_bytes()!=(WORK/'BA18.BAS').read_bytes():errors.append('Final source differs from final checkpoint')
 import runpy
+runpy.run_path(str(ROOT/'qa/validate_directories.py'),run_name='__main__')
+runpy.run_path(str(ROOT/'qa/asm0/validate_publication.py'),run_name='__main__')
+runpy.run_path(str(ROOT/'qa/asm1/validate_publication.py'),run_name='__main__')
 runpy.run_path(str(ROOT/'qa/asm86/validate_publication.py'),run_name='__main__')
-runpy.run_path(str(ROOT/'qa/asma0/validate_publication.py'),run_name='__main__')
-runpy.run_path(str(ROOT/'qa/asm86a/validate_publication.py'),run_name='__main__')
 runpy.run_path(str(ROOT/'qa/validate_ladder_publication.py'),run_name='__main__')
 runpy.run_path(str(ROOT/'qa/reader_publication.py'),run_name='__main__')
 runpy.run_path(str(ROOT/'qa/link86/validate_publication.py'),run_name='__main__')
@@ -80,13 +81,13 @@ for p in CONTENT.rglob('*.md'):
   if forbidden in text:errors.append(f'{p}: production language {forbidden}')
 if errors:
  print('\n'.join(errors));raise SystemExit(1)
-asm_count=len(json.loads((ROOT/'qa/asm86/package-files.json').read_text()))
-seed_count=len(json.loads((ROOT/'qa/asma0/package-files.json').read_text()))
-asma_count=len(json.loads((ROOT/'qa/asm86a/package-files.json').read_text()))
+asm_count=len(json.loads((ROOT/'qa/asm0/package-files.json').read_text()))
+seed_count=len(json.loads((ROOT/'qa/asm1/package-files.json').read_text()))
+asma_count=len(json.loads((ROOT/'qa/asm86/package-files.json').read_text()))
 ir_count=len(json.loads((ROOT/'qa/ir86/package-files.json').read_text()))
-rill_count=len(json.loads((ROOT/'qa/rill/package-files.json').read_text()))
+rill_count=len(json.loads((ROOT/'qa/rill0/package-files.json').read_text()))
 tool_count=len(json.loads((ROOT/'qa/toolchain/package-files.json').read_text()))
-rb_count=len(json.loads((ROOT/'qa/compiler_collections/rb-files.json').read_text()))
+rb_count=len(json.loads((ROOT/'qa/compilers/rb-files.json').read_text()))
 rc_count=len(json.loads((ROOT/'qa/reader-packages.json').read_text())['rill']['files'])
 link_count=len(json.loads((ROOT/'qa/link86/package-files.json').read_text()))
 edit_count=len(json.loads((ROOT/'qa/edit86/package-files.json').read_text()))
