@@ -1,1 +1,1 @@
-INC AL
+INT 256

@@ -15,7 +15,7 @@ Begin with the completed BOOTASM and ASM0 collections. Keep BOOTASM.BAS, ASM0.AS
 COPY ASM0.COM ASMKEEP.COM
 ```
 
-ASMKEEP is the original ASM0, with its source-name prompt. It accepts an 8192-byte image, 256 definitions, 4000 physical lines, and 120 characters per line. Every A01 through A12 source fits that builder and uses its accepted language. Run CHECK ASMKEEP, enter the checkpoint base name at Source name, and require its stated OK count and PASS.
+ASMKEEP is the original ASM0 and uses fixed SOURCE.ASM and RESULT.COM. It accepts an 8192-byte image, 256 definitions, 4000 physical lines, and 120 characters per line. Every A01 through A12 source fits that builder. Copy the checkpoint to SOURCE.ASM, run CHECK ASMKEEP, require the stated OK count and PASS, then copy RESULT.COM to the checkpoint executable name.
 
 Each article copies the preceding source under the next filename and gives exact edits from the bottom upward. Preserve both the source and executable after each stopping test. The article number and saved source name are separate locators; keep the printed disk filenames exactly as given.
 

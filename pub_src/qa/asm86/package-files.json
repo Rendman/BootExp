@@ -16,6 +16,7 @@
   "T05.ASM",
   "AS06.ASM",
   "T06.ASM",
+  "X06.ASM",
   "AS07.ASM",
   "T07.ASM",
   "X07.ASM",
@@ -81,8 +82,5 @@
   "X27.ASM",
   "AS28.ASM",
   "T28.ASM",
-  "X28.ASM",
-  "AS29.ASM",
-  "T29.ASM",
-  "X29.ASM"
+  "X28.ASM"
 ]

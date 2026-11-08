@@ -19,7 +19,7 @@ collection_key = "asma0"
 - **XOR and segment access:** Add segment-register MOV and ES overrides on the existing MOV memory forms so the assembler can work with separately allocated storage.
 - **Checked publication:** Write a temporary file and use backup/recovery names so rejected source does not replace an accepted RESULT.COM.
 
-**Removing:** The interactive source-name prompt and complete-image output buffer. Fixed SOURCE.ASM/RESULT.COM names keep file selection simple; streaming removes the resident output-size bottleneck. ES, CS, SS and DS also become reserved names so labels cannot be confused with the new segment-register operands.
+**Removing:** The complete-image output buffer; streaming removes the resident output-size bottleneck. The fixed SOURCE.ASM/RESULT.COM names are retained from ASM0. ES, CS, SS and DS also become reserved names so labels cannot be confused with the new segment-register operands.
 
 ## The construction
 
@@ -27,6 +27,6 @@ This collection constructs a tool that can handle a source and output larger tha
 
 Twelve construction checkpoints finish at ASM1.ASM. A workbench guide, a seed language and memory reference, and three complete programs accompany them. The language remains small enough to be implemented within the preceding ASM0's bounds. The processor remains the 8086/8088 and the output remains DOS `.COM`.
 
-Read the workbench first and preserve ASMKEEP.COM as the original prompted assembler. After the self-assembly comparisons, preserve ASM1.COM and its source. That verified source is the starting file of the separate [ASM86 collection](../asm86a/index.html), which adds allocated symbol pages and a broader language.
+Read the workbench first and preserve ASMKEEP.COM as the original fixed-file assembler. After the self-assembly comparisons, preserve ASM1.COM and its source. That verified source is the starting file of the separate [ASM86 collection](../asm86a/index.html), which adds allocated symbol pages and a broader language.
 
 The complete source link above is ASM1.ASM. The [ASM1 disk sources](../../downloads/tools/asm1/ASM1.ZIP) include all twelve checkpoints, acceptance and rejection inputs, the unchanged BASIC foundation and ASM0 source, the viewer and checker, and complete programs. No preassembled executable is included.

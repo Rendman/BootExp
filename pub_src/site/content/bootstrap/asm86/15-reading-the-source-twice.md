@@ -1,8 +1,9 @@
 +++
-title = "16 \u00b7 Reading the source twice"
-weight = 16
+title = "15 \u00b7 Reading the source twice"
+weight = 15
 description = "Reopen the source and reproduce the same instruction positions."
-download = "AS16.ASM"
+download = "AS15.ASM"
+aliases = ["/bootstrap/asm86/16-reading-the-source-twice/"]
 download_group = "tools/asm0"
 reader_names = 1
 +++
@@ -21,7 +22,7 @@ The visible byte check is deliberately unchanged. Reading twice must not duplica
 
 ## Source changes
 
-Copy `AS15.ASM` to `AS16.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS14.ASM` to `AS15.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
 
 ### Change 1: following `PASSEND:`
 
@@ -33,7 +34,7 @@ PASSEND:
 CALL CLOSEFILE
 ```
 
-Insert after old physical line 30, before the following old line.
+Insert after old physical line 29, before the following old line.
 
 Insert this source:
 
@@ -50,12 +51,12 @@ JB PASSSTART
 Unchanged code immediately before this edit:
 
 ```asm
+MOV AX,7
 JMP ERROR
 ROOM:
-CALL GETNAME
 ```
 
-Remove these exact old lines (physical lines 10–10 of `AS15.ASM`):
+Remove these exact old lines (physical lines 9–9 of `AS14.ASM`):
 
 ```asm
 MOV AL,2
@@ -72,12 +73,13 @@ MOV AL,1
 Use the BASIC assembler prepared in the workbench guide:
 
 ```dos
+COPY AS15.ASM SOURCE.ASM
 GWBASIC BOOTASM.BAS
 ```
 
-Enter `AS16` at its source prompt. Require `OK AS16.COM 1269 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.
+Require `OK RESULT.COM 1118 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS, then `COPY RESULT.COM AS15.COM`. Save this source and executable as a working stopping point.
 
-Use `COPY CON T16.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
+Use `COPY CON T15.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
 
 ```asm
 DW 1234H
@@ -85,20 +87,21 @@ DB 65
 ```
 
 ```dos
-CHECK AS16
+COPY T15.ASM SOURCE.ASM
 ```
 
-Enter `T16` when `Source name:` appears.
+```dos
+CHECK AS15
+```
 
 The display, apart from DOS command echo and the checker's separating blank line, is:
 
 ```text
-Source name: T16
 OK 00003 bytes
 PASS
 ```
 
-Inspect `T16.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `T16.COM`, and require a length of **3 bytes** with these hexadecimal bytes:
+Inspect `RESULT.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `RESULT.COM`, and require a length of **3 bytes** with these hexadecimal bytes:
 
 ```text
 34 12 41
@@ -110,13 +113,16 @@ This file is an encoding or data fixture. **Inspect it; do not execute it.**
 
 ## A rejection check
 
-Enter this separate file as `X16.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
+Enter this separate file as `X15.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
 
 ```asm
 DW 65536
 ```
 
-Run `CHECK AS16` and enter `X16`.
+```dos
+COPY X15.ASM SOURCE.ASM
+CHECK AS15
+```
 
 Require this diagnostic followed by the checker's `FAIL`:
 

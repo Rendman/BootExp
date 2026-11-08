@@ -84,16 +84,17 @@ MOV [200H],AX
 From DOS start the checkpoint:
 
 ```dos
+COPY T16.ASM SOURCE.ASM
 GWBASIC BA16.BAS
 ```
 
-At its source-name prompt enter `T16` without an extension. The success report must name `T16.COM` and report **12 bytes**. After the program ends at BASIC's `Ok` prompt, inspect the file:
+The assembler uses the filenames in line 30 without asking for input. The success report must name `RESULT.COM` and report **12 bytes**. After the program ends at BASIC's `Ok` prompt, inspect the file:
 
 ```basic
 RUN "VIEW.BAS"
 ```
 
-At `File:` enter `T16.COM`. The viewer must report length 12 and these bytes (spaces and line wrapping are immaterial):
+At `File:` enter `RESULT.COM`. The viewer must report length 12 and these bytes (spaces and line wrapping are immaterial):
 
 ```text
 8A 07 88 07 8B 06 00 02 89 06 00 02
@@ -109,7 +110,7 @@ Create `X16.ASM` containing:
 MOV [BX],1
 ```
 
-Reload `BA16.BAS` and run it with source name `X16`. Expect `ERROR line 1 : Register required`; BASIC may print extra spaces around the line number. There must be no `OK` report. On a fresh workbench there must be no `X16.COM`. If an older file exists, it is left unchanged and must not be mistaken for a new result.
+Return to DOS, copy `X16.ASM` to `SOURCE.ASM`, then run `GWBASIC BA16.BAS`. Expect `ERROR line 1 : Register required`; BASIC may print extra spaces around the line number. There must be no `OK` report. The accepted `RESULT.COM` must remain unchanged. Preserve it as HOLD.COM before this test and compare the files afterward; an older result must not be mistaken for a new successful assembly.
 
 ## If the result differs
 

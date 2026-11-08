@@ -15,7 +15,7 @@ SAVE "BOOTASM.BAS",A
 SAVE "BOOTKEEP.BAS",A
 ```
 
-Each example is a complete DOS program. The source names below are base names: enter HELLO, COPYBYTE, or FAIL when BOOTASM asks. Inspect each file with VIEW.BAS before running it from DOS. A byte difference is a reason to stop and compare the source, even if the program seems to display the expected text.
+Each example is a complete DOS program. For HELLO, use COPY HELLO.ASM SOURCE.ASM followed by GWBASIC BOOTASM.BAS. Require a fresh OK RESULT.COM report, return to DOS with SYSTEM, then COPY RESULT.COM HELLO.COM. Follow the same pattern for COPYBYTE and FAIL. Inspect the preserved file with VIEW.BAS before running it. For a rejection, copy the changed source to SOURCE.ASM and require the previous RESULT.COM to remain unchanged.
 
 ## A message from a named address
 

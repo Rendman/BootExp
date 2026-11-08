@@ -1,8 +1,9 @@
 +++
-title = "18 \u00b7 Checking a label line"
-weight = 18
+title = "17 \u00b7 Checking a label line"
+weight = 17
 description = "Accept a standalone name and reject malformed or reserved spellings."
-download = "AS18.ASM"
+download = "AS17.ASM"
+aliases = ["/bootstrap/asm86/18-checking-a-label-line/"]
 download_group = "tools/asm0"
 reader_names = 1
 +++
@@ -19,7 +20,7 @@ At this stopping point DEFINE checks spelling and returns without storing an add
 
 ## Source changes
 
-Copy `AS17.ASM` to `AS18.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS16.ASM` to `AS17.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
 
 ### Change 1: following `DATASEP:`
 
@@ -31,7 +32,7 @@ CMP AL,0
 JNE SYNTAXBAD
 ```
 
-Insert after old physical line 469, before the following old line.
+Insert after old physical line 414, before the following old line.
 
 Insert this source:
 
@@ -58,7 +59,7 @@ RET
 STWORD:
 ```
 
-Insert after old physical line 426, before the following old line.
+Insert after old physical line 371, before the following old line.
 
 Insert this source:
 
@@ -86,7 +87,7 @@ JMP ERROR
 
 ```
 
-Insert after old physical line 419, before the following old line.
+Insert after old physical line 364, before the following old line.
 
 Insert this source:
 
@@ -113,7 +114,7 @@ RET
 
 ```
 
-Insert after old physical line 340, before the following old line.
+Insert after old physical line 285, before the following old line.
 
 Insert this source:
 
@@ -157,12 +158,13 @@ JMP ERROR
 Use the BASIC assembler prepared in the workbench guide:
 
 ```dos
+COPY AS17.ASM SOURCE.ASM
 GWBASIC BOOTASM.BAS
 ```
 
-Enter `AS18` at its source prompt. Require `OK AS18.COM 1498 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.
+Require `OK RESULT.COM 1347 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS, then `COPY RESULT.COM AS17.COM`. Save this source and executable as a working stopping point.
 
-Use `COPY CON T18.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
+Use `COPY CON T17.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
 
 ```asm
 START:
@@ -170,20 +172,21 @@ DB 65
 ```
 
 ```dos
-CHECK AS18
+COPY T17.ASM SOURCE.ASM
 ```
 
-Enter `T18` when `Source name:` appears.
+```dos
+CHECK AS17
+```
 
 The display, apart from DOS command echo and the checker's separating blank line, is:
 
 ```text
-Source name: T18
 OK 00001 bytes
 PASS
 ```
 
-Inspect `T18.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `T18.COM`, and require a length of **1 bytes** with these hexadecimal bytes:
+Inspect `RESULT.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `RESULT.COM`, and require a length of **1 bytes** with these hexadecimal bytes:
 
 ```text
 41
@@ -195,14 +198,17 @@ This file is an encoding or data fixture. **Inspect it; do not execute it.**
 
 ## A rejection check
 
-Enter this separate file as `X18.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
+Enter this separate file as `X17.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
 
 ```asm
 1BAD:
 DB 0
 ```
 
-Run `CHECK AS18` and enter `X18`.
+```dos
+COPY X17.ASM SOURCE.ASM
+CHECK AS17
+```
 
 Require this diagnostic followed by the checker's `FAIL`:
 

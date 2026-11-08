@@ -76,24 +76,26 @@ INT 21H
 From DOS start the checkpoint:
 
 ```dos
+COPY T18.ASM SOURCE.ASM
 GWBASIC BA18.BAS
 ```
 
-At its source-name prompt enter `T18` without an extension. The success report must name `T18.COM` and report **17 bytes**. After the program ends at BASIC's `Ok` prompt, inspect the file:
+The assembler uses the filenames in line 30 without asking for input. The success report must name `RESULT.COM` and report **17 bytes**. After the program ends at BASIC's `Ok` prompt, inspect the file:
 
 ```basic
 RUN "VIEW.BAS"
 ```
 
-At `File:` enter `T18.COM`. The viewer must report length 17 and these bytes (spaces and line wrapping are immaterial):
+At `File:` enter `RESULT.COM`. The viewer must report length 17 and these bytes (spaces and line wrapping are immaterial):
 
 ```text
 B2 30 B4 02 CD 21 42 80 FA 33 72 F6 B8 00 4C CD 21
 ```
 
-This fixture is a complete program. Return to DOS with `SYSTEM`, then run it through the shared status check:
+This fixture is a complete program. Return to DOS with `SYSTEM`, preserve the accepted result, then run it through the shared status check:
 
 ```dos
+COPY RESULT.COM T18.COM
 CHECK T18
 ```
 
@@ -107,7 +109,7 @@ Create `X18.ASM` containing:
 JE 400H
 ```
 
-Reload `BA18.BAS` and run it with source name `X18`. Expect `ERROR line 1 : Branch out of range`; BASIC may print extra spaces around the line number. There must be no `OK` report. On a fresh workbench there must be no `X18.COM`. If an older file exists, it is left unchanged and must not be mistaken for a new result.
+Return to DOS, copy `X18.ASM` to `SOURCE.ASM`, then run `GWBASIC BA18.BAS`. Expect `ERROR line 1 : Branch out of range`; BASIC may print extra spaces around the line number. There must be no `OK` report. The accepted `RESULT.COM` must remain unchanged. Preserve it as HOLD.COM before this test and compare the files afterward; an older result must not be mistaken for a new successful assembly.
 
 ## If the result differs
 

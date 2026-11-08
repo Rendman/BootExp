@@ -128,7 +128,7 @@ MOV [RDPOS],AX
 
 ## Build the stopping point
 
-Run `CHECK ASMKEEP`, enter `A05` at `Source name:`, and require `OK 02806 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. It creates A05.COM.
+Copy `A05.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK 02806 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM A05.COM`.
 
 VIEW.BAS must report A05.COM length 2806 bytes. Keep that executable and source together.
 

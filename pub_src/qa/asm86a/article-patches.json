@@ -7,8 +7,8 @@
     "base": "ASM86.ASM",
     "changes": [
       {
-        "a1": 1144,
-        "a2": 1144,
+        "a1": 1080,
+        "a2": 1080,
         "old": [],
         "new": [
           "DB 88,79,82,0,0,0,4,6",
@@ -33,8 +33,8 @@
         "after": []
       },
       {
-        "a1": 1039,
-        "a2": 1042,
+        "a1": 975,
+        "a2": 978,
         "old": [
           "",
           "OUTPTR:",
@@ -52,52 +52,30 @@
         ]
       },
       {
-        "a1": 1024,
-        "a2": 1030,
+        "a1": 961,
+        "a2": 967,
         "old": [
-          "",
           "FNAME:",
-          "DB 0,0,0,0,0,0,0,0,0,0,0,0,0",
+          "DB 83,79,85,82,67,69,46,65,83,77,0",
           "",
-          "EXTP:",
+          "RESNAME:",
+          "DB 82,69,83,85,76,84,46,67,79,77,0",
+          ""
+        ],
+        "new": [],
+        "context": [
+          "",
+          "DIVEND:",
+          ""
+        ],
+        "after": [
+          "HANDLE:",
           "DW 0"
-        ],
-        "new": [],
-        "context": [
-          "DW 10000,1000,100,10,1",
-          "",
-          "DIVEND:"
-        ],
-        "after": [
-          "",
-          "HANDLE:"
         ]
       },
       {
-        "a1": 1014,
-        "a2": 1020,
-        "old": [
-          "ASMEXT:",
-          "DB 46,65,83,77,0",
-          "",
-          "COMEXT:",
-          "DB 46,67,79,77,0",
-          ""
-        ],
-        "new": [],
-        "context": [
-          "NEWLINE:",
-          "DB 13,10,36",
-          ""
-        ],
-        "after": [
-          "DIVISORS:",
-          "DW 10000,1000,100,10,1"
-        ]
-      },
-      {
-        "a1": 1000,
-        "a2": 1001,
+        "a1": 942,
+        "a2": 943,
         "old": [
           "DB 79,75,32,36"
         ],
@@ -105,7 +83,7 @@
           "DB 79,75,32,82,69,83,85,76,84,46,67,79,77,32,36"
         ],
         "context": [
-          "DB 83,111,117,114,99,101,32,110,97,109,101,58,32,36",
+          "INT 21H",
           "",
           "OKMSG:"
         ],
@@ -115,27 +93,8 @@
         ]
       },
       {
-        "a1": 996,
-        "a2": 999,
-        "old": [
-          "PROMPT:",
-          "DB 83,111,117,114,99,101,32,110,97,109,101,58,32,36",
-          ""
-        ],
-        "new": [],
-        "context": [
-          "MOV AX,4C01H",
-          "INT 21H",
-          ""
-        ],
-        "after": [
-          "OKMSG:",
-          "DB 79,75,32,36"
-        ]
-      },
-      {
-        "a1": 838,
-        "a2": 839,
+        "a1": 783,
+        "a2": 784,
         "old": [
           "JE BYTEVALUE"
         ],
@@ -155,8 +114,8 @@
         ]
       },
       {
-        "a1": 598,
-        "a2": 599,
+        "a1": 543,
+        "a2": 544,
         "old": [
           "MOV CX,25"
         ],
@@ -174,75 +133,8 @@
         ]
       },
       {
-        "a1": 96,
-        "a2": 147,
-        "old": [
-          "",
-          "GETNAME:",
-          "MOV DX,PROMPT",
-          "CALL TEXT",
-          "MOV BX,2400H",
-          "MOV AL,10",
-          "MOV [BX],AL",
-          "MOV DX,2400H",
-          "MOV AH,10",
-          "INT 21H",
-          "MOV DX,NEWLINE",
-          "CALL TEXT",
-          "MOV BX,2401H",
-          "MOV AL,[BX]",
-          "MOV AH,0",
-          "CMP AX,1",
-          "JB BADNAME",
-          "CMP AX,8",
-          "JA BADNAME",
-          "MOV CX,AX",
-          "MOV SI,2402H",
-          "MOV DI,FNAME",
-          "NAMELOOP:",
-          "LODSB",
-          "CMP AL,97",
-          "JB NAMEUP",
-          "CMP AL,122",
-          "JA NAMEUP",
-          "SUB AL,32",
-          "NAMEUP:",
-          "CMP AL,95",
-          "JE NAMECHAR",
-          "CMP AL,48",
-          "JB BADNAME",
-          "CMP AL,57",
-          "JBE NAMECHAR",
-          "CMP AL,65",
-          "JB BADNAME",
-          "CMP AL,90",
-          "JA BADNAME",
-          "NAMECHAR:",
-          "STOSB",
-          "DEC CX",
-          "JNE NAMELOOP",
-          "MOV [EXTP],DI",
-          "MOV SI,ASMEXT",
-          "CALL COPYZ",
-          "RET",
-          "BADNAME:",
-          "MOV AX,1",
-          "JMP ERROR"
-        ],
-        "new": [],
-        "context": [
-          "MOV DX,BYTEMSG",
-          "CALL TEXT",
-          "RET"
-        ],
-        "after": [
-          "",
-          "NEXTBYTE:"
-        ]
-      },
-      {
-        "a1": 87,
-        "a2": 88,
+        "a1": 83,
+        "a2": 84,
         "old": [
           "JB FILEBAD"
         ],
@@ -262,8 +154,8 @@
         ]
       },
       {
-        "a1": 83,
-        "a2": 84,
+        "a1": 79,
+        "a2": 80,
         "old": [
           "JNE FILEBAD"
         ],
@@ -283,8 +175,8 @@
         ]
       },
       {
-        "a1": 81,
-        "a2": 82,
+        "a1": 77,
+        "a2": 78,
         "old": [
           "JB FILEBAD"
         ],
@@ -304,8 +196,8 @@
         ]
       },
       {
-        "a1": 73,
-        "a2": 74,
+        "a1": 69,
+        "a2": 70,
         "old": [
           "JB FILEBAD"
         ],
@@ -325,30 +217,8 @@
         ]
       },
       {
-        "a1": 66,
-        "a2": 70,
-        "old": [
-          "MOV DI,[EXTP]",
-          "MOV SI,COMEXT",
-          "CALL COPYZ",
-          "MOV DX,FNAME"
-        ],
-        "new": [
-          "MOV DX,RESNAME"
-        ],
-        "context": [
-          "RET",
-          "",
-          "WRITEOUT:"
-        ],
-        "after": [
-          "MOV CX,0",
-          "MOV AH,3CH"
-        ]
-      },
-      {
-        "a1": 62,
-        "a2": 63,
+        "a1": 61,
+        "a2": 62,
         "old": [
           "JB FILEBAD"
         ],
@@ -370,8 +240,8 @@
         ]
       },
       {
-        "a1": 56,
-        "a2": 56,
+        "a1": 55,
+        "a2": 55,
         "old": [],
         "new": [
           "MOV AL,1",
@@ -388,8 +258,8 @@
         ]
       },
       {
-        "a1": 49,
-        "a2": 50,
+        "a1": 48,
+        "a2": 49,
         "old": [
           "MOV DX,FNAME"
         ],
@@ -404,23 +274,6 @@
         "after": [
           "MOV AX,3D00H",
           "INT 21H"
-        ]
-      },
-      {
-        "a1": 8,
-        "a2": 9,
-        "old": [
-          "CALL GETNAME"
-        ],
-        "new": [],
-        "context": [
-          "MOV AX,7",
-          "JMP ERROR",
-          "ROOM:"
-        ],
-        "after": [
-          "MOV AL,1",
-          "MOV [PASS],AL"
         ]
       },
       {

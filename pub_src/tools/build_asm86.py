@@ -7,7 +7,7 @@ ROOT=Path(__file__).resolve().parents[1]
 WORK=ROOT/'workbench/asm86';CONTENT=ROOT/'site/content/bootstrap/asm86'
 WORK.mkdir(parents=True,exist_ok=True);CONTENT.mkdir(parents=True,exist_ok=True)
 TEMPLATE=(ROOT/'tools/asm86_template.asm').read_text()
-STARTS=['START','FILEBAD','OPENFILE','CLOSEFILE','WRITEOUT','GETNAME','NEXTBYTE','READLINE','SCAN','LOOK','REGISTER','VALIDNAME','VALUE','SYMBOLVALUE','DEFINE','OPERAND','MEMORY','STATEMENT','DATAITEM','FIXED','SINGLE','INTERRUPT','NEARJUMP','SHORTJUMP','FINISH','TWOOPERANDS','MOVOPERANDS','MOVREG','REGMOD','IMMEDVALUE','LOADMEM','STOREMEM','SAMEWIDTH','TIMES8','BYTEVALUE','EMITWORD','EMIT','COPYZ','TEXT','NUMBER','ERROR','PROMPT']
+STARTS=['START','FILEBAD','OPENFILE','CLOSEFILE','WRITEOUT','NEXTBYTE','READLINE','SCAN','LOOK','REGISTER','VALIDNAME','VALUE','SYMBOLVALUE','DEFINE','OPERAND','MEMORY','STATEMENT','DATAITEM','FIXED','SINGLE','INTERRUPT','NEARJUMP','SHORTJUMP','FINISH','TWOOPERANDS','MOVOPERANDS','MOVREG','REGMOD','IMMEDVALUE','LOADMEM','STOREMEM','SAMEWIDTH','TIMES8','BYTEVALUE','EMITWORD','EMIT','COPYZ','TEXT','NUMBER','ERROR','OKMSG']
 positions={name:TEMPLATE.index('\n'+name+':\n')+1 for name in STARTS}
 BLOCK={name:TEMPLATE[positions[name]:positions[nextname]].strip()+'\n' for name,nextname in zip(STARTS,STARTS[1:])}
 # Strip surrounding explanatory comments from each source fragment.
@@ -25,7 +25,7 @@ ZDONE:
 RET
 '''
 ORDER=STARTS[1:-1]+['ZTEXT']
-data=TEMPLATE[positions['PROMPT']:]
+data=TEMPLATE[positions['OKMSG']:]
 matches=list(re.finditer(r'^([A-Z][A-Z0-9_]*):$',data,re.M))
 FIELDS={m.group(1):data[m.start():matches[i+1].start() if i+1<len(matches) else len(data)].strip()+'\n' for i,m in enumerate(matches)}
 FIELDORDER=list(FIELDS)
@@ -44,10 +44,9 @@ for line in FIELDS['OPTAB'].splitlines()[1:]:
 def dos(path,text):path.write_bytes((text.rstrip()+'\n').replace('\r\n','\n').replace('\n','\r\n').encode('ascii'))
 def tokens(text):
  return set(re.findall(r'\b[A-Z][A-Z0-9_]*\b','\n'.join(line.split(';',1)[0] for line in text.splitlines())))
-def driver(body,*,memory=True,name=True):
+def driver(body,*,memory=True):
  s='START:\nCLD\n'
  if memory:s+='CMP SP,0FFFEH\nJE ROOM\nMOV AX,7\nJMP ERROR\nROOM:\n'
- if name:s+='CALL GETNAME\n'
  return s+body.strip()+'\nGOOD:\nMOV AX,4C00H\nINT 21H\n'
 READLOOP='''CALL OPENFILE
 DRIVERLINE:
@@ -188,7 +187,7 @@ add('A message from assembly','A short DOS program, built with the BASIC assembl
 TEXT is a small subroutine with DX as its input. It changes AH and the flags DOS leaves behind; DOS may also return a value in AL. It does not save AX, because the caller has no AX value to retain. CALL pushes a two-byte return offset and RET takes it back. GOOD then uses function 4CH with a zero return code.
 
 The labels name offsets beginning at 0100H. Neither ORG nor a segment directive is needed or accepted. Each DB item is an ASCII character code, and the BASIC assembler writes the machine bytes without a file header.''',
- driver('MOV DX,HELLOMSG\nCALL TEXT',memory=False,name=False),payload='ASM0\r\n')
+ driver('MOV DX,HELLOMSG\nCALL TEXT',memory=False),payload='ASM0\r\n')
 add('Numbers in the report','Display an unsigned word without a divide instruction.',
 'An assembly-language tool needs to report counts. We shall print an unsigned word as five decimal digits using repeated subtraction.',
 '''NUMBER takes its value in AX and preserves every word register. The five PUSH instructions save AX, BX, CX, DX, and SI; the POP instructions restore them in reverse order. DI and BP are not touched. The routine uses ten stack bytes for its saved registers, in addition to its return address.
@@ -196,7 +195,7 @@ add('Numbers in the report','Display an unsigned word without a divide instructi
 CX holds the amount still to be displayed. SI points at a table of word divisors: 10000, 1000, 100, 10, and 1. BX copies that pointer because our assembler accepts a word load through BX. For each divisor, AL begins with the code for 0. Repeated subtraction advances the digit until CX is smaller than the divisor.
 
 Function 02H displays the character in DL. The arithmetic remainder stays in CX, because DOS may change AL. All five places are printed, including leading zeroes; this makes the routine small and keeps zero unambiguous. The tests show the low bound, a middle value, and the largest unsigned word. DIVEND names the byte just after the divisor table and emits no data.''',
- driver('MOV AX,0\nCALL NUMBER\nMOV DX,NEWLINE\nCALL TEXT\nMOV AX,1000\nCALL NUMBER\nMOV DX,NEWLINE\nCALL TEXT\nMOV AX,65535\nCALL NUMBER\nMOV DX,NEWLINE\nCALL TEXT',memory=False,name=False),payload='00000\r\n01000\r\n65535\r\n')
+ driver('MOV AX,0\nCALL NUMBER\nMOV DX,NEWLINE\nCALL TEXT\nMOV AX,1000\nCALL NUMBER\nMOV DX,NEWLINE\nCALL TEXT\nMOV AX,65535\nCALL NUMBER\nMOV DX,NEWLINE\nCALL TEXT',memory=False),payload='00000\r\n01000\r\n65535\r\n')
 add('A clear failure report','A source line, an error code, and a DOS failure status.',
 'A tool must make failure visible. We shall add one exit which reports a line number and a reason code, and establish the memory required by this workbench.',
 '''ERROR takes a small reason code in AX. It saves AL in ERRCODE before displaying any text, then prints ERROR, the five-digit LINENO value, and CODE followed by the reason digit. It finishes with DOS function 4CH and return code one. DOS closes the process's files on termination.
@@ -206,22 +205,10 @@ The line number is zero when no source line has been read. Codes 1 through 7 dis
 The entry check requires SP=FFFEH, the normal stack pointer for a .COM program given a full 64 KB segment. Our working buffers will use fixed offsets within that segment. Refusing a smaller segment is simpler than relocating all those buffers. Code 7 is a real workbench limit, not a claim that every DOS program needs 64 KB.
 
 To exercise the rejection exit on an otherwise roomy machine, save a separate copy as SMALL.ASM and insert MOV SP,8000H immediately before CMP SP,0FFFEH. This leaves ample stack space for the report but deliberately fails the entry check. Build SMALL with BOOTASM and run CHECK SMALL: it must display ERROR 00000 CODE 7 and FAIL. Keep the normal checkpoint unchanged.''',
- driver('MOV DX,READYMSG\nCALL TEXT',name=False),payload='READY\r\n',bad={'kind':'stack','line':0,'code':7})
-add('Choosing the source name','Read, check, and uppercase a short DOS base name.',
-'We shall ask for a source name once and construct its .ASM filename in a bounded buffer.',
-'''GETNAME takes no arguments. It displays PROMPT, reads a console line, validates the base name, copies it to FNAME, and appends .ASM plus a zero byte. It changes AX, BX, CX, DX, SI, DI, and the flags. EXTP retains the position at which the extension begins.
-
-DOS function 0AH expects a buffer whose first byte is its maximum size. We place that buffer at 2400H. DOS stores the actual character count at 2401H and the text at 2402H. A maximum of ten allows nine typed characters plus a carriage return; we reject counts above eight instead of quietly accepting a truncated eight-character name.
-
-DOS echoes the entered carriage return without a line feed, so the explicit TEXT call displays NEWLINE before any report. The copy loop permits letters, digits, and underscores. ASCII lowercase letters are converted by subtracting 32. LODSB reads DS:SI and advances SI; STOSB writes ES:DI and advances DI. CLD at entry makes both advance. The DOS .COM entry convention gives DS and ES the same segment, which the program retains.
-
-COPYZ copies a zero-terminated string from SI to DI, including its final zero. The extension strings use zero terminators because DOS file services require them. TEXT's display strings still use dollar signs; they are different interfaces.
-
-The small diagnostic printer ZTEXT displays a zero-terminated string from SI with function 02H. It advances SI and changes AX and DX. The visible filename proves that the copy and extension are in the right places. Use ordinary disk filenames, never DOS device names such as CON or NUL.''',
- driver('MOV SI,FNAME\nCALL ZTEXT\nMOV DX,NEWLINE\nCALL TEXT'),fixture='; A filename test.\r\n',payload='{stem}.ASM\r\n',bad={'kind':'console','input':'BAD.NAME','line':0,'code':1})
+ driver('MOV DX,READYMSG\nCALL TEXT'),payload='READY\r\n',bad={'kind':'stack','line':0,'code':7})
 add('Opening and closing a file','Let DOS return a handle, and check carry immediately.',
 'A filename is useful only if DOS can open it. We shall open an existing source file for input and close its handle before returning.',
-'''OPENFILE passes FNAME in DS:DX to DOS function 3DH with AL=0 for read-only access. On success AX is the handle, a small number which DOS uses to identify the open file. HANDLE retains it. The carry flag reports an error; JAE takes the carry-clear success path, while the near jump reaches FILEBAD on failure.
+'''FNAME contains the zero-terminated name SOURCE.ASM. Use COPY to select a source before running the assembler; no console input is read. OPENFILE passes FNAME in DS:DX to DOS function 3DH with AL=0 for read-only access. On success AX is the handle, a small number which DOS uses to identify the open file. HANDLE retains it. The carry flag reports an error; JAE takes the carry-clear success path, while the near jump reaches FILEBAD on failure.
 
 CLOSEFILE loads the saved handle into BX and uses function 3EH. Its carry result is checked before another operation can replace it. FILEBAD selects code 6 and reaches the common report. Neither routine returns after an error.
 
@@ -339,11 +326,11 @@ This checkpoint accepts one numeric byte value per line, checks the end of each 
  value_driver('CALL BYTEVALUE\nCALL FINISH',buffer=True),variants={'VALUE':numeric(True)},fixture='65\r\n66\r\n',payload='Buffered 00002 bytes\r\n',bad={'kind':'source','text':'256\r\n','line':1,'code':4})
 add('Writing the image','Create the output only after every source line succeeds.',
 'The byte buffer is ready to become a file. We shall create a fresh .COM image and check both the write count and the close.',
-'''WRITEOUT replaces the extension at EXTP with .COM and passes FNAME to DOS function 3CH. CX=0 requests an ordinary file. Creation truncates an existing file exactly; there is no BASIC sequential-file end marker or .COM header.
+'''WRITEOUT passes the fixed RESULT.COM name at RESNAME to DOS function 3CH. CX=0 requests an ordinary file. Creation truncates an existing file exactly; there is no BASIC sequential-file end marker or .COM header.
 
 The returned handle goes in BX. For function 40H, CX is PC minus 0100H and DS:DX points to the buffer at 6000H. Carry reports a write error; with carry clear AX must equal the requested count. A short write is an error even though carry was clear. The final close is checked as well.
 
-Only a completed write and close produce OK followed by the five-digit byte count. WRITEOUT changes working registers and FNAME's extension; it returns to the driver's successful termination. A zero-byte image creates a genuine empty file, which is valid for inspection but not execution.
+Only a completed write and close produce OK followed by the five-digit byte count. WRITEOUT changes working registers; it returns to the driver's successful termination. A zero-byte image creates a genuine empty file, which is valid for inspection but not execution.
 
 Input errors leave an older output untouched because creation has not occurred. A disk error after creation can leave an empty or partial output; require a fresh OK report. The source is still one numeric byte per line at this checkpoint.''',
  value_driver('CALL BYTEVALUE\nCALL FINISH',buffer=True,write=True),variants={'VALUE':numeric(True)},fixture='65\r\n66\r\n',image='41 42',bad={'kind':'source','text':'256\r\n','line':1,'code':4})
@@ -544,7 +531,7 @@ for number,stage in enumerate(STAGES,1):
  record={key:value for key,value in stage.items() if key not in ['main','variants']}
  record.update(number=number,source=filename,lines=len(source.splitlines()))
  manifest.append(record);previous=source
-assert len(STAGES)==29
+assert len(STAGES)==28
 # The final checkpoint is the complete reader-facing source.
 dos(WORK/'ASM86.ASM',previous)
 (ROOT/'qa/asm86/checkpoints.json').write_text(json.dumps(manifest,indent=2))

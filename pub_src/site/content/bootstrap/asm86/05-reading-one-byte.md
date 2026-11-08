@@ -1,8 +1,9 @@
 +++
-title = "06 \u00b7 Reading one byte"
-weight = 6
+title = "05 \u00b7 Reading one byte"
+weight = 5
 description = "A handle-based read distinguishes data from end of file."
-download = "AS06.ASM"
+download = "AS05.ASM"
+aliases = ["/bootstrap/asm86/06-reading-one-byte/"]
 download_group = "tools/asm0"
 reader_names = 1
 +++
@@ -21,7 +22,7 @@ At this checkpoint no case conversion or comment handling is performed. The sour
 
 ## Source changes
 
-Copy `AS05.ASM` to `AS06.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS04.ASM` to `AS05.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
 
 ### Change 1: following `ERRCODE:`
 
@@ -33,7 +34,7 @@ ERRCODE:
 DB 0
 ```
 
-Remove these exact old lines (physical lines 186–188 of `AS05.ASM`):
+Remove these exact old lines (physical lines 118–120 of `AS04.ASM`):
 
 ```asm
 
@@ -53,7 +54,7 @@ DW 0
 
 ```
 
-Insert after old physical line 183, before the following old line.
+Insert after old physical line 115, before the following old line.
 
 Insert this source:
 
@@ -63,21 +64,22 @@ DB 0
 
 ```
 
-### Change 3: following `BADNAME:`
+### Change 3: following `CLOSEFILE:`
 
 Unchanged code immediately before this edit:
 
 ```asm
-BADNAME:
-MOV AX,1
-JMP ERROR
+MOV AH,3EH
+INT 21H
+JB FILEBAD
 ```
 
-Insert after old physical line 88, before the following old line.
+Insert after old physical line 35, before the following old line.
 
 Insert this source:
 
 ```asm
+RET
 
 NEXTBYTE:
 MOV BX,[HANDLE]
@@ -89,7 +91,6 @@ JAE BYTEOK
 MOV AX,6
 JMP ERROR
 BYTEOK:
-RET
 ```
 
 ### Change 4: following `ROOM:`
@@ -97,12 +98,12 @@ RET
 Unchanged code immediately before this edit:
 
 ```asm
-CALL GETNAME
+ROOM:
 CALL OPENFILE
 CALL CLOSEFILE
 ```
 
-Remove these exact old lines (physical lines 12–13 of `AS05.ASM`):
+Remove these exact old lines (physical lines 11–12 of `AS04.ASM`):
 
 ```asm
 MOV DX,OPENMSG
@@ -116,12 +117,12 @@ No replacement lines are needed.
 Unchanged code immediately before this edit:
 
 ```asm
+JMP ERROR
 ROOM:
-CALL GETNAME
 CALL OPENFILE
 ```
 
-Insert after old physical line 10, before the following old line.
+Insert after old physical line 9, before the following old line.
 
 Insert this source:
 
@@ -142,34 +143,41 @@ DUMPEND:
 Use the BASIC assembler prepared in the workbench guide:
 
 ```dos
+COPY AS05.ASM SOURCE.ASM
 GWBASIC BOOTASM.BAS
 ```
 
-Enter `AS06` at its source prompt. Require `OK AS06.COM 395 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.
+Require `OK RESULT.COM 248 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS, then `COPY RESULT.COM AS05.COM`. Save this source and executable as a working stopping point.
 
-Use `COPY CON T06.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
+Use `COPY CON T05.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
 
 ```asm
 Abc
 ```
 
 ```dos
-CHECK AS06
+COPY T05.ASM SOURCE.ASM
 ```
 
-Enter `T06` when `Source name:` appears.
+```dos
+CHECK AS05
+```
 
 The display, apart from DOS command echo and the checker's separating blank line, is:
 
 ```text
-Source name: T06
 Abc
 PASS
 ```
 
 ## A rejection check
 
-Choose `X06` as a fresh name with **no** `X06.ASM` on disk. Run `CHECK AS06` and enter `X06`.
+```dos
+REN SOURCE.ASM HOLD.ASM
+CHECK AS05
+```
+
+Use an unused HOLD.ASM name and restore it to SOURCE.ASM after the test.
 
 Require this diagnostic followed by the checker's `FAIL`:
 

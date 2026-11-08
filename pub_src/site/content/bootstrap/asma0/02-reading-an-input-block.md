@@ -186,7 +186,7 @@ MOV [SKIPLF],AL
 
 ## Build the stopping point
 
-Run `CHECK ASMKEEP`, enter `A02` at `Source name:`, and require `OK 02549 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. It creates A02.COM.
+Copy `A02.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK 02549 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM A02.COM`.
 
 VIEW.BAS must report A02.COM length 2549 bytes. Keep that executable and source together.
 

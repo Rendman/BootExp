@@ -11,7 +11,7 @@ A row of character codes ought to occupy a row of source. We shall let DB accept
 
 ## At the keyboard
 
-Load the preceding checkpoint, `BA04.BAS`. Keep its working copy. Replace lines 4100, 4140. Insert the other numbered lines in their numeric positions; leave all unlisted lines in place. New-line locations in the preceding listing: 4100 / 4140; 4140 / 8000. Each pair gives the existing lines on either side.
+Load the preceding checkpoint, `BA04.BAS`. Keep its working copy. Replace lines 4100, 4140. Insert the other numbered lines in their numeric positions; leave all unlisted lines in place. New-line locations in the preceding listing: 4100 / 4140; 4140 / 9000. Each pair gives the existing lines on either side.
 
 BASIC line numbers are part of the source. Enter a whole numbered line when replacing it.
 
@@ -34,7 +34,7 @@ The following lines are **context from the preceding checkpoint**, not another b
 4090 E$="Unknown instruction": GOTO 9000
 4100 T$=A$: GOSUB 2000
 4140 X=N: GOSUB 3000: RETURN
-8000 IF LEN(F$)<1 OR LEN(F$)>8 THEN E$="Bad filename": GOTO 9000
+9000 PRINT "ERROR line"; L; ": "; E$
 ```
 
 Save the result before running it:
@@ -62,16 +62,17 @@ DB 41H,42H,43H,0
 From DOS start the checkpoint:
 
 ```dos
+COPY T05.ASM SOURCE.ASM
 GWBASIC BA05.BAS
 ```
 
-At its source-name prompt enter `T05` without an extension. The success report must name `T05.COM` and report **4 bytes**. After the program ends at BASIC's `Ok` prompt, inspect the file:
+The assembler uses the filenames in line 30 without asking for input. The success report must name `RESULT.COM` and report **4 bytes**. After the program ends at BASIC's `Ok` prompt, inspect the file:
 
 ```basic
 RUN "VIEW.BAS"
 ```
 
-At `File:` enter `T05.COM`. The viewer must report length 4 and these bytes (spaces and line wrapping are immaterial):
+At `File:` enter `RESULT.COM`. The viewer must report length 4 and these bytes (spaces and line wrapping are immaterial):
 
 ```text
 41 42 43 00
@@ -87,7 +88,7 @@ Create `X05.ASM` containing:
 DB 1,
 ```
 
-Reload `BA05.BAS` and run it with source name `X05`. Expect `ERROR line 1 : Missing value`; BASIC may print extra spaces around the line number. There must be no `OK` report. On a fresh workbench there must be no `X05.COM`. If an older file exists, it is left unchanged and must not be mistaken for a new result.
+Return to DOS, copy `X05.ASM` to `SOURCE.ASM`, then run `GWBASIC BA05.BAS`. Expect `ERROR line 1 : Missing value`; BASIC may print extra spaces around the line number. There must be no `OK` report. The accepted `RESULT.COM` must remain unchanged. Preserve it as HOLD.COM before this test and compare the files afterward; an older result must not be mistaken for a new successful assembly.
 
 ## If the result differs
 

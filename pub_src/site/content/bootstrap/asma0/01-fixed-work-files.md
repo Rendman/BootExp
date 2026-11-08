@@ -1,20 +1,20 @@
 +++
 title = "01 \u00b7 Fixed work files"
 weight = 1
-description = "Select source with COPY and keep filename entry out of the new assembler."
+description = "Keep the fixed work files and name the accepted result in the report."
 download = "A01.ASM"
 aliases = ["/bootstrap/asm86a/01-fixed-work-files/"]
 download_group = "tools/asm1"
 reader_names = 1
 +++
 
-The bootstrap ladder already has an assembler. We can retain its tested parser and use fixed files for the next tool.
+Retain the completed assembler and its fixed SOURCE.ASM/RESULT.COM contract while preparing the streaming construction.
 
 ## The working parts
 
-Copy the completed ASM0 source. OPENFILE uses SOURCE.ASM, and the final writer uses RESULT.COM. The driver no longer calls GETNAME. The instruction language and the old whole-image buffer are otherwise unchanged at this stopping point.
+Copy the completed ASM0 source. Keep its two passes, accepted language and whole-image output buffer. OPENFILE uses SOURCE.ASM; WRITEOUT uses RESULT.COM. The success report now includes RESULT.COM so the accepted output is named explicitly.
 
-The two input passes still finish before output creation. Keep ASMKEEP.COM as the preceding assembler; its existing filename prompt builds each native checkpoint. COPY selects the source for the new tool.
+The two input passes still finish before output creation. Preserve ASMKEEP.COM as the preceding assembler. To build a checkpoint, copy its source to SOURCE.ASM, run CHECK ASMKEEP, then copy the accepted RESULT.COM to the checkpoint executable name.
 
 ## Enter the source
 
@@ -30,7 +30,7 @@ DB 74,66,69,0,0,0,8,118
 DB 74,65,0,0,0,0,8,119
 ```
 
-Insert after old physical line 1144.
+Insert after old physical line 1080.
 
 Insert:
 
@@ -60,7 +60,7 @@ PC:
 DW 256
 ```
 
-Remove this exact source at old physical positions 1040–1042:
+Remove this exact source at old physical positions 976–978:
 
 ```asm
 
@@ -82,70 +82,40 @@ SYMC:
 Unchanged source immediately before this edit:
 
 ```asm
-DW 10000,1000,100,10,1
 
 DIVEND:
 ```
 
-Remove this exact source at old physical positions 1025–1030:
+Remove this exact source at old physical positions 962–967:
 
 ```asm
-
 FNAME:
-DB 0,0,0,0,0,0,0,0,0,0,0,0,0
+DB 83,79,85,82,67,69,46,65,83,77,0
 
-EXTP:
+RESNAME:
+DB 82,69,83,85,76,84,46,67,79,77,0
+```
+
+There is no replacement source.
+
+The following old source stays in place:
+
+```asm
+HANDLE:
 DW 0
 ```
 
-There is no replacement source.
-
-The following old source stays in place:
-
-```asm
-
-HANDLE:
-```
-
-### Change 4 near `NEWLINE:`
+### Change 4 near `OKMSG:`
 
 Unchanged source immediately before this edit:
 
 ```asm
-NEWLINE:
-DB 13,10,36
-```
-
-Remove this exact source at old physical positions 1015–1020:
-
-```asm
-ASMEXT:
-DB 46,65,83,77,0
-
-COMEXT:
-DB 46,67,79,77,0
-```
-
-There is no replacement source.
-
-The following old source stays in place:
-
-```asm
-DIVISORS:
-DW 10000,1000,100,10,1
-```
-
-### Change 5 near `OKMSG:`
-
-Unchanged source immediately before this edit:
-
-```asm
-DB 83,111,117,114,99,101,32,110,97,109,101,58,32,36
+INT 21H
 
 OKMSG:
 ```
 
-Remove this exact source at old physical positions 1001–1001:
+Remove this exact source at old physical positions 943–943:
 
 ```asm
 DB 79,75,32,36
@@ -164,32 +134,7 @@ The following old source stays in place:
 BYTEMSG:
 ```
 
-### Change 6 near `ERROR:`
-
-Unchanged source immediately before this edit:
-
-```asm
-MOV AX,4C01H
-INT 21H
-```
-
-Remove this exact source at old physical positions 997–999:
-
-```asm
-PROMPT:
-DB 83,111,117,114,99,101,32,110,97,109,101,58,32,36
-```
-
-There is no replacement source.
-
-The following old source stays in place:
-
-```asm
-OKMSG:
-DB 79,75,32,36
-```
-
-### Change 7 near `IMMEDVALUE:`
+### Change 5 near `IMMEDVALUE:`
 
 Unchanged source immediately before this edit:
 
@@ -199,7 +144,7 @@ CMP AL,0
 MOV AX,[VAL]
 ```
 
-Remove this exact source at old physical positions 839–839:
+Remove this exact source at old physical positions 784–784:
 
 ```asm
 JE BYTEVALUE
@@ -219,7 +164,7 @@ The following old source stays in place:
 JMP EMITWORD
 ```
 
-### Change 8 near `INSTRUCTION:`
+### Change 6 near `INSTRUCTION:`
 
 Unchanged source immediately before this edit:
 
@@ -229,7 +174,7 @@ DEC SI
 MOV BX,OPTAB
 ```
 
-Remove this exact source at old physical positions 599–599:
+Remove this exact source at old physical positions 544–544:
 
 ```asm
 MOV CX,25
@@ -248,82 +193,7 @@ MOV AX,8
 CALL LOOK
 ```
 
-### Change 9 near `WRITEOUT:`
-
-Unchanged source immediately before this edit:
-
-```asm
-MOV DX,BYTEMSG
-CALL TEXT
-RET
-```
-
-Remove this exact source at old physical positions 97–147:
-
-```asm
-
-GETNAME:
-MOV DX,PROMPT
-CALL TEXT
-MOV BX,2400H
-MOV AL,10
-MOV [BX],AL
-MOV DX,2400H
-MOV AH,10
-INT 21H
-MOV DX,NEWLINE
-CALL TEXT
-MOV BX,2401H
-MOV AL,[BX]
-MOV AH,0
-CMP AX,1
-JB BADNAME
-CMP AX,8
-JA BADNAME
-MOV CX,AX
-MOV SI,2402H
-MOV DI,FNAME
-NAMELOOP:
-LODSB
-CMP AL,97
-JB NAMEUP
-CMP AL,122
-JA NAMEUP
-SUB AL,32
-NAMEUP:
-CMP AL,95
-JE NAMECHAR
-CMP AL,48
-JB BADNAME
-CMP AL,57
-JBE NAMECHAR
-CMP AL,65
-JB BADNAME
-CMP AL,90
-JA BADNAME
-NAMECHAR:
-STOSB
-DEC CX
-JNE NAMELOOP
-MOV [EXTP],DI
-MOV SI,ASMEXT
-CALL COPYZ
-RET
-BADNAME:
-MOV AX,1
-JMP ERROR
-```
-
-There is no replacement source.
-
-The following old source stays in place:
-
-```asm
-
-NEXTBYTE:
-```
-
-### Change 10 near `WRITEOUT:`
+### Change 7 near `WRITEOUT:`
 
 Unchanged source immediately before this edit:
 
@@ -333,7 +203,7 @@ MOV AH,3EH
 INT 21H
 ```
 
-Remove this exact source at old physical positions 88–88:
+Remove this exact source at old physical positions 84–84:
 
 ```asm
 JB FILEBAD
@@ -354,7 +224,7 @@ MOV DX,OKMSG
 CALL TEXT
 ```
 
-### Change 11 near `WRITEOUT:`
+### Change 8 near `WRITEOUT:`
 
 Unchanged source immediately before this edit:
 
@@ -364,7 +234,7 @@ JB FILEBAD
 CMP AX,CX
 ```
 
-Remove this exact source at old physical positions 84–84:
+Remove this exact source at old physical positions 80–80:
 
 ```asm
 JNE FILEBAD
@@ -385,7 +255,7 @@ MOV BX,[HANDLE]
 MOV AH,3EH
 ```
 
-### Change 12 near `WRITEOUT:`
+### Change 9 near `WRITEOUT:`
 
 Unchanged source immediately before this edit:
 
@@ -395,7 +265,7 @@ MOV AH,40H
 INT 21H
 ```
 
-Remove this exact source at old physical positions 82–82:
+Remove this exact source at old physical positions 78–78:
 
 ```asm
 JB FILEBAD
@@ -416,7 +286,7 @@ CMP AX,CX
 JNE FILEBAD
 ```
 
-### Change 13 near `WRITEOUT:`
+### Change 10 near `WRITEOUT:`
 
 Unchanged source immediately before this edit:
 
@@ -426,7 +296,7 @@ MOV AH,3CH
 INT 21H
 ```
 
-Remove this exact source at old physical positions 74–74:
+Remove this exact source at old physical positions 70–70:
 
 ```asm
 JB FILEBAD
@@ -447,39 +317,7 @@ MOV [HANDLE],AX
 MOV BX,AX
 ```
 
-### Change 14 near `WRITEOUT:`
-
-Unchanged source immediately before this edit:
-
-```asm
-RET
-
-WRITEOUT:
-```
-
-Remove this exact source at old physical positions 67–70:
-
-```asm
-MOV DI,[EXTP]
-MOV SI,COMEXT
-CALL COPYZ
-MOV DX,FNAME
-```
-
-Replace it with:
-
-```asm
-MOV DX,RESNAME
-```
-
-The following old source stays in place:
-
-```asm
-MOV CX,0
-MOV AH,3CH
-```
-
-### Change 15 near `CLOSEFILE:`
+### Change 11 near `CLOSEFILE:`
 
 Unchanged source immediately before this edit:
 
@@ -489,7 +327,7 @@ MOV AH,3EH
 INT 21H
 ```
 
-Remove this exact source at old physical positions 63–63:
+Remove this exact source at old physical positions 62–62:
 
 ```asm
 JB FILEBAD
@@ -511,7 +349,7 @@ The following old source stays in place:
 RET
 ```
 
-### Change 16 near `INPUTOPEN:`
+### Change 12 near `INPUTOPEN:`
 
 Unchanged source immediately before this edit:
 
@@ -521,7 +359,7 @@ INPUTOPEN:
 MOV [HANDLE],AX
 ```
 
-Insert after old physical line 56.
+Insert after old physical line 55.
 
 Insert:
 
@@ -536,7 +374,7 @@ The following old source stays in place:
 RET
 ```
 
-### Change 17 near `OPENFILE:`
+### Change 13 near `OPENFILE:`
 
 Unchanged source immediately before this edit:
 
@@ -546,7 +384,7 @@ JMP ERROR
 OPENFILE:
 ```
 
-Remove this exact source at old physical positions 50–50:
+Remove this exact source at old physical positions 49–49:
 
 ```asm
 MOV DX,FNAME
@@ -565,32 +403,7 @@ MOV AX,3D00H
 INT 21H
 ```
 
-### Change 18 near `ROOM:`
-
-Unchanged source immediately before this edit:
-
-```asm
-MOV AX,7
-JMP ERROR
-ROOM:
-```
-
-Remove this exact source at old physical positions 9–9:
-
-```asm
-CALL GETNAME
-```
-
-There is no replacement source.
-
-The following old source stays in place:
-
-```asm
-MOV AL,1
-MOV [PASS],AL
-```
-
-### Change 19 at the entry
+### Change 14 at the entry
 
 Remove this exact source at old physical positions 1–1:
 
@@ -613,7 +426,7 @@ CLD
 
 ## Build the stopping point
 
-Run `CHECK ASMKEEP`, enter `A01` at `Source name:`, and require `OK 02481 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. It creates A01.COM.
+Copy `A01.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK 02481 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM A01.COM`.
 
 VIEW.BAS must report A01.COM length 2481 bytes. Keep that executable and source together.
 

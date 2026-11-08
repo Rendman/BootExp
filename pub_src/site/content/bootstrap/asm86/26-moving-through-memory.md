@@ -1,8 +1,9 @@
 +++
-title = "27 \u00b7 Moving through memory"
-weight = 27
+title = "26 \u00b7 Moving through memory"
+weight = 26
 description = "Use BX or one direct offset; let the register determine width."
-download = "AS27.ASM"
+download = "AS26.ASM"
+aliases = ["/bootstrap/asm86/27-moving-through-memory/"]
 download_group = "tools/asm0"
 reader_names = 1
 +++
@@ -21,7 +22,7 @@ These routines change the operand fields, VALUE and lookup scratch state, AL and
 
 ## Source changes
 
-Copy `AS26.ASM` to `AS27.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS25.ASM` to `AS26.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
 
 ### Change 1: following `VAL:`
 
@@ -33,7 +34,7 @@ DW 0
 
 ```
 
-Insert after old physical line 935, before the following old line.
+Insert after old physical line 871, before the following old line.
 
 Insert this source:
 
@@ -53,7 +54,7 @@ JE BYTEVALUE
 JMP EMITWORD
 ```
 
-Insert after old physical line 755, before the following old line.
+Insert after old physical line 700, before the following old line.
 
 Insert this source:
 
@@ -108,7 +109,7 @@ CMP AL,1
 JE MOVREG
 ```
 
-Remove these exact old lines (physical lines 724–725 of `AS26.ASM`):
+Remove these exact old lines (physical lines 669–670 of `AS25.ASM`):
 
 ```asm
 CMP AL,3
@@ -132,7 +133,7 @@ MOVOPERANDS:
 MOV AL,[K1]
 ```
 
-Insert after old physical line 718, before the following old line.
+Insert after old physical line 663, before the following old line.
 
 Insert this source:
 
@@ -153,7 +154,7 @@ MOV AL,[REG]
 MOV [R1],AL
 ```
 
-Insert after old physical line 677, before the following old line.
+Insert after old physical line 622, before the following old line.
 
 Insert this source:
 
@@ -172,7 +173,7 @@ MOV [VAL],AX
 MOV AL,3
 ```
 
-Insert after old physical line 545, before the following old line.
+Insert after old physical line 490, before the following old line.
 
 Insert this source:
 
@@ -217,7 +218,7 @@ OPERAND:
 CALL SCAN
 ```
 
-Insert after old physical line 526, before the following old line.
+Insert after old physical line 471, before the following old line.
 
 Insert this source:
 
@@ -232,12 +233,13 @@ JE MEMORY
 Use the BASIC assembler prepared in the workbench guide:
 
 ```dos
+COPY AS26.ASM SOURCE.ASM
 GWBASIC BOOTASM.BAS
 ```
 
-Enter `AS27` at its source prompt. Require `OK AS27.COM 2401 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.
+Require `OK RESULT.COM 2258 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS, then `COPY RESULT.COM AS26.COM`. Save this source and executable as a working stopping point.
 
-Use `COPY CON T27.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
+Use `COPY CON T26.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
 
 ```asm
 MOV AL,[BX]
@@ -247,20 +249,21 @@ MOV [200H],AX
 ```
 
 ```dos
-CHECK AS27
+COPY T26.ASM SOURCE.ASM
 ```
 
-Enter `T27` when `Source name:` appears.
+```dos
+CHECK AS26
+```
 
 The display, apart from DOS command echo and the checker's separating blank line, is:
 
 ```text
-Source name: T27
 OK 00012 bytes
 PASS
 ```
 
-Inspect `T27.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `T27.COM`, and require a length of **12 bytes** with these hexadecimal bytes:
+Inspect `RESULT.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `RESULT.COM`, and require a length of **12 bytes** with these hexadecimal bytes:
 
 ```text
 8A 07 88 07 8B 06 00 02 89 06 00 02
@@ -272,13 +275,16 @@ This file is an encoding or data fixture. **Inspect it; do not execute it.**
 
 ## A rejection check
 
-Enter this separate file as `X27.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
+Enter this separate file as `X26.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
 
 ```asm
 MOV [BX],1
 ```
 
-Run `CHECK AS27` and enter `X27`.
+```dos
+COPY X26.ASM SOURCE.ASM
+CHECK AS26
+```
 
 Require this diagnostic followed by the checker's `FAIL`:
 

@@ -6,7 +6,7 @@ OVERVIEWS = {
   [
    '**Named instructions and data:** Translate a small assembly vocabulary into bytes so programs can be entered and understood without calculating every opcode by hand.',
    '**Labels and two passes:** Resolve named addresses, including forward references, so inserting code does not require renumbering every branch destination.',
-   '**A BASIC implementation:** Use the interpreter already on the workbench to create the first assembler without an outside assembler or compiler.',
+   '**Fixed work files and a BASIC implementation:** Read SOURCE.ASM and write RESULT.COM directly. Use the interpreter already on the workbench to create the first assembler without an outside assembler or compiler.',
    '**DOS program files and byte inspection:** Write runnable .COM files and inspect their contents so every small addition has a concrete result to check.',
   ],
   'None; this collection establishes the first assembler.'),
@@ -25,7 +25,7 @@ OVERVIEWS = {
    '**XOR and segment access:** Add segment-register MOV and ES overrides on the existing MOV memory forms so the assembler can work with separately allocated storage.',
    '**Checked publication:** Write a temporary file and use backup/recovery names so rejected source does not replace an accepted RESULT.COM.',
   ],
-  'The interactive source-name prompt and complete-image output buffer. Fixed SOURCE.ASM/RESULT.COM names keep file selection simple; streaming removes the resident output-size bottleneck. ES, CS, SS and DS also become reserved names so labels cannot be confused with the new segment-register operands.'),
+  'The complete-image output buffer; streaming removes the resident output-size bottleneck. The fixed SOURCE.ASM/RESULT.COM names are retained from ASM0. ES, CS, SS and DS also become reserved names so labels cannot be confused with the new segment-register operands.'),
  'asm86a': (
   [
    '**Allocated symbol storage:** Keep 8,192 definitions with names up to 31 characters, using complete-spelling lookup so larger translator and compiler sources fit.',

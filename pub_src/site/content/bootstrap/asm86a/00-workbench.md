@@ -7,7 +7,7 @@ download_group = "tools/asm86"
 reader_names = 1
 +++
 
-Begin with the completed ASM1 collection and its two matching self-assembly generations. Keep ASM1.ASM, ASM1.COM, VIEW.BAS, and CHECK.BAT. ASM1 is the fixed-file streaming seed; ASMKEEP.COM remains the earlier prompted ASM0.
+Begin with the completed ASM1 collection and its two matching self-assembly generations. Keep ASM1.ASM, ASM1.COM, VIEW.BAS, and CHECK.BAT. ASM1 is the fixed-file streaming seed; ASMKEEP.COM remains the earlier fixed-file ASM0.
 
 ## Begin with the seed source
 

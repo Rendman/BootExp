@@ -11,7 +11,7 @@ A source file can be read once to count its bytes and again to collect them. We 
 
 ## At the keyboard
 
-Load the preceding checkpoint, `BA09.BAS`. Keep its working copy. Replace lines 3020. Insert the other numbered lines in their numeric positions; leave all unlisted lines in place. New-line locations in the preceding listing: 40 / 80; 300 / 310. Each pair gives the existing lines on either side.
+Load the preceding checkpoint, `BA09.BAS`. Keep its working copy. Replace lines 3020. Insert the other numbered lines in their numeric positions; leave all unlisted lines in place. New-line locations in the preceding listing: 30 / 80; 300 / 310. Each pair gives the existing lines on either side.
 
 BASIC line numbers are part of the source. Enter a whole numbered line when replacing it.
 
@@ -25,10 +25,10 @@ BASIC line numbers are part of the source. Enter a whole numbered line when repl
 The following lines are **context from the preceding checkpoint**, not another block to type. Compare them to locate the replacements and insertion gaps:
 
 ```text
-40 GOSUB 8000
-80 OPEN "I", #1, F$+".ASM"
+30 SF$="SOURCE.ASM": OF$="RESULT.COM"
+80 OPEN "I", #1, SF$
 300 CLOSE #1
-310 OPEN "O", #2, F$+".COM"
+310 OPEN "O", #2, OF$
 3010 IF P=4096 THEN E$="Program too large": GOTO 9000
 3020 B%(P)=X
 3030 P=P+1: RETURN
@@ -62,24 +62,26 @@ INT 21H
 From DOS start the checkpoint:
 
 ```dos
+COPY T10.ASM SOURCE.ASM
 GWBASIC BA10.BAS
 ```
 
-At its source-name prompt enter `T10` without an extension. The success report must name `T10.COM` and report **5 bytes**. After the program ends at BASIC's `Ok` prompt, inspect the file:
+The assembler uses the filenames in line 30 without asking for input. The success report must name `RESULT.COM` and report **5 bytes**. After the program ends at BASIC's `Ok` prompt, inspect the file:
 
 ```basic
 RUN "VIEW.BAS"
 ```
 
-At `File:` enter `T10.COM`. The viewer must report length 5 and these bytes (spaces and line wrapping are immaterial):
+At `File:` enter `RESULT.COM`. The viewer must report length 5 and these bytes (spaces and line wrapping are immaterial):
 
 ```text
 B8 00 4C CD 21
 ```
 
-This fixture is a complete program. Return to DOS with `SYSTEM`, then run it through the shared status check:
+This fixture is a complete program. Return to DOS with `SYSTEM`, preserve the accepted result, then run it through the shared status check:
 
 ```dos
+COPY RESULT.COM T10.COM
 CHECK T10
 ```
 
@@ -93,7 +95,7 @@ Create `X10.ASM` containing:
 DB 256
 ```
 
-Reload `BA10.BAS` and run it with source name `X10`. Expect `ERROR line 1 : Byte out of range`; BASIC may print extra spaces around the line number. There must be no `OK` report. On a fresh workbench there must be no `X10.COM`. If an older file exists, it is left unchanged and must not be mistaken for a new result.
+Return to DOS, copy `X10.ASM` to `SOURCE.ASM`, then run `GWBASIC BA10.BAS`. Expect `ERROR line 1 : Byte out of range`; BASIC may print extra spaces around the line number. There must be no `OK` report. The accepted `RESULT.COM` must remain unchanged. Preserve it as HOLD.COM before this test and compare the files afterward; an older result must not be mistaken for a new successful assembly.
 
 ## If the result differs
 

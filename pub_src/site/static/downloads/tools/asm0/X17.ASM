@@ -1,1 +1,2 @@
-DW AX
+1BAD:
+DB 0

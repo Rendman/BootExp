@@ -1,2 +1,1 @@
-one
-two
+db 1,2 ; a note

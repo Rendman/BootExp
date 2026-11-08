@@ -6,7 +6,7 @@ import json
 def build(name):
  image=WORK/(name+'.COM');expected=image.read_bytes();image.unlink()
  log=basic_build(name)
- assert 'OK '+name+'.COM' in log,(name,log)
+ assert 'OK RESULT.COM' in log,(name,log)
  assert image.read_bytes()==expected,name+' BASIC and native output differ'
  return f'PASS {name}: BASIC and native output match every byte ({len(expected)} bytes)'
 if __name__=='__main__':

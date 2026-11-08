@@ -49,7 +49,6 @@ PASS arithmetic ADD
 PASS arithmetic OR
 PASS arithmetic AND
 PASS arithmetic SUB
-PASS arithmetic XOR
 PASS arithmetic CMP
 PASS branch +127 JB
 PASS branch -128 JB
@@ -75,22 +74,6 @@ PASS branch +127 JA
 PASS branch -128 JA
 PASS branch +128 JA
 PASS branch -129 JA
-PASS branch +127 JL
-PASS branch -128 JL
-PASS branch +128 JL
-PASS branch -129 JL
-PASS branch +127 JGE
-PASS branch -128 JGE
-PASS branch +128 JGE
-PASS branch -129 JGE
-PASS branch +127 JLE
-PASS branch -128 JLE
-PASS branch +128 JLE
-PASS branch -129 JLE
-PASS branch +127 JG
-PASS branch -128 JG
-PASS branch +128 JG
-PASS branch -129 JG
 PASS near displacement wrap
 PASS fixed instruction set
 PASS reject 'DW 65536'

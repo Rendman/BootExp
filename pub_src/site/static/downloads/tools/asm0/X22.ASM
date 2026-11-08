@@ -1,1 +1,1 @@
-MOV AL,256
+MOV AX,AL

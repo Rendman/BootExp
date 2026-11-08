@@ -1,13 +1,13 @@
 +++
 title = "Three complete programs"
-weight = 32
+weight = 31
 description = "Use console output, a data byte, and a counted loop in short runnable examples."
 download = "ASM0.ZIP"
 download_group = "tools/asm0"
 reader_names = 1
 +++
 
-These are complete DOS `.COM` programs for the finished ASM0. Save each under the indicated base name, run `CHECK ASM0`, and enter that name. Require the stated OK byte count and PASS before executing the output with CHECK. A source error leaves any older output unchanged.
+These are complete DOS .COM programs for the finished ASM0. For HELLO, use COPY HELLO.ASM SOURCE.ASM, run CHECK ASM0, then require the stated OK byte count and PASS before COPY RESULT.COM HELLO.COM. Follow the same pattern for MEMORY and COUNT. Select rejection inputs with COPY in the same way; a rejected source must leave RESULT.COM unchanged.
 
 ## HELLO: a terminated message
 

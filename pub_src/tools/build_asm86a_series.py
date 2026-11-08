@@ -50,7 +50,6 @@ def seed_stage(n):
  if n<8:code['READLINE']=LIB['READLINE']
  if n<10:
   for key in ['OPERAND','TWOOPERANDS','MOVOPERANDS','LOADMEM','STOREMEM','REGISTER']:code[key]=LIB[key]
-  for key in ['GETNAME']:code.pop(key,None)
   f['REGTAB']=fields['REGTAB']
   # Adapt the unchanged parser to whichever line/token memory map is active.
   mapping={'2200H':'4000H','2300H':'4080H','2302H':'4082H','2310H':'4090H'} if n>=9 else {}
@@ -59,12 +58,12 @@ def seed_stage(n):
  if n==10:
   seg=code['SEGOPERAND'];a=seg.index('POP AX\n');b=seg.index('SEGREGISTER:\n');code['SEGOPERAND']=seg[:a]+'POP AX\nJMP TWOBAD\n'+seg[b:]
  if n<=2:
-  start=LIB['START'].replace('CALL GETNAME\n','')
+  start=LIB['START']
   if n==2:start=start.replace('MOV [LINENO],AX\n','MOV [LINENO],AX\nMOV [RDPOS],AX\nMOV [RDLEN],AX\n')
   code['START']=start
   code['EMIT']=LIB['EMIT'];code['ERROR']=LIB['ERROR'].split('PROMPT:\n')[0]
   if n==1:code['NEXTBYTE']=LIB['NEXTBYTE']
-  out=LIB['WRITEOUT'];a=out.index('MOV DX,FNAME\n');out='WRITEOUT:\n'+out[a:];out=out.replace('MOV DX,FNAME','MOV DX,RESNAME');code['WRITEOUT']=out
+  code['WRITEOUT']=LIB['WRITEOUT']
  if 3<=n<=6:
   before='CALL PREFLIGHT\n' if n>=5 else ''
   code['START']='''START:

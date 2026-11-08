@@ -1,8 +1,9 @@
 +++
-title = "11 \u00b7 Hexadecimal values"
-weight = 11
+title = "10 \u00b7 Hexadecimal values"
+weight = 10
 description = "A final H selects base sixteen; a leading digit keeps names distinct."
-download = "AS11.ASM"
+download = "AS10.ASM"
+aliases = ["/bootstrap/asm86/11-hexadecimal-values/"]
 download_group = "tools/asm0"
 reader_names = 1
 +++
@@ -19,7 +20,7 @@ VALUE's input, result, preserved SI, and scratch registers are unchanged. No BAS
 
 ## Source changes
 
-Copy `AS10.ASM` to `AS11.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS09.ASM` to `AS10.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
 
 ### Change 1: following `DECDIGIT:`
 
@@ -31,7 +32,7 @@ ADD AX,AX
 ADD CX,AX
 ```
 
-Insert after old physical line 290, before the following old line.
+Insert after old physical line 238, before the following old line.
 
 Insert this source:
 
@@ -56,7 +57,7 @@ CMP DX,BP
 JAE NUMBERBAD
 ```
 
-Insert after old physical line 278, before the following old line.
+Insert after old physical line 226, before the following old line.
 
 Insert this source:
 
@@ -75,7 +76,7 @@ SUB AL,48
 CMP AL,9
 ```
 
-Insert after old physical line 272, before the following old line.
+Insert after old physical line 220, before the following old line.
 
 Insert this source:
 
@@ -97,7 +98,7 @@ ADD DI,2300H
 MOV BP,10
 ```
 
-Insert after old physical line 264, before the following old line.
+Insert after old physical line 212, before the following old line.
 
 Insert this source:
 
@@ -118,7 +119,7 @@ MOV DI,[TOKLEN]
 ADD DI,2300H
 ```
 
-Insert after old physical line 263, before the following old line.
+Insert after old physical line 211, before the following old line.
 
 Insert this source:
 
@@ -133,12 +134,13 @@ MOV AL,[BX]
 Use the BASIC assembler prepared in the workbench guide:
 
 ```dos
+COPY AS10.ASM SOURCE.ASM
 GWBASIC BOOTASM.BAS
 ```
 
-Enter `AS11` at its source prompt. Require `OK AS11.COM 875 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.
+Require `OK RESULT.COM 728 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS, then `COPY RESULT.COM AS10.COM`. Save this source and executable as a working stopping point.
 
-Use `COPY CON T11.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
+Use `COPY CON T10.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
 
 ```asm
 0FFH
@@ -146,15 +148,16 @@ Use `COPY CON T11.ASM` to enter this exact test text; finish with Ctrl-Z and Ent
 ```
 
 ```dos
-CHECK AS11
+COPY T10.ASM SOURCE.ASM
 ```
 
-Enter `T11` when `Source name:` appears.
+```dos
+CHECK AS10
+```
 
 The display, apart from DOS command echo and the checker's separating blank line, is:
 
 ```text
-Source name: T11
 00255
 04660
 PASS
@@ -162,13 +165,16 @@ PASS
 
 ## A rejection check
 
-Enter this separate file as `X11.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
+Enter this separate file as `X10.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
 
 ```asm
 0GH
 ```
 
-Run `CHECK AS11` and enter `X11`.
+```dos
+COPY X10.ASM SOURCE.ASM
+CHECK AS10
+```
 
 Require this diagnostic followed by the checker's `FAIL`:
 

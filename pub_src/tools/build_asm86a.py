@@ -3,7 +3,7 @@ from pathlib import Path
 import re,json
 ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/asm86a';Q=ROOT/'qa/asm86a'
 BASE=(ROOT/'workbench/asm86/ASM86.ASM').read_text()
-STARTS=['START','FILEBAD','OPENFILE','CLOSEFILE','WRITEOUT','GETNAME','NEXTBYTE','READLINE','SCAN','LOOK','REGISTER','VALIDNAME','VALUE','SYMBOLVALUE','DEFINE','OPERAND','MEMORY','STATEMENT','DATAITEM','FIXED','SINGLE','INTERRUPT','NEARJUMP','SHORTJUMP','FINISH','TWOOPERANDS','MOVOPERANDS','MOVREG','REGMOD','IMMEDVALUE','LOADMEM','STOREMEM','SAMEWIDTH','TIMES8','BYTEVALUE','EMITWORD','EMIT','COPYZ','TEXT','NUMBER','ERROR','OKMSG']
+STARTS=['START','FILEBAD','OPENFILE','CLOSEFILE','WRITEOUT','NEXTBYTE','READLINE','SCAN','LOOK','REGISTER','VALIDNAME','VALUE','SYMBOLVALUE','DEFINE','OPERAND','MEMORY','STATEMENT','DATAITEM','FIXED','SINGLE','INTERRUPT','NEARJUMP','SHORTJUMP','FINISH','TWOOPERANDS','MOVOPERANDS','MOVREG','REGMOD','IMMEDVALUE','LOADMEM','STOREMEM','SAMEWIDTH','TIMES8','BYTEVALUE','EMITWORD','EMIT','COPYZ','TEXT','NUMBER','ERROR','OKMSG']
 pos={k:BASE.index(k+':\n') for k in STARTS}
 LIB={k:BASE[pos[k]:pos[v]].strip()+'\n' for k,v in zip(STARTS,STARTS[1:])}
 for k in LIB:LIB[k]='\n'.join(l for l in LIB[k].splitlines() if l and not l.startswith(';'))+'\n'
@@ -17,7 +17,7 @@ def fieldtext(name,text):
  data=text.encode();return name+':\n'+''.join('DB '+','.join(str(b) for b in data[i:i+16])+'\n' for i in range(0,len(data),16))
 def seed_source(parts=False):
  code=dict(LIB);code.update(SEED)
- for k in ['GETNAME','WRITEOUT']:code.pop(k,None)
+ for k in ['WRITEOUT']:code.pop(k,None)
  # The seed has its own fixed memory map.
  for k,s in list(code.items()):
   if k in SEED:continue
@@ -39,7 +39,7 @@ def seed_source(parts=False):
  f['OPTAB']+=row
  oldcount=len(fields['OPTAB'].splitlines())-1
  code['STATEMENT']=code['STATEMENT'].replace(f'MOV CX,{oldcount}\n',f'MOV CX,{oldcount+1}\n')
- for k in ['EXTP','FNAME','COMEXT','ASMEXT','OUTPTR']:f.pop(k,None)
+ for k in ['EXTP','FNAME','RESNAME','COMEXT','ASMEXT','OUTPTR']:f.pop(k,None)
  f['OKMSG']=fieldtext('OKMSG','OK RESULT.COM $')
  for k,t in [('SRCNAME','SOURCE.ASM\0'),('TMPNAME','ASMA.TMP\0'),('RESNAME','RESULT.COM\0'),('BAKNAME','RESULT.BAK\0'),('RECOVERMSG','Recovery: inspect ASMA.TMP and RESULT.BAK\r\n$')]:f[k]=fieldtext(k,t)
  for k in ['RDPOS','RDLEN','OUTCNT','OUTHANDLE','ENDPC','SEGCODE']:f[k]=k+':\nDW 0\n'

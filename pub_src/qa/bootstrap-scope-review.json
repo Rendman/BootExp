@@ -32,8 +32,7 @@
         "workbench/asm86/AS25.ASM",
         "workbench/asm86/AS26.ASM",
         "workbench/asm86/AS27.ASM",
-        "workbench/asm86/AS28.ASM",
-        "workbench/asm86/AS29.ASM"
+        "workbench/asm86/AS28.ASM"
       ],
       "accepted": [
         "ADD",
@@ -116,18 +115,17 @@
           "workbench/asm86/AS25.ASM",
           "workbench/asm86/AS26.ASM",
           "workbench/asm86/AS27.ASM",
-          "workbench/asm86/AS28.ASM",
-          "workbench/asm86/AS29.ASM"
+          "workbench/asm86/AS28.ASM"
         ],
         "AND": [
+          "workbench/asm86/AS21.ASM",
           "workbench/asm86/AS22.ASM",
           "workbench/asm86/AS23.ASM",
           "workbench/asm86/AS24.ASM",
           "workbench/asm86/AS25.ASM",
           "workbench/asm86/AS26.ASM",
           "workbench/asm86/AS27.ASM",
-          "workbench/asm86/AS28.ASM",
-          "workbench/asm86/AS29.ASM"
+          "workbench/asm86/AS28.ASM"
         ],
         "CALL": [
           "workbench/asm86/AS01.ASM",
@@ -157,8 +155,7 @@
           "workbench/asm86/AS25.ASM",
           "workbench/asm86/AS26.ASM",
           "workbench/asm86/AS27.ASM",
-          "workbench/asm86/AS28.ASM",
-          "workbench/asm86/AS29.ASM"
+          "workbench/asm86/AS28.ASM"
         ],
         "CLD": [
           "workbench/asm86/AS01.ASM",
@@ -188,8 +185,7 @@
           "workbench/asm86/AS25.ASM",
           "workbench/asm86/AS26.ASM",
           "workbench/asm86/AS27.ASM",
-          "workbench/asm86/AS28.ASM",
-          "workbench/asm86/AS29.ASM"
+          "workbench/asm86/AS28.ASM"
         ],
         "CMP": [
           "workbench/asm86/AS02.ASM",
@@ -218,8 +214,7 @@
           "workbench/asm86/AS25.ASM",
           "workbench/asm86/AS26.ASM",
           "workbench/asm86/AS27.ASM",
-          "workbench/asm86/AS28.ASM",
-          "workbench/asm86/AS29.ASM"
+          "workbench/asm86/AS28.ASM"
         ],
         "DB": [
           "workbench/asm86/AS01.ASM",
@@ -249,13 +244,9 @@
           "workbench/asm86/AS25.ASM",
           "workbench/asm86/AS26.ASM",
           "workbench/asm86/AS27.ASM",
-          "workbench/asm86/AS28.ASM",
-          "workbench/asm86/AS29.ASM"
+          "workbench/asm86/AS28.ASM"
         ],
         "DEC": [
-          "workbench/asm86/AS04.ASM",
-          "workbench/asm86/AS05.ASM",
-          "workbench/asm86/AS06.ASM",
           "workbench/asm86/AS07.ASM",
           "workbench/asm86/AS08.ASM",
           "workbench/asm86/AS09.ASM",
@@ -277,8 +268,7 @@
           "workbench/asm86/AS25.ASM",
           "workbench/asm86/AS26.ASM",
           "workbench/asm86/AS27.ASM",
-          "workbench/asm86/AS28.ASM",
-          "workbench/asm86/AS29.ASM"
+          "workbench/asm86/AS28.ASM"
         ],
         "DW": [
           "workbench/asm86/AS02.ASM",
@@ -307,10 +297,10 @@
           "workbench/asm86/AS25.ASM",
           "workbench/asm86/AS26.ASM",
           "workbench/asm86/AS27.ASM",
-          "workbench/asm86/AS28.ASM",
-          "workbench/asm86/AS29.ASM"
+          "workbench/asm86/AS28.ASM"
         ],
         "INC": [
+          "workbench/asm86/AS06.ASM",
           "workbench/asm86/AS07.ASM",
           "workbench/asm86/AS08.ASM",
           "workbench/asm86/AS09.ASM",
@@ -332,8 +322,7 @@
           "workbench/asm86/AS25.ASM",
           "workbench/asm86/AS26.ASM",
           "workbench/asm86/AS27.ASM",
-          "workbench/asm86/AS28.ASM",
-          "workbench/asm86/AS29.ASM"
+          "workbench/asm86/AS28.ASM"
         ],
         "INT": [
           "workbench/asm86/AS01.ASM",
@@ -363,10 +352,34 @@
           "workbench/asm86/AS25.ASM",
           "workbench/asm86/AS26.ASM",
           "workbench/asm86/AS27.ASM",
-          "workbench/asm86/AS28.ASM",
-          "workbench/asm86/AS29.ASM"
+          "workbench/asm86/AS28.ASM"
         ],
         "JA": [
+          "workbench/asm86/AS06.ASM",
+          "workbench/asm86/AS07.ASM",
+          "workbench/asm86/AS08.ASM",
+          "workbench/asm86/AS09.ASM",
+          "workbench/asm86/AS10.ASM",
+          "workbench/asm86/AS11.ASM",
+          "workbench/asm86/AS12.ASM",
+          "workbench/asm86/AS13.ASM",
+          "workbench/asm86/AS14.ASM",
+          "workbench/asm86/AS15.ASM",
+          "workbench/asm86/AS16.ASM",
+          "workbench/asm86/AS17.ASM",
+          "workbench/asm86/AS18.ASM",
+          "workbench/asm86/AS19.ASM",
+          "workbench/asm86/AS20.ASM",
+          "workbench/asm86/AS21.ASM",
+          "workbench/asm86/AS22.ASM",
+          "workbench/asm86/AS23.ASM",
+          "workbench/asm86/AS24.ASM",
+          "workbench/asm86/AS25.ASM",
+          "workbench/asm86/AS26.ASM",
+          "workbench/asm86/AS27.ASM",
+          "workbench/asm86/AS28.ASM"
+        ],
+        "JAE": [
           "workbench/asm86/AS04.ASM",
           "workbench/asm86/AS05.ASM",
           "workbench/asm86/AS06.ASM",
@@ -391,35 +404,7 @@
           "workbench/asm86/AS25.ASM",
           "workbench/asm86/AS26.ASM",
           "workbench/asm86/AS27.ASM",
-          "workbench/asm86/AS28.ASM",
-          "workbench/asm86/AS29.ASM"
-        ],
-        "JAE": [
-          "workbench/asm86/AS05.ASM",
-          "workbench/asm86/AS06.ASM",
-          "workbench/asm86/AS07.ASM",
-          "workbench/asm86/AS08.ASM",
-          "workbench/asm86/AS09.ASM",
-          "workbench/asm86/AS10.ASM",
-          "workbench/asm86/AS11.ASM",
-          "workbench/asm86/AS12.ASM",
-          "workbench/asm86/AS13.ASM",
-          "workbench/asm86/AS14.ASM",
-          "workbench/asm86/AS15.ASM",
-          "workbench/asm86/AS16.ASM",
-          "workbench/asm86/AS17.ASM",
-          "workbench/asm86/AS18.ASM",
-          "workbench/asm86/AS19.ASM",
-          "workbench/asm86/AS20.ASM",
-          "workbench/asm86/AS21.ASM",
-          "workbench/asm86/AS22.ASM",
-          "workbench/asm86/AS23.ASM",
-          "workbench/asm86/AS24.ASM",
-          "workbench/asm86/AS25.ASM",
-          "workbench/asm86/AS26.ASM",
-          "workbench/asm86/AS27.ASM",
-          "workbench/asm86/AS28.ASM",
-          "workbench/asm86/AS29.ASM"
+          "workbench/asm86/AS28.ASM"
         ],
         "JB": [
           "workbench/asm86/AS02.ASM",
@@ -448,15 +433,9 @@
           "workbench/asm86/AS25.ASM",
           "workbench/asm86/AS26.ASM",
           "workbench/asm86/AS27.ASM",
-          "workbench/asm86/AS28.ASM",
-          "workbench/asm86/AS29.ASM"
+          "workbench/asm86/AS28.ASM"
         ],
         "JBE": [
-          "workbench/asm86/AS04.ASM",
-          "workbench/asm86/AS05.ASM",
-          "workbench/asm86/AS06.ASM",
-          "workbench/asm86/AS07.ASM",
-          "workbench/asm86/AS08.ASM",
           "workbench/asm86/AS09.ASM",
           "workbench/asm86/AS10.ASM",
           "workbench/asm86/AS11.ASM",
@@ -476,8 +455,7 @@
           "workbench/asm86/AS25.ASM",
           "workbench/asm86/AS26.ASM",
           "workbench/asm86/AS27.ASM",
-          "workbench/asm86/AS28.ASM",
-          "workbench/asm86/AS29.ASM"
+          "workbench/asm86/AS28.ASM"
         ],
         "JE": [
           "workbench/asm86/AS03.ASM",
@@ -505,8 +483,7 @@
           "workbench/asm86/AS25.ASM",
           "workbench/asm86/AS26.ASM",
           "workbench/asm86/AS27.ASM",
-          "workbench/asm86/AS28.ASM",
-          "workbench/asm86/AS29.ASM"
+          "workbench/asm86/AS28.ASM"
         ],
         "JMP": [
           "workbench/asm86/AS02.ASM",
@@ -535,16 +512,10 @@
           "workbench/asm86/AS25.ASM",
           "workbench/asm86/AS26.ASM",
           "workbench/asm86/AS27.ASM",
-          "workbench/asm86/AS28.ASM",
-          "workbench/asm86/AS29.ASM"
+          "workbench/asm86/AS28.ASM"
         ],
         "JNE": [
-          "workbench/asm86/AS04.ASM",
-          "workbench/asm86/AS05.ASM",
-          "workbench/asm86/AS06.ASM",
-          "workbench/asm86/AS07.ASM",
           "workbench/asm86/AS08.ASM",
-          "workbench/asm86/AS09.ASM",
           "workbench/asm86/AS10.ASM",
           "workbench/asm86/AS11.ASM",
           "workbench/asm86/AS12.ASM",
@@ -563,12 +534,9 @@
           "workbench/asm86/AS25.ASM",
           "workbench/asm86/AS26.ASM",
           "workbench/asm86/AS27.ASM",
-          "workbench/asm86/AS28.ASM",
-          "workbench/asm86/AS29.ASM"
+          "workbench/asm86/AS28.ASM"
         ],
         "LODSB": [
-          "workbench/asm86/AS04.ASM",
-          "workbench/asm86/AS05.ASM",
           "workbench/asm86/AS06.ASM",
           "workbench/asm86/AS07.ASM",
           "workbench/asm86/AS08.ASM",
@@ -591,8 +559,7 @@
           "workbench/asm86/AS25.ASM",
           "workbench/asm86/AS26.ASM",
           "workbench/asm86/AS27.ASM",
-          "workbench/asm86/AS28.ASM",
-          "workbench/asm86/AS29.ASM"
+          "workbench/asm86/AS28.ASM"
         ],
         "MOV": [
           "workbench/asm86/AS01.ASM",
@@ -622,8 +589,7 @@
           "workbench/asm86/AS25.ASM",
           "workbench/asm86/AS26.ASM",
           "workbench/asm86/AS27.ASM",
-          "workbench/asm86/AS28.ASM",
-          "workbench/asm86/AS29.ASM"
+          "workbench/asm86/AS28.ASM"
         ],
         "POP": [
           "workbench/asm86/AS02.ASM",
@@ -652,8 +618,7 @@
           "workbench/asm86/AS25.ASM",
           "workbench/asm86/AS26.ASM",
           "workbench/asm86/AS27.ASM",
-          "workbench/asm86/AS28.ASM",
-          "workbench/asm86/AS29.ASM"
+          "workbench/asm86/AS28.ASM"
         ],
         "PUSH": [
           "workbench/asm86/AS02.ASM",
@@ -682,8 +647,7 @@
           "workbench/asm86/AS25.ASM",
           "workbench/asm86/AS26.ASM",
           "workbench/asm86/AS27.ASM",
-          "workbench/asm86/AS28.ASM",
-          "workbench/asm86/AS29.ASM"
+          "workbench/asm86/AS28.ASM"
         ],
         "RET": [
           "workbench/asm86/AS01.ASM",
@@ -713,12 +677,9 @@
           "workbench/asm86/AS25.ASM",
           "workbench/asm86/AS26.ASM",
           "workbench/asm86/AS27.ASM",
-          "workbench/asm86/AS28.ASM",
-          "workbench/asm86/AS29.ASM"
+          "workbench/asm86/AS28.ASM"
         ],
         "STOSB": [
-          "workbench/asm86/AS04.ASM",
-          "workbench/asm86/AS05.ASM",
           "workbench/asm86/AS06.ASM",
           "workbench/asm86/AS07.ASM",
           "workbench/asm86/AS08.ASM",
@@ -741,8 +702,7 @@
           "workbench/asm86/AS25.ASM",
           "workbench/asm86/AS26.ASM",
           "workbench/asm86/AS27.ASM",
-          "workbench/asm86/AS28.ASM",
-          "workbench/asm86/AS29.ASM"
+          "workbench/asm86/AS28.ASM"
         ],
         "SUB": [
           "workbench/asm86/AS02.ASM",
@@ -771,8 +731,7 @@
           "workbench/asm86/AS25.ASM",
           "workbench/asm86/AS26.ASM",
           "workbench/asm86/AS27.ASM",
-          "workbench/asm86/AS28.ASM",
-          "workbench/asm86/AS29.ASM"
+          "workbench/asm86/AS28.ASM"
         ]
       },
       "resources": [
@@ -796,159 +755,153 @@
         },
         {
           "source": "workbench/asm86/AS04.ASM",
-          "definitions": 28,
+          "definitions": 23,
           "physical_line_width": 54,
-          "source_bytes": 1847
+          "source_bytes": 1298
         },
         {
           "source": "workbench/asm86/AS05.ASM",
-          "definitions": 32,
+          "definitions": 27,
           "physical_line_width": 54,
-          "source_bytes": 2040
+          "source_bytes": 1465
         },
         {
           "source": "workbench/asm86/AS06.ASM",
-          "definitions": 36,
+          "definitions": 43,
           "physical_line_width": 54,
-          "source_bytes": 2207
+          "source_bytes": 2570
         },
         {
           "source": "workbench/asm86/AS07.ASM",
           "definitions": 52,
           "physical_line_width": 54,
-          "source_bytes": 3312
+          "source_bytes": 3336
         },
         {
           "source": "workbench/asm86/AS08.ASM",
-          "definitions": 61,
+          "definitions": 60,
           "physical_line_width": 54,
-          "source_bytes": 4078
+          "source_bytes": 3787
         },
         {
           "source": "workbench/asm86/AS09.ASM",
-          "definitions": 69,
+          "definitions": 60,
           "physical_line_width": 54,
-          "source_bytes": 4529
+          "source_bytes": 3815
         },
         {
           "source": "workbench/asm86/AS10.ASM",
-          "definitions": 69,
+          "definitions": 61,
           "physical_line_width": 54,
-          "source_bytes": 4557
+          "source_bytes": 4073
         },
         {
           "source": "workbench/asm86/AS11.ASM",
           "definitions": 70,
           "physical_line_width": 54,
-          "source_bytes": 4815
+          "source_bytes": 4700
         },
         {
           "source": "workbench/asm86/AS12.ASM",
-          "definitions": 79,
+          "definitions": 72,
           "physical_line_width": 54,
-          "source_bytes": 5442
+          "source_bytes": 4982
         },
         {
           "source": "workbench/asm86/AS13.ASM",
-          "definitions": 81,
+          "definitions": 88,
           "physical_line_width": 54,
-          "source_bytes": 5745
+          "source_bytes": 5847
         },
         {
           "source": "workbench/asm86/AS14.ASM",
-          "definitions": 97,
+          "definitions": 90,
           "physical_line_width": 54,
-          "source_bytes": 6610
+          "source_bytes": 6012
         },
         {
           "source": "workbench/asm86/AS15.ASM",
-          "definitions": 99,
+          "definitions": 90,
           "physical_line_width": 54,
-          "source_bytes": 6775
+          "source_bytes": 6076
         },
         {
           "source": "workbench/asm86/AS16.ASM",
-          "definitions": 99,
+          "definitions": 94,
           "physical_line_width": 54,
-          "source_bytes": 6839
+          "source_bytes": 6555
         },
         {
           "source": "workbench/asm86/AS17.ASM",
-          "definitions": 103,
+          "definitions": 104,
           "physical_line_width": 54,
-          "source_bytes": 7318
+          "source_bytes": 7255
         },
         {
           "source": "workbench/asm86/AS18.ASM",
-          "definitions": 113,
+          "definitions": 110,
           "physical_line_width": 54,
-          "source_bytes": 8018
+          "source_bytes": 7926
         },
         {
           "source": "workbench/asm86/AS19.ASM",
-          "definitions": 118,
+          "definitions": 112,
           "physical_line_width": 54,
-          "source_bytes": 8639
+          "source_bytes": 8126
         },
         {
           "source": "workbench/asm86/AS20.ASM",
-          "definitions": 120,
+          "definitions": 114,
           "physical_line_width": 54,
-          "source_bytes": 8839
+          "source_bytes": 8332
         },
         {
           "source": "workbench/asm86/AS21.ASM",
-          "definitions": 122,
+          "definitions": 129,
           "physical_line_width": 54,
-          "source_bytes": 9045
+          "source_bytes": 9275
         },
         {
           "source": "workbench/asm86/AS22.ASM",
-          "definitions": 137,
+          "definitions": 133,
           "physical_line_width": 54,
-          "source_bytes": 9988
+          "source_bytes": 9563
         },
         {
           "source": "workbench/asm86/AS23.ASM",
-          "definitions": 141,
+          "definitions": 135,
           "physical_line_width": 54,
-          "source_bytes": 10276
+          "source_bytes": 9861
         },
         {
           "source": "workbench/asm86/AS24.ASM",
-          "definitions": 143,
+          "definitions": 137,
           "physical_line_width": 54,
-          "source_bytes": 10574
+          "source_bytes": 10051
         },
         {
           "source": "workbench/asm86/AS25.ASM",
-          "definitions": 145,
+          "definitions": 138,
           "physical_line_width": 54,
-          "source_bytes": 10764
+          "source_bytes": 10517
         },
         {
           "source": "workbench/asm86/AS26.ASM",
-          "definitions": 146,
+          "definitions": 149,
           "physical_line_width": 54,
-          "source_bytes": 11230
+          "source_bytes": 11409
         },
         {
           "source": "workbench/asm86/AS27.ASM",
-          "definitions": 157,
+          "definitions": 151,
           "physical_line_width": 54,
-          "source_bytes": 12122
+          "source_bytes": 11657
         },
         {
           "source": "workbench/asm86/AS28.ASM",
-          "definitions": 159,
+          "definitions": 154,
           "physical_line_width": 54,
-          "source_bytes": 12370
-        },
-        {
-          "source": "workbench/asm86/AS29.ASM",
-          "definitions": 162,
-          "physical_line_width": 54,
-          "source_bytes": 12833
+          "source_bytes": 12120
         }
       ]
     },
@@ -1472,9 +1425,9 @@
         },
         {
           "source": "workbench/asm86/ASM86.ASM",
-          "definitions": 162,
+          "definitions": 154,
           "physical_line_width": 54,
-          "source_bytes": 12833
+          "source_bytes": 12120
         }
       ]
     },

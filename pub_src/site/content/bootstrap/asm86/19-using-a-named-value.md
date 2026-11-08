@@ -1,8 +1,9 @@
 +++
-title = "20 \u00b7 Using a named value"
-weight = 20
+title = "19 \u00b7 Using a named value"
+weight = 19
 description = "Resolve forward references on the collecting pass."
-download = "AS20.ASM"
+download = "AS19.ASM"
+aliases = ["/bootstrap/asm86/20-using-a-named-value/"]
 download_group = "tools/asm0"
 reader_names = 1
 +++
@@ -21,7 +22,7 @@ Our test emits a word before the byte it names. TEXT therefore has loaded offset
 
 ## Source changes
 
-Copy `AS19.ASM` to `AS20.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS18.ASM` to `AS19.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
 
 ### Change 1: following `NUMBERBAD:`
 
@@ -33,7 +34,7 @@ NUMBERBAD:
 MOV AX,2
 ```
 
-Insert after old physical line 453, before the following old line.
+Insert after old physical line 398, before the following old line.
 
 Insert this source:
 
@@ -74,7 +75,7 @@ JBE LITERAL
 WORDVALUE:
 ```
 
-Remove these exact old lines (physical lines 384–390 of `AS19.ASM`):
+Remove these exact old lines (physical lines 329–335 of `AS18.ASM`):
 
 ```asm
 CALL REGISTER
@@ -97,12 +98,13 @@ JMP SYMBOLVALUE
 Use the BASIC assembler prepared in the workbench guide:
 
 ```dos
+COPY AS19.ASM SOURCE.ASM
 GWBASIC BOOTASM.BAS
 ```
 
-Enter `AS20` at its source prompt. Require `OK AS20.COM 1673 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.
+Require `OK RESULT.COM 1530 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS, then `COPY RESULT.COM AS19.COM`. Save this source and executable as a working stopping point.
 
-Use `COPY CON T20.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
+Use `COPY CON T19.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
 
 ```asm
 DW TEXT
@@ -111,20 +113,21 @@ DB 65
 ```
 
 ```dos
-CHECK AS20
+COPY T19.ASM SOURCE.ASM
 ```
 
-Enter `T20` when `Source name:` appears.
+```dos
+CHECK AS19
+```
 
 The display, apart from DOS command echo and the checker's separating blank line, is:
 
 ```text
-Source name: T20
 OK 00003 bytes
 PASS
 ```
 
-Inspect `T20.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `T20.COM`, and require a length of **3 bytes** with these hexadecimal bytes:
+Inspect `RESULT.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `RESULT.COM`, and require a length of **3 bytes** with these hexadecimal bytes:
 
 ```text
 02 01 41
@@ -136,13 +139,16 @@ This file is an encoding or data fixture. **Inspect it; do not execute it.**
 
 ## A rejection check
 
-Enter this separate file as `X20.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
+Enter this separate file as `X19.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
 
 ```asm
 DW MISSING
 ```
 
-Run `CHECK AS20` and enter `X20`.
+```dos
+COPY X19.ASM SOURCE.ASM
+CHECK AS19
+```
 
 Require this diagnostic followed by the checker's `FAIL`:
 

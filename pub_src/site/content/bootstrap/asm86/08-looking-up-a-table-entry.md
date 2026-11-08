@@ -1,9 +1,10 @@
 +++
-title = "09 \u00b7 Looking up a table entry"
-weight = 9
+title = "08 \u00b7 Looking up a table entry"
+weight = 8
 description = "Compare a token with fixed-size records."
-download = "AS09.ASM"
+download = "AS08.ASM"
 cartoon = "asm86-postroom.png"
+aliases = ["/bootstrap/asm86/09-looking-up-a-table-entry/"]
 download_group = "tools/asm0"
 reader_names = 1
 +++
@@ -22,7 +23,7 @@ The search count is checked before reading a record, including a count of zero. 
 
 ## Source changes
 
-Copy `AS08.ASM` to `AS09.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS07.ASM` to `AS08.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
 
 ### Change 1: following `ERRCODE:`
 
@@ -34,7 +35,7 @@ ERRCODE:
 DB 0
 ```
 
-Insert after old physical line 378, before the following old line.
+Insert after old physical line 310, before the following old line.
 
 Insert this source:
 
@@ -55,7 +56,7 @@ DW 0
 
 ```
 
-Insert after old physical line 367, before the following old line.
+Insert after old physical line 299, before the following old line.
 
 Insert this source:
 
@@ -75,7 +76,7 @@ INT 21H
 
 ```
 
-Remove these exact old lines (physical lines 322–332 of `AS08.ASM`):
+Remove these exact old lines (physical lines 263–273 of `AS07.ASM`):
 
 ```asm
 ZTEXT:
@@ -103,7 +104,7 @@ JMP ERROR
 
 ```
 
-Insert after old physical line 259, before the following old line.
+Insert after old physical line 207, before the following old line.
 
 Insert this source:
 
@@ -163,7 +164,7 @@ MOV DX,NEWLINE
 CALL TEXT
 ```
 
-Remove these exact old lines (physical lines 33–33 of `AS08.ASM`):
+Remove these exact old lines (physical lines 32–32 of `AS07.ASM`):
 
 ```asm
 JMP TRACETOKEN
@@ -185,7 +186,7 @@ TRACETOKEN:
 CALL SCAN
 ```
 
-Remove these exact old lines (physical lines 18–30 of `AS08.ASM`):
+Remove these exact old lines (physical lines 17–29 of `AS07.ASM`):
 
 ```asm
 MOV AL,[2300H]
@@ -234,7 +235,7 @@ JE DRIVERDONE
 MOV SI,2200H
 ```
 
-Remove these exact old lines (physical lines 16–16 of `AS08.ASM`):
+Remove these exact old lines (physical lines 15–15 of `AS07.ASM`):
 
 ```asm
 TRACETOKEN:
@@ -247,12 +248,13 @@ No replacement lines are needed.
 Use the BASIC assembler prepared in the workbench guide:
 
 ```dos
+COPY AS08.ASM SOURCE.ASM
 GWBASIC BOOTASM.BAS
 ```
 
-Enter `AS09` at its source prompt. Require `OK AS09.COM 829 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.
+Require `OK RESULT.COM 682 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS, then `COPY RESULT.COM AS08.COM`. Save this source and executable as a working stopping point.
 
-Use `COPY CON T09.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
+Use `COPY CON T08.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
 
 ```asm
 DB
@@ -260,15 +262,16 @@ DW
 ```
 
 ```dos
-CHECK AS09
+COPY T08.ASM SOURCE.ASM
 ```
 
-Enter `T09` when `Source name:` appears.
+```dos
+CHECK AS08
+```
 
 The display, apart from DOS command echo and the checker's separating blank line, is:
 
 ```text
-Source name: T09
 00000
 00001
 PASS
@@ -276,13 +279,16 @@ PASS
 
 ## A rejection check
 
-Enter this separate file as `X09.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
+Enter this separate file as `X08.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
 
 ```asm
 UNKNOWN
 ```
 
-Run `CHECK AS09` and enter `X09`.
+```dos
+COPY X08.ASM SOURCE.ASM
+CHECK AS08
+```
 
 Require this diagnostic followed by the checker's `FAIL`:
 

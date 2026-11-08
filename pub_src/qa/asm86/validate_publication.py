@@ -15,7 +15,7 @@ for stage in json.loads((ROOT/'qa/asm86/article-patches.json').read_text()):
  expected=(W/f'AS{stage["number"]:02}.ASM').read_text().splitlines()
  assert program==expected,(stage['page'],'printed edits do not reconstruct source')
  assert f'CHECK AS{stage["number"]:02}' in text
-assert (W/'ASM86.ASM').read_bytes()==(W/'AS29.ASM').read_bytes()
+assert (W/'ASM86.ASM').read_bytes()==(W/'AS28.ASM').read_bytes()
 assert (W/'BOOTASM.BAS').read_bytes()==(ROOT/'workbench/bootasm/BOOTASM.BAS').read_bytes()
 files=json.loads((ROOT/'qa/asm86/package-files.json').read_text())
 with zipfile.ZipFile(D/'ASM86.ZIP') as z:
@@ -27,4 +27,4 @@ with zipfile.ZipFile(D/'ASM86.ZIP') as z:
   assert b'\n' not in b.replace(b'\r\n',b''),name+' non-DOS line endings'
   assert z.read(name)==b==(D/name).read_bytes(),name+' archive/source/download differ'
 for n in [0,30,31,32]:assert len(list(C.glob(f'{n:02}-*.md')))==1
-print(f'PASS ASM86: all 29 printed edits reconstruct exact source; {len(files)} source-only archive files match ASCII/CRLF/8.3 downloads')
+print(f'PASS ASM86: all 28 printed edits reconstruct exact source; {len(files)} source-only archive files match ASCII/CRLF/8.3 downloads')

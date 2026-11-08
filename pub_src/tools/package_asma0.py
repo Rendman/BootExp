@@ -34,7 +34,9 @@ HELLO.ASM, MEMORY.ASM, COUNT.ASM: complete executable examples.
 
 Use your own DOS 3.10 and period GW-BASIC interpreter; note its banner.
 Build ASM86 from BOOTASM.BAS. Preserve it as ASMKEEP.COM.
-CHECK ASMKEEP prompts for A01 through A12 without an extension.
+COPY A01.ASM SOURCE.ASM selects a checkpoint for CHECK ASMKEEP.
+Preserve the accepted RESULT.COM as A01.COM; use the same pattern
+for A02 through A12.
 Require OK and PASS at every build. Preserve each source/executable.
 A03 through A06 copy data; inspect that output, never execute it.
 Only fixtures expressly identified as complete programs may be run.

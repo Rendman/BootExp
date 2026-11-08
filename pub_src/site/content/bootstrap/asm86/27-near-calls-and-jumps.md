@@ -1,8 +1,9 @@
 +++
-title = "28 \u00b7 Near calls and jumps"
-weight = 28
+title = "27 \u00b7 Near calls and jumps"
+weight = 27
 description = "Subtract the address after the three-byte instruction."
-download = "AS28.ASM"
+download = "AS27.ASM"
+aliases = ["/bootstrap/asm86/28-near-calls-and-jumps/"]
 download_group = "tools/asm0"
 reader_names = 1
 +++
@@ -21,7 +22,7 @@ The complete test calls SAY, which displays C, then returns to the termination c
 
 ## Source changes
 
-Copy `AS27.ASM` to `AS28.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS26.ASM` to `AS27.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
 
 ### Change 1: following `OPTAB:`
 
@@ -33,7 +34,7 @@ DB 80,79,80,0,0,0,5,88
 DB 73,78,84,0,0,0,6,205
 ```
 
-Insert after old physical line 1088, before the following old line.
+Insert after old physical line 1024, before the following old line.
 
 Insert this source:
 
@@ -52,7 +53,7 @@ POP AX
 CALL BYTEVALUE
 ```
 
-Insert after old physical line 687, before the following old line.
+Insert after old physical line 632, before the following old line.
 
 Insert this source:
 
@@ -83,7 +84,7 @@ RET
 STNEXT6:
 ```
 
-Insert after old physical line 633, before the following old line.
+Insert after old physical line 578, before the following old line.
 
 Insert this source:
 
@@ -105,7 +106,7 @@ DEC SI
 MOV BX,OPTAB
 ```
 
-Remove these exact old lines (physical lines 599–599 of `AS27.ASM`):
+Remove these exact old lines (physical lines 544–544 of `AS26.ASM`):
 
 ```asm
 MOV CX,17
@@ -122,12 +123,13 @@ MOV CX,19
 Use the BASIC assembler prepared in the workbench guide:
 
 ```dos
+COPY AS27.ASM SOURCE.ASM
 GWBASIC BOOTASM.BAS
 ```
 
-Enter `AS28` at its source prompt. Require `OK AS28.COM 2458 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.
+Require `OK RESULT.COM 2315 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS, then `COPY RESULT.COM AS27.COM`. Save this source and executable as a working stopping point.
 
-Use `COPY CON T28.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
+Use `COPY CON T27.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
 
 ```asm
 CALL SAY
@@ -141,20 +143,21 @@ RET
 ```
 
 ```dos
-CHECK AS28
+COPY T27.ASM SOURCE.ASM
 ```
 
-Enter `T28` when `Source name:` appears.
+```dos
+CHECK AS27
+```
 
 The display, apart from DOS command echo and the checker's separating blank line, is:
 
 ```text
-Source name: T28
 OK 00015 bytes
 PASS
 ```
 
-Inspect `T28.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `T28.COM`, and require a length of **15 bytes** with these hexadecimal bytes:
+Inspect `RESULT.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `RESULT.COM`, and require a length of **15 bytes** with these hexadecimal bytes:
 
 ```text
 E8 05 00 B8 00 4C CD 21 B2 43 B4 02 CD 21 C3
@@ -162,17 +165,20 @@ E8 05 00 B8 00 4C CD 21 B2 43 B4 02 CD 21 C3
 
 Use `SYSTEM` to return to DOS.
 
-`T28.COM` is also a complete executable. Run `CHECK T28`. It displays `C` followed by the checker's blank line and `PASS`.
+`RESULT.COM` is also a complete executable. Preserve it with `COPY RESULT.COM T27.COM`, then run `CHECK T27`. It displays `C` followed by the checker's blank line and `PASS`.
 
 ## A rejection check
 
-Enter this separate file as `X28.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
+Enter this separate file as `X27.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
 
 ```asm
 CALL LOST
 ```
 
-Run `CHECK AS28` and enter `X28`.
+```dos
+COPY X27.ASM SOURCE.ASM
+CHECK AS27
+```
 
 Require this diagnostic followed by the checker's `FAIL`:
 

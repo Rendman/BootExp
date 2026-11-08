@@ -31,9 +31,9 @@ Use ASCII text with DOS carriage-return/line-feed endings and short filenames. A
 COPY CON TRY.ASM
 ```
 
-Type the source lines. Finish with Ctrl-Z and Enter. The Ctrl-Z is the end-of-input keystroke. It is not a printed token in the assembly language. `TYPE TRY.ASM` displays what was saved. BOOTASM asks only for `TRY`, then reads `TRY.ASM` and produces `TRY.COM`.
+Type the source lines. Finish with Ctrl-Z and Enter. The Ctrl-Z is the end-of-input keystroke, not a token to include in the assembly source. TYPE TRY.ASM displays what was saved. Copy TRY.ASM to SOURCE.ASM, then run GWBASIC BOOTASM.BAS. The assembler reads that fixed source and writes RESULT.COM after acceptance. Preserve it with COPY RESULT.COM TRY.COM before assembling another program.
 
-Choose ordinary disk filenames. DOS reserves device names such as CON, PRN, AUX, NUL, COM1, and LPT1 even when an extension is supplied. BOOTASM checks filename length and characters, leaving DOS to interpret the name, so do not use a device name for source or output.
+SOURCE.ASM and RESULT.COM are ordinary work files in the current directory. Their names are assigned in BASIC line 30; no filename input or validation routine is required.
 
 A failed assembly does not replace an older output file. Use a new test name, and require the assembler's `OK` report before inspecting or running output. A BASIC file error during writing may leave an incomplete file, so that case also requires a fresh successful assembly.
 

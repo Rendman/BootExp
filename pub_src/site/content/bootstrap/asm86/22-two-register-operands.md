@@ -1,8 +1,9 @@
 +++
-title = "23 \u00b7 Two register operands"
-weight = 23
+title = "22 \u00b7 Two register operands"
+weight = 22
 description = "Put destination and source numbers into ModR/M."
-download = "AS23.ASM"
+download = "AS22.ASM"
+aliases = ["/bootstrap/asm86/23-two-register-operands/"]
 download_group = "tools/asm0"
 reader_names = 1
 +++
@@ -19,7 +20,7 @@ TIMES8 changes only AL and flags. SAMEWIDTH changes AL, DL, and flags; the calle
 
 ## Source changes
 
-Copy `AS22.ASM` to `AS23.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS21.ASM` to `AS22.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
 
 ### Change 1: following `IMMEDVALUE:`
 
@@ -31,7 +32,7 @@ JE BYTEVALUE
 JMP EMITWORD
 ```
 
-Insert after old physical line 673, before the following old line.
+Insert after old physical line 618, before the following old line.
 
 Insert this source:
 
@@ -58,7 +59,7 @@ JMP IMMEDVALUE
 
 ```
 
-Insert after old physical line 667, before the following old line.
+Insert after old physical line 612, before the following old line.
 
 Insert this source:
 
@@ -91,7 +92,7 @@ JNE TWOBAD
 MOV AL,[KIND]
 ```
 
-Insert after old physical line 657, before the following old line.
+Insert after old physical line 602, before the following old line.
 
 Insert this source:
 
@@ -105,12 +106,13 @@ JE MOVREG
 Use the BASIC assembler prepared in the workbench guide:
 
 ```dos
+COPY AS22.ASM SOURCE.ASM
 GWBASIC BOOTASM.BAS
 ```
 
-Enter `AS23` at its source prompt. Require `OK AS23.COM 1974 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.
+Require `OK RESULT.COM 1831 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS, then `COPY RESULT.COM AS22.COM`. Save this source and executable as a working stopping point.
 
-Use `COPY CON T23.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
+Use `COPY CON T22.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
 
 ```asm
 MOV AX,BX
@@ -119,20 +121,21 @@ MOV CH,BH
 ```
 
 ```dos
-CHECK AS23
+COPY T22.ASM SOURCE.ASM
 ```
 
-Enter `T23` when `Source name:` appears.
+```dos
+CHECK AS22
+```
 
 The display, apart from DOS command echo and the checker's separating blank line, is:
 
 ```text
-Source name: T23
 OK 00006 bytes
 PASS
 ```
 
-Inspect `T23.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `T23.COM`, and require a length of **6 bytes** with these hexadecimal bytes:
+Inspect `RESULT.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `RESULT.COM`, and require a length of **6 bytes** with these hexadecimal bytes:
 
 ```text
 8B C3 8A D0 8A EF
@@ -144,13 +147,16 @@ This file is an encoding or data fixture. **Inspect it; do not execute it.**
 
 ## A rejection check
 
-Enter this separate file as `X23.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
+Enter this separate file as `X22.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
 
 ```asm
 MOV AX,AL
 ```
 
-Run `CHECK AS23` and enter `X23`.
+```dos
+COPY X22.ASM SOURCE.ASM
+CHECK AS22
+```
 
 Require this diagnostic followed by the checker's `FAIL`:
 

@@ -1,8 +1,9 @@
 +++
-title = "24 \u00b7 Single-register families"
-weight = 24
+title = "23 \u00b7 Single-register families"
+weight = 23
 description = "Increment, decrement, save, and restore a word register."
-download = "AS24.ASM"
+download = "AS23.ASM"
+aliases = ["/bootstrap/asm86/24-single-register-families/"]
 download_group = "tools/asm0"
 reader_names = 1
 +++
@@ -19,7 +20,7 @@ SINGLE changes the scanner and lookup scratch registers, AL, output state, and f
 
 ## Source changes
 
-Copy `AS23.ASM` to `AS24.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS22.ASM` to `AS23.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
 
 ### Change 1: following `OPTAB:`
 
@@ -31,7 +32,7 @@ DB 83,84,79,83,66,0,2,170
 DB 77,79,86,0,0,0,3,0
 ```
 
-Insert after old physical line 936, before the following old line.
+Insert after old physical line 872, before the following old line.
 
 Insert this source:
 
@@ -52,7 +53,7 @@ FIXED:
 MOV AL,[OP]
 ```
 
-Insert after old physical line 620, before the following old line.
+Insert after old physical line 565, before the following old line.
 
 Insert this source:
 
@@ -83,7 +84,7 @@ RET
 STNEXT2:
 ```
 
-Insert after old physical line 592, before the following old line.
+Insert after old physical line 537, before the following old line.
 
 Insert this source:
 
@@ -105,7 +106,7 @@ DEC SI
 MOV BX,OPTAB
 ```
 
-Remove these exact old lines (physical lines 568–568 of `AS23.ASM`):
+Remove these exact old lines (physical lines 513–513 of `AS22.ASM`):
 
 ```asm
 MOV CX,7
@@ -122,12 +123,13 @@ MOV CX,11
 Use the BASIC assembler prepared in the workbench guide:
 
 ```dos
+COPY AS23.ASM SOURCE.ASM
 GWBASIC BOOTASM.BAS
 ```
 
-Enter `AS24` at its source prompt. Require `OK AS24.COM 2049 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.
+Require `OK RESULT.COM 1906 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS, then `COPY RESULT.COM AS23.COM`. Save this source and executable as a working stopping point.
 
-Use `COPY CON T24.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
+Use `COPY CON T23.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
 
 ```asm
 INC BX
@@ -137,20 +139,21 @@ POP DX
 ```
 
 ```dos
-CHECK AS24
+COPY T23.ASM SOURCE.ASM
 ```
 
-Enter `T24` when `Source name:` appears.
+```dos
+CHECK AS23
+```
 
 The display, apart from DOS command echo and the checker's separating blank line, is:
 
 ```text
-Source name: T24
 OK 00004 bytes
 PASS
 ```
 
-Inspect `T24.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `T24.COM`, and require a length of **4 bytes** with these hexadecimal bytes:
+Inspect `RESULT.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `RESULT.COM`, and require a length of **4 bytes** with these hexadecimal bytes:
 
 ```text
 43 49 50 5A
@@ -162,13 +165,16 @@ This file is an encoding or data fixture. **Inspect it; do not execute it.**
 
 ## A rejection check
 
-Enter this separate file as `X24.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
+Enter this separate file as `X23.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
 
 ```asm
 INC AL
 ```
 
-Run `CHECK AS24` and enter `X24`.
+```dos
+COPY X23.ASM SOURCE.ASM
+CHECK AS23
+```
 
 Require this diagnostic followed by the checker's `FAIL`:
 

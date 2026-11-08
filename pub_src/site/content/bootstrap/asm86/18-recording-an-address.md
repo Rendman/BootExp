@@ -1,8 +1,9 @@
 +++
-title = "19 \u00b7 Recording an address"
-weight = 19
+title = "18 \u00b7 Recording an address"
+weight = 18
 description = "Store up to 256 names in fixed twenty-byte records."
-download = "AS19.ASM"
+download = "AS18.ASM"
+aliases = ["/bootstrap/asm86/19-recording-an-address/"]
 download_group = "tools/asm0"
 reader_names = 1
 +++
@@ -21,7 +22,7 @@ Only names and their addresses are being recorded here; data operands remain num
 
 ## Source changes
 
-Copy `AS18.ASM` to `AS19.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS17.ASM` to `AS18.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
 
 ### Change 1: following `OUTPTR:`
 
@@ -33,7 +34,7 @@ DW 24576
 
 ```
 
-Insert after old physical line 682, before the following old line.
+Insert after old physical line 611, before the following old line.
 
 Insert this source:
 
@@ -46,7 +47,31 @@ DW 12288
 
 ```
 
-### Change 2: following `DEFINE:`
+### Change 2: following `IMAGEFULL:`
+
+Unchanged code immediately before this edit:
+
+```asm
+MOV AX,5
+JMP ERROR
+
+```
+
+Insert after old physical line 518, before the following old line.
+
+Insert this source:
+
+```asm
+COPYZ:
+LODSB
+STOSB
+CMP AL,0
+JNE COPYZ
+RET
+
+```
+
+### Change 3: following `DEFINE:`
 
 Unchanged code immediately before this edit:
 
@@ -56,7 +81,7 @@ MOV AX,3
 JMP ERROR
 ```
 
-Remove these exact old lines (physical lines 459–460 of `AS18.ASM`):
+Remove these exact old lines (physical lines 404–405 of `AS17.ASM`):
 
 ```asm
 SPELLGOOD:
@@ -65,7 +90,7 @@ RET
 
 No replacement lines are needed.
 
-### Change 3: following `DEFINE:`
+### Change 4: following `DEFINE:`
 
 Unchanged code immediately before this edit:
 
@@ -75,7 +100,7 @@ CALL REGISTER
 CMP AX,0FFFFH
 ```
 
-Remove these exact old lines (physical lines 456–456 of `AS18.ASM`):
+Remove these exact old lines (physical lines 401–401 of `AS17.ASM`):
 
 ```asm
 JE SPELLGOOD
@@ -130,17 +155,17 @@ JMP ERROR
 DEFINEBAD:
 ```
 
-### Change 4: following `ROOM:`
+### Change 5: following `ROOM:`
 
 Unchanged code immediately before this edit:
 
 ```asm
-CALL GETNAME
+ROOM:
 MOV AL,1
 MOV [PASS],AL
 ```
 
-Insert after old physical line 11, before the following old line.
+Insert after old physical line 10, before the following old line.
 
 Insert this source:
 
@@ -156,12 +181,13 @@ MOV [SYMNEXT],AX
 Use the BASIC assembler prepared in the workbench guide:
 
 ```dos
+COPY AS18.ASM SOURCE.ASM
 GWBASIC BOOTASM.BAS
 ```
 
-Enter `AS19` at its source prompt. Require `OK AS19.COM 1631 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.
+Require `OK RESULT.COM 1488 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS, then `COPY RESULT.COM AS18.COM`. Save this source and executable as a working stopping point.
 
-Use `COPY CON T19.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
+Use `COPY CON T18.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
 
 ```asm
 START:
@@ -170,20 +196,21 @@ END:
 ```
 
 ```dos
-CHECK AS19
+COPY T18.ASM SOURCE.ASM
 ```
 
-Enter `T19` when `Source name:` appears.
+```dos
+CHECK AS18
+```
 
 The display, apart from DOS command echo and the checker's separating blank line, is:
 
 ```text
-Source name: T19
 OK 00001 bytes
 PASS
 ```
 
-Inspect `T19.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `T19.COM`, and require a length of **1 bytes** with these hexadecimal bytes:
+Inspect `RESULT.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `RESULT.COM`, and require a length of **1 bytes** with these hexadecimal bytes:
 
 ```text
 41
@@ -195,7 +222,7 @@ This file is an encoding or data fixture. **Inspect it; do not execute it.**
 
 ## A rejection check
 
-Enter this separate file as `X19.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
+Enter this separate file as `X18.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
 
 ```asm
 AGAIN:
@@ -203,7 +230,10 @@ DB 1
 AGAIN:
 ```
 
-Run `CHECK AS19` and enter `X19`.
+```dos
+COPY X18.ASM SOURCE.ASM
+CHECK AS18
+```
 
 Require this diagnostic followed by the checker's `FAIL`:
 

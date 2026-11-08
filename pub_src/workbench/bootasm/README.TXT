@@ -14,8 +14,8 @@ HELLO.ASM, COPYBYTE.ASM, FAIL.ASM: complete example programs.
 
 Use your own DOS and GW-BASIC interpreter. The workbench instructions
 call the interpreter GWBASIC; use the name supplied on your own disk.
-Run GWBASIC BOOTASM.BAS, then enter a source base name without an
-extension. Require an OK report before treating output as new.
+Copy the desired source to SOURCE.ASM, then run GWBASIC BOOTASM.BAS.
+The accepted output is RESULT.COM. Preserve it under its program name. Require an OK report before treating output as new.
 Save a tested copy of BOOTASM.BAS as BOOTKEEP.BAS before changing it.
 
 Inspect encoding and data fixtures with VIEW.BAS. Do not execute them.

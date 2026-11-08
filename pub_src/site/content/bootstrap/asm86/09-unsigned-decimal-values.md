@@ -1,8 +1,9 @@
 +++
-title = "10 \u00b7 Unsigned decimal values"
-weight = 10
+title = "09 \u00b7 Unsigned decimal values"
+weight = 9
 description = "Check every digit before multiplying the accumulated value."
-download = "AS10.ASM"
+download = "AS09.ASM"
+aliases = ["/bootstrap/asm86/10-unsigned-decimal-values/"]
 download_group = "tools/asm0"
 reader_names = 1
 +++
@@ -21,7 +22,7 @@ The diagnostic driver reads one number per line. It saves AX while FINISH checks
 
 ## Source changes
 
-Copy `AS09.ASM` to `AS10.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS08.ASM` to `AS09.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
 
 ### Change 1: following `ERRCODE:`
 
@@ -33,7 +34,7 @@ ERRCODE:
 DB 0
 ```
 
-Remove these exact old lines (physical lines 416–419 of `AS09.ASM`):
+Remove these exact old lines (physical lines 348–351 of `AS08.ASM`):
 
 ```asm
 
@@ -54,7 +55,7 @@ DW 0
 
 ```
 
-Remove these exact old lines (physical lines 402–404 of `AS09.ASM`):
+Remove these exact old lines (physical lines 334–336 of `AS08.ASM`):
 
 ```asm
 STRIDE:
@@ -74,7 +75,7 @@ POP SI
 RET
 ```
 
-Remove these exact old lines (physical lines 290–293 of `AS09.ASM`):
+Remove these exact old lines (physical lines 238–241 of `AS08.ASM`):
 
 ```asm
 LOOKMISS:
@@ -101,7 +102,7 @@ LOOKCHAR:
 LODSB
 ```
 
-Remove these exact old lines (physical lines 273–287 of `AS09.ASM`):
+Remove these exact old lines (physical lines 221–235 of `AS08.ASM`):
 
 ```asm
 MOV BX,DI
@@ -161,7 +162,7 @@ MOV DI,BP
 MOV SI,2300H
 ```
 
-Remove these exact old lines (physical lines 271–271 of `AS09.ASM`):
+Remove these exact old lines (physical lines 219–219 of `AS08.ASM`):
 
 ```asm
 LOOKCHAR:
@@ -190,7 +191,7 @@ MOV [STRIDE],AX
 PUSH SI
 ```
 
-Remove these exact old lines (physical lines 265–269 of `AS09.ASM`):
+Remove these exact old lines (physical lines 213–217 of `AS08.ASM`):
 
 ```asm
 MOV BP,BX
@@ -212,7 +213,7 @@ JMP ERROR
 
 ```
 
-Remove these exact old lines (physical lines 262–263 of `AS09.ASM`):
+Remove these exact old lines (physical lines 210–211 of `AS08.ASM`):
 
 ```asm
 LOOK:
@@ -243,7 +244,7 @@ MOV SI,2200H
 CALL SCAN
 ```
 
-Remove these exact old lines (physical lines 17–28 of `AS09.ASM`):
+Remove these exact old lines (physical lines 16–27 of `AS08.ASM`):
 
 ```asm
 MOV BX,OPTAB
@@ -271,12 +272,13 @@ CALL VALUE
 Use the BASIC assembler prepared in the workbench guide:
 
 ```dos
+COPY AS09.ASM SOURCE.ASM
 GWBASIC BOOTASM.BAS
 ```
 
-Enter `AS10` at its source prompt. Require `OK AS10.COM 825 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.
+Require `OK RESULT.COM 678 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS, then `COPY RESULT.COM AS09.COM`. Save this source and executable as a working stopping point.
 
-Use `COPY CON T10.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
+Use `COPY CON T09.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
 
 ```asm
 42
@@ -284,15 +286,16 @@ Use `COPY CON T10.ASM` to enter this exact test text; finish with Ctrl-Z and Ent
 ```
 
 ```dos
-CHECK AS10
+COPY T09.ASM SOURCE.ASM
 ```
 
-Enter `T10` when `Source name:` appears.
+```dos
+CHECK AS09
+```
 
 The display, apart from DOS command echo and the checker's separating blank line, is:
 
 ```text
-Source name: T10
 00042
 65535
 PASS
@@ -300,13 +303,16 @@ PASS
 
 ## A rejection check
 
-Enter this separate file as `X10.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
+Enter this separate file as `X09.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
 
 ```asm
 65536
 ```
 
-Run `CHECK AS10` and enter `X10`.
+```dos
+COPY X09.ASM SOURCE.ASM
+CHECK AS09
+```
 
 Require this diagnostic followed by the checker's `FAIL`:
 

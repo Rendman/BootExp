@@ -1,8 +1,9 @@
 +++
-title = "08 \u00b7 Taking the line apart"
-weight = 8
+title = "07 \u00b7 Taking the line apart"
+weight = 7
 description = "Words and punctuation become bounded tokens."
-download = "AS08.ASM"
+download = "AS07.ASM"
+aliases = ["/bootstrap/asm86/08-taking-the-line-apart/"]
 download_group = "tools/asm0"
 reader_names = 1
 +++
@@ -21,7 +22,7 @@ The driver displays each token between brackets. It saves SI while ZTEXT walks t
 
 ## Source changes
 
-Copy `AS07.ASM` to `AS08.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS06.ASM` to `AS07.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
 
 ### Change 1: following `LINENO:`
 
@@ -33,7 +34,7 @@ DW 0
 
 ```
 
-Insert after old physical line 296, before the following old line.
+Insert after old physical line 228, before the following old line.
 
 Insert this source:
 
@@ -53,7 +54,7 @@ JMP ERROR
 
 ```
 
-Insert after old physical line 191, before the following old line.
+Insert after old physical line 139, before the following old line.
 
 Insert this source:
 
@@ -125,7 +126,7 @@ MOV DX,NEWLINE
 CALL TEXT
 ```
 
-Remove these exact old lines (physical lines 20–20 of `AS07.ASM`):
+Remove these exact old lines (physical lines 19–19 of `AS06.ASM`):
 
 ```asm
 JMP DRIVERLINE
@@ -147,7 +148,7 @@ MOV SI,2200H
 CALL ZTEXT
 ```
 
-Insert after old physical line 17, before the following old line.
+Insert after old physical line 16, before the following old line.
 
 Insert this source:
 
@@ -168,7 +169,7 @@ JE DRIVERDONE
 MOV SI,2200H
 ```
 
-Remove these exact old lines (physical lines 16–16 of `AS07.ASM`):
+Remove these exact old lines (physical lines 15–15 of `AS06.ASM`):
 
 ```asm
 MOV SI,2200H
@@ -194,27 +195,29 @@ MOV SI,2300H
 Use the BASIC assembler prepared in the workbench guide:
 
 ```dos
+COPY AS07.ASM SOURCE.ASM
 GWBASIC BOOTASM.BAS
 ```
 
-Enter `AS08` at its source prompt. Require `OK AS08.COM 742 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.
+Require `OK RESULT.COM 595 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS, then `COPY RESULT.COM AS07.COM`. Save this source and executable as a working stopping point.
 
-Use `COPY CON T08.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
+Use `COPY CON T07.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
 
 ```asm
 db 1,2 ; a note
 ```
 
 ```dos
-CHECK AS08
+COPY T07.ASM SOURCE.ASM
 ```
 
-Enter `T08` when `Source name:` appears.
+```dos
+CHECK AS07
+```
 
 The display, apart from DOS command echo and the checker's separating blank line, is:
 
 ```text
-Source name: T08
 [DB]
 [1]
 [,]
@@ -224,13 +227,16 @@ PASS
 
 ## A rejection check
 
-Enter this separate file as `X08.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
+Enter this separate file as `X07.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
 
 ```asm
 ABCDEFGHIJKLMNOPQ
 ```
 
-Run `CHECK AS08` and enter `X08`.
+```dos
+COPY X07.ASM SOURCE.ASM
+CHECK AS07
+```
 
 Require this diagnostic followed by the checker's `FAIL`:
 

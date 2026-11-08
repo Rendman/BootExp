@@ -805,7 +805,7 @@ PASSSTART:
 
 ## Build the stopping point
 
-Run `CHECK ASMKEEP`, enter `A09` at `Source name:`, and require `OK 03028 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. It creates A09.COM.
+Copy `A09.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK 03028 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM A09.COM`.
 
 VIEW.BAS must report A09.COM length 3028 bytes. Keep that executable and source together.
 

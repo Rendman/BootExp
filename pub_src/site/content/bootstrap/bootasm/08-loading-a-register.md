@@ -11,7 +11,7 @@ A DOS service takes its request in registers. We shall first teach MOV to load a
 
 ## At the keyboard
 
-Load the preceding checkpoint, `BA07.BAS`. Keep its working copy. Insert the other numbered lines in their numeric positions; leave all unlisted lines in place. New-line locations in the preceding listing: 4022 / 4090; 4180 / 4900; 4910 / 8000. Each pair gives the existing lines on either side.
+Load the preceding checkpoint, `BA07.BAS`. Keep its working copy. Insert the other numbered lines in their numeric positions; leave all unlisted lines in place. New-line locations in the preceding listing: 4022 / 4090; 4180 / 4900; 4910 / 9000. Each pair gives the existing lines on either side.
 
 BASIC line numbers are part of the source. Enter a whole numbered line when replacing it.
 
@@ -49,7 +49,7 @@ The following lines are **context from the preceding checkpoint**, not another b
 4180 RETURN
 4900 IF A$<>"" THEN E$="Unexpected operand": GOTO 9000
 4910 GOSUB 3000: RETURN
-8000 IF LEN(F$)<1 OR LEN(F$)>8 THEN E$="Bad filename": GOTO 9000
+9000 PRINT "ERROR line"; L; ": "; E$
 ```
 
 Save the result before running it:
@@ -83,16 +83,17 @@ MOV DX,65535
 From DOS start the checkpoint:
 
 ```dos
+COPY T08.ASM SOURCE.ASM
 GWBASIC BA08.BAS
 ```
 
-At its source-name prompt enter `T08` without an extension. The success report must name `T08.COM` and report **8 bytes**. After the program ends at BASIC's `Ok` prompt, inspect the file:
+The assembler uses the filenames in line 30 without asking for input. The success report must name `RESULT.COM` and report **8 bytes**. After the program ends at BASIC's `Ok` prompt, inspect the file:
 
 ```basic
 RUN "VIEW.BAS"
 ```
 
-At `File:` enter `T08.COM`. The viewer must report length 8 and these bytes (spaces and line wrapping are immaterial):
+At `File:` enter `RESULT.COM`. The viewer must report length 8 and these bytes (spaces and line wrapping are immaterial):
 
 ```text
 B0 41 B8 34 12 BA FF FF
@@ -108,7 +109,7 @@ Create `X08.ASM` containing:
 MOV AL,256
 ```
 
-Reload `BA08.BAS` and run it with source name `X08`. Expect `ERROR line 1 : Byte out of range`; BASIC may print extra spaces around the line number. There must be no `OK` report. On a fresh workbench there must be no `X08.COM`. If an older file exists, it is left unchanged and must not be mistaken for a new result.
+Return to DOS, copy `X08.ASM` to `SOURCE.ASM`, then run `GWBASIC BA08.BAS`. Expect `ERROR line 1 : Byte out of range`; BASIC may print extra spaces around the line number. There must be no `OK` report. The accepted `RESULT.COM` must remain unchanged. Preserve it as HOLD.COM before this test and compare the files afterward; an older result must not be mistaken for a new successful assembly.
 
 ## If the result differs
 

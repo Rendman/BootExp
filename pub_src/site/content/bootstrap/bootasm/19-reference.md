@@ -11,9 +11,9 @@ This reference describes the completed `BOOTASM.BAS`. Earlier checkpoints accept
 
 ## Files and invocation
 
-At DOS run `GWBASIC BOOTASM.BAS`. At the source prompt enter a base name of one through eight letters, digits, or underscores, without path or extension. The assembler reads `name.ASM` twice and writes `name.COM` after both passes succeed. The files are in the current work directory. Use ordinary disk filenames; the character check does not reject DOS device names such as CON or NUL. Device names are excluded from the workbench to keep this small validator simple.
+At DOS, copy the desired assembly source to SOURCE.ASM, then run `GWBASIC BOOTASM.BAS`. Line 30 assigns SF$="SOURCE.ASM" and OF$="RESULT.COM" directly. The assembler reads SOURCE.ASM twice and writes RESULT.COM after both passes succeed. Use SYSTEM to return to DOS, then copy the accepted result to its program name before another assembly. No console filename is requested.
 
-`OK name.COM n bytes` reports success and the exact byte count. `ERROR line n : diagnostic` reports a rejected source line. BASIC may insert additional spaces around numeric values. `BASIC error n at m` reports an interpreter or file error at BASIC line m. Assembly errors leave existing output untouched. A file error during the final write may leave incomplete output. Always require a fresh OK report.
+`OK RESULT.COM n bytes` reports success and the exact byte count. `ERROR line n : diagnostic` reports a rejected source line. BASIC may insert additional spaces around numeric values. `BASIC error n at m` reports an interpreter or file error at BASIC line m. Assembly errors leave existing output untouched. A file error during the final write may leave incomplete output. Always require a fresh OK report.
 
 The assembler finishes at the BASIC `Ok` prompt; use `SYSTEM` before running a DOS program. Assembly failures do not supply a dependable DOS return code. Observe the printed report, rather than using CHECK.BAT to judge BASIC itself.
 
@@ -122,7 +122,6 @@ CF is carry, ZF is zero, SF is sign, and OF is signed overflow. CMP sets the fla
 | 7000 | Label T$, PS, P | Enters SY$/SV in pass one; SC and validator/lookup scratch |
 | 7100 | Label text T$ | Validates; K, C$, register-reader scratch; preserves T$ |
 | 7200 | T$, SC, SY$ | SI (or -1), K |
-| 8000 | Filename F$ | Validates; FI, FC$, C$ |
 | 9000 / 9500 | Assembly diagnostic E$ or BASIC ERR/ERL | Reports, closes files, and ends the program |
 
 Variables are shared BASIC program state. Callers save values which their callees may change: RD and WD preserve a destination while another operand is read; DA$ and DI preserve a data list while the number reader scans an item. The dispatcher is called through GOSUB, so its selected subroutine returns before the main source loop continues. None of these routines recursively calls itself.
@@ -154,7 +153,6 @@ An empty source is accepted as a zero-byte output for inspection. It is not a ru
 
 | Diagnostic | What to check |
 |---|---|
-| Bad filename | Base name length and permitted characters |
 | Too many source lines / Source line too long | The physical input limits, including comments |
 | Missing value / Bad number / Number too large | An absent item, malformed digits, or a value above 65,535 |
 | Byte out of range | A byte operand above 255 |

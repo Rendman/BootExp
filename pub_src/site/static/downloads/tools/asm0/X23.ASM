@@ -1,1 +1,1 @@
-MOV AX,AL
+INC AL

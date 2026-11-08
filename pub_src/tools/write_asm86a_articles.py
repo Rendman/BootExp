@@ -35,7 +35,7 @@ for case in cases:
   changes.append(dict(a1=a,a2=b,old=old,new=new,context=before,after=after))
  t+='## Build the stopping point\n\n'
  if n<=12:
-  t+=f'Run `CHECK ASMKEEP`, enter `{name}` at `Source name:`, and require `OK {case["binary_bytes"]:05} bytes` and PASS. This uses the preceding published ASM86, not the new checkpoint. It creates {name}.COM.\n\n'
+  t+=f'Copy `{name}.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK {case["binary_bytes"]:05} bytes` and PASS. This uses the preceding published ASM86, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM {name}.COM`.\n\n'
  else:
   t+=fence('dos',f'COPY {name}.ASM SOURCE.ASM\nCHECK ASMA0')+f'Require `OK RESULT.COM {case["binary_bytes"]:05} bytes` and PASS. Preserve this executable before using its fixed output name:\n\n'+fence('dos',f'COPY RESULT.COM {name}.COM')
  t+=f'VIEW.BAS must report {name}.COM length {case["binary_bytes"]} bytes. Keep that executable and source together.\n\n## Acceptance check\n\n'
@@ -50,8 +50,8 @@ for case in cases:
   alias='ASMA0' if n==12 else 'ASM86A'
   t+='Compare the first self-produced executable with the preserved original, then use that new generation to assemble the same source once more:\n\n'+fence('dos',f'ECHO N>NO.TXT\nCOMP {alias}.COM RESULT.COM <NO.TXT\nCOPY RESULT.COM GEN1.COM\nCHECK GEN1\nCOMP {alias}.COM RESULT.COM <NO.TXT')
   t+=f'Both COMP comparisons must report no differences. GEN1 must report `OK RESULT.COM {case["binary_bytes"]:05} bytes` and PASS. COMP may ask whether to compare more files; NO.TXT answers N. Keep the original {alias}.COM separately.\n\n'
-  if n==12:t+='Continue with the separate [ASM86A collection](../../asm86a/index.html). For its construction builds, ASMA0.COM is the preceding builder. ASMKEEP.COM remains the original ASM86. Their filename interfaces differ; do not overwrite one with the other.\n\n'
-  else:t+=fence('dos','COPY ASM86A.COM ASMAKEEP.COM')+'ASMAKEEP.COM is the preserved fixed-file assembler. ASMKEEP.COM still names the original prompted ASM86.\n\n'
+  if n==12:t+='Continue with the separate [ASM86A collection](../../asm86a/index.html). For its construction builds, ASMA0.COM is the preceding builder. ASMKEEP.COM remains the original ASM86. Both use the fixed work files; preserve each builder under its own name.\n\n'
+  else:t+=fence('dos','COPY ASM86A.COM ASMAKEEP.COM')+'ASMAKEEP.COM is the preserved fixed-file assembler. ASMKEEP.COM still names the original ASM86.\n\n'
  else:t+='The byte inspection is the stopping check for this encoding exercise. Keep the result as data.\n\n'
  t+='## A rejection check\n\n';bad=case['bad']
  if n in [3,4,5]:t+='After inspecting the successful copy, delete ASMA.TMP. It belongs to this copy exercise.\n\n'

@@ -80,8 +80,8 @@ BYTE='''10 ON ERROR GOTO 900
 '''
 stage('Reading a source file','''10 ON ERROR GOTO 9500
 20 DIM B%(4095)
-30 LINE INPUT "Source name (no extension): "; F$
-80 OPEN "I", #1, F$+".ASM"
+30 SF$="SOURCE.ASM": OF$="RESULT.COM"
+80 OPEN "I", #1, SF$
 90 P=0: L=0
 100 IF EOF(1) THEN 300
 110 LINE INPUT #1, S$
@@ -92,16 +92,16 @@ stage('Reading a source file','''10 ON ERROR GOTO 9500
 200 GOSUB 4000
 210 GOTO 100
 300 CLOSE #1
-310 OPEN "O", #2, F$+".COM"
+310 OPEN "O", #2, OF$
 320 CLOSE #2
-325 KILL F$+".COM"
-330 OPEN "R", #2, F$+".COM", 1
+325 KILL OF$
+330 OPEN "R", #2, OF$, 1
 340 FIELD #2, 1 AS O$
 345 IF P=0 THEN 380
 350 FOR I=0 TO P-1
 360 LSET O$=CHR$(B%(I)): PUT #2, I+1
 370 NEXT I
-380 CLOSE: PRINT "OK "; F$; ".COM"; P; "bytes"
+380 CLOSE: PRINT "OK "; OF$; P; "bytes"
 390 END
 2000 IF T$="" THEN E$="Missing value": GOTO 9000
 2020 N=0
@@ -127,7 +127,7 @@ stage('Reading a source file','''10 ON ERROR GOTO 9500
 'A single byte is a useful disk experiment, but a program needs a sequence. We shall read one decimal byte from each source line and keep the result in memory until the whole source has been accepted.',
 '''`B%` is an integer array with 4,096 elements, numbered 0 through 4,095. `P` is the number of bytes collected; it is also the index of the next free element. This limit keeps the array to 8,192 bytes of BASIC storage. It deliberately limits our programs, rather than the processor.
 
-Lines 80-210 open `name.ASM` as a sequential input file. `LINE INPUT` reads a whole line without treating commas as input separators. `L` counts physical source lines, including empty ones. At 170, the first space ends the instruction name `M$`; the remainder becomes the argument `A$`. At this checkpoint use uppercase `DB`, one space, and one decimal number.
+Lines 80-210 open `SOURCE.ASM` as a sequential input file. `LINE INPUT` reads a whole line without treating commas as input separators. `L` counts physical source lines, including empty ones. At 170, the first space ends the instruction name `M$`; the remainder becomes the argument `A$`. At this checkpoint use uppercase `DB`, one space, and one decimal number.
 
 The dispatcher at 4000 selects the routine for `DB`, meaning *define byte*. Routine 2000 takes a number in `T$` and returns its value in `N`. It changes `NI` and `D`, but leaves the argument string alone. Each digit is checked before it is included; the bound is checked after each multiplication. This avoids accepting BASIC expressions or mistyped suffixes.
 
@@ -135,8 +135,7 @@ Routine 3000 takes a byte in `X`, checks its range and available space, and adva
 
 The error exits close all open files. An assembly error leaves any existing `.COM` file unchanged. An input/output error while writing can leave a partial file; only an `OK` report means the write finished.''',
 'DB 65\nDB 66\nDB 67','41 42 43','DB 256','Byte out of range')
-stage('Tidying the input','''40 GOSUB 8000
-125 IF L>2000 THEN E$="Too many source lines": GOTO 9000
+stage('Tidying the input','''125 IF L>2000 THEN E$="Too many source lines": GOTO 9000
 130 IF LEN(S$)>120 THEN E$="Source line too long": GOTO 9000
 150 GOSUB 1000
 180 A$=""
@@ -152,19 +151,14 @@ stage('Tidying the input','''40 GOSUB 8000
 1060 IF LEFT$(S$,1)=" " THEN S$=MID$(S$,2): GOTO 1060
 1070 IF RIGHT$(S$,1)=" " THEN S$=LEFT$(S$,LEN(S$)-1): GOTO 1070
 1080 RETURN
-8000 IF LEN(F$)<1 OR LEN(F$)>8 THEN E$="Bad filename": GOTO 9000
-8005 FC$="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_"
-8010 FOR FI=1 TO LEN(F$)
-8020 C$=MID$(F$,FI,1)
-8030 IF INSTR(FC$,C$)=0 THEN E$="Bad filename": GOTO 9000
-8040 NEXT FI: RETURN
+
 ''',
 'Indentation and a note in the margin should not spoil a source line. We can improve that without changing the byte writer.',
 '''Routine 1000 takes `S$` and returns a cleaned line in the same variable. It changes `I`, `C`, and individual characters. ASCII lowercase letters are 32 greater than their uppercase partners; tabs become spaces. A semicolon begins a comment, and the loops at 1060-1070 remove spaces from the ends. They also handle a line containing only spaces.
 
 The argument builder at 180-195 removes spaces from operands. There are no quoted strings in this language, so there is no quoted space to preserve. Write each number as one token even though this small parser ignores operand spaces. The mnemonic still ends at the first space.
 
-The source is limited to 2,000 physical lines of at most 120 characters each. Both limits keep a typing error from becoming an unmanageable job. The filename routine takes `F$`, uses `FI`, `FC$`, and `C$`, and allows only a one-to-eight-character base name made of letters, digits, and underscores. Paths and extensions are excluded so the input and output names stay predictable.''',
+The source is limited to 2,000 physical lines of at most 120 characters each. Both limits keep a typing error from becoming an unmanageable job. Line 30 names SOURCE.ASM and RESULT.COM directly. COPY selects the source before the interpreter starts, so the assembler needs no console filename reader or filename validator.''',
 '; Three letters\n  db 65 ; first\n\n\tdb 66\nDB 67','41 42 43','DB -1','Bad number')
 stage('Hexadecimal numbers','''2020 Q$=T$: BA=10
 2030 IF RIGHT$(Q$,1)="H" THEN BA=16: Q$=LEFT$(Q$,LEN(Q$)-1)
@@ -547,16 +541,17 @@ At DOS, create `{fixture}.ASM` with the following exact source. `COPY CON {fixtu
 From DOS start the checkpoint:
 
 ```dos
+COPY {fixture}.ASM SOURCE.ASM
 GWBASIC {name}
 ```
 
-At its source-name prompt enter `{fixture}` without an extension. The success report must name `{fixture}.COM` and report **{len(bytes.fromhex(s['expected']))} bytes**. After the program ends at BASIC's `Ok` prompt, inspect the file:
+The assembler uses the filenames in line 30 without asking for input. The success report must name `RESULT.COM` and report **{len(bytes.fromhex(s['expected']))} bytes**. After the program ends at BASIC's `Ok` prompt, inspect the file:
 
 ```basic
 RUN "VIEW.BAS"
 ```
 
-At `File:` enter `{fixture}.COM`. The viewer must report length {len(bytes.fromhex(s['expected']))} and these bytes (spaces and line wrapping are immaterial):
+At `File:` enter `RESULT.COM`. The viewer must report length {len(bytes.fromhex(s['expected']))} and these bytes (spaces and line wrapping are immaterial):
 
 ```text
 {s['expected']}
@@ -564,9 +559,10 @@ At `File:` enter `{fixture}.COM`. The viewer must report length {len(bytes.fromh
 
 '''
     if s['run'] is not None:
-        body+=f'''This fixture is a complete program. Return to DOS with `SYSTEM`, then run it through the shared status check:
+        body+=f'''This fixture is a complete program. Return to DOS with `SYSTEM`, preserve the accepted result, then run it through the shared status check:
 
 ```dos
+COPY RESULT.COM {fixture}.COM
 CHECK {fixture}
 ```
 
@@ -584,7 +580,7 @@ Create `X{index:02}.ASM` containing:
 {s['bad']}
 ```
 
-Reload `{name}` and run it with source name `X{index:02}`. Expect `ERROR line {badline} : {s['diagnostic']}`; BASIC may print extra spaces around the line number. There must be no `OK` report. On a fresh workbench there must be no `X{index:02}.COM`. If an older file exists, it is left unchanged and must not be mistaken for a new result.
+Return to DOS, copy `X{index:02}.ASM` to `SOURCE.ASM`, then run `GWBASIC {name}`. Expect `ERROR line {badline} : {s['diagnostic']}`; BASIC may print extra spaces around the line number. There must be no `OK` report. The accepted `RESULT.COM` must remain unchanged. Preserve it as HOLD.COM before this test and compare the files afterward; an older result must not be mistaken for a new successful assembly.
 
 ## If the result differs
 

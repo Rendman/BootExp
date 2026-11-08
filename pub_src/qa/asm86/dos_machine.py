@@ -94,6 +94,6 @@ class DosMachine:
    c.reg_write(UC_X86_REG_AX,amount);self.carry(False);return
   raise AssertionError(f'Unexpected DOS function {ah:02X}')
 def assemble(image,source,stem='TRY',old=None,**kwargs):
- files={stem+'.ASM':source.encode('ascii') if isinstance(source,str) else source}
- if old is not None:files[stem+'.COM']=old
- return DosMachine(files,[stem],**kwargs).run(image)
+ files={'SOURCE.ASM':source.encode('ascii') if isinstance(source,str) else source}
+ if old is not None:files['RESULT.COM']=old
+ return DosMachine(files,**kwargs).run(image)

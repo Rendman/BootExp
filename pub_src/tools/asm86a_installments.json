@@ -2,9 +2,9 @@
   {
     "number": 1,
     "title": "Fixed work files",
-    "description": "Select source with COPY and keep filename entry out of the new assembler.",
-    "why": "The bootstrap ladder already has an assembler. We can retain its tested parser and use fixed files for the next tool.",
-    "explain": "Copy the completed ASM86 source. OPENFILE uses SOURCE.ASM, and the final writer uses RESULT.COM. The driver no longer calls GETNAME. The instruction language and the old whole-image buffer are otherwise unchanged at this stopping point.\n\nThe two input passes still finish before output creation. Keep ASMKEEP.COM as the preceding assembler; its existing filename prompt builds each native checkpoint. COPY selects the source for the new tool.",
+    "description": "Keep the fixed work files and name the accepted result in the report.",
+    "why": "Retain the completed assembler and its fixed SOURCE.ASM/RESULT.COM contract while preparing the streaming construction.",
+    "explain": "Copy the completed ASM86 source. Keep its two passes, accepted language and whole-image output buffer. OPENFILE uses SOURCE.ASM; WRITEOUT uses RESULT.COM. The success report now includes RESULT.COM so the accepted output is named explicitly.\n\nThe two input passes still finish before output creation. Preserve ASMKEEP.COM as the preceding assembler. To build a checkpoint, copy its source to SOURCE.ASM, run CHECK ASMKEEP, then copy the accepted RESULT.COM to the checkpoint executable name.",
     "fixture": "MOV DL,41H\nMOV AH,2\nINT 21H\nMOV AX,4C00H\nINT 21H\n",
     "expected": "B241B402CD21B8004CCD21",
     "program_output": "A",

@@ -1,8 +1,9 @@
 +++
-title = "07 \u00b7 Physical source lines"
-weight = 7
+title = "06 \u00b7 Physical source lines"
+weight = 6
 description = "Bound each line and handle CR, LF, and the last line at EOF."
-download = "AS07.ASM"
+download = "AS06.ASM"
+aliases = ["/bootstrap/asm86/07-physical-source-lines/"]
 download_group = "tools/asm0"
 reader_names = 1
 +++
@@ -23,7 +24,7 @@ The diagnostic driver prints each completed line with ZTEXT. It is a text reader
 
 ## Source changes
 
-Copy `AS06.ASM` to `AS07.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS05.ASM` to `AS06.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
 
 ### Change 1: following `LINENO:`
 
@@ -35,7 +36,7 @@ DW 0
 
 ```
 
-Insert after old physical line 202, before the following old line.
+Insert after old physical line 134, before the following old line.
 
 Insert this source:
 
@@ -58,7 +59,7 @@ INT 21H
 
 ```
 
-Insert after old physical line 170, before the following old line.
+Insert after old physical line 111, before the following old line.
 
 Insert this source:
 
@@ -81,16 +82,17 @@ RET
 Unchanged code immediately before this edit:
 
 ```asm
+JMP ERROR
 BYTEOK:
 RET
-
 ```
 
-Insert after old physical line 108, before the following old line.
+Insert after old physical line 55, before the following old line.
 
 Insert this source:
 
 ```asm
+
 READLINE:
 MOV DI,2200H
 MOV BP,0
@@ -171,7 +173,6 @@ MOV DX,[LINENO]
 INC DX
 MOV [LINENO],DX
 JMP ERROR
-
 ```
 
 ### Change 4: following `DUMPBYTE:`
@@ -184,7 +185,7 @@ CALL NEXTBYTE
 CMP AX,0
 ```
 
-Remove these exact old lines (physical lines 14–19 of `AS06.ASM`):
+Remove these exact old lines (physical lines 13–18 of `AS05.ASM`):
 
 ```asm
 JE DUMPEND
@@ -213,12 +214,12 @@ DRIVERDONE:
 Unchanged code immediately before this edit:
 
 ```asm
+JMP ERROR
 ROOM:
-CALL GETNAME
 CALL OPENFILE
 ```
 
-Remove these exact old lines (physical lines 11–12 of `AS06.ASM`):
+Remove these exact old lines (physical lines 10–11 of `AS05.ASM`):
 
 ```asm
 DUMPBYTE:
@@ -237,12 +238,13 @@ CALL READLINE
 Use the BASIC assembler prepared in the workbench guide:
 
 ```dos
+COPY AS06.ASM SOURCE.ASM
 GWBASIC BOOTASM.BAS
 ```
 
-Enter `AS07` at its source prompt. Require `OK AS07.COM 603 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.
+Require `OK RESULT.COM 456 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS, then `COPY RESULT.COM AS06.COM`. Save this source and executable as a working stopping point.
 
-Use `COPY CON T07.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
+Use `COPY CON T06.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
 
 ```asm
 one
@@ -250,15 +252,16 @@ two
 ```
 
 ```dos
-CHECK AS07
+COPY T06.ASM SOURCE.ASM
 ```
 
-Enter `T07` when `Source name:` appears.
+```dos
+CHECK AS06
+```
 
 The display, apart from DOS command echo and the checker's separating blank line, is:
 
 ```text
-Source name: T07
 ONE
 TWO
 PASS
@@ -266,7 +269,7 @@ PASS
 
 ## A rejection check
 
-Enter this separate file as `X07.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
+Enter this separate file as `X06.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
 
 ```asm
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -274,7 +277,10 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 The test line contains exactly 121 X characters. Count carefully: 120 is allowed.
 
-Run `CHECK AS07` and enter `X07`.
+```dos
+COPY X06.ASM SOURCE.ASM
+CHECK AS06
+```
 
 Require this diagnostic followed by the checker's `FAIL`:
 

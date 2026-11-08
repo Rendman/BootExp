@@ -11,7 +11,7 @@ The assembler ladder is BOOTASM → ASM0 → ASM1 → ASM86. Keep each source an
 
 ## The original native assembler
 
-Run GWBASIC BOOTASM.BAS and enter ASM0. Require its OK report; use SYSTEM to return to DOS. VIEW.BAS must show ASM0.COM length 2574. Keep the tested copy as ASMKEEP.COM. The ASM0 self-assembly exercise compares two native copies against this original.
+Copy ASM0.ASM to SOURCE.ASM, then run GWBASIC BOOTASM.BAS. Require OK RESULT.COM and use SYSTEM to return to DOS. Copy RESULT.COM to ASM0.COM. VIEW.BAS must show ASM0.COM length 2431. Keep the tested copy as ASMKEEP.COM. The ASM0 self-assembly exercise compares two native copies against this original.
 
 ## Preserve the streaming seed
 

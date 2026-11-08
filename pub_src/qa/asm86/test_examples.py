@@ -7,7 +7,7 @@ lines=[]
 for name,size,output,old,new,line,code in cases:
  source=(W/(name+'.ASM')).read_bytes();result=assemble(image,source,name)
  assert result.exitcode==0,(name,result.output)
- program=result.files[name+'.COM'];assert len(program)==size,(name,len(program))
+ program=result.files['RESULT.COM'];assert len(program)==size,(name,len(program))
  executed=DosMachine().run(program)
  assert executed.exitcode==0 and executed.output.decode('ascii')==output,(name,executed.output)
  bad=assemble(image,source.decode('ascii').replace(old,new),'BAD')

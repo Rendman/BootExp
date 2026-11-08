@@ -16,7 +16,7 @@ The processor does not read `MOV DL,42H`. It reads bytes. An assembler is the pr
 
 - **Named instructions and data:** Translate a small assembly vocabulary into bytes so programs can be entered and understood without calculating every opcode by hand.
 - **Labels and two passes:** Resolve named addresses, including forward references, so inserting code does not require renumbering every branch destination.
-- **A BASIC implementation:** Use the interpreter already on the workbench to create the first assembler without an outside assembler or compiler.
+- **Fixed work files and a BASIC implementation:** Read SOURCE.ASM and write RESULT.COM directly. Use the interpreter already on the workbench to create the first assembler without an outside assembler or compiler.
 - **DOS program files and byte inspection:** Write runnable .COM files and inspect their contents so every small addition has a concrete result to check.
 
 **Removing:** None; this collection establishes the first assembler.

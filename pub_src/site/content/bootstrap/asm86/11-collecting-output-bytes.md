@@ -1,8 +1,9 @@
 +++
-title = "12 \u00b7 Collecting output bytes"
-weight = 12
+title = "11 \u00b7 Collecting output bytes"
+weight = 11
 description = "Count loaded offsets while retaining bytes in a separate buffer."
-download = "AS12.ASM"
+download = "AS11.ASM"
+aliases = ["/bootstrap/asm86/12-collecting-output-bytes/"]
 download_group = "tools/asm0"
 reader_names = 1
 +++
@@ -21,7 +22,7 @@ This checkpoint accepts one numeric byte value per line, checks the end of each 
 
 ## Source changes
 
-Copy `AS11.ASM` to `AS12.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS10.ASM` to `AS11.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
 
 ### Change 1: following `ERRCODE:`
 
@@ -33,7 +34,7 @@ ERRCODE:
 DB 0
 ```
 
-Insert after old physical line 441, before the following old line.
+Insert after old physical line 373, before the following old line.
 
 Insert this source:
 
@@ -53,7 +54,7 @@ TOKLEN:
 DW 0
 ```
 
-Insert after old physical line 429, before the following old line.
+Insert after old physical line 361, before the following old line.
 
 Insert this source:
 
@@ -73,7 +74,7 @@ DW 0
 
 ```
 
-Insert after old physical line 427, before the following old line.
+Insert after old physical line 359, before the following old line.
 
 Insert this source:
 
@@ -86,17 +87,17 @@ DW 24576
 
 ```
 
-### Change 4: following `PROMPT:`
+### Change 4: following `ERROR:`
 
 Unchanged code immediately before this edit:
 
 ```asm
-PROMPT:
-DB 83,111,117,114,99,101,32,110,97,109,101,58,32,36
+MOV AX,4C01H
+INT 21H
 
 ```
 
-Insert after old physical line 398, before the following old line.
+Insert after old physical line 336, before the following old line.
 
 Insert this source:
 
@@ -116,7 +117,7 @@ RET
 
 ```
 
-Insert after old physical line 333, before the following old line.
+Insert after old physical line 281, before the following old line.
 
 Insert this source:
 
@@ -164,7 +165,7 @@ DRIVERDONE:
 CALL CLOSEFILE
 ```
 
-Insert after old physical line 26, before the following old line.
+Insert after old physical line 25, before the following old line.
 
 Insert this source:
 
@@ -188,7 +189,7 @@ PUSH AX
 CALL FINISH
 ```
 
-Remove these exact old lines (physical lines 20–23 of `AS11.ASM`):
+Remove these exact old lines (physical lines 19–22 of `AS10.ASM`):
 
 ```asm
 POP AX
@@ -209,7 +210,7 @@ CALL SCAN
 CALL VALUE
 ```
 
-Remove these exact old lines (physical lines 18–18 of `AS11.ASM`):
+Remove these exact old lines (physical lines 17–17 of `AS10.ASM`):
 
 ```asm
 PUSH AX
@@ -226,12 +227,12 @@ CALL BYTEVALUE
 Unchanged code immediately before this edit:
 
 ```asm
+MOV AX,7
 JMP ERROR
 ROOM:
-CALL GETNAME
 ```
 
-Insert after old physical line 9, before the following old line.
+Insert after old physical line 8, before the following old line.
 
 Insert this source:
 
@@ -249,12 +250,13 @@ MOV [OUTPTR],AX
 Use the BASIC assembler prepared in the workbench guide:
 
 ```dos
+COPY AS11.ASM SOURCE.ASM
 GWBASIC BOOTASM.BAS
 ```
 
-Enter `AS12` at its source prompt. Require `OK AS12.COM 1000 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.
+Require `OK RESULT.COM 853 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS, then `COPY RESULT.COM AS11.COM`. Save this source and executable as a working stopping point.
 
-Use `COPY CON T12.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
+Use `COPY CON T11.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
 
 ```asm
 65
@@ -262,28 +264,32 @@ Use `COPY CON T12.ASM` to enter this exact test text; finish with Ctrl-Z and Ent
 ```
 
 ```dos
-CHECK AS12
+COPY T11.ASM SOURCE.ASM
 ```
 
-Enter `T12` when `Source name:` appears.
+```dos
+CHECK AS11
+```
 
 The display, apart from DOS command echo and the checker's separating blank line, is:
 
 ```text
-Source name: T12
 Buffered 00002 bytes
 PASS
 ```
 
 ## A rejection check
 
-Enter this separate file as `X12.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
+Enter this separate file as `X11.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
 
 ```asm
 256
 ```
 
-Run `CHECK AS12` and enter `X12`.
+```dos
+COPY X11.ASM SOURCE.ASM
+CHECK AS11
+```
 
 Require this diagnostic followed by the checker's `FAIL`:
 

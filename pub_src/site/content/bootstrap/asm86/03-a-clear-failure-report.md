@@ -132,10 +132,11 @@ MOV DX,READYMSG
 Use the BASIC assembler prepared in the workbench guide:
 
 ```dos
+COPY AS03.ASM SOURCE.ASM
 GWBASIC BOOTASM.BAS
 ```
 
-Enter `AS03` at its source prompt. Require `OK AS03.COM 164 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.
+Require `OK RESULT.COM 164 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS, then `COPY RESULT.COM AS03.COM`. Save this source and executable as a working stopping point.
 
 ```dos
 CHECK AS03

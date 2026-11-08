@@ -1,8 +1,9 @@
 +++
-title = "22 \u00b7 A register and an immediate"
-weight = 22
+title = "21 \u00b7 A register and an immediate"
+weight = 21
 description = "Determine MOV size from its destination register."
-download = "AS22.ASM"
+download = "AS21.ASM"
+aliases = ["/bootstrap/asm86/22-a-register-and-an-immediate/"]
 download_group = "tools/asm0"
 reader_names = 1
 +++
@@ -21,7 +22,7 @@ The routine changes the operand fields, parser scratch registers, and output sta
 
 ## Source changes
 
-Copy `AS21.ASM` to `AS22.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS20.ASM` to `AS21.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
 
 ### Change 1: following `OPTAB:`
 
@@ -33,7 +34,7 @@ DB 76,79,68,83,66,0,2,172
 DB 83,84,79,83,66,0,2,170
 ```
 
-Insert after old physical line 814, before the following old line.
+Insert after old physical line 750, before the following old line.
 
 Insert this source:
 
@@ -51,7 +52,7 @@ DB 0
 OP:
 ```
 
-Insert after old physical line 784, before the following old line.
+Insert after old physical line 720, before the following old line.
 
 Insert this source:
 
@@ -86,7 +87,7 @@ DW 0
 
 ```
 
-Insert after old physical line 768, before the following old line.
+Insert after old physical line 704, before the following old line.
 
 Insert this source:
 
@@ -106,7 +107,7 @@ JMP ERROR
 FINISHED:
 ```
 
-Insert after old physical line 606, before the following old line.
+Insert after old physical line 551, before the following old line.
 
 Insert this source:
 
@@ -169,7 +170,7 @@ RET
 STNEXT2:
 ```
 
-Remove these exact old lines (physical lines 569–569 of `AS21.ASM`):
+Remove these exact old lines (physical lines 514–514 of `AS20.ASM`):
 
 ```asm
 JMP SYNTAXBAD
@@ -193,7 +194,7 @@ DEC SI
 MOV BX,OPTAB
 ```
 
-Remove these exact old lines (physical lines 544–544 of `AS21.ASM`):
+Remove these exact old lines (physical lines 489–489 of `AS20.ASM`):
 
 ```asm
 MOV CX,6
@@ -215,7 +216,7 @@ JMP ERROR
 
 ```
 
-Insert after old physical line 524, before the following old line.
+Insert after old physical line 469, before the following old line.
 
 Insert this source:
 
@@ -251,12 +252,13 @@ RET
 Use the BASIC assembler prepared in the workbench guide:
 
 ```dos
+COPY AS21.ASM SOURCE.ASM
 GWBASIC BOOTASM.BAS
 ```
 
-Enter `AS22` at its source prompt. Require `OK AS22.COM 1914 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.
+Require `OK RESULT.COM 1771 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS, then `COPY RESULT.COM AS21.COM`. Save this source and executable as a working stopping point.
 
-Use `COPY CON T22.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
+Use `COPY CON T21.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
 
 ```asm
 MOV AL,41H
@@ -264,20 +266,21 @@ MOV AX,1234H
 ```
 
 ```dos
-CHECK AS22
+COPY T21.ASM SOURCE.ASM
 ```
 
-Enter `T22` when `Source name:` appears.
+```dos
+CHECK AS21
+```
 
 The display, apart from DOS command echo and the checker's separating blank line, is:
 
 ```text
-Source name: T22
 OK 00005 bytes
 PASS
 ```
 
-Inspect `T22.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `T22.COM`, and require a length of **5 bytes** with these hexadecimal bytes:
+Inspect `RESULT.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `RESULT.COM`, and require a length of **5 bytes** with these hexadecimal bytes:
 
 ```text
 B0 41 B8 34 12
@@ -289,13 +292,16 @@ This file is an encoding or data fixture. **Inspect it; do not execute it.**
 
 ## A rejection check
 
-Enter this separate file as `X22.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
+Enter this separate file as `X21.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
 
 ```asm
 MOV AL,256
 ```
 
-Run `CHECK AS22` and enter `X22`.
+```dos
+COPY X21.ASM SOURCE.ASM
+CHECK AS21
+```
 
 Require this diagnostic followed by the checker's `FAIL`:
 

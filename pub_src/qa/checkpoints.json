@@ -2,7 +2,7 @@
   {
     "title": "Reading a source file",
     "why": "A single byte is a useful disk experiment, but a program needs a sequence. We shall read one decimal byte from each source line and keep the result in memory until the whole source has been accepted.",
-    "explain": "`B%` is an integer array with 4,096 elements, numbered 0 through 4,095. `P` is the number of bytes collected; it is also the index of the next free element. This limit keeps the array to 8,192 bytes of BASIC storage. It deliberately limits our programs, rather than the processor.\n\nLines 80-210 open `name.ASM` as a sequential input file. `LINE INPUT` reads a whole line without treating commas as input separators. `L` counts physical source lines, including empty ones. At 170, the first space ends the instruction name `M$`; the remainder becomes the argument `A$`. At this checkpoint use uppercase `DB`, one space, and one decimal number.\n\nThe dispatcher at 4000 selects the routine for `DB`, meaning *define byte*. Routine 2000 takes a number in `T$` and returns its value in `N`. It changes `NI` and `D`, but leaves the argument string alone. Each digit is checked before it is included; the bound is checked after each multiplication. This avoids accepting BASIC expressions or mistyped suffixes.\n\nRoutine 3000 takes a byte in `X`, checks its range and available space, and advances `P`. It preserves `N`. The output loop opens a fresh file only after the source succeeds. Line 345 skips the FOR loop for an empty image: GW-BASIC enters a FOR body once even when its starting value already exceeds its limit. One-character random records write exactly one byte each. `OPEN \"O\"` followed by `CLOSE` first ensures that the output name exists. `KILL` then removes it before the random file is created, so a shorter assembly cannot leave an old tail. Closing a sequential output file can leave a DOS end-of-file character; removing that file also makes a truly empty result possible. BASIC's `BSAVE` adds a header, which a `.COM` file must not have.\n\nThe error exits close all open files. An assembly error leaves any existing `.COM` file unchanged. An input/output error while writing can leave a partial file; only an `OK` report means the write finished.",
+    "explain": "`B%` is an integer array with 4,096 elements, numbered 0 through 4,095. `P` is the number of bytes collected; it is also the index of the next free element. This limit keeps the array to 8,192 bytes of BASIC storage. It deliberately limits our programs, rather than the processor.\n\nLines 80-210 open `SOURCE.ASM` as a sequential input file. `LINE INPUT` reads a whole line without treating commas as input separators. `L` counts physical source lines, including empty ones. At 170, the first space ends the instruction name `M$`; the remainder becomes the argument `A$`. At this checkpoint use uppercase `DB`, one space, and one decimal number.\n\nThe dispatcher at 4000 selects the routine for `DB`, meaning *define byte*. Routine 2000 takes a number in `T$` and returns its value in `N`. It changes `NI` and `D`, but leaves the argument string alone. Each digit is checked before it is included; the bound is checked after each multiplication. This avoids accepting BASIC expressions or mistyped suffixes.\n\nRoutine 3000 takes a byte in `X`, checks its range and available space, and advances `P`. It preserves `N`. The output loop opens a fresh file only after the source succeeds. Line 345 skips the FOR loop for an empty image: GW-BASIC enters a FOR body once even when its starting value already exceeds its limit. One-character random records write exactly one byte each. `OPEN \"O\"` followed by `CLOSE` first ensures that the output name exists. `KILL` then removes it before the random file is created, so a shorter assembly cannot leave an old tail. Closing a sequential output file can leave a DOS end-of-file character; removing that file also makes a truly empty result possible. BASIC's `BSAVE` adds a header, which a `.COM` file must not have.\n\nThe error exits close all open files. An assembly error leaves any existing `.COM` file unchanged. An input/output error while writing can leave a partial file; only an `OK` report means the write finished.",
     "fixture": "T02",
     "expected": "41 42 43",
     "bad": "DB 256",
@@ -16,7 +16,7 @@
   {
     "title": "Tidying the input",
     "why": "Indentation and a note in the margin should not spoil a source line. We can improve that without changing the byte writer.",
-    "explain": "Routine 1000 takes `S$` and returns a cleaned line in the same variable. It changes `I`, `C`, and individual characters. ASCII lowercase letters are 32 greater than their uppercase partners; tabs become spaces. A semicolon begins a comment, and the loops at 1060-1070 remove spaces from the ends. They also handle a line containing only spaces.\n\nThe argument builder at 180-195 removes spaces from operands. There are no quoted strings in this language, so there is no quoted space to preserve. Write each number as one token even though this small parser ignores operand spaces. The mnemonic still ends at the first space.\n\nThe source is limited to 2,000 physical lines of at most 120 characters each. Both limits keep a typing error from becoming an unmanageable job. The filename routine takes `F$`, uses `FI`, `FC$`, and `C$`, and allows only a one-to-eight-character base name made of letters, digits, and underscores. Paths and extensions are excluded so the input and output names stay predictable.",
+    "explain": "Routine 1000 takes `S$` and returns a cleaned line in the same variable. It changes `I`, `C`, and individual characters. ASCII lowercase letters are 32 greater than their uppercase partners; tabs become spaces. A semicolon begins a comment, and the loops at 1060-1070 remove spaces from the ends. They also handle a line containing only spaces.\n\nThe argument builder at 180-195 removes spaces from operands. There are no quoted strings in this language, so there is no quoted space to preserve. Write each number as one token even though this small parser ignores operand spaces. The mnemonic still ends at the first space.\n\nThe source is limited to 2,000 physical lines of at most 120 characters each. Both limits keep a typing error from becoming an unmanageable job. Line 30 names SOURCE.ASM and RESULT.COM directly. COPY selects the source before the interpreter starts, so the assembler needs no console filename reader or filename validator.",
     "fixture": "T03",
     "expected": "41 42 43",
     "bad": "DB -1",
@@ -24,8 +24,8 @@
     "run": null,
     "number": 3,
     "source": "BA03.BAS",
-    "patch_lines": 23,
-    "total_lines": 67
+    "patch_lines": 16,
+    "total_lines": 60
   },
   {
     "title": "Hexadecimal numbers",
@@ -39,7 +39,7 @@
     "number": 4,
     "source": "BA04.BAS",
     "patch_lines": 8,
-    "total_lines": 70
+    "total_lines": 63
   },
   {
     "title": "Several bytes on one line",
@@ -53,7 +53,7 @@
     "number": 5,
     "source": "BA05.BAS",
     "patch_lines": 9,
-    "total_lines": 77
+    "total_lines": 70
   },
   {
     "title": "Putting a word on disk",
@@ -67,7 +67,7 @@
     "number": 6,
     "source": "BA06.BAS",
     "patch_lines": 7,
-    "total_lines": 81
+    "total_lines": 74
   },
   {
     "title": "Instructions without operands",
@@ -81,7 +81,7 @@
     "number": 7,
     "source": "BA07.BAS",
     "patch_lines": 8,
-    "total_lines": 89
+    "total_lines": 82
   },
   {
     "title": "Loading a register",
@@ -95,7 +95,7 @@
     "number": 8,
     "source": "BA08.BAS",
     "patch_lines": 22,
-    "total_lines": 111
+    "total_lines": 104
   },
   {
     "title": "Making a DOS request",
@@ -109,7 +109,7 @@
     "number": 9,
     "source": "BA09.BAS",
     "patch_lines": 4,
-    "total_lines": 115
+    "total_lines": 108
   },
   {
     "title": "Counting twice",
@@ -123,7 +123,7 @@
     "number": 10,
     "source": "BA10.BAS",
     "patch_lines": 3,
-    "total_lines": 117
+    "total_lines": 110
   },
   {
     "title": "Giving positions names",
@@ -137,7 +137,7 @@
     "number": 11,
     "source": "BA11.BAS",
     "patch_lines": 23,
-    "total_lines": 140
+    "total_lines": 133
   },
   {
     "title": "Using names as values",
@@ -151,7 +151,7 @@
     "number": 12,
     "source": "BA12.BAS",
     "patch_lines": 5,
-    "total_lines": 145
+    "total_lines": 138
   },
   {
     "title": "Copying between registers",
@@ -165,7 +165,7 @@
     "number": 13,
     "source": "BA13.BAS",
     "patch_lines": 6,
-    "total_lines": 151
+    "total_lines": 144
   },
   {
     "title": "The stack and single-register work",
@@ -179,7 +179,7 @@
     "number": 14,
     "source": "BA14.BAS",
     "patch_lines": 8,
-    "total_lines": 159
+    "total_lines": 152
   },
   {
     "title": "Arithmetic and comparisons",
@@ -193,7 +193,7 @@
     "number": 15,
     "source": "BA15.BAS",
     "patch_lines": 17,
-    "total_lines": 176
+    "total_lines": 169
   },
   {
     "title": "Reading and writing memory",
@@ -207,7 +207,7 @@
     "number": 16,
     "source": "BA16.BAS",
     "patch_lines": 20,
-    "total_lines": 196
+    "total_lines": 189
   },
   {
     "title": "Calling and jumping",
@@ -221,7 +221,7 @@
     "number": 17,
     "source": "BA17.BAS",
     "patch_lines": 7,
-    "total_lines": 203
+    "total_lines": 196
   },
   {
     "title": "Short conditional branches",
@@ -235,6 +235,6 @@
     "number": 18,
     "source": "BA18.BAS",
     "patch_lines": 9,
-    "total_lines": 212
+    "total_lines": 205
   }
 ]

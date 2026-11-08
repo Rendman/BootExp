@@ -1,8 +1,9 @@
 +++
-title = "25 \u00b7 Assembling a DOS request"
-weight = 25
+title = "24 \u00b7 Assembling a DOS request"
+weight = 24
 description = "Emit CDH and a checked interrupt number."
-download = "AS25.ASM"
+download = "AS24.ASM"
+aliases = ["/bootstrap/asm86/25-assembling-a-dos-request/"]
 download_group = "tools/asm0"
 reader_names = 1
 +++
@@ -19,7 +20,7 @@ INTERRUPT changes VALUE's scratch registers, AX, PC, OUTPTR, and flags. Its temp
 
 ## Source changes
 
-Copy `AS24.ASM` to `AS25.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS23.ASM` to `AS24.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
 
 ### Change 1: following `OPTAB:`
 
@@ -31,7 +32,7 @@ DB 80,85,83,72,0,0,5,80
 DB 80,79,80,0,0,0,5,88
 ```
 
-Insert after old physical line 959, before the following old line.
+Insert after old physical line 895, before the following old line.
 
 Insert this source:
 
@@ -49,7 +50,7 @@ ADD AL,DL
 CALL EMIT
 ```
 
-Insert after old physical line 640, before the following old line.
+Insert after old physical line 585, before the following old line.
 
 Insert this source:
 
@@ -77,7 +78,7 @@ RET
 STNEXT5:
 ```
 
-Insert after old physical line 597, before the following old line.
+Insert after old physical line 542, before the following old line.
 
 Insert this source:
 
@@ -99,7 +100,7 @@ DEC SI
 MOV BX,OPTAB
 ```
 
-Remove these exact old lines (physical lines 568–568 of `AS24.ASM`):
+Remove these exact old lines (physical lines 513–513 of `AS23.ASM`):
 
 ```asm
 MOV CX,11
@@ -116,12 +117,13 @@ MOV CX,12
 Use the BASIC assembler prepared in the workbench guide:
 
 ```dos
+COPY AS24.ASM SOURCE.ASM
 GWBASIC BOOTASM.BAS
 ```
 
-Enter `AS25` at its source prompt. Require `OK AS25.COM 2086 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.
+Require `OK RESULT.COM 1943 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS, then `COPY RESULT.COM AS24.COM`. Save this source and executable as a working stopping point.
 
-Use `COPY CON T25.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
+Use `COPY CON T24.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
 
 ```asm
 MOV DL,5AH
@@ -132,20 +134,21 @@ INT 21H
 ```
 
 ```dos
-CHECK AS25
+COPY T24.ASM SOURCE.ASM
 ```
 
-Enter `T25` when `Source name:` appears.
+```dos
+CHECK AS24
+```
 
 The display, apart from DOS command echo and the checker's separating blank line, is:
 
 ```text
-Source name: T25
 OK 00011 bytes
 PASS
 ```
 
-Inspect `T25.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `T25.COM`, and require a length of **11 bytes** with these hexadecimal bytes:
+Inspect `RESULT.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `RESULT.COM`, and require a length of **11 bytes** with these hexadecimal bytes:
 
 ```text
 B2 5A B4 02 CD 21 B8 00 4C CD 21
@@ -153,17 +156,20 @@ B2 5A B4 02 CD 21 B8 00 4C CD 21
 
 Use `SYSTEM` to return to DOS.
 
-`T25.COM` is also a complete executable. Run `CHECK T25`. It displays `Z` followed by the checker's blank line and `PASS`.
+`RESULT.COM` is also a complete executable. Preserve it with `COPY RESULT.COM T24.COM`, then run `CHECK T24`. It displays `Z` followed by the checker's blank line and `PASS`.
 
 ## A rejection check
 
-Enter this separate file as `X25.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
+Enter this separate file as `X24.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
 
 ```asm
 INT 256
 ```
 
-Run `CHECK AS25` and enter `X25`.
+```dos
+COPY X24.ASM SOURCE.ASM
+CHECK AS24
+```
 
 Require this diagnostic followed by the checker's `FAIL`:
 

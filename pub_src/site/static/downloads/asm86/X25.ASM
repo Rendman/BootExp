@@ -1,1 +1,1 @@
-INT 256
+ADD AX,AL

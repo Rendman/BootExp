@@ -1,8 +1,9 @@
 +++
-title = "14 \u00b7 The DB directive"
-weight = 14
+title = "13 \u00b7 The DB directive"
+weight = 13
 description = "Look up a mnemonic, then read its comma-separated byte values."
-download = "AS14.ASM"
+download = "AS13.ASM"
+aliases = ["/bootstrap/asm86/14-the-db-directive/"]
 download_group = "tools/asm0"
 reader_names = 1
 +++
@@ -21,7 +22,7 @@ The first complete byte statement can now hold a row of data. Unknown mnemonics 
 
 ## Source changes
 
-Copy `AS13.ASM` to `AS14.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS12.ASM` to `AS13.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
 
 ### Change 1: following `ERRCODE:`
 
@@ -33,7 +34,7 @@ ERRCODE:
 DB 0
 ```
 
-Insert after old physical line 525, before the following old line.
+Insert after old physical line 454, before the following old line.
 
 Insert this source:
 
@@ -53,7 +54,7 @@ DB 0
 
 ```
 
-Insert after old physical line 523, before the following old line.
+Insert after old physical line 452, before the following old line.
 
 Insert this source:
 
@@ -76,7 +77,7 @@ DW 0
 
 ```
 
-Insert after old physical line 511, before the following old line.
+Insert after old physical line 440, before the following old line.
 
 Insert this source:
 
@@ -96,7 +97,7 @@ MOV AX,1
 JMP ERROR
 ```
 
-Remove these exact old lines (physical lines 366–366 of `AS13.ASM`):
+Remove these exact old lines (physical lines 311–311 of `AS12.ASM`):
 
 ```asm
 FINISHED:
@@ -146,7 +147,7 @@ MOV AL,[2300H]
 CMP AL,0
 ```
 
-Remove these exact old lines (physical lines 363–363 of `AS13.ASM`):
+Remove these exact old lines (physical lines 308–308 of `AS12.ASM`):
 
 ```asm
 JE FINISHED
@@ -176,7 +177,7 @@ JMP ERROR
 
 ```
 
-Remove these exact old lines (physical lines 359–359 of `AS13.ASM`):
+Remove these exact old lines (physical lines 304–304 of `AS12.ASM`):
 
 ```asm
 FINISH:
@@ -198,7 +199,7 @@ JMP ERROR
 
 ```
 
-Insert after old physical line 285, before the following old line.
+Insert after old physical line 230, before the following old line.
 
 Insert this source:
 
@@ -248,7 +249,7 @@ JE DRIVERDONE
 MOV SI,2200H
 ```
 
-Remove these exact old lines (physical lines 22–27 of `AS13.ASM`):
+Remove these exact old lines (physical lines 21–26 of `AS12.ASM`):
 
 ```asm
 CALL SCAN
@@ -277,7 +278,7 @@ CALL READLINE
 CMP AX,0
 ```
 
-Remove these exact old lines (physical lines 20–20 of `AS13.ASM`):
+Remove these exact old lines (physical lines 19–19 of `AS12.ASM`):
 
 ```asm
 JE DRIVERDONE
@@ -299,7 +300,7 @@ MOV [OUTPTR],AX
 CALL OPENFILE
 ```
 
-Remove these exact old lines (physical lines 17–17 of `AS13.ASM`):
+Remove these exact old lines (physical lines 16–16 of `AS12.ASM`):
 
 ```asm
 DRIVERLINE:
@@ -321,7 +322,7 @@ MOV AX,6000H
 MOV [OUTPTR],AX
 ```
 
-Insert after old physical line 15, before the following old line.
+Insert after old physical line 14, before the following old line.
 
 Insert this source:
 
@@ -337,12 +338,12 @@ MOV [SKIPLF],AL
 Unchanged code immediately before this edit:
 
 ```asm
-CALL GETNAME
+ROOM:
 MOV AL,2
 MOV [PASS],AL
 ```
 
-Insert after old physical line 11, before the following old line.
+Insert after old physical line 10, before the following old line.
 
 Insert this source:
 
@@ -355,32 +356,34 @@ PASSSTART:
 Use the BASIC assembler prepared in the workbench guide:
 
 ```dos
+COPY AS13.ASM SOURCE.ASM
 GWBASIC BOOTASM.BAS
 ```
 
-Enter `AS14` at its source prompt. Require `OK AS14.COM 1219 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.
+Require `OK RESULT.COM 1068 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS, then `COPY RESULT.COM AS13.COM`. Save this source and executable as a working stopping point.
 
-Use `COPY CON T14.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
+Use `COPY CON T13.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
 
 ```asm
 DB 41H,42H,43H
 ```
 
 ```dos
-CHECK AS14
+COPY T13.ASM SOURCE.ASM
 ```
 
-Enter `T14` when `Source name:` appears.
+```dos
+CHECK AS13
+```
 
 The display, apart from DOS command echo and the checker's separating blank line, is:
 
 ```text
-Source name: T14
 OK 00003 bytes
 PASS
 ```
 
-Inspect `T14.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `T14.COM`, and require a length of **3 bytes** with these hexadecimal bytes:
+Inspect `RESULT.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `RESULT.COM`, and require a length of **3 bytes** with these hexadecimal bytes:
 
 ```text
 41 42 43
@@ -392,13 +395,16 @@ This file is an encoding or data fixture. **Inspect it; do not execute it.**
 
 ## A rejection check
 
-Enter this separate file as `X14.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
+Enter this separate file as `X13.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
 
 ```asm
 NOPE 1
 ```
 
-Run `CHECK AS14` and enter `X14`.
+```dos
+COPY X13.ASM SOURCE.ASM
+CHECK AS13
+```
 
 Require this diagnostic followed by the checker's `FAIL`:
 

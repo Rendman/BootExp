@@ -15,12 +15,19 @@ RESULT=[]
 def assemble(source, name, text=None):
     if text is not None:
         (WORK/(name+'.ASM')).write_bytes((text+'\r\n').replace('\r\n','\n').replace('\n','\r\n').encode('ascii'))
-    inp=io.BytesIO((name+'\r\n').encode('ascii')); out=io.BytesIO()
-    with pcbasic.Session(input_streams=inp,output_streams=out,devices={'A':str(WORK)},current_device='A:') as session:
-        session.execute(f'LOAD "{source}"')
-        session.execute('RUN')
-    log=out.getvalue().decode('ascii',errors='replace')
-    return log
+    out=io.BytesIO()
+    # Reproduce COPY fixture.ASM SOURCE.ASM and preserve the named result.
+    with tempfile.TemporaryDirectory() as directory:
+        work=Path(directory)
+        shutil.copyfile(WORK/source,work/source)
+        shutil.copyfile(WORK/(name+'.ASM'),work/'SOURCE.ASM')
+        target=WORK/(name+'.COM')
+        if target.exists():shutil.copyfile(target,work/'RESULT.COM')
+        with pcbasic.Session(input_streams=io.BytesIO(),output_streams=out,devices={'A':str(work)},current_device='A:') as session:
+            session.execute(f'LOAD "{source}"')
+            session.execute('RUN')
+        if (work/'RESULT.COM').exists():shutil.copyfile(work/'RESULT.COM',target)
+    return out.getvalue().decode('ascii',errors='replace')
 
 def execute_com(code):
     cpu=Uc(UC_ARCH_X86,UC_MODE_16);cpu.mem_map(0,0x100000)
@@ -57,7 +64,7 @@ def require(condition,message):
 for case in CASES:
     i=case['number'];name=case['fixture'];source=case['source']
     log=assemble(source,name)
-    require('OK '+name+'.COM' in log, f'{source}: {log}')
+    require('OK RESULT.COM' in log, f'{source}: {log}')
     actual=(WORK/(name+'.COM')).read_bytes();expected=bytes.fromhex(case['expected'])
     require(actual==expected,f'{source}: {actual.hex(" ")} != {expected.hex(" ")}')
     badname=f'X{i:02}'
@@ -117,7 +124,7 @@ invalid=[
  ('MANYLINE','\n'.join([';']*2001),'Too many source lines'),
 ]
 for name,text,diagnostic in invalid:
-    # 8.3 filenames are enforced before the source is opened.
+    # Keep the retained inspection copies within DOS 8.3 naming.
     name=name[:8]
     target=WORK/(name+'.COM');target.write_bytes(b'UNCHANGED')
     log=assemble(final,name,text)

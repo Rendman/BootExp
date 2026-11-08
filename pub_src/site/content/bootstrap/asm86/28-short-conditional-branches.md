@@ -1,9 +1,10 @@
 +++
-title = "29 \u00b7 Short conditional branches"
-weight = 29
+title = "28 \u00b7 Short conditional branches"
+weight = 28
 description = "A signed byte selects a nearby path from the flags."
-download = "AS29.ASM"
+download = "AS28.ASM"
 cartoon = "asm86-signals.png"
+aliases = ["/bootstrap/asm86/29-short-conditional-branches/"]
 download_group = "tools/asm0"
 reader_names = 1
 +++
@@ -24,7 +25,7 @@ The complete test displays 0, 1, and 2. CMP DL,33H sets the flags for JB; no fla
 
 ## Source changes
 
-Copy `AS28.ASM` to `AS29.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS27.ASM` to `AS28.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
 
 ### Change 1: following `OPTAB:`
 
@@ -36,7 +37,7 @@ DB 67,65,76,76,0,0,7,232
 DB 74,77,80,0,0,0,7,233
 ```
 
-Insert after old physical line 1109, before the following old line.
+Insert after old physical line 1045, before the following old line.
 
 Insert this source:
 
@@ -59,7 +60,7 @@ POP AX
 CALL EMITWORD
 ```
 
-Insert after old physical line 706, before the following old line.
+Insert after old physical line 651, before the following old line.
 
 Insert this source:
 
@@ -100,7 +101,7 @@ RET
 STNEXT7:
 ```
 
-Insert after old physical line 638, before the following old line.
+Insert after old physical line 583, before the following old line.
 
 Insert this source:
 
@@ -122,7 +123,7 @@ DEC SI
 MOV BX,OPTAB
 ```
 
-Remove these exact old lines (physical lines 599–599 of `AS28.ASM`):
+Remove these exact old lines (physical lines 544–544 of `AS27.ASM`):
 
 ```asm
 MOV CX,19
@@ -139,12 +140,13 @@ MOV CX,25
 Use the BASIC assembler prepared in the workbench guide:
 
 ```dos
+COPY AS28.ASM SOURCE.ASM
 GWBASIC BOOTASM.BAS
 ```
 
-Enter `AS29` at its source prompt. Require `OK AS29.COM 2574 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.
+Require `OK RESULT.COM 2431 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS, then `COPY RESULT.COM AS28.COM`. Save this source and executable as a working stopping point.
 
-Use `COPY CON T29.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
+Use `COPY CON T28.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
 
 ```asm
 MOV DL,30H
@@ -159,20 +161,21 @@ INT 21H
 ```
 
 ```dos
-CHECK AS29
+COPY T28.ASM SOURCE.ASM
 ```
 
-Enter `T29` when `Source name:` appears.
+```dos
+CHECK AS28
+```
 
 The display, apart from DOS command echo and the checker's separating blank line, is:
 
 ```text
-Source name: T29
 OK 00017 bytes
 PASS
 ```
 
-Inspect `T29.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `T29.COM`, and require a length of **17 bytes** with these hexadecimal bytes:
+Inspect `RESULT.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `RESULT.COM`, and require a length of **17 bytes** with these hexadecimal bytes:
 
 ```text
 B2 30 B4 02 CD 21 42 80 FA 33 72 F6 B8 00 4C CD 21
@@ -180,17 +183,20 @@ B2 30 B4 02 CD 21 42 80 FA 33 72 F6 B8 00 4C CD 21
 
 Use `SYSTEM` to return to DOS.
 
-`T29.COM` is also a complete executable. Run `CHECK T29`. It displays `012` followed by the checker's blank line and `PASS`.
+`RESULT.COM` is also a complete executable. Preserve it with `COPY RESULT.COM T28.COM`, then run `CHECK T28`. It displays `012` followed by the checker's blank line and `PASS`.
 
 ## A rejection check
 
-Enter this separate file as `X29.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
+Enter this separate file as `X28.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
 
 ```asm
 JE 400H
 ```
 
-Run `CHECK AS29` and enter `X29`.
+```dos
+COPY X28.ASM SOURCE.ASM
+CHECK AS28
+```
 
 Require this diagnostic followed by the checker's `FAIL`:
 

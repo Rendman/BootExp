@@ -11,12 +11,10 @@ def copy(path,dest=None,image=disk):subprocess.run(['mcopy','-o','-i',str(image)
 def dos(name,text):
  p=scratch/name;p.write_bytes(text.replace('\r\n','\n').replace('\n','\r\n').encode('ascii'));return p
 for name in ['ASM86.COM','ASM86.ASM']:copy(W/name)
-copy(W/'ASM86.ASM','SELF.ASM');copy(W/'ASM86.ASM','AGAIN.ASM')
 copy(ROOT/'workbench/bootasm/CHECK.BAT')
-for name in ['SELF','AGAIN']:copy(dos(name+'.IN',name+'\n'))
 copy(dos('NO.IN','N\n'))
-copy(dos('BAD.IN','BAD\n'));copy(dos('BAD.ASM','MOV AX,AL\n'))
-cmds=['ECHO OFF','B:',r'A:\COMMAND /C CHECK ASM86 <SELF.IN >SELF.LOG',r'A:\COMMAND /C CHECK SELF <AGAIN.IN >AGAIN.LOG',r'A:\COMP ASM86.COM SELF.COM <NO.IN >CMP1.LOG',r'A:\COMP SELF.COM AGAIN.COM <NO.IN >CMP2.LOG',r'A:\COMMAND /C CHECK ASM86 <BAD.IN >BAD.LOG','ECHO DONE >DONE.TXT']
+copy(dos('BAD.ASM','MOV AX,AL\n'))
+cmds=['ECHO OFF','B:','COPY ASM86.ASM SOURCE.ASM',r'A:\COMMAND /C CHECK ASM86 >SELF.LOG','COPY RESULT.COM SELF.COM',r'A:\COMMAND /C CHECK SELF >AGAIN.LOG','COPY RESULT.COM AGAIN.COM',r'A:\COMP ASM86.COM SELF.COM <NO.IN >CMP1.LOG',r'A:\COMP SELF.COM AGAIN.COM <NO.IN >CMP2.LOG','COPY BAD.ASM SOURCE.ASM',r'A:\COMMAND /C CHECK ASM86 >BAD.LOG','ECHO DONE >DONE.TXT']
 copy(dos('AUTOEXEC.BAT','\n'.join(cmds)+'\n'),image=boot)
 monitor='/tmp/bootexp-asm86-monitor.sock'
 Path(monitor).unlink(missing_ok=True)

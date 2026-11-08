@@ -55,32 +55,10 @@
     "binary_bytes": 164
   },
   {
-    "title": "Choosing the source name",
-    "description": "Read, check, and uppercase a short DOS base name.",
-    "why": "We shall ask for a source name once and construct its .ASM filename in a bounded buffer.",
-    "explain": "GETNAME takes no arguments. It displays PROMPT, reads a console line, validates the base name, copies it to FNAME, and appends .ASM plus a zero byte. It changes AX, BX, CX, DX, SI, DI, and the flags. EXTP retains the position at which the extension begins.\n\nDOS function 0AH expects a buffer whose first byte is its maximum size. We place that buffer at 2400H. DOS stores the actual character count at 2401H and the text at 2402H. A maximum of ten allows nine typed characters plus a carriage return; we reject counts above eight instead of quietly accepting a truncated eight-character name.\n\nDOS echoes the entered carriage return without a line feed, so the explicit TEXT call displays NEWLINE before any report. The copy loop permits letters, digits, and underscores. ASCII lowercase letters are converted by subtracting 32. LODSB reads DS:SI and advances SI; STOSB writes ES:DI and advances DI. CLD at entry makes both advance. The DOS .COM entry convention gives DS and ES the same segment, which the program retains.\n\nCOPYZ copies a zero-terminated string from SI to DI, including its final zero. The extension strings use zero terminators because DOS file services require them. TEXT's display strings still use dollar signs; they are different interfaces.\n\nThe small diagnostic printer ZTEXT displays a zero-terminated string from SI with function 02H. It advances SI and changes AX and DX. The visible filename proves that the copy and extension are in the right places. Use ordinary disk filenames, never DOS device names such as CON or NUL.",
-    "names": [],
-    "fixture": "; A filename test.\r\n",
-    "payload": "{stem}.ASM\r\n",
-    "image": null,
-    "bad": {
-      "kind": "console",
-      "input": "BAD.NAME",
-      "line": 0,
-      "code": 1
-    },
-    "executable": null,
-    "cartoon": null,
-    "number": 4,
-    "source": "AS04.ASM",
-    "lines": 172,
-    "binary_bytes": 336
-  },
-  {
     "title": "Opening and closing a file",
     "description": "Let DOS return a handle, and check carry immediately.",
     "why": "A filename is useful only if DOS can open it. We shall open an existing source file for input and close its handle before returning.",
-    "explain": "OPENFILE passes FNAME in DS:DX to DOS function 3DH with AL=0 for read-only access. On success AX is the handle, a small number which DOS uses to identify the open file. HANDLE retains it. The carry flag reports an error; JAE takes the carry-clear success path, while the near jump reaches FILEBAD on failure.\n\nCLOSEFILE loads the saved handle into BX and uses function 3EH. Its carry result is checked before another operation can replace it. FILEBAD selects code 6 and reaches the common report. Neither routine returns after an error.\n\nOPENFILE changes AX, DX, the flags, and HANDLE. CLOSEFILE uses BX and AH and changes the flags DOS returns. They do not read or interpret file contents. This checkpoint reports Opened only after both calls succeed. The missing-file test is useful: the existence of a filename in memory is not evidence that a disk file was opened.",
+    "explain": "FNAME contains the zero-terminated name SOURCE.ASM. Use COPY to select a source before running the assembler; no console input is read. OPENFILE passes FNAME in DS:DX to DOS function 3DH with AL=0 for read-only access. On success AX is the handle, a small number which DOS uses to identify the open file. HANDLE retains it. The carry flag reports an error; JAE takes the carry-clear success path, while the near jump reaches FILEBAD on failure.\n\nCLOSEFILE loads the saved handle into BX and uses function 3EH. Its carry result is checked before another operation can replace it. FILEBAD selects code 6 and reaches the common report. Neither routine returns after an error.\n\nOPENFILE changes AX, DX, the flags, and HANDLE. CLOSEFILE uses BX and AH and changes the flags DOS returns. They do not read or interpret file contents. This checkpoint reports Opened only after both calls succeed. The missing-file test is useful: the existence of a filename in memory is not evidence that a disk file was opened.",
     "names": [],
     "fixture": "DB 65\r\n",
     "payload": "Opened\r\n",
@@ -92,10 +70,10 @@
     },
     "executable": null,
     "cartoon": null,
-    "number": 5,
-    "source": "AS05.ASM",
-    "lines": 188,
-    "binary_bytes": 366
+    "number": 4,
+    "source": "AS04.ASM",
+    "lines": 120,
+    "binary_bytes": 219
   },
   {
     "title": "Reading one byte",
@@ -113,10 +91,10 @@
     },
     "executable": null,
     "cartoon": null,
-    "number": 6,
-    "source": "AS06.ASM",
-    "lines": 207,
-    "binary_bytes": 395
+    "number": 5,
+    "source": "AS05.ASM",
+    "lines": 139,
+    "binary_bytes": 248
   },
   {
     "title": "Physical source lines",
@@ -135,10 +113,10 @@
     },
     "executable": null,
     "cartoon": null,
-    "number": 7,
-    "source": "AS07.ASM",
-    "lines": 307,
-    "binary_bytes": 603
+    "number": 6,
+    "source": "AS06.ASM",
+    "lines": 239,
+    "binary_bytes": 456
   },
   {
     "title": "Taking the line apart",
@@ -157,10 +135,10 @@
     },
     "executable": null,
     "cartoon": null,
-    "number": 8,
-    "source": "AS08.ASM",
-    "lines": 378,
-    "binary_bytes": 742
+    "number": 7,
+    "source": "AS07.ASM",
+    "lines": 310,
+    "binary_bytes": 595
   },
   {
     "title": "Looking up a table entry",
@@ -182,10 +160,10 @@
     },
     "executable": null,
     "cartoon": "asm86-postroom.png",
-    "number": 9,
-    "source": "AS09.ASM",
-    "lines": 419,
-    "binary_bytes": 829
+    "number": 8,
+    "source": "AS08.ASM",
+    "lines": 351,
+    "binary_bytes": 682
   },
   {
     "title": "Unsigned decimal values",
@@ -204,10 +182,10 @@
     },
     "executable": null,
     "cartoon": null,
-    "number": 10,
-    "source": "AS10.ASM",
-    "lines": 419,
-    "binary_bytes": 825
+    "number": 9,
+    "source": "AS09.ASM",
+    "lines": 351,
+    "binary_bytes": 678
   },
   {
     "title": "Hexadecimal values",
@@ -226,10 +204,10 @@
     },
     "executable": null,
     "cartoon": null,
-    "number": 11,
-    "source": "AS11.ASM",
-    "lines": 441,
-    "binary_bytes": 875
+    "number": 10,
+    "source": "AS10.ASM",
+    "lines": 373,
+    "binary_bytes": 728
   },
   {
     "title": "Collecting output bytes",
@@ -248,16 +226,16 @@
     },
     "executable": null,
     "cartoon": null,
-    "number": 12,
-    "source": "AS12.ASM",
-    "lines": 496,
-    "binary_bytes": 1000
+    "number": 11,
+    "source": "AS11.ASM",
+    "lines": 428,
+    "binary_bytes": 853
   },
   {
     "title": "Writing the image",
     "description": "Create the output only after every source line succeeds.",
     "why": "The byte buffer is ready to become a file. We shall create a fresh .COM image and check both the write count and the close.",
-    "explain": "WRITEOUT replaces the extension at EXTP with .COM and passes FNAME to DOS function 3CH. CX=0 requests an ordinary file. Creation truncates an existing file exactly; there is no BASIC sequential-file end marker or .COM header.\n\nThe returned handle goes in BX. For function 40H, CX is PC minus 0100H and DS:DX points to the buffer at 6000H. Carry reports a write error; with carry clear AX must equal the requested count. A short write is an error even though carry was clear. The final close is checked as well.\n\nOnly a completed write and close produce OK followed by the five-digit byte count. WRITEOUT changes working registers and FNAME's extension; it returns to the driver's successful termination. A zero-byte image creates a genuine empty file, which is valid for inspection but not execution.\n\nInput errors leave an older output untouched because creation has not occurred. A disk error after creation can leave an empty or partial output; require a fresh OK report. The source is still one numeric byte per line at this checkpoint.",
+    "explain": "WRITEOUT passes the fixed RESULT.COM name at RESNAME to DOS function 3CH. CX=0 requests an ordinary file. Creation truncates an existing file exactly; there is no BASIC sequential-file end marker or .COM header.\n\nThe returned handle goes in BX. For function 40H, CX is PC minus 0100H and DS:DX points to the buffer at 6000H. Carry reports a write error; with carry clear AX must equal the requested count. A short write is an error even though carry was clear. The final close is checked as well.\n\nOnly a completed write and close produce OK followed by the five-digit byte count. WRITEOUT changes working registers; it returns to the driver's successful termination. A zero-byte image creates a genuine empty file, which is valid for inspection but not execution.\n\nInput errors leave an older output untouched because creation has not occurred. A disk error after creation can leave an empty or partial output; require a fresh OK report. The source is still one numeric byte per line at this checkpoint.",
     "names": [],
     "fixture": "65\r\n66\r\n",
     "payload": "",
@@ -270,10 +248,10 @@
     },
     "executable": null,
     "cartoon": null,
-    "number": 13,
-    "source": "AS13.ASM",
-    "lines": 525,
-    "binary_bytes": 1062
+    "number": 12,
+    "source": "AS12.ASM",
+    "lines": 454,
+    "binary_bytes": 911
   },
   {
     "title": "The DB directive",
@@ -294,10 +272,10 @@
     },
     "executable": null,
     "cartoon": null,
-    "number": 14,
-    "source": "AS14.ASM",
-    "lines": 608,
-    "binary_bytes": 1219
+    "number": 13,
+    "source": "AS13.ASM",
+    "lines": 537,
+    "binary_bytes": 1068
   },
   {
     "title": "The DW directive",
@@ -319,10 +297,10 @@
     },
     "executable": null,
     "cartoon": null,
-    "number": 15,
-    "source": "AS15.ASM",
-    "lines": 623,
-    "binary_bytes": 1253
+    "number": 14,
+    "source": "AS14.ASM",
+    "lines": 552,
+    "binary_bytes": 1102
   },
   {
     "title": "Reading the source twice",
@@ -344,10 +322,10 @@
     },
     "executable": null,
     "cartoon": null,
-    "number": 16,
-    "source": "AS16.ASM",
-    "lines": 628,
-    "binary_bytes": 1269
+    "number": 15,
+    "source": "AS15.ASM",
+    "lines": 557,
+    "binary_bytes": 1118
   },
   {
     "title": "Recognizing register names",
@@ -369,10 +347,10 @@
     },
     "executable": null,
     "cartoon": null,
-    "number": 17,
-    "source": "AS17.ASM",
-    "lines": 667,
-    "binary_bytes": 1379
+    "number": 16,
+    "source": "AS16.ASM",
+    "lines": 596,
+    "binary_bytes": 1228
   },
   {
     "title": "Checking a label line",
@@ -394,10 +372,10 @@
     },
     "executable": null,
     "cartoon": null,
-    "number": 18,
-    "source": "AS18.ASM",
-    "lines": 730,
-    "binary_bytes": 1498
+    "number": 17,
+    "source": "AS17.ASM",
+    "lines": 659,
+    "binary_bytes": 1347
   },
   {
     "title": "Recording an address",
@@ -419,10 +397,10 @@
     },
     "executable": null,
     "cartoon": null,
-    "number": 19,
-    "source": "AS19.ASM",
-    "lines": 781,
-    "binary_bytes": 1631
+    "number": 18,
+    "source": "AS18.ASM",
+    "lines": 717,
+    "binary_bytes": 1488
   },
   {
     "title": "Using a named value",
@@ -444,10 +422,10 @@
     },
     "executable": null,
     "cartoon": null,
-    "number": 20,
-    "source": "AS20.ASM",
-    "lines": 799,
-    "binary_bytes": 1673
+    "number": 19,
+    "source": "AS19.ASM",
+    "lines": 735,
+    "binary_bytes": 1530
   },
   {
     "title": "Fixed instruction bytes",
@@ -473,10 +451,10 @@
     },
     "executable": null,
     "cartoon": null,
-    "number": 21,
-    "source": "AS21.ASM",
-    "lines": 814,
-    "binary_bytes": 1725
+    "number": 20,
+    "source": "AS20.ASM",
+    "lines": 750,
+    "binary_bytes": 1582
   },
   {
     "title": "A register and an immediate",
@@ -503,10 +481,10 @@
     },
     "executable": null,
     "cartoon": null,
-    "number": 22,
-    "source": "AS22.ASM",
-    "lines": 908,
-    "binary_bytes": 1914
+    "number": 21,
+    "source": "AS21.ASM",
+    "lines": 844,
+    "binary_bytes": 1771
   },
   {
     "title": "Two register operands",
@@ -533,10 +511,10 @@
     },
     "executable": null,
     "cartoon": null,
-    "number": 23,
-    "source": "AS23.ASM",
-    "lines": 936,
-    "binary_bytes": 1974
+    "number": 22,
+    "source": "AS22.ASM",
+    "lines": 872,
+    "binary_bytes": 1831
   },
   {
     "title": "Single-register families",
@@ -567,10 +545,10 @@
     },
     "executable": null,
     "cartoon": null,
-    "number": 24,
-    "source": "AS24.ASM",
-    "lines": 959,
-    "binary_bytes": 2049
+    "number": 23,
+    "source": "AS23.ASM",
+    "lines": 895,
+    "binary_bytes": 1906
   },
   {
     "title": "Assembling a DOS request",
@@ -602,10 +580,10 @@
     },
     "executable": "Z",
     "cartoon": null,
-    "number": 25,
-    "source": "AS25.ASM",
-    "lines": 976,
-    "binary_bytes": 2086
+    "number": 24,
+    "source": "AS24.ASM",
+    "lines": 912,
+    "binary_bytes": 1943
   },
   {
     "title": "Arithmetic and comparisons",
@@ -642,10 +620,10 @@
     },
     "executable": null,
     "cartoon": null,
-    "number": 26,
-    "source": "AS26.ASM",
-    "lines": 1010,
-    "binary_bytes": 2212
+    "number": 25,
+    "source": "AS25.ASM",
+    "lines": 946,
+    "binary_bytes": 2069
   },
   {
     "title": "Moving through memory",
@@ -682,10 +660,10 @@
     },
     "executable": null,
     "cartoon": null,
-    "number": 27,
-    "source": "AS27.ASM",
-    "lines": 1088,
-    "binary_bytes": 2401
+    "number": 26,
+    "source": "AS26.ASM",
+    "lines": 1024,
+    "binary_bytes": 2258
   },
   {
     "title": "Near calls and jumps",
@@ -724,10 +702,10 @@
     },
     "executable": "C",
     "cartoon": null,
-    "number": 28,
-    "source": "AS28.ASM",
-    "lines": 1109,
-    "binary_bytes": 2458
+    "number": 27,
+    "source": "AS27.ASM",
+    "lines": 1045,
+    "binary_bytes": 2315
   },
   {
     "title": "Short conditional branches",
@@ -772,9 +750,9 @@
     },
     "executable": "012",
     "cartoon": "asm86-signals.png",
-    "number": 29,
-    "source": "AS29.ASM",
-    "lines": 1144,
-    "binary_bytes": 2574
+    "number": 28,
+    "source": "AS28.ASM",
+    "lines": 1080,
+    "binary_bytes": 2431
   }
 ]

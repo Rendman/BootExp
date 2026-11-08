@@ -1,1 +1,1 @@
-ADD AX,AL
+MOV [BX],1

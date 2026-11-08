@@ -68,16 +68,17 @@ POP DX
 From DOS start the checkpoint:
 
 ```dos
+COPY T14.ASM SOURCE.ASM
 GWBASIC BA14.BAS
 ```
 
-At its source-name prompt enter `T14` without an extension. The success report must name `T14.COM` and report **4 bytes**. After the program ends at BASIC's `Ok` prompt, inspect the file:
+The assembler uses the filenames in line 30 without asking for input. The success report must name `RESULT.COM` and report **4 bytes**. After the program ends at BASIC's `Ok` prompt, inspect the file:
 
 ```basic
 RUN "VIEW.BAS"
 ```
 
-At `File:` enter `T14.COM`. The viewer must report length 4 and these bytes (spaces and line wrapping are immaterial):
+At `File:` enter `RESULT.COM`. The viewer must report length 4 and these bytes (spaces and line wrapping are immaterial):
 
 ```text
 43 49 50 5A
@@ -93,7 +94,7 @@ Create `X14.ASM` containing:
 INC AL
 ```
 
-Reload `BA14.BAS` and run it with source name `X14`. Expect `ERROR line 1 : Word register required`; BASIC may print extra spaces around the line number. There must be no `OK` report. On a fresh workbench there must be no `X14.COM`. If an older file exists, it is left unchanged and must not be mistaken for a new result.
+Return to DOS, copy `X14.ASM` to `SOURCE.ASM`, then run `GWBASIC BA14.BAS`. Expect `ERROR line 1 : Word register required`; BASIC may print extra spaces around the line number. There must be no `OK` report. The accepted `RESULT.COM` must remain unchanged. Preserve it as HOLD.COM before this test and compare the files afterward; an older result must not be mistaken for a new successful assembly.
 
 ## If the result differs
 

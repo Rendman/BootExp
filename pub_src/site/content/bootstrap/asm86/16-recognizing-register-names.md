@@ -1,8 +1,9 @@
 +++
-title = "17 \u00b7 Recognizing register names"
-weight = 17
+title = "16 \u00b7 Recognizing register names"
+weight = 16
 description = "A four-byte dictionary distinguishes registers from values."
-download = "AS17.ASM"
+download = "AS16.ASM"
+aliases = ["/bootstrap/asm86/17-recognizing-register-names/"]
 download_group = "tools/asm0"
 reader_names = 1
 +++
@@ -19,7 +20,7 @@ For this checkpoint, a recognized register in a data value is rejected with symb
 
 ## Source changes
 
-Copy `AS16.ASM` to `AS17.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS15.ASM` to `AS16.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
 
 ### Change 1: following `ERRCODE:`
 
@@ -31,7 +32,7 @@ DB 0
 
 ```
 
-Insert after old physical line 625, before the following old line.
+Insert after old physical line 554, before the following old line.
 
 Insert this source:
 
@@ -66,7 +67,7 @@ WORDVALUE:
 JMP NUMBERBAD
 ```
 
-Insert after old physical line 333, before the following old line.
+Insert after old physical line 278, before the following old line.
 
 Insert this source:
 
@@ -86,7 +87,7 @@ JBE LITERAL
 WORDVALUE:
 ```
 
-Insert after old physical line 332, before the following old line.
+Insert after old physical line 277, before the following old line.
 
 Insert this source:
 
@@ -106,7 +107,7 @@ RET
 
 ```
 
-Insert after old physical line 325, before the following old line.
+Insert after old physical line 270, before the following old line.
 
 Insert this source:
 
@@ -133,32 +134,34 @@ RET
 Use the BASIC assembler prepared in the workbench guide:
 
 ```dos
+COPY AS16.ASM SOURCE.ASM
 GWBASIC BOOTASM.BAS
 ```
 
-Enter `AS17` at its source prompt. Require `OK AS17.COM 1379 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.
+Require `OK RESULT.COM 1228 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS, then `COPY RESULT.COM AS16.COM`. Save this source and executable as a working stopping point.
 
-Use `COPY CON T17.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
+Use `COPY CON T16.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
 
 ```asm
 DB 65
 ```
 
 ```dos
-CHECK AS17
+COPY T16.ASM SOURCE.ASM
 ```
 
-Enter `T17` when `Source name:` appears.
+```dos
+CHECK AS16
+```
 
 The display, apart from DOS command echo and the checker's separating blank line, is:
 
 ```text
-Source name: T17
 OK 00001 bytes
 PASS
 ```
 
-Inspect `T17.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `T17.COM`, and require a length of **1 bytes** with these hexadecimal bytes:
+Inspect `RESULT.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `RESULT.COM`, and require a length of **1 bytes** with these hexadecimal bytes:
 
 ```text
 41
@@ -170,13 +173,16 @@ This file is an encoding or data fixture. **Inspect it; do not execute it.**
 
 ## A rejection check
 
-Enter this separate file as `X17.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
+Enter this separate file as `X16.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
 
 ```asm
 DW AX
 ```
 
-Run `CHECK AS17` and enter `X17`.
+```dos
+COPY X16.ASM SOURCE.ASM
+CHECK AS16
+```
 
 Require this diagnostic followed by the checker's `FAIL`:
 

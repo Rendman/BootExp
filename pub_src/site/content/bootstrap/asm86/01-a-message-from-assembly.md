@@ -45,10 +45,11 @@ DB 65,83,77,48,13,10,36
 Use the BASIC assembler prepared in the workbench guide:
 
 ```dos
+COPY AS01.ASM SOURCE.ASM
 GWBASIC BOOTASM.BAS
 ```
 
-Enter `AS01` at its source prompt. Require `OK AS01.COM 24 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.
+Require `OK RESULT.COM 24 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS, then `COPY RESULT.COM AS01.COM`. Save this source and executable as a working stopping point.
 
 ```dos
 CHECK AS01

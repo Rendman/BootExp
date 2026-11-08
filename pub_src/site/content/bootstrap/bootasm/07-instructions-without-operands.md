@@ -11,7 +11,7 @@ A mnemonic is a name for an instruction. Four instructions with fixed one-byte e
 
 ## At the keyboard
 
-Load the preceding checkpoint, `BA06.BAS`. Keep its working copy. Insert the other numbered lines in their numeric positions; leave all unlisted lines in place. New-line locations in the preceding listing: 4000 / 4090; 4180 / 8000. Each pair gives the existing lines on either side.
+Load the preceding checkpoint, `BA06.BAS`. Keep its working copy. Insert the other numbered lines in their numeric positions; leave all unlisted lines in place. New-line locations in the preceding listing: 4000 / 4090; 4180 / 9000. Each pair gives the existing lines on either side.
 
 BASIC line numbers are part of the source. Enter a whole numbered line when replacing it.
 
@@ -33,7 +33,7 @@ The following lines are **context from the preceding checkpoint**, not another b
 4000 IF M$="DB" OR M$="DW" THEN GOSUB 4100: RETURN
 4090 E$="Unknown instruction": GOTO 9000
 4180 RETURN
-8000 IF LEN(F$)<1 OR LEN(F$)>8 THEN E$="Bad filename": GOTO 9000
+9000 PRINT "ERROR line"; L; ": "; E$
 ```
 
 Save the result before running it:
@@ -66,16 +66,17 @@ STOSB
 From DOS start the checkpoint:
 
 ```dos
+COPY T07.ASM SOURCE.ASM
 GWBASIC BA07.BAS
 ```
 
-At its source-name prompt enter `T07` without an extension. The success report must name `T07.COM` and report **4 bytes**. After the program ends at BASIC's `Ok` prompt, inspect the file:
+The assembler uses the filenames in line 30 without asking for input. The success report must name `RESULT.COM` and report **4 bytes**. After the program ends at BASIC's `Ok` prompt, inspect the file:
 
 ```basic
 RUN "VIEW.BAS"
 ```
 
-At `File:` enter `T07.COM`. The viewer must report length 4 and these bytes (spaces and line wrapping are immaterial):
+At `File:` enter `RESULT.COM`. The viewer must report length 4 and these bytes (spaces and line wrapping are immaterial):
 
 ```text
 C3 FC AC AA
@@ -91,7 +92,7 @@ Create `X07.ASM` containing:
 RET 1
 ```
 
-Reload `BA07.BAS` and run it with source name `X07`. Expect `ERROR line 1 : Unexpected operand`; BASIC may print extra spaces around the line number. There must be no `OK` report. On a fresh workbench there must be no `X07.COM`. If an older file exists, it is left unchanged and must not be mistaken for a new result.
+Return to DOS, copy `X07.ASM` to `SOURCE.ASM`, then run `GWBASIC BA07.BAS`. Expect `ERROR line 1 : Unexpected operand`; BASIC may print extra spaces around the line number. There must be no `OK` report. The accepted `RESULT.COM` must remain unchanged. Preserve it as HOLD.COM before this test and compare the files afterward; an older result must not be mistaken for a new successful assembly.
 
 ## If the result differs
 

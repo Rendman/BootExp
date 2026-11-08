@@ -68,16 +68,17 @@ DB 0FFH
 From DOS start the checkpoint:
 
 ```dos
+COPY T04.ASM SOURCE.ASM
 GWBASIC BA04.BAS
 ```
 
-At its source-name prompt enter `T04` without an extension. The success report must name `T04.COM` and report **3 bytes**. After the program ends at BASIC's `Ok` prompt, inspect the file:
+The assembler uses the filenames in line 30 without asking for input. The success report must name `RESULT.COM` and report **3 bytes**. After the program ends at BASIC's `Ok` prompt, inspect the file:
 
 ```basic
 RUN "VIEW.BAS"
 ```
 
-At `File:` enter `T04.COM`. The viewer must report length 3 and these bytes (spaces and line wrapping are immaterial):
+At `File:` enter `RESULT.COM`. The viewer must report length 3 and these bytes (spaces and line wrapping are immaterial):
 
 ```text
 41 42 FF
@@ -93,7 +94,7 @@ Create `X04.ASM` containing:
 DB 1GH
 ```
 
-Reload `BA04.BAS` and run it with source name `X04`. Expect `ERROR line 1 : Bad number`; BASIC may print extra spaces around the line number. There must be no `OK` report. On a fresh workbench there must be no `X04.COM`. If an older file exists, it is left unchanged and must not be mistaken for a new result.
+Return to DOS, copy `X04.ASM` to `SOURCE.ASM`, then run `GWBASIC BA04.BAS`. Expect `ERROR line 1 : Bad number`; BASIC may print extra spaces around the line number. There must be no `OK` report. The accepted `RESULT.COM` must remain unchanged. Preserve it as HOLD.COM before this test and compare the files afterward; an older result must not be mistaken for a new successful assembly.
 
 ## If the result differs
 

@@ -21,7 +21,7 @@ def bad(source,code=None,tool=image,files=None):
  return r
 # The only initial artifact producer is the preceding project assembler.
 built=assemble((ROOT/'workbench/asm86/ASM86.COM').read_bytes(),(W/'ASMA0.ASM').read_bytes(),'ASMA0')
-assert built.exitcode==0 and built.files['ASMA0.COM']==seed
+assert built.exitcode==0 and built.files['RESULT.COM']==seed
 assert len(seed)<=8192
 log('unchanged ASM86 directly builds ASMA0')
 for name,tool in [('ASMA0',seed),('ASM86A',image)]:

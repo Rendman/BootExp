@@ -75,7 +75,7 @@ Both COMP comparisons must report no differences. GEN1 must report `OK RESULT.CO
 COPY ASM86.COM ASMAKEEP.COM
 ```
 
-ASMAKEEP.COM is the preserved fixed-file assembler. ASMKEEP.COM still names the original prompted ASM0.
+ASMAKEEP.COM is the preserved fixed-file assembler. ASMKEEP.COM still names the original ASM0.
 
 ## A rejection check
 

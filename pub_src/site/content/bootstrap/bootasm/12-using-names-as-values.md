@@ -64,16 +64,17 @@ DB 41H
 From DOS start the checkpoint:
 
 ```dos
+COPY T12.ASM SOURCE.ASM
 GWBASIC BA12.BAS
 ```
 
-At its source-name prompt enter `T12` without an extension. The success report must name `T12.COM` and report **3 bytes**. After the program ends at BASIC's `Ok` prompt, inspect the file:
+The assembler uses the filenames in line 30 without asking for input. The success report must name `RESULT.COM` and report **3 bytes**. After the program ends at BASIC's `Ok` prompt, inspect the file:
 
 ```basic
 RUN "VIEW.BAS"
 ```
 
-At `File:` enter `T12.COM`. The viewer must report length 3 and these bytes (spaces and line wrapping are immaterial):
+At `File:` enter `RESULT.COM`. The viewer must report length 3 and these bytes (spaces and line wrapping are immaterial):
 
 ```text
 02 01 41
@@ -89,7 +90,7 @@ Create `X12.ASM` containing:
 DW MISSING
 ```
 
-Reload `BA12.BAS` and run it with source name `X12`. Expect `ERROR line 1 : Undefined label`; BASIC may print extra spaces around the line number. There must be no `OK` report. On a fresh workbench there must be no `X12.COM`. If an older file exists, it is left unchanged and must not be mistaken for a new result.
+Return to DOS, copy `X12.ASM` to `SOURCE.ASM`, then run `GWBASIC BA12.BAS`. Expect `ERROR line 1 : Undefined label`; BASIC may print extra spaces around the line number. There must be no `OK` report. The accepted `RESULT.COM` must remain unchanged. Preserve it as HOLD.COM before this test and compare the files afterward; an older result must not be mistaken for a new successful assembly.
 
 ## If the result differs
 

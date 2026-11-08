@@ -3,12 +3,12 @@ from common import *
 import sys,runpy,json
 sys.path.insert(0,str(ROOT/'qa/asm86'))
 from bootstrap import basic_build
-text=basic_build();assert 'OK ASM86.COM' in text,text
+text=basic_build();assert 'OK RESULT.COM' in text,text
 from machine import assemble
 from dos_machine import DosMachine
 old=(ROOT/'workbench/asm86/ASM86.COM').read_bytes()
 seed=assemble(old,(ROOT/'workbench/asm86a/ASMA0.ASM').read_bytes(),'ASMA0');assert seed.exitcode==0,seed.output
-full=run(seed.files['ASMA0.COM'],(ROOT/'workbench/asm86a/ASM86A.ASM').read_bytes(),'ASM');assert full.exitcode==0,full.output
+full=run(seed.files['RESULT.COM'],(ROOT/'workbench/asm86a/ASM86A.ASM').read_bytes(),'ASM');assert full.exitcode==0,full.output
 nativeasm=full.files['RESULT.COM']
 wide=run(nativeasm,(ROOT/'workbench/ir86/IRWIDE.ASM').read_bytes(),'ASM');assert wide.exitcode==0,wide.output
 irboot=wide.files['RESULT.COM']

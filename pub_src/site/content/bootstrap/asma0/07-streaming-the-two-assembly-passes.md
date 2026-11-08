@@ -229,7 +229,7 @@ MOV [RDPOS],AX
 
 ## Build the stopping point
 
-Run `CHECK ASMKEEP`, enter `A07` at `Source name:`, and require `OK 03016 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. It creates A07.COM.
+Copy `A07.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK 03016 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM A07.COM`.
 
 VIEW.BAS must report A07.COM length 3016 bytes. Keep that executable and source together.
 

@@ -1,8 +1,9 @@
 +++
-title = "21 \u00b7 Fixed instruction bytes"
-weight = 21
+title = "20 \u00b7 Fixed instruction bytes"
+weight = 20
 description = "Five no-operand mnemonics use the same table dispatcher."
-download = "AS21.ASM"
+download = "AS20.ASM"
+aliases = ["/bootstrap/asm86/21-fixed-instruction-bytes/"]
 download_group = "tools/asm0"
 reader_names = 1
 +++
@@ -19,7 +20,7 @@ FIXED changes AL, PC, OUTPTR, and the scanner scratch state. It receives its opc
 
 ## Source changes
 
-Copy `AS20.ASM` to `AS21.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS19.ASM` to `AS20.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
 
 ### Change 1: following `OPTAB:`
 
@@ -31,7 +32,7 @@ DB 68,66,0,0,0,0,1,0
 DB 68,87,0,0,0,0,1,1
 ```
 
-Insert after old physical line 799, before the following old line.
+Insert after old physical line 735, before the following old line.
 
 Insert this source:
 
@@ -52,7 +53,7 @@ CMP AL,0
 JNE SYNTAXBAD
 ```
 
-Insert after old physical line 585, before the following old line.
+Insert after old physical line 530, before the following old line.
 
 Insert this source:
 
@@ -75,7 +76,7 @@ RET
 STNEXT1:
 ```
 
-Insert after old physical line 563, before the following old line.
+Insert after old physical line 508, before the following old line.
 
 Insert this source:
 
@@ -97,7 +98,7 @@ DEC SI
 MOV BX,OPTAB
 ```
 
-Remove these exact old lines (physical lines 544–544 of `AS20.ASM`):
+Remove these exact old lines (physical lines 489–489 of `AS19.ASM`):
 
 ```asm
 MOV CX,2
@@ -114,12 +115,13 @@ MOV CX,6
 Use the BASIC assembler prepared in the workbench guide:
 
 ```dos
+COPY AS20.ASM SOURCE.ASM
 GWBASIC BOOTASM.BAS
 ```
 
-Enter `AS21` at its source prompt. Require `OK AS21.COM 1725 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.
+Require `OK RESULT.COM 1582 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS, then `COPY RESULT.COM AS20.COM`. Save this source and executable as a working stopping point.
 
-Use `COPY CON T21.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
+Use `COPY CON T20.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
 
 ```asm
 RET
@@ -129,20 +131,21 @@ STOSB
 ```
 
 ```dos
-CHECK AS21
+COPY T20.ASM SOURCE.ASM
 ```
 
-Enter `T21` when `Source name:` appears.
+```dos
+CHECK AS20
+```
 
 The display, apart from DOS command echo and the checker's separating blank line, is:
 
 ```text
-Source name: T21
 OK 00004 bytes
 PASS
 ```
 
-Inspect `T21.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `T21.COM`, and require a length of **4 bytes** with these hexadecimal bytes:
+Inspect `RESULT.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `RESULT.COM`, and require a length of **4 bytes** with these hexadecimal bytes:
 
 ```text
 C3 FC AC AA
@@ -154,13 +157,16 @@ This file is an encoding or data fixture. **Inspect it; do not execute it.**
 
 ## A rejection check
 
-Enter this separate file as `X21.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
+Enter this separate file as `X20.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
 
 ```asm
 RET 1
 ```
 
-Run `CHECK AS21` and enter `X21`.
+```dos
+COPY X20.ASM SOURCE.ASM
+CHECK AS20
+```
 
 Require this diagnostic followed by the checker's `FAIL`:
 

@@ -6,7 +6,7 @@ cases=json.loads((Q/'checkpoints.json').read_text());results=[];seed=None
 for c in cases:
  n=c['number'];name=f'A{n:02}';source=(W/(name+'.ASM')).read_bytes()
  assert all(len(row)<=120 for row in source.splitlines()),(name,'source width')
- if n<=12:built=assemble(old,source,name);key=name+'.COM'
+ if n<=12:built=assemble(old,source,name);key='RESULT.COM'
  else:built=run_assembler(seed,source);key='RESULT.COM'
  assert built.exitcode==0,(name,'build',built.output)
  image=built.files[key];(W/(name+'.COM')).write_bytes(image);c['binary_bytes']=len(image)

@@ -1,17 +1,17 @@
 +++
 title = "ASM0 reference"
-weight = 31
+weight = 30
 description = "The native assembler's source grammar, byte encodings, memory contract, and diagnostics."
 download = "ASM0.ASM"
 download_group = "tools/asm0"
 reader_names = 1
 +++
 
-This reference describes the completed AS29/ASM0 source. Earlier construction checkpoints accept only their introduced features. ASM0 is implemented using BOOTASM's assembly language and accepts the forms below; it is not a complete 8086 assembler.
+This reference describes the completed AS28/ASM0 source. Earlier construction checkpoints accept only their introduced features. ASM0 is implemented using BOOTASM's assembly language and accepts the forms below; it is not a complete 8086 assembler.
 
 ## Files and invocation
 
-Run `CHECK ASM0` and enter a base name of one through eight letters, digits, or underscores when `Source name:` appears. Supply no extension or path. ASM0 uppercases the name, reads `NAME.ASM` twice from the current directory, and creates `NAME.COM` only after both passes succeed. Use ordinary disk filenames; DOS device names, including CON and NUL, are excluded from the workbench because the small character validator does not recognize devices.
+Copy the desired source to SOURCE.ASM, then run `CHECK ASM0`. FNAME holds SOURCE.ASM and RESNAME holds RESULT.COM as zero-terminated strings in the source. The assembler reads the input twice and creates RESULT.COM only after both passes succeed. Preserve the accepted output with COPY RESULT.COM name.COM. No filename prompt or command-line parser is used.
 
 A successful assembly prints `OK nnnnn bytes` and returns DOS status zero; CHECK prints PASS. The count is always five decimal digits. A failure prints `ERROR nnnnn CODE n` and returns status one; CHECK prints FAIL. The first number is the physical source line, starting at one, or zero before source reading begins. Observe the status immediately; another program may replace it.
 
@@ -102,7 +102,6 @@ The program retains DOS's common CS, DS, ES, and SS segment. CLD at entry establ
 
 | Entry | Inputs and results | Scratch and preserved state |
 |---|---|---|
-| GETNAME | Console line to FNAME and EXTP | Working registers and flags; validates 1–8 characters |
 | OPENFILE / CLOSEFILE | FNAME to HANDLE / HANDLE to DOS close | AX, BX, DX and DOS flags as used; failure does not return |
 | NEXTBYTE | HANDLE to AX=count, CHAR=byte if count is one | AX, BX, CX, DX, flags; preserves SI, DI, BP |
 | READLINE | HANDLE and reader fields to text at 2200H; AX=1 line or 0 EOF | Working registers, LINENO, ENDED, SKIPLF |

@@ -1,2 +1,3 @@
-1BAD:
-DB 0
+AGAIN:
+DB 1
+AGAIN:

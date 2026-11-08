@@ -18,8 +18,8 @@ BASIC line numbers are part of the source. Enter a whole numbered line when repl
 ```basic
 10 ON ERROR GOTO 9500
 20 DIM B%(4095)
-30 LINE INPUT "Source name (no extension): "; F$
-80 OPEN "I", #1, F$+".ASM"
+30 SF$="SOURCE.ASM": OF$="RESULT.COM"
+80 OPEN "I", #1, SF$
 90 P=0: L=0
 100 IF EOF(1) THEN 300
 110 LINE INPUT #1, S$
@@ -30,16 +30,16 @@ BASIC line numbers are part of the source. Enter a whole numbered line when repl
 200 GOSUB 4000
 210 GOTO 100
 300 CLOSE #1
-310 OPEN "O", #2, F$+".COM"
+310 OPEN "O", #2, OF$
 320 CLOSE #2
-325 KILL F$+".COM"
-330 OPEN "R", #2, F$+".COM", 1
+325 KILL OF$
+330 OPEN "R", #2, OF$, 1
 340 FIELD #2, 1 AS O$
 345 IF P=0 THEN 380
 350 FOR I=0 TO P-1
 360 LSET O$=CHR$(B%(I)): PUT #2, I+1
 370 NEXT I
-380 CLOSE: PRINT "OK "; F$; ".COM"; P; "bytes"
+380 CLOSE: PRINT "OK "; OF$; P; "bytes"
 390 END
 2000 IF T$="" THEN E$="Missing value": GOTO 9000
 2020 N=0
@@ -76,7 +76,7 @@ Keep this filename for the stopping point; it is not a second program to type.
 
 `B%` is an integer array with 4,096 elements, numbered 0 through 4,095. `P` is the number of bytes collected; it is also the index of the next free element. This limit keeps the array to 8,192 bytes of BASIC storage. It deliberately limits our programs, rather than the processor.
 
-Lines 80-210 open `name.ASM` as a sequential input file. `LINE INPUT` reads a whole line without treating commas as input separators. `L` counts physical source lines, including empty ones. At 170, the first space ends the instruction name `M$`; the remainder becomes the argument `A$`. At this checkpoint use uppercase `DB`, one space, and one decimal number.
+Lines 80-210 open `SOURCE.ASM` as a sequential input file. `LINE INPUT` reads a whole line without treating commas as input separators. `L` counts physical source lines, including empty ones. At 170, the first space ends the instruction name `M$`; the remainder becomes the argument `A$`. At this checkpoint use uppercase `DB`, one space, and one decimal number.
 
 The dispatcher at 4000 selects the routine for `DB`, meaning *define byte*. Routine 2000 takes a number in `T$` and returns its value in `N`. It changes `NI` and `D`, but leaves the argument string alone. Each digit is checked before it is included; the bound is checked after each multiplication. This avoids accepting BASIC expressions or mistyped suffixes.
 
@@ -97,16 +97,17 @@ DB 67
 From DOS start the checkpoint:
 
 ```dos
+COPY T02.ASM SOURCE.ASM
 GWBASIC BA02.BAS
 ```
 
-At its source-name prompt enter `T02` without an extension. The success report must name `T02.COM` and report **3 bytes**. After the program ends at BASIC's `Ok` prompt, inspect the file:
+The assembler uses the filenames in line 30 without asking for input. The success report must name `RESULT.COM` and report **3 bytes**. After the program ends at BASIC's `Ok` prompt, inspect the file:
 
 ```basic
 RUN "VIEW.BAS"
 ```
 
-At `File:` enter `T02.COM`. The viewer must report length 3 and these bytes (spaces and line wrapping are immaterial):
+At `File:` enter `RESULT.COM`. The viewer must report length 3 and these bytes (spaces and line wrapping are immaterial):
 
 ```text
 41 42 43
@@ -122,7 +123,7 @@ Create `X02.ASM` containing:
 DB 256
 ```
 
-Reload `BA02.BAS` and run it with source name `X02`. Expect `ERROR line 1 : Byte out of range`; BASIC may print extra spaces around the line number. There must be no `OK` report. On a fresh workbench there must be no `X02.COM`. If an older file exists, it is left unchanged and must not be mistaken for a new result.
+Return to DOS, copy `X02.ASM` to `SOURCE.ASM`, then run `GWBASIC BA02.BAS`. Expect `ERROR line 1 : Byte out of range`; BASIC may print extra spaces around the line number. There must be no `OK` report. The accepted `RESULT.COM` must remain unchanged. Preserve it as HOLD.COM before this test and compare the files afterward; an older result must not be mistaken for a new successful assembly.
 
 ## If the result differs
 

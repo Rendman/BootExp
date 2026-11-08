@@ -1,8 +1,9 @@
 +++
-title = "26 \u00b7 Arithmetic and comparisons"
-weight = 26
+title = "25 \u00b7 Arithmetic and comparisons"
+weight = 25
 description = "Select a group number, register form, or full-width immediate."
-download = "AS26.ASM"
+download = "AS25.ASM"
+aliases = ["/bootstrap/asm86/26-arithmetic-and-comparisons/"]
 download_group = "tools/asm0"
 reader_names = 1
 +++
@@ -21,7 +22,7 @@ ADD and SUB store their arithmetic result; CMP sets subtraction flags without st
 
 ## Source changes
 
-Copy `AS25.ASM` to `AS26.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS24.ASM` to `AS25.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
 
 ### Change 1: following `OPTAB:`
 
@@ -33,7 +34,7 @@ DB 83,84,79,83,66,0,2,170
 DB 77,79,86,0,0,0,3,0
 ```
 
-Insert after old physical line 971, before the following old line.
+Insert after old physical line 907, before the following old line.
 
 Insert this source:
 
@@ -55,7 +56,7 @@ JNE TWOBAD
 CALL OPERAND
 ```
 
-Remove these exact old lines (physical lines 683–683 of `AS25.ASM`):
+Remove these exact old lines (physical lines 628–628 of `AS24.ASM`):
 
 ```asm
 JMP MOVOPERANDS
@@ -106,7 +107,7 @@ DEC SI
 MOV BX,OPTAB
 ```
 
-Remove these exact old lines (physical lines 568–568 of `AS25.ASM`):
+Remove these exact old lines (physical lines 513–513 of `AS24.ASM`):
 
 ```asm
 MOV CX,12
@@ -123,12 +124,13 @@ MOV CX,17
 Use the BASIC assembler prepared in the workbench guide:
 
 ```dos
+COPY AS25.ASM SOURCE.ASM
 GWBASIC BOOTASM.BAS
 ```
 
-Enter `AS26` at its source prompt. Require `OK AS26.COM 2212 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS. Save this source and executable as a working stopping point.
+Require `OK RESULT.COM 2069 bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS, then `COPY RESULT.COM AS25.COM`. Save this source and executable as a working stopping point.
 
-Use `COPY CON T26.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
+Use `COPY CON T25.ASM` to enter this exact test text; finish with Ctrl-Z and Enter:
 
 ```asm
 ADD AX,BX
@@ -139,20 +141,21 @@ OR BL,20H
 ```
 
 ```dos
-CHECK AS26
+COPY T25.ASM SOURCE.ASM
 ```
 
-Enter `T26` when `Source name:` appears.
+```dos
+CHECK AS25
+```
 
 The display, apart from DOS command echo and the checker's separating blank line, is:
 
 ```text
-Source name: T26
 OK 00015 bytes
 PASS
 ```
 
-Inspect `T26.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `T26.COM`, and require a length of **15 bytes** with these hexadecimal bytes:
+Inspect `RESULT.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `RESULT.COM`, and require a length of **15 bytes** with these hexadecimal bytes:
 
 ```text
 03 C3 81 E9 01 00 80 F8 41 80 E0 DF 80 CB 20
@@ -164,13 +167,16 @@ This file is an encoding or data fixture. **Inspect it; do not execute it.**
 
 ## A rejection check
 
-Enter this separate file as `X26.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
+Enter this separate file as `X25.ASM` with `COPY CON`, ending with Ctrl-Z and Enter:
 
 ```asm
 ADD AX,AL
 ```
 
-Run `CHECK AS26` and enter `X26`.
+```dos
+COPY X25.ASM SOURCE.ASM
+CHECK AS25
+```
 
 Require this diagnostic followed by the checker's `FAIL`:
 
