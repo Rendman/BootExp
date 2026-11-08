@@ -10,7 +10,7 @@ reader_names = 1
 url = "/bootstrap/asm86/08-looking-up-a-table-entry/"
 +++
 
-Instruction names and register names belong in small tables. We shall write one search routine and test it with two records.
+In BASIC I kept instruction names in a chain of IF statements. In assembly I want one search routine and a small table it can walk. I'll try that routine on `DB` and `DW` before using it inside the parser.
 
 ## How it works
 

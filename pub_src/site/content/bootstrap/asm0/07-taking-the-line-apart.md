@@ -9,7 +9,7 @@ reader_names = 1
 url = "/bootstrap/asm86/07-taking-the-line-apart/"
 +++
 
-We shall give the parser one word or punctuation mark at a time, while retaining a cursor into the current line.
+I can get a complete line into memory. Now I need to keep my place while reading `DB 1,2`: the name, the values, and the comma are different pieces. I'll give the scanner one job: return the next piece and remember where reading should continue.
 
 ## How it works
 
@@ -225,6 +225,8 @@ The display, apart from DOS command echo and the checker's separating blank line
 [2]
 PASS
 ```
+
+The brackets in the report let me see exactly what the scanner found. It has kept the comma as its own token and left the comment out. I can check this small routine before asking the rest of the parser to depend on it.
 
 ## A rejection check
 

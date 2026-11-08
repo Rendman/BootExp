@@ -9,7 +9,7 @@ reader_names = 1
 url = "/bootstrap/asm86/19-using-a-named-value/"
 +++
 
-A saved address can replace a hand-counted number. We shall let VALUE use a label, including one defined farther down the source.
+The table can now retain an address. I want to put `TEXT` into an operand and let the value reader find it, including when the definition follows the use. I can keep meaningful names in the source instead of copied addresses.
 
 ## How it works
 
@@ -137,6 +137,8 @@ Inspect `RESULT.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, e
 Use `SYSTEM` to return to DOS.
 
 This file is an encoding or data fixture. **Inspect it; do not execute it.**
+
+The bytes `02 01 41` match the earlier BASIC assembler's result. I can follow how the name went through the table lookup to become `0102H`. There is one less part of this program that I have to take on trust.
 
 ## A rejection check
 

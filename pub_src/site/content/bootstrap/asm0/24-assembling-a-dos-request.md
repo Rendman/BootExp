@@ -9,7 +9,7 @@ reader_names = 1
 url = "/bootstrap/asm86/24-assembling-a-dos-request/"
 +++
 
-A source program can now prepare registers. We shall add INT so a complete assembled program can display a character and terminate through DOS.
+I've already used BOOTASM to make a character appear on the screen. This time I want the new assembler to translate the `MOV` and `INT` instructions itself. I'll still use BOOTASM to build that assembler before asking it to assemble the test program.
 
 ## How it works
 
@@ -158,6 +158,8 @@ B2 5A B4 02 CD 21 B8 00 4C CD 21
 Use `SYSTEM` to return to DOS.
 
 `RESULT.COM` is also a complete executable. Preserve it with `COPY RESULT.COM T24.COM`, then run `CHECK T24`. It displays `Z` followed by the checker's blank line and `PASS`.
+
+The `Z` comes from the program ASM0 assembled. I have followed two separate translations: BOOTASM built AS24.COM, and AS24.COM built the little DOS program. I keep both source files with their accepted executables.
 
 ## A rejection check
 

@@ -8,7 +8,7 @@ reader_names = 1
 url = "/bootstrap/asm86/02-numbers-in-the-report/"
 +++
 
-An assembly-language tool needs to report counts. We shall print an unsigned word as five decimal digits using repeated subtraction.
+I can ask BASIC to print a value without thinking about the processor's registers. Here I have to decide where the value goes and what the printing routine may change. I want to be able to print a count without losing the caller's working values.
 
 ## How it works
 

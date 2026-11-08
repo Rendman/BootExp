@@ -8,7 +8,7 @@ reader_names = 1
 url = "/bootstrap/asm86/30-self-assembly/"
 +++
 
-We have a native assembler whose source uses the language accepted by BOOTASM. Let it assemble that complete source, then repeat the job with its newly built copy.
+I put `ASM0.ASM` in the place where the small test files have been. This time the input describes the assembler itself. BOOTASM will give me a known starting copy; I want to see whether that copy can turn the same source into another identical executable.
 
 There is no source addition here. ASM0.ASM is the saved AS28.ASM. Preserve that exact source for both native generations.
 
@@ -36,6 +36,8 @@ COMP ASMKEEP.COM SELF.COM <NO.TXT
 ```
 
 COMP must report no differences. NO.TXT answers N if the DOS utility asks whether to compare more files. The native tool reads SOURCE.ASM and writes RESULT.COM without console input. Keep ASMKEEP.COM separately named so the output cannot overwrite the running builder.
+
+The comparison reports no differences. I read the filenames again: one copy came from BOOTASM, and the other from the assembler I just built. I keep the BASIC-built copy untouched while I try the second generation.
 
 ## Let the copy do the same job
 
@@ -70,3 +72,5 @@ Require `ERROR 00001 CODE 1` and FAIL. Byte and word registers cannot be mixed. 
 If a comparison differs, check that the same exact source was assembled by BASIC and both native generations. Then compare the instruction and register tables, label storage, and pass resets. Do not copy a mismatching executable over the known working tool.
 
 Keep ASMKEEP.COM, BOOTKEEP.BAS, BOOTASM.BAS and the sources together so the means to recover the tool remain available.
+
+I have an assembler that can build its own source, and I have kept the steps that got it there. The BASIC listing stays with the disks. I can use ASM0 as a working tool while still being able to rebuild it from the foundation I understand.

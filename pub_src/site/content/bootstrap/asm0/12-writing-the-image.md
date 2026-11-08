@@ -9,7 +9,7 @@ reader_names = 1
 url = "/bootstrap/asm86/12-writing-the-image/"
 +++
 
-The byte buffer is ready to become a file. We shall create a fresh .COM image and check both the write count and the close.
+I have a buffer I can inspect. Now I need DOS to make the file from it. In BASIC I wrote one-byte records; here I can ask DOS to write the collected block and tell me how much it accepted.
 
 ## How it works
 

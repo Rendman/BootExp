@@ -9,7 +9,7 @@ reader_names = 1
 url = "/bootstrap/asm86/27-near-calls-and-jumps/"
 +++
 
-We shall assemble control transfers which remain in the current code segment, including a forward call to a named routine.
+I've been writing `CALL` and `JMP` in ASM0's implementation all along, because BOOTASM can assemble them. ASM0 itself still cannot read those instructions. I want its accepted language to catch up with the source I'm using to write it.
 
 ## How it works
 

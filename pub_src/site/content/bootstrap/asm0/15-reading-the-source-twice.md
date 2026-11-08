@@ -9,7 +9,7 @@ reader_names = 1
 url = "/bootstrap/asm86/15-reading-the-source-twice/"
 +++
 
-We shall count the source on pass one and collect its bytes on pass two, while all values are still numeric.
+BOOTASM taught me why two passes are useful. In assembly I also have to make the second pass start cleanly: reset the counters, clear the reader's end-of-file state, and reopen the source. Counting the same text twice should give the same positions.
 
 ## How it works
 

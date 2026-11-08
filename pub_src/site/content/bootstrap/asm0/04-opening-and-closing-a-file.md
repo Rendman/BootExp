@@ -9,7 +9,7 @@ reader_names = 1
 url = "/bootstrap/asm86/04-opening-and-closing-a-file/"
 +++
 
-A filename is useful only if DOS can open it. We shall open an existing source file for input and close its handle before returning.
+In BASIC, opening the source was one statement. Now I have to ask DOS for it and keep the handle DOS returns. I'll start by opening `SOURCE.ASM` for reading and closing it again, with the file itself left alone.
 
 ## How it works
 

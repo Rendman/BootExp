@@ -8,7 +8,7 @@ reader_names = 1
 url = "/bootstrap/asm86/01-a-message-from-assembly/"
 +++
 
-The BASIC construction gave us an assembler. Our first assembly-language program will use it to display a message and return to DOS.
+The name `ASM0` will be its first report. For now that is all this program does. I want to assemble it with BOOTASM, return to DOS, and check that the message routine and the exit work.
 
 ## How it works
 
@@ -62,6 +62,8 @@ The display, apart from DOS command echo and the checker's separating blank line
 ASM0
 PASS
 ```
+
+I save `AS01.ASM` with its executable. It is a small assembly program I can trace from its first instruction to its return to DOS.
 
 ## If the result differs
 

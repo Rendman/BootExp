@@ -10,7 +10,7 @@ reader_names = 1
 url = "/bootstrap/asm86/28-short-conditional-branches/"
 +++
 
-A comparison needs a way to select a path. We shall add the six short conditions and reject a destination outside their signed-byte reach.
+Conditional jumps are still missing from the language ASM0 accepts, although I have used them throughout its source. I'll add the short conditions and their distance checks. Then I can look at the whole assembler listing and ask whether every line is within its vocabulary.
 
 ## How it works
 

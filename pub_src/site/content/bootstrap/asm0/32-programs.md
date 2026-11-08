@@ -8,6 +8,8 @@ reader_names = 1
 url = "/bootstrap/asm86/32-programs/"
 +++
 
+I can now build ASM0 with ASM0. I also want it to remain useful for the small jobs that helped me learn assembly. A message, a stored byte, and a counted loop give me familiar results to check with the finished tool.
+
 These are complete DOS .COM programs for the finished ASM0. For HELLO, use COPY HELLO.ASM SOURCE.ASM, run CHECK ASM0, then require the stated OK byte count and PASS before COPY RESULT.COM HELLO.COM. Follow the same pattern for MEMORY and COUNT. Select rejection inputs with COPY in the same way; a rejected source must leave RESULT.COM unchanged.
 
 ## HELLO: a terminated message

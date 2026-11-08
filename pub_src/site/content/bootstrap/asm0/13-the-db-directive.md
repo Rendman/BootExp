@@ -9,7 +9,7 @@ reader_names = 1
 url = "/bootstrap/asm86/13-the-db-directive/"
 +++
 
-We shall replace the one-number-per-line input with an assembly statement: DB followed by one or more byte values.
+The trial inputs have been rows of numbers. I want to put a familiar line such as `DB 41H,42H,43H` in `SOURCE.ASM` and have ASM0 read it. The scanner, table search, value reader and output buffer can now do that job together.
 
 ## How it works
 

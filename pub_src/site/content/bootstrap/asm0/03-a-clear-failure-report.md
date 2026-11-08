@@ -8,7 +8,7 @@ reader_names = 1
 url = "/bootstrap/asm86/03-a-clear-failure-report/"
 +++
 
-A tool must make failure visible. We shall add one exit which reports a line number and a reason code, and establish the memory required by this workbench.
+BASIC has been reporting my mistakes with a line number. The assembly program will need an error path of its own, with a reason I can recognize and a failure status DOS can pass to CHECK.BAT. I want that path ready before the source reader starts doing real work.
 
 ## How it works
 

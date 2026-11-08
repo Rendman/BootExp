@@ -8,6 +8,8 @@ reader_names = 1
 url = "/bootstrap/asm86/00-workbench/"
 +++
 
+Beside the BASIC listing I start another page in the notebook for the assembly routines. I want to write down what each routine takes, what it returns, and which registers it changes. BASIC used to look after the processor's registers for me; that is now part of my job.
+
 Begin with the completed BOOTASM collection: `BOOTASM.BAS`, `VIEW.BAS`, and `CHECK.BAT`. Keep the same DOS 3.10 directory and the period GW-BASIC supplied with your distribution. The instructions call the interpreter `GWBASIC`; use its actual name on your disk. DOS and BASIC version numbers are independent; note the interpreter's startup banner before beginning.
 
 BOOTASM's assembly language is the language used to write every checkpoint here. There is no other assembler, linker, or supplied executable in the construction. A `.COM` file starts at offset 0100H without an executable header.

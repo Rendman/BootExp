@@ -9,7 +9,7 @@ reader_names = 1
 url = "/bootstrap/asm86/18-recording-an-address/"
 +++
 
-We shall retain each valid definition with the loaded offset of its next byte, and check the same position on the second pass.
+The parser can recognize a label line. I want ASM0 to remember what that label means after it has read past it. I'll store the spelling and the current address together, then check that address when the second pass reaches the same name.
 
 ## How it works
 

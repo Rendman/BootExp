@@ -9,7 +9,7 @@ reader_names = 1
 url = "/bootstrap/asm86/11-collecting-output-bytes/"
 +++
 
-We shall collect byte values in memory before opening any output file. An invalid source must not be mistaken for a new program.
+I can read values from the source and turn them into words in a register. Before I create an output file, I want somewhere to keep the bytes I have accepted. An error near the end of the source should not make me throw away a working program.
 
 ## How it works
 

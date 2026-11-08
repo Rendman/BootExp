@@ -11,7 +11,9 @@ collection_key = "asm86"
 url = "/bootstrap/asm86/"
 +++
 
-The BOOTASM collection supplied a working assembler in GW-BASIC. We shall use that published foundation to build **ASM0**, an assembler written in the assembly language BOOTASM accepts. Its first executable comes from the BASIC tool. Its final test is to assemble its own source, then let that copy do the same job again.
+The BASIC listing has become familiar. I can follow how a line of source becomes bytes, and I have a working assembler to build with. I want to use the instruction forms I've taught BOOTASM to write another assembler, this time in assembly language.
+
+I'll call it **ASM0**. BOOTASM will build its first executable. I want to reach a point where I can give ASM0 its own source file and get another identical working copy back. Until those checks succeed, BOOTASM stays on the workbench as my builder.
 
 ## What we're adding
 

@@ -6,6 +6,29 @@ import json,re,tomllib
 ROOT=Path(__file__).resolve().parents[1]
 WORK=ROOT/'workbench/asm0';CONTENT=ROOT/'site/content/bootstrap/asm0'
 CASES=json.loads((ROOT/'qa/asm0/checkpoints.json').read_text())
+STORY_OPENINGS={
+ 1:"The name `ASM0` will be its first report. For now that is all this program does. I want to assemble it with BOOTASM, return to DOS, and check that the message routine and the exit work.",
+ 2:"I can ask BASIC to print a value without thinking about the processor's registers. Here I have to decide where the value goes and what the printing routine may change. I want to be able to print a count without losing the caller's working values.",
+ 3:"BASIC has been reporting my mistakes with a line number. The assembly program will need an error path of its own, with a reason I can recognize and a failure status DOS can pass to CHECK.BAT. I want that path ready before the source reader starts doing real work.",
+ 4:"In BASIC, opening the source was one statement. Now I have to ask DOS for it and keep the handle DOS returns. I'll start by opening `SOURCE.ASM` for reading and closing it again, with the file itself left alone.",
+ 7:"I can get a complete line into memory. Now I need to keep my place while reading `DB 1,2`: the name, the values, and the comma are different pieces. I'll give the scanner one job: return the next piece and remember where reading should continue.",
+ 8:"In BASIC I kept instruction names in a chain of IF statements. In assembly I want one search routine and a small table it can walk. I'll try that routine on `DB` and `DW` before using it inside the parser.",
+ 11:"I can read values from the source and turn them into words in a register. Before I create an output file, I want somewhere to keep the bytes I have accepted. An error near the end of the source should not make me throw away a working program.",
+ 12:"I have a buffer I can inspect. Now I need DOS to make the file from it. In BASIC I wrote one-byte records; here I can ask DOS to write the collected block and tell me how much it accepted.",
+ 13:"The trial inputs have been rows of numbers. I want to put a familiar line such as `DB 41H,42H,43H` in `SOURCE.ASM` and have ASM0 read it. The scanner, table search, value reader and output buffer can now do that job together.",
+ 15:"BOOTASM taught me why two passes are useful. In assembly I also have to make the second pass start cleanly: reset the counters, clear the reader's end-of-file state, and reopen the source. Counting the same text twice should give the same positions.",
+ 18:"The parser can recognize a label line. I want ASM0 to remember what that label means after it has read past it. I'll store the spelling and the current address together, then check that address when the second pass reaches the same name.",
+ 19:"The table can now retain an address. I want to put `TEXT` into an operand and let the value reader find it, including when the definition follows the use. I can keep meaningful names in the source instead of copied addresses.",
+ 24:"I've already used BOOTASM to make a character appear on the screen. This time I want the new assembler to translate the `MOV` and `INT` instructions itself. I'll still use BOOTASM to build that assembler before asking it to assemble the test program.",
+ 27:"I've been writing `CALL` and `JMP` in ASM0's implementation all along, because BOOTASM can assemble them. ASM0 itself still cannot read those instructions. I want its accepted language to catch up with the source I'm using to write it.",
+ 28:"Conditional jumps are still missing from the language ASM0 accepts, although I have used them throughout its source. I'll add the short conditions and their distance checks. Then I can look at the whole assembler listing and ask whether every line is within its vocabulary.",
+}
+STORY_AFTER_CHECKS={
+ 1:"I save `AS01.ASM` with its executable. It is a small assembly program I can trace from its first instruction to its return to DOS.",
+ 7:"The brackets in the report let me see exactly what the scanner found. It has kept the comma as its own token and left the comment out. I can check this small routine before asking the rest of the parser to depend on it.",
+ 19:"The bytes `02 01 41` match the earlier BASIC assembler's result. I can follow how the name went through the table lookup to become `0102H`. There is one less part of this program that I have to take on trust.",
+ 24:"The `Z` comes from the program ASM0 assembled. I have followed two separate translations: BOOTASM built AS24.COM, and AS24.COM built the little DOS program. I keep both source files with their accepted executables.",
+}
 def fence(kind,text,keep=False):return '```'+kind+'\n'+(text if keep else text.rstrip('\n'))+'\n```\n\n'
 def slug(title):return re.sub('[^a-z0-9]+','-',title.lower()).strip('-')
 def front(title,weight,description,download,cartoon=None):
@@ -27,7 +50,7 @@ for p in CONTENT.glob('*.md'):
 previous=[];patches=[]
 for case in CASES:
  n=case['number'];name=f'AS{n:02}';test=f'T{n:02}';source=(WORK/case['source']).read_text();lines=source.splitlines()
- text=front(f'{n:02} · '+case['title'],n,case['description'],case['source'],case['cartoon'])+case['why']+'\n\n'
+ text=front(f'{n:02} · '+case['title'],n,case['description'],case['source'],case['cartoon'])+STORY_OPENINGS.get(n,case['why'])+'\n\n'
  text+='## How it works\n\n'+case['explain']+'\n\n## Source changes\n\n'
  changes=[]
  if n==1:
@@ -62,6 +85,7 @@ for case in CASES:
   if case['executable'] is not None:
    text+=f'`RESULT.COM` is also a complete executable. Preserve it with `COPY RESULT.COM {test}.COM`, then run `CHECK {test}`. It displays `{case["executable"]}` followed by the checker\'s blank line and `PASS`.\n\n'
   else:text+='This file is an encoding or data fixture. **Inspect it; do not execute it.**\n\n'
+ if n in STORY_AFTER_CHECKS:text+=STORY_AFTER_CHECKS[n]+'\n\n'
  if case['bad']:
   bad=case['bad'];x=f'X{n:02}'
   text+='## A rejection check\n\n'
