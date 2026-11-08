@@ -5,7 +5,7 @@ ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'tools'))
 from publication_names import SERIES,names,filename,reader_text
 C=ROOT/'site/content/bootstrap';D=ROOT/'site/static/downloads/tools'
 manifest=json.loads((ROOT/'qa/reader-packages.json').read_text());count=0
-assert set(manifest)=={'bootasm','asm0','asm1','asm86','ir86','rill0','rillboot','rill','toolchain'}
+assert set(manifest)=={'bootasm','asm0','asm1','asm86','ir86','rill0','rillboot','rill','toolchain','link86'}
 for group,m in manifest.items():
  with zipfile.ZipFile(D/group/m['archive']) as z,zipfile.ZipFile(ROOT/'site/static/downloads'/m['legacy_group']/m['legacy_archive']) as old:
   assert z.namelist()==list(m['files'])
@@ -47,4 +47,4 @@ assert 'COPY RESULT.COM RBOOT.COM >NUL' in commands
 assert commands.count('RBOOT')==1
 assert commands.count('COPY RILL.RIL SOURCE.RIL >NUL')==4
 assert 'RC44' not in batch and 'RSELF' not in batch
-print(f'PASS reader publication: 9 named series; {count} canonical source members; all compiler stopping checks use natural reports, status assertions or exact file bytes; batch prerequisites resolve')
+print(f'PASS reader publication: {len(manifest)} named series; {count} canonical source members; all compiler stopping checks use natural reports, status assertions or exact file bytes; batch prerequisites resolve')

@@ -1,0 +1,10 @@
+// LINK86 construction checkpoint.
+let mut input=0;
+let mut inopen=0;
+fn main(){openunit();closein();return 0;}
+
+fn openunit(){input=open("MAIN.OBJ");if status(){fail(6);}inopen=1;return 0;}
+
+fn closein(){close(input);if status(){fail(6);}inopen=0;return 0;}
+
+fn fail(code){if inopen{close(input);}exit(1);return 0;}

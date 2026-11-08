@@ -1,6 +1,6 @@
 # Bootstrap Experiment source and verification
 
-Reader hierarchy: BOOTASM -> ASM0 -> ASM1 -> ASM86 -> IR86 -> RILL0 -> RILLBOOT -> RILL, followed by the toolchain in RILL. Site source is site/, generated HTML is ../public/, period source is workbench/, manuscript arrangement is tools/, and verification is qa/. Internal asm86/asma0/asm86a and rill/rb/rc paths retain the established production keys; tools/publication_names.py maps reader names and downloads.
+Reader hierarchy: BOOTASM -> ASM0 -> ASM1 -> ASM86 -> IR86 -> RILL0 -> RILLBOOT -> RILL, followed by the toolchain in RILL and LINK86. Site source is site/, generated HTML is ../public/, period source is workbench/, manuscript arrangement is tools/, and verification is qa/. Internal asm86/asma0/asm86a and rill/rb/rc paths retain the established production keys; tools/publication_names.py maps reader names and downloads.
 
 Every bootstrap executable comes from published BASIC or project assemblers/translators/compilers. Source arrangement scripts select authored text and backend templates; they never parse a bootstrap language or encode machine instructions. Archives contain ASCII/CRLF/8.3 source, fixtures and inspection helpers, without executables or historical interpreters.
 
@@ -27,9 +27,11 @@ Canonical reader downloads live under `site/static/downloads/tools/<tool>/`. Leg
 - compiler_profiles.py selects shared authored routines from rill_bootstrap.ir. build_compiler_ladder.py arranges R01..R39 and then RB01..RB12. RILL0 and RILLBOOT retain the same scanner, symbol layout, emitter and parser. Every RB stage is a complete extension of the previous compiler. The seed omits syntax and wrappers absent from the RILL compiler construction.
 - build_rill_self_series.py arranges RC01..RC43 from rill_self.ril. prepare_toolchain_sources.py arranges the authored RILL compiler/translator/assembler sources and backend text tables. RILLBOOT builds RILL; that compiler builds the two ports. The RILL construction introduces the 23680-byte table at RC12, eighty parameter/local records at RC18, sixty-four live slots at RC39, and sixty-four-slot procedure frames at RC42. RC43 is the completed compiler. Its first self-build establishes its own frame convention before byte comparisons begin. rill_local_capacity.py supplies storage acceptance fixtures, printed with the complete-compiler lesson. Two closed-loop generations reproduce each tool exactly.
 
-Source generation clears measured facts. Run the relevant native checks before article generation. write_ladder_articles.py publishes the continuing IR/RILL0/RILLBOOT series, write_toolchain_articles.py publishes RC, write_rc_programs.py publishes final compiler examples/reference, and write_toolchain_guides.py publishes self-builds, exact port notebooks and rebuild instructions. Earlier article URLs redirect to the current working part. package_sources.py refreshes all nine archives; it does not generate executables or rewrite articles.
+Source generation clears measured facts. Run the relevant native checks before article generation. write_ladder_articles.py publishes the continuing IR/RILL0/RILLBOOT series, write_toolchain_articles.py publishes RC, write_rc_programs.py publishes final compiler examples/reference, and write_toolchain_guides.py publishes self-builds, exact port notebooks and rebuild instructions. Earlier article URLs redirect to the current working part. package_sources.py refreshes all ten archives; it does not generate executables or rewrite articles.
 
 series_overviews.py supplies each collection cover's "What we're adding" section: the additions and their purpose, plus explicit removal notes. publication_names.write_page retains that section when a cover is regenerated. Run `python3 pub_src/tools/publication_names.py` from the repository root to refresh these summaries after editing them.
+
+LINK86 follows the completed RILL trio. tools/link86.ril is the authored implementation; build_link86.py selects ten continuing checkpoints and small hand-entered object fixtures. Run qa/link86/test_link86.py with the RILL-written tools built, then tools/write_link86_articles.py. The last source is L10.RIL, also LINK86.RIL. tools/package_link86.py packages only ASCII/CRLF source; qa/link86/validate_publication.py reconstructs every printed edit and checks its objects and archives. This stage does not change ASM86 output or the compiler language.
 
 ## Verification commands
 
@@ -53,6 +55,7 @@ python3 pub_src/qa/toolchain/test_boundaries.py
 python3 pub_src/qa/toolchain/test_failures.py
 python3.11 pub_src/qa/toolchain/bootstrap_chain.py
 python3 pub_src/qa/review_bootstrap_scope.py --strict
+python3 pub_src/qa/link86/test_link86.py
 python3 pub_src/tools/package_sources.py
 python3 pub_src/tools/hugo.py --source pub_src/site --cleanDestinationDir
 python3 pub_src/qa/validate_site.py

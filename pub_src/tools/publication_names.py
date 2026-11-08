@@ -11,7 +11,8 @@ SERIES={
  'rill':('RILL0','Our First Compiler'),
  'rb':('RILLBOOT','A Compiler for Writing Tools'),
  'rc':('RILL','A Compiler Written in Its Own Language'),
- 'toolchain':('TOOLCHAIN','Rebuilding Our Tools in RILL')}
+ 'toolchain':('TOOLCHAIN','Rebuilding Our Tools in RILL'),
+ 'link86':('LINK86','Linking Our First Modules')}
 WORDS={'ASM86':'ASM0','ASMA0':'ASM1','ASM86A':'ASM86','RB':'RILLBOOT','RC':'RILL'}
 TOKEN=re.compile(r'\b(?:RILL\.(?:IR|ASM|COM|ZIP)|ASM86A|ASMA0|ASM86|RB|RC)\b')
 def names(s):return TOKEN.sub(lambda m:'RILL0'+m[0][4:] if m[0].startswith('RILL.') else WORDS[m[0]],s)

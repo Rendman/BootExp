@@ -1,0 +1,20 @@
+PASS L01: RILL-written compiler/IR86/ASM86 build; exact result/status; rejection and prior-output preservation
+PASS L02: RILL-written compiler/IR86/ASM86 build; exact result/status; rejection and prior-output preservation
+PASS L03: RILL-written compiler/IR86/ASM86 build; exact result/status; rejection and prior-output preservation
+PASS L04: RILL-written compiler/IR86/ASM86 build; exact result/status; rejection and prior-output preservation
+PASS L05: RILL-written compiler/IR86/ASM86 build; exact result/status; rejection and prior-output preservation
+PASS L06: RILL-written compiler/IR86/ASM86 build; exact result/status; rejection and prior-output preservation
+PASS L07: RILL-written compiler/IR86/ASM86 build; exact result/status; rejection and prior-output preservation
+PASS L08: RILL-written compiler/IR86/ASM86 build; exact result/status; rejection and prior-output preservation
+PASS L09: RILL-written compiler/IR86/ASM86 build; exact result/status; rejection and prior-output preservation
+PASS L10: RILL-written compiler/IR86/ASM86 build; exact result/status; rejection and prior-output preservation
+PASS relative-call and absolute-data programs execute with expected output/status
+PASS malformed records, byte/word spelling, name/extent errors and unresolved references preserve output
+PASS complete 31-character folded names, duplicates across modules, and backward relative displacement
+PASS exactly 256 public records and rejection of record 257
+PASS exactly 61184 bytes and rejection of one more byte across the second module
+PASS CR/LF, bare CR/LF, final unterminated record, Control-Z text end and all materialized byte values
+PASS existing recovery files block publication without being changed
+PASS read/create/short-write/rename failures stop without replacing the accepted image
+PASS changed public values, removed definitions and changed module lengths are rejected between passes
+PASS publication restoration and retained recovery files after restoration/backup-deletion failure

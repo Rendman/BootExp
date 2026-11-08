@@ -2,7 +2,7 @@
 
 An original, gradual course in building an 8086/8088 software workbench, starting with an assembler written in GW-BASIC.
 
-The Hugo source lives in `pub_src/site`; generated pages go to root `public/`. The collections follow **BOOTASM → ASM0 → ASM1 → ASM86 → IR86 → RILL0 → RILLBOOT → RILL**:
+The Hugo source lives in `pub_src/site`; generated pages go to root `public/`. The collections follow **BOOTASM → ASM0 → ASM1 → ASM86 → IR86 → RILL0 → RILLBOOT → RILL**, followed by rebuilding the tools in RILL and constructing LINK86:
 
 | Tool | Article series |
 |---|---|
@@ -15,8 +15,11 @@ The Hugo source lives in `pub_src/site`; generated pages go to root `public/`. T
 | RILLBOOT | A Compiler for Writing Tools |
 | RILL | A Compiler Written in Its Own Language |
 | Toolchain | Rebuilding Our Tools in RILL |
+| LINK86 | Linking Our First Modules |
 
 The tool constructions have their own workbenches, references, complete examples, and source archives. The final collection begins after the compiler self-builds and brings the three tools together. Reader downloads use these tool names. Earlier article URLs redirect to their current working parts; the construction pages give the exact checkpoint filenames to save. Internal production paths retain their established names; [pub_src/README.md](pub_src/README.md) explains the mapping.
+
+After that chain, LINK86 is built in RILL. Its ten construction checkpoints link two hand-entered ASCII object modules into a COM image, with public symbols, near-relative and absolute word relocations. ASM86 object output is not required by this first linker series.
 
 The complete chain builds a RILL-written compiler (26,617 bytes), IR86 translator (29,678 bytes), and ASM86 assembler (30,911 bytes), then reproduces all three through two closed-loop generations. The RILLBOOT seed is written in IR86. The native ASM86 is built through ASM1 and ASM0 from the BASIC foundation.
 

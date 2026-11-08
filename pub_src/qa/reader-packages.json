@@ -841,5 +841,48 @@
       "TRC43.RIL": "TRC43.RIL",
       "XRC43.RIL": "XRC43.RIL"
     }
+  },
+  "link86": {
+    "legacy_group": "link86",
+    "legacy_archive": "LINK86.ZIP",
+    "archive": "LINK86.ZIP",
+    "files": {
+      "LINK86.RIL": "LINK86.RIL",
+      "VIEW.BAS": "VIEW.BAS",
+      "CHECK.BAT": "CHECK.BAT",
+      "README.TXT": "README.TXT",
+      "L01.RIL": "L01.RIL",
+      "M01.OBJ": "M01.OBJ",
+      "L02.RIL": "L02.RIL",
+      "M02.OBJ": "M02.OBJ",
+      "L03.RIL": "L03.RIL",
+      "M03.OBJ": "M03.OBJ",
+      "X03.OBJ": "X03.OBJ",
+      "L04.RIL": "L04.RIL",
+      "M04.OBJ": "M04.OBJ",
+      "X04.OBJ": "X04.OBJ",
+      "L05.RIL": "L05.RIL",
+      "M05.OBJ": "M05.OBJ",
+      "X05.OBJ": "X05.OBJ",
+      "L06.RIL": "L06.RIL",
+      "M06.OBJ": "M06.OBJ",
+      "X06.OBJ": "X06.OBJ",
+      "L07.RIL": "L07.RIL",
+      "M07.OBJ": "M07.OBJ",
+      "U07.OBJ": "U07.OBJ",
+      "X07.OBJ": "X07.OBJ",
+      "L08.RIL": "L08.RIL",
+      "M08.OBJ": "M08.OBJ",
+      "U08.OBJ": "U08.OBJ",
+      "X08.OBJ": "X08.OBJ",
+      "L09.RIL": "L09.RIL",
+      "M09.OBJ": "M09.OBJ",
+      "U09.OBJ": "U09.OBJ",
+      "X09.OBJ": "X09.OBJ",
+      "L10.RIL": "L10.RIL",
+      "M10.OBJ": "M10.OBJ",
+      "U10.OBJ": "U10.OBJ",
+      "X10.OBJ": "X10.OBJ"
+    }
   }
 }

@@ -2,6 +2,14 @@
 import re
 
 OVERVIEWS = {
+ 'link86': (
+  [
+   '**Two object modules:** Place MAIN.OBJ before UTIL.OBJ so independently described pieces can form one DOS .COM image.',
+   '**Public names:** Collect complete exported spellings and module-relative offsets so one module can refer to a definition in the other.',
+   '**Relative and absolute words:** Resolve near calls and loaded addresses while streaming so the output needs no backward patching.',
+   '**Checked publication:** Validate both passes and publish a closed temporary file so rejected objects do not replace an accepted executable.',
+  ],
+  'None. The RILL compiler, IR86 translator and ASM86 assembler keep their existing languages and outputs; the object fixtures are entered as plain text.'),
  'bootasm': (
   [
    '**Named instructions and data:** Translate a small assembly vocabulary into bytes so programs can be entered and understood without calculating every opcode by hand.',

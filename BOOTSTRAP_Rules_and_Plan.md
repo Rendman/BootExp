@@ -25,8 +25,9 @@ This file is the project plan, not a magazine article. It may discuss sequencing
 | 7 | RILLBOOT | Construct the expanded systems-language compiler in IR86, preserving RB12.IR as RILLBOOT.IR and its executable as RILLBOOT.COM. |
 | 8 | RILL | Express that compiler in RILL through RC01–RC43, introducing its storage and frame bounds in the relevant construction lessons, then prove its self-builds and the complete toolchain loop. |
 | 9 | Rebuild in RILL | Reimplement the assemblers and later tools in RILL, working toward a self-hosted toolchain. |
+| 10 | LINK86 | Build a small linker in RILL using hand-entered ASCII object modules, before adding object output to ASM86. |
 
-Later work will cover a linker, libraries, larger programs, expanded language and assembler features, and a small operating system. Detailed scope and ordering remain to be decided.
+LINK86 begins object linking after the self-hosted trio. Later work will cover assembler object output, RILL modules, libraries, larger programs, expanded language and assembler features, and a small operating system. Detailed scope and ordering remain to be decided.
 
 The complete toolchain is implemented and verified. Unchanged ASM0 builds ASM1, which builds ASM86. The streaming native IR86 bridge builds the IR-written compiler seed; that seed builds RILL, and RILL builds the IR86 and ASM86 implementations. Both rebuild generations reproduce all three tools using only the RILL-written trio. The required native IR and initial compiler evolve through their constructions. The first BASIC execution is verified with a compatible interpreter; the original COMPAQ BASIC 3.11 OPEN issue remains unresolved as recorded in [pub_src/README.md](pub_src/README.md). See [TOOLCHAIN_Design.md](TOOLCHAIN_Design.md).
 
@@ -286,3 +287,12 @@ Run pub_src/qa/review_bootstrap_scope.py --strict after native builds and public
 Native IR86 has one continuing construction. The first RILLBOOT printed edit must start from RILL0.IR, and each continuation must retain the earlier compiler language. Source-base metadata alone is insufficient: reconstruct the actual printed edits and execute the retained language at every complete continuation.
 
 The handoff is RILLBOOT -> RILL.RIL -> R0.COM. R0 then builds the RILL-written IR86 and ASM86. The complete batch also rebuilds RILL0 and runs its program. Rebuild all three RILL tools twice and require byte equality for each generation.
+
+
+## 18. LINK86: the first object linker
+
+Place Linking Our First Modules after Rebuilding Our Tools in RILL. Build every checkpoint using the RILL-written compiler, translator and assembler. Ten small constructions grow one implementation through fixed-file opening, buffered input, physical records, object framing, literal-byte output, publication, two-module layout, public definitions, relative references and absolute addresses. Keep workbench and verification in pub_src/workbench/link86 and pub_src/qa/link86. Publish the matching source-only LINK86.ZIP.
+
+The first object format is ASCII: OBJ1, B byte pairs, P name/relative-word-offset, R name, A name and END. R and A occupy two output bytes at their record position. Use MAIN.OBJ then UTIL.OBJ, with RESULT.COM output and LINK.TMP/LINK.BAK publication. Keep the 61184-byte COM profile, 256 public definitions, 31-character names, 120-character physical records, 65535 records per input and 1024-byte streams. Initialize forty-byte public records in a checked 10240-byte block. Reopen both objects for a second pass and check definitions and module extents; inputs remain unchanged throughout the run. No backward output patching, addends, library search or far/short fixups are required.
+
+Enter tiny object fixtures by hand. The final two accepted examples must execute a cross-module call and access exported text, respectively, and must have exact byte-inspection checks. Test unresolved/duplicate names, malformed records, exact capacities, recovery ownership, I/O errors and publication. Early readers use return status without artificial display routines. Retain all earlier bootstrap sources and outputs; ASM86 continues emitting COM files. Its object-output support is separate later work.

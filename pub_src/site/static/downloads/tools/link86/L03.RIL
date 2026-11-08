@@ -1,0 +1,67 @@
+// LINK86 construction checkpoint.
+let mut input=0;
+let mut inopen=0;
+let mut unit=1;
+let mut line=0;
+let mut ended=0;
+let mut skip=0;
+let mut inpos=0;
+let mut inlen=0;
+let mut length=0;
+let mut pos=0;
+bytes inbuf[1024];
+bytes source[121];
+fn main(){openunit();let mut count=0;while readline(){count=count+1;}closein();return count!=2;}
+
+fn openunit(){
+    line=0;ended=0;skip=0;inpos=0;inlen=0;
+    if unit==1{input=open("MAIN.OBJ");}
+    else{input=open("UTIL.OBJ");}
+    if status(){fail(6);}inopen=1;return 0;
+}
+
+fn closein(){close(input);if status(){fail(6);}inopen=0;return 0;}
+
+fn nextbyte(){
+    if ended{return 65535;}
+    if inpos==inlen{
+        inlen=read(input,inbuf,1024);if status(){fail(6);}inpos=0;
+        if inlen==0{ended=1;return 65535;}
+    }
+    let mut c=inbuf[inpos];inpos=inpos+1;
+    if c==26{ended=1;return 65535;}return c;
+}
+
+fn readline(){
+    length=0;let mut started=0;
+    while 1{
+        let mut c=nextbyte();
+        if skip{skip=0;if c==10{c=nextbyte();}}
+        if c==65535{if length==0{return 0;}else{breakline();return 1;}}
+        if started==0{if line==65535{fail(5);}line=line+1;started=1;}
+        if c==13{skip=1;breakline();return 1;}
+        if c==10{breakline();return 1;}
+        if (c<32)&(c!=9){fail(1);}if c>126{fail(1);}
+        if length==120{fail(5);}
+        source[length]=c;length=length+1;
+    }
+    return 0;
+}
+
+fn breakline(){
+    source[length]=0;pos=0;return 0;
+}
+
+fn print(s){
+    while load8(s){putc(load8(s));s=s+1;}return 0;
+}
+
+fn number(value){
+    let mut place=10000;
+    while place{
+        putc(value/place+48);value=value%place;place=place/10;
+    }
+    return 0;
+}
+
+fn fail(code){if inopen{close(input);inopen=0;}print("LINK ERROR ");number(unit);putc(32);number(line);print(" CODE ");number(code);print("\r\n");exit(1);return 0;}

@@ -79,4 +79,8 @@
 /qa/asma0/*.log
 /workbench/rb/*.COM
 /workbench/rc/*.COM
+/workbench/link86/*.COM
+/qa/link86/generated/
 /qa/compiler_collections/*.COM
+/qa/link86/dos/
+/qa/link86/*.img

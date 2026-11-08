@@ -72,6 +72,7 @@ runpy.run_path(str(ROOT/'qa/asma0/validate_publication.py'),run_name='__main__')
 runpy.run_path(str(ROOT/'qa/asm86a/validate_publication.py'),run_name='__main__')
 runpy.run_path(str(ROOT/'qa/validate_ladder_publication.py'),run_name='__main__')
 runpy.run_path(str(ROOT/'qa/reader_publication.py'),run_name='__main__')
+runpy.run_path(str(ROOT/'qa/link86/validate_publication.py'),run_name='__main__')
 for p in CONTENT.rglob('*.md'):
  text=p.read_text().lower()
  for forbidden in ('checksum','unicorn','python','automated regression','ai-generated','ai tools'):
@@ -86,5 +87,6 @@ rill_count=len(json.loads((ROOT/'qa/rill/package-files.json').read_text()))
 tool_count=len(json.loads((ROOT/'qa/toolchain/package-files.json').read_text()))
 rb_count=len(json.loads((ROOT/'qa/compiler_collections/rb-files.json').read_text()))
 rc_count=len(json.loads((ROOT/'qa/reader-packages.json').read_text())['rill']['files'])
-text=f'PASS: {count} HTML files (including {redirect_count} article redirects); all local links, assets and anchors; 59 BOOTASM + {asm_count} ASM0 + {seed_count} ASM1 + {asma_count} ASM86 + {ir_count} IR86 + {rill_count} RILL0 + {rb_count} RILLBOOT + {rc_count} RILL + {tool_count} toolchain archive sources; ASCII/CRLF/8.3; all 17 BASIC, 28 ASM0, 12 ASM1, 24 ASM86, 23 IR86, 39 first RILL, 12 compiler-seed, and 43 self-compiling RILL printed edits reconstruct exact checkpoints; editorial exclusions.'
+link_count=len(json.loads((ROOT/'qa/link86/package-files.json').read_text()))
+text=f'PASS: {count} HTML files (including {redirect_count} article redirects); all local links, assets and anchors; 59 BOOTASM + {asm_count} ASM0 + {seed_count} ASM1 + {asma_count} ASM86 + {ir_count} IR86 + {rill_count} RILL0 + {rb_count} RILLBOOT + {rc_count} RILL + {tool_count} toolchain + {link_count} LINK86 archive sources; ASCII/CRLF/8.3; all 17 BASIC, 28 ASM0, 12 ASM1, 24 ASM86, 23 IR86, 39 first RILL, 12 compiler-seed, 43 self-compiling RILL, and 10 LINK86 printed edits reconstruct exact checkpoints; editorial exclusions.'
 print(text);(ROOT/'qa/site-results.txt').write_text(text+'\n')

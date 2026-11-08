@@ -1,0 +1,3 @@
+PASS DOS 3.10: LINK86 emits the exact cross-module call image; linked program returns zero
+PASS DOS 3.10: LINK86 resolves exported text; linked program displays HI and returns zero
+PASS DOS 3.10: unresolved reference reports failure and preserves the accepted image

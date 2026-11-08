@@ -1,7 +1,7 @@
 """Publish canonical reader filenames while retaining established download URLs."""
 import json,zipfile
 from publication_names import ROOT,SERIES,filename,names,reader_text
-bundles=[('bootasm','BOOTASM.ZIP'),('asm86','ASM86.ZIP'),('asma0','ASMA0.ZIP'),('asm86a','ASM86A.ZIP'),('ir86','IR86.ZIP'),('rill','RILL.ZIP'),('rb','RB.ZIP'),('rc','RC.ZIP'),('toolchain','TOOLCHN.ZIP')]
+bundles=[('bootasm','BOOTASM.ZIP'),('asm86','ASM86.ZIP'),('asma0','ASMA0.ZIP'),('asm86a','ASM86A.ZIP'),('ir86','IR86.ZIP'),('rill','RILL.ZIP'),('rb','RB.ZIP'),('rc','RC.ZIP'),('toolchain','TOOLCHN.ZIP'),('link86','LINK86.ZIP')]
 manifest={}
 for group,oldzip in bundles:
  canonical=SERIES[group][0].lower() if group in SERIES else group
