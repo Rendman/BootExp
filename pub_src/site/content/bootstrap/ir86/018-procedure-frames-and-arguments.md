@@ -8,6 +8,10 @@ reader_names = 1
 aliases = ["/bootstrap/ir86/054-iw-procedure-frames-and-arguments/", "/bootstrap/ir86/18-counting-the-target-image/"]
 +++
 
+A compiler will need routines that call other routines while keeping their own temporary values. Shared scratch words will soon become difficult to manage. I shall add procedure declarations, parameters, and local slots, with a separate frame for each active call. The test will keep one expression operand while calling a procedure with its own parameter and local.
+
+## How it works
+
 Name parameter and local slots in IR; leave native frame offsets to the backend.
 
 ## Enter the source
@@ -383,6 +387,8 @@ FC 81 FC FE FF 74 03 E9 48 02 E8 4A 02 81 F8 FF FF 75 03 E9 3C 02 E8 04 00 B4 4C
 ```
 
 Copy it to TRY.COM. CHECK TRY reports PASS.
+
+The test keeps seven while TWICE doubles nine, then checks the combined result against twenty-five. That exercises the caller's saved operand, the callee's parameter and local, and the returned value in one short program. The compiler can now divide its parser into routines with their own state.
 
 ## Check the new boundary
 

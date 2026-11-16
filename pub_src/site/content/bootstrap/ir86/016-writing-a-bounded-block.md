@@ -8,6 +8,10 @@ reader_names = 1
 aliases = ["/bootstrap/ir86/052-iw-writing-a-bounded-block/", "/bootstrap/ir86/16-writing-through-an-address/"]
 +++
 
+The input side can transfer a counted block. I want the output side to make the same promise about actual progress. WRITE will receive a handle, a pointer, and a byte count. The first test asks it to write one byte; a later compiler can use that same operation to flush a whole output buffer.
+
+## How it works
+
 Check both service status and actual write progress.
 
 ## Enter the source
@@ -199,6 +203,8 @@ FC 81 FC FE FF 74 03 E9 01 02 E8 03 02 81 F8 FF FF 75 03 E9 F5 01 E8 0A 00 B4 4C
 ```
 
 Copy it to TRY.COM. CHECK TRY reports PASS.
+
+The fixture accepts only a returned count of one. For a larger flush I shall need both the full requested count and a successful STATUS before treating the bytes as written. That is the condition the compiler's output routine can use.
 
 ## Check the new boundary
 

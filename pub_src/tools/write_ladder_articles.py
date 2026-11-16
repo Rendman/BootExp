@@ -5,6 +5,7 @@ from difflib import SequenceMatcher
 import json,re,tomllib
 from publication_names import ROOT,SERIES,filename,HELP_TITLES,write_page
 from compiler_profiles import profile,render
+from ir86_story import COVER as IR_COVER, WORKBENCH as IR_WORKBENCH, OPENINGS as IR_OPENINGS, AFTER_CHECKS as IR_AFTER_CHECKS
 C=ROOT/'site/content/bootstrap';Q=ROOT/'qa/toolchain';W=ROOT/'workbench/toolchain'
 def fence(k,s):return '```'+k+'\n'+s.replace('\r\n','\n').rstrip('\n')+'\n```\n\n'
 def slug(s):return re.sub('[^a-z0-9]+','-',s.lower()).strip('-')
@@ -70,12 +71,12 @@ for group,family,folder,prefix in [('ir86','ir-extensions',ROOT/'workbench/ir86'
   p.unlink()
  source,download,archive=GUIDES[group]
  cover=front(group,SERIES[group][1],list(SERIES).index(group)+1,source,download,cover=True)
- if group=='ir86':body='This collection builds one native translator from a bounded reader through procedure frames, strings, file streams, and allocated workspace. The first small translator grows into the translator that builds the compiler. ASM86 assembles every stage.\n\nThe language defines word values, a virtual accumulator, an expression stack, byte addresses, and opaque service handles. The 8086 instructions appear in the backend templates and DOS binding; they are not part of the IR program interface.'
+ if group=='ir86':body=IR_COVER
  elif group=='rill':body='Build a small compiler in the processor-independent IR language. Its scanner, record layout, local bindings, streamed emitter, and parser are the working parts that RILLBOOT extends. The first language has one fn main(), mutable local words, + and -, unsigned comparisons, assignments, if/else, while, putc, status, exit, and return.'
  else:body='Continue the completed RILL0 source. Add word arithmetic, masks, strings, global storage, procedures, and the file and workspace services needed to compile the RILL compiler. Every continuation remains a working compiler for its preceding subset. The seed deliberately omits XOR, left shift, unary minus, bitwise complement, explicit address-of, and unused intrinsic wrappers; RILL adds the operations needed by the later tool sources.'
  write_page(dest/'_index.md',cover+body+'\n\nRead the workbench first. The [source collection](../../downloads/tools/'+SERIES[group][0].lower()+'/'+archive+') contains plain source and test files.\n')
  work='000-workbench.md';routes=sorted(set(alias_for[0])-{'/bootstrap/'+group+'/000-workbench/'})
- text=front(group,'The '+SERIES[group][0]+' workbench',0,source,archive,routes)+source+'\n\nKeep VIEW.BAS and the argument-forwarding CHECK.BAT from ASM1. Work in an ordinary DOS hard-disk directory. Give each tool its input and output filenames on the command line. No arguments select the established defaults. Use unquoted 8.3 names in the current directory, without paths or switches; input, result and recovery names must be distinct. Require a fresh OK and PASS before using an output in the next stage.\n\n'
+ text=front(group,'The '+SERIES[group][0]+' workbench',0,source,archive,routes)+(IR_WORKBENCH if group=='ir86' else '')+source+'\n\nKeep VIEW.BAS and the argument-forwarding CHECK.BAT from ASM1. Work in an ordinary DOS hard-disk directory. Give each tool its input and output filenames on the command line. No arguments select the established defaults. Use unquoted 8.3 names in the current directory, without paths or switches; input, result and recovery names must be distinct. Require a fresh OK and PASS before using an output in the next stage.\n\n'
  if group=='ir86':text+=fence('dos','COPY IR01.ASM SOURCE.ASM\nCHECK ASMAKEEP\nCOPY RESULT.COM IR01.COM')
  else:text+=fence('dos','COPY '+cases[0]['source']+' SOURCE.IR\nCHECK IRKEEP\nCOPY RESULT.ASM SOURCE.ASM\nCHECK ASMAKEEP\nCOPY RESULT.COM '+prefix+'01.COM')
  text+='An early stopping point may produce a fragment rather than a complete program. Inspect its length and bytes with VIEW.BAS; execute it only when the article gives a complete program. Recovery names protect an interrupted publication: inspect them before trying again.\n'
@@ -91,6 +92,7 @@ for group,family,folder,prefix in [('ir86','ir-extensions',ROOT/'workbench/ir86'
   explanation=description if group=='rb' else EXPLAIN.get(c.get('key'),description)
   if group=='rill' and c['key']=='LEX':explanation={'punctuation':'Skip whitespace and line comments, and recognize punctuation and paired operators. Identifier, number, and string paths still reject input in this checkpoint.', 'names':'Copy each complete identifier into IDENT, fold its letters to uppercase, and enforce the 24-character bound. Punctuation remains available; numeric and quoted tokens still reject input.', 'numbers':'Accumulate decimal VALUE only after checking that the next digit fits a word. TOK identifies a number; CH retains the first following character. Names and punctuation keep their earlier behavior; strings are still rejected.'}[c['variant']]
   if group=='rill' and c['key']=='PRIMARY':explanation='Compile numeric literals and parenthesized expressions through the existing EXPR routine. Name and call paths are still rejected.' if c['variant']=='values' else 'Resolve a local binding or builtin name and save its metadata before scanning further. Numeric and parenthesized primaries remain available. Argument parsing still reaches the rejecting CALLARGS stub in this checkpoint.'
+  if group=='ir86':text+=IR_OPENINGS[n]+'\n\n## How it works\n\n'
   text+=explanation+'\n\n'
   if group=='ir86' and n==1:text+='The inherited CMDFILES routine obtains two filenames from the PSP before any DOS file operation. Its owned source/result buffers replace only the selected spellings; the streaming reader and publication routines keep their existing interfaces. With no arguments the defaults are SOURCE.IR and RESULT.ASM.\n\n'
   if group=='ir86' and n==13:text+='ARGC returns the number of command arguments. ARG takes a one-based argument index in A and returns a stable, zero-terminated byte-addressed string, with STATUS indicating success or failure. An invalid index returns zero and failed status. The entry binding copies and validates the PSP tail before MAIN; up to three unquoted 8.3 filename arguments fit the owned slots. The IR program sees strings and counts, not PSP offsets or processor registers. Follow CMDINIT in the emitted runtime and the small R_ARGC/R_ARG entries.\n\n'
@@ -131,6 +133,7 @@ for group,family,folder,prefix in [('ir86','ir-extensions',ROOT/'workbench/ir86'
     text+=f'VIEW.BAS must report length {c["program_bytes"]}. CHECK TRY '+(f'displays `{c["program_output"]}` and ' if c['program_output'] else '')+'reports PASS.\n\n'
     if c.get('result_file'):text+='Inspect '+c['result_file']+' with VIEW.BAS: require length '+str(len(c['result_data']))+' and bytes `'+c['result_data'].encode().hex(' ').upper()+'`.\n\n'
    else:text+='This is a fragment for inspection, not a complete program. The command-selected RESULT.IR contains that fragment.\n\n'
+  if group=='ir86':text+=IR_AFTER_CHECKS[n]+'\n\n'
   if group=='ir86' or c.get('code'):
    text+='## Check the new boundary\n\n'
    if c.get('bad') is not None:

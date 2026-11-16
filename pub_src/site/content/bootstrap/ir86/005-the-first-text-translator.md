@@ -8,6 +8,10 @@ reader_names = 1
 aliases = ["/bootstrap/ir86/041-iw-the-first-text-translator/", "/bootstrap/ir86/05-selecting-a-translation-pattern/"]
 +++
 
+The separate pieces are ready to work together. I want to enter a tiny IR program, read the assembly it produces, and assemble that text with the tool we already trust. `LABEL`, `LIT`, and `EXIT` are enough for a complete first program: find MAIN, produce a value, and return a DOS status.
+
+## How it works
+
 Expand names and literal operands into a complete native assembly file.
 
 ## Enter the source
@@ -525,6 +529,8 @@ FC 81 FC FE FF 74 03 E9 11 00 E8 04 00 B4 4C CD 21 B8 00 00 B8 00 00 B4 4C CD 21
 ```
 
 Copy it to TRY.COM. CHECK TRY reports PASS.
+
+The first complete path is in place: IR source became assembly text, and ASM86 turned that text into a program that returned zero. I save this translator before adding storage. Later operations will extend the same path.
 
 ## Check the new boundary
 

@@ -8,6 +8,10 @@ reader_names = 1
 aliases = ["/bootstrap/ir86/03-buffering-assembly-text/", "/bootstrap/ir86/039-iw-publishing-streamed-assembly-text/"]
 +++
 
+The scanner can tell me what it read, but the finished translator must leave an assembly file on disk. I shall exercise the output path with a simple copy before asking it to generate instructions. The temporary-file and recovery rules inherited from the assembler will protect the last accepted result here too.
+
+## How it works
+
 Copy a byte stream through a checked output block and recoverable publication.
 
 ## Enter the source
@@ -320,6 +324,8 @@ PASS
 ```
 
 Inspect RESULT.ASM with VIEW.BAS: length 5, bytes `41 42 43 0D 0A`. This copied data is not a program.
+
+The five bytes in RESULT.ASM prove that a stream can pass through the writer and become a published file. It is still copied data. The next two steps will give that writer generated assembly to carry.
 
 ## Check the new boundary
 

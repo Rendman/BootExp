@@ -8,6 +8,10 @@ reader_names = 1
 aliases = ["/bootstrap/ir86/043-iw-addresses-and-indirect-storage/", "/bootstrap/ir86/07-naming-the-entry-point/"]
 +++
 
+The declarations now reserve real bytes in the generated program. I want an IR operation to obtain the address of those bytes and another to read a word through it. Our test will fetch the value 65 from X and return it as the program's status. That gives the pointer path an observable result before we add display output.
+
+## How it works
+
 Keep byte addresses and canonical word loads independent of physical registers.
 
 ## Enter the source
@@ -171,6 +175,8 @@ FC 81 FC FE FF 74 03 E9 14 00 E8 06 00 B4 4C CD 21 41 00 B8 11 01 8B D8 8B 07 B4
 ```
 
 Copy it to TRY.COM. CHECK TRY reports FAIL because the test returns 65.
+
+The test deliberately returns 65, so CHECK reports FAIL for this particular program. That status is the value we fetched, exactly as intended. It gives us evidence that ADDR and FETCH agree about where X lives and how its word is represented.
 
 ## Check the new boundary
 

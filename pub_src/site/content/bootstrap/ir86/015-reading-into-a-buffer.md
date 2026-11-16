@@ -8,6 +8,10 @@ reader_names = 1
 aliases = ["/bootstrap/ir86/051-iw-reading-into-a-buffer/", "/bootstrap/ir86/15-addresses-as-word-values/"]
 +++
 
+The file can be opened and the buffer can be declared. Now I want bytes to move between them. READ will take a handle, a buffer address, and a count, then return how many bytes actually arrived. I shall begin by requesting one byte from a known file so the returned progress is easy to check.
+
+## How it works
+
 Consume a saved handle and pointer, return actual progress, and refill after short reads.
 
 ## Enter the source
@@ -245,6 +249,8 @@ FC 81 FC FE FF 74 03 E9 B5 01 E8 B7 01 81 F8 FF FF 75 03 E9 A9 01 E8 09 00 B4 4C
 ```
 
 Copy it to TRY.COM. First create A with `ECHO A>A`. CHECK TRY reports PASS.
+
+The fixture checks that READ returned one byte of progress. A full reader will also inspect STATUS and keep consuming any short positive read before requesting more. The buffer's capacity and the file's length can now be separate concerns.
 
 ## Check the new boundary
 

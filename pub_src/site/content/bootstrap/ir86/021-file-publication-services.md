@@ -8,6 +8,10 @@ reader_names = 1
 aliases = ["/bootstrap/ir86/057-iw-file-publication-services/", "/bootstrap/ir86/21-testing-the-accumulator/"]
 +++
 
+Writing an output file is only part of finishing a compiler run. I want the compiler to be able to check a name, remove an obsolete file, and rename a completed temporary file into place. These services will give the later compiler the same tools for protecting accepted output that our native workbench already uses.
+
+## How it works
+
 Normalize existence, deletion, and rename without exposing DOS error values.
 
 ## Enter the source
@@ -207,6 +211,8 @@ FC 81 FC FE FF 74 03 E9 6C 02 E8 6E 02 81 F8 FF FF 75 03 E9 60 02 E8 04 00 B4 4C
 ```
 
 Copy it to TRY.COM. First create A with `ECHO A>A`. CHECK TRY reports PASS.
+
+The fixture confirms that EXISTS recognizes the file A. Together with DELETE and RENAME, the completed service set lets the compiler describe its own temporary-file and backup sequence and check each result before moving on.
 
 ## Check the new boundary
 

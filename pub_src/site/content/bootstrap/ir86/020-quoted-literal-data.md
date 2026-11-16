@@ -8,6 +8,10 @@ reader_names = 1
 aliases = ["/bootstrap/ir86/056-iw-quoted-literal-data/", "/bootstrap/ir86/20-an-unconditional-transfer/"]
 +++
 
+A filename or diagnostic is awkward to spell as a row of numeric bytes. I shall let IR source contain quoted text and return a pointer to its terminated bytes. The generated code must branch around that inline storage as it runs. Our first literal will be small enough to follow from its spelling to the displayed character.
+
+## How it works
+
 Preserve case and escape bytes while branching around inline constant storage.
 
 ## Enter the source
@@ -276,6 +280,8 @@ FC 81 FC FE FF 74 03 E9 0E 02 E8 10 02 81 F8 FF FF 75 03 E9 02 02 E8 04 00 B4 4C
 ```
 
 Copy it to TRY.COM. CHECK TRY displays `H` and reports PASS.
+
+The displayed `H` is the first byte fetched from the literal `Hi`. The literal keeps its case and supplies a terminated string pointer. I can use the same form for readable filenames and messages in the compiler source.
 
 ## Check the new boundary
 

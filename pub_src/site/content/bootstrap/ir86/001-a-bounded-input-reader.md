@@ -8,6 +8,10 @@ reader_names = 1
 aliases = ["/bootstrap/ir86/01-reading-an-ir-source/", "/bootstrap/ir86/037-iw-a-bounded-input-reader/"]
 +++
 
+The assembler already knows how to read a long source a block at a time. I want to carry that working reader into the translator. For this first stopping point, I shall strip away the assembly parser and ask the inherited file machinery to show me a short input line. There is no IR translation yet.
+
+## How it works
+
 Read a fixed source through the inherited line reader and checked source counters.
 
 The inherited CMDFILES routine obtains two filenames from the PSP before any DOS file operation. Its owned source/result buffers replace only the selected spellings; the streaming reader and publication routines keep their existing interfaces. With no arguments the defaults are SOURCE.IR and RESULT.ASM.
@@ -4429,6 +4433,8 @@ Require:
 ABC
 PASS
 ```
+
+The displayed `ABC` gives me a working reader to keep. The source counters and file errors are already attached to it; the next step can concentrate on recognizing pieces of the line.
 
 ## Check the new boundary
 

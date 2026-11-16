@@ -8,6 +8,10 @@ reader_names = 1
 aliases = ["/bootstrap/ir86/050-iw-creating-a-counted-file/", "/bootstrap/ir86/14-word-sized-bit-operations/"]
 +++
 
+Opening an existing file gives us input. I also need a way to start an output file. CREATE will use the same handle table, with a writable slot for the new file. I shall first check that creation succeeds; writing the contents can then be tested separately.
+
+## How it works
+
 Create writable handles through the same opaque slot table.
 
 ## Enter the source
@@ -163,6 +167,8 @@ FC 81 FC FE FF 74 03 E9 12 01 E8 14 01 81 F8 FF FF 75 03 E9 06 01 E8 06 00 B4 4C
 ```
 
 Copy it to TRY.COM. CHECK TRY reports PASS.
+
+The successful CREATE gives us a writable handle and a real output file. I shall keep this small check while adding the counted transfers; a failure to create a file and a failure to move its bytes should remain distinguishable.
 
 ## Check the new boundary
 

@@ -8,6 +8,10 @@ reader_names = 1
 aliases = ["/bootstrap/ir86/044-iw-saved-expression-operands/", "/bootstrap/ir86/08-loading-an-unsigned-word/"]
 +++
 
+One accumulator can hold the current value, but a calculation often needs to keep an earlier value while finding the next one. I shall add a checked expression stack. The test saves seven, loads another seven, and subtracts them. This is the arrangement a compiler can later use for the two sides of an expression.
+
+## How it works
+
 Check push/pop depth and apply word arithmetic before a control boundary.
 
 ## Enter the source
@@ -174,6 +178,8 @@ FC 81 FC FE FF 74 03 E9 17 00 E8 04 00 B4 4C CD 21 B8 07 00 50 B8 07 00 5B 2B D8
 ```
 
 Copy it to TRY.COM. CHECK TRY reports PASS.
+
+The zero result checks that SUB combined the saved word with the current value. The expression stack is empty again at EXIT, ready for the control-flow checks we shall add next.
 
 ## Check the new boundary
 

@@ -8,6 +8,10 @@ reader_names = 1
 aliases = ["/bootstrap/ir86/047-iw-counted-console-output/", "/bootstrap/ir86/11-byte-storage/"]
 +++
 
+So far I have used the program's exit status to see what its calculations did. I want the generated program to put a character on the screen. PUTC will be our first small service binding: the IR supplies a byte value, and the runtime performs the output and remembers whether it succeeded.
+
+## How it works
+
 Bind PUTC and persistent STATUS to checked byte output.
 
 ## Enter the source
@@ -193,6 +197,8 @@ FC 81 FC FE FF 74 03 E9 55 00 E8 04 00 B4 4C CD 21 B8 41 00 E8 1D 00 B8 00 00 B4
 ```
 
 Copy it to TRY.COM. CHECK TRY displays `A` and reports PASS.
+
+The displayed `A` comes from the program we generated. I no longer have to use a nonzero exit value just to observe a byte. The same output service will let the compiler print its own diagnostics.
 
 ## Check the new boundary
 

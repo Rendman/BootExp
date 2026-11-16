@@ -8,6 +8,10 @@ reader_names = 1
 aliases = ["/bootstrap/ir86/048-iw-input-bytes-and-eof/", "/bootstrap/ir86/12-a-bounded-expression-stack/"]
 +++
 
+A word load was enough for the first storage test. Text and input buffers need one byte at a time. I shall add FETCHB and use it to read the first byte of a declared word, then pass that byte to PUTC. This also gives us a concrete check of the language's low-byte-first storage rule.
+
+## How it works
+
 Zero-extend one byte from declared storage without a processor register in the source.
 
 ## Enter the source
@@ -135,6 +139,8 @@ FC 81 FC FE FF 74 03 E9 5D 00 E8 06 00 B4 4C CD 21 41 00 B8 11 01 8B D8 8A 07 B4
 ```
 
 Copy it to TRY.COM. CHECK TRY displays `A` and reports PASS.
+
+The `A` now came through FETCHB before reaching the console. A compiler can use that operation to inspect source characters without exposing a native byte register in its IR implementation.
 
 ## Check the new boundary
 

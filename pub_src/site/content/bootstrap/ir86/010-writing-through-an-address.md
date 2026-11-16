@@ -8,6 +8,10 @@ reader_names = 1
 aliases = ["/bootstrap/ir86/046-iw-calls-and-returns/", "/bootstrap/ir86/10-loading-and-storing-a-word/"]
 +++
 
+I can follow a pointer to read a word. I also need to change the word it names. I shall save a destination address on the expression stack, load the new value, and let PUT consume the saved address. Reading X afterward will show whether the store reached the right bytes.
+
+## How it works
+
 Store a word through a portable pointer and inspect the saved result.
 
 ## Enter the source
@@ -142,6 +146,8 @@ FC 81 FC FE FF 74 03 E9 1B 00 E8 06 00 B4 4C CD 21 00 00 B8 11 01 50 B8 41 00 5B
 ```
 
 Copy it to TRY.COM. CHECK TRY reports FAIL because the test returns 65.
+
+Returning 65 after loading X checks the whole store path: the saved pointer, the word write, and the later named load. CHECK's FAIL is expected for this fixture because 65 is its deliberate exit status.
 
 ## Check the new boundary
 

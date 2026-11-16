@@ -8,6 +8,10 @@ reader_names = 1
 aliases = ["/bootstrap/ir86/058-iw-allocated-block-handles/", "/bootstrap/ir86/22-unsigned-comparisons/"]
 +++
 
+The compiler's source and symbol records will need workspace beyond the bytes reserved in its main image. I shall add allocation and release through opaque block handles. The first test requests a 40 KiB block and frees it again. Accessing its contents will be a separate step, with bounds carried by the allocation.
+
+## How it works
+
 Allocate byte extents beyond the main image and release owned blocks.
 
 ## Enter the source
@@ -266,6 +270,8 @@ FC 81 FC FE FF 74 03 E9 3F 03 E8 41 03 81 F8 FF FF 75 03 E9 33 03 E8 06 00 B4 4C
 ```
 
 Copy it to TRY.COM. CHECK TRY reports PASS.
+
+The allocation and release both succeeded. I save the handle rather than a segment address, so the next operations can validate it against the runtime's owned block table before accessing any bytes.
 
 ## Check the new boundary
 

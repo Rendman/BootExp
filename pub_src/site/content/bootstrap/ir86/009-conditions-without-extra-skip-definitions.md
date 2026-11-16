@@ -8,6 +8,10 @@ reader_names = 1
 aliases = ["/bootstrap/ir86/045-iw-conditions-without-extra-skip-definitions/", "/bootstrap/ir86/09-declaring-a-word/"]
 +++
 
+Arithmetic can produce a value; now a program needs to decide where to go with it. I shall compare two saved values and branch on the result. The IR source will name only its intended destination. The backend will supply the native jump sequence needed to reach that destination.
+
+## How it works
+
 Use fixed native conditional bridges while keeping branch semantics in the virtual machine.
 
 ## Enter the source
@@ -163,6 +167,8 @@ FC 81 FC FE FF 74 03 E9 2E 00 E8 04 00 B4 4C CD 21 B8 07 00 50 B8 07 00 5B 3B D8
 ```
 
 Copy it to TRY.COM. CHECK TRY reports PASS.
+
+The test reaches GOOD and returns zero after comparing the two sevens. Its IR contains only the program's own labels. I can leave the native branch arrangement to the backend when writing later compiler output.
 
 ## Check the new boundary
 

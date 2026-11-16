@@ -10,7 +10,7 @@ tool_id = "IR86"
 collection_key = "ir86"
 +++
 
-This collection builds one native translator from a bounded reader through procedure frames, strings, file streams, and allocated workspace. The first small translator grows into the translator that builds the compiler. ASM86 assembles every stage.
+The assembler can now build the larger programs on our workbench. I want to write a compiler next, and I need to choose what that compiler will produce. I shall give it a small language for values, storage, and calls, then build a translator that turns those operations into the assembly we can already assemble.
 
 ## What we're adding
 
@@ -25,6 +25,8 @@ This collection builds one native translator from a bounded reader through proce
 
 ## The construction
 
-The language defines word values, a virtual accumulator, an expression stack, byte addresses, and opaque service handles. The 8086 instructions appear in the backend templates and DOS binding; they are not part of the IR program interface.
+We begin with the assembler's working file routines. A reader becomes a scanner, the scanner feeds an operation table, and that table starts producing assembly text. Each later addition gives the future compiler something concrete to use: saved operands, named storage, procedure frames, strings, and file services. By the last checkpoint, we shall have the translator needed to build RILL0. ASM86 assembles every stage.
+
+The language defines word values, a virtual accumulator, an expression stack, byte addresses, and opaque service handles. The 8086 instructions appear in the backend templates and DOS binding; they are not part of the IR program interface. Keeping that boundary explicit gives a later implementation a precise set of rules to preserve.
 
 Read the workbench first. The [source collection](../../downloads/tools/ir86/IR86.ZIP) contains plain source and test files.

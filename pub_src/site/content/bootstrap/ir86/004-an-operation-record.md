@@ -8,6 +8,10 @@ reader_names = 1
 aliases = ["/bootstrap/ir86/04-inspecting-an-instruction-record/", "/bootstrap/ir86/040-iw-an-operation-record/"]
 +++
 
+The assembler used a table to recognize instructions. I want the translator to use the same idea, with a record that says what kind of operand each IR operation needs. I shall begin with `LIT` and inspect its argument class. Once that lookup works, an operation can select both its checks and its output pattern.
+
+## How it works
+
 Look up the complete mnemonic and inspect its argument-class field.
 
 ## Enter the source
@@ -373,6 +377,8 @@ Require:
 0000000001
 PASS
 ```
+
+The reported class one tells me that LIT was found as a complete name and that its record requests a numeric operand. I now have a place to describe the translation rules without adding another chain of name comparisons.
 
 ## Check the new boundary
 

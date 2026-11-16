@@ -8,6 +8,10 @@ reader_names = 1
 aliases = ["/bootstrap/ir86/055-iw-word-arithmetic-and-comparison-values/", "/bootstrap/ir86/19-bounding-generated-source/"]
 +++
 
+The procedure machinery can carry values between calls. I want the word operations those routines will need for counts, masks, and character tests to have precise results too. This checkpoint completes the arithmetic and comparison set, including unsigned division and relations that produce exactly zero or one.
+
+## How it works
+
 Define multiply, unsigned quotient/remainder, masked shifts, and zero-or-one relations.
 
 ## Enter the source
@@ -242,6 +246,8 @@ FC 81 FC FE FF 74 03 E9 1D 02 E8 1F 02 81 F8 FF FF 75 03 E9 11 02 E8 04 00 B4 4C
 ```
 
 Copy it to TRY.COM. CHECK TRY reports PASS.
+
+The fixture divides 65535 by 255 and checks for 257. It returns zero when the comparison agrees. The compiler's calculations can now rely on the language's unsigned word rules while the backend handles their native implementation.
 
 ## Check the new boundary
 

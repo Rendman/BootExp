@@ -8,6 +8,10 @@ reader_names = 1
 aliases = ["/bootstrap/ir86/049-iw-opening-an-opaque-file/", "/bootstrap/ir86/13-adding-and-subtracting/"]
 +++
 
+A compiler must read a source file whose name can change from one run to the next. I shall let an IR program obtain a startup filename and ask OPEN for a readable handle. The program will keep an ordinary string pointer and an opaque handle; the entry binding and runtime will manage the DOS details.
+
+## How it works
+
 Give OPEN an ordinary terminated filename and return a checked handle.
 
 ARGC returns the number of command arguments. ARG takes a one-based argument index in A and returns a stable, zero-terminated byte-addressed string, with STATUS indicating success or failure. An invalid index returns zero and failed status. The entry binding copies and validates the PSP tail before MAIN; up to three unquoted 8.3 filename arguments fit the owned slots. The IR program sees strings and counts, not PSP offsets or processor registers. Follow CMDINIT in the emitted runtime and the small R_ARGC/R_ARG entries.
@@ -418,6 +422,8 @@ FC 81 FC FE FF 74 03 E9 1A 01 E8 1C 01 81 F8 FF FF 75 03 E9 0E 01 E8 04 00 B4 4C
 ```
 
 Copy it to TRY.COM. First create A with `ECHO A>A`. `CHECK TRY A` reports PASS.
+
+Passing the name A on the command line now leads to a successful open through ARG and OPEN. The test returns the service status. Later code can save the returned handle and then inspect STATUS to check whether it is usable.
 
 ## Check the new boundary
 

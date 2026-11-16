@@ -8,6 +8,10 @@ reader_names = 1
 aliases = ["/bootstrap/ir86/036-streaming-workbench/", "/bootstrap/ir86/059-iw-checked-block-access/", "/bootstrap/ir86/23-signed-comparisons/", "/bootstrap/ir86/24-calling-a-procedure/", "/bootstrap/ir86/25-preparing-dos-registers/", "/bootstrap/ir86/26-calling-dos-and-testing-carry/", "/bootstrap/ir86/27-reading-a-byte-or-end-of-input/", "/bootstrap/ir86/27-the-complete-pipeline/", "/bootstrap/ir86/28-opening-an-opaque-file-handle/", "/bootstrap/ir86/29-creating-an-output-file/", "/bootstrap/ir86/29-programs/", "/bootstrap/ir86/30-reading-into-a-byte-buffer/", "/bootstrap/ir86/31-writing-bytes-with-an-explicit-count/", "/bootstrap/ir86/32-closing-a-portable-handle/"]
 +++
 
+An allocated block is useful only when the program can reach its contents. I shall add byte and word access through a block handle and a byte offset, checking the complete extent before touching storage. The final test puts a word in the last two bytes of a 40 KiB block and reads it back. That is the workspace interface our compiler can now build on.
+
+## How it works
+
 Validate an opaque block and byte extent before reading or writing a word.
 
 ## Enter the source
@@ -736,6 +740,8 @@ FC 81 FC FE FF 74 03 E9 FC 03 E8 42 04 81 F8 FF FF 75 03 E9 F0 03 E8 06 00 B4 4C
 ```
 
 Copy it to TRY.COM. CHECK TRY reports PASS.
+
+The word round trip at offset 40958 reaches exactly the end of the 40960-byte allocation, and the test releases the block afterward. We now have storage, calls, text, files, and checked workspace for an IR-written compiler. In RILL0 I shall use this language to build that compiler's reader, symbol records, emitter, and parser.
 
 ## Check the new boundary
 

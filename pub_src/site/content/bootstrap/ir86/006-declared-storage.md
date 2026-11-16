@@ -8,6 +8,10 @@ reader_names = 1
 aliases = ["/bootstrap/ir86/042-iw-declared-storage/", "/bootstrap/ir86/06-substituting-a-name/"]
 +++
 
+A program needs somewhere to keep values after an instruction finishes. I shall add named words and byte buffers, with declarations before the executable body. The first storage test only needs to prove that the declarations reach the assembly file and occupy the expected space; using their contents comes next.
+
+## How it works
+
 Declare initialized words with WORD and byte extents with BUFFER; emit larger storage with RESB.
 
 ## Enter the source
@@ -140,6 +144,8 @@ FC 81 FC FE FF 74 03 E9 3E 01 E8 34 01 B4 4C CD 21 00 00 41 00 00 00 00 00 00 00
 ```
 
 Copy it to TRY.COM. CHECK TRY reports PASS.
+
+The generated image now includes the declared words and the 300-byte buffer. Its successful exit checks that the entry sequence reaches MAIN past those declarations. Next I want to read one of the values we have placed there.
 
 ## Check the new boundary
 

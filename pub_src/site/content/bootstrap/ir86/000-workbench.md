@@ -8,7 +8,7 @@ reader_names = 1
 aliases = ["/bootstrap/ir86/00-workbench/"]
 +++
 
-ASM86 builds every saved source in this collection. Supply the translator input and output names after its program name; SOURCE.IR and RESULT.ASM remain the no-argument defaults. Preserve the completed translator as IRKEEP.COM; make the identical IWKEEP.COM copy used by later workbenches.
+I have a working assembler and a way to inspect its output. For the next tool I want another visible stopping point between the source I enter and the bytes DOS executes: an assembly file I can read. IR86 will write that file, and the preserved ASM86 will turn it into a program.
 
 ## Command-line filenames
 
@@ -19,6 +19,12 @@ CHECK IR86 INPUT.IR OUTPUT.ASM
 DOS supplies the names in the PSP command tail. The native entry binding copies them into owned zero-terminated storage before file services. The language-level interface supplies argument counts and ordinary string pointers through portable services. CHECK.BAT forwards the arguments and reports status immediately. No arguments select SOURCE.IR and RESULT.ASM. Use unquoted 8.3 disk names in the current directory: letters, digits, underscore and hyphen, with an optional extension. Paths, switches, excess arguments and overlong names are rejected. Keep selected files distinct from each other and from IRTX.TMP and IRRES.BAK. Those temporary/backup names remain reserved.
 
 Success reports the selected result name. Rejected source preserves that accepted result; recovery rules apply to the selected name. Early diagnostic writers may deliberately retain a temporary file for inspection, as stated in their lesson.
+
+## Building the translator
+
+The first four checkpoints prepare the reader, scanner, writer, and operation records separately. The fifth joins them into a small translator. From there we keep extending the same source until it can support the compiler. I shall save each accepted translator with its source so there is a working place to return to.
+
+ASM86 builds every saved source in this collection. Supply the translator input and output names after its program name; SOURCE.IR and RESULT.ASM remain the no-argument defaults. Preserve the completed translator as IRKEEP.COM; make the identical IWKEEP.COM copy used by later workbenches.
 
 Keep VIEW.BAS and the argument-forwarding CHECK.BAT from ASM1. Work in an ordinary DOS hard-disk directory. Give each tool its input and output filenames on the command line. No arguments select the established defaults. Use unquoted 8.3 names in the current directory, without paths or switches; input, result and recovery names must be distinct. Require a fresh OK and PASS before using an output in the next stage.
 

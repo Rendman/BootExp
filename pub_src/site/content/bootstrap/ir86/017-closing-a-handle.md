@@ -8,6 +8,10 @@ reader_names = 1
 aliases = ["/bootstrap/ir86/053-iw-closing-a-handle/", "/bootstrap/ir86/17-reserving-a-byte-buffer/"]
 +++
 
+The generated program can now open, create, read, and write files. It also needs to finish its ownership of a handle explicitly. I shall add CLOSE and retire a slot only when the underlying close succeeds. That leaves a useful distinction between a handle that is finished and a failed operation that still needs attention.
+
+## How it works
+
 Retire an owned handle only after a successful close.
 
 ## Enter the source
@@ -172,6 +176,8 @@ FC 81 FC FE FF 74 03 E9 F8 01 E8 FA 01 81 F8 FF FF 75 03 E9 EC 01 E8 06 00 B4 4C
 ```
 
 Copy it to TRY.COM. First create A with `ECHO A>A`. CHECK TRY reports PASS.
+
+OPEN followed by CLOSE now returns a successful status. Together with the counted transfers, this gives an IR-written file routine an explicit beginning, progress, and finish for each handle it owns.
 
 ## Check the new boundary
 

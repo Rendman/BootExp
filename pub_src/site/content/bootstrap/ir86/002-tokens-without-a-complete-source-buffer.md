@@ -8,6 +8,10 @@ reader_names = 1
 aliases = ["/bootstrap/ir86/02-seeing-the-tokens/", "/bootstrap/ir86/038-iw-tokens-without-a-complete-source-buffer/"]
 +++
 
+I can read the input. Now I need to separate an operation name from its operand without losing my place. I shall try a lowercase `lit 7` and have the scanner show the two tokens it found. Later, quoted text will need its original spelling, so folding a token must leave the raw line available.
+
+## How it works
+
 Fold token spellings while preserving the raw line for quoted data.
 
 ## Enter the source
@@ -143,6 +147,8 @@ Require:
 ```text
 [LIT][7]PASS
 ```
+
+`[LIT][7]` shows that the scanner found a complete operation spelling and a separate operand. I can now build the output side while keeping this small scanner test as an accepted stopping point.
 
 ## Check the new boundary
 
