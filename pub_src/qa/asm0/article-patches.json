@@ -2292,10 +2292,12 @@
     "page": "19-using-a-named-value.md",
     "changes": [
       {
-        "tag": "insert",
+        "tag": "replace",
         "a1": 398,
-        "a2": 398,
-        "old": [],
+        "a2": 399,
+        "old": [
+          "JMP ERROR"
+        ],
         "new": [
           "JMP ERROR",
           "",
@@ -2320,7 +2322,8 @@
           "MOV AX,0",
           "RET",
           "VALUEBAD:",
-          "MOV AX,3"
+          "MOV AX,3",
+          "JMP ERROR"
         ],
         "context": [
           "RET",

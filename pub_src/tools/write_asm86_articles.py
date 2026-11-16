@@ -59,6 +59,9 @@ for case in CASES:
  else:
   text+=f'Copy `AS{n-1:02}.ASM` to `{name}.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.\n\n'
   ops=[op for op in SequenceMatcher(None,previous,lines,autojunk=False).get_opcodes() if op[0]!='equal']
+  if n==19:
+   # Show both error exits instead of reusing an unprinted trailing jump.
+   ops=[('replace',a1,a2+1,b1,b2+1) if tag=='insert' and previous[a1:a1+1]==['JMP ERROR'] else (tag,a1,a2,b1,b2) for tag,a1,a2,b1,b2 in ops]
   for i,(tag,a1,a2,b1,b2) in enumerate(reversed(ops),1):
    old=previous[a1:a2];new=lines[b1:b2];context=previous[max(0,a1-3):a1]
    labels=[s for s in previous[:a1] if re.fullmatch('[A-Z][A-Z0-9_]*:',s)]
@@ -69,6 +72,8 @@ for case in CASES:
    else:text+=f'Insert after old physical line {a1}, before the following old line.\n\n'
    if new:text+=('Put this source in their place:\n\n' if old else 'Insert this source:\n\n')+fence('asm','\n'.join(new),keep=True)
    else:text+='No replacement lines are needed.\n\n'
+   if n==19 and old==['JMP ERROR']:
+    text+='The first `JMP ERROR` in this replacement still terminates `NUMBERBAD`; the final `JMP ERROR` terminates `VALUEBAD`. Keep both. The existing blank line and `DEFINE:` must follow the final jump.\n\n'
    changes.append(dict(tag=tag,a1=a1,a2=a2,old=old,new=new,context=context))
  text+='## Build and stop\n\n'
  text+=f'Use the BASIC assembler prepared in the workbench guide:\n\n'+fence('dos',f'COPY {name}.ASM SOURCE.ASM\nGWBASIC BOOTASM.BAS')

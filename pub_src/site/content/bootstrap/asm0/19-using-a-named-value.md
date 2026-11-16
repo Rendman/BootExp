@@ -35,9 +35,13 @@ NUMBERBAD:
 MOV AX,2
 ```
 
-Insert after old physical line 398, before the following old line.
+Remove these exact old lines (physical lines 399–399 of `AS18.ASM`):
 
-Insert this source:
+```asm
+JMP ERROR
+```
+
+Put this source in their place:
 
 ```asm
 JMP ERROR
@@ -64,7 +68,10 @@ MOV AX,0
 RET
 VALUEBAD:
 MOV AX,3
+JMP ERROR
 ```
+
+The first `JMP ERROR` in this replacement still terminates `NUMBERBAD`; the final `JMP ERROR` terminates `VALUEBAD`. Keep both. The existing blank line and `DEFINE:` must follow the final jump.
 
 ### Change 2: following `WORDVALUE:`
 
