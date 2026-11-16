@@ -14,7 +14,7 @@ Fold token spellings while preserving the raw line for quoted data.
 
 Copy IR01.ASM to IR02.ASM. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 19
+### Edit at old physical position 20
 
 Unchanged source before the edit:
 
@@ -52,7 +52,7 @@ JMP READNEXT
 READDONE:
 ```
 
-### Edit at old physical position 15
+### Edit at old physical position 16
 
 Unchanged source before the edit:
 
@@ -81,7 +81,7 @@ MOV DL,AL
 MOV AH,2
 ```
 
-### Edit at old physical position 12
+### Edit at old physical position 13
 
 Unchanged source before the edit:
 
@@ -123,11 +123,10 @@ CMP AL,0
 ## Build and check
 
 ```dos
-COPY IR02.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP IR02.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 02072 bytes`. Save RESULT.COM as IR02.COM. VIEW.BAS must show length 2072.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 02564 bytes`. Save RESULT.COM as IR02.COM. VIEW.BAS must show length 2564.
 
 Create T02.IR:
 
@@ -136,11 +135,7 @@ lit 7
 ```
 
 ```dos
-COPY T02.IR SOURCE.IR
-```
-
-```dos
-CHECK IR02
+CHECK IR02 T02.IR RESULT.ASM
 ```
 
 Require:
@@ -151,7 +146,13 @@ Require:
 
 ## Check the new boundary
 
-Temporarily rename SOURCE.IR to HOLD.TXT and run CHECK IR02. Restore the source afterward. Require:
+Choose an absent disk filename, ABSENT.IR, and run:
+
+```dos
+CHECK IR02 ABSENT.IR RESULT.ASM
+```
+
+Require:
 
 ```text
 IR ERROR 0000000000 CODE 6

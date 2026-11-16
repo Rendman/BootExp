@@ -9,7 +9,7 @@ reader_names = 1
 url = "/bootstrap/asm86a/37-logical-word-shifts/"
 +++
 
-The tool implementations need bit masks and word shifts.
+The shift forms in the processor manual have a restriction worth keeping beside the listing: the count is one or it comes from CL. I'll accept those forms explicitly. A convenient-looking spelling must not make the assembler emit an instruction my 8088 cannot execute.
 
 ## The working parts
 
@@ -29,7 +29,7 @@ DB 77,85,76,0,0,0,9,4
 DB 68,73,86,0,0,0,9,6
 ```
 
-Insert after old physical line 2447.
+Insert after old physical line 2636.
 
 Insert:
 
@@ -53,7 +53,7 @@ CALL ENCODE
 JMP FINISH
 ```
 
-Insert after old physical line 2310.
+Insert after old physical line 2316.
 
 Insert:
 
@@ -105,8 +105,8 @@ JMP ERROR
 The following old source stays in place:
 
 ```asm
-OKMSG:
-DB 79,75,32,82,69,83,85,76,84,46,67,79,77,32,36
+CMDINIT:
+MOV SI,81H
 ```
 
 ### Change 3 near `DISPATCH9:`
@@ -119,7 +119,7 @@ RET
 DISPATCH9:
 ```
 
-Insert after old physical line 898.
+Insert after old physical line 904.
 
 Insert:
 
@@ -148,7 +148,7 @@ CALL RESTORENAME
 MOV BX,OPTAB
 ```
 
-Remove this exact source at old physical positions 850–850:
+Remove this exact source at old physical positions 856–856:
 
 ```asm
 MOV CX,32
@@ -170,17 +170,16 @@ CALL LOOK
 ## Build the stopping point
 
 ```dos
-COPY A37.ASM SOURCE.ASM
-CHECK ASM1
+CHECK ASM1 A37.ASM RESULT.COM
 ```
 
-Require `OK RESULT.COM 05995 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 06433 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A37.COM
 ```
 
-VIEW.BAS must report A37.COM length 5995 bytes. Keep that executable and source together.
+VIEW.BAS must report A37.COM length 6433 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -192,11 +191,7 @@ SHR AX,CL
 ```
 
 ```dos
-COPY T37.ASM SOURCE.ASM
-```
-
-```dos
-CHECK A37
+CHECK A37 T37.ASM RESULT.COM
 ```
 
 Require:
@@ -223,8 +218,7 @@ SHL AX,2
 ```
 
 ```dos
-COPY X37.ASM SOURCE.ASM
-CHECK A37
+CHECK A37 X37.ASM RESULT.COM
 ```
 
 Require:

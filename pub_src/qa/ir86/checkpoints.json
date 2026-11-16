@@ -112,9 +112,10 @@
     "title": "Opening an opaque file",
     "why": "Give OPEN an ordinary terminated filename and return a checked handle.",
     "source": "IR13.ASM",
-    "fixture": "WORD NAME 65\nLABEL MAIN\nADDR NAME\nOPEN\nSTATUS\nJZ GOOD\nLIT 1\nEXIT\nLABEL GOOD\nLIT 0\nEXIT\n",
+    "fixture": "LABEL MAIN\nARGC\nPUSH\nLIT 1\nCEQ\nJNZ NAMED\nLIT 1\nEXIT\nLABEL NAMED\nLIT 1\nARG\nOPEN\nSTATUS\nEXIT\n",
     "diagnostic": false,
-    "raw": false
+    "raw": false,
+    "program_command_line": "A"
   },
   {
     "number": 14,

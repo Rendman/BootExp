@@ -4,7 +4,7 @@ IR86 defines a virtual accumulator A, sixteen-bit words, an expression stack, an
 
 Put one operation on each line. Names and operation spellings are folded to uppercase. A name begins with a letter or underscore, continues with letters, digits, or underscores, and has at most 29 characters. A semicolon begins a comment outside a quoted string. Empty lines are allowed. Numeric operands are unsigned decimal words or hexadecimal words ending in H; hexadecimal spelling starts with a digit, as in 0FFFFH. A word must fit 0 through 65535.
 
-The native translator reads SOURCE.IR and publishes RESULT.ASM. Compiler sources use those same fixed work files. Keep the input unchanged throughout a run. Source text accepts CR/LF, bare CR, bare LF, and a final line without a terminator; Control-Z ends the source.
+Run `IR86 INPUT.IR OUTPUT.ASM` or `CHECK IRKEEP INPUT.IR OUTPUT.ASM`. With no arguments the defaults are SOURCE.IR and RESULT.ASM. Names are unquoted 8.3 disk filenames in the current directory, using letters, digits, underscore and hyphen, with an optional extension; paths and switches are not supported. Input and output must differ from each other and from IRTX.TMP/IRRES.BAK. The entry routine copies the PSP tail into owned storage before any file service. Keep the input unchanged throughout a run. Source text accepts CR/LF, bare CR, bare LF, and a final line without a terminator; Control-Z ends the source.
 
 ## Values, storage, and expressions
 
@@ -49,6 +49,8 @@ Services take their last argument in A and any preceding arguments on the expres
 | PUTC | Low byte in A; write one byte to standard output |
 | STATUS | Return the persistent service status: zero for success, one for failure |
 | OPEN, CREATE | Terminated filename pointer in A; return a readable or writable handle; CREATE creates or truncates a file |
+| ARGC | Return the number of startup arguments; the DOS binding accepts up to three filename arguments |
+| ARG | One-based index in A; return a stable zero-terminated ordinary byte pointer, or zero with failed STATUS for an invalid index |
 | READ, WRITE | Saved handle and buffer pointer, count in A; consume both saved words and return actual progress |
 | CLOSE | Handle in A; retire it after a successful close |
 | EXISTS | Filename pointer in A; return one if it can be opened and closed, zero for file-not-found; check STATUS for other failures |
@@ -75,4 +77,4 @@ Classes: 0 has no source operand; 1 a numeric word; 2 a name; 3 a storage name f
 
 The operation templates and runtime binding emit 8086/8088 assembly for ASM86. The translator streams 4096-byte input and output blocks, bounds a physical line to 1023 characters, and uses checked two-word source/output counters. ASM86 supplies symbol storage, label resolution, instruction encodings, and the 61184-byte target-image bound. The main segment and its upper stack reservation are backend choices, not physical-register operations in the IR language.
 
-A pre-existing IRTX.TMP or IRRES.BAK prevents a new publication. Source rejection preserves an accepted RESULT.ASM; a failed publication can leave recovery files. Success reports `OK RESULT.ASM nnnnnnnnnn text bytes` and returns zero. Failure reports `IR ERROR llllllllll CODE n` and returns nonzero. Require a fresh successful translation and assembly before executing a generated program.
+A pre-existing IRTX.TMP or IRRES.BAK prevents a new publication. Source rejection preserves an accepted RESULT.ASM; a failed publication can leave recovery files. With default names, success reports `OK RESULT.ASM nnnnnnnnnn text bytes` and returns zero. Failure reports `IR ERROR llllllllll CODE n` and returns nonzero. Require a fresh successful translation and assembly before executing a generated program.

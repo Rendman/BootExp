@@ -15,7 +15,7 @@ Build consuming the required token..
 
 Copy R10.IR to R11.IR. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 413
+### Edit at old physical position 422
 
 Unchanged source before the edit:
 
@@ -45,7 +45,7 @@ PROC PRINT 0 1
 SETLOCAL 0
 ```
 
-### Edit at old physical position 28
+### Edit at old physical position 37
 
 Unchanged source before the edit:
 
@@ -77,7 +77,7 @@ The following old source remains:
 RETURN
 ```
 
-### Edit at old physical position 26
+### Edit at old physical position 35
 
 Unchanged source before the edit:
 
@@ -109,13 +109,11 @@ LIT 65535
 ## Build and check
 
 ```dos
-COPY R11.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP R11.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 07822 bytes`. Save RESULT.COM as R11.COM. VIEW.BAS must show length 7822.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 08632 bytes`. Save RESULT.COM as R11.COM. VIEW.BAS must show length 8632.
 
 Create T11.RIL:
 
@@ -124,11 +122,7 @@ Create T11.RIL:
 ```
 
 ```dos
-COPY T11.RIL SOURCE.RIL
-```
-
-```dos
-CHECK R11
+CHECK R11 T11.RIL RESULT.IR
 ```
 
 Require:
@@ -139,13 +133,17 @@ OKPASS
 
 ## Check the new boundary
 
-Use this separate rejected source:
+Save this separate rejected source as X11.RIL:
 
 ```rill
 -
 ```
 
-Copy it to SOURCE.RIL and run CHECK R11. Require:
+```dos
+CHECK R11 X11.RIL RESULT.IR
+```
+
+Require:
 
 ```text
 ERROR 0000000001 CODE 00002

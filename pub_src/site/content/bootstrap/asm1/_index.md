@@ -19,12 +19,13 @@ I'll call this next assembler **ASM1**. I want it to read and write through smal
 
 ## What we're adding
 
+- **Command-line filenames:** Take input and output names from the PSP so sources can keep their own names; preserve the old names as no-argument defaults.
 - **Streamed input and output:** Work through 1 KiB blocks so source and executable size are independent of the resident file buffers.
 - **Larger assembly capacity:** Retain 2,048 symbols and emit as many as 61,184 bytes so the seed can build a substantially larger assembler.
 - **XOR and segment access:** Add segment-register MOV and ES overrides on the existing MOV memory forms so the assembler can work with separately allocated storage.
 - **Checked publication:** Write a temporary file and use backup/recovery names so rejected source does not replace an accepted RESULT.COM.
 
-**Removing:** The complete-image output buffer; streaming removes the resident output-size bottleneck. The fixed SOURCE.ASM/RESULT.COM names are retained from ASM0. ES, CS, SS and DS also become reserved names so labels cannot be confused with the new segment-register operands.
+**Removing:** The complete-image output buffer; streaming removes the resident output-size bottleneck. SOURCE.ASM/RESULT.COM remain no-argument defaults; COPY is still needed when building with ASM0. ES, CS, SS and DS also become reserved names so labels cannot be confused with the new segment-register operands.
 
 ## The construction
 

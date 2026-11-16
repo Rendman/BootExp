@@ -133,19 +133,16 @@ COPY S03.ASM EDITRT.ASM
 ```
 
 ```dos
-COPY S03.RIL SOURCE.RIL
-CHECK RILLED
-COPY RESULT.IR SOURCE.IR
-CHECK IRED
-COPY RESULT.ASM SOURCE.ASM
-CHECK A0
+CHECK RILLED S03.RIL RESULT.IR
+CHECK IRED RESULT.IR RESULT.ASM EDITRT.ASM
+CHECK A0 RESULT.ASM RESULT.COM
 COPY RESULT.COM S03.COM
 ```
 
-Require compiler `OK RESULT.IR 0000000189`, translator `OK RESULT.ASM 0000006225 text bytes`, assembler `OK RESULT.COM 01301 bytes`, and each PASS before the following copy. VIEW.BAS must report S03.COM length 1301 bytes, beginning with:
+Require compiler `OK RESULT.IR 0000000189`, translator `OK RESULT.ASM 0000007719 text bytes`, assembler `OK RESULT.COM 01663 bytes`, and each PASS before the following copy. VIEW.BAS must report S03.COM length 1663 bytes, beginning with:
 
 ```text
-FC 81 FC FE FF 74 03 E9 E8 03 E8 40 00 B4 4C CD 21 55 8B EC 81 EC 80 00 81 FC 00 F0 73 03 E9 D1
+FC 81 FC FE FF 74 03 E9 F4 03 E8 3A 04 81 F8 FF FF 75 03 E9 E8 03 E8 40 00 B4 4C CD 21 55 8B EC
 ```
 
 Run `CHECK S03`. The screen clears; the cursor state is restored and CHECK reports PASS.

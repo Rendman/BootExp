@@ -1,7 +1,7 @@
 +++
 title = "Our First Compiler"
 weight = 6
-description = "Begin with the completed ASM86 and native IR86 workbenches. Every compiler checkpoint is written in IR86. Translate SOURCE.IR with IRKEEP, copy accepted RESULT.ASM to SOURCE.ASM, then assemble with ASMAKEEP. The finished RILL0 reads SOURCE.RIL and publishes RESULT.IR."
+description = "Begin with the completed ASM86 and native IR86 workbenches. Every compiler checkpoint is written in IR86. Pass its source name and RESULT.ASM to IRKEEP, then pass RESULT.ASM and RESULT.COM to ASMAKEEP. The finished RILL0 accepts its own input and output filenames."
 download = "RILL0.IR"
 download_group = "tools/rill0"
 reader_names = 1

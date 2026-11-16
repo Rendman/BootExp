@@ -206,7 +206,7 @@ Unchanged source immediately before the edit:
 
 ```rill
 bytes token[32];
-fn main(){
+fn main(){filearg(1,"MAIN.OBJ");
     unit=0;preflight();
 ```
 
@@ -254,19 +254,16 @@ let mut pass=1;
 ## Build and preserve the tool
 
 ```dos
-COPY L08.RIL SOURCE.RIL
-CHECK R0
-COPY RESULT.IR SOURCE.IR
-CHECK I0
-COPY RESULT.ASM SOURCE.ASM
-CHECK A0
+CHECK R0 L08.RIL RESULT.IR
+CHECK I0 RESULT.IR RESULT.ASM
+CHECK A0 RESULT.ASM RESULT.COM
 COPY RESULT.COM L08.COM
 ```
 
-Require compiler `OK RESULT.IR 0000020975`, translator `OK RESULT.ASM 0000044316 text bytes`, assembler `OK RESULT.COM 10101 bytes`, and each PASS before the following copy. VIEW.BAS must show L08.COM length 10101 and these first thirty-two bytes:
+Require compiler `OK RESULT.IR 0000023168`, translator `OK RESULT.ASM 0000050376 text bytes`, assembler `OK RESULT.COM 11212 bytes`, and each PASS before the following copy. VIEW.BAS must show L08.COM length 11212 and these first thirty-two bytes:
 
 ```text
-FC 81 FC FE FF 74 03 E9 22 27 E8 7A 23 B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+FC 81 FC FE FF 74 03 E9 1B 2A E8 61 2A 81 F8 FF FF 75 03 E9 0F 2A E8 67 26 B4 4C CD 21 00 00 00
 ```
 
 ## Check the accepted input
@@ -289,9 +286,7 @@ END
 ```
 
 ```dos
-COPY M08.OBJ MAIN.OBJ
-COPY U08.OBJ UTIL.OBJ
-CHECK L08
+CHECK L08 M08.OBJ U08.OBJ RESULT.COM
 ```
 
 Require:
@@ -325,8 +320,7 @@ END
 ```
 
 ```dos
-COPY X08.OBJ MAIN.OBJ
-CHECK L08
+CHECK L08 X08.OBJ U08.OBJ RESULT.COM
 ```
 
 Require:

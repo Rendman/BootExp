@@ -17,7 +17,7 @@ Retain every earlier language feature. This checkpoint edits the complete compil
 
 Copy RB06.IR to RB07.IR. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 2149
+### Edit at old physical position 2178
 
 Unchanged source before the edit:
 
@@ -46,7 +46,7 @@ CALL OUTSTR
 LOCAL 2
 ```
 
-### Edit at old physical position 2139
+### Edit at old physical position 2168
 
 Unchanged source before the edit:
 
@@ -73,7 +73,7 @@ JMP NAMEFAIL
 LABEL PRIMARYGLOBAL
 ```
 
-### Edit at old physical position 1837
+### Edit at old physical position 1866
 
 Unchanged source before the edit:
 
@@ -154,7 +154,7 @@ The following old source remains:
 PROC PREC 0 0
 ```
 
-### Edit at old physical position 1775
+### Edit at old physical position 1804
 
 Unchanged source before the edit:
 
@@ -191,7 +191,7 @@ LABEL RESOLVEGOT
 LOCAL 0
 ```
 
-### Edit at old physical position 1523
+### Edit at old physical position 1552
 
 Unchanged source before the edit:
 
@@ -220,7 +220,7 @@ CALL OUTSTR
 LOCAL 2
 ```
 
-### Edit at old physical position 1513
+### Edit at old physical position 1542
 
 Unchanged source before the edit:
 
@@ -247,7 +247,7 @@ JMP NAMEFAIL
 LABEL STGLOBAL
 ```
 
-### Edit at old physical position 1261
+### Edit at old physical position 1290
 
 Unchanged source before the edit:
 
@@ -270,7 +270,7 @@ LD TOK
 PUSH
 ```
 
-### Edit at old physical position 78
+### Edit at old physical position 87
 
 Unchanged source before the edit:
 
@@ -346,7 +346,7 @@ LITS "PROC MAIN 0 0\r\nINVOKE F_MAIN 0\r\nRETURN\r\n"
 CALL OUTSTR
 ```
 
-### Edit at old physical position 72
+### Edit at old physical position 81
 
 Unchanged source before the edit:
 
@@ -379,7 +379,7 @@ LITS "MAIN"
 CALL ISWORD
 ```
 
-### Edit at old physical position 66
+### Edit at old physical position 75
 
 Unchanged source before the edit:
 
@@ -411,7 +411,7 @@ CALL GLOBALBUFFER
 JMP TOP
 ```
 
-### Edit at old physical position 63
+### Edit at old physical position 72
 
 Unchanged source before the edit:
 
@@ -448,7 +448,7 @@ CALL GLOBALWORD
 JMP TOP
 ```
 
-### Edit at old physical position 61
+### Edit at old physical position 70
 
 Unchanged source before the edit:
 
@@ -478,13 +478,11 @@ CALL ISWORD
 ## Build and check
 
 ```dos
-COPY RB07.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP RB07.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 20661 bytes`. Save RESULT.COM as RB07.COM. VIEW.BAS must show length 20661.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 21539 bytes`. Save RESULT.COM as RB07.COM. VIEW.BAS must show length 21539.
 
 Create TRB07.RIL:
 
@@ -493,11 +491,7 @@ fn main(){putc(value());}fn value(){return 65;}
 ```
 
 ```dos
-COPY TRB07.RIL SOURCE.RIL
-```
-
-```dos
-CHECK RB07
+CHECK RB07 TRB07.RIL RESULT.IR
 ```
 
 Require:
@@ -523,17 +517,21 @@ Inspect RESULT.IR with VIEW.BAS. Require length 173 bytes and these complete byt
 4E 20 30 0D 0A 52 45 54 55 52 4E 0D 0A
 ```
 
-This is a complete IR program. Translate it with IRKEEP, assemble its accepted output with ASMAKEEP, and save RESULT.COM as TRY.COM. Require fresh OK and PASS before both copies. VIEW.BAS must report length 1088. CHECK TRY displays `A` and reports PASS.
+This is a complete IR program. Translate it with IRKEEP, assemble its accepted output with ASMAKEEP, and save RESULT.COM as TRY.COM. Require fresh OK and PASS before both copies. VIEW.BAS must report length 1450. CHECK TRY displays `A` and reports PASS.
 
 ## Check the new boundary
 
-Use this separate rejected source:
+Save this separate rejected source as XRB07.RIL:
 
 ```rill
 fn main(){putc(65536);}
 ```
 
-Copy it to SOURCE.RIL and run CHECK RB07. Require:
+```dos
+CHECK RB07 XRB07.RIL RESULT.IR
+```
+
+Require:
 
 ```text
 ERROR 0000000001 CODE 00003

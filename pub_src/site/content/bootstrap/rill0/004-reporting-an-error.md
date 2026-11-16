@@ -15,6 +15,105 @@ Close owned handles and free owned workspace before reporting the line and error
 
 Copy R03.IR to R04.IR. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
+### Edit at old physical position 172
+
+Unchanged source before the edit:
+
+```ir
+LIT 0
+RETURN
+```
+
+Insert in its place:
+
+```ir
+
+PROC FILEARG 2 2
+ARGC
+JZ FILEDEFAULT
+PUSH
+LIT 2
+CNE
+JNZ FILEBADARGS
+LIT 1
+ARG
+SETLOCAL 0
+LIT 2
+ARG
+SETLOCAL 1
+LOCAL 0
+PUSH
+LOCAL 1
+PUSH
+INVOKE FILESAME 2
+JNZ FILEBADARGS
+LOCAL 0
+PUSH
+LITS "RILL.TMP"
+PUSH
+INVOKE FILESAME 2
+JNZ FILEBADARGS
+LOCAL 0
+PUSH
+LITS "RILL.BAK"
+PUSH
+INVOKE FILESAME 2
+JNZ FILEBADARGS
+LOCAL 1
+PUSH
+LITS "RILL.TMP"
+PUSH
+INVOKE FILESAME 2
+JNZ FILEBADARGS
+LOCAL 1
+PUSH
+LITS "RILL.BAK"
+PUSH
+INVOKE FILESAME 2
+JNZ FILEBADARGS
+PARAM 0
+ARG
+RETURN
+LABEL FILEDEFAULT
+PARAM 1
+RETURN
+LABEL FILEBADARGS
+LIT 1
+EXIT
+
+PROC FILESAME 2 1
+LABEL FILECOMPARE
+PARAM 0
+FETCHB
+SETLOCAL 0
+LOCAL 0
+PUSH
+PARAM 1
+FETCHB
+CNE
+JNZ FILENOSAME
+LOCAL 0
+JZ FILEISSAME
+PARAM 0
+PUSH
+LIT 1
+ADD
+PUSH
+PARAM 1
+PUSH
+LIT 1
+ADD
+PUSH
+INVOKE FILESAME 2
+RETURN
+LABEL FILEISSAME
+LIT 1
+RETURN
+LABEL FILENOSAME
+LIT 0
+RETURN
+```
+
 ### Edit at old physical position 64
 
 Unchanged source before the edit:
@@ -61,7 +160,11 @@ LD BACKUP
 JZ ERRORDELETE
 LITS "RILL.BAK"
 PUSH
+LIT 2
+PUSH
 LITS "RESULT.IR"
+PUSH
+INVOKE FILEARG 2
 RENAME
 STATUS
 JNZ ERRORREPORT
@@ -189,13 +292,11 @@ PROC MAIN 0 0
 ## Build and check
 
 ```dos
-COPY R04.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP R04.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 01943 bytes`. Save RESULT.COM as R04.COM. VIEW.BAS must show length 1943.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 02712 bytes`. Save RESULT.COM as R04.COM. VIEW.BAS must show length 2712.
 
 ```dos
 CHECK R04

@@ -19,6 +19,7 @@ def literal(text):
 @dataclass
 class Machine:
  files:dict=field(default_factory=dict)
+ arguments:tuple=()
  stdin:bytes=b''
  data_base:int=0x2000
  handle_base:int=101
@@ -28,6 +29,7 @@ class Machine:
   self.files={k.upper():bytes(v) for k,v in self.files.items()};self.output=bytearray();self.exitcode=None
   self.memory=bytearray(65536);self.static_end=self.data_base;self.a=0;self.status=0;self.stack=[];self.calls=[];self.frame=None
   self.handles={};self.blocks={};self.input_position=0;self.frame_top=0xe000;self.code=[];self.labels={};self.objects={};self.procs={};self.literals={}
+  self.argument_ptrs=[self.alloc_static(s.encode('ascii')+b'\0') for s in self.arguments]
  def access(self,p,n):
   if n==0:return
   static=self.data_base<=p and p+n<=self.static_end
@@ -186,6 +188,10 @@ class Machine:
     if not self.calls:self.exitcode=self.a&255;return self
     pc,self.stack,self.frame=self.calls.pop()
    elif op=='STATUS':self.a=self.status
+   elif op=='ARGC':self.a=len(self.argument_ptrs);self.status=0
+   elif op=='ARG':
+    if 1<=self.a<=len(self.argument_ptrs):self.a=self.argument_ptrs[self.a-1];self.status=0
+    else:self.a=0;self.status=1
    elif op in ['PUTC','GETC','OPEN','CREATE','READ','WRITE','CLOSE','EXISTS','DELETE','RENAME','ALLOC','FREEBLOCK','GET8','GET16','SET8','SET16']:self.service(op)
    elif op in ['HALT','EXIT']:self.exitcode=0 if op=='HALT' else self.a&255;return self
    else:raise InvalidIR('Unknown IR '+op)

@@ -1,21 +1,21 @@
 {
-  "boot_binary_bytes": 26617,
-  "boot_ir_bytes": 49992,
-  "boot_assembly_bytes": 103091,
-  "binary_bytes": 26617,
-  "ir_bytes": 49992,
-  "assembly_bytes": 103091,
+  "boot_binary_bytes": 27614,
+  "boot_ir_bytes": 51789,
+  "boot_assembly_bytes": 108527,
+  "binary_bytes": 27614,
+  "ir_bytes": 51789,
+  "assembly_bytes": 108527,
   "TLOCAL.RIL": {
     "ir_bytes": 5625,
-    "assembly_bytes": 15732,
-    "binary_bytes": 3098,
-    "hex": "FC 81 FC FE FF 74 03 E9 C7 0B E8 1F 08 B4 4C CD 21 55 8B EC 81 EC 80 00 81 FC 00 F0 73 03 E9 B0"
+    "assembly_bytes": 17226,
+    "binary_bytes": 3460,
+    "hex": "FC 81 FC FE FF 74 03 E9 D3 0B E8 19 0C 81 F8 FF FF 75 03 E9 C7 0B E8 1F 08 B4 4C CD 21 55 8B EC"
   },
   "TSCOPE.RIL": {
     "ir_bytes": 4080,
-    "assembly_bytes": 10171,
-    "binary_bytes": 2133,
-    "hex": "FC 81 FC FE FF 74 03 E9 02 08 E8 5A 04 B4 4C CD 21 00 00 55 8B EC 81 EC 80 00 81 FC 00 F0 73 03"
+    "assembly_bytes": 11665,
+    "binary_bytes": 2495,
+    "hex": "FC 81 FC FE FF 74 03 E9 0E 08 E8 54 08 81 F8 FF FF 75 03 E9 02 08 E8 5A 04 B4 4C CD 21 00 00 55"
   },
   "error": "ERROR 0000000018 CODE 00005"
 }

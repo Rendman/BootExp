@@ -4,6 +4,7 @@ These are source selections, not a parser, translator, or executable encoder.
 """
 from pathlib import Path
 import re
+from command_files import ir_filenames
 ROOT=Path(__file__).resolve().parents[1]
 TEXT=(ROOT/'tools/rill_bootstrap.ir').read_text()
 DATA=re.findall(r'^(?:WORD|BYTE|BUFFER) .*$',TEXT,re.M)
@@ -30,7 +31,7 @@ def builtin(s,allowed):
   if name.lower() in allowed:kept.extend([name,arity,body])
  return s[:m.start()]+ 'LITS "'+r'\0'.join(kept)+r'\0\0'+ '"\n'+s[m.end():]
 
-SEED_INTRINSICS={'putc','status','open','create','close','read','write','exists','delete','rename','alloc','free','get8','get16','set8','set16','load8','exit'}
+SEED_INTRINSICS={'putc','status','argc','arg','open','create','close','read','write','exists','delete','rename','alloc','free','get8','get16','set8','set16','load8','exit'}
 
 def profile(level=0):
  """0: RILL0; 1..11: the successive language and service additions."""
@@ -45,7 +46,7 @@ def profile(level=0):
  p['PRIMARY']=remove_region(p['PRIMARY'],'PRIMARYNEG','PRIMARYBOOL')
  p['PRIMARY']=remove_region(p['PRIMARY'],'PRIMARYADDR','PRIMARYDONE')
  allowed={'putc','status','exit'}
- if level>=8:allowed|={'open','create','close','read','write'}
+ if level>=8:allowed|={'argc','arg','open','create','close','read','write'}
  if level>=9:allowed|={'exists','delete','rename'}
  if level>=10:allowed|={'alloc','free'}
  if level>=11:allowed|={'get8','get16','set8','set16'}
@@ -119,6 +120,12 @@ def main_record_profile():
 def render(procs,roots=('MAIN',),extra=()):
  """Retain only routines and fields referenced by this working stage."""
  p=dict(procs);used=set(roots)|set(extra)
+ # Input/output diagnostics use the same portable argument selection as the
+ # complete compiler; FILEARG and FILESAME are retained when actually called.
+ for name in p:p[name]=ir_filenames(p[name],fragment=name=='MAIN' and '\nRENAME\n' not in p[name])
+ if 'INVOKE FILEARG 2\n' in p['MAIN']:
+  p['MAIN']=p['MAIN'].replace('PROC MAIN 0 0\n','PROC MAIN 0 0\nLIT 1\nPUSH\nLITS "SOURCE.RIL"\nPUSH\nINVOKE FILEARG 2\n',1)
+ p.update({name:PROCS[name] for name in ('FILEARG','FILESAME')})
  owners={n:k for k,v in p.items() for n in re.findall(r'^(?:LABEL|PROC) (\w+)',v,re.M)}
  # Error aliases are entries into ERROR, not independent routines.
  owners.update({n:'ERROR' for n in re.findall(r'^LABEL (\w+)',ALIAS,re.M)})

@@ -31,7 +31,7 @@ JE FLUSHDONE
 MOV BX,[OUTHANDLE]
 ```
 
-Remove this exact source at old physical positions 1022–1022:
+Remove this exact source at old physical positions 1028–1028:
 
 ```asm
 MOV DX,6000H
@@ -60,7 +60,7 @@ JNE COUNTBYTE
 MOV BX,[OUTCNT]
 ```
 
-Remove this exact source at old physical positions 900–900:
+Remove this exact source at old physical positions 906–906:
 
 ```asm
 ADD BX,6000H
@@ -89,7 +89,7 @@ MOV [V1],AX
 CALL SCAN
 ```
 
-Remove this exact source at old physical positions 735–735:
+Remove this exact source at old physical positions 741–741:
 
 ```asm
 MOV AL,[2300H]
@@ -118,7 +118,7 @@ FINISH:
 CALL SCAN
 ```
 
-Remove this exact source at old physical positions 716–716:
+Remove this exact source at old physical positions 722–722:
 
 ```asm
 MOV AL,[2300H]
@@ -147,7 +147,7 @@ DATASEP:
 CALL SCAN
 ```
 
-Remove this exact source at old physical positions 638–638:
+Remove this exact source at old physical positions 644–644:
 
 ```asm
 MOV AL,[2300H]
@@ -176,7 +176,7 @@ STATEMENT:
 CALL SCAN
 ```
 
-Remove this exact source at old physical positions 557–557:
+Remove this exact source at old physical positions 563–563:
 
 ```asm
 MOV AL,[2300H]
@@ -205,7 +205,7 @@ MEMORYEND:
 CALL SCAN
 ```
 
-Remove this exact source at old physical positions 545–545:
+Remove this exact source at old physical positions 551–551:
 
 ```asm
 MOV AL,[2300H]
@@ -234,7 +234,7 @@ CMP AX,5842H
 JNE DIRECTMEM
 ```
 
-Remove this exact source at old physical positions 532–532:
+Remove this exact source at old physical positions 538–538:
 
 ```asm
 MOV AL,[2302H]
@@ -263,7 +263,7 @@ MEMORY:
 CALL SCAN
 ```
 
-Remove this exact source at old physical positions 529–529:
+Remove this exact source at old physical positions 535–535:
 
 ```asm
 MOV AX,[2300H]
@@ -292,7 +292,7 @@ OPERAND:
 CALL SCAN
 ```
 
-Remove this exact source at old physical positions 502–502:
+Remove this exact source at old physical positions 508–508:
 
 ```asm
 MOV AL,[2300H]
@@ -321,7 +321,7 @@ MOV DI,[SYMNEXT]
 PUSH SI
 ```
 
-Remove this exact source at old physical positions 468–468:
+Remove this exact source at old physical positions 474–474:
 
 ```asm
 MOV SI,2300H
@@ -350,7 +350,7 @@ JNE DEFINEBAD
 MOV AX,[SYMC]
 ```
 
-Remove this exact source at old physical positions 464–464:
+Remove this exact source at old physical positions 470–470:
 
 ```asm
 CMP AX,256
@@ -379,7 +379,7 @@ CMP AX,0FFFFH
 JNE DEFINEBAD
 ```
 
-Remove this exact source at old physical positions 454–454:
+Remove this exact source at old physical positions 460–460:
 
 ```asm
 MOV BX,3000H
@@ -408,7 +408,7 @@ CMP AX,0FFFFH
 JNE VALUEBAD
 ```
 
-Remove this exact source at old physical positions 430–430:
+Remove this exact source at old physical positions 436–436:
 
 ```asm
 MOV BX,3000H
@@ -437,7 +437,7 @@ MOV SI,2300H
 MOV DI,[TOKLEN]
 ```
 
-Remove this exact source at old physical positions 364–364:
+Remove this exact source at old physical positions 370–370:
 
 ```asm
 ADD DI,2300H
@@ -466,7 +466,7 @@ LITERAL:
 PUSH SI
 ```
 
-Remove this exact source at old physical positions 362–362:
+Remove this exact source at old physical positions 368–368:
 
 ```asm
 MOV SI,2300H
@@ -495,7 +495,7 @@ JMP ERROR
 VALUE:
 ```
 
-Remove this exact source at old physical positions 353–353:
+Remove this exact source at old physical positions 359–359:
 
 ```asm
 MOV AL,[2300H]
@@ -524,7 +524,7 @@ VALIDNAME:
 PUSH SI
 ```
 
-Remove this exact source at old physical positions 322–322:
+Remove this exact source at old physical positions 328–328:
 
 ```asm
 MOV SI,2300H
@@ -553,7 +553,7 @@ JE LOOKMISS
 MOV DI,BP
 ```
 
-Remove this exact source at old physical positions 280–280:
+Remove this exact source at old physical positions 286–286:
 
 ```asm
 MOV SI,2300H
@@ -582,7 +582,7 @@ SCANDONE:
 MOV AX,DI
 ```
 
-Remove this exact source at old physical positions 260–260:
+Remove this exact source at old physical positions 266–266:
 
 ```asm
 SUB AX,2300H
@@ -611,7 +611,7 @@ CMP AL,93
 JE SCANBACK
 ```
 
-Remove this exact source at old physical positions 252–252:
+Remove this exact source at old physical positions 258–258:
 
 ```asm
 CMP DI,2310H
@@ -640,7 +640,7 @@ JMP ERROR
 SCAN:
 ```
 
-Remove this exact source at old physical positions 218–218:
+Remove this exact source at old physical positions 224–224:
 
 ```asm
 MOV DI,2300H
@@ -669,7 +669,7 @@ RET
 READLINE:
 ```
 
-Remove this exact source at old physical positions 131–131:
+Remove this exact source at old physical positions 137–137:
 
 ```asm
 MOV DI,2200H
@@ -698,7 +698,7 @@ BUFFERBYTE:
 MOV BX,[RDPOS]
 ```
 
-Remove this exact source at old physical positions 118–118:
+Remove this exact source at old physical positions 124–124:
 
 ```asm
 ADD BX,5000H
@@ -727,7 +727,7 @@ JB BUFFERBYTE
 MOV BX,[HANDLE]
 ```
 
-Remove this exact source at old physical positions 104–104:
+Remove this exact source at old physical positions 110–110:
 
 ```asm
 MOV DX,5000H
@@ -756,7 +756,7 @@ CMP AX,0
 JE PASSEND
 ```
 
-Remove this exact source at old physical positions 36–36:
+Remove this exact source at old physical positions 37–37:
 
 ```asm
 MOV SI,2200H
@@ -785,7 +785,7 @@ MOV AX,0
 MOV [SYMC],AX
 ```
 
-Remove this exact source at old physical positions 14–14:
+Remove this exact source at old physical positions 15–15:
 
 ```asm
 MOV AX,3000H
@@ -806,9 +806,9 @@ PASSSTART:
 
 ## Build the stopping point
 
-Copy `A09.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK 03028 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM A09.COM`.
+Copy `A09.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK 03466 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM A09.COM`.
 
-VIEW.BAS must report A09.COM length 3028 bytes. Keep that executable and source together.
+VIEW.BAS must report A09.COM length 3466 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -823,11 +823,7 @@ INT 21H
 ```
 
 ```dos
-COPY T09.ASM SOURCE.ASM
-```
-
-```dos
-CHECK A09
+CHECK A09 T09.ASM RESULT.COM
 ```
 
 Require:
@@ -854,8 +850,7 @@ MOV AX,AL
 ```
 
 ```dos
-COPY X09.ASM SOURCE.ASM
-CHECK A09
+CHECK A09 X09.ASM RESULT.COM
 ```
 
 Require:
@@ -882,12 +877,12 @@ Enter SYMS.BAS as a source-text exercise:
 80 PRINT "SOURCE.ASM READY"
 ```
 
-Run GWBASIC SYMS.BAS, require SOURCE.ASM READY, and use SYSTEM to return to DOS. BASIC closes the text file with its normal source Control-Z marker. Run CHECK A09. Require `OK RESULT.COM 00004 bytes` and PASS. VIEW.BAS must show `00 01 00 01`: all definitions have value 0100H because none emits bytes. This file is data, not an executable.
+Run GWBASIC SYMS.BAS, require SOURCE.ASM READY, and use SYSTEM to return to DOS. BASIC closes the text file with its normal source Control-Z marker. Run CHECK A09 SOURCE.ASM RESULT.COM. Require `OK RESULT.COM 00004 bytes` and PASS. VIEW.BAS must show `00 01 00 01`: all definitions have value 0100H because none emits bytes. This file is data, not an executable.
 
-Keep a copy of that result. Change BASIC line 10 to `10 N=2049` and RUN again. CHECK A09 must report `ERROR 02049 CODE 5` and FAIL, preserving the four-byte result. Restore the stated accepted N before another run. The BASIC program creates assembly source, never executable bytes.
+Keep a copy of that result. Change BASIC line 10 to `10 N=2049` and RUN again. CHECK A09 SOURCE.ASM RESULT.COM must report `ERROR 02049 CODE 5` and FAIL, preserving the four-byte result. Restore the stated accepted N before another run. The BASIC program creates assembly source, never executable bytes.
 
 An unexpected PASS fails this rejection test.
 
 ## If the result differs
 
-Check the fixed name bytes, handle ownership flags, reader cursors at each pass, and the current output count. Inspect file length as well as the leading bytes. A copied data file is not an executable proof.
+Check the saved argument names and terminators, handle ownership flags, reader cursors at each pass, and the current output count. Inspect file length as well as the leading bytes. A copied data file is not an executable proof.

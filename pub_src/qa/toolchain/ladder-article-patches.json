@@ -10,8 +10,8 @@
     "folder": "workbench/ir86",
     "changes": [
       {
-        "a1": 2680,
-        "a2": 2681,
+        "a1": 2869,
+        "a2": 2870,
         "old": [
           ""
         ],
@@ -22,13 +22,14 @@
           "DW 0,1"
         ],
         "after": [
-          "DIV32END:"
+          "DIV32END:",
+          ""
         ],
         "old_display": "full"
       },
       {
-        "a1": 2550,
-        "a2": 2652,
+        "a1": 2739,
+        "a2": 2841,
         "old": [
           "DB 0",
           "",
@@ -146,8 +147,8 @@
         "old_display": "bounds"
       },
       {
-        "a1": 2526,
-        "a2": 2532,
+        "a1": 2715,
+        "a2": 2721,
         "old": [
           "DW 0",
           "",
@@ -169,8 +170,8 @@
         "old_display": "full"
       },
       {
-        "a1": 2513,
-        "a2": 2515,
+        "a1": 2702,
+        "a2": 2704,
         "old": [
           "DB 116,32,65,83,77,65,46,84,77,80,32,97,110,100,32,82",
           "DB 69,83,85,76,84,46,66,65,75,13,10,36"
@@ -191,8 +192,8 @@
         "old_display": "full"
       },
       {
-        "a1": 2509,
-        "a2": 2510,
+        "a1": 2698,
+        "a2": 2699,
         "old": [
           "DB 82,69,83,85,76,84,46,66,65,75,0"
         ],
@@ -200,7 +201,7 @@
           "DB 73,82,82,69,83,46,66,65,75,0"
         ],
         "context": [
-          "DB 82,69,83,85,76,84,46,67,79,77,0",
+          "DB 82,69,83,85,76,84,46,67,79,77,0,0,0",
           "",
           "BAKNAME:"
         ],
@@ -211,13 +212,13 @@
         "old_display": "full"
       },
       {
-        "a1": 2506,
-        "a2": 2507,
+        "a1": 2695,
+        "a2": 2696,
         "old": [
-          "DB 82,69,83,85,76,84,46,67,79,77,0"
+          "DB 82,69,83,85,76,84,46,67,79,77,0,0,0"
         ],
         "new": [
-          "DB 82,69,83,85,76,84,46,65,83,77,0"
+          "DB 82,69,83,85,76,84,46,65,83,77,0,0,0"
         ],
         "context": [
           "DB 65,83,77,65,46,84,77,80,0",
@@ -231,8 +232,8 @@
         "old_display": "full"
       },
       {
-        "a1": 2503,
-        "a2": 2504,
+        "a1": 2692,
+        "a2": 2693,
         "old": [
           "DB 65,83,77,65,46,84,77,80,0"
         ],
@@ -240,7 +241,7 @@
           "DB 73,82,84,88,46,84,77,80,0"
         ],
         "context": [
-          "DB 83,79,85,82,67,69,46,65,83,77,0",
+          "DB 83,79,85,82,67,69,46,65,83,77,0,0,0",
           "",
           "TMPNAME:"
         ],
@@ -251,13 +252,13 @@
         "old_display": "full"
       },
       {
-        "a1": 2500,
-        "a2": 2501,
+        "a1": 2689,
+        "a2": 2690,
         "old": [
-          "DB 83,79,85,82,67,69,46,65,83,77,0"
+          "DB 83,79,85,82,67,69,46,65,83,77,0,0,0"
         ],
         "new": [
-          "DB 83,79,85,82,67,69,46,73,82,0"
+          "DB 83,79,85,82,67,69,46,73,82,0,0,0,0"
         ],
         "context": [
           "DB 74,67,0,0,0,0,8,114",
@@ -271,8 +272,8 @@
         "old_display": "full"
       },
       {
-        "a1": 2441,
-        "a2": 2499,
+        "a1": 2630,
+        "a2": 2688,
         "old": [
           "REGTAB:",
           "DB 65,76,0,0",
@@ -341,13 +342,13 @@
         ],
         "after": [
           "SRCNAME:",
-          "DB 83,79,85,82,67,69,46,65,83,77,0"
+          "DB 83,79,85,82,67,69,46,65,83,77,0,0,0"
         ],
         "old_display": "bounds"
       },
       {
-        "a1": 2414,
-        "a2": 2438,
+        "a1": 2603,
+        "a2": 2627,
         "old": [
           "TYPE:",
           "DB 0",
@@ -387,8 +388,8 @@
         "old_display": "full"
       },
       {
-        "a1": 2395,
-        "a2": 2404,
+        "a1": 2584,
+        "a2": 2593,
         "old": [
           "",
           "VAL:",
@@ -413,8 +414,8 @@
         "old_display": "full"
       },
       {
-        "a1": 2384,
-        "a2": 2390,
+        "a1": 2573,
+        "a2": 2579,
         "old": [
           "PC:",
           "DW 256",
@@ -436,8 +437,8 @@
         "old_display": "full"
       },
       {
-        "a1": 2375,
-        "a2": 2376,
+        "a1": 2564,
+        "a2": 2565,
         "old": [
           ""
         ],
@@ -454,8 +455,8 @@
         "old_display": "full"
       },
       {
-        "a1": 2365,
-        "a2": 2366,
+        "a1": 2554,
+        "a2": 2555,
         "old": [
           "DB 69,82,82,79,82,32,36"
         ],
@@ -474,9 +475,679 @@
         "old_display": "full"
       },
       {
-        "a1": 1878,
-        "a2": 2364,
+        "a1": 2547,
+        "a2": 2553,
         "old": [
+          "OKMSG:",
+          "DB 79,75,32,36",
+          "",
+          "BYTEMSG:",
+          "DB 32,98,121,116,101,115,13,10,36",
+          ""
+        ],
+        "new": [],
+        "context": [
+          "CMDTEXTEND:",
+          "RET",
+          ""
+        ],
+        "after": [
+          "ERRMSG:",
+          "DB 69,82,82,79,82,32,36"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 2539,
+        "a2": 2540,
+        "old": [
+          "JE CMDTEXTEND"
+        ],
+        "new": [
+          "JE NEAR CMDTEXTEND"
+        ],
+        "context": [
+          "CMDTEXT:",
+          "LODSB",
+          "CMP AL,0"
+        ],
+        "after": [
+          "MOV DL,AL",
+          "MOV AH,2"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 2529,
+        "a2": 2530,
+        "old": [
+          "JNE CMDFAIL"
+        ],
+        "new": [
+          "JNE NEAR CMDFAIL"
+        ],
+        "context": [
+          "MOV DI,BAKNAME",
+          "CALL CMDMATCH",
+          "CMP AX,0"
+        ],
+        "after": [
+          "CMDREADY:",
+          "RET"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 2524,
+        "a2": 2525,
+        "old": [
+          "JNE CMDFAIL"
+        ],
+        "new": [
+          "JNE NEAR CMDFAIL"
+        ],
+        "context": [
+          "MOV DI,TMPNAME",
+          "CALL CMDMATCH",
+          "CMP AX,0"
+        ],
+        "after": [
+          "MOV SI,RESNAME",
+          "MOV DI,BAKNAME"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 2519,
+        "a2": 2520,
+        "old": [
+          "JNE CMDFAIL"
+        ],
+        "new": [
+          "JNE NEAR CMDFAIL"
+        ],
+        "context": [
+          "MOV DI,BAKNAME",
+          "CALL CMDMATCH",
+          "CMP AX,0"
+        ],
+        "after": [
+          "MOV SI,RESNAME",
+          "MOV DI,TMPNAME"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 2512,
+        "a2": 2515,
+        "old": [
+          "JE ZCMDFILES4",
+          "JMP CMDFAIL",
+          "ZCMDFILES4:"
+        ],
+        "new": [
+          "JNE NEAR CMDFAIL"
+        ],
+        "context": [
+          "MOV DI,TMPNAME",
+          "CALL CMDMATCH",
+          "CMP AX,0"
+        ],
+        "after": [
+          "MOV SI,SRCNAME",
+          "MOV DI,BAKNAME"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 2505,
+        "a2": 2508,
+        "old": [
+          "JE ZCMDFILES3",
+          "JMP CMDFAIL",
+          "ZCMDFILES3:"
+        ],
+        "new": [
+          "JNE NEAR CMDFAIL"
+        ],
+        "context": [
+          "MOV DI,RESNAME",
+          "CALL CMDMATCH",
+          "CMP AX,0"
+        ],
+        "after": [
+          "MOV SI,SRCNAME",
+          "MOV DI,TMPNAME"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 2491,
+        "a2": 2494,
+        "old": [
+          "JE ZCMDFILES2",
+          "JMP CMDFAIL",
+          "ZCMDFILES2:"
+        ],
+        "new": [
+          "JNE NEAR CMDFAIL"
+        ],
+        "context": [
+          "JMP CMDREADY",
+          "ZCMDFILES1:",
+          "CMP AX,2"
+        ],
+        "after": [
+          "MOV SI,CMDBUF",
+          "MOV DI,SRCNAME"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 2487,
+        "a2": 2490,
+        "old": [
+          "JNE ZCMDFILES1",
+          "JMP CMDREADY",
+          "ZCMDFILES1:"
+        ],
+        "new": [
+          "JE NEAR CMDREADY"
+        ],
+        "context": [
+          "CMDFILES:",
+          "CALL CMDINIT",
+          "CMP AX,0"
+        ],
+        "after": [
+          "CMP AX,2",
+          "JE ZCMDFILES2"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 2477,
+        "a2": 2478,
+        "old": [
+          "JNE CMDMATCH"
+        ],
+        "new": [
+          "JNE NEAR CMDMATCH"
+        ],
+        "context": [
+          "JNE CMDNO",
+          "INC DI",
+          "CMP AL,0"
+        ],
+        "after": [
+          "MOV AX,1",
+          "RET"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 2474,
+        "a2": 2475,
+        "old": [
+          "JNE CMDNO"
+        ],
+        "new": [
+          "JNE NEAR CMDNO"
+        ],
+        "context": [
+          "MOV BX,DI",
+          "MOV AH,[BX]",
+          "CMP AL,AH"
+        ],
+        "after": [
+          "INC DI",
+          "CMP AL,0"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 2455,
+        "a2": 2456,
+        "old": [
+          "JE CMDBAD"
+        ],
+        "new": [
+          "JE NEAR CMDBAD"
+        ],
+        "context": [
+          "ZCMDINIT9:",
+          "CMDEND:",
+          "CMP BX,0"
+        ],
+        "after": [
+          "MOV AL,0",
+          "STOSB"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 2450,
+        "a2": 2453,
+        "old": [
+          "JE ZCMDINIT9",
+          "JMP CMDCHAR",
+          "ZCMDINIT9:"
+        ],
+        "new": [
+          "JNE NEAR CMDCHAR"
+        ],
+        "context": [
+          "CMP AL,32",
+          "JE CMDEND",
+          "CMP AL,9"
+        ],
+        "after": [
+          "CMDEND:",
+          "CMP BX,0"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 2448,
+        "a2": 2449,
+        "old": [
+          "JE CMDEND"
+        ],
+        "new": [
+          "JE NEAR CMDEND"
+        ],
+        "context": [
+          "LODSB",
+          "DEC CX",
+          "CMP AL,32"
+        ],
+        "after": [
+          "CMP AL,9",
+          "JE ZCMDINIT9"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 2444,
+        "a2": 2445,
+        "old": [
+          "JE CMDEND"
+        ],
+        "new": [
+          "JE NEAR CMDEND"
+        ],
+        "context": [
+          "STOSB",
+          "CMDNEXT:",
+          "CMP CX,0"
+        ],
+        "after": [
+          "LODSB",
+          "DEC CX"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 2436,
+        "a2": 2439,
+        "old": [
+          "JNE ZCMDINIT8",
+          "JMP CMDBAD",
+          "ZCMDINIT8:"
+        ],
+        "new": [
+          "JE NEAR CMDBAD"
+        ],
+        "context": [
+          "JMP CMDBAD",
+          "ZCMDINIT7:",
+          "CMP BX,0"
+        ],
+        "after": [
+          "MOV DX,3",
+          "MOV BX,0"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 2432,
+        "a2": 2435,
+        "old": [
+          "JE ZCMDINIT7",
+          "JMP CMDBAD",
+          "ZCMDINIT7:"
+        ],
+        "new": [
+          "JNE NEAR CMDBAD"
+        ],
+        "context": [
+          "JMP CMDNEXT",
+          "CMDDOT:",
+          "CMP DX,8"
+        ],
+        "after": [
+          "CMP BX,0",
+          "JNE ZCMDINIT8"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 2425,
+        "a2": 2428,
+        "old": [
+          "JBE ZCMDINIT6",
+          "JMP CMDBAD",
+          "ZCMDINIT6:"
+        ],
+        "new": [
+          "JA NEAR CMDBAD"
+        ],
+        "context": [
+          "CMDPUT:",
+          "INC BX",
+          "CMP BX,DX"
+        ],
+        "after": [
+          "STOSB",
+          "JMP CMDNEXT"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 2419,
+        "a2": 2422,
+        "old": [
+          "JE ZCMDINIT5",
+          "JMP CMDBAD",
+          "ZCMDINIT5:"
+        ],
+        "new": [
+          "JNE NEAR CMDBAD"
+        ],
+        "context": [
+          "CMP AL,95",
+          "JE CMDPUT",
+          "CMP AL,45"
+        ],
+        "after": [
+          "CMDPUT:",
+          "INC BX"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 2417,
+        "a2": 2418,
+        "old": [
+          "JE CMDPUT"
+        ],
+        "new": [
+          "JE NEAR CMDPUT"
+        ],
+        "context": [
+          "JBE CMDPUT",
+          "CMDEXTRA:",
+          "CMP AL,95"
+        ],
+        "after": [
+          "CMP AL,45",
+          "JE ZCMDINIT5"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 2414,
+        "a2": 2415,
+        "old": [
+          "JBE CMDPUT"
+        ],
+        "new": [
+          "JBE NEAR CMDPUT"
+        ],
+        "context": [
+          "CMP AL,48",
+          "JB CMDEXTRA",
+          "CMP AL,57"
+        ],
+        "after": [
+          "CMDEXTRA:",
+          "CMP AL,95"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 2412,
+        "a2": 2413,
+        "old": [
+          "JB CMDEXTRA"
+        ],
+        "new": [
+          "JB NEAR CMDEXTRA"
+        ],
+        "context": [
+          "JBE CMDPUT",
+          "CMDNUM:",
+          "CMP AL,48"
+        ],
+        "after": [
+          "CMP AL,57",
+          "JBE CMDPUT"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 2409,
+        "a2": 2410,
+        "old": [
+          "JBE CMDPUT"
+        ],
+        "new": [
+          "JBE NEAR CMDPUT"
+        ],
+        "context": [
+          "CMP AL,65",
+          "JB CMDNUM",
+          "CMP AL,90"
+        ],
+        "after": [
+          "CMDNUM:",
+          "CMP AL,48"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 2407,
+        "a2": 2408,
+        "old": [
+          "JB CMDNUM"
+        ],
+        "new": [
+          "JB NEAR CMDNUM"
+        ],
+        "context": [
+          "SUB AL,32",
+          "CMDUP:",
+          "CMP AL,65"
+        ],
+        "after": [
+          "CMP AL,90",
+          "JBE CMDPUT"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 2403,
+        "a2": 2404,
+        "old": [
+          "JA CMDUP"
+        ],
+        "new": [
+          "JA NEAR CMDUP"
+        ],
+        "context": [
+          "CMP AL,97",
+          "JB CMDUP",
+          "CMP AL,122"
+        ],
+        "after": [
+          "SUB AL,32",
+          "CMDUP:"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 2401,
+        "a2": 2402,
+        "old": [
+          "JB CMDUP"
+        ],
+        "new": [
+          "JB NEAR CMDUP"
+        ],
+        "context": [
+          "JMP CMDDOT",
+          "ZCMDINIT4:",
+          "CMP AL,97"
+        ],
+        "after": [
+          "CMP AL,122",
+          "JA CMDUP"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 2397,
+        "a2": 2400,
+        "old": [
+          "JNE ZCMDINIT4",
+          "JMP CMDDOT",
+          "ZCMDINIT4:"
+        ],
+        "new": [
+          "JE NEAR CMDDOT"
+        ],
+        "context": [
+          "MOV DX,8",
+          "CMDCHAR:",
+          "CMP AL,46"
+        ],
+        "after": [
+          "CMP AL,97",
+          "JB CMDUP"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 2388,
+        "a2": 2391,
+        "old": [
+          "JB ZCMDINIT3",
+          "JMP CMDBAD",
+          "ZCMDINIT3:"
+        ],
+        "new": [
+          "JAE NEAR CMDBAD"
+        ],
+        "context": [
+          "JE CMDSKIP",
+          "MOV BX,[CMDCOUNT]",
+          "CMP BX,3"
+        ],
+        "after": [
+          "INC BX",
+          "MOV [CMDCOUNT],BX"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 2385,
+        "a2": 2386,
+        "old": [
+          "JE CMDSKIP"
+        ],
+        "new": [
+          "JE NEAR CMDSKIP"
+        ],
+        "context": [
+          "CMP AL,32",
+          "JE CMDSKIP",
+          "CMP AL,9"
+        ],
+        "after": [
+          "MOV BX,[CMDCOUNT]",
+          "CMP BX,3"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 2383,
+        "a2": 2384,
+        "old": [
+          "JE CMDSKIP"
+        ],
+        "new": [
+          "JE NEAR CMDSKIP"
+        ],
+        "context": [
+          "LODSB",
+          "DEC CX",
+          "CMP AL,32"
+        ],
+        "after": [
+          "CMP AL,9",
+          "JE CMDSKIP"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 2377,
+        "a2": 2380,
+        "old": [
+          "JNE ZCMDINIT2",
+          "JMP CMDDONE",
+          "ZCMDINIT2:"
+        ],
+        "new": [
+          "JE NEAR CMDDONE"
+        ],
+        "context": [
+          "ZCMDINIT1:",
+          "CMDSKIP:",
+          "CMP CX,0"
+        ],
+        "after": [
+          "LODSB",
+          "DEC CX"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 2372,
+        "a2": 2375,
+        "old": [
+          "JB ZCMDINIT1",
+          "JMP CMDBAD",
+          "ZCMDINIT1:"
+        ],
+        "new": [
+          "JAE NEAR CMDBAD"
+        ],
+        "context": [
+          "MOV AH,0",
+          "MOV CX,AX",
+          "CMP CX,127"
+        ],
+        "after": [
+          "CMDSKIP:",
+          "CMP CX,0"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 1883,
+        "a2": 2363,
+        "old": [
+          "",
           "ATOM:",
           "MOV AL,[0CC00H]",
           "CMP AL,48",
@@ -955,30 +1626,23 @@
           "JMP FINISH",
           "SHIFTRANGE:",
           "MOV AX,4",
-          "JMP ERROR",
-          "",
-          "OKMSG:",
-          "DB 79,75,32,82,69,83,85,76,84,46,67,79,77,32,36",
-          "",
-          "BYTEMSG:",
-          "DB 32,98,121,116,101,115,13,10,36",
-          ""
+          "JMP ERROR"
         ],
         "new": [],
         "context": [
+          "POP BX",
           "POP AX",
-          "RET",
-          ""
+          "RET"
         ],
         "after": [
-          "ERRMSG:",
-          "DB 69,82,82,79,82,32,36"
+          "",
+          "CMDINIT:"
         ],
         "old_display": "bounds"
       },
       {
-        "a1": 1868,
-        "a2": 1871,
+        "a1": 1874,
+        "a2": 1877,
         "old": [
           "JAE ZNUMBER323",
           "JMP N32PLACE",
@@ -999,8 +1663,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1850,
-        "a2": 1851,
+        "a1": 1856,
+        "a2": 1857,
         "old": [
           "JAE N32NOBORROW"
         ],
@@ -1019,8 +1683,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1842,
-        "a2": 1845,
+        "a1": 1848,
+        "a2": 1851,
         "old": [
           "JAE ZNUMBER322",
           "JMP N32DIGIT",
@@ -1041,8 +1705,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1835,
-        "a2": 1839,
+        "a1": 1841,
+        "a2": 1845,
         "old": [
           "JAE ZNUMBER321",
           "JMP N32DIGIT",
@@ -1065,8 +1729,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1803,
-        "a2": 1804,
+        "a1": 1809,
+        "a2": 1810,
         "old": [
           "JE COUNTFULL"
         ],
@@ -1085,8 +1749,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1800,
-        "a2": 1801,
+        "a1": 1806,
+        "a2": 1807,
         "old": [
           "JNE INPUTLOW"
         ],
@@ -1105,8 +1769,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1783,
-        "a2": 1784,
+        "a1": 1789,
+        "a2": 1790,
         "old": [
           "JE COUNTFULL"
         ],
@@ -1125,8 +1789,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1780,
-        "a2": 1781,
+        "a1": 1786,
+        "a2": 1787,
         "old": [
           "JNE LINELOW"
         ],
@@ -1145,8 +1809,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1562,
-        "a2": 1775,
+        "a1": 1568,
+        "a2": 1781,
         "old": [
           "CALL MEMFREE",
           "RET",
@@ -1375,8 +2039,8 @@
         "old_display": "bounds"
       },
       {
-        "a1": 1558,
-        "a2": 1559,
+        "a1": 1564,
+        "a2": 1565,
         "old": [
           "JAE CLEANEND"
         ],
@@ -1395,8 +2059,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1554,
-        "a2": 1555,
+        "a1": 1560,
+        "a2": 1561,
         "old": [
           "JNE CLEANEND"
         ],
@@ -1415,8 +2079,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1551,
-        "a2": 1552,
+        "a1": 1557,
+        "a2": 1558,
         "old": [
           "JE CLEANEND"
         ],
@@ -1435,8 +2099,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1545,
-        "a2": 1546,
+        "a1": 1551,
+        "a2": 1552,
         "old": [
           "JAE CLEANTEMP"
         ],
@@ -1455,8 +2119,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1541,
-        "a2": 1542,
+        "a1": 1547,
+        "a2": 1548,
         "old": [
           "JE CLEANTEMP"
         ],
@@ -1475,8 +2139,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1535,
-        "a2": 1536,
+        "a1": 1541,
+        "a2": 1542,
         "old": [
           "JAE CLEANOUTPUT"
         ],
@@ -1495,8 +2159,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1531,
-        "a2": 1532,
+        "a1": 1537,
+        "a2": 1538,
         "old": [
           "JE CLEANOUTPUT"
         ],
@@ -1515,8 +2179,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1520,
-        "a2": 1521,
+        "a1": 1526,
+        "a2": 1527,
         "old": [
           "JAE BACKREMOVED"
         ],
@@ -1535,8 +2199,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1516,
-        "a2": 1517,
+        "a1": 1522,
+        "a2": 1523,
         "old": [
           "JE COMMITDONE"
         ],
@@ -1555,8 +2219,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1502,
-        "a2": 1503,
+        "a1": 1508,
+        "a2": 1509,
         "old": [
           "JAE RESTORED"
         ],
@@ -1575,8 +2239,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1497,
-        "a2": 1498,
+        "a1": 1503,
+        "a2": 1504,
         "old": [
           "JE PUBLISHFAIL"
         ],
@@ -1595,8 +2259,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1492,
-        "a2": 1495,
+        "a1": 1498,
+        "a2": 1501,
         "old": [
           "JB ZCOMMIT1",
           "JMP PUBLISHED",
@@ -1617,8 +2281,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1482,
-        "a2": 1483,
+        "a1": 1488,
+        "a2": 1489,
         "old": [
           "JAE BACKEDUP"
         ],
@@ -1637,8 +2301,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1477,
-        "a2": 1478,
+        "a1": 1483,
+        "a2": 1484,
         "old": [
           "JE PUBLISH"
         ],
@@ -1657,8 +2321,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1466,
-        "a2": 1467,
+        "a1": 1472,
+        "a2": 1473,
         "old": [
           "JE PREFLIGHTOK"
         ],
@@ -1677,8 +2341,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1462,
-        "a2": 1463,
+        "a1": 1468,
+        "a2": 1469,
         "old": [
           "JNE NAMEBUSY"
         ],
@@ -1697,8 +2361,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1450,
-        "a2": 1451,
+        "a1": 1456,
+        "a2": 1457,
         "old": [
           "JAE EXISTSCLOSED"
         ],
@@ -1717,8 +2381,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1444,
-        "a2": 1445,
+        "a1": 1450,
+        "a2": 1451,
         "old": [
           "JE FILENONE"
         ],
@@ -1737,8 +2401,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1442,
-        "a2": 1443,
+        "a1": 1448,
+        "a2": 1449,
         "old": [
           "JAE FILEEXISTS"
         ],
@@ -1757,8 +2421,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1387,
-        "a2": 1439,
+        "a1": 1393,
+        "a2": 1445,
         "old": [
           "CREATEOUT:",
           "MOV DX,TMPNAME",
@@ -1826,8 +2490,8 @@
         "old_display": "bounds"
       },
       {
-        "a1": 1380,
-        "a2": 1381,
+        "a1": 1386,
+        "a2": 1387,
         "old": [
           "JE ERROREXIT"
         ],
@@ -1846,8 +2510,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1349,
-        "a2": 1350,
+        "a1": 1355,
+        "a2": 1356,
         "old": [
           "JB NEXTPLACE"
         ],
@@ -1866,8 +2530,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1339,
-        "a2": 1340,
+        "a1": 1345,
+        "a2": 1346,
         "old": [
           "JB PRINTDIGIT"
         ],
@@ -1886,8 +2550,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1317,
-        "a2": 1318,
+        "a1": 1323,
+        "a2": 1324,
         "old": [
           "JNE COPYZ"
         ],
@@ -1906,8 +2570,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1113,
-        "a2": 1311,
+        "a1": 1119,
+        "a2": 1317,
         "old": [
           "RET",
           "",
@@ -2121,8 +2785,8 @@
         "old_display": "bounds"
       },
       {
-        "a1": 1109,
-        "a2": 1110,
+        "a1": 1115,
+        "a2": 1116,
         "old": [
           "JE FINISHED"
         ],
@@ -2141,8 +2805,8 @@
         "old_display": "full"
       },
       {
-        "a1": 523,
-        "a2": 1104,
+        "a1": 529,
+        "a2": 1110,
         "old": [
           "",
           "DEFINE:",
@@ -2739,8 +3403,8 @@
         "old_display": "bounds"
       },
       {
-        "a1": 425,
-        "a2": 522,
+        "a1": 431,
+        "a2": 528,
         "old": [
           "EXPRESSIONADD:",
           "POP AX",
@@ -2856,8 +3520,8 @@
         "old_display": "bounds"
       },
       {
-        "a1": 423,
-        "a2": 424,
+        "a1": 429,
+        "a2": 430,
         "old": [
           "POP AX"
         ],
@@ -2874,8 +3538,8 @@
         "old_display": "full"
       },
       {
-        "a1": 416,
-        "a2": 422,
+        "a1": 422,
+        "a2": 428,
         "old": [
           "CALL SCAN",
           "MOV AL,[0CC00H]",
@@ -2955,8 +3619,8 @@
         "old_display": "full"
       },
       {
-        "a1": 411,
-        "a2": 415,
+        "a1": 417,
+        "a2": 421,
         "old": [
           "VALUE:",
           "CALL FACTOR",
@@ -2986,8 +3650,8 @@
         "old_display": "full"
       },
       {
-        "a1": 402,
-        "a2": 403,
+        "a1": 408,
+        "a2": 409,
         "old": [
           "JBE NAMEVALID"
         ],
@@ -3006,8 +3670,8 @@
         "old_display": "full"
       },
       {
-        "a1": 400,
-        "a2": 401,
+        "a1": 406,
+        "a2": 407,
         "old": [
           "JB SYMBOLBAD"
         ],
@@ -3026,8 +3690,8 @@
         "old_display": "full"
       },
       {
-        "a1": 398,
-        "a2": 399,
+        "a1": 404,
+        "a2": 405,
         "old": [
           "JBE NAMEVALID"
         ],
@@ -3046,8 +3710,8 @@
         "old_display": "full"
       },
       {
-        "a1": 396,
-        "a2": 397,
+        "a1": 402,
+        "a2": 403,
         "old": [
           "JB SYMBOLBAD"
         ],
@@ -3066,8 +3730,8 @@
         "old_display": "full"
       },
       {
-        "a1": 394,
-        "a2": 395,
+        "a1": 400,
+        "a2": 401,
         "old": [
           "JE NAMEVALID"
         ],
@@ -3086,8 +3750,8 @@
         "old_display": "full"
       },
       {
-        "a1": 392,
-        "a2": 393,
+        "a1": 398,
+        "a2": 399,
         "old": [
           "JE NAMEVALIDEND"
         ],
@@ -3106,8 +3770,8 @@
         "old_display": "full"
       },
       {
-        "a1": 386,
-        "a2": 389,
+        "a1": 392,
+        "a2": 395,
         "old": [
           "JBE ZVALIDNAM2",
           "JMP SYMBOLBAD",
@@ -3128,8 +3792,8 @@
         "old_display": "full"
       },
       {
-        "a1": 382,
-        "a2": 385,
+        "a1": 388,
+        "a2": 391,
         "old": [
           "JAE ZVALIDNAM1",
           "JMP SYMBOLBAD",
@@ -3150,8 +3814,8 @@
         "old_display": "full"
       },
       {
-        "a1": 380,
-        "a2": 381,
+        "a1": 386,
+        "a2": 387,
         "old": [
           "JE NAMEVALID"
         ],
@@ -3170,8 +3834,8 @@
         "old_display": "full"
       },
       {
-        "a1": 373,
-        "a2": 374,
+        "a1": 379,
+        "a2": 380,
         "old": [
           "JBE NAMELIMIT"
         ],
@@ -3190,8 +3854,8 @@
         "old_display": "full"
       },
       {
-        "a1": 355,
-        "a2": 370,
+        "a1": 361,
+        "a2": 376,
         "old": [
           "REGISTER:",
           "MOV BX,REGTAB",
@@ -3222,8 +3886,8 @@
         "old_display": "full"
       },
       {
-        "a1": 338,
-        "a2": 339,
+        "a1": 344,
+        "a2": 345,
         "old": [
           "JE LOOKFOUND"
         ],
@@ -3242,8 +3906,8 @@
         "old_display": "full"
       },
       {
-        "a1": 336,
-        "a2": 337,
+        "a1": 342,
+        "a2": 343,
         "old": [
           "JNE LOOKSTEP"
         ],
@@ -3262,8 +3926,8 @@
         "old_display": "full"
       },
       {
-        "a1": 326,
-        "a2": 329,
+        "a1": 332,
+        "a2": 335,
         "old": [
           "JNE ZLOOK1",
           "JMP LOOKMISS",
@@ -3284,8 +3948,8 @@
         "old_display": "full"
       },
       {
-        "a1": 315,
-        "a2": 316,
+        "a1": 321,
+        "a2": 322,
         "old": [
           "JE SEPARATORRET"
         ],
@@ -3304,8 +3968,8 @@
         "old_display": "full"
       },
       {
-        "a1": 313,
-        "a2": 314,
+        "a1": 319,
+        "a2": 320,
         "old": [
           "JE SEPARATORRET"
         ],
@@ -3324,8 +3988,8 @@
         "old_display": "full"
       },
       {
-        "a1": 311,
-        "a2": 312,
+        "a1": 317,
+        "a2": 318,
         "old": [
           "JE SEPARATORRET"
         ],
@@ -3344,8 +4008,8 @@
         "old_display": "full"
       },
       {
-        "a1": 309,
-        "a2": 310,
+        "a1": 315,
+        "a2": 316,
         "old": [
           "JE SEPARATORRET"
         ],
@@ -3364,8 +4028,8 @@
         "old_display": "full"
       },
       {
-        "a1": 307,
-        "a2": 308,
+        "a1": 313,
+        "a2": 314,
         "old": [
           "JE SEPARATORRET"
         ],
@@ -3384,8 +4048,8 @@
         "old_display": "full"
       },
       {
-        "a1": 305,
-        "a2": 306,
+        "a1": 311,
+        "a2": 312,
         "old": [
           "JE SEPARATORRET"
         ],
@@ -3404,8 +4068,8 @@
         "old_display": "full"
       },
       {
-        "a1": 303,
-        "a2": 304,
+        "a1": 309,
+        "a2": 310,
         "old": [
           "JE SEPARATORRET"
         ],
@@ -3424,8 +4088,8 @@
         "old_display": "full"
       },
       {
-        "a1": 301,
-        "a2": 302,
+        "a1": 307,
+        "a2": 308,
         "old": [
           "JE SEPARATORRET"
         ],
@@ -3444,8 +4108,8 @@
         "old_display": "full"
       },
       {
-        "a1": 297,
-        "a2": 300,
+        "a1": 303,
+        "a2": 306,
         "old": [
           "JNE ZSCAN4",
           "JMP SEPARATORRET",
@@ -3466,8 +4130,8 @@
         "old_display": "full"
       },
       {
-        "a1": 290,
-        "a2": 291,
+        "a1": 296,
+        "a2": 297,
         "old": [
           "JA TOKENKEPT"
         ],
@@ -3486,8 +4150,8 @@
         "old_display": "full"
       },
       {
-        "a1": 288,
-        "a2": 289,
+        "a1": 294,
+        "a2": 295,
         "old": [
           "JB TOKENKEPT"
         ],
@@ -3506,8 +4170,8 @@
         "old_display": "full"
       },
       {
-        "a1": 267,
-        "a2": 268,
+        "a1": 273,
+        "a2": 274,
         "old": [
           "JAE TOKENBAD"
         ],
@@ -3526,8 +4190,8 @@
         "old_display": "full"
       },
       {
-        "a1": 265,
-        "a2": 266,
+        "a1": 271,
+        "a2": 272,
         "old": [
           "JE SCANBACK"
         ],
@@ -3546,8 +4210,8 @@
         "old_display": "full"
       },
       {
-        "a1": 262,
-        "a2": 263,
+        "a1": 268,
+        "a2": 269,
         "old": [
           "JE SCANBACK"
         ],
@@ -3566,8 +4230,8 @@
         "old_display": "full"
       },
       {
-        "a1": 260,
-        "a2": 261,
+        "a1": 266,
+        "a2": 267,
         "old": [
           "JE SCANBACK"
         ],
@@ -3586,8 +4250,8 @@
         "old_display": "full"
       },
       {
-        "a1": 258,
-        "a2": 259,
+        "a1": 264,
+        "a2": 265,
         "old": [
           "JE SCANBACK"
         ],
@@ -3606,8 +4270,8 @@
         "old_display": "full"
       },
       {
-        "a1": 256,
-        "a2": 257,
+        "a1": 262,
+        "a2": 263,
         "old": [
           "JE SCANBACK"
         ],
@@ -3626,8 +4290,8 @@
         "old_display": "full"
       },
       {
-        "a1": 250,
-        "a2": 253,
+        "a1": 256,
+        "a2": 259,
         "old": [
           "JNE ZSCAN3",
           "JMP SCANDONE",
@@ -3648,8 +4312,8 @@
         "old_display": "full"
       },
       {
-        "a1": 243,
-        "a2": 246,
+        "a1": 249,
+        "a2": 252,
         "old": [
           "JNE ZSCAN2",
           "JMP SCANEND",
@@ -3670,8 +4334,8 @@
         "old_display": "full"
       },
       {
-        "a1": 239,
-        "a2": 242,
+        "a1": 245,
+        "a2": 248,
         "old": [
           "JNE ZSCAN1",
           "JMP SCANEND",
@@ -3692,8 +4356,8 @@
         "old_display": "full"
       },
       {
-        "a1": 237,
-        "a2": 238,
+        "a1": 243,
+        "a2": 244,
         "old": [
           "JE SCANSPACE"
         ],
@@ -3712,8 +4376,8 @@
         "old_display": "full"
       },
       {
-        "a1": 235,
-        "a2": 236,
+        "a1": 241,
+        "a2": 242,
         "old": [
           "JE SCANSPACE"
         ],
@@ -3732,8 +4396,8 @@
         "old_display": "full"
       },
       {
-        "a1": 209,
-        "a2": 210,
+        "a1": 215,
+        "a2": 216,
         "old": [
           "JE EMPTYEND"
         ],
@@ -3752,8 +4416,8 @@
         "old_display": "full"
       },
       {
-        "a1": 197,
-        "a2": 198,
+        "a1": 203,
+        "a2": 204,
         "old": [
           "JE LINEEND"
         ],
@@ -3772,8 +4436,8 @@
         "old_display": "full"
       },
       {
-        "a1": 187,
-        "a2": 190,
+        "a1": 193,
+        "a2": 196,
         "old": [
           "JBE ZREADLINE7",
           "JMP READBAD",
@@ -3794,8 +4458,8 @@
         "old_display": "full"
       },
       {
-        "a1": 183,
-        "a2": 186,
+        "a1": 189,
+        "a2": 192,
         "old": [
           "JAE ZREADLINE6",
           "JMP READBAD",
@@ -3816,8 +4480,8 @@
         "old_display": "full"
       },
       {
-        "a1": 181,
-        "a2": 182,
+        "a1": 187,
+        "a2": 188,
         "old": [
           "JE KEEPCHAR"
         ],
@@ -3836,8 +4500,8 @@
         "old_display": "full"
       },
       {
-        "a1": 177,
-        "a2": 180,
+        "a1": 183,
+        "a2": 186,
         "old": [
           "JB ZREADLINE5",
           "JMP READFULL",
@@ -3858,8 +4522,8 @@
         "old_display": "full"
       },
       {
-        "a1": 173,
-        "a2": 176,
+        "a1": 179,
+        "a2": 182,
         "old": [
           "JNE ZREADLINE4",
           "JMP ENDFILE",
@@ -3880,8 +4544,8 @@
         "old_display": "full"
       },
       {
-        "a1": 169,
-        "a2": 172,
+        "a1": 175,
+        "a2": 178,
         "old": [
           "JNE ZREADLINE3",
           "JMP CARRIAGE",
@@ -3902,8 +4566,8 @@
         "old_display": "full"
       },
       {
-        "a1": 163,
-        "a2": 166,
+        "a1": 169,
+        "a2": 172,
         "old": [
           "JNE ZREADLINE2",
           "JMP LINEFEED",
@@ -3924,8 +4588,8 @@
         "old_display": "full"
       },
       {
-        "a1": 158,
-        "a2": 161,
+        "a1": 164,
+        "a2": 167,
         "old": [
           "JNE ZREADLINE1",
           "JMP ENDFILE",
@@ -3946,8 +4610,8 @@
         "old_display": "full"
       },
       {
-        "a1": 152,
-        "a2": 153,
+        "a1": 158,
+        "a2": 159,
         "old": [
           "JE READCHAR"
         ],
@@ -3966,8 +4630,8 @@
         "old_display": "full"
       },
       {
-        "a1": 131,
-        "a2": 132,
+        "a1": 137,
+        "a2": 138,
         "old": [
           "JE BUFFEREND"
         ],
@@ -3986,8 +4650,8 @@
         "old_display": "full"
       },
       {
-        "a1": 124,
-        "a2": 125,
+        "a1": 130,
+        "a2": 131,
         "old": [
           "JAE REFILLED"
         ],
@@ -4006,8 +4670,8 @@
         "old_display": "full"
       },
       {
-        "a1": 118,
-        "a2": 119,
+        "a1": 124,
+        "a2": 125,
         "old": [
           "JB BUFFERBYTE"
         ],
@@ -4026,8 +4690,8 @@
         "old_display": "full"
       },
       {
-        "a1": 114,
-        "a2": 114,
+        "a1": 120,
+        "a2": 120,
         "old": [],
         "new": [
           "CREATEOUT:",
@@ -4095,8 +4759,8 @@
         "old_display": "full"
       },
       {
-        "a1": 107,
-        "a2": 108,
+        "a1": 113,
+        "a2": 114,
         "old": [
           "JAE INPUTCLOSED"
         ],
@@ -4115,8 +4779,8 @@
         "old_display": "full"
       },
       {
-        "a1": 95,
-        "a2": 96,
+        "a1": 101,
+        "a2": 102,
         "old": [
           "JAE INPUTOPEN"
         ],
@@ -4136,9 +4800,10 @@
       },
       {
         "a1": 7,
-        "a2": 86,
+        "a2": 92,
         "old": [
           "ROOM:",
+          "CALL CMDFILES",
           "CALL MEMINIT",
           "CALL PREFLIGHT",
           "MOV AL,1",
@@ -4209,6 +4874,11 @@
           "FINALCLEAN:",
           "MOV DX,OKMSG",
           "CALL TEXT",
+          "MOV SI,RESNAME",
+          "CALL CMDTEXT",
+          "MOV DL,32",
+          "MOV AH,2",
+          "INT 21H",
           "MOV AX,[PC]",
           "SUB AX,100H",
           "CALL NUMBER",
@@ -4238,6 +4908,7 @@
         ],
         "new": [
           "JNE NEAR MEMORYBAD",
+          "CALL CMDFILES",
           "CALL OPENFILE",
           "READNEXT:",
           "CALL READLINE",
@@ -4302,8 +4973,8 @@
     "folder": "workbench/ir86",
     "changes": [
       {
-        "a1": 18,
-        "a2": 22,
+        "a1": 19,
+        "a2": 23,
         "old": [
           "JMP SHOWBYTE",
           "SHOWEND:",
@@ -4331,8 +5002,8 @@
         "old_display": "full"
       },
       {
-        "a1": 14,
-        "a2": 15,
+        "a1": 15,
+        "a2": 16,
         "old": [
           "JE NEAR SHOWEND"
         ],
@@ -4351,8 +5022,8 @@
         "old_display": "full"
       },
       {
-        "a1": 11,
-        "a2": 12,
+        "a1": 12,
+        "a2": 13,
         "old": [
           "SHOWBYTE:"
         ],
@@ -4393,11 +5064,10 @@
     "folder": "workbench/ir86",
     "changes": [
       {
-        "a1": 863,
-        "a2": 863,
+        "a1": 1022,
+        "a2": 1022,
         "old": [],
         "new": [
-          "",
           "TOTALLO:",
           "DW 0",
           "",
@@ -4405,19 +5075,46 @@
           "DW 0",
           "",
           "DEPTH:",
-          "DW 0"
+          "DW 0",
+          ""
         ],
         "context": [
-          "DW 0,1000,0,100,0,10",
           "DW 0,1",
-          "DIV32END:"
+          "DIV32END:",
+          ""
         ],
-        "after": [],
+        "after": [
+          "CMDCOUNT:",
+          "DW 0"
+        ],
         "old_display": "full"
       },
       {
-        "a1": 752,
-        "a2": 752,
+        "a1": 910,
+        "a2": 910,
+        "old": [],
+        "new": [
+          "OKMSG:",
+          "DB 79,75,32,36",
+          "",
+          "BYTEMSG:",
+          "DB 32,116,101,120,116,32,98,121,116,101,115,13,10,36",
+          ""
+        ],
+        "context": [
+          "CMDTEXTEND:",
+          "RET",
+          ""
+        ],
+        "after": [
+          "ERRMSG:",
+          "DB 73,82,32,69,82,82,79,82,32,36"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 753,
+        "a2": 753,
         "old": [],
         "new": [
           "EMITCHAR:",
@@ -4469,12 +5166,6 @@
           "TABLEFULL:",
           "MOV AX,5",
           "JMP ERROR",
-          "",
-          "OKMSG:",
-          "DB 79,75,32,82,69,83,85,76,84,46,65,83,77,32,36",
-          "",
-          "BYTEMSG:",
-          "DB 32,116,101,120,116,32,98,121,116,101,115,13,10,36",
           ""
         ],
         "context": [
@@ -4483,54 +5174,15 @@
           ""
         ],
         "after": [
-          "ERRMSG:",
-          "DB 73,82,32,69,82,82,79,82,32,36"
+          "CMDINIT:",
+          "MOV SI,81H"
         ],
         "old_display": "full"
       },
       {
-        "a1": 38,
-        "a2": 38,
-        "old": [],
-        "new": [
-          "CALL FLUSH",
-          "CALL CLOSEOUT",
-          "CALL COMMIT",
-          "MOV DX,OKMSG",
-          "CALL TEXT",
-          "MOV AX,[TOTALLO]",
-          "MOV DX,[TOTALHI]",
-          "CALL NUMBER32",
-          "MOV DX,BYTEMSG",
-          "CALL TEXT"
-        ],
-        "context": [
-          "JMP READNEXT",
-          "READDONE:",
-          "CALL CLOSEFILE"
-        ],
-        "after": [
-          "MOV AX,4C00H",
-          "INT 21H"
-        ],
-        "old_display": "full"
-      },
-      {
-        "a1": 9,
-        "a2": 37,
+        "a1": 22,
+        "a2": 39,
         "old": [
-          "JE NEAR READDONE",
-          "MOV SI,0C800H",
-          "SHOWTOKEN:",
-          "CALL SCAN",
-          "MOV AX,[TOKLEN]",
-          "CMP AX,0",
-          "JE NEAR READNEXT",
-          "PUSH SI",
-          "MOV SI,0CC00H",
-          "MOV DL,91",
-          "MOV AH,2",
-          "INT 21H",
           "TOKENBYTE:",
           "LODSB",
           "CMP AL,0",
@@ -4546,14 +5198,57 @@
           "POP SI",
           "JMP SHOWTOKEN",
           "JMP READNEXT",
-          "READDONE:"
+          "READDONE:",
+          "CALL CLOSEFILE"
+        ],
+        "new": [
+          "MOV AX,[TOTALLO]",
+          "MOV DX,[TOTALHI]",
+          "CALL NUMBER32",
+          "MOV DX,BYTEMSG",
+          "CALL TEXT"
+        ],
+        "context": [
+          "MOV DL,91",
+          "MOV AH,2",
+          "INT 21H"
+        ],
+        "after": [
+          "MOV AX,4C00H",
+          "INT 21H"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 10,
+        "a2": 20,
+        "old": [
+          "JE NEAR READDONE",
+          "MOV SI,0C800H",
+          "SHOWTOKEN:",
+          "CALL SCAN",
+          "MOV AX,[TOKLEN]",
+          "CMP AX,0",
+          "JE NEAR READNEXT",
+          "PUSH SI",
+          "MOV SI,0CC00H",
+          "MOV DL,91"
         ],
         "new": [
           "JE NEAR COPYDONE",
           "MOV AL,[CHAR]",
           "CALL EMITCHAR",
           "JMP COPYBYTE",
-          "COPYDONE:"
+          "COPYDONE:",
+          "CALL CLOSEFILE",
+          "CALL FLUSH",
+          "CALL CLOSEOUT",
+          "CALL COMMIT",
+          "MOV DX,OKMSG",
+          "CALL TEXT",
+          "MOV SI,RESNAME",
+          "CALL CMDTEXT",
+          "MOV DL,32"
         ],
         "context": [
           "READNEXT:",
@@ -4561,14 +5256,14 @@
           "CMP AX,0"
         ],
         "after": [
-          "CALL CLOSEFILE",
-          "MOV AX,4C00H"
+          "MOV AH,2",
+          "INT 21H"
         ],
         "old_display": "full"
       },
       {
-        "a1": 6,
-        "a2": 8,
+        "a1": 7,
+        "a2": 9,
         "old": [
           "READNEXT:",
           "CALL READLINE"
@@ -4579,8 +5274,8 @@
           "CALL NEXTBYTE"
         ],
         "context": [
-          "CMP SP,0FFFEH",
           "JNE NEAR MEMORYBAD",
+          "CALL CMDFILES",
           "CALL OPENFILE"
         ],
         "after": [
@@ -4590,16 +5285,16 @@
         "old_display": "full"
       },
       {
-        "a1": 5,
-        "a2": 5,
+        "a1": 6,
+        "a2": 6,
         "old": [],
         "new": [
           "CALL PREFLIGHT"
         ],
         "context": [
-          "CLD",
           "CMP SP,0FFFEH",
-          "JNE NEAR MEMORYBAD"
+          "JNE NEAR MEMORYBAD",
+          "CALL CMDFILES"
         ],
         "after": [
           "CALL OPENFILE",
@@ -4620,8 +5315,8 @@
     "folder": "workbench/ir86",
     "changes": [
       {
-        "a1": 917,
-        "a2": 917,
+        "a1": 1080,
+        "a2": 1080,
         "old": [],
         "new": [
           "",
@@ -4651,12 +5346,15 @@
           "DEPTH:",
           "DW 0"
         ],
-        "after": [],
+        "after": [
+          "",
+          "CMDCOUNT:"
+        ],
         "old_display": "full"
       },
       {
-        "a1": 915,
-        "a2": 915,
+        "a1": 1078,
+        "a2": 1078,
         "old": [],
         "new": [
           "NUMV:",
@@ -4675,31 +5373,31 @@
         "old_display": "full"
       },
       {
-        "a1": 790,
-        "a2": 796,
+        "a1": 954,
+        "a2": 960,
         "old": [
-          "",
           "OKMSG:",
-          "DB 79,75,32,82,69,83,85,76,84,46,65,83,77,32,36",
+          "DB 79,75,32,36",
           "",
           "BYTEMSG:",
-          "DB 32,116,101,120,116,32,98,121,116,101,115,13,10,36"
+          "DB 32,116,101,120,116,32,98,121,116,101,115,13,10,36",
+          ""
         ],
         "new": [],
         "context": [
-          "TABLEFULL:",
-          "MOV AX,5",
-          "JMP ERROR"
+          "CMDTEXTEND:",
+          "RET",
+          ""
         ],
         "after": [
-          "",
-          "ERRMSG:"
+          "ERRMSG:",
+          "DB 73,82,32,69,82,82,79,82,32,36"
         ],
         "old_display": "full"
       },
       {
-        "a1": 776,
-        "a2": 776,
+        "a1": 782,
+        "a2": 782,
         "old": [],
         "new": [
           "OUTNUM:",
@@ -4793,14 +5491,19 @@
         "old_display": "full"
       },
       {
-        "a1": 17,
-        "a2": 27,
+        "a1": 18,
+        "a2": 33,
         "old": [
           "CALL FLUSH",
           "CALL CLOSEOUT",
           "CALL COMMIT",
           "MOV DX,OKMSG",
           "CALL TEXT",
+          "MOV SI,RESNAME",
+          "CALL CMDTEXT",
+          "MOV DL,32",
+          "MOV AH,2",
+          "INT 21H",
           "MOV AX,[TOTALLO]",
           "MOV DX,[TOTALHI]",
           "CALL NUMBER32",
@@ -4820,8 +5523,8 @@
         "old_display": "full"
       },
       {
-        "a1": 11,
-        "a2": 16,
+        "a1": 12,
+        "a2": 17,
         "old": [
           "JE NEAR COPYDONE",
           "MOV AL,[CHAR]",
@@ -4864,8 +5567,8 @@
         "old_display": "full"
       },
       {
-        "a1": 7,
-        "a2": 10,
+        "a1": 8,
+        "a2": 11,
         "old": [
           "CALL CREATEOUT",
           "COPYBYTE:",
@@ -4876,7 +5579,7 @@
           "CALL READLINE"
         ],
         "context": [
-          "JNE NEAR MEMORYBAD",
+          "CALL CMDFILES",
           "CALL PREFLIGHT",
           "CALL OPENFILE"
         ],
@@ -4887,16 +5590,16 @@
         "old_display": "full"
       },
       {
-        "a1": 5,
-        "a2": 6,
+        "a1": 6,
+        "a2": 7,
         "old": [
           "CALL PREFLIGHT"
         ],
         "new": [],
         "context": [
-          "CLD",
           "CMP SP,0FFFEH",
-          "JNE NEAR MEMORYBAD"
+          "JNE NEAR MEMORYBAD",
+          "CALL CMDFILES"
         ],
         "after": [
           "CALL OPENFILE",
@@ -4917,8 +5620,8 @@
     "folder": "workbench/ir86",
     "changes": [
       {
-        "a1": 1017,
-        "a2": 1017,
+        "a1": 1175,
+        "a2": 1175,
         "old": [],
         "new": [
           "DB 76,65,66,69,76,0,0,0,0,0,2,0,0,0",
@@ -4929,12 +5632,15 @@
           "DB 69,88,73,84,0,0,0,0,0,0,0,4,0,0",
           "DW T_EXIT"
         ],
-        "after": [],
+        "after": [
+          "",
+          "CMDCOUNT:"
+        ],
         "old_display": "full"
       },
       {
-        "a1": 1006,
-        "a2": 1006,
+        "a1": 1164,
+        "a2": 1164,
         "old": [],
         "new": [
           "DB 0",
@@ -4954,8 +5660,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1002,
-        "a2": 1002,
+        "a1": 1160,
+        "a2": 1160,
         "old": [],
         "new": [
           "",
@@ -4986,8 +5692,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1000,
-        "a2": 1000,
+        "a1": 1158,
+        "a2": 1158,
         "old": [],
         "new": [
           "IRCLASS:",
@@ -5009,8 +5715,8 @@
         "old_display": "full"
       },
       {
-        "a1": 994,
-        "a2": 994,
+        "a1": 1152,
+        "a2": 1152,
         "old": [],
         "new": [
           "TPL:",
@@ -5029,31 +5735,31 @@
         "old_display": "full"
       },
       {
-        "a1": 872,
-        "a2": 872,
+        "a1": 1031,
+        "a2": 1031,
         "old": [],
         "new": [
-          "",
           "OKMSG:",
-          "DB 79,75,32,82,69,83,85,76,84,46,65,83,77,32,36",
+          "DB 79,75,32,36",
           "",
           "BYTEMSG:",
-          "DB 32,116,101,120,116,32,98,121,116,101,115,13,10,36"
+          "DB 32,116,101,120,116,32,98,121,116,101,115,13,10,36",
+          ""
         ],
         "context": [
-          "TABLEFULL:",
-          "MOV AX,5",
-          "JMP ERROR"
+          "CMDTEXTEND:",
+          "RET",
+          ""
         ],
         "after": [
-          "",
-          "ERRMSG:"
+          "ERRMSG:",
+          "DB 73,82,32,69,82,82,79,82,32,36"
         ],
         "old_display": "full"
       },
       {
-        "a1": 858,
-        "a2": 858,
+        "a1": 859,
+        "a2": 859,
         "old": [],
         "new": [
           "STATEMENT:",
@@ -5162,8 +5868,8 @@
         "old_display": "full"
       },
       {
-        "a1": 28,
-        "a2": 31,
+        "a1": 29,
+        "a2": 32,
         "old": [
           "JMP READNEXT",
           "READDONE:",
@@ -5182,8 +5888,8 @@
         "old_display": "full"
       },
       {
-        "a1": 26,
-        "a2": 27,
+        "a1": 27,
+        "a2": 28,
         "old": [
           "MOV DX,NEWLINE"
         ],
@@ -5202,8 +5908,8 @@
         "old_display": "full"
       },
       {
-        "a1": 11,
-        "a2": 25,
+        "a1": 12,
+        "a2": 26,
         "old": [
           "CALL SCAN",
           "MOV BX,IRTAB",
@@ -5233,6 +5939,11 @@
           "CALL COMMIT",
           "MOV DX,OKMSG",
           "CALL TEXT",
+          "MOV SI,RESNAME",
+          "CALL CMDTEXT",
+          "MOV DL,32",
+          "MOV AH,2",
+          "INT 21H",
           "MOV AX,[TOTALLO]",
           "MOV DX,[TOTALHI]"
         ],
@@ -5248,8 +5959,8 @@
         "old_display": "full"
       },
       {
-        "a1": 9,
-        "a2": 10,
+        "a1": 10,
+        "a2": 11,
         "old": [
           "JE NEAR READDONE"
         ],
@@ -5268,8 +5979,8 @@
         "old_display": "full"
       },
       {
-        "a1": 6,
-        "a2": 7,
+        "a1": 7,
+        "a2": 8,
         "old": [
           "READNEXT:"
         ],
@@ -5280,8 +5991,8 @@
           "IRLINE:"
         ],
         "context": [
-          "CMP SP,0FFFEH",
           "JNE NEAR MEMORYBAD",
+          "CALL CMDFILES",
           "CALL OPENFILE"
         ],
         "after": [
@@ -5291,16 +6002,16 @@
         "old_display": "full"
       },
       {
-        "a1": 5,
-        "a2": 5,
+        "a1": 6,
+        "a2": 6,
         "old": [],
         "new": [
           "CALL PREFLIGHT"
         ],
         "context": [
-          "CLD",
           "CMP SP,0FFFEH",
-          "JNE NEAR MEMORYBAD"
+          "JNE NEAR MEMORYBAD",
+          "CALL CMDFILES"
         ],
         "after": [
           "CALL OPENFILE",
@@ -5321,8 +6032,8 @@
     "folder": "workbench/ir86",
     "changes": [
       {
-        "a1": 1147,
-        "a2": 1147,
+        "a1": 1310,
+        "a2": 1310,
         "old": [],
         "new": [
           "DB 87,79,82,68,0,0,0,0,0,0,3,4,0,0",
@@ -5335,12 +6046,15 @@
           "DB 76,65,66,69,76,0,0,0,0,0,2,0,0,0",
           "DW T_LABEL"
         ],
-        "after": [],
+        "after": [
+          "",
+          "CMDCOUNT:"
+        ],
         "old_display": "full"
       },
       {
-        "a1": 1140,
-        "a2": 1140,
+        "a1": 1303,
+        "a2": 1303,
         "old": [],
         "new": [
           "T_WORD:",
@@ -5366,8 +6080,8 @@
         "old_display": "full"
       },
       {
-        "a1": 865,
-        "a2": 866,
+        "a1": 871,
+        "a2": 872,
         "old": [
           "MOV CX,3"
         ],
@@ -5398,8 +6112,8 @@
     "folder": "workbench/ir86",
     "changes": [
       {
-        "a1": 1161,
-        "a2": 1161,
+        "a1": 1324,
+        "a2": 1324,
         "old": [],
         "new": [
           "DB 76,68,0,0,0,0,0,0,0,0,2,0,0,0",
@@ -5416,12 +6130,15 @@
           "DB 66,85,70,70,69,82,0,0,0,0,3,4,0,0",
           "DW T_BUFFER"
         ],
-        "after": [],
+        "after": [
+          "",
+          "CMDCOUNT:"
+        ],
         "old_display": "full"
       },
       {
-        "a1": 1148,
-        "a2": 1148,
+        "a1": 1311,
+        "a2": 1311,
         "old": [],
         "new": [
           "DB 0",
@@ -5450,8 +6167,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1140,
-        "a2": 1140,
+        "a1": 1303,
+        "a2": 1303,
         "old": [],
         "new": [
           "T_ADDR:",
@@ -5471,8 +6188,8 @@
         "old_display": "full"
       },
       {
-        "a1": 865,
-        "a2": 866,
+        "a1": 871,
+        "a2": 872,
         "old": [
           "MOV CX,5"
         ],
@@ -5503,8 +6220,8 @@
     "folder": "workbench/ir86",
     "changes": [
       {
-        "a1": 1186,
-        "a2": 1186,
+        "a1": 1349,
+        "a2": 1349,
         "old": [],
         "new": [
           "DB 80,85,83,72,0,0,0,0,0,0,0,1,0,0",
@@ -5527,12 +6244,15 @@
           "DB 70,69,84,67,72,0,0,0,0,0,0,0,0,0",
           "DW T_FETCH"
         ],
-        "after": [],
+        "after": [
+          "",
+          "CMDCOUNT:"
+        ],
         "old_display": "full"
       },
       {
-        "a1": 1167,
-        "a2": 1167,
+        "a1": 1330,
+        "a2": 1330,
         "old": [],
         "new": [
           "T_PUSH:",
@@ -5582,8 +6302,8 @@
         "old_display": "full"
       },
       {
-        "a1": 865,
-        "a2": 866,
+        "a1": 871,
+        "a2": 872,
         "old": [
           "MOV CX,9"
         ],
@@ -5614,8 +6334,8 @@
     "folder": "workbench/ir86",
     "changes": [
       {
-        "a1": 1234,
-        "a2": 1234,
+        "a1": 1397,
+        "a2": 1397,
         "old": [],
         "new": [
           "DB 74,77,80,0,0,0,0,0,0,0,2,4,0,0",
@@ -5632,12 +6352,15 @@
           "DB 88,79,82,0,0,0,0,0,0,0,0,2,0,0",
           "DW T_XOR"
         ],
-        "after": [],
+        "after": [
+          "",
+          "CMDCOUNT:"
+        ],
         "old_display": "full"
       },
       {
-        "a1": 1201,
-        "a2": 1201,
+        "a1": 1364,
+        "a2": 1364,
         "old": [],
         "new": [
           "T_CEQ:",
@@ -5677,8 +6400,8 @@
         "old_display": "full"
       },
       {
-        "a1": 865,
-        "a2": 866,
+        "a1": 871,
+        "a2": 872,
         "old": [
           "MOV CX,16"
         ],
@@ -5709,8 +6432,8 @@
     "folder": "workbench/ir86",
     "changes": [
       {
-        "a1": 1266,
-        "a2": 1266,
+        "a1": 1429,
+        "a2": 1429,
         "old": [],
         "new": [
           "DB 80,85,84,0,0,0,0,0,0,0,0,2,0,0",
@@ -5723,12 +6446,15 @@
           "DB 67,69,81,0,0,0,0,0,0,0,0,2,0,0",
           "DW T_CEQ"
         ],
-        "after": [],
+        "after": [
+          "",
+          "CMDCOUNT:"
+        ],
         "old_display": "full"
       },
       {
-        "a1": 1175,
-        "a2": 1175,
+        "a1": 1338,
+        "a2": 1338,
         "old": [],
         "new": [
           "T_PUT:",
@@ -5754,8 +6480,8 @@
         "old_display": "full"
       },
       {
-        "a1": 865,
-        "a2": 866,
+        "a1": 871,
+        "a2": 872,
         "old": [
           "MOV CX,20"
         ],
@@ -5786,8 +6512,8 @@
     "folder": "workbench/ir86",
     "changes": [
       {
-        "a1": 1280,
-        "a2": 1280,
+        "a1": 1443,
+        "a2": 1443,
         "old": [],
         "new": [
           "DB 80,85,84,67,0,0,0,0,0,0,0,0,0,0",
@@ -5800,12 +6526,15 @@
           "DB 80,85,84,66,0,0,0,0,0,0,0,2,0,0",
           "DW T_PUTB"
         ],
-        "after": [],
+        "after": [
+          "",
+          "CMDCOUNT:"
+        ],
         "old_display": "full"
       },
       {
-        "a1": 1235,
-        "a2": 1235,
+        "a1": 1398,
+        "a2": 1398,
         "old": [],
         "new": [
           "T_PUTC:",
@@ -5829,8 +6558,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1122,
-        "a2": 1122,
+        "a1": 1285,
+        "a2": 1285,
         "old": [],
         "new": [
           "DB \"R_OK:\",13,10",
@@ -5880,8 +6609,8 @@
         "old_display": "full"
       },
       {
-        "a1": 865,
-        "a2": 866,
+        "a1": 871,
+        "a2": 872,
         "old": [
           "MOV CX,22"
         ],
@@ -5912,8 +6641,8 @@
     "folder": "workbench/ir86",
     "changes": [
       {
-        "a1": 1326,
-        "a2": 1326,
+        "a1": 1489,
+        "a2": 1489,
         "old": [],
         "new": [
           "DB 70,69,84,67,72,66,0,0,0,0,0,0,0,0",
@@ -5924,12 +6653,15 @@
           "DB 83,84,65,84,85,83,0,0,0,0,0,0,0,0",
           "DW T_STATUS"
         ],
-        "after": [],
+        "after": [
+          "",
+          "CMDCOUNT:"
+        ],
         "old_display": "full"
       },
       {
-        "a1": 1201,
-        "a2": 1201,
+        "a1": 1364,
+        "a2": 1364,
         "old": [],
         "new": [
           "T_FETCHB:",
@@ -5951,8 +6683,8 @@
         "old_display": "full"
       },
       {
-        "a1": 865,
-        "a2": 866,
+        "a1": 871,
+        "a2": 872,
         "old": [
           "MOV CX,24"
         ],
@@ -5983,28 +6715,43 @@
     "folder": "workbench/ir86",
     "changes": [
       {
-        "a1": 1334,
-        "a2": 1334,
+        "a1": 1497,
+        "a2": 1497,
         "old": [],
         "new": [
           "DB 79,80,69,78,0,0,0,0,0,0,0,0,0,0",
-          "DW T_OPEN"
+          "DW T_OPEN",
+          "DB 65,82,71,67,0,0,0,0,0,0,0,0,0,0",
+          "DW T_ARGC",
+          "DB 65,82,71,0,0,0,0,0,0,0,0,0,0,0",
+          "DW T_ARG"
         ],
         "context": [
           "DW T_STATUS",
           "DB 70,69,84,67,72,66,0,0,0,0,0,0,0,0",
           "DW T_FETCHB"
         ],
-        "after": [],
+        "after": [
+          "",
+          "CMDCOUNT:"
+        ],
         "old_display": "full"
       },
       {
-        "a1": 1279,
-        "a2": 1279,
+        "a1": 1442,
+        "a2": 1442,
         "old": [],
         "new": [
           "T_OPEN:",
           "DB \"CALL R_OPEN\",13,10",
+          "DB 0",
+          "",
+          "T_ARGC:",
+          "DB \"CALL R_ARGC\",13,10",
+          "DB 0",
+          "",
+          "T_ARG:",
+          "DB \"CALL R_ARG\",13,10",
           "DB 0",
           ""
         ],
@@ -6020,11 +6767,143 @@
         "old_display": "full"
       },
       {
-        "a1": 1155,
-        "a2": 1155,
+        "a1": 1322,
+        "a2": 1322,
         "old": [],
         "new": [
           "DB 13,10",
+          "DB \"CMDINIT:\",13,10",
+          "DB \"MOV SI,81H\",13,10",
+          "DB \"MOV DI,CMDBUF\",13,10",
+          "DB \"MOV [CMDPTR],DI\",13,10",
+          "DB \"MOV AL,[80H]\",13,10",
+          "DB \"MOV AH,0\",13,10",
+          "DB \"MOV CX,AX\",13,10",
+          "DB \"CMP CX,127\",13,10",
+          "DB \"JAE NEAR CMDBAD\",13,10",
+          "DB \"CMDSKIP:\",13,10",
+          "DB \"CMP CX,0\",13,10",
+          "DB \"JE NEAR CMDDONE\",13,10",
+          "DB \"LODSB\",13,10",
+          "DB \"DEC CX\",13,10",
+          "DB \"CMP AL,32\",13,10",
+          "DB \"JE NEAR CMDSKIP\",13,10",
+          "DB \"CMP AL,9\",13,10",
+          "DB \"JE NEAR CMDSKIP\",13,10",
+          "DB \"MOV BX,[CMDCOUNT]\",13,10",
+          "DB \"CMP BX,3\",13,10",
+          "DB \"JAE NEAR CMDBAD\",13,10",
+          "DB \"INC BX\",13,10",
+          "DB \"MOV [CMDCOUNT],BX\",13,10",
+          "DB \"MOV BX,0\",13,10",
+          "DB \"MOV DX,8\",13,10",
+          "DB \"CMDCHAR:\",13,10",
+          "DB \"CMP AL,46\",13,10",
+          "DB \"JE NEAR CMDDOT\",13,10",
+          "DB \"CMP AL,97\",13,10",
+          "DB \"JB NEAR CMDUP\",13,10",
+          "DB \"CMP AL,122\",13,10",
+          "DB \"JA NEAR CMDUP\",13,10",
+          "DB \"SUB AL,32\",13,10",
+          "DB \"CMDUP:\",13,10",
+          "DB \"CMP AL,65\",13,10",
+          "DB \"JB NEAR CMDNUM\",13,10",
+          "DB \"CMP AL,90\",13,10",
+          "DB \"JBE NEAR CMDPUT\",13,10",
+          "DB \"CMDNUM:\",13,10",
+          "DB \"CMP AL,48\",13,10",
+          "DB \"JB NEAR CMDEXTRA\",13,10",
+          "DB \"CMP AL,57\",13,10",
+          "DB \"JBE NEAR CMDPUT\",13,10",
+          "DB \"CMDEXTRA:\",13,10",
+          "DB \"CMP AL,95\",13,10",
+          "DB \"JE NEAR CMDPUT\",13,10",
+          "DB \"CMP AL,45\",13,10",
+          "DB \"JNE NEAR CMDBAD\",13,10",
+          "DB \"CMDPUT:\",13,10",
+          "DB \"INC BX\",13,10",
+          "DB \"CMP BX,DX\",13,10",
+          "DB \"JA NEAR CMDBAD\",13,10",
+          "DB \"STOSB\",13,10",
+          "DB \"JMP CMDNEXT\",13,10",
+          "DB \"CMDDOT:\",13,10",
+          "DB \"CMP DX,8\",13,10",
+          "DB \"JNE NEAR CMDBAD\",13,10",
+          "DB \"CMP BX,0\",13,10",
+          "DB \"JE NEAR CMDBAD\",13,10",
+          "DB \"MOV DX,3\",13,10",
+          "DB \"MOV BX,0\",13,10",
+          "DB \"STOSB\",13,10",
+          "DB \"CMDNEXT:\",13,10",
+          "DB \"CMP CX,0\",13,10",
+          "DB \"JE NEAR CMDEND\",13,10",
+          "DB \"LODSB\",13,10",
+          "DB \"DEC CX\",13,10",
+          "DB \"CMP AL,32\",13,10",
+          "DB \"JE NEAR CMDEND\",13,10",
+          "DB \"CMP AL,9\",13,10",
+          "DB \"JNE NEAR CMDCHAR\",13,10",
+          "DB \"CMDEND:\",13,10",
+          "DB \"CMP BX,0\",13,10",
+          "DB \"JE NEAR CMDBAD\",13,10",
+          "DB \"MOV AL,0\",13,10",
+          "DB \"STOSB\",13,10",
+          "DB \"MOV DI,[CMDPTR]\",13,10",
+          "DB \"ADD DI,13\",13,10",
+          "DB \"MOV [CMDPTR],DI\",13,10",
+          "DB \"JMP CMDSKIP\",13,10",
+          "DB \"CMDDONE:\",13,10",
+          "DB \"MOV AX,[CMDCOUNT]\",13,10",
+          "DB \"RET\",13,10",
+          "DB \"CMDBAD:\",13,10",
+          "DB \"MOV AX,65535\",13,10",
+          "DB \"RET\",13,10",
+          "DB \"R_ARGC:\",13,10",
+          "DB \"MOV AX,[CMDCOUNT]\",13,10",
+          "DB \"JMP R_OK\",13,10",
+          "DB \"R_ARG:\",13,10",
+          "DB \"CMP AX,1\",13,10",
+          "DB \"JB NEAR R_ARGBAD\",13,10",
+          "DB \"MOV BX,[CMDCOUNT]\",13,10",
+          "DB \"CMP AX,BX\",13,10",
+          "DB \"JA NEAR R_ARGBAD\",13,10",
+          "DB \"MOV BX,CMDBUF\",13,10",
+          "DB \"R_ARGNEXT:\",13,10",
+          "DB \"DEC AX\",13,10",
+          "DB \"JE NEAR R_ARGDONE\",13,10",
+          "DB \"ADD BX,13\",13,10",
+          "DB \"JMP R_ARGNEXT\",13,10",
+          "DB \"R_ARGDONE:\",13,10",
+          "DB \"MOV AX,BX\",13,10",
+          "DB \"JMP R_OK\",13,10",
+          "DB \"R_ARGBAD:\",13,10",
+          "DB \"MOV AX,0\",13,10",
+          "DB \"JMP R_ERROR\",13,10",
+          "DB \"CMDCOUNT:\",13,10",
+          "DB \"DW 0\",13,10",
+          "DB \"CMDPTR:\",13,10",
+          "DB \"DW 0\",13,10",
+          "DB \"CMDBUF:\",13,10",
+          "DB \"DB 0,0,0,0,0,0,0,0,0,0,0,0,0\",13,10",
+          "DB \"DB 0,0,0,0,0,0,0,0,0,0,0,0,0\",13,10",
+          "DB \"DB 0,0,0,0,0,0,0,0,0,0,0,0,0\",13,10"
+        ],
+        "context": [
+          "DB \"R_STACKFAIL:\",13,10",
+          "DB \"MOV AX,4C02H\",13,10",
+          "DB \"INT 21H\",13,10"
+        ],
+        "after": [
+          "DB 0",
+          ""
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 1319,
+        "a2": 1319,
+        "old": [],
+        "new": [
           "DB \"R_MODE:\",13,10",
           "DB \"DW 0\",13,10",
           "DB \"R_NAME:\",13,10",
@@ -6034,22 +6913,23 @@
           "DB \"R_NUMBER:\",13,10",
           "DB \"DW 0\",13,10",
           "DB \"R_HANDLES:\",13,10",
-          "DB \"DW 0,0,0,0,0,0,0,0\",13,10"
+          "DB \"DW 0,0,0,0,0,0,0,0\",13,10",
+          "DB 13,10"
         ],
         "context": [
-          "DB 13,10",
           "DB \"R_BYTE:\",13,10",
-          "DB \"DB 0\",13,10"
+          "DB \"DB 0\",13,10",
+          "DB 13,10"
         ],
         "after": [
-          "DB 13,10",
-          "DB \"R_STACKFAIL:\",13,10"
+          "DB \"R_STACKFAIL:\",13,10",
+          "DB \"MOV AX,4C02H\",13,10"
         ],
         "old_display": "full"
       },
       {
-        "a1": 1150,
-        "a2": 1150,
+        "a1": 1313,
+        "a2": 1313,
         "old": [],
         "new": [
           "DB \"R_OPEN:\",13,10",
@@ -6112,13 +6992,33 @@
         "old_display": "full"
       },
       {
-        "a1": 865,
-        "a2": 866,
+        "a1": 1279,
+        "a2": 1279,
+        "old": [],
+        "new": [
+          "DB \"CALL CMDINIT\",13,10",
+          "DB \"CMP AX,65535\",13,10",
+          "DB \"JE NEAR R_STACKFAIL\",13,10"
+        ],
+        "context": [
+          "DB \"CLD\",13,10",
+          "DB \"CMP SP,0FFFEH\",13,10",
+          "DB \"JNE NEAR R_STACKFAIL\",13,10"
+        ],
+        "after": [
+          "DB \"CALL U_MAIN\",13,10",
+          "DB \"MOV AH,4CH\",13,10"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 871,
+        "a2": 872,
         "old": [
           "MOV CX,25"
         ],
         "new": [
-          "MOV CX,26"
+          "MOV CX,28"
         ],
         "context": [
           "CMP AL,0",
@@ -6144,24 +7044,27 @@
     "folder": "workbench/ir86",
     "changes": [
       {
-        "a1": 1398,
-        "a2": 1398,
+        "a1": 1692,
+        "a2": 1692,
         "old": [],
         "new": [
           "DB 67,82,69,65,84,69,0,0,0,0,0,0,0,0",
           "DW T_CREATE"
         ],
         "context": [
-          "DW T_FETCHB",
-          "DB 79,80,69,78,0,0,0,0,0,0,0,0,0,0",
-          "DW T_OPEN"
+          "DW T_ARGC",
+          "DB 65,82,71,0,0,0,0,0,0,0,0,0,0,0",
+          "DW T_ARG"
         ],
-        "after": [],
+        "after": [
+          "",
+          "CMDCOUNT:"
+        ],
         "old_display": "full"
       },
       {
-        "a1": 1341,
-        "a2": 1341,
+        "a1": 1623,
+        "a2": 1623,
         "old": [],
         "new": [
           "T_CREATE:",
@@ -6175,14 +7078,14 @@
           ""
         ],
         "after": [
-          "T_STATUS:",
-          "DB \"MOV AX,[R_STATUS]\",13,10"
+          "T_ARGC:",
+          "DB \"CALL R_ARGC\",13,10"
         ],
         "old_display": "full"
       },
       {
-        "a1": 1154,
-        "a2": 1154,
+        "a1": 1320,
+        "a2": 1320,
         "old": [],
         "new": [
           "DB \"R_CREATE:\",13,10",
@@ -6202,13 +7105,13 @@
         "old_display": "full"
       },
       {
-        "a1": 865,
-        "a2": 866,
+        "a1": 871,
+        "a2": 872,
         "old": [
-          "MOV CX,26"
+          "MOV CX,28"
         ],
         "new": [
-          "MOV CX,27"
+          "MOV CX,29"
         ],
         "context": [
           "CMP AL,0",
@@ -6234,24 +7137,27 @@
     "folder": "workbench/ir86",
     "changes": [
       {
-        "a1": 1408,
-        "a2": 1408,
+        "a1": 1702,
+        "a2": 1702,
         "old": [],
         "new": [
           "DB 82,69,65,68,0,0,0,0,0,0,0,3,0,0",
           "DW T_READ"
         ],
         "context": [
-          "DW T_OPEN",
+          "DW T_ARG",
           "DB 67,82,69,65,84,69,0,0,0,0,0,0,0,0",
           "DW T_CREATE"
         ],
-        "after": [],
+        "after": [
+          "",
+          "CMDCOUNT:"
+        ],
         "old_display": "full"
       },
       {
-        "a1": 1353,
-        "a2": 1353,
+        "a1": 1643,
+        "a2": 1643,
         "old": [],
         "new": [
           "T_READ:",
@@ -6273,8 +7179,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1217,
-        "a2": 1217,
+        "a1": 1383,
+        "a2": 1383,
         "old": [],
         "new": [
           "DB 13,10",
@@ -6295,8 +7201,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1201,
-        "a2": 1201,
+        "a1": 1367,
+        "a2": 1367,
         "old": [],
         "new": [
           "DB \"R_FIND:\",13,10",
@@ -6358,13 +7264,13 @@
         "old_display": "full"
       },
       {
-        "a1": 865,
-        "a2": 866,
+        "a1": 871,
+        "a2": 872,
         "old": [
-          "MOV CX,27"
+          "MOV CX,29"
         ],
         "new": [
-          "MOV CX,28"
+          "MOV CX,30"
         ],
         "context": [
           "CMP AL,0",
@@ -6390,8 +7296,8 @@
     "folder": "workbench/ir86",
     "changes": [
       {
-        "a1": 1467,
-        "a2": 1467,
+        "a1": 1761,
+        "a2": 1761,
         "old": [],
         "new": [
           "DB 87,82,73,84,69,0,0,0,0,0,0,3,0,0",
@@ -6402,12 +7308,15 @@
           "DB 82,69,65,68,0,0,0,0,0,0,0,3,0,0",
           "DW T_READ"
         ],
-        "after": [],
+        "after": [
+          "",
+          "CMDCOUNT:"
+        ],
         "old_display": "full"
       },
       {
-        "a1": 1410,
-        "a2": 1410,
+        "a1": 1700,
+        "a2": 1700,
         "old": [],
         "new": [
           "T_WRITE:",
@@ -6429,8 +7338,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1247,
-        "a2": 1247,
+        "a1": 1413,
+        "a2": 1413,
         "old": [],
         "new": [
           "DB \"R_WRITE:\",13,10",
@@ -6473,13 +7382,13 @@
         "old_display": "full"
       },
       {
-        "a1": 865,
-        "a2": 866,
+        "a1": 871,
+        "a2": 872,
         "old": [
-          "MOV CX,28"
+          "MOV CX,30"
         ],
         "new": [
-          "MOV CX,29"
+          "MOV CX,31"
         ],
         "context": [
           "CMP AL,0",
@@ -6505,8 +7414,8 @@
     "folder": "workbench/ir86",
     "changes": [
       {
-        "a1": 1502,
-        "a2": 1502,
+        "a1": 1796,
+        "a2": 1796,
         "old": [],
         "new": [
           "DB 67,76,79,83,69,0,0,0,0,0,0,0,0,0",
@@ -6517,12 +7426,15 @@
           "DB 87,82,73,84,69,0,0,0,0,0,0,3,0,0",
           "DW T_WRITE"
         ],
-        "after": [],
+        "after": [
+          "",
+          "CMDCOUNT:"
+        ],
         "old_display": "full"
       },
       {
-        "a1": 1427,
-        "a2": 1427,
+        "a1": 1709,
+        "a2": 1709,
         "old": [],
         "new": [
           "T_CLOSE:",
@@ -6536,14 +7448,14 @@
           ""
         ],
         "after": [
-          "T_STATUS:",
-          "DB \"MOV AX,[R_STATUS]\",13,10"
+          "T_ARGC:",
+          "DB \"CALL R_ARGC\",13,10"
         ],
         "old_display": "full"
       },
       {
-        "a1": 1274,
-        "a2": 1274,
+        "a1": 1440,
+        "a2": 1440,
         "old": [],
         "new": [
           "DB \"R_CLOSE:\",13,10",
@@ -6576,13 +7488,13 @@
         "old_display": "full"
       },
       {
-        "a1": 865,
-        "a2": 866,
+        "a1": 871,
+        "a2": 872,
         "old": [
-          "MOV CX,29"
+          "MOV CX,31"
         ],
         "new": [
-          "MOV CX,30"
+          "MOV CX,32"
         ],
         "context": [
           "CMP AL,0",
@@ -6608,8 +7520,8 @@
     "folder": "workbench/ir86",
     "changes": [
       {
-        "a1": 1525,
-        "a2": 1525,
+        "a1": 1819,
+        "a2": 1819,
         "old": [],
         "new": [
           "DB 80,82,79,67,0,0,0,0,0,0,4,0,0,0",
@@ -6638,12 +7550,15 @@
           "DB 67,76,79,83,69,0,0,0,0,0,0,0,0,0",
           "DW T_CLOSE"
         ],
-        "after": [],
+        "after": [
+          "",
+          "CMDCOUNT:"
+        ],
         "old_display": "full"
       },
       {
-        "a1": 1430,
-        "a2": 1430,
+        "a1": 1712,
+        "a2": 1712,
         "old": [],
         "new": [
           "DB 0",
@@ -6703,8 +7618,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1408,
-        "a2": 1408,
+        "a1": 1690,
+        "a2": 1690,
         "old": [],
         "new": [
           "T_MUL:",
@@ -6725,8 +7640,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1098,
-        "a2": 1098,
+        "a1": 1261,
+        "a2": 1261,
         "old": [],
         "new": [
           "DW 0",
@@ -6748,8 +7663,8 @@
         "old_display": "full"
       },
       {
-        "a1": 907,
-        "a2": 907,
+        "a1": 913,
+        "a2": 913,
         "old": [],
         "new": [
           "MOV AX,[TPL]",
@@ -6794,8 +7709,8 @@
         "old_display": "full"
       },
       {
-        "a1": 897,
-        "a2": 897,
+        "a1": 903,
+        "a2": 903,
         "old": [],
         "new": [
           "STATPROC:",
@@ -6836,8 +7751,8 @@
         "old_display": "full"
       },
       {
-        "a1": 886,
-        "a2": 886,
+        "a1": 892,
+        "a2": 892,
         "old": [],
         "new": [
           "CMP AL,4",
@@ -6857,13 +7772,13 @@
         "old_display": "full"
       },
       {
-        "a1": 865,
-        "a2": 866,
+        "a1": 871,
+        "a2": 872,
         "old": [
-          "MOV CX,30"
+          "MOV CX,32"
         ],
         "new": [
-          "MOV CX,40"
+          "MOV CX,42"
         ],
         "context": [
           "CMP AL,0",
@@ -6889,8 +7804,8 @@
     "folder": "workbench/ir86",
     "changes": [
       {
-        "a1": 1658,
-        "a2": 1658,
+        "a1": 1952,
+        "a2": 1952,
         "old": [],
         "new": [
           "DB 68,73,86,0,0,0,0,0,0,0,0,2,0,0",
@@ -6917,12 +7832,15 @@
           "DB 67,65,76,76,0,0,0,0,0,0,2,0,0,0",
           "DW T_CALL"
         ],
-        "after": [],
+        "after": [
+          "",
+          "CMDCOUNT:"
+        ],
         "old_display": "full"
       },
       {
-        "a1": 1482,
-        "a2": 1482,
+        "a1": 1764,
+        "a2": 1764,
         "old": [],
         "new": [
           "DB \"INC AX\",13,10",
@@ -6978,8 +7896,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1477,
-        "a2": 1477,
+        "a1": 1759,
+        "a2": 1759,
         "old": [],
         "new": [
           "T_DIV:",
@@ -7028,13 +7946,13 @@
         "old_display": "full"
       },
       {
-        "a1": 865,
-        "a2": 866,
+        "a1": 871,
+        "a2": 872,
         "old": [
-          "MOV CX,40"
+          "MOV CX,42"
         ],
         "new": [
-          "MOV CX,49"
+          "MOV CX,51"
         ],
         "context": [
           "CMP AL,0",
@@ -7060,8 +7978,8 @@
     "folder": "workbench/ir86",
     "changes": [
       {
-        "a1": 1749,
-        "a2": 1749,
+        "a1": 2043,
+        "a2": 2043,
         "old": [],
         "new": [
           "DB 76,73,84,83,0,0,0,0,0,0,6,0,0,0",
@@ -7072,15 +7990,17 @@
           "DB 67,85,71,69,0,0,0,0,0,0,0,2,0,0",
           "DW T_CUGE"
         ],
-        "after": [],
+        "after": [
+          "",
+          "CMDCOUNT:"
+        ],
         "old_display": "full"
       },
       {
-        "a1": 1381,
-        "a2": 1381,
+        "a1": 1664,
+        "a2": 1664,
         "old": [],
         "new": [
-          "",
           "T_LITS:",
           "DB 77,79,86,32,65,88,44,83,95,63,13,10,74,77,80,32",
           "DB 73,95,63,13,10,83,95,63,58,13,10,68,66,32,0",
@@ -7091,22 +8011,23 @@
           "DB 0",
           "",
           "T_STRINGNEXT:",
-          "DB 13,10,68,66,32,0"
+          "DB 13,10,68,66,32,0",
+          ""
         ],
         "context": [
-          "DB \"MOV AX,4C02H\",13,10",
-          "DB \"INT 21H\",13,10",
-          "DB 0"
+          "DB \"DB 0,0,0,0,0,0,0,0,0,0,0,0,0\",13,10",
+          "DB 0",
+          ""
         ],
         "after": [
-          "",
-          "T_EXIT:"
+          "T_EXIT:",
+          "DB \"MOV AH,4CH\",13,10"
         ],
         "old_display": "full"
       },
       {
-        "a1": 1024,
-        "a2": 1024,
+        "a1": 1030,
+        "a2": 1030,
         "old": [],
         "new": [
           "",
@@ -7182,13 +8103,13 @@
         ],
         "after": [
           "",
-          "OKMSG:"
+          "CMDINIT:"
         ],
         "old_display": "full"
       },
       {
-        "a1": 926,
-        "a2": 926,
+        "a1": 932,
+        "a2": 932,
         "old": [],
         "new": [
           "STATSTRING:",
@@ -7207,8 +8128,8 @@
         "old_display": "full"
       },
       {
-        "a1": 890,
-        "a2": 890,
+        "a1": 896,
+        "a2": 896,
         "old": [],
         "new": [
           "CMP AL,6",
@@ -7226,13 +8147,13 @@
         "old_display": "full"
       },
       {
-        "a1": 865,
-        "a2": 866,
+        "a1": 871,
+        "a2": 872,
         "old": [
-          "MOV CX,49"
+          "MOV CX,51"
         ],
         "new": [
-          "MOV CX,50"
+          "MOV CX,52"
         ],
         "context": [
           "CMP AL,0",
@@ -7258,8 +8179,8 @@
     "folder": "workbench/ir86",
     "changes": [
       {
-        "a1": 1833,
-        "a2": 1833,
+        "a1": 2127,
+        "a2": 2127,
         "old": [],
         "new": [
           "DB 69,88,73,83,84,83,0,0,0,0,0,0,0,0",
@@ -7274,12 +8195,15 @@
           "DB 76,73,84,83,0,0,0,0,0,0,6,0,0,0",
           "DW T_LITS"
         ],
-        "after": [],
+        "after": [
+          "",
+          "CMDCOUNT:"
+        ],
         "old_display": "full"
       },
       {
-        "a1": 1732,
-        "a2": 1732,
+        "a1": 2022,
+        "a2": 2022,
         "old": [],
         "new": [
           "T_DELETE:",
@@ -7308,8 +8232,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1447,
-        "a2": 1447,
+        "a1": 1613,
+        "a2": 1613,
         "old": [],
         "new": [
           "DB \"; Authored portable-services binding. No physical values escape this layer.\",13,10",
@@ -7364,13 +8288,13 @@
         "old_display": "full"
       },
       {
-        "a1": 865,
-        "a2": 866,
+        "a1": 871,
+        "a2": 872,
         "old": [
-          "MOV CX,50"
+          "MOV CX,52"
         ],
         "new": [
-          "MOV CX,53"
+          "MOV CX,55"
         ],
         "context": [
           "CMP AL,0",
@@ -7396,8 +8320,8 @@
     "folder": "workbench/ir86",
     "changes": [
       {
-        "a1": 1891,
-        "a2": 1891,
+        "a1": 2185,
+        "a2": 2185,
         "old": [],
         "new": [
           "DB 65,76,76,79,67,0,0,0,0,0,0,0,0,0",
@@ -7410,12 +8334,15 @@
           "DB 82,69,78,65,77,69,0,0,0,0,0,2,0,0",
           "DW T_RENAME"
         ],
-        "after": [],
+        "after": [
+          "",
+          "CMDCOUNT:"
+        ],
         "old_display": "full"
       },
       {
-        "a1": 1779,
-        "a2": 1779,
+        "a1": 2069,
+        "a2": 2069,
         "old": [],
         "new": [
           "T_ALLOC:",
@@ -7439,8 +8366,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1489,
-        "a2": 1489,
+        "a1": 1771,
+        "a2": 1771,
         "old": [],
         "new": [
           "DB 13,10",
@@ -7452,9 +8379,9 @@
           "DB \"RESW 32\",13,10"
         ],
         "context": [
-          "DB \"R_STACKFAIL:\",13,10",
-          "DB \"MOV AX,4C02H\",13,10",
-          "DB \"INT 21H\",13,10"
+          "DB \"DB 0,0,0,0,0,0,0,0,0,0,0,0,0\",13,10",
+          "DB \"DB 0,0,0,0,0,0,0,0,0,0,0,0,0\",13,10",
+          "DB \"DB 0,0,0,0,0,0,0,0,0,0,0,0,0\",13,10"
         ],
         "after": [
           "DB 0",
@@ -7463,8 +8390,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1486,
-        "a2": 1486,
+        "a1": 1652,
+        "a2": 1652,
         "old": [],
         "new": [
           "DB \"R_ALLOC:\",13,10",
@@ -7550,13 +8477,13 @@
         "old_display": "full"
       },
       {
-        "a1": 865,
-        "a2": 866,
+        "a1": 871,
+        "a2": 872,
         "old": [
-          "MOV CX,53"
+          "MOV CX,55"
         ],
         "new": [
-          "MOV CX,55"
+          "MOV CX,57"
         ],
         "context": [
           "CMP AL,0",
@@ -7582,8 +8509,8 @@
     "folder": "workbench/ir86",
     "changes": [
       {
-        "a1": 1980,
-        "a2": 1980,
+        "a1": 2274,
+        "a2": 2274,
         "old": [],
         "new": [
           "DB 82,69,78,65,77,69,0,0,0,0,0,2,0,0",
@@ -7602,12 +8529,15 @@
           "DB 70,82,69,69,66,76,79,67,75,0,0,0,0,0",
           "DW T_FREEBLOCK"
         ],
-        "after": [],
+        "after": [
+          "",
+          "CMDCOUNT:"
+        ],
         "old_display": "full"
       },
       {
-        "a1": 1972,
-        "a2": 1976,
+        "a1": 2266,
+        "a2": 2270,
         "old": [
           "DB 68,69,76,69,84,69,0,0,0,0,0,0,0,0",
           "DW T_DELETE",
@@ -7627,8 +8557,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1970,
-        "a2": 1970,
+        "a1": 2264,
+        "a2": 2264,
         "old": [],
         "new": [
           "DB 80,85,84,67,0,0,0,0,0,0,0,0,0,0",
@@ -7639,6 +8569,10 @@
           "DW T_CREATE",
           "DB 67,76,79,83,69,0,0,0,0,0,0,0,0,0",
           "DW T_CLOSE",
+          "DB 65,82,71,67,0,0,0,0,0,0,0,0,0,0",
+          "DW T_ARGC",
+          "DB 65,82,71,0,0,0,0,0,0,0,0,0,0,0",
+          "DW T_ARG",
           "DB 83,84,65,84,85,83,0,0,0,0,0,0,0,0",
           "DW T_STATUS",
           "DB 82,69,65,68,0,0,0,0,0,0,0,3,0,0",
@@ -7660,8 +8594,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1946,
-        "a2": 1968,
+        "a1": 2240,
+        "a2": 2262,
         "old": [
           "DB 77,85,76,0,0,0,0,0,0,0,0,2,0,0",
           "DW T_MUL",
@@ -7699,8 +8633,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1908,
-        "a2": 1930,
+        "a1": 2198,
+        "a2": 2224,
         "old": [
           "DB 67,69,81,0,0,0,0,0,0,0,0,2,0,0",
           "DW T_CEQ",
@@ -7716,6 +8650,10 @@
           "DW T_FETCHB",
           "DB 79,80,69,78,0,0,0,0,0,0,0,0,0,0",
           "DW T_OPEN",
+          "DB 65,82,71,67,0,0,0,0,0,0,0,0,0,0",
+          "DW T_ARGC",
+          "DB 65,82,71,0,0,0,0,0,0,0,0,0,0,0",
+          "DW T_ARG",
           "DB 67,82,69,65,84,69,0,0,0,0,0,0,0,0",
           "DW T_CREATE",
           "DB 82,69,65,68,0,0,0,0,0,0,0,3,0,0",
@@ -7743,8 +8681,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1902,
-        "a2": 1904,
+        "a1": 2192,
+        "a2": 2194,
         "old": [
           "DB 74,77,80,0,0,0,0,0,0,0,2,4,0,0",
           "DW T_JMP"
@@ -7787,8 +8725,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1894,
-        "a2": 1896,
+        "a1": 2184,
+        "a2": 2186,
         "old": [
           "DB 83,85,66,0,0,0,0,0,0,0,0,2,0,0",
           "DW T_SUB"
@@ -7806,8 +8744,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1892,
-        "a2": 1892,
+        "a1": 2182,
+        "a2": 2182,
         "old": [],
         "new": [
           "DB 80,85,84,0,0,0,0,0,0,0,0,2,0,0",
@@ -7827,8 +8765,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1888,
-        "a2": 1888,
+        "a1": 2178,
+        "a2": 2178,
         "old": [],
         "new": [
           "DB 70,69,84,67,72,66,0,0,0,0,0,0,0,0",
@@ -7846,8 +8784,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1884,
-        "a2": 1886,
+        "a1": 2174,
+        "a2": 2176,
         "old": [
           "DB 65,68,68,82,0,0,0,0,0,0,2,0,0,0",
           "DW T_ADDR"
@@ -7865,8 +8803,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1876,
-        "a2": 1876,
+        "a1": 2166,
+        "a2": 2166,
         "old": [],
         "new": [
           "DB 76,73,84,0,0,0,0,0,0,0,1,0,0,0",
@@ -7886,8 +8824,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1870,
-        "a2": 1872,
+        "a1": 2160,
+        "a2": 2162,
         "old": [
           "DB 76,73,84,0,0,0,0,0,0,0,1,0,0,0",
           "DW T_LIT"
@@ -7905,8 +8843,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1869,
-        "a2": 1869,
+        "a1": 2159,
+        "a2": 2159,
         "old": [],
         "new": [
           "T_GET8:",
@@ -7948,26 +8886,57 @@
         "old_display": "full"
       },
       {
-        "a1": 1559,
-        "a2": 1560,
+        "a1": 1841,
+        "a2": 1848,
+        "old": [
+          "DB 13,10",
+          "DB \"R_WANT:\",13,10",
+          "DB \"DW 0\",13,10",
+          "DB \"R_MEMVALUE:\",13,10",
+          "DB \"DW 0\",13,10",
+          "DB \"R_BLOCKS:\",13,10",
+          "DB \"RESW 32\",13,10"
+        ],
+        "new": [],
+        "context": [
+          "DB \"DB 0,0,0,0,0,0,0,0,0,0,0,0,0\",13,10",
+          "DB \"DB 0,0,0,0,0,0,0,0,0,0,0,0,0\",13,10",
+          "DB \"DB 0,0,0,0,0,0,0,0,0,0,0,0,0\",13,10"
+        ],
+        "after": [
+          "DB 0",
+          ""
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 1725,
+        "a2": 1726,
         "old": [
           "DB 13,10"
         ],
-        "new": [],
+        "new": [
+          "DB \"R_WANT:\",13,10",
+          "DB \"DW 0\",13,10",
+          "DB \"R_MEMVALUE:\",13,10",
+          "DB \"DW 0\",13,10",
+          "DB \"R_BLOCKS:\",13,10",
+          "DB \"RESW 32\",13,10"
+        ],
         "context": [
           "DB \"R_STACKFAIL:\",13,10",
           "DB \"MOV AX,4C02H\",13,10",
           "DB \"INT 21H\",13,10"
         ],
         "after": [
-          "DB \"R_WANT:\",13,10",
-          "DB \"DW 0\",13,10"
+          "DB \"CMDINIT:\",13,10",
+          "DB \"MOV SI,81H\",13,10"
         ],
         "old_display": "full"
       },
       {
-        "a1": 1555,
-        "a2": 1556,
+        "a1": 1721,
+        "a2": 1722,
         "old": [
           "DB 13,10"
         ],
@@ -7984,8 +8953,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1528,
-        "a2": 1528,
+        "a1": 1694,
+        "a2": 1694,
         "old": [],
         "new": [
           "DB \"R_BLOCKPTR:\",13,10",
@@ -8058,8 +9027,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1485,
-        "a2": 1486,
+        "a1": 1651,
+        "a2": 1652,
         "old": [
           "DB 13,10"
         ],
@@ -8076,13 +9045,13 @@
         "old_display": "full"
       },
       {
-        "a1": 865,
-        "a2": 866,
+        "a1": 871,
+        "a2": 872,
         "old": [
-          "MOV CX,55"
+          "MOV CX,57"
         ],
         "new": [
-          "MOV CX,59"
+          "MOV CX,61"
         ],
         "context": [
           "CMP AL,0",
@@ -8345,7 +9314,8 @@
           "JMP DECIMALSHOW",
           "LABEL DECIMALDONE",
           "LIT 0",
-          "RETURN"
+          "RETURN",
+          ""
         ],
         "context": [
           "JNZ PRINTPLACE",
@@ -8411,6 +9381,105 @@
     "folder": "workbench/rill0",
     "changes": [
       {
+        "a1": 171,
+        "a2": 171,
+        "old": [],
+        "new": [
+          "",
+          "PROC FILEARG 2 2",
+          "ARGC",
+          "JZ FILEDEFAULT",
+          "PUSH",
+          "LIT 2",
+          "CNE",
+          "JNZ FILEBADARGS",
+          "LIT 1",
+          "ARG",
+          "SETLOCAL 0",
+          "LIT 2",
+          "ARG",
+          "SETLOCAL 1",
+          "LOCAL 0",
+          "PUSH",
+          "LOCAL 1",
+          "PUSH",
+          "INVOKE FILESAME 2",
+          "JNZ FILEBADARGS",
+          "LOCAL 0",
+          "PUSH",
+          "LITS \"RILL.TMP\"",
+          "PUSH",
+          "INVOKE FILESAME 2",
+          "JNZ FILEBADARGS",
+          "LOCAL 0",
+          "PUSH",
+          "LITS \"RILL.BAK\"",
+          "PUSH",
+          "INVOKE FILESAME 2",
+          "JNZ FILEBADARGS",
+          "LOCAL 1",
+          "PUSH",
+          "LITS \"RILL.TMP\"",
+          "PUSH",
+          "INVOKE FILESAME 2",
+          "JNZ FILEBADARGS",
+          "LOCAL 1",
+          "PUSH",
+          "LITS \"RILL.BAK\"",
+          "PUSH",
+          "INVOKE FILESAME 2",
+          "JNZ FILEBADARGS",
+          "PARAM 0",
+          "ARG",
+          "RETURN",
+          "LABEL FILEDEFAULT",
+          "PARAM 1",
+          "RETURN",
+          "LABEL FILEBADARGS",
+          "LIT 1",
+          "EXIT",
+          "",
+          "PROC FILESAME 2 1",
+          "LABEL FILECOMPARE",
+          "PARAM 0",
+          "FETCHB",
+          "SETLOCAL 0",
+          "LOCAL 0",
+          "PUSH",
+          "PARAM 1",
+          "FETCHB",
+          "CNE",
+          "JNZ FILENOSAME",
+          "LOCAL 0",
+          "JZ FILEISSAME",
+          "PARAM 0",
+          "PUSH",
+          "LIT 1",
+          "ADD",
+          "PUSH",
+          "PARAM 1",
+          "PUSH",
+          "LIT 1",
+          "ADD",
+          "PUSH",
+          "INVOKE FILESAME 2",
+          "RETURN",
+          "LABEL FILEISSAME",
+          "LIT 1",
+          "RETURN",
+          "LABEL FILENOSAME",
+          "LIT 0",
+          "RETURN"
+        ],
+        "context": [
+          "LIT 0",
+          "RETURN",
+          ""
+        ],
+        "after": [],
+        "old_display": "full"
+      },
+      {
         "a1": 63,
         "a2": 63,
         "old": [],
@@ -8448,7 +9517,11 @@
           "JZ ERRORDELETE",
           "LITS \"RILL.BAK\"",
           "PUSH",
+          "LIT 2",
+          "PUSH",
           "LITS \"RESULT.IR\"",
+          "PUSH",
+          "INVOKE FILEARG 2",
           "RENAME",
           "STATUS",
           "JNZ ERRORREPORT",
@@ -8857,6 +9930,21 @@
           "INVOKE DIGIT 1"
         ],
         "new": [
+          "LITS \"SOURCE.RIL\"",
+          "PUSH",
+          "INVOKE FILEARG 2",
+          "LIT 1",
+          "PUSH",
+          "LITS \"SOURCE.RIL\"",
+          "PUSH",
+          "INVOKE FILEARG 2",
+          "OPEN",
+          "ST INPUT",
+          "STATUS",
+          "JNZ IOFAIL",
+          "CALL NEXT",
+          "LD CH",
+          "PUSH",
           "LIT 65",
           "CNE",
           "RETURN",
@@ -8887,13 +9975,7 @@
           "LIT 57"
         ],
         "new": [
-          "LITS \"SOURCE.RIL\"",
-          "OPEN",
-          "ST INPUT",
-          "STATUS",
-          "JNZ IOFAIL",
-          "CALL NEXT",
-          "LD CH"
+          "LIT 1"
         ],
         "context": [
           "WORD BACKUP 0",
@@ -8974,8 +10056,8 @@
     "folder": "workbench/rill0",
     "changes": [
       {
-        "a1": 165,
-        "a2": 165,
+        "a1": 174,
+        "a2": 174,
         "old": [],
         "new": [
           "RETURN",
@@ -9140,8 +10222,8 @@
         "old_display": "full"
       },
       {
-        "a1": 23,
-        "a2": 24,
+        "a1": 32,
+        "a2": 33,
         "old": [
           "LIT 65"
         ],
@@ -9160,8 +10242,8 @@
         "old_display": "full"
       },
       {
-        "a1": 21,
-        "a2": 22,
+        "a1": 30,
+        "a2": 31,
         "old": [
           "LD CH"
         ],
@@ -9210,8 +10292,8 @@
     "folder": "workbench/rill0",
     "changes": [
       {
-        "a1": 308,
-        "a2": 309,
+        "a1": 317,
+        "a2": 318,
         "old": [
           "JMP SYNTAX"
         ],
@@ -9285,8 +10367,8 @@
         "old_display": "full"
       },
       {
-        "a1": 23,
-        "a2": 27,
+        "a1": 32,
+        "a2": 36,
         "old": [
           "LD TOK",
           "PUSH",
@@ -9323,7 +10405,7 @@
         ],
         "after": [
           "PROC MAIN 0 0",
-          "LITS \"SOURCE.RIL\""
+          "LIT 1"
         ],
         "old_display": "full"
       }
@@ -9340,8 +10422,8 @@
     "folder": "workbench/rill0",
     "changes": [
       {
-        "a1": 365,
-        "a2": 366,
+        "a1": 374,
+        "a2": 375,
         "old": [
           "JMP SYNTAX"
         ],
@@ -9397,8 +10479,8 @@
         "old_display": "full"
       },
       {
-        "a1": 24,
-        "a2": 27,
+        "a1": 33,
+        "a2": 36,
         "old": [
           "ADDR IDENT",
           "CALL PRINT",
@@ -9452,8 +10534,8 @@
     "folder": "workbench/rill0",
     "changes": [
       {
-        "a1": 412,
-        "a2": 412,
+        "a1": 421,
+        "a2": 421,
         "old": [],
         "new": [
           "PROC EXPECT 1 0",
@@ -9479,8 +10561,8 @@
         "old_display": "full"
       },
       {
-        "a1": 27,
-        "a2": 29,
+        "a1": 36,
+        "a2": 38,
         "old": [
           "LIT 65535",
           "CNE"
@@ -9503,8 +10585,8 @@
         "old_display": "full"
       },
       {
-        "a1": 25,
-        "a2": 26,
+        "a1": 34,
+        "a2": 35,
         "old": [
           "LD VALUE"
         ],
@@ -9535,8 +10617,8 @@
     "folder": "workbench/rill0",
     "changes": [
       {
-        "a1": 424,
-        "a2": 424,
+        "a1": 433,
+        "a2": 433,
         "old": [],
         "new": [
           "PROC ISWORD 0 2",
@@ -9594,8 +10676,8 @@
         "old_display": "full"
       },
       {
-        "a1": 27,
-        "a2": 31,
+        "a1": 36,
+        "a2": 40,
         "old": [
           "INVOKE EXPECT 1",
           "LITS \"OK\"",
@@ -9618,8 +10700,8 @@
         "old_display": "full"
       },
       {
-        "a1": 25,
-        "a2": 26,
+        "a1": 34,
+        "a2": 35,
         "old": [
           "LIT 43"
         ],
@@ -9651,8 +10733,8 @@
     "folder": "workbench/rill0",
     "changes": [
       {
-        "a1": 465,
-        "a2": 465,
+        "a1": 474,
+        "a2": 474,
         "old": [],
         "new": [
           "PROC SETIDENT 0 2",
@@ -9695,10 +10777,18 @@
         "old_display": "full"
       },
       {
-        "a1": 18,
-        "a2": 26,
+        "a1": 19,
+        "a2": 35,
         "old": [
+          "PUSH",
           "LITS \"SOURCE.RIL\"",
+          "PUSH",
+          "INVOKE FILEARG 2",
+          "LIT 1",
+          "PUSH",
+          "LITS \"SOURCE.RIL\"",
+          "PUSH",
+          "INVOKE FILEARG 2",
           "OPEN",
           "ST INPUT",
           "STATUS",
@@ -9708,11 +10798,27 @@
           "LITS \"FN\""
         ],
         "new": [
-          "LITS \"ABC\"",
-          "CALL SETIDENT",
-          "LIT 1",
           "ST TOK",
           "LITS \"ABC\""
+        ],
+        "context": [
+          "BUFFER IDENT 32",
+          "PROC MAIN 0 0",
+          "LIT 1"
+        ],
+        "after": [
+          "CALL ISWORD",
+          "PUSH"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 18,
+        "a2": 18,
+        "old": [],
+        "new": [
+          "LITS \"ABC\"",
+          "CALL SETIDENT"
         ],
         "context": [
           "BUFFER INBUF 4096",
@@ -9720,7 +10826,7 @@
           "PROC MAIN 0 0"
         ],
         "after": [
-          "CALL ISWORD",
+          "LIT 1",
           "PUSH"
         ],
         "old_display": "full"
@@ -10612,65 +11718,24 @@
         "old_display": "full"
       },
       {
-        "a1": 35,
+        "a1": 46,
         "a2": 48,
         "old": [
-          "PUSH",
-          "INVOKE RECORD 1",
-          "LIT 1",
-          "ST GLOBALS",
-          "LIT 0",
-          "PUSH",
-          "LIT 1",
-          "PUSH",
-          "INVOKE FIND 2",
-          "LD RECVAL",
-          "PUSH",
           "LIT 12345",
           "CNE"
         ],
-        "new": [],
-        "context": [
-          "LIT 0",
-          "ST RECLEVEL",
-          "LIT 0"
-        ],
-        "after": [
-          "RETURN",
-          ""
-        ],
-        "old_display": "full"
-      },
-      {
-        "a1": 33,
-        "a2": 34,
-        "old": [
-          "ST RECLEVEL"
-        ],
         "new": [
+          "INVOKE FILEARG 2",
+          "LIT 2",
+          "PUSH",
+          "LITS \"RILL.TMP\"",
+          "PUSH",
+          "INVOKE FILEARG 2",
+          "CREATE",
           "ST OUTPUT",
-          "ST OWN"
-        ],
-        "context": [
-          "LIT 12345",
-          "ST RECVAL",
-          "LIT 0"
-        ],
-        "after": [
-          "LIT 0",
-          "PUSH"
-        ],
-        "old_display": "full"
-      },
-      {
-        "a1": 29,
-        "a2": 32,
-        "old": [
-          "ST RECTYPE",
-          "LIT 12345",
-          "ST RECVAL"
-        ],
-        "new": [
+          "STATUS",
+          "JNZ IOFAIL",
+          "LIT 1",
           "ST OWN",
           "ADDR OUTBUF",
           "PUSH",
@@ -10680,36 +11745,68 @@
           "ST OUTLEN",
           "CALL FLUSH",
           "LD OUTPUT",
-          "CLOSE"
+          "CLOSE",
+          "LIT 0",
+          "ST OUTPUT",
+          "ST OWN",
+          "LIT 0"
         ],
         "context": [
-          "LITS \"ABC\"",
-          "CALL SETIDENT",
-          "LIT 1"
+          "INVOKE FIND 2",
+          "LD RECVAL",
+          "PUSH"
         ],
         "after": [
-          "LIT 0",
-          "ST RECLEVEL"
+          "RETURN",
+          ""
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 43,
+        "a2": 45,
+        "old": [
+          "INVOKE FIND 2",
+          "LD RECVAL"
+        ],
+        "new": [
+          "LITS \"SOURCE.RIL\""
+        ],
+        "context": [
+          "PUSH",
+          "LIT 1",
+          "PUSH"
+        ],
+        "after": [
+          "PUSH",
+          "LIT 12345"
         ],
         "old_display": "full"
       },
       {
         "a1": 23,
-        "a2": 28,
+        "a2": 41,
         "old": [
           "LIT 22000",
           "ALLOC",
           "ST TABLE",
           "LITS \"ABC\"",
-          "CALL SETIDENT"
+          "CALL SETIDENT",
+          "LIT 1",
+          "ST RECTYPE",
+          "LIT 12345",
+          "ST RECVAL",
+          "LIT 0",
+          "ST RECLEVEL",
+          "LIT 0",
+          "PUSH",
+          "INVOKE RECORD 1",
+          "LIT 1",
+          "ST GLOBALS",
+          "LIT 0",
+          "PUSH"
         ],
-        "new": [
-          "LITS \"RILL.TMP\"",
-          "CREATE",
-          "ST OUTPUT",
-          "STATUS",
-          "JNZ IOFAIL"
-        ],
+        "new": [],
         "context": [
           "BUFFER INBUF 4096",
           "BUFFER IDENT 32",
@@ -10717,7 +11814,7 @@
         ],
         "after": [
           "LIT 1",
-          "ST RECTYPE"
+          "PUSH"
         ],
         "old_display": "full"
       },
@@ -10787,8 +11884,8 @@
     "folder": "workbench/rill0",
     "changes": [
       {
-        "a1": 696,
-        "a2": 696,
+        "a1": 705,
+        "a2": 705,
         "old": [],
         "new": [
           "PROC OUTCHAR 0 1",
@@ -10841,8 +11938,8 @@
         "old_display": "full"
       },
       {
-        "a1": 34,
-        "a2": 37,
+        "a1": 43,
+        "a2": 46,
         "old": [
           "PUTB",
           "LIT 1",
@@ -10863,8 +11960,8 @@
         "old_display": "full"
       },
       {
-        "a1": 31,
-        "a2": 33,
+        "a1": 40,
+        "a2": 42,
         "old": [
           "ADDR OUTBUF",
           "PUSH"
@@ -10913,8 +12010,8 @@
     "folder": "workbench/rill0",
     "changes": [
       {
-        "a1": 754,
-        "a2": 754,
+        "a1": 763,
+        "a2": 763,
         "old": [],
         "new": [
           "PROC OUTSTR 0 2",
@@ -10964,8 +12061,8 @@
         "old_display": "full"
       },
       {
-        "a1": 33,
-        "a2": 35,
+        "a1": 42,
+        "a2": 44,
         "old": [
           "LIT 65",
           "CALL OUTCHAR"
@@ -10998,8 +12095,8 @@
     "folder": "workbench/rill0",
     "changes": [
       {
-        "a1": 788,
-        "a2": 788,
+        "a1": 797,
+        "a2": 797,
         "old": [],
         "new": [
           "PROC OUTNUM 0 3",
@@ -11051,8 +12148,8 @@
         "old_display": "full"
       },
       {
-        "a1": 33,
-        "a2": 35,
+        "a1": 42,
+        "a2": 44,
         "old": [
           "LITS \"HI\"",
           "CALL OUTSTR"
@@ -11085,8 +12182,8 @@
     "folder": "workbench/rill0",
     "changes": [
       {
-        "a1": 824,
-        "a2": 824,
+        "a1": 833,
+        "a2": 833,
         "old": [],
         "new": [
           "PROC NEWLINE 0 0",
@@ -11108,8 +12205,8 @@
         "old_display": "full"
       },
       {
-        "a1": 33,
-        "a2": 35,
+        "a1": 42,
+        "a2": 44,
         "old": [
           "LIT 12345",
           "CALL OUTNUM"
@@ -11141,8 +12238,8 @@
     "folder": "workbench/rill0",
     "changes": [
       {
-        "a1": 823,
-        "a2": 823,
+        "a1": 832,
+        "a2": 832,
         "old": [],
         "new": [
           "PROC NEWLABEL 0 0",
@@ -11168,9 +12265,23 @@
         "old_display": "full"
       },
       {
-        "a1": 32,
-        "a2": 41,
+        "a1": 27,
+        "a2": 50,
         "old": [
+          "PUSH",
+          "LITS \"SOURCE.RIL\"",
+          "PUSH",
+          "INVOKE FILEARG 2",
+          "LIT 2",
+          "PUSH",
+          "LITS \"RILL.TMP\"",
+          "PUSH",
+          "INVOKE FILEARG 2",
+          "CREATE",
+          "ST OUTPUT",
+          "STATUS",
+          "JNZ IOFAIL",
+          "LIT 1",
           "ST OWN",
           "CALL NEWLINE",
           "CALL FLUSH",
@@ -11185,8 +12296,8 @@
           "CNE"
         ],
         "context": [
-          "STATUS",
-          "JNZ IOFAIL",
+          "BUFFER IDENT 32",
+          "PROC MAIN 0 0",
           "LIT 1"
         ],
         "after": [
@@ -11197,14 +12308,8 @@
       },
       {
         "a1": 26,
-        "a2": 31,
-        "old": [
-          "LITS \"RILL.TMP\"",
-          "CREATE",
-          "ST OUTPUT",
-          "STATUS",
-          "JNZ IOFAIL"
-        ],
+        "a2": 26,
+        "old": [],
         "new": [
           "CALL NEWLABEL",
           "PUSH"
@@ -11216,7 +12321,7 @@
         ],
         "after": [
           "LIT 1",
-          "ST OWN"
+          "PUSH"
         ],
         "old_display": "full"
       },
@@ -11307,18 +12412,42 @@
         "old_display": "full"
       },
       {
-        "a1": 27,
+        "a1": 29,
         "a2": 29,
-        "old": [
-          "CALL NEWLABEL",
-          "PUSH"
-        ],
+        "old": [],
         "new": [
+          "LITS \"SOURCE.RIL\"",
+          "PUSH",
+          "INVOKE FILEARG 2",
+          "LIT 2",
+          "PUSH",
           "LITS \"RILL.TMP\"",
+          "PUSH",
+          "INVOKE FILEARG 2",
           "CREATE",
           "ST OUTPUT",
           "STATUS",
           "JNZ IOFAIL"
+        ],
+        "context": [
+          "PROC MAIN 0 0",
+          "CALL NEWLABEL",
+          "PUSH"
+        ],
+        "after": [
+          "LIT 1",
+          "CNE"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 27,
+        "a2": 28,
+        "old": [
+          "CALL NEWLABEL"
+        ],
+        "new": [
+          "LIT 1"
         ],
         "context": [
           "BUFFER OUTBUF 4096",
@@ -11326,8 +12455,8 @@
           "PROC MAIN 0 0"
         ],
         "after": [
-          "LIT 1",
-          "CNE"
+          "PUSH",
+          "LIT 1"
         ],
         "old_display": "full"
       }
@@ -11344,8 +12473,8 @@
     "folder": "workbench/rill0",
     "changes": [
       {
-        "a1": 845,
-        "a2": 845,
+        "a1": 854,
+        "a2": 854,
         "old": [],
         "new": [
           "PROC LABELJUMP 0 1",
@@ -11371,8 +12500,8 @@
         "old_display": "full"
       },
       {
-        "a1": 35,
-        "a2": 36,
+        "a1": 44,
+        "a2": 45,
         "old": [
           "CALL LABELDEF"
         ],
@@ -11403,8 +12532,8 @@
     "folder": "workbench/rill0",
     "changes": [
       {
-        "a1": 914,
-        "a2": 914,
+        "a1": 923,
+        "a2": 923,
         "old": [],
         "new": [
           "PROC BUILTIN 0 5",
@@ -11507,9 +12636,23 @@
         "old_display": "full"
       },
       {
-        "a1": 33,
-        "a2": 43,
+        "a1": 28,
+        "a2": 52,
         "old": [
+          "PUSH",
+          "LITS \"SOURCE.RIL\"",
+          "PUSH",
+          "INVOKE FILEARG 2",
+          "LIT 2",
+          "PUSH",
+          "LITS \"RILL.TMP\"",
+          "PUSH",
+          "INVOKE FILEARG 2",
+          "CREATE",
+          "ST OUTPUT",
+          "STATUS",
+          "JNZ IOFAIL",
+          "LIT 1",
           "ST OWN",
           "LIT 7",
           "CALL LABELJUMP",
@@ -11525,8 +12668,8 @@
           "CNE"
         ],
         "context": [
-          "STATUS",
-          "JNZ IOFAIL",
+          "BUFFER IDENT 32",
+          "PROC MAIN 0 0",
           "LIT 1"
         ],
         "after": [
@@ -11537,14 +12680,8 @@
       },
       {
         "a1": 27,
-        "a2": 32,
-        "old": [
-          "LITS \"RILL.TMP\"",
-          "CREATE",
-          "ST OUTPUT",
-          "STATUS",
-          "JNZ IOFAIL"
-        ],
+        "a2": 27,
+        "old": [],
         "new": [
           "LITS \"PUTC\"",
           "CALL SETIDENT",
@@ -11559,7 +12696,7 @@
         ],
         "after": [
           "LIT 1",
-          "ST OWN"
+          "PUSH"
         ],
         "old_display": "full"
       }
@@ -11816,19 +12953,66 @@
         "old_display": "full"
       },
       {
-        "a1": 41,
+        "a1": 47,
         "a2": 48,
         "old": [
-          "INVOKE RECORD 1",
-          "LIT 1",
-          "ST LOCALCOUNT",
-          "CALL RESOLVEOPTIONAL",
-          "LD RECTYPE",
-          "PUSH",
           "LIT 5"
         ],
         "new": [
+          "LITS \"SOURCE.RIL\"",
+          "PUSH",
+          "INVOKE FILEARG 2",
+          "OPEN",
+          "ST INPUT",
+          "STATUS",
+          "JNZ IOFAIL",
+          "CALL NEXT",
+          "CALL LEX",
+          "CALL PREC",
+          "PUSH",
           "LIT 6"
+        ],
+        "context": [
+          "CALL RESOLVEOPTIONAL",
+          "LD RECTYPE",
+          "PUSH"
+        ],
+        "after": [
+          "CNE",
+          "RETURN"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 43,
+        "a2": 46,
+        "old": [
+          "ST LOCALCOUNT",
+          "CALL RESOLVEOPTIONAL",
+          "LD RECTYPE"
+        ],
+        "new": [],
+        "context": [
+          "PUSH",
+          "INVOKE RECORD 1",
+          "LIT 1"
+        ],
+        "after": [
+          "PUSH",
+          "LIT 5"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 41,
+        "a2": 42,
+        "old": [
+          "INVOKE RECORD 1"
+        ],
+        "new": [
+          "LITS \"SOURCE.RIL\"",
+          "PUSH",
+          "INVOKE FILEARG 2"
         ],
         "context": [
           "ST RECLEVEL",
@@ -11836,8 +13020,8 @@
           "PUSH"
         ],
         "after": [
-          "CNE",
-          "RETURN"
+          "LIT 1",
+          "ST LOCALCOUNT"
         ],
         "old_display": "full"
       },
@@ -11859,14 +13043,7 @@
           "LIT 20480"
         ],
         "new": [
-          "LITS \"SOURCE.RIL\"",
-          "OPEN",
-          "ST INPUT",
-          "STATUS",
-          "JNZ IOFAIL",
-          "CALL NEXT",
-          "CALL LEX",
-          "CALL PREC"
+          "LIT 1"
         ],
         "context": [
           "BUFFER IDENT 32",
@@ -11892,8 +13069,8 @@
     "folder": "workbench/rill0",
     "changes": [
       {
-        "a1": 1083,
-        "a2": 1083,
+        "a1": 1092,
+        "a2": 1092,
         "old": [],
         "new": [
           "PROC BINARY 0 1",
@@ -11972,8 +13149,8 @@
         "old_display": "full"
       },
       {
-        "a1": 33,
-        "a2": 39,
+        "a1": 42,
+        "a2": 48,
         "old": [
           "CALL NEXT",
           "CALL LEX",
@@ -12007,26 +13184,64 @@
         "old_display": "full"
       },
       {
-        "a1": 28,
-        "a2": 31,
+        "a1": 38,
+        "a2": 40,
         "old": [
-          "LITS \"SOURCE.RIL\"",
           "OPEN",
           "ST INPUT"
         ],
         "new": [
-          "LITS \"RILL.TMP\"",
           "CREATE",
           "ST OUTPUT"
         ],
         "context": [
-          "BUFFER IDENT 32",
-          "WORD CALLBUILTIN 0",
-          "PROC MAIN 0 0"
+          "LITS \"SOURCE.RIL\"",
+          "PUSH",
+          "INVOKE FILEARG 2"
         ],
         "after": [
           "STATUS",
           "JNZ IOFAIL"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 35,
+        "a2": 36,
+        "old": [
+          "LITS \"SOURCE.RIL\""
+        ],
+        "new": [
+          "LITS \"RILL.TMP\""
+        ],
+        "context": [
+          "INVOKE FILEARG 2",
+          "LIT 1",
+          "PUSH"
+        ],
+        "after": [
+          "PUSH",
+          "INVOKE FILEARG 2"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 33,
+        "a2": 34,
+        "old": [
+          "LIT 1"
+        ],
+        "new": [
+          "LIT 2"
+        ],
+        "context": [
+          "LITS \"SOURCE.RIL\"",
+          "PUSH",
+          "INVOKE FILEARG 2"
+        ],
+        "after": [
+          "PUSH",
+          "LITS \"SOURCE.RIL\""
         ],
         "old_display": "full"
       }
@@ -12043,8 +13258,8 @@
     "folder": "workbench/rill0",
     "changes": [
       {
-        "a1": 1148,
-        "a2": 1148,
+        "a1": 1157,
+        "a2": 1157,
         "old": [],
         "new": [
           "LIT 0",
@@ -12075,8 +13290,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1088,
-        "a2": 1088,
+        "a1": 1097,
+        "a2": 1097,
         "old": [],
         "new": [
           "PROC EXPR 1 2",
@@ -12134,14 +13349,18 @@
         "old_display": "full"
       },
       {
-        "a1": 35,
-        "a2": 37,
+        "a1": 44,
+        "a2": 46,
         "old": [
           "LIT 43",
           "CALL BINARY"
         ],
         "new": [
+          "LIT 1",
+          "PUSH",
           "LITS \"SOURCE.RIL\"",
+          "PUSH",
+          "INVOKE FILEARG 2",
           "OPEN",
           "ST INPUT",
           "STATUS",
@@ -12166,8 +13385,8 @@
         "old_display": "full"
       },
       {
-        "a1": 28,
-        "a2": 28,
+        "a1": 33,
+        "a2": 33,
         "old": [],
         "new": [
           "LIT 22000",
@@ -12188,13 +13407,13 @@
           "ST GLOBALS"
         ],
         "context": [
-          "BUFFER IDENT 32",
-          "WORD CALLBUILTIN 0",
-          "PROC MAIN 0 0"
+          "LITS \"SOURCE.RIL\"",
+          "PUSH",
+          "INVOKE FILEARG 2"
         ],
         "after": [
-          "LITS \"RILL.TMP\"",
-          "CREATE"
+          "LIT 2",
+          "PUSH"
         ],
         "old_display": "full"
       },
@@ -12212,7 +13431,7 @@
         ],
         "after": [
           "PROC MAIN 0 0",
-          "LITS \"RILL.TMP\""
+          "LIT 1"
         ],
         "old_display": "full"
       },
@@ -12246,8 +13465,8 @@
     "folder": "workbench/rill0",
     "changes": [
       {
-        "a1": 1233,
-        "a2": 1233,
+        "a1": 1246,
+        "a2": 1246,
         "old": [],
         "new": [
           "JMP PRIMARYDONE",
@@ -12274,8 +13493,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1227,
-        "a2": 1227,
+        "a1": 1240,
+        "a2": 1240,
         "old": [],
         "new": [
           "JMP NAMEFAIL",
@@ -12293,8 +13512,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1225,
-        "a2": 1225,
+        "a1": 1238,
+        "a2": 1238,
         "old": [],
         "new": [
           "CEQ",
@@ -12320,8 +13539,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1221,
-        "a2": 1222,
+        "a1": 1234,
+        "a2": 1235,
         "old": [
           "PROC PRIMARY 0 0"
         ],
@@ -12352,8 +13571,8 @@
     "folder": "workbench/rill0",
     "changes": [
       {
-        "a1": 1238,
-        "a2": 1238,
+        "a1": 1251,
+        "a2": 1251,
         "old": [],
         "new": [
           "LABEL PRIMARYLOCAL",
@@ -12383,8 +13602,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1237,
-        "a2": 1237,
+        "a1": 1250,
+        "a2": 1250,
         "old": [],
         "new": [
           "CALL RESOLVEOPTIONAL",
@@ -12419,8 +13638,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1054,
-        "a2": 1054,
+        "a1": 1067,
+        "a2": 1067,
         "old": [],
         "new": [
           "PROC CALLARGS 2 0",
@@ -12443,8 +13662,8 @@
         "old_display": "full"
       },
       {
-        "a1": 45,
-        "a2": 46,
+        "a1": 50,
+        "a2": 51,
         "old": [
           "ST GLOBALS"
         ],
@@ -12457,14 +13676,14 @@
           "LIT 1"
         ],
         "after": [
-          "LITS \"RILL.TMP\"",
-          "CREATE"
+          "LIT 2",
+          "PUSH"
         ],
         "old_display": "full"
       },
       {
-        "a1": 41,
-        "a2": 42,
+        "a1": 46,
+        "a2": 47,
         "old": [
           "LIT 0"
         ],
@@ -12483,8 +13702,8 @@
         "old_display": "full"
       },
       {
-        "a1": 37,
-        "a2": 38,
+        "a1": 42,
+        "a2": 43,
         "old": [
           "LIT 12345"
         ],
@@ -12503,8 +13722,8 @@
         "old_display": "full"
       },
       {
-        "a1": 35,
-        "a2": 36,
+        "a1": 40,
+        "a2": 41,
         "old": [
           "LIT 1"
         ],
@@ -12552,8 +13771,8 @@
     "folder": "workbench/rill0",
     "changes": [
       {
-        "a1": 1059,
-        "a2": 1059,
+        "a1": 1072,
+        "a2": 1072,
         "old": [],
         "new": [
           "LABEL ARGUSER",
@@ -12571,8 +13790,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1056,
-        "a2": 1057,
+        "a1": 1069,
+        "a2": 1070,
         "old": [
           "INVOKE ERROR 1"
         ],
@@ -12599,8 +13818,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1055,
-        "a2": 1055,
+        "a1": 1068,
+        "a2": 1068,
         "old": [],
         "new": [
           "SUB",
@@ -12618,8 +13837,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1053,
-        "a2": 1054,
+        "a1": 1066,
+        "a2": 1067,
         "old": [
           "PROC CALLARGS 2 0"
         ],
@@ -12678,8 +13897,8 @@
         "old_display": "full"
       },
       {
-        "a1": 44,
-        "a2": 45,
+        "a1": 49,
+        "a2": 50,
         "old": [
           "ST LOCALCOUNT"
         ],
@@ -12692,14 +13911,14 @@
           "LIT 1"
         ],
         "after": [
-          "LITS \"RILL.TMP\"",
-          "CREATE"
+          "LIT 2",
+          "PUSH"
         ],
         "old_display": "full"
       },
       {
-        "a1": 40,
-        "a2": 41,
+        "a1": 45,
+        "a2": 46,
         "old": [
           "LIT 20480"
         ],
@@ -12718,8 +13937,8 @@
         "old_display": "full"
       },
       {
-        "a1": 36,
-        "a2": 37,
+        "a1": 41,
+        "a2": 42,
         "old": [
           "LIT 0"
         ],
@@ -12738,8 +13957,8 @@
         "old_display": "full"
       },
       {
-        "a1": 34,
-        "a2": 35,
+        "a1": 39,
+        "a2": 40,
         "old": [
           "LIT 5"
         ],
@@ -12787,8 +14006,8 @@
     "folder": "workbench/rill0",
     "changes": [
       {
-        "a1": 943,
-        "a2": 943,
+        "a1": 956,
+        "a2": 956,
         "old": [],
         "new": [
           "PROC DECLARE 0 2",
@@ -12874,8 +14093,8 @@
         "old_display": "full"
       },
       {
-        "a1": 61,
-        "a2": 65,
+        "a1": 74,
+        "a2": 78,
         "old": [
           "PUSH",
           "INVOKE EXPR 1",
@@ -12898,8 +14117,8 @@
         "old_display": "full"
       },
       {
-        "a1": 33,
-        "a2": 46,
+        "a1": 38,
+        "a2": 51,
         "old": [
           "LITS \"ABC\"",
           "CALL SETIDENT",
@@ -12922,8 +14141,8 @@
           "ST TABLE"
         ],
         "after": [
-          "LITS \"RILL.TMP\"",
-          "CREATE"
+          "LIT 2",
+          "PUSH"
         ],
         "old_display": "full"
       },
@@ -12976,8 +14195,8 @@
     "folder": "workbench/rill0",
     "changes": [
       {
-        "a1": 996,
-        "a2": 996,
+        "a1": 1009,
+        "a2": 1009,
         "old": [],
         "new": [
           "LIT 0",
@@ -13000,8 +14219,8 @@
         "old_display": "full"
       },
       {
-        "a1": 929,
-        "a2": 929,
+        "a1": 942,
+        "a2": 942,
         "old": [],
         "new": [
           "PROC BLOCK 0 2",
@@ -13058,8 +14277,8 @@
         "old_display": "full"
       },
       {
-        "a1": 48,
-        "a2": 51,
+        "a1": 61,
+        "a2": 64,
         "old": [
           "LIT 1",
           "ST LEVEL",
@@ -13092,8 +14311,8 @@
     "folder": "workbench/rill0",
     "changes": [
       {
-        "a1": 1041,
-        "a2": 1042,
+        "a1": 1054,
+        "a2": 1055,
         "old": [
           "INVOKE ERROR 1"
         ],
@@ -13264,8 +14483,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1038,
-        "a2": 1040,
+        "a1": 1051,
+        "a2": 1053,
         "old": [
           "PROC STATEMENT 0 0",
           "LIT 2"
@@ -13286,8 +14505,8 @@
         "old_display": "full"
       },
       {
-        "a1": 49,
-        "a2": 49,
+        "a1": 62,
+        "a2": 62,
         "old": [],
         "new": [
           "LITS \"LIT 0\\r\\nRETURN\\r\\n\"",
@@ -13305,8 +14524,8 @@
         "old_display": "full"
       },
       {
-        "a1": 48,
-        "a2": 48,
+        "a1": 61,
+        "a2": 61,
         "old": [],
         "new": [
           "LITS \"PROC MAIN 0 16\\r\\n\"",
@@ -13336,8 +14555,8 @@
     "folder": "workbench/rill0",
     "changes": [
       {
-        "a1": 59,
-        "a2": 59,
+        "a1": 72,
+        "a2": 72,
         "old": [],
         "new": [
           "LD BACKUP",
@@ -13351,7 +14570,15 @@
           "FREEBLOCK",
           "STATUS",
           "JNZ IOFAIL",
-          "LITS \"OK RESULT.IR \"",
+          "LITS \"OK \"",
+          "CALL PRINT",
+          "LIT 2",
+          "PUSH",
+          "LITS \"RESULT.IR\"",
+          "PUSH",
+          "INVOKE FILEARG 2",
+          "CALL PRINT",
+          "LITS \" \"",
           "CALL PRINT",
           "LD TOTALHI",
           "PUSH",
@@ -13374,8 +14601,8 @@
         "old_display": "full"
       },
       {
-        "a1": 57,
-        "a2": 58,
+        "a1": 70,
+        "a2": 71,
         "old": [
           "ST OUTPUT"
         ],
@@ -13392,20 +14619,28 @@
         "old_display": "full"
       },
       {
-        "a1": 56,
-        "a2": 56,
+        "a1": 69,
+        "a2": 69,
         "old": [],
         "new": [
           "STATUS",
           "JNZ IOFAIL",
+          "LIT 2",
+          "PUSH",
           "LITS \"RESULT.IR\"",
+          "PUSH",
+          "INVOKE FILEARG 2",
           "EXISTS",
           "ST FOUND",
           "STATUS",
           "JNZ IOFAIL",
           "LD FOUND",
           "JZ NOOLD",
+          "LIT 2",
+          "PUSH",
           "LITS \"RESULT.IR\"",
+          "PUSH",
+          "INVOKE FILEARG 2",
           "PUSH",
           "LITS \"RILL.BAK\"",
           "RENAME",
@@ -13416,7 +14651,11 @@
           "LABEL NOOLD",
           "LITS \"RILL.TMP\"",
           "PUSH",
+          "LIT 2",
+          "PUSH",
           "LITS \"RESULT.IR\"",
+          "PUSH",
+          "INVOKE FILEARG 2",
           "RENAME",
           "STATUS",
           "JNZ IOFAIL"
@@ -13433,8 +14672,8 @@
         "old_display": "full"
       },
       {
-        "a1": 53,
-        "a2": 53,
+        "a1": 66,
+        "a2": 66,
         "old": [],
         "new": [
           "LD INPUT",
@@ -13454,8 +14693,8 @@
         "old_display": "full"
       },
       {
-        "a1": 51,
-        "a2": 51,
+        "a1": 64,
+        "a2": 64,
         "old": [],
         "new": [
           "LD TOK",
@@ -13473,8 +14712,8 @@
         "old_display": "full"
       },
       {
-        "a1": 48,
-        "a2": 48,
+        "a1": 61,
+        "a2": 61,
         "old": [],
         "new": [
           "LITS \"FN\"",
@@ -13504,18 +14743,27 @@
         "old_display": "full"
       },
       {
-        "a1": 45,
-        "a2": 46,
-        "old": [
-          "JNZ IOFAIL"
-        ],
+        "a1": 59,
+        "a2": 59,
+        "old": [],
         "new": [
+          "LITS \"RILL.TMP\"",
+          "CREATE",
+          "ST OUTPUT",
+          "STATUS",
+          "JNZ IOFAIL",
+          "LIT 1",
+          "ST OWN",
+          "LIT 22000",
+          "ALLOC",
+          "ST TABLE",
+          "STATUS",
           "JNZ CAPFAIL"
         ],
         "context": [
-          "OPEN",
           "ST INPUT",
-          "STATUS"
+          "STATUS",
+          "JNZ IOFAIL"
         ],
         "after": [
           "CALL NEXT",
@@ -13524,58 +14772,55 @@
         "old_display": "full"
       },
       {
-        "a1": 41,
-        "a2": 44,
+        "a1": 42,
+        "a2": 50,
         "old": [
-          "LITS \"SOURCE.RIL\"",
-          "OPEN",
-          "ST INPUT"
-        ],
-        "new": [
-          "LIT 22000",
-          "ALLOC",
-          "ST TABLE"
-        ],
-        "context": [
+          "PUSH",
+          "INVOKE FILEARG 2",
+          "CREATE",
+          "ST OUTPUT",
+          "STATUS",
           "JNZ IOFAIL",
           "LIT 1",
           "ST OWN"
         ],
-        "after": [
-          "STATUS",
-          "JNZ IOFAIL"
-        ],
-        "old_display": "full"
-      },
-      {
-        "a1": 31,
-        "a2": 34,
-        "old": [
-          "LIT 22000",
-          "ALLOC",
-          "ST TABLE"
-        ],
         "new": [
-          "LITS \"RILL.TMP\"",
           "EXISTS",
           "JNZ CAPFAIL",
           "LITS \"RILL.BAK\"",
           "EXISTS",
-          "JNZ CAPFAIL",
-          "LITS \"SOURCE.RIL\"",
-          "OPEN",
-          "ST INPUT",
-          "STATUS",
-          "JNZ IOFAIL"
+          "JNZ CAPFAIL"
         ],
         "context": [
-          "WORD CALLBUILTIN 0",
-          "WORD EXPRDEPTH 0",
-          "PROC MAIN 0 0"
+          "LIT 2",
+          "PUSH",
+          "LITS \"RILL.TMP\""
+        ],
+        "after": [
+          "LIT 1",
+          "PUSH"
+        ],
+        "old_display": "full"
+      },
+      {
+        "a1": 36,
+        "a2": 41,
+        "old": [
+          "LIT 22000",
+          "ALLOC",
+          "ST TABLE",
+          "LIT 2",
+          "PUSH"
+        ],
+        "new": [],
+        "context": [
+          "LITS \"SOURCE.RIL\"",
+          "PUSH",
+          "INVOKE FILEARG 2"
         ],
         "after": [
           "LITS \"RILL.TMP\"",
-          "CREATE"
+          "PUSH"
         ],
         "old_display": "full"
       },
@@ -13610,8 +14855,8 @@
     "folder": "workbench/toolchain",
     "changes": [
       {
-        "a1": 1591,
-        "a2": 1591,
+        "a1": 1620,
+        "a2": 1620,
         "old": [],
         "new": [
           "JMP BINDONE",
@@ -13636,8 +14881,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1561,
-        "a2": 1561,
+        "a1": 1590,
+        "a2": 1590,
         "old": [],
         "new": [
           "LIT 42",
@@ -13668,8 +14913,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1485,
-        "a2": 1485,
+        "a1": 1514,
+        "a2": 1514,
         "old": [],
         "new": [
           "LD TOK",
@@ -13712,8 +14957,8 @@
     "folder": "workbench/toolchain",
     "changes": [
       {
-        "a1": 1716,
-        "a2": 1716,
+        "a1": 1745,
+        "a2": 1745,
         "old": [],
         "new": [
           "JMP PRIMARYDONE",
@@ -13737,8 +14982,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1661,
-        "a2": 1661,
+        "a1": 1690,
+        "a2": 1690,
         "old": [],
         "new": [
           "LD TOK",
@@ -13759,8 +15004,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1631,
-        "a2": 1631,
+        "a1": 1660,
+        "a2": 1660,
         "old": [],
         "new": [
           "LABEL BINOR",
@@ -13785,8 +15030,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1591,
-        "a2": 1591,
+        "a1": 1620,
+        "a2": 1620,
         "old": [],
         "new": [
           "LIT 124",
@@ -13817,8 +15062,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1475,
-        "a2": 1475,
+        "a1": 1504,
+        "a2": 1504,
         "old": [],
         "new": [
           "LD TOK",
@@ -13839,8 +15084,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1447,
-        "a2": 1447,
+        "a1": 1476,
+        "a2": 1476,
         "old": [],
         "new": [
           "LIT 124",
@@ -13878,8 +15123,8 @@
     "folder": "workbench/toolchain",
     "changes": [
       {
-        "a1": 1749,
-        "a2": 1749,
+        "a1": 1778,
+        "a2": 1778,
         "old": [],
         "new": [
           "CALL NEWLINE",
@@ -13903,8 +15148,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1697,
-        "a2": 1697,
+        "a1": 1726,
+        "a2": 1726,
         "old": [],
         "new": [
           "LIT 3",
@@ -13925,8 +15170,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1275,
-        "a2": 1276,
+        "a1": 1304,
+        "a2": 1305,
         "old": [
           "LITS \"PUTC\\01\\0POP\\nPUTC\\0STATUS\\00\\0STATUS\\0EXIT\\01\\0POP\\nEXIT\\0\\0\""
         ],
@@ -13945,8 +15190,8 @@
         "old_display": "full"
       },
       {
-        "a1": 510,
-        "a2": 511,
+        "a1": 539,
+        "a2": 540,
         "old": [
           "JMP SYNTAX"
         ],
@@ -14097,8 +15342,8 @@
     "folder": "workbench/toolchain",
     "changes": [
       {
-        "a1": 1838,
-        "a2": 1838,
+        "a1": 1867,
+        "a2": 1867,
         "old": [],
         "new": [
           "LABEL PRIMARYGLOBAL",
@@ -14121,8 +15366,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1834,
-        "a2": 1834,
+        "a1": 1863,
+        "a2": 1863,
         "old": [],
         "new": [
           "LIT 1",
@@ -14143,8 +15388,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1478,
-        "a2": 1478,
+        "a1": 1507,
+        "a2": 1507,
         "old": [],
         "new": [
           "SETLOCAL 0",
@@ -14166,8 +15411,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1264,
-        "a2": 1264,
+        "a1": 1293,
+        "a2": 1293,
         "old": [],
         "new": [
           "LABEL STGLOBAL",
@@ -14190,8 +15435,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1260,
-        "a2": 1260,
+        "a1": 1289,
+        "a2": 1289,
         "old": [],
         "new": [
           "LIT 1",
@@ -14212,8 +15457,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1107,
-        "a2": 1107,
+        "a1": 1136,
+        "a2": 1136,
         "old": [],
         "new": [
           "PROC GLOBALWORD 0 1",
@@ -14276,8 +15521,8 @@
         "old_display": "full"
       },
       {
-        "a1": 886,
-        "a2": 886,
+        "a1": 915,
+        "a2": 915,
         "old": [],
         "new": [
           "RETURN",
@@ -14323,8 +15568,8 @@
         "old_display": "full"
       },
       {
-        "a1": 863,
-        "a2": 863,
+        "a1": 892,
+        "a2": 892,
         "old": [],
         "new": [
           "PROC NEWGLOBAL 0 1",
@@ -14362,8 +15607,8 @@
         "old_display": "full"
       },
       {
-        "a1": 58,
-        "a2": 58,
+        "a1": 67,
+        "a2": 67,
         "old": [],
         "new": [
           "LABEL TOP",
@@ -14415,8 +15660,8 @@
     "folder": "workbench/toolchain",
     "changes": [
       {
-        "a1": 1981,
-        "a2": 1981,
+        "a1": 2010,
+        "a2": 2010,
         "old": [],
         "new": [
           "JMP PRIMARYDONE",
@@ -14455,8 +15700,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1964,
-        "a2": 1964,
+        "a1": 1993,
+        "a2": 1993,
         "old": [],
         "new": [
           "LIT 2",
@@ -14477,8 +15722,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1402,
-        "a2": 1402,
+        "a1": 1431,
+        "a2": 1431,
         "old": [],
         "new": [
           "LABEL STPUTBYTE",
@@ -14497,8 +15742,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1399,
-        "a2": 1399,
+        "a1": 1428,
+        "a2": 1428,
         "old": [],
         "new": [
           "LOCAL 1",
@@ -14519,8 +15764,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1390,
-        "a2": 1390,
+        "a1": 1419,
+        "a2": 1419,
         "old": [],
         "new": [
           "LABEL STINDEX",
@@ -14557,8 +15802,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1365,
-        "a2": 1365,
+        "a1": 1394,
+        "a2": 1394,
         "old": [],
         "new": [
           "LD TOK",
@@ -14579,8 +15824,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1214,
-        "a2": 1214,
+        "a1": 1243,
+        "a2": 1243,
         "old": [],
         "new": [
           "PROC GLOBALBUFFER 0 1",
@@ -14644,8 +15889,8 @@
         "old_display": "full"
       },
       {
-        "a1": 66,
-        "a2": 66,
+        "a1": 75,
+        "a2": 75,
         "old": [],
         "new": [
           "LITS \"BYTES\"",
@@ -14679,8 +15924,8 @@
     "folder": "workbench/toolchain",
     "changes": [
       {
-        "a1": 1265,
-        "a2": 1265,
+        "a1": 1294,
+        "a2": 1294,
         "old": [],
         "new": [
           "LIT 0",
@@ -14783,8 +16028,8 @@
         "old_display": "full"
       },
       {
-        "a1": 881,
-        "a2": 882,
+        "a1": 910,
+        "a2": 911,
         "old": [
           "LIT 511"
         ],
@@ -14803,8 +16048,8 @@
         "old_display": "full"
       },
       {
-        "a1": 91,
-        "a2": 92,
+        "a1": 100,
+        "a2": 101,
         "old": [
           "LITS \"LIT 0\\r\\nRETURN\\r\\n\""
         ],
@@ -14823,8 +16068,8 @@
         "old_display": "full"
       },
       {
-        "a1": 79,
-        "a2": 89,
+        "a1": 88,
+        "a2": 98,
         "old": [
           "CALL LEX",
           "LIT 40",
@@ -14864,8 +16109,8 @@
     "folder": "workbench/toolchain",
     "changes": [
       {
-        "a1": 2148,
-        "a2": 2148,
+        "a1": 2177,
+        "a2": 2177,
         "old": [],
         "new": [
           "CALL OUTSTR",
@@ -14888,8 +16133,8 @@
         "old_display": "full"
       },
       {
-        "a1": 2138,
-        "a2": 2138,
+        "a1": 2167,
+        "a2": 2167,
         "old": [],
         "new": [
           "LOCAL 1",
@@ -14910,8 +16155,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1836,
-        "a2": 1837,
+        "a1": 1865,
+        "a2": 1866,
         "old": [
           "JMP NAMEFAIL"
         ],
@@ -14982,8 +16227,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1774,
-        "a2": 1775,
+        "a1": 1803,
+        "a2": 1804,
         "old": [
           "JMP NAMEFAIL"
         ],
@@ -15010,8 +16255,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1522,
-        "a2": 1522,
+        "a1": 1551,
+        "a2": 1551,
         "old": [],
         "new": [
           "CALL OUTSTR",
@@ -15034,8 +16279,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1512,
-        "a2": 1512,
+        "a1": 1541,
+        "a2": 1541,
         "old": [],
         "new": [
           "LOCAL 1",
@@ -15056,8 +16301,8 @@
         "old_display": "full"
       },
       {
-        "a1": 1260,
-        "a2": 1260,
+        "a1": 1289,
+        "a2": 1289,
         "old": [],
         "new": [
           "CALL LEX"
@@ -15074,8 +16319,8 @@
         "old_display": "full"
       },
       {
-        "a1": 77,
-        "a2": 82,
+        "a1": 86,
+        "a2": 91,
         "old": [
           "CALL ISWORD",
           "JZ SYNTAX",
@@ -15141,8 +16386,8 @@
         "old_display": "full"
       },
       {
-        "a1": 71,
-        "a2": 76,
+        "a1": 80,
+        "a2": 85,
         "old": [
           "LABEL TOPMAIN",
           "LITS \"FN\"",
@@ -15165,8 +16410,8 @@
         "old_display": "full"
       },
       {
-        "a1": 65,
-        "a2": 69,
+        "a1": 74,
+        "a2": 78,
         "old": [
           "LABEL TOPBUFFER",
           "LITS \"BYTES\"",
@@ -15188,8 +16433,8 @@
         "old_display": "full"
       },
       {
-        "a1": 62,
-        "a2": 63,
+        "a1": 71,
+        "a2": 72,
         "old": [
           "JZ TOPBUFFER"
         ],
@@ -15216,8 +16461,8 @@
         "old_display": "full"
       },
       {
-        "a1": 60,
-        "a2": 60,
+        "a1": 69,
+        "a2": 69,
         "old": [],
         "new": [
           "LD TOK",
@@ -15250,8 +16495,8 @@
     "folder": "workbench/toolchain",
     "changes": [
       {
-        "a1": 1355,
-        "a2": 1355,
+        "a1": 1384,
+        "a2": 1384,
         "old": [],
         "new": [
           "LABEL PARAMLOOP",
@@ -15325,13 +16570,13 @@
     "folder": "workbench/toolchain",
     "changes": [
       {
-        "a1": 1767,
-        "a2": 1768,
+        "a1": 1796,
+        "a2": 1797,
         "old": [
           "LITS \"PUTC\\01\\0POP\\nPUTC\\0STATUS\\00\\0STATUS\\0LOAD8\\01\\0POP\\nFETCHB\\0EXIT\\01\\0POP\\nEXIT\\0\\0\""
         ],
         "new": [
-          "LITS \"PUTC\\01\\0POP\\nPUTC\\0STATUS\\00\\0STATUS\\0OPEN\\01\\0POP\\nOPEN\\0CREATE\\01\\0POP\\nCREATE\\0CLOSE\\01\\0POP\\nCLOSE\\0READ\\03\\0POP\\nREAD\\0WRITE\\03\\0POP\\nWRITE\\0LOAD8\\01\\0POP\\nFETCHB\\0EXIT\\01\\0POP\\nEXIT\\0\\0\""
+          "LITS \"PUTC\\01\\0POP\\nPUTC\\0STATUS\\00\\0STATUS\\0OPEN\\01\\0POP\\nOPEN\\0CREATE\\01\\0POP\\nCREATE\\0CLOSE\\01\\0POP\\nCLOSE\\0READ\\03\\0POP\\nREAD\\0WRITE\\03\\0POP\\nWRITE\\0LOAD8\\01\\0POP\\nFETCHB\\0EXIT\\01\\0POP\\nEXIT\\0ARGC\\00\\0ARGC\\0ARG\\01\\0POP\\nARG\\0\\0\""
         ],
         "context": [
           "RETURN",
@@ -15357,13 +16602,13 @@
     "folder": "workbench/toolchain",
     "changes": [
       {
-        "a1": 1767,
-        "a2": 1768,
+        "a1": 1796,
+        "a2": 1797,
         "old": [
-          "LITS \"PUTC\\01\\0POP\\nPUTC\\0STATUS\\00\\0STATUS\\0OPEN\\01\\0POP\\nOPEN\\0CREATE\\01\\0POP\\nCREATE\\0CLOSE\\01\\0POP\\nCLOSE\\0READ\\03\\0POP\\nREAD\\0WRITE\\03\\0POP\\nWRITE\\0LOAD8\\01\\0POP\\nFETCHB\\0EXIT\\01\\0POP\\nEXIT\\0\\0\""
+          "LITS \"PUTC\\01\\0POP\\nPUTC\\0STATUS\\00\\0STATUS\\0OPEN\\01\\0POP\\nOPEN\\0CREATE\\01\\0POP\\nCREATE\\0CLOSE\\01\\0POP\\nCLOSE\\0READ\\03\\0POP\\nREAD\\0WRITE\\03\\0POP\\nWRITE\\0LOAD8\\01\\0POP\\nFETCHB\\0EXIT\\01\\0POP\\nEXIT\\0ARGC\\00\\0ARGC\\0ARG\\01\\0POP\\nARG\\0\\0\""
         ],
         "new": [
-          "LITS \"PUTC\\01\\0POP\\nPUTC\\0STATUS\\00\\0STATUS\\0OPEN\\01\\0POP\\nOPEN\\0CREATE\\01\\0POP\\nCREATE\\0CLOSE\\01\\0POP\\nCLOSE\\0READ\\03\\0POP\\nREAD\\0WRITE\\03\\0POP\\nWRITE\\0EXISTS\\01\\0POP\\nEXISTS\\0DELETE\\01\\0POP\\nDELETE\\0RENAME\\02\\0POP\\nRENAME\\0LOAD8\\01\\0POP\\nFETCHB\\0EXIT\\01\\0POP\\nEXIT\\0\\0\""
+          "LITS \"PUTC\\01\\0POP\\nPUTC\\0STATUS\\00\\0STATUS\\0OPEN\\01\\0POP\\nOPEN\\0CREATE\\01\\0POP\\nCREATE\\0CLOSE\\01\\0POP\\nCLOSE\\0READ\\03\\0POP\\nREAD\\0WRITE\\03\\0POP\\nWRITE\\0EXISTS\\01\\0POP\\nEXISTS\\0DELETE\\01\\0POP\\nDELETE\\0RENAME\\02\\0POP\\nRENAME\\0LOAD8\\01\\0POP\\nFETCHB\\0EXIT\\01\\0POP\\nEXIT\\0ARGC\\00\\0ARGC\\0ARG\\01\\0POP\\nARG\\0\\0\""
         ],
         "context": [
           "RETURN",
@@ -15389,13 +16634,13 @@
     "folder": "workbench/toolchain",
     "changes": [
       {
-        "a1": 1767,
-        "a2": 1768,
+        "a1": 1796,
+        "a2": 1797,
         "old": [
-          "LITS \"PUTC\\01\\0POP\\nPUTC\\0STATUS\\00\\0STATUS\\0OPEN\\01\\0POP\\nOPEN\\0CREATE\\01\\0POP\\nCREATE\\0CLOSE\\01\\0POP\\nCLOSE\\0READ\\03\\0POP\\nREAD\\0WRITE\\03\\0POP\\nWRITE\\0EXISTS\\01\\0POP\\nEXISTS\\0DELETE\\01\\0POP\\nDELETE\\0RENAME\\02\\0POP\\nRENAME\\0LOAD8\\01\\0POP\\nFETCHB\\0EXIT\\01\\0POP\\nEXIT\\0\\0\""
+          "LITS \"PUTC\\01\\0POP\\nPUTC\\0STATUS\\00\\0STATUS\\0OPEN\\01\\0POP\\nOPEN\\0CREATE\\01\\0POP\\nCREATE\\0CLOSE\\01\\0POP\\nCLOSE\\0READ\\03\\0POP\\nREAD\\0WRITE\\03\\0POP\\nWRITE\\0EXISTS\\01\\0POP\\nEXISTS\\0DELETE\\01\\0POP\\nDELETE\\0RENAME\\02\\0POP\\nRENAME\\0LOAD8\\01\\0POP\\nFETCHB\\0EXIT\\01\\0POP\\nEXIT\\0ARGC\\00\\0ARGC\\0ARG\\01\\0POP\\nARG\\0\\0\""
         ],
         "new": [
-          "LITS \"PUTC\\01\\0POP\\nPUTC\\0STATUS\\00\\0STATUS\\0OPEN\\01\\0POP\\nOPEN\\0CREATE\\01\\0POP\\nCREATE\\0CLOSE\\01\\0POP\\nCLOSE\\0READ\\03\\0POP\\nREAD\\0WRITE\\03\\0POP\\nWRITE\\0EXISTS\\01\\0POP\\nEXISTS\\0DELETE\\01\\0POP\\nDELETE\\0RENAME\\02\\0POP\\nRENAME\\0ALLOC\\01\\0POP\\nALLOC\\0FREE\\01\\0POP\\nFREEBLOCK\\0LOAD8\\01\\0POP\\nFETCHB\\0EXIT\\01\\0POP\\nEXIT\\0\\0\""
+          "LITS \"PUTC\\01\\0POP\\nPUTC\\0STATUS\\00\\0STATUS\\0OPEN\\01\\0POP\\nOPEN\\0CREATE\\01\\0POP\\nCREATE\\0CLOSE\\01\\0POP\\nCLOSE\\0READ\\03\\0POP\\nREAD\\0WRITE\\03\\0POP\\nWRITE\\0EXISTS\\01\\0POP\\nEXISTS\\0DELETE\\01\\0POP\\nDELETE\\0RENAME\\02\\0POP\\nRENAME\\0ALLOC\\01\\0POP\\nALLOC\\0FREE\\01\\0POP\\nFREEBLOCK\\0LOAD8\\01\\0POP\\nFETCHB\\0EXIT\\01\\0POP\\nEXIT\\0ARGC\\00\\0ARGC\\0ARG\\01\\0POP\\nARG\\0\\0\""
         ],
         "context": [
           "RETURN",
@@ -15421,13 +16666,13 @@
     "folder": "workbench/toolchain",
     "changes": [
       {
-        "a1": 1767,
-        "a2": 1768,
+        "a1": 1796,
+        "a2": 1797,
         "old": [
-          "LITS \"PUTC\\01\\0POP\\nPUTC\\0STATUS\\00\\0STATUS\\0OPEN\\01\\0POP\\nOPEN\\0CREATE\\01\\0POP\\nCREATE\\0CLOSE\\01\\0POP\\nCLOSE\\0READ\\03\\0POP\\nREAD\\0WRITE\\03\\0POP\\nWRITE\\0EXISTS\\01\\0POP\\nEXISTS\\0DELETE\\01\\0POP\\nDELETE\\0RENAME\\02\\0POP\\nRENAME\\0ALLOC\\01\\0POP\\nALLOC\\0FREE\\01\\0POP\\nFREEBLOCK\\0LOAD8\\01\\0POP\\nFETCHB\\0EXIT\\01\\0POP\\nEXIT\\0\\0\""
+          "LITS \"PUTC\\01\\0POP\\nPUTC\\0STATUS\\00\\0STATUS\\0OPEN\\01\\0POP\\nOPEN\\0CREATE\\01\\0POP\\nCREATE\\0CLOSE\\01\\0POP\\nCLOSE\\0READ\\03\\0POP\\nREAD\\0WRITE\\03\\0POP\\nWRITE\\0EXISTS\\01\\0POP\\nEXISTS\\0DELETE\\01\\0POP\\nDELETE\\0RENAME\\02\\0POP\\nRENAME\\0ALLOC\\01\\0POP\\nALLOC\\0FREE\\01\\0POP\\nFREEBLOCK\\0LOAD8\\01\\0POP\\nFETCHB\\0EXIT\\01\\0POP\\nEXIT\\0ARGC\\00\\0ARGC\\0ARG\\01\\0POP\\nARG\\0\\0\""
         ],
         "new": [
-          "LITS \"PUTC\\01\\0POP\\nPUTC\\0STATUS\\00\\0STATUS\\0OPEN\\01\\0POP\\nOPEN\\0CREATE\\01\\0POP\\nCREATE\\0CLOSE\\01\\0POP\\nCLOSE\\0READ\\03\\0POP\\nREAD\\0WRITE\\03\\0POP\\nWRITE\\0EXISTS\\01\\0POP\\nEXISTS\\0DELETE\\01\\0POP\\nDELETE\\0RENAME\\02\\0POP\\nRENAME\\0ALLOC\\01\\0POP\\nALLOC\\0FREE\\01\\0POP\\nFREEBLOCK\\0GET8\\02\\0POP\\nGET8\\0GET16\\02\\0POP\\nGET16\\0SET8\\03\\0POP\\nSET8\\0SET16\\03\\0POP\\nSET16\\0LOAD8\\01\\0POP\\nFETCHB\\0EXIT\\01\\0POP\\nEXIT\\0\\0\""
+          "LITS \"PUTC\\01\\0POP\\nPUTC\\0STATUS\\00\\0STATUS\\0OPEN\\01\\0POP\\nOPEN\\0CREATE\\01\\0POP\\nCREATE\\0CLOSE\\01\\0POP\\nCLOSE\\0READ\\03\\0POP\\nREAD\\0WRITE\\03\\0POP\\nWRITE\\0EXISTS\\01\\0POP\\nEXISTS\\0DELETE\\01\\0POP\\nDELETE\\0RENAME\\02\\0POP\\nRENAME\\0ALLOC\\01\\0POP\\nALLOC\\0FREE\\01\\0POP\\nFREEBLOCK\\0GET8\\02\\0POP\\nGET8\\0GET16\\02\\0POP\\nGET16\\0SET8\\03\\0POP\\nSET8\\0SET16\\03\\0POP\\nSET16\\0LOAD8\\01\\0POP\\nFETCHB\\0EXIT\\01\\0POP\\nEXIT\\0ARGC\\00\\0ARGC\\0ARG\\01\\0POP\\nARG\\0\\0\""
         ],
         "context": [
           "RETURN",

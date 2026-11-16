@@ -8,15 +8,18 @@ sys.path.insert(0,str(ROOT/'tools/python'))
 from unicorn import Uc, UC_ARCH_X86, UC_MODE_16, UC_HOOK_INTR
 from unicorn.x86_const import *
 class DosMachine:
- def __init__(self,files=None,inputs=(),sp=0xfffe,stdin=b''):
+ def __init__(self,files=None,inputs=(),sp=0xfffe,stdin=b'',command_line=''):
   self.files={k.upper():bytes(v) for k,v in (files or {}).items()}
   self.inputs=list(inputs);self.output=bytearray();self.exitcode=None
   self.handles={};self.next_handle=5;self.operations=[];self.sp=sp
   self.stdin=bytes(stdin);self.stdin_position=0
+  self.command_line=command_line.encode('ascii') if isinstance(command_line,str) else bytes(command_line)
+  assert len(self.command_line)<=126,'DOS command tail too long'
  def run(self,image,limit=100_000_000):
   c=Uc(UC_ARCH_X86,UC_MODE_16);self.cpu=c;c.mem_map(0,0x100000)
   self.base=0x10000
   c.mem_write(self.base,b'\xcd\x20\x00\x20')
+  c.mem_write(self.base+0x80,bytes([len(self.command_line)])+self.command_line+b'\r')
   c.mem_write(self.base+0x100,image)
   for r in [UC_X86_REG_AX,UC_X86_REG_BX,UC_X86_REG_CX,UC_X86_REG_DX,UC_X86_REG_SI,UC_X86_REG_DI,UC_X86_REG_BP]:c.reg_write(r,0xbeef)
   for r in [UC_X86_REG_CS,UC_X86_REG_DS,UC_X86_REG_ES,UC_X86_REG_SS]:c.reg_write(r,0x1000)

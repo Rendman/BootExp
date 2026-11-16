@@ -30,7 +30,7 @@ INOPEN:
 DB 0
 ```
 
-Remove this exact source at old physical positions 1127–1128:
+Remove this exact source at old physical positions 1322–1323:
 
 ```asm
 OUTPTR:
@@ -47,6 +47,13 @@ OWNTMP:
 DB 0
 ```
 
+The following old source stays in place:
+
+```asm
+
+CMDCOUNT:
+```
+
 ### Change 2 near `RDLEN:`
 
 Unchanged source immediately before this edit:
@@ -56,7 +63,7 @@ RDLEN:
 DW 0
 ```
 
-Insert after old physical line 1123.
+Insert after old physical line 1318.
 
 Insert:
 
@@ -75,79 +82,22 @@ INOPEN:
 DB 0
 ```
 
-### Change 3 near `SRCNAME:`
+### Change 3 near `ERROR:`
 
 Unchanged source immediately before this edit:
 
 ```asm
-SRCNAME:
-DB 83,79,85,82,67,69,46,65,83,77,0
-```
-
-Remove this exact source at old physical positions 1115–1116:
-
-```asm
-RESNAME:
-DB 82,69,83,85,76,84,46,67,79,77,0
-```
-
-Replace it with:
-
-```asm
-TMPNAME:
-DB 65,83,77,65,46,84,77,80,0
-```
-
-The following old source stays in place:
-
-```asm
-
-RDPOS:
-```
-
-### Change 4 near `OKMSG:`
-
-Unchanged source immediately before this edit:
-
-```asm
-INT 21H
-
-OKMSG:
-```
-
-Remove this exact source at old physical positions 981–981:
-
-```asm
-DB 79,75,32,82,69,83,85,76,84,46,67,79,77,32,36
-```
-
-Replace it with:
-
-```asm
-DB 79,75,32,65,83,77,65,46,84,77,80,32,36
-```
-
-The following old source stays in place:
-
-```asm
-
-BYTEMSG:
-```
-
-### Change 5 near `ERROR:`
-
-Unchanged source immediately before this edit:
-
-```asm
+CALL TEXT
 MOV AX,4C01H
 INT 21H
 ```
 
-Insert after old physical line 979.
+Insert after old physical line 984.
 
 Insert:
 
 ```asm
+
 CREATEOUT:
 MOV DX,TMPNAME
 MOV CX,0
@@ -204,11 +154,11 @@ RET
 The following old source stays in place:
 
 ```asm
-OKMSG:
-DB 79,75,32,82,69,83,85,76,84,46,67,79,77,32,36
+
+CMDINIT:
 ```
 
-### Change 6 near `COUNTBYTE:`
+### Change 4 near `COUNTBYTE:`
 
 Unchanged source immediately before this edit:
 
@@ -218,7 +168,7 @@ POP AX
 RET
 ```
 
-Remove this exact source at old physical positions 914–916:
+Remove this exact source at old physical positions 920–922:
 
 ```asm
 IMAGEFULL:
@@ -235,7 +185,7 @@ The following old source stays in place:
 COPYZ:
 ```
 
-### Change 7 near `COUNTBYTE:`
+### Change 5 near `COUNTBYTE:`
 
 Unchanged source immediately before this edit:
 
@@ -245,7 +195,7 @@ INC BX
 MOV [PC],BX
 ```
 
-Remove this exact source at old physical positions 908–910:
+Remove this exact source at old physical positions 914–916:
 
 ```asm
 MOV BX,[OUTPTR]
@@ -262,7 +212,7 @@ POP BX
 POP AX
 ```
 
-### Change 8 near `EMIT:`
+### Change 6 near `EMIT:`
 
 Unchanged source immediately before this edit:
 
@@ -272,7 +222,7 @@ MOV BX,[OUTPTR]
 MOV [BX],AL
 ```
 
-Insert after old physical line 903.
+Insert after old physical line 909.
 
 Insert:
 
@@ -292,7 +242,7 @@ COUNTBYTE:
 MOV BX,[PC]
 ```
 
-### Change 9 near `EMIT:`
+### Change 7 near `EMIT:`
 
 Unchanged source immediately before this edit:
 
@@ -302,7 +252,7 @@ CMP AH,2
 JNE COUNTBYTE
 ```
 
-Remove this exact source at old physical positions 902–902:
+Remove this exact source at old physical positions 908–908:
 
 ```asm
 MOV BX,[OUTPTR]
@@ -322,7 +272,7 @@ MOV [BX],AL
 COUNTBYTE:
 ```
 
-### Change 10 near `EMIT:`
+### Change 8 near `EMIT:`
 
 Unchanged source immediately before this edit:
 
@@ -332,7 +282,7 @@ PUSH BX
 MOV BX,[PC]
 ```
 
-Remove this exact source at old physical positions 897–898:
+Remove this exact source at old physical positions 903–904:
 
 ```asm
 CMP BX,2100H
@@ -356,7 +306,7 @@ MOV AH,[PASS]
 CMP AH,2
 ```
 
-### Change 11 near `INPUTCLOSED:`
+### Change 9 near `INPUTCLOSED:`
 
 Unchanged source immediately before this edit:
 
@@ -366,7 +316,7 @@ MOV AL,0
 MOV [INOPEN],AL
 ```
 
-Remove this exact source at old physical positions 71–107:
+Remove this exact source at old physical positions 72–113:
 
 ```asm
 RET
@@ -401,6 +351,11 @@ JMP FILEBAD
 ZWRITEOUT4:
 MOV DX,OKMSG
 CALL TEXT
+MOV SI,RESNAME
+CALL CMDTEXT
+MOV DL,32
+MOV AH,2
+INT 21H
 MOV AX,[PC]
 SUB AX,100H
 CALL NUMBER
@@ -416,7 +371,7 @@ The following old source stays in place:
 RET
 ```
 
-### Change 12 near `PASSEND:`
+### Change 10 near `PASSEND:`
 
 Unchanged source immediately before this edit:
 
@@ -426,7 +381,7 @@ PASSEND:
 CALL CLOSEFILE
 ```
 
-Remove this exact source at old physical positions 36–42:
+Remove this exact source at old physical positions 37–43:
 
 ```asm
 MOV AL,[PASS]
@@ -445,6 +400,11 @@ CALL FLUSH
 CALL CLOSEOUT
 MOV DX,OKMSG
 CALL TEXT
+MOV SI,TMPNAME
+CALL CMDTEXT
+MOV DL,32
+MOV AH,2
+INT 21H
 MOV AX,[PC]
 SUB AX,100H
 CALL NUMBER
@@ -459,7 +419,7 @@ MOV AX,4C00H
 INT 21H
 ```
 
-### Change 13 near `NEXTLINE:`
+### Change 11 near `NEXTLINE:`
 
 Unchanged source immediately before this edit:
 
@@ -469,7 +429,7 @@ CALL READLINE
 CMP AX,0
 ```
 
-Remove this exact source at old physical positions 30–34:
+Remove this exact source at old physical positions 31–35:
 
 ```asm
 JE PASSEND
@@ -496,7 +456,7 @@ CALL CLOSEFILE
 MOV AL,[PASS]
 ```
 
-### Change 14 near `PASSSTART:`
+### Change 12 near `PASSSTART:`
 
 Unchanged source immediately before this edit:
 
@@ -506,7 +466,7 @@ MOV [SKIPLF],AL
 CALL OPENFILE
 ```
 
-Remove this exact source at old physical positions 27–28:
+Remove this exact source at old physical positions 28–29:
 
 ```asm
 NEXTLINE:
@@ -527,7 +487,7 @@ CMP AX,0
 JE PASSEND
 ```
 
-### Change 15 near `PASSSTART:`
+### Change 13 near `PASSSTART:`
 
 Unchanged source immediately before this edit:
 
@@ -537,7 +497,7 @@ MOV AX,100H
 MOV [PC],AX
 ```
 
-Remove this exact source at old physical positions 18–25:
+Remove this exact source at old physical positions 19–26:
 
 ```asm
 MOV AX,6000H
@@ -565,7 +525,7 @@ CALL OPENFILE
 NEXTLINE:
 ```
 
-### Change 16 near `ROOM:`
+### Change 14 near `ROOM:`
 
 Unchanged source immediately before this edit:
 
@@ -575,7 +535,7 @@ MOV [PASS],AL
 MOV AX,0
 ```
 
-Remove this exact source at old physical positions 12–15:
+Remove this exact source at old physical positions 13–16:
 
 ```asm
 MOV [SYMC],AX
@@ -600,17 +560,17 @@ MOV AX,100H
 MOV [PC],AX
 ```
 
-### Change 17 near `ROOM:`
+### Change 15 near `ROOM:`
 
 Unchanged source immediately before this edit:
 
 ```asm
-MOV AX,7
 JMP ERROR
 ROOM:
+CALL CMDFILES
 ```
 
-Remove this exact source at old physical positions 9–10:
+Remove this exact source at old physical positions 10–11:
 
 ```asm
 MOV AL,1
@@ -628,9 +588,9 @@ MOV [SYMC],AX
 
 ## Build the stopping point
 
-Copy `A03.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK 02565 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM A03.COM`.
+Copy `A03.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK 03027 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM A03.COM`.
 
-VIEW.BAS must report A03.COM length 2565 bytes. Keep that executable and source together.
+VIEW.BAS must report A03.COM length 3027 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -641,11 +601,7 @@ ABC
 ```
 
 ```dos
-COPY T03.ASM SOURCE.ASM
-```
-
-```dos
-CHECK A03
+CHECK A03 T03.ASM RESULT.COM
 ```
 
 Require:
@@ -670,11 +626,11 @@ The viewer shows `41 42 43 0D 0A`, matching the characters and line ending I put
 After inspecting the successful copy, delete ASMA.TMP. It belongs to this copy exercise.
 
 ```dos
-REN SOURCE.ASM HOLD.ASM
-CHECK A03
+REN T03.ASM HOLD.ASM
+CHECK A03 T03.ASM RESULT.COM
 ```
 
-Choose an unused HOLD.ASM name before renaming. Restore HOLD.ASM to SOURCE.ASM afterward.
+Choose an unused HOLD.ASM name before renaming. Restore HOLD.ASM to the selected fixture name afterward.
 
 Require:
 
@@ -689,4 +645,4 @@ An unexpected PASS fails this rejection test.
 
 ## If the result differs
 
-Check the fixed name bytes, handle ownership flags, reader cursors at each pass, and the current output count. Inspect file length as well as the leading bytes. A copied data file is not an executable proof.
+Check the saved argument names and terminators, handle ownership flags, reader cursors at each pass, and the current output count. Inspect file length as well as the leading bytes. A copied data file is not an executable proof.

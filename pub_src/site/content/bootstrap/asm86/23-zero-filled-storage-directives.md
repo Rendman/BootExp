@@ -8,7 +8,7 @@ reader_names = 1
 url = "/bootstrap/asm86a/23-zero-filled-storage-directives/"
 +++
 
-A fixed working area should have one clear declaration instead of a long repeated data list.
+Drawing a working area in the notebook is easy; spelling it as a long row of zeroes is tedious. I'll give a byte or word count to a storage directive. The assembler must still write those zeroes into the file and check that the area fits the program image.
 
 ## The working parts
 
@@ -30,7 +30,7 @@ DB 74,65,0,0,0,0,8,119
 DB 88,79,82,0,0,0,4,6
 ```
 
-Insert after old physical line 2007.
+Insert after old physical line 2196.
 
 Insert:
 
@@ -55,7 +55,7 @@ MOV AX,2
 JMP ERROR
 ```
 
-Insert after old physical line 1875.
+Insert after old physical line 1881.
 
 Insert:
 
@@ -101,8 +101,8 @@ RET
 The following old source stays in place:
 
 ```asm
-OKMSG:
-DB 79,75,32,82,69,83,85,76,84,46,67,79,77,32,36
+CMDINIT:
+MOV SI,81H
 ```
 
 ### Change 3 near `DISPATCH8:`
@@ -115,7 +115,7 @@ RET
 DISPATCH8:
 ```
 
-Insert after old physical line 761.
+Insert after old physical line 767.
 
 Insert:
 
@@ -144,7 +144,7 @@ CALL RESTORENAME
 MOV BX,OPTAB
 ```
 
-Remove this exact source at old physical positions 718–718:
+Remove this exact source at old physical positions 724–724:
 
 ```asm
 MOV CX,26
@@ -166,17 +166,16 @@ CALL LOOK
 ## Build the stopping point
 
 ```dos
-COPY A23.ASM SOURCE.ASM
-CHECK ASM1
+CHECK ASM1 A23.ASM RESULT.COM
 ```
 
-Require `OK RESULT.COM 04788 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 05226 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A23.COM
 ```
 
-VIEW.BAS must report A23.COM length 4788 bytes. Keep that executable and source together.
+VIEW.BAS must report A23.COM length 5226 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -188,11 +187,7 @@ RESW 3
 ```
 
 ```dos
-COPY T23.ASM SOURCE.ASM
-```
-
-```dos
-CHECK A23
+CHECK A23 T23.ASM RESULT.COM
 ```
 
 Require:
@@ -219,8 +214,7 @@ RESW 32768
 ```
 
 ```dos
-COPY X23.ASM SOURCE.ASM
-CHECK A23
+CHECK A23 X23.ASM RESULT.COM
 ```
 
 Require:
@@ -234,7 +228,7 @@ The accepted RESULT.COM must remain unchanged. Keep a copy and compare it with C
 
 ## Reach the image boundary
 
-Make LIMIT.ASM containing `RESB 61184`. Copy it to SOURCE.ASM and run CHECK A23. Require `OK RESULT.COM 61184 bytes` and PASS. VIEW.BAS must show length 61184 and zero bytes. This is storage data, never a runnable program. Preserve it; change the count to 61185 and repeat. Require `ERROR 0000000001 CODE 5` and FAIL, with the previous result unchanged. The target limit is independent of the assembler's output-block size.
+Make LIMIT.ASM containing `RESB 61184`. Run CHECK A23 LIMIT.ASM RESULT.COM. Require `OK RESULT.COM 61184 bytes` and PASS. VIEW.BAS must show length 61184 and zero bytes. This is storage data, never a runnable program. Preserve it; change the count to 61185 and repeat. Require `ERROR 0000000001 CODE 5` and FAIL, with the previous result unchanged. The target limit is independent of the assembler's output-block size.
 
 An unexpected PASS fails this rejection test.
 

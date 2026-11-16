@@ -22,6 +22,38 @@ Copy RC03.RIL to RC04.RIL. Apply edits **from the bottom of the old file upward*
 Unchanged source immediately before the edit:
 
 ```rill
+    while i { i = i-1; putc(decimal[i]); } return 0;
+}
+```
+
+Insert after old physical line 60.
+
+Insert:
+
+```rill
+
+fn filearg(n,fallback){
+    let mut count=argc();
+    if count==0{return fallback;}
+    if count!=2{exit(1);}
+    if filesame(arg(1),arg(2))|filesame(arg(1),"RILL.TMP")|filesame(arg(1),"RILL.BAK")|filesame(arg(2),"RILL.TMP")|filesame(arg(2),"RILL.BAK"){exit(1);}
+    return arg(n);
+}
+
+fn filesame(a,b){
+    let mut i=0;
+    while load8(a+i)==load8(b+i){
+        if load8(a+i)==0{return 1;}i=i+1;
+    }
+    return 0;
+}
+```
+
+### Edit 2
+
+Unchanged source immediately before the edit:
+
+```rill
     while place { c = 48; while n >= place { n = n-place; c = c+1; } putc(c); place = place/10; }
     return 0;
 }
@@ -37,7 +69,7 @@ fn fail(code) {
     if input { close(input); }
     if output { close(output); }
     let mut recovery = 0;
-    if backup { rename("RILL.BAK","RESULT.IR"); if status() { recovery = 1; } }
+    if backup { rename("RILL.BAK",filearg(2,"RESULT.IR")); if status() { recovery = 1; } }
     if recovery == 0 { if own { delete("RILL.TMP"); if status() { recovery=1; } } }
     if table { free(table); table = 0; }
     print("ERROR "); print32(linehi,line); print(" CODE "); printnum(code); print("\r\n");
@@ -54,7 +86,7 @@ The following old source remains in place:
 fn print32(hi,lo) {
 ```
 
-### Edit 2
+### Edit 3
 
 Unchanged source immediately before the edit:
 
@@ -72,7 +104,7 @@ fn main(){print32(1,1);return 0;}
 Replace it with:
 
 ```rill
-fn main(){fail(2);return 0;}
+fn main(){filearg(1,"SOURCE.RIL");fail(2);return 0;}
 ```
 
 The following old source remains in place:
@@ -85,25 +117,23 @@ fn print(s) { let mut c = 0; while 1 { c = load8(s); if c == 0 { return 0; } put
 ## Build this stopping point
 
 ```dos
-COPY RC04.RIL SOURCE.RIL
-CHECK RILLBOOT
+CHECK RILLBOOT RC04.RIL RESULT.IR
 ```
 
-Require `OK RESULT.IR 0000004547` and PASS. Copy RESULT.IR to SOURCE.IR.
+Require `OK RESULT.IR 0000006002` and PASS. Pass RESULT.IR directly to the translator.
 
 ```dos
-CHECK IWKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IWKEEP SOURCE.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require IR86 `OK RESULT.ASM 0000013261 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 11141 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000017929 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 12022 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RC04.COM
 ```
 
-VIEW.BAS must report RC04.COM length 11141 bytes. Keep this executable and its source together.
+VIEW.BAS must report RC04.COM length 12022 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 

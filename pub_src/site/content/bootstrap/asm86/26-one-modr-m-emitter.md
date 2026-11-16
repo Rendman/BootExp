@@ -30,7 +30,7 @@ DB 0
 RMPREFIX:
 ```
 
-Insert after old physical line 2247.
+Insert after old physical line 2436.
 
 Insert:
 
@@ -61,7 +61,7 @@ BRDEST:
 DW 0
 ```
 
-Insert after old physical line 2228.
+Insert after old physical line 2417.
 
 Insert:
 
@@ -86,7 +86,7 @@ MOV [RMDISP],AX
 RET
 ```
 
-Insert after old physical line 1985.
+Insert after old physical line 1991.
 
 Insert:
 
@@ -161,8 +161,8 @@ RET
 The following old source stays in place:
 
 ```asm
-OKMSG:
-DB 79,75,32,82,69,83,85,76,84,46,67,79,77,32,36
+CMDINIT:
+MOV SI,81H
 ```
 
 ### Change 4 near `STOREPREFIX:`
@@ -175,7 +175,7 @@ MOV AL,[WIDTH]
 ADD AL,136
 ```
 
-Remove this exact source at old physical positions 1108–1119:
+Remove this exact source at old physical positions 1114–1125:
 
 ```asm
 CALL EMIT
@@ -216,7 +216,7 @@ STOREPREFIX:
 MOV AL,[WIDTH]
 ```
 
-Insert after old physical line 1106.
+Insert after old physical line 1112.
 
 Insert:
 
@@ -244,7 +244,7 @@ STOREOK:
 CALL RMFIRST
 ```
 
-Remove this exact source at old physical positions 1101–1105:
+Remove this exact source at old physical positions 1107–1111:
 
 ```asm
 MOV AL,[P1]
@@ -273,7 +273,7 @@ MOV AL,[KIND]
 CMP AL,1
 ```
 
-Remove this exact source at old physical positions 1096–1099:
+Remove this exact source at old physical positions 1102–1105:
 
 ```asm
 JE STOREOK
@@ -307,7 +307,7 @@ MOV AL,[W1]
 ADD AL,138
 ```
 
-Remove this exact source at old physical positions 1080–1091:
+Remove this exact source at old physical positions 1086–1097:
 
 ```asm
 CALL EMIT
@@ -348,7 +348,7 @@ LOADPREFIX:
 MOV AL,[W1]
 ```
 
-Insert after old physical line 1078.
+Insert after old physical line 1084.
 
 Insert:
 
@@ -376,7 +376,7 @@ LOADMEM:
 CALL RMCURRENT
 ```
 
-Remove this exact source at old physical positions 1073–1077:
+Remove this exact source at old physical positions 1079–1083:
 
 ```asm
 MOV AL,[PREFIX]
@@ -405,7 +405,7 @@ JMP ERROR
 OPERAND:
 ```
 
-Insert after old physical line 592.
+Insert after old physical line 598.
 
 Insert:
 
@@ -424,17 +424,16 @@ MOV [PREFIX],AL
 ## Build the stopping point
 
 ```dos
-COPY A26.ASM SOURCE.ASM
-CHECK ASM1
+CHECK ASM1 A26.ASM RESULT.COM
 ```
 
-Require `OK RESULT.COM 05126 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 05564 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A26.COM
 ```
 
-VIEW.BAS must report A26.COM length 5126 bytes. Keep that executable and source together.
+VIEW.BAS must report A26.COM length 5564 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -446,11 +445,7 @@ MOV [BX],AX
 ```
 
 ```dos
-COPY T26.ASM SOURCE.ASM
-```
-
-```dos
-CHECK A26
+CHECK A26 T26.ASM RESULT.COM
 ```
 
 Require:
@@ -477,8 +472,7 @@ MOV AX,[BP]
 ```
 
 ```dos
-COPY X26.ASM SOURCE.ASM
-CHECK A26
+CHECK A26 X26.ASM RESULT.COM
 ```
 
 Require:

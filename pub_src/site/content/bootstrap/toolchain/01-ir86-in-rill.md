@@ -10,7 +10,7 @@ reader_names = 1
 
 The same virtual-machine operations, with a RILL parser and a separate native binding.
 
-The complete IR86.RIL below uses the ordinary RILL language and portable services. Begin after the completed RILL compiler and its self-build comparisons. Build it with the preserved R0 compiler, then IWKEEP and ASMAKEEP. Require a fresh OK and PASS at each boundary before copying the next result. Preserve the resulting executable as I0.COM; VIEW.BAS must show **29678 bytes**.
+The complete IR86.RIL below uses the ordinary RILL language and portable services. Begin after the completed RILL compiler and its self-build comparisons. Build it with the preserved R0 compiler, then IWKEEP and ASMAKEEP. Require a fresh OK and PASS at each boundary before copying the next result. Preserve the resulting executable as I0.COM; VIEW.BAS must show **32343 bytes**.
 
 The scanner and statement decoder implement the IR contract. The operation records contain argument classes, stack effects, and authored assembly templates. The header and runtime procedures are the 8086/DOS binding. They are not physical-register operations in the language. The input line and ordinary token stay bounded; RESULT.ASM streams through its owned temporary file.
 
@@ -58,10 +58,11 @@ bytes ops[2048];
 
 ```rill
 fn main() {
+    filearg(1,"SOURCE.IR");
     initops();
     if exists("IRTX.TMP") != 0 { fail(8); }
     if exists("IRRES.BAK") != 0 { fail(8); }
-    input = open("SOURCE.IR"); if status() { fail(6); }
+    input = open(filearg(1,"SOURCE.IR")); if status() { fail(6); }
     output = create("IRTX.TMP"); if status() { fail(6); } own = 1;
     header();
     while readline() { pos = 0; statement(); }
@@ -69,14 +70,14 @@ fn main() {
     if have_main == 0 { fail(3); }
     close(input); if status() { fail(6); }
     runtime(); flush(); close(output); if status() { fail(6); }
-    let mut present=exists("RESULT.ASM");
+    let mut present=exists(filearg(2,"RESULT.ASM"));
     if status() { fail(6); }
     if present {
-        rename("RESULT.ASM","IRRES.BAK"); if status() { fail(6); } backup = 1;
+        rename(filearg(2,"RESULT.ASM"),"IRRES.BAK"); if status() { fail(6); } backup = 1;
     }
-    rename("IRTX.TMP","RESULT.ASM"); if status() { fail(6); } own = 0;
+    rename("IRTX.TMP",filearg(2,"RESULT.ASM")); if status() { fail(6); } own = 0;
     if backup { delete("IRRES.BAK"); if status() { fail(6); } }
-    print("OK RESULT.ASM ");
+    print("OK ");print(filearg(2,"RESULT.ASM"));print(" ");
     print32(totalhi,total);
     print(" text bytes\r\n"); return 0;
 }
@@ -348,7 +349,7 @@ fn printnum(n) {
 fn fail(code) {
     if input { close(input); } if output { close(output); }
     let mut recovery = 0;
-    if backup { rename("IRRES.BAK","RESULT.ASM"); if status() { recovery = 1; } }
+    if backup { rename("IRRES.BAK",filearg(2,"RESULT.ASM")); if status() { recovery = 1; } }
     if recovery == 0 { if own { delete("IRTX.TMP"); if status() { recovery=1; } } }
     print("IR ERROR "); print32(linehi,line); print(" CODE "); printnum(code); print("\r\n"); if recovery { print("Recovery: inspect IRTX.TMP and IRRES.BAK\r\n"); } exit(1); return 0;
 }
@@ -373,6 +374,30 @@ fn print32(hi,lo) {
         decimal[i] = rem+48; hi = qhi; lo = qlo; i = i+1;
     }
     while i { i = i-1; putc(decimal[i]); } return 0;
+}
+```
+
+### filearg
+
+```rill
+fn filearg(n,fallback){
+    let mut count=argc();
+    if count==0{return fallback;}
+    if count!=2{exit(1);}
+    if filesame(arg(1),arg(2))|filesame(arg(1),"IRTX.TMP")|filesame(arg(1),"IRRES.BAK")|filesame(arg(2),"IRTX.TMP")|filesame(arg(2),"IRRES.BAK"){exit(1);}
+    return arg(n);
+}
+```
+
+### filesame
+
+```rill
+fn filesame(a,b){
+    let mut i=0;
+    while load8(a+i)==load8(b+i){
+        if load8(a+i)==0{return 1;}i=i+1;
+    }
+    return 0;
 }
 ```
 
@@ -427,6 +452,8 @@ fn initops() {
     op("OPEN",0,0,"CALL R_OPEN\r\n");
     op("CREATE",0,0,"CALL R_CREATE\r\n");
     op("CLOSE",0,0,"CALL R_CLOSE\r\n");
+    op("ARGC",0,0,"CALL R_ARGC\r\n");
+    op("ARG",0,0,"CALL R_ARG\r\n");
     op("STATUS",0,0,"MOV AX,[R_STATUS]\r\n");
     op("READ",0,3,"POP DX\r\nPOP BX\r\nCALL R_READ\r\n");
     op("WRITE",0,3,"POP DX\r\nPOP BX\r\nCALL R_WRITE\r\n");
@@ -446,7 +473,7 @@ fn initops() {
 ### header
 
 ```rill
-fn header() { outstr("CLD\r\nCMP SP,0FFFEH\r\nJNE NEAR R_STACKFAIL\r\nCALL U_MAIN\r\nMOV AH,4CH\r\nINT 21H\r\n"); return 0; }
+fn header() { outstr("CLD\r\nCMP SP,0FFFEH\r\nJNE NEAR R_STACKFAIL\r\nCALL CMDINIT\r\nCMP AX,65535\r\nJE NEAR R_STACKFAIL\r\nCALL U_MAIN\r\nMOV AH,4CH\r\nINT 21H\r\n"); return 0; }
 ```
 
 ### runtime
@@ -471,7 +498,14 @@ fn runtime() {
     outstr(" NEAR R_BLOCKBAD\r\nSUB BX,AX\r\nCMP BX,CX\r\nJB NEAR R_BLOCKBAD\r\nMOV BX,AX\r\nMOV AX,1\r\nRET\r\nR_BLOCKBAD:\r\nMOV AX,CS\r\nMOV ES,AX\r\nMOV AX,0\r\nRET\r\nR_GETMEM:\r\nPUSH CX\r\nCALL R_BLOCKPTR\r\nPOP CX\r\nCMP AX,0\r\nJE NEAR R_DFAIL\r\nMOV AL,ES:[BX]\r\nMOV AH,0\r\nCMP CX");
     outstr(",1\r\nJE NEAR R_MEMDONE\r\nMOV AX,ES:[BX]\r\nR_MEMDONE:\r\nMOV DX,CS\r\nMOV ES,DX\r\nJMP R_OK\r\nR_SETMEM:\r\nMOV [R_MEMVALUE],AX\r\nMOV AX,DX\r\nCALL R_BLOCKPTR\r\nCMP AX,0\r\nJE NEAR R_DFAIL\r\nMOV AX,[R_MEMVALUE]\r\nCMP CX,1\r\nJNE NEAR R_SETWORD\r\nMOV ES:[BX],AL\r\nJMP");
     outstr(" R_MEMDONE\r\nR_SETWORD:\r\nMOV ES:[BX],AX\r\nJMP R_MEMDONE\r\nR_FREEBLOCK:\r\nMOV BX,AX\r\nCMP BX,1\r\nJB NEAR R_DFAIL\r\nCMP BX,16\r\nJA NEAR R_DFAIL\r\nDEC BX\r\nSHL BX,1\r\nSHL BX,1\r\nADD BX,R_BLOCKS\r\nMOV SI,BX\r\nMOV AX,[SI]\r\nCMP AX,0\r\nJE NEAR R_DFAIL\r\nMOV ES,AX");
-    outstr("\r\nMOV AH,49H\r\nINT 21H\r\nJC NEAR R_FREEBAD\r\nMOV WORD [SI],0\r\nMOV AX,CS\r\nMOV ES,AX\r\nMOV AX,0\r\nJMP R_OK\r\nR_FREEBAD:\r\nMOV AX,CS\r\nMOV ES,AX\r\nJMP R_FAIL\r\nR_STACKFAIL:\r\nMOV AX,4C02H\r\nINT 21H\r\nR_WANT:\r\nDW 0\r\nR_MEMVALUE:\r\nDW 0\r\nR_BLOCKS:\r\nRESW 32\r\n");
+    outstr("\r\nMOV AH,49H\r\nINT 21H\r\nJC NEAR R_FREEBAD\r\nMOV WORD [SI],0\r\nMOV AX,CS\r\nMOV ES,AX\r\nMOV AX,0\r\nJMP R_OK\r\nR_FREEBAD:\r\nMOV AX,CS\r\nMOV ES,AX\r\nJMP R_FAIL\r\nR_STACKFAIL:\r\nMOV AX,4C02H\r\nINT 21H\r\nR_WANT:\r\nDW 0\r\nR_MEMVALUE:\r\nDW 0\r\nR_BLOCKS:\r\nRESW 32\r\nCM");
+    outstr("DINIT:\r\nMOV SI,81H\r\nMOV DI,CMDBUF\r\nMOV [CMDPTR],DI\r\nMOV AL,[80H]\r\nMOV AH,0\r\nMOV CX,AX\r\nCMP CX,127\r\nJAE NEAR CMDBAD\r\nCMDSKIP:\r\nCMP CX,0\r\nJE NEAR CMDDONE\r\nLODSB\r\nDEC CX\r\nCMP AL,32\r\nJE NEAR CMDSKIP\r\nCMP AL,9\r\nJE NEAR CMDSKIP\r\nMOV BX,[CMDCOUNT]");
+    outstr("\r\nCMP BX,3\r\nJAE NEAR CMDBAD\r\nINC BX\r\nMOV [CMDCOUNT],BX\r\nMOV BX,0\r\nMOV DX,8\r\nCMDCHAR:\r\nCMP AL,46\r\nJE NEAR CMDDOT\r\nCMP AL,97\r\nJB NEAR CMDUP\r\nCMP AL,122\r\nJA NEAR CMDUP\r\nSUB AL,32\r\nCMDUP:\r\nCMP AL,65\r\nJB NEAR CMDNUM\r\nCMP AL,90\r\nJBE NEAR CMDPUT\r\n");
+    outstr("CMDNUM:\r\nCMP AL,48\r\nJB NEAR CMDEXTRA\r\nCMP AL,57\r\nJBE NEAR CMDPUT\r\nCMDEXTRA:\r\nCMP AL,95\r\nJE NEAR CMDPUT\r\nCMP AL,45\r\nJNE NEAR CMDBAD\r\nCMDPUT:\r\nINC BX\r\nCMP BX,DX\r\nJA NEAR CMDBAD\r\nSTOSB\r\nJMP CMDNEXT\r\nCMDDOT:\r\nCMP DX,8\r\nJNE NEAR CMDBAD\r\nCMP BX,0");
+    outstr("\r\nJE NEAR CMDBAD\r\nMOV DX,3\r\nMOV BX,0\r\nSTOSB\r\nCMDNEXT:\r\nCMP CX,0\r\nJE NEAR CMDEND\r\nLODSB\r\nDEC CX\r\nCMP AL,32\r\nJE NEAR CMDEND\r\nCMP AL,9\r\nJNE NEAR CMDCHAR\r\nCMDEND:\r\nCMP BX,0\r\nJE NEAR CMDBAD\r\nMOV AL,0\r\nSTOSB\r\nMOV DI,[CMDPTR]\r\nADD DI,13\r\nMOV [CMDP");
+    outstr("TR],DI\r\nJMP CMDSKIP\r\nCMDDONE:\r\nMOV AX,[CMDCOUNT]\r\nRET\r\nCMDBAD:\r\nMOV AX,65535\r\nRET\r\nR_ARGC:\r\nMOV AX,[CMDCOUNT]\r\nJMP R_OK\r\nR_ARG:\r\nCMP AX,1\r\nJB NEAR R_ARGBAD\r\nMOV BX,[CMDCOUNT]\r\nCMP AX,BX\r\nJA NEAR R_ARGBAD\r\nMOV BX,CMDBUF\r\nR_ARGNEXT:\r\nDEC AX\r\n");
+    outstr("JE NEAR R_ARGDONE\r\nADD BX,13\r\nJMP R_ARGNEXT\r\nR_ARGDONE:\r\nMOV AX,BX\r\nJMP R_OK\r\nR_ARGBAD:\r\nMOV AX,0\r\nJMP R_ERROR\r\nCMDCOUNT:\r\nDW 0\r\nCMDPTR:\r\nDW 0\r\nCMDBUF:\r\nDB 0,0,0,0,0,0,0,0,0,0,0,0,0\r\nDB 0,0,0,0,0,0,0,0,0,0,0,0,0\r\nDB 0,0,0,0,0,0,0,0,0,0,0,0,");
+    outstr("0\r\n");
     return 0;
 }
 ```
@@ -479,18 +513,15 @@ fn runtime() {
 ## Complete build
 
 ```dos
-COPY IR86.RIL SOURCE.RIL
-CHECK R0
-COPY RESULT.IR SOURCE.IR
-CHECK IWKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK R0 IR86.RIL RESULT.IR
+CHECK IWKEEP RESULT.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 COPY RESULT.COM I0.COM
 ```
 
 Require each OK and PASS **before** the next copy. The complete source link is the same file assembled from the routine blocks above.
 
-Test the fixed-file translator with this complete IR program:
+Test the command-line translator with this complete IR program:
 
 ```ir
 PROC MAIN 0 0
@@ -500,6 +531,6 @@ LIT 0
 RETURN
 ```
 
-Save it as TEST.IR. COPY TEST.IR SOURCE.IR and run CHECK I0. Require OK and PASS, copy RESULT.ASM to SOURCE.ASM, and run CHECK ASMAKEEP. Save the accepted RESULT.COM as TRY.COM; CHECK TRY displays A and reports PASS.
+Save it as TEST.IR. Run CHECK I0 TEST.IR RESULT.ASM. Require OK and PASS, run CHECK ASMAKEEP RESULT.ASM RESULT.COM. Save the accepted RESULT.COM as TRY.COM; CHECK TRY displays A and reports PASS.
 
 For rejection, replace its LIT 65 with LIT 65536. CHECK I0 must report `IR ERROR 0000000002 CODE 00002` and FAIL, preserving the accepted RESULT.ASM. An unexpected PASS fails this check.

@@ -8,12 +8,12 @@ OVERVIEWS = {
    '**A 256 KiB document buffer:** Keep text and its insertion gap in eight allocated pages so source files larger than one segment remain editable.',
    '**Portable screen and key services:** Extend preserved copies of RILL and IR86 with cell positions, counted screen writes and key events, keeping native details in the target binding.',
    '**Checked bulk transfers:** Move text between allocated pages and the file buffer without a procedure call for every byte.',
-   '**Recoverable saves:** Publish EDIT.TXT through temporary and backup names so failed saves preserve the accepted file or leave explicit recovery files.',
+   '**Recoverable saves:** Publish the selected document through temporary and backup names so failed saves preserve the accepted file or leave explicit recovery files.',
   ],
   'None. Preserve the established RILL-written trio. The editor uses extended compiler/translator copies; earlier bootstrap sources, object linking and the single-segment executable format remain available.'),
  'link86': (
   [
-   '**Two object modules:** Place MAIN.OBJ before UTIL.OBJ so independently described pieces can form one DOS .COM image.',
+   '**Two object modules:** Place the first selected object before the second so independently described pieces can form one DOS .COM image.',
    '**Public names:** Collect complete exported spellings and module-relative offsets so one module can refer to a definition in the other.',
    '**Relative and absolute words:** Resolve near calls and loaded addresses while streaming so the output needs no backward patching.',
    '**Checked publication:** Validate both passes and publish a closed temporary file so rejected objects do not replace an accepted executable.',
@@ -37,12 +37,13 @@ OVERVIEWS = {
   'No accepted BOOTASM instruction forms are removed. BOOTASM remains the builder of the first native executable.'),
  'asma0': (
   [
+   '**Command-line filenames:** Take input and output names from the PSP so sources can keep their own names; preserve the old names as no-argument defaults.',
    '**Streamed input and output:** Work through 1 KiB blocks so source and executable size are independent of the resident file buffers.',
    '**Larger assembly capacity:** Retain 2,048 symbols and emit as many as 61,184 bytes so the seed can build a substantially larger assembler.',
    '**XOR and segment access:** Add segment-register MOV and ES overrides on the existing MOV memory forms so the assembler can work with separately allocated storage.',
    '**Checked publication:** Write a temporary file and use backup/recovery names so rejected source does not replace an accepted RESULT.COM.',
   ],
-  'The complete-image output buffer; streaming removes the resident output-size bottleneck. The fixed SOURCE.ASM/RESULT.COM names are retained from ASM0. ES, CS, SS and DS also become reserved names so labels cannot be confused with the new segment-register operands.'),
+  'The complete-image output buffer; streaming removes the resident output-size bottleneck. SOURCE.ASM/RESULT.COM remain no-argument defaults; COPY is still needed when building with ASM0. ES, CS, SS and DS also become reserved names so labels cannot be confused with the new segment-register operands.'),
  'asm86a': (
   [
    '**Allocated symbol storage:** Keep 8,192 definitions with names up to 31 characters, using complete-spelling lookup so larger translator and compiler sources fit.',
@@ -57,6 +58,7 @@ OVERVIEWS = {
    '**A processor-independent instruction language:** Define word values, a virtual accumulator and an expression stack so compilers can describe computations without naming physical registers.',
    '**Declared storage and byte addresses:** Supply words, byte buffers, strings and indirect access so generated programs can keep and manipulate their own data.',
    '**Procedure frames:** Name parameters and local slots, with up to sixteen parameters and sixty-four locals, so nested and recursive calls keep their state separate.',
+   '**Portable startup arguments:** Supply argument counts and ordinary string pointers so file tools can obtain names from the native binding.',
    '**Portable service handles:** Provide counted file transfers, persistent status and checked allocated blocks so programs can process files and larger workspaces without exposing DOS descriptors or segments.',
    '**A separate 8086/DOS binding:** Emit assembly through bounded streams so the native implementation can build the compiler while keeping processor details outside the IR operations.',
   ],
@@ -74,7 +76,7 @@ OVERVIEWS = {
    '**Word arithmetic and masks:** Add multiplication, unsigned division/remainder, bitwise AND/OR, right shift and logical negation so compiler calculations and character tests can be expressed.',
    '**Strings and global storage:** Add quoted text, mutable global words, byte buffers and byte access so the compiler can retain tokens, tables and output templates.',
    '**Named procedures and recursion:** Add parameters and separate call frames, with sixteen parameters and sixteen live locals, so the compiler can be divided into reusable and recursive routines.',
-   '**File and workspace services:** Add counted transfers, file publication and checked allocated blocks so the compiler can process long source files and maintain its symbol table.',
+   '**File and workspace services:** Add command arguments, counted transfers, file publication and checked allocated blocks so the compiler can process long source files and maintain its symbol table.',
    '**A compiler for its successor source:** Extend the accepted RILL0 implementation only far enough to compile the RILL-written compiler and its construction checkpoints.',
   ],
   'No accepted RILL0 language features are removed; every continuation retains the preceding compiler subset.'),

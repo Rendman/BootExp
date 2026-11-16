@@ -57,6 +57,8 @@ All members are ASCII/CRLF/8.3 source. No executable or interpreter
 is supplied in this source collection.
 '''
 (W/'README.TXT').write_bytes(readme.replace('\n','\r\n').encode())
+from command_files import package
+package(W)
 for name in files:
  shutil.copyfile(W/name,D/name)
  if name!='README.TXT':shutil.copyfile(W/name,ROOT/'site/downloads/asm86'/name)

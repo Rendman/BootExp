@@ -25,7 +25,7 @@ s=s.rstrip();assert s.endswith('return 0;\n}')
 s=s[:-len('return 0;\n}')]+'''editorruntime(); return 0;
 }
 fn editorruntime() {
-    let mut file=open("EDITRT.ASM"); if status() { fail(6); }
+    let mut file=open(filearg(3,"EDITRT.ASM")); if status() { fail(6); }
     while 1 {
         let mut count=read(file,inbuf,4096); if status() { close(file); fail(6); }
         if count==0 { close(file); if status() { fail(6); } return 0; }
@@ -33,6 +33,8 @@ fn editorruntime() {
     }
     return 0;
 }
-''';dos('IRED.RIL',s)
+'''
+s=s.replace('if count!=2{exit(1);}', 'if (count!=2)&(count!=3){exit(1);}\n    if n==3{if count==2{return fallback;}}\n    if count==3{if filesame(arg(3),arg(1))|filesame(arg(3),arg(2))|filesame(arg(3),"IRTX.TMP")|filesame(arg(3),"IRRES.BAK"){exit(1);}}')
+dos('IRED.RIL',s)
 dos('EDITRT.ASM',(ROOT/'tools/edit86_runtime.asm').read_text())
 print('Prepared RILL/IR console extensions and the authored 8086/DOS service binding')

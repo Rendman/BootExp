@@ -11,13 +11,15 @@ url = "/bootstrap/rb/009-counted-file-services/"
 
 Add opaque file handles and counted reads and writes. Check service status and exact write progress; a short positive read still contains data.
 
+Add argc() and arg(n) to the portable builtin table alongside the counted file services. They emit ARGC and ARG. The compiler itself already uses those operations through FILEARG; this step lets RILL programs obtain their own file arguments. Indexing begins at one, and STATUS must be checked before using a failed ARG result.
+
 Retain every earlier language feature. This checkpoint edits the complete compiler; it does not replace it with a helper-only driver.
 
 ## Enter the source
 
 Copy RB08.IR to RB09.IR. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 1768
+### Edit at old physical position 1797
 
 Unchanged source before the edit:
 
@@ -36,7 +38,7 @@ LITS "PUTC\01\0POP\nPUTC\0STATUS\00\0STATUS\0LOAD8\01\0POP\nFETCHB\0EXIT\01\0POP
 Insert in its place:
 
 ```ir
-LITS "PUTC\01\0POP\nPUTC\0STATUS\00\0STATUS\0OPEN\01\0POP\nOPEN\0CREATE\01\0POP\nCREATE\0CLOSE\01\0POP\nCLOSE\0READ\03\0POP\nREAD\0WRITE\03\0POP\nWRITE\0LOAD8\01\0POP\nFETCHB\0EXIT\01\0POP\nEXIT\0\0"
+LITS "PUTC\01\0POP\nPUTC\0STATUS\00\0STATUS\0OPEN\01\0POP\nOPEN\0CREATE\01\0POP\nCREATE\0CLOSE\01\0POP\nCLOSE\0READ\03\0POP\nREAD\0WRITE\03\0POP\nWRITE\0LOAD8\01\0POP\nFETCHB\0EXIT\01\0POP\nEXIT\0ARGC\00\0ARGC\0ARG\01\0POP\nARG\0\0"
 ```
 
 The following old source remains:
@@ -49,13 +51,11 @@ LABEL BUILTINNEXT
 ## Build and check
 
 ```dos
-COPY RB09.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP RB09.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 20944 bytes`. Save RESULT.COM as RB09.COM. VIEW.BAS must show length 20944.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 21848 bytes`. Save RESULT.COM as RB09.COM. VIEW.BAS must show length 21848.
 
 Create TRB09.RIL:
 
@@ -81,11 +81,7 @@ fn main() {
 ```
 
 ```dos
-COPY TRB09.RIL SOURCE.RIL
-```
-
-```dos
-CHECK RB09
+CHECK RB09 TRB09.RIL RESULT.IR
 ```
 
 Require:
@@ -195,19 +191,23 @@ Inspect RESULT.IR with VIEW.BAS. Require length 1476 bytes and these complete by
 
 This is a complete IR program. Translate it with IRKEEP, assemble its accepted output with ASMAKEEP, and save RESULT.COM as TRY.COM. Require fresh OK and PASS before both copies. First create IN.TXT with `ECHO A short copy.>IN.TXT`.
 
-VIEW.BAS must report length 1717. CHECK TRY reports PASS.
+VIEW.BAS must report length 2079. CHECK TRY reports PASS.
 
 Inspect OUT.TXT with VIEW.BAS: require length 15 and bytes `41 20 73 68 6F 72 74 20 63 6F 70 79 2E 0D 0A`.
 
 ## Check the new boundary
 
-Use this separate rejected source:
+Save this separate rejected source as XRB09.RIL:
 
 ```rill
 fn main(){putc(65536);}
 ```
 
-Copy it to SOURCE.RIL and run CHECK RB09. Require:
+```dos
+CHECK RB09 XRB09.RIL RESULT.IR
+```
+
+Require:
 
 ```text
 ERROR 0000000001 CODE 00003

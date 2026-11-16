@@ -88,13 +88,13 @@ bytes string[512];
 Remove this source at old physical positions 35–35 in RC33.RIL:
 
 ```rill
-fn main(){output=create("RILL.TMP");own=1;binary(43);flush();close(output);output=0;own=0;return 0;}
+fn main(){filearg(1,"SOURCE.RIL");output=create(filearg(2,"RILL.TMP"));own=1;binary(43);flush();close(output);output=0;own=0;return 0;}
 ```
 
 Replace it with:
 
 ```rill
-fn main(){table=alloc(23680);setident("ABC");rectype=1;recval=12345;reclevel=0;record(0);globals=1;output=create("RILL.TMP");own=1;input=open("SOURCE.RIL");if status(){fail(1);}next();lex();expr(1);if tok!=0{fail(2);}flush();close(output);output=0;own=0;return 0;}
+fn main(){filearg(1,"SOURCE.RIL");table=alloc(23680);setident("ABC");rectype=1;recval=12345;reclevel=0;record(0);globals=1;output=create(filearg(2,"RILL.TMP"));own=1;input=open(filearg(1,"SOURCE.RIL"));if status(){fail(1);}next();lex();expr(1);if tok!=0{fail(2);}flush();close(output);output=0;own=0;return 0;}
 ```
 
 The following old source remains in place:
@@ -107,25 +107,23 @@ fn next() {
 ## Build this stopping point
 
 ```dos
-COPY RC34.RIL SOURCE.RIL
-CHECK RILLBOOT
+CHECK RILLBOOT RC34.RIL RESULT.IR
 ```
 
-Require `OK RESULT.IR 0000030353` and PASS. Copy RESULT.IR to SOURCE.IR.
+Require `OK RESULT.IR 0000031935` and PASS. Pass RESULT.IR directly to the translator.
 
 ```dos
-CHECK IWKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IWKEEP SOURCE.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require IR86 `OK RESULT.ASM 0000065152 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 20049 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000070208 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 20980 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RC34.COM
 ```
 
-VIEW.BAS must report RC34.COM length 20049 bytes. Keep this executable and its source together.
+VIEW.BAS must report RC34.COM length 20980 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -136,16 +134,12 @@ Create TRC34.RIL with COPY CON or a plain-text editor. Finish COPY CON with Ctrl
 ```
 
 ```dos
-COPY TRC34.RIL SOURCE.RIL
-```
-
-```dos
-CHECK RC34
+CHECK RC34 TRC34.RIL RESULT.IR
 ```
 
 The checker must report PASS. Inspect the emitted file below.
 
-Use VIEW.BAS to inspect RILL.TMP. Require length 55 bytes. The complete bytes must be:
+Use VIEW.BAS to inspect RESULT.IR. Require length 55 bytes. The complete bytes must be:
 
 ```text
 4C 49 54 20 30 30 30 30 31 0D 0A 50 55 53 48 0D
@@ -156,8 +150,6 @@ Use VIEW.BAS to inspect RILL.TMP. Require length 55 bytes. The complete bytes mu
 
 This is an IR fragment for inspection. Do not translate it as a complete program or execute any file with its name.
 
-After inspection, delete this deliberately created RILL.TMP before another checkpoint. The file is diagnostic text, not an interrupted accepted compiler build.
-
 ## A rejection or boundary check
 
 Create XRC34.RIL:
@@ -167,8 +159,7 @@ Create XRC34.RIL:
 ```
 
 ```dos
-COPY XRC34.RIL SOURCE.RIL
-CHECK RC34
+CHECK RC34 XRC34.RIL RESULT.IR
 ```
 
 Require:

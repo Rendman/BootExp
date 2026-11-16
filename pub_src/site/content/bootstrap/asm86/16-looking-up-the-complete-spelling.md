@@ -9,7 +9,7 @@ reader_names = 1
 url = "/bootstrap/asm86a/16-looking-up-the-complete-spelling/"
 +++
 
-A hash narrows a search but cannot decide whether two names are equal.
+I can put a name in a record. Finding it again means choosing which records to examine. A bucket number will narrow the search, but I still need to read every letter before deciding that a stored name is the one in the source.
 
 ## The working parts
 
@@ -31,7 +31,7 @@ MOV AX,[SYMID]
 CALL RECORDWRITE
 ```
 
-Remove this exact source at old physical positions 1522–1522:
+Remove this exact source at old physical positions 1528–1528:
 
 ```asm
 MOV AX,8192
@@ -61,7 +61,7 @@ MOV [HEADID],AX
 MOV [BUCKET],AX
 ```
 
-Insert after old physical line 1519.
+Insert after old physical line 1525.
 
 Insert:
 
@@ -88,7 +88,7 @@ CALL COPYZ
 POP SI
 ```
 
-Insert after old physical line 1511.
+Insert after old physical line 1517.
 
 Insert:
 
@@ -112,7 +112,7 @@ MOV ES:[BX],AX
 RET
 ```
 
-Insert after old physical line 1505.
+Insert after old physical line 1511.
 
 Insert:
 
@@ -191,17 +191,16 @@ PUSH SI
 ## Build the stopping point
 
 ```dos
-COPY A16.ASM SOURCE.ASM
-CHECK ASM1
+CHECK ASM1 A16.ASM RESULT.COM
 ```
 
-Require `OK RESULT.COM 04034 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 04472 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A16.COM
 ```
 
-VIEW.BAS must report A16.COM length 4034 bytes. Keep that executable and source together.
+VIEW.BAS must report A16.COM length 4472 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -216,11 +215,7 @@ INT 21H
 ```
 
 ```dos
-COPY T16.ASM SOURCE.ASM
-```
-
-```dos
-CHECK A16
+CHECK A16 T16.ASM RESULT.COM
 ```
 
 Require:
@@ -247,8 +242,7 @@ MOV AX,AL
 ```
 
 ```dos
-COPY X16.ASM SOURCE.ASM
-CHECK A16
+CHECK A16 X16.ASM RESULT.COM
 ```
 
 Require:

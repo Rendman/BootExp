@@ -8,7 +8,9 @@ reader_names = 1
 url = "/bootstrap/asm86a/43-programs/"
 +++
 
-Use the completed ASMAKEEP.COM. For each NAME.ASM below, copy it to SOURCE.ASM and run CHECK ASMAKEEP. Require OK and PASS before copying RESULT.COM to NAME.COM. Inspect it with VIEW.BAS before running CHECK NAME.
+I return to a greeting, this time with its words in quotation marks and its length calculated from the labels. Beside it I keep a stack drawing for the procedure call and trace a conditional jump across a longer gap. These small programs let me follow the new source forms all the way to their results.
+
+Use the completed ASMAKEEP.COM. For each NAME.ASM below, run CHECK ASMAKEEP NAME.ASM RESULT.COM. Require OK and PASS before copying RESULT.COM to NAME.COM. Inspect it with VIEW.BAS before running CHECK NAME.
 
 ## HELLO
 
@@ -44,7 +46,7 @@ BB 01 00 B9 07 00 BA 24 01 B4 40 CD 21 73 05 B8 01 4C CD 21 81 F8 07 00 75 05 B8
 
 After saving RESULT.COM as HELLO.COM, CHECK HELLO displays "Hello\r\n" and reports PASS. Here `\r\n` means carriage return followed by line feed.
 
-For a separate rejection, copy the source to BAD.ASM. Replace `DB "Hello",13,10` with `DB "Hello,13,10`. Copy BAD.ASM to SOURCE.ASM and run CHECK ASMAKEEP. Require `ERROR 0000000018 CODE 1` and FAIL. The accepted RESULT.COM must remain unchanged; an unexpected PASS fails the check. Restore the accepted source before rebuilding.
+For a separate rejection, copy the source to BAD.ASM. Replace `DB "Hello",13,10` with `DB "Hello,13,10`. Run CHECK ASMAKEEP BAD.ASM RESULT.COM. Require `ERROR 0000000018 CODE 1` and FAIL. The accepted RESULT.COM must remain unchanged; an unexpected PASS fails the check. Restore the accepted source before rebuilding.
 
 ## FRAME
 
@@ -80,7 +82,7 @@ B8 41 00 50 E8 0F 00 81 C4 02 00 8A D0 B4 02 CD 21 B8 00 4C CD 21 55 8B EC 81 EC
 
 After saving RESULT.COM as FRAME.COM, CHECK FRAME displays "A" and reports PASS. Here `\r\n` means carriage return followed by line feed.
 
-For a separate rejection, copy the source to BAD.ASM. Replace `[BP+4]` with `[SP+4]`. Copy BAD.ASM to SOURCE.ASM and run CHECK ASMAKEEP. Require `ERROR 0000000014 CODE 1` and FAIL. The accepted RESULT.COM must remain unchanged; an unexpected PASS fails the check. Restore the accepted source before rebuilding.
+For a separate rejection, copy the source to BAD.ASM. Replace `[BP+4]` with `[SP+4]`. Run CHECK ASMAKEEP BAD.ASM RESULT.COM. Require `ERROR 0000000014 CODE 1` and FAIL. The accepted RESULT.COM must remain unchanged; an unexpected PASS fails the check. Restore the accepted source before rebuilding.
 
 ## BRIDGE
 
@@ -109,7 +111,7 @@ B8 01 00 81 F8 00 00 74 03 E9 31 01 B8 01 4C CD 21 00 00 00 00 00 00 00 00 00 00
 
 After saving RESULT.COM as BRIDGE.COM, CHECK BRIDGE displays "B" and reports PASS. Here `\r\n` means carriage return followed by line feed.
 
-For a separate rejection, copy the source to BAD.ASM. Replace `JNE NEAR SHOW` with `JNE SHOW`. Copy BAD.ASM to SOURCE.ASM and run CHECK ASMAKEEP. Require `ERROR 0000000003 CODE 4` and FAIL. The accepted RESULT.COM must remain unchanged; an unexpected PASS fails the check. Restore the accepted source before rebuilding.
+For a separate rejection, copy the source to BAD.ASM. Replace `JNE NEAR SHOW` with `JNE SHOW`. Run CHECK ASMAKEEP BAD.ASM RESULT.COM. Require `ERROR 0000000003 CODE 4` and FAIL. The accepted RESULT.COM must remain unchanged; an unexpected PASS fails the check. Restore the accepted source before rebuilding.
 
 ## COPYTEXT
 
@@ -150,5 +152,5 @@ FC BE 24 01 BF 26 01 B9 02 00 AC AA 49 75 FB BE 26 01 B9 02 00 8A 14 B4 02 CD 21
 
 After saving RESULT.COM as COPYTEXT.COM, CHECK COPYTEXT displays "Hi" and reports PASS. Here `\r\n` means carriage return followed by line feed.
 
-For a separate rejection, copy the source to BAD.ASM. Replace `LODSB` with `LODSB 1`. Copy BAD.ASM to SOURCE.ASM and run CHECK ASMAKEEP. Require `ERROR 0000000006 CODE 1` and FAIL. The accepted RESULT.COM must remain unchanged; an unexpected PASS fails the check. Restore the accepted source before rebuilding.
+For a separate rejection, copy the source to BAD.ASM. Replace `LODSB` with `LODSB 1`. Run CHECK ASMAKEEP BAD.ASM RESULT.COM. Require `ERROR 0000000006 CODE 1` and FAIL. The accepted RESULT.COM must remain unchanged; an unexpected PASS fails the check. Restore the accepted source before rebuilding.
 

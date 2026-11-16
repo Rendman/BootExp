@@ -8,7 +8,7 @@ reader_names = 1
 url = "/bootstrap/asm86a/20-quoted-byte-data/"
 +++
 
-Readable messages should not require entering every character as a numeric byte.
+I can still recognize the greeting among its decimal ASCII values, but I would rather type the words I mean. Quotation marks can tell the assembler where the text begins and ends. Inside them, a lowercase letter or a semicolon must survive exactly as I typed it.
 
 ## The working parts
 
@@ -30,7 +30,7 @@ JE ZDATAITEM1
 JMP SYNTAXBAD
 ```
 
-Remove this exact source at old physical positions 739–739:
+Remove this exact source at old physical positions 745–745:
 
 ```asm
 ZDATAITEM1:
@@ -58,7 +58,7 @@ JE DATAITEM
 CMP AL,0
 ```
 
-Remove this exact source at old physical positions 737–737:
+Remove this exact source at old physical positions 743–743:
 
 ```asm
 JE ZDATAITEM1
@@ -87,7 +87,7 @@ MOV AL,[0CC00H]
 CMP AL,44
 ```
 
-Remove this exact source at old physical positions 735–735:
+Remove this exact source at old physical positions 741–741:
 
 ```asm
 JE DATAITEM
@@ -118,7 +118,7 @@ DATABYTE:
 CALL BYTEVALUE
 ```
 
-Insert after old physical line 730.
+Insert after old physical line 736.
 
 Insert:
 
@@ -165,7 +165,7 @@ DATAITEM:
 CALL SCAN
 ```
 
-Insert after old physical line 722.
+Insert after old physical line 728.
 
 Insert:
 
@@ -192,7 +192,7 @@ MOV AX,1
 JMP ERROR
 ```
 
-Insert after old physical line 306.
+Insert after old physical line 312.
 
 Insert:
 
@@ -249,7 +249,7 @@ CMP DI,0CC3FH
 JAE TOKENBAD
 ```
 
-Insert after old physical line 289.
+Insert after old physical line 295.
 
 Insert:
 
@@ -274,7 +274,7 @@ CMP AL,59
 JE SCANBACK
 ```
 
-Remove this exact source at old physical positions 280–286:
+Remove this exact source at old physical positions 286–292:
 
 ```asm
 CMP AL,44
@@ -310,7 +310,7 @@ ZSCAN7:
 CMP AL,32
 ```
 
-Insert after old physical line 276.
+Insert after old physical line 282.
 
 Insert:
 
@@ -336,7 +336,7 @@ LODSB
 CMP AL,0
 ```
 
-Remove this exact source at old physical positions 273–275:
+Remove this exact source at old physical positions 279–281:
 
 ```asm
 JNE ZSCAN7
@@ -367,7 +367,7 @@ JMP SCANDONE
 ZSCAN3:
 ```
 
-Remove this exact source at old physical positions 258–269:
+Remove this exact source at old physical positions 264–275:
 
 ```asm
 CMP AL,58
@@ -403,7 +403,7 @@ ZSCAN2:
 STOSB
 ```
 
-Remove this exact source at old physical positions 254–254:
+Remove this exact source at old physical positions 260–260:
 
 ```asm
 CMP AL,44
@@ -433,7 +433,7 @@ JMP SCANEND
 ZSCAN2:
 ```
 
-Insert after old physical line 252.
+Insert after old physical line 258.
 
 Insert:
 
@@ -458,7 +458,7 @@ CMP AL,32
 JE SCANSPACE
 ```
 
-Insert after old physical line 244.
+Insert after old physical line 250.
 
 Insert:
 
@@ -484,7 +484,7 @@ JMP READBAD
 ZREADLINE7:
 ```
 
-Remove this exact source at old physical positions 191–198:
+Remove this exact source at old physical positions 197–204:
 
 ```asm
 CMP AL,97
@@ -516,7 +516,7 @@ ZREADLINE5:
 CMP AL,9
 ```
 
-Remove this exact source at old physical positions 182–182:
+Remove this exact source at old physical positions 188–188:
 
 ```asm
 JE TABCHAR
@@ -538,17 +538,16 @@ JAE ZREADLINE6
 ## Build the stopping point
 
 ```dos
-COPY A20.ASM SOURCE.ASM
-CHECK ASM1
+CHECK ASM1 A20.ASM RESULT.COM
 ```
 
-Require `OK RESULT.COM 04372 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 04810 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A20.COM
 ```
 
-VIEW.BAS must report A20.COM length 4372 bytes. Keep that executable and source together.
+VIEW.BAS must report A20.COM length 4810 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -559,11 +558,7 @@ DB "Hello; x",13,10,0
 ```
 
 ```dos
-COPY T20.ASM SOURCE.ASM
-```
-
-```dos
-CHECK A20
+CHECK A20 T20.ASM RESULT.COM
 ```
 
 Require:
@@ -581,6 +576,8 @@ In VIEW.BAS, inspect RESULT.COM. Require length **11 bytes** and these complete 
 
 The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
 
+The viewer shows lowercase letters and the semicolon among the message bytes. Those characters used to need separate numeric entries. I can read the sentence in the source and still account for every byte in the file.
+
 ## A rejection check
 
 Create X20.ASM with this separate source:
@@ -590,8 +587,7 @@ DB "open
 ```
 
 ```dos
-COPY X20.ASM SOURCE.ASM
-CHECK A20
+CHECK A20 X20.ASM RESULT.COM
 ```
 
 Require:

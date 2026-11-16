@@ -17,7 +17,7 @@ Retain every earlier language feature. This checkpoint edits the complete compil
 
 Copy RB05.IR to RB06.IR. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 1266
+### Edit at old physical position 1295
 
 Unchanged source before the edit:
 
@@ -126,7 +126,7 @@ LIT 0
 RETURN
 ```
 
-### Edit at old physical position 882
+### Edit at old physical position 911
 
 Unchanged source before the edit:
 
@@ -155,7 +155,7 @@ CUGE
 JNZ CAPFAIL
 ```
 
-### Edit at old physical position 92
+### Edit at old physical position 101
 
 Unchanged source before the edit:
 
@@ -184,7 +184,7 @@ CALL OUTSTR
 LD INPUT
 ```
 
-### Edit at old physical position 80
+### Edit at old physical position 89
 
 Unchanged source before the edit:
 
@@ -225,13 +225,11 @@ JNZ SYNTAX
 ## Build and check
 
 ```dos
-COPY RB06.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP RB06.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 20148 bytes`. Save RESULT.COM as RB06.COM. VIEW.BAS must show length 20148.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 21026 bytes`. Save RESULT.COM as RB06.COM. VIEW.BAS must show length 21026.
 
 Create TRB06.RIL:
 
@@ -240,11 +238,7 @@ fn main(){putc(65);}
 ```
 
 ```dos
-COPY TRB06.RIL SOURCE.RIL
-```
-
-```dos
-CHECK RB06
+CHECK RB06 TRB06.RIL RESULT.IR
 ```
 
 Require:
@@ -266,17 +260,21 @@ Inspect RESULT.IR with VIEW.BAS. Require length 105 bytes and these complete byt
 0A 52 45 54 55 52 4E 0D 0A
 ```
 
-This is a complete IR program. Translate it with IRKEEP, assemble its accepted output with ASMAKEEP, and save RESULT.COM as TRY.COM. Require fresh OK and PASS before both copies. VIEW.BAS must report length 1054. CHECK TRY displays `A` and reports PASS.
+This is a complete IR program. Translate it with IRKEEP, assemble its accepted output with ASMAKEEP, and save RESULT.COM as TRY.COM. Require fresh OK and PASS before both copies. VIEW.BAS must report length 1416. CHECK TRY displays `A` and reports PASS.
 
 ## Check the new boundary
 
-Use this separate rejected source:
+Save this separate rejected source as XRB06.RIL:
 
 ```rill
 fn main(){putc(65536);}
 ```
 
-Copy it to SOURCE.RIL and run CHECK RB06. Require:
+```dos
+CHECK RB06 XRB06.RIL RESULT.IR
+```
+
+Require:
 
 ```text
 ERROR 0000000001 CODE 00003

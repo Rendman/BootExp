@@ -28,18 +28,15 @@ fn main() {
 ```
 
 ```dos
-COPY ERECUR.RIL SOURCE.RIL
-CHECK R0
-COPY RESULT.IR SOURCE.IR
-CHECK IWKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK R0 ERECUR.RIL RESULT.IR
+CHECK IWKEEP RESULT.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require compiler `OK RESULT.IR 0000000494`, translator `OK RESULT.ASM 0000005672 text bytes`, and assembler `OK RESULT.COM 01189 bytes`, each with PASS **before** the following copy. VIEW.BAS must report length 1189 and these first thirty-two bytes:
+Require compiler `OK RESULT.IR 0000000494`, translator `OK RESULT.ASM 0000007166 text bytes`, and assembler `OK RESULT.COM 01551 bytes`, each with PASS **before** the following copy. VIEW.BAS must report length 1551 and these first thirty-two bytes:
 
 ```text
-FC 81 FC FE FF 74 03 E9 52 04 E8 AA 00 B4 4C CD 21 55 8B EC 81 EC 80 00 81 FC 00 F0 73 03 E9 3B
+FC 81 FC FE FF 74 03 E9 5E 04 E8 A4 04 81 F8 FF FF 75 03 E9 52 04 E8 AA 00 B4 4C CD 21 55 8B EC
 ```
 
 ```dos
@@ -55,8 +52,7 @@ fn main(){return missing(5);}
 ```
 
 ```dos
-COPY BAD.RIL SOURCE.RIL
-CHECK R0
+CHECK R0 BAD.RIL RESULT.IR
 ```
 
 Require `ERROR 0000000002 CODE 00004` and FAIL. The accepted RESULT.IR must remain unchanged. An unexpected PASS fails the check. Restore the accepted source before building again.
@@ -84,18 +80,15 @@ fn main() {
 ```
 
 ```dos
-COPY EHEAP.RIL SOURCE.RIL
-CHECK R0
-COPY RESULT.IR SOURCE.IR
-CHECK IWKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK R0 EHEAP.RIL RESULT.IR
+CHECK IWKEEP RESULT.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require compiler `OK RESULT.IR 0000000866`, translator `OK RESULT.ASM 0000006215 text bytes`, and assembler `OK RESULT.COM 01286 bytes`, each with PASS **before** the following copy. VIEW.BAS must report length 1286 and these first thirty-two bytes:
+Require compiler `OK RESULT.IR 0000000866`, translator `OK RESULT.ASM 0000007709 text bytes`, and assembler `OK RESULT.COM 01648 bytes`, each with PASS **before** the following copy. VIEW.BAS must report length 1648 and these first thirty-two bytes:
 
 ```text
-FC 81 FC FE FF 74 03 E9 B3 04 E8 0B 01 B4 4C CD 21 55 8B EC 81 EC 80 00 81 FC 00 F0 73 03 E9 9C
+FC 81 FC FE FF 74 03 E9 BF 04 E8 05 05 81 F8 FF FF 75 03 E9 B3 04 E8 0B 01 B4 4C CD 21 55 8B EC
 ```
 
 ```dos
@@ -111,8 +104,7 @@ fn main(){return get16(1);}
 ```
 
 ```dos
-COPY BAD.RIL SOURCE.RIL
-CHECK R0
+CHECK R0 BAD.RIL RESULT.IR
 ```
 
 Require `ERROR 0000000001 CODE 00004` and FAIL. The accepted RESULT.IR must remain unchanged. An unexpected PASS fails the check. Restore the accepted source before building again.
@@ -145,18 +137,15 @@ fn main() {
 ```
 
 ```dos
-COPY ECOPY.RIL SOURCE.RIL
-CHECK R0
-COPY RESULT.IR SOURCE.IR
-CHECK IWKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK R0 ECOPY.RIL RESULT.IR
+CHECK IWKEEP RESULT.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require compiler `OK RESULT.IR 0000001476`, translator `OK RESULT.ASM 0000007346 text bytes`, and assembler `OK RESULT.COM 01717 bytes`, each with PASS **before** the following copy. VIEW.BAS must report length 1717 and these first thirty-two bytes:
+Require compiler `OK RESULT.IR 0000001476`, translator `OK RESULT.ASM 0000008840 text bytes`, and assembler `OK RESULT.COM 02079 bytes`, each with PASS **before** the following copy. VIEW.BAS must report length 2079 and these first thirty-two bytes:
 
 ```text
-FC 81 FC FE FF 74 03 E9 62 06 E8 BA 02 B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+FC 81 FC FE FF 74 03 E9 6E 06 E8 B4 06 81 F8 FF FF 75 03 E9 62 06 E8 BA 02 B4 4C CD 21 00 00 00
 ```
 
 ```dos
@@ -172,8 +161,7 @@ fn main(){return read(1,2);}
 ```
 
 ```dos
-COPY BAD.RIL SOURCE.RIL
-CHECK R0
+CHECK R0 BAD.RIL RESULT.IR
 ```
 
 Require `ERROR 0000000001 CODE 00004` and FAIL. The accepted RESULT.IR must remain unchanged. An unexpected PASS fails the check. Restore the accepted source before building again.

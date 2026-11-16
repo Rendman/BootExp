@@ -18,23 +18,25 @@ Copy L05.RIL to L06.RIL. Apply these edits from the bottom of the unchanged old 
 Unchanged source immediately before the edit:
 
 ```rill
+    }
     return 0;
 }
 ```
 
-Insert after old physical line 162.
+Insert after old physical line 161.
 
 Insert:
 
 ```rill
-fn report(){print("OK RESULT.COM ");number(pc);print(" bytes\r\n");return 0;}
+
+fn report(){print("OK ");print(filearg(3,"RESULT.COM"));print(" ");number(pc);print(" bytes\r\n");return 0;}
 ```
 
 The following old source remains:
 
 ```rill
+
 fn fail(code){
-    if inopen{close(input);inopen=0;}
 ```
 
 ### Edit 2
@@ -61,11 +63,11 @@ fn preflight(){
 }
 
 fn commit(){
-    let mut backup=exists("RESULT.COM");if status(){fail(6);}
-    if backup{rename("RESULT.COM","LINK.BAK");if status(){fail(6);}}
-    rename("LINK.TMP","RESULT.COM");
+    let mut backup=exists(filearg(3,"RESULT.COM"));if status(){fail(6);}
+    if backup{rename(filearg(3,"RESULT.COM"),"LINK.BAK");if status(){fail(6);}}
+    rename("LINK.TMP",filearg(3,"RESULT.COM"));
     if status(){
-        if backup{rename("LINK.BAK","RESULT.COM");if status(){keep=1;}}
+        if backup{rename("LINK.BAK",filearg(3,"RESULT.COM"));if status(){keep=1;}}
         fail(6);
     }
     own=0;
@@ -94,13 +96,13 @@ bytes token[32];
 Remove old physical positions 24–24:
 
 ```rill
-fn main(){preflight();pass=2;openunit();createout();records();closein();finishout();print("OK LINK.TMP ");number(pc);print(" bytes\r\n");return 0;}
+fn main(){filearg(1,"MAIN.OBJ");preflight();pass=2;openunit();createout();records();closein();finishout();print("OK LINK.TMP ");number(pc);print(" bytes\r\n");return 0;}
 ```
 
 Replace with:
 
 ```rill
-fn main(){preflight();pass=2;openunit();createout();records();closein();unit=0;line=0;finishout();commit();report();return 0;}
+fn main(){filearg(1,"MAIN.OBJ");preflight();pass=2;openunit();createout();records();closein();unit=0;line=0;finishout();commit();report();return 0;}
 ```
 
 The following old source remains:
@@ -113,19 +115,16 @@ fn openunit(){
 ## Build and preserve the tool
 
 ```dos
-COPY L06.RIL SOURCE.RIL
-CHECK R0
-COPY RESULT.IR SOURCE.IR
-CHECK I0
-COPY RESULT.ASM SOURCE.ASM
-CHECK A0
+CHECK R0 L06.RIL RESULT.IR
+CHECK I0 RESULT.IR RESULT.ASM
+CHECK A0 RESULT.ASM RESULT.COM
 COPY RESULT.COM L06.COM
 ```
 
-Require compiler `OK RESULT.IR 0000014111`, translator `OK RESULT.ASM 0000031978 text bytes`, assembler `OK RESULT.COM 07892 bytes`, and each PASS before the following copy. VIEW.BAS must show L06.COM length 7892 and these first thirty-two bytes:
+Require compiler `OK RESULT.IR 0000016304`, translator `OK RESULT.ASM 0000038038 text bytes`, assembler `OK RESULT.COM 09003 bytes`, and each PASS before the following copy. VIEW.BAS must show L06.COM length 9003 and these first thirty-two bytes:
 
 ```text
-FC 81 FC FE FF 74 03 E9 81 1E E8 D9 1A B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 01 00 01
+FC 81 FC FE FF 74 03 E9 7A 21 E8 C0 21 81 F8 FF FF 75 03 E9 6E 21 E8 C6 1D B4 4C CD 21 00 00 00
 ```
 
 ## Check the accepted input
@@ -139,8 +138,7 @@ END
 ```
 
 ```dos
-COPY M06.OBJ MAIN.OBJ
-CHECK L06
+CHECK L06 M06.OBJ UTIL.OBJ RESULT.COM
 ```
 
 Require:
@@ -174,8 +172,7 @@ B 90
 ```
 
 ```dos
-COPY X06.OBJ MAIN.OBJ
-CHECK L06
+CHECK L06 X06.OBJ UTIL.OBJ RESULT.COM
 ```
 
 Require:

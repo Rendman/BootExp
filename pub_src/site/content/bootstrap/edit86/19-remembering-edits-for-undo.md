@@ -26,7 +26,7 @@ Unchanged source immediately before the edit:
     }
 ```
 
-Insert after old physical line 558.
+Insert after old physical line 559.
 
 Insert:
 
@@ -78,7 +78,7 @@ Unchanged source immediately before the edit:
         }
 ```
 
-Insert after old physical line 548.
+Insert after old physical line 549.
 
 Insert:
 
@@ -102,7 +102,7 @@ Unchanged source immediately before the edit:
     }
 ```
 
-Insert after old physical line 518.
+Insert after old physical line 519.
 
 Insert:
 
@@ -126,7 +126,7 @@ Unchanged source immediately before the edit:
 }
 ```
 
-Insert after old physical line 511.
+Insert after old physical line 512.
 
 Insert:
 
@@ -166,7 +166,7 @@ Unchanged source immediately before the edit:
         i=i+1;
 ```
 
-Insert after old physical line 216.
+Insert after old physical line 217.
 
 Insert:
 
@@ -196,7 +196,7 @@ Unchanged source immediately before the edit:
     }
 ```
 
-Insert after old physical line 201.
+Insert after old physical line 202.
 
 Insert:
 
@@ -223,7 +223,7 @@ Unchanged source immediately before the edit:
         savefile();
 ```
 
-Insert after old physical line 73.
+Insert after old physical line 74.
 
 Insert:
 
@@ -270,19 +270,16 @@ let mut inopen=0;
 ## Build and preserve the program
 
 ```dos
-COPY E19.RIL SOURCE.RIL
-CHECK RILLED
-COPY RESULT.IR SOURCE.IR
-CHECK IRED
-COPY RESULT.ASM SOURCE.ASM
-CHECK A0
+CHECK RILLED E19.RIL RESULT.IR
+CHECK IRED RESULT.IR RESULT.ASM EDITRT.ASM
+CHECK A0 RESULT.ASM RESULT.COM
 COPY RESULT.COM E19.COM
 ```
 
-Require compiler `OK RESULT.IR 0000044523`, translator `OK RESULT.ASM 0000095700 text bytes`, assembler `OK RESULT.COM 20506 bytes`, and each PASS before the following copy. VIEW.BAS must report E19.COM length 20506 bytes, beginning with:
+Require compiler `OK RESULT.IR 0000045968`, translator `OK RESULT.ASM 0000099992 text bytes`, assembler `OK RESULT.COM 21353 bytes`, and each PASS before the following copy. VIEW.BAS must report E19.COM length 21353 bytes, beginning with:
 
 ```text
-FC 81 FC FE FF 74 03 E9 B0 4C E8 08 49 B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+FC 81 FC FE FF 74 03 E9 A1 4E E8 E7 4E 81 F8 FF FF 75 03 E9 95 4E E8 ED 4A B4 4C CD 21 00 00 00
 ```
 
 ## The document fixture
@@ -295,8 +292,7 @@ two
 ```
 
 ```dos
-COPY T19.TXT EDIT.TXT
-CHECK E19
+CHECK E19 T19.TXT
 ```
 
 Press Delete, type !, then F4 twice. Save with F2 and leave with F10. Require CHECK PASS and COMP equality with T19.TXT. Another F4 reports that no earlier edit remains. Undoing a line ending restores both CR and LF; navigation alone never creates an undo record.

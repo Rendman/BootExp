@@ -10,7 +10,7 @@ BOOTASM.BAS and ASM0.ASM: unchanged preceding bootstrap sources.
 A01.ASM through A12.ASM: complete seed construction checkpoints.
 ASM1.ASM: complete seed, identical to A12.ASM.
 Tnn.ASM and Xnn.ASM: exact acceptance/rejection inputs where applicable.
-VIEW.BAS and CHECK.BAT: unchanged inspection and DOS status helpers.
+VIEW.BAS inspects bytes; CHECK.BAT forwards filename arguments.
 SYMS.BAS: source-text generator for the 2048-definition exercise.
 HELLO.ASM, MEMORY.ASM, COUNT.ASM: complete executable examples.
 
@@ -23,8 +23,8 @@ Require OK and PASS at every build. Preserve each source/executable.
 A03 through A06 copy data; inspect that output, never execute it.
 Only fixtures expressly identified as complete programs may be run.
 
-ASM1.COM is 3302 bytes. Compare both self-assembly generations with
-its ASM0-built original. The seed uses fixed SOURCE.ASM/RESULT.COM,
+ASM1.COM is 3740 bytes. Compare both self-assembly generations with
+its ASM0-built original. The seed defaults to SOURCE.ASM/RESULT.COM,
 1024-byte input/output blocks, 2048 symbols, sixteen-character names,
 120-character physical lines, and at most 65535 lines per pass.
 It runs in one full 64 KB segment and allocates no extra symbol pages.
@@ -36,3 +36,11 @@ The separate ASM86 collection begins by copying this verified
 ASM1.ASM to A13.ASM. Keep the tested ASM1.COM as its builder.
 All members are ASCII/CRLF/8.3 source. No executable or interpreter
 is supplied in this source collection.
+
+COMMAND-LINE FILENAMES
+From ASM1 onward, supply input and output filenames on the command
+line: CHECK tool INPUT.EXT OUTPUT.EXT. No arguments select the
+default work names. Use unquoted 8.3 filenames in the current directory;
+paths and switches are not accepted. Input, output, temporary and backup
+names must be distinct. LINK86 takes two object names then the result;
+EDIT86 takes one document name and saves that same document.

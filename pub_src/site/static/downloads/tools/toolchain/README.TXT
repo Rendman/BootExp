@@ -16,7 +16,7 @@ as RBOOT. RBOOT compiles the same source with 64-slot frames to
 establish R0;
 R0 then builds the RILL-written translator and assembler. It
 then rebuilds each tool twice using only the RILL implementations.
-VIEW.BAS and CHECK.BAT are the unchanged workbench helpers.
+VIEW.BAS inspects bytes; CHECK.BAT forwards filename arguments.
 IW01.ASM through IW23.ASM: identical aliases of IR01 through IR23.
 RILL0.IR: the completed first compiler, continued by RB01 through RB12.
 RC01.RIL through RC43.RIL: the compiler written in RILL.
@@ -26,7 +26,7 @@ T-prefixed inputs and X-prefixed rejection cases accompany those tools.
 The named example RIL/IR files accompany the interface articles.
 
 Use your own DOS 3.10 and its period BASIC interpreter. Begin with the
-completed ASM86 workbench: ASMAKEEP.COM must be the tested 5995-byte
+completed ASM86 workbench: ASMAKEEP.COM must be the tested 6433-byte
 native assembler. Keep it and the sources on a separate labeled disk.
 TMAKE deliberately preserves that builder. Do not start from a supplied
 binary: none is present. Use a hard-disk working directory, with enough
@@ -68,3 +68,11 @@ ownership checking or a claim of memory safety. Consult the references.
 
 Every archive member is ASCII source with DOS line endings and an
 8.3 name. No preassembled executable or historical interpreter is here.
+
+COMMAND-LINE FILENAMES
+From ASM1 onward, supply input and output filenames on the command
+line: CHECK tool INPUT.EXT OUTPUT.EXT. No arguments select the
+default work names. Use unquoted 8.3 filenames in the current directory;
+paths and switches are not accepted. Input, output, temporary and backup
+names must be distinct. LINK86 takes two object names then the result;
+EDIT86 takes one document name and saves that same document.

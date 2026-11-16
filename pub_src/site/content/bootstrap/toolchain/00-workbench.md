@@ -7,7 +7,17 @@ download_group = "tools/toolchain"
 reader_names = 1
 +++
 
-Complete the RILL compiler construction and its self-build comparisons first. R0.COM is the 26617-byte compiler built from RC43.RIL, saved as RILL.RIL. Keep the matching compiler copies and source on a separate labeled disk.
+Complete the RILL compiler construction and its self-build comparisons first. R0.COM is the 27614-byte compiler built from RC43.RIL, saved as RILL.RIL. Keep the matching compiler copies and source on a separate labeled disk.
+
+## Command-line filenames
+
+```dos
+CHECK RILL INPUT.RIL OUTPUT.IR
+```
+
+DOS supplies the names in the PSP command tail. The native entry binding copies them into owned zero-terminated storage before file services; IR and RILL code use portable argument services. CHECK.BAT forwards the arguments and reports status immediately. No arguments select SOURCE.RIL and RESULT.IR. Use unquoted 8.3 disk names in the current directory: letters, digits, underscore and hyphen, with an optional extension. Paths, switches, excess arguments and overlong names are rejected. Keep selected files distinct from each other and from RILL.TMP and RILL.BAK. Those temporary/backup names remain reserved.
+
+Success reports the selected result name. Rejected source preserves that accepted result; recovery rules apply to the selected name. Early diagnostic writers may deliberately retain a temporary file for inspection, as stated in their lesson.
 
 Use the same DOS 3.10 and period BASIC workbench. CHECK.BAT reports executable status immediately; VIEW.BAS shows exact file length and bytes. Use TYPE for generated assembly and IR text.
 
@@ -25,7 +35,7 @@ The [RILL language reference](../../rc/044-reference/index.html), [streaming IR 
 
 ## Build one replacement at a time
 
-The first two installments use R0, IWKEEP, and ASMAKEEP. Select a tool source by copying it to SOURCE.RIL. After a successful compiler run, copy RESULT.IR to SOURCE.IR; after a successful translation, copy RESULT.ASM to SOURCE.ASM. Require the stated OK and PASS before each copy.
+The first two installments use R0, IWKEEP, and ASMAKEEP. Pass each tool source filename to R0 with RESULT.IR as its result. Pass RESULT.IR directly to IWKEEP with RESULT.ASM as its result, then RESULT.ASM to ASMAKEEP with RESULT.COM as its result. Require the stated OK and PASS at every boundary before using the next file.
 
 Save the accepted IR86 replacement as I0.COM and the accepted ASM86 replacement as A0.COM. R0, I0, and A0 then form the first trio of tools written in RILL. Keep IWKEEP and ASMAKEEP separately named throughout this handoff.
 

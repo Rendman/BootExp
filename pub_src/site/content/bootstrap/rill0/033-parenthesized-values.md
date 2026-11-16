@@ -14,7 +14,7 @@ Compile numeric literals and parenthesized expressions through the existing EXPR
 
 Copy R32.IR to R33.IR. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 1234
+### Edit at old physical position 1247
 
 Unchanged source before the edit:
 
@@ -47,7 +47,7 @@ LIT 0
 RETURN
 ```
 
-### Edit at old physical position 1228
+### Edit at old physical position 1241
 
 Unchanged source before the edit:
 
@@ -71,7 +71,7 @@ LITS "LIT "
 CALL OUTSTR
 ```
 
-### Edit at old physical position 1226
+### Edit at old physical position 1239
 
 Unchanged source before the edit:
 
@@ -103,7 +103,7 @@ CNE
 JNZ SYNTAX
 ```
 
-### Edit at old physical position 1222
+### Edit at old physical position 1235
 
 Unchanged source before the edit:
 
@@ -134,13 +134,11 @@ PUSH
 ## Build and check
 
 ```dos
-COPY R33.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP R33.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 15154 bytes`. Save RESULT.COM as R33.COM. VIEW.BAS must show length 15154.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 15976 bytes`. Save RESULT.COM as R33.COM. VIEW.BAS must show length 15976.
 
 Create T33.RIL:
 
@@ -149,16 +147,12 @@ Create T33.RIL:
 ```
 
 ```dos
-COPY T33.RIL SOURCE.RIL
-```
-
-```dos
-CHECK R33
+CHECK R33 T33.RIL RESULT.IR
 ```
 
 Require PASS.
 
-Inspect RILL.TMP with VIEW.BAS. Require length 33 bytes and these complete bytes:
+Inspect RESULT.IR with VIEW.BAS. Require length 33 bytes and these complete bytes:
 
 ```text
 4C 49 54 20 30 30 30 30 31 0D 0A 50 55 53 48 0D
@@ -166,17 +160,21 @@ Inspect RILL.TMP with VIEW.BAS. Require length 33 bytes and these complete bytes
 0A
 ```
 
-This is a fragment for inspection. Delete the deliberately created RILL.TMP after checking it.
+This is a fragment for inspection, not a complete program. The command-selected RESULT.IR contains that fragment.
 
 ## Check the new boundary
 
-Use this separate rejected source:
+Save this separate rejected source as X33.RIL:
 
 ```rill
 ABC
 ```
 
-Copy it to SOURCE.RIL and run CHECK R33. Require:
+```dos
+CHECK R33 X33.RIL RESULT.IR
+```
+
+Require:
 
 ```text
 ERROR 0000000001 CODE 00004

@@ -62,13 +62,13 @@ bytes string[512];
 Remove this source at old physical positions 35–35 in RC31.RIL:
 
 ```rill
-fn main(){table=alloc(23680);setident("ABC");rectype=1;recval=12345;reclevel=0;record(0);globals=1;resolveoptional();return (rectype)!=1;}
+fn main(){filearg(1,"SOURCE.RIL");table=alloc(23680);setident("ABC");rectype=1;recval=12345;reclevel=0;record(0);globals=1;resolveoptional();return (rectype)!=1;}
 ```
 
 Replace it with:
 
 ```rill
-fn main(){input=open("SOURCE.RIL");if status(){fail(1);}next();lex();return (prec())!=7;}
+fn main(){filearg(1,"SOURCE.RIL");input=open(filearg(1,"SOURCE.RIL"));if status(){fail(1);}next();lex();return (prec())!=7;}
 ```
 
 The following old source remains in place:
@@ -81,25 +81,23 @@ fn next() {
 ## Build this stopping point
 
 ```dos
-COPY RC32.RIL SOURCE.RIL
-CHECK RILLBOOT
+CHECK RILLBOOT RC32.RIL RESULT.IR
 ```
 
-Require `OK RESULT.IR 0000026199` and PASS. Copy RESULT.IR to SOURCE.IR.
+Require `OK RESULT.IR 0000027734` and PASS. Pass RESULT.IR directly to the translator.
 
 ```dos
-CHECK IWKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IWKEEP SOURCE.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require IR86 `OK RESULT.ASM 0000056288 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 18582 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000061280 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 19501 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RC32.COM
 ```
 
-VIEW.BAS must report RC32.COM length 18582 bytes. Keep this executable and its source together.
+VIEW.BAS must report RC32.COM length 19501 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -110,11 +108,7 @@ Create TRC32.RIL with COPY CON or a plain-text editor. Finish COPY CON with Ctrl
 ```
 
 ```dos
-COPY TRC32.RIL SOURCE.RIL
-```
-
-```dos
-CHECK RC32
+CHECK RC32 TRC32.RIL RESULT.IR
 ```
 
 The checker must report PASS. The driver compares the result with 7 and returns nonzero on a mismatch; it adds no display routine.

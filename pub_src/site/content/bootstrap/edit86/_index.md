@@ -18,7 +18,7 @@ We can build our tools with RILL. EDIT86 gives that workbench a screen editor of
 - **A 256 KiB document buffer:** Keep text and its insertion gap in eight allocated pages so source files larger than one segment remain editable.
 - **Portable screen and key services:** Extend preserved copies of RILL and IR86 with cell positions, counted screen writes and key events, keeping native details in the target binding.
 - **Checked bulk transfers:** Move text between allocated pages and the file buffer without a procedure call for every byte.
-- **Recoverable saves:** Publish EDIT.TXT through temporary and backup names so failed saves preserve the accepted file or leave explicit recovery files.
+- **Recoverable saves:** Publish the selected document through temporary and backup names so failed saves preserve the accepted file or leave explicit recovery files.
 
 **Removing:** None. Preserve the established RILL-written trio. The editor uses extended compiler/translator copies; earlier bootstrap sources, object linking and the single-segment executable format remain available.
 

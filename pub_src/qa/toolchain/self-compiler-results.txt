@@ -1,4 +1,4 @@
-PASS RILLBOOT -> RC43: 49992 IR bytes, 26617 native bytes
-PASS RILL generation 0: 49992 IR bytes, 26617 native bytes
-PASS RILL generation 1: 49992 IR bytes, 26617 native bytes; identical to previous generation
-PASS RILL generation 2: 49992 IR bytes, 26617 native bytes; identical to previous generation
+PASS RILLBOOT -> RC43: 51789 IR bytes, 27614 native bytes
+PASS RILL generation 0: 51789 IR bytes, 27614 native bytes
+PASS RILL generation 1: 51789 IR bytes, 27614 native bytes; identical to previous generation
+PASS RILL generation 2: 51789 IR bytes, 27614 native bytes; identical to previous generation

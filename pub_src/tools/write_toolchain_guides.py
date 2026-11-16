@@ -8,6 +8,11 @@ def fence(k,t):return '```'+k+'\n'+t.replace('\r\n','\n').rstrip('\n')+'\n```\n\
 facts=json.loads((Q/'self-build-facts.json').read_text());seed=len((W/'RILLBOOT.COM').read_bytes());wide=len((ROOT/'workbench/ir86/IRWIDE.COM').read_bytes());native_assembler=len((ROOT/'workbench/asm86/ASM86A.COM').read_bytes())
 (Q/'build-facts.json').write_text(json.dumps({'native_ir_bytes':wide,'ir_compiler_seed_bytes':seed,'tools':facts},indent=2)+'\n')
 capacity=json.loads((Q/'local-capacity.json').read_text())
+for relative,pattern,replacement in [
+ ('rill/000-workbench.md',r'The seed-built compiler is \d+ bytes\.',f'The seed-built compiler is {capacity["boot_binary_bytes"]} bytes.'),
+ ('toolchain/00-workbench.md',r'R0\.COM is the \d+-byte compiler',f'R0.COM is the {facts["RILL"]}-byte compiler'),
+]:
+ path=C/relative;path.write_text(re.sub(pattern,lambda _:replacement,path.read_text()))
 t=front('The compiler self-build',133,'Establish the compiler frame convention and compare two matching generations.','RILL.RIL')
 t+=f'RC43.RIL is the completed RILL compiler, saved as RILL.RIL. Its record, local-declaration and procedure routines already support sixty-four local slots and sixteen parameters. The IR-written seed built RC43.COM; preserve it as RBOOT.COM. VIEW.BAS must report **{capacity["boot_binary_bytes"]} bytes**.\n\n'
 t+='## Let RILL establish its own frames\n\nRILLBOOT reserves sixteen local slots in the programs it compiles. RILL reserves sixty-four. RBOOT therefore uses sixteen-slot frames in its own implementation but emits sixty-four-slot frames. Compile the unchanged compiler source once with RBOOT to establish R0 using the RILL frame convention:\n\n'+fence('dos','COPY RILL.RIL SOURCE.RIL\nCHECK RBOOT\nCOPY RESULT.IR SOURCE.IR\nCHECK IWKEEP\nCOPY RESULT.ASM SOURCE.ASM\nCHECK ASMAKEEP\nCOPY RESULT.COM R0.COM')
@@ -33,7 +38,7 @@ for name,collection,weight,file,description in [('IR86','toolchain',1,'01-ir86-i
  t+='## Complete build\n\n'+fence('dos',f'COPY {name}.RIL SOURCE.RIL\nCHECK R0\nCOPY RESULT.IR SOURCE.IR\nCHECK IWKEEP\nCOPY RESULT.ASM SOURCE.ASM\nCHECK ASMAKEEP\nCOPY RESULT.COM '+('I0.COM' if name=='IR86' else 'A0.COM'))
  t+='Require each OK and PASS **before** the next copy. The complete source link is the same file assembled from the routine blocks above.\n\n'
  if name=='IR86':
-  t+='Test the fixed-file translator with this complete IR program:\n\n'+fence('ir','PROC MAIN 0 0\nLIT 65\nPUTC\nLIT 0\nRETURN')+'Save it as TEST.IR. COPY TEST.IR SOURCE.IR and run CHECK I0. Require OK and PASS, copy RESULT.ASM to SOURCE.ASM, and run CHECK ASMAKEEP. Save the accepted RESULT.COM as TRY.COM; CHECK TRY displays A and reports PASS.\n\nFor rejection, replace its LIT 65 with LIT 65536. CHECK I0 must report `IR ERROR 0000000002 CODE 00002` and FAIL, preserving the accepted RESULT.ASM. An unexpected PASS fails this check.\n'
+  t+='Test the command-line translator with this complete IR program:\n\n'+fence('ir','PROC MAIN 0 0\nLIT 65\nPUTC\nLIT 0\nRETURN')+'Save it as TEST.IR. Run CHECK I0 TEST.IR RESULT.ASM. Require OK and PASS, run CHECK ASMAKEEP RESULT.ASM RESULT.COM. Save the accepted RESULT.COM as TRY.COM; CHECK TRY displays A and reports PASS.\n\nFor rejection, replace its LIT 65 with LIT 65536. CHECK I0 must report `IR ERROR 0000000002 CODE 00002` and FAIL, preserving the accepted RESULT.ASM. An unexpected PASS fails this check.\n'
  else:t+='Test A0 with SOURCE.ASM containing `MOV DL,65`, `MOV AH,2`, `INT 21H`, `MOV AX,4C00H`, and `INT 21H`, each on its own line. Require `OK RESULT.COM 00011 bytes` and PASS. VIEW.BAS must show `B2 41 B4 02 CD 21 B8 00 4C CD 21`; save it as TRY.COM. CHECK TRY displays A and reports PASS.\n\nFor rejection, use SOURCE.ASM containing `MOV CS,AX`. CHECK A0 must report `ERROR 0000000001 CODE 00001` and FAIL, preserving RESULT.COM. An unexpected PASS fails the check.\n'
  routes=['/bootstrap/ir86/061-ir86-in-rill/'] if name=='IR86' else ['/bootstrap/rc/134-asm86a-in-rill/','/bootstrap/rill/134-asm86a-in-rill/']
  publish(collection,file,t,aliases=routes)

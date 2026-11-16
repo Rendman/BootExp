@@ -2,6 +2,7 @@
 from pathlib import Path
 import json
 from build_ir86_wide import source,OPS,PARTS,near
+from command_files import runtime as argument_runtime
 ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/toolchain';Q=ROOT/'qa/toolchain'
 ENTRY='START:\nCLD\nCMP SP,0FFFEH\nJNE NEAR MEMORYBAD\n'
 EXIT='MOV AX,4C00H\nINT 21H\nMEMORYBAD:\nMOV AX,7\nJMP ERROR\n'
@@ -53,7 +54,9 @@ for n,(title,why,fixture,adds,driver) in enumerate(specs,1):
  if n==12:
   title='Reading a declared byte';why='Zero-extend one byte from declared storage without a processor register in the source.';adds='FETCHB'
   fixture='WORD X 65\nLABEL MAIN\nADDR X\nFETCHB\nPUTC\nLIT 0\nEXIT\n'
+ if n==13:fixture='LABEL MAIN\nARGC\nPUSH\nLIT 1\nCEQ\nJNZ NAMED\nLIT 1\nEXIT\nLABEL NAMED\nLIT 1\nARG\nOPEN\nSTATUS\nEXIT\n'
  adds=' '.join(op for op in adds.split() if op in OPS)
+ if n==13:adds+=' ARGC ARG'
  if n==18:adds+=' CALL'
  if n==23:fixture=fixture.replace('POP\nRETURN','RETURN') # preserve the comparison across FREEBLOCK below
  if n==23:fixture=fixture.replace('PUSH\nLD H\nFREEBLOCK\nRETURN','SETLOCAL 0\nLD H\nFREEBLOCK\nLOCAL 0\nRETURN').replace('PROC MAIN 0 0','PROC MAIN 0 1')
@@ -70,6 +73,7 @@ def runtime(level):
   if level==22:selected.append(ext[ext.index('R_ALLOC:'):ext.index('R_BLOCKPTR:')]+ext[ext.index('R_FREEBLOCK:'):ext.index('R_STACKFAIL:')])
   else:selected.append(ext[ext.index('R_ALLOC:'):ext.index('R_STACKFAIL:')])
  selected.append('R_STACKFAIL:\nMOV AX,4C02H\nINT 21H\n')
+ if level>=13:selected.append(argument_runtime())
  if level>=22:selected.append('R_WANT:\nDW 0\nR_MEMVALUE:\nDW 0\nR_BLOCKS:\nRESW 32\n')
  return near('\n'.join(selected))
 def build():
@@ -80,6 +84,8 @@ def build():
   else:text=source(active,runtime(n),driver,frames=n>=18,strings=n>=20,roots=(('EMITCHAR','OUTTEXT') if n>=3 else ())+ (('OUTNUM','EXPAND','NUMARG','NAMEARG') if n>=4 else ()))
   filename=f'IW{n:02}.ASM';(W/filename).write_bytes(text.replace('\n','\r\n').encode('ascii'))
   (W/f'TIW{n:02}.IR').write_bytes(fixture.replace('\r\n','\n').replace('\n','\r\n').encode())
-  cases.append(dict(number=n,title=title,why=why,source=filename,fixture=fixture,diagnostic=n<=4,raw=n==3))
+  case=dict(number=n,title=title,why=why,source=filename,fixture=fixture,diagnostic=n<=4,raw=n==3)
+  if n==13:case['program_command_line']='A'
+  cases.append(case)
  (Q/'ir-extensions.json').write_text(json.dumps(cases,indent=2)+'\n');print('Prepared 23 native IR86 extension checkpoints')
 if __name__=='__main__':build()

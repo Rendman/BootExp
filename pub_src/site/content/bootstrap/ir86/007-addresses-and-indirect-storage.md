@@ -14,7 +14,7 @@ Keep byte addresses and canonical word loads independent of physical registers.
 
 Copy IR06.ASM to IR07.ASM. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 1162
+### Edit at old physical position 1325
 
 Unchanged source before the edit:
 
@@ -37,7 +37,14 @@ DB 70,69,84,67,72,0,0,0,0,0,0,0,0,0
 DW T_FETCH
 ```
 
-### Edit at old physical position 1149
+The following old source remains:
+
+```asm
+
+CMDCOUNT:
+```
+
+### Edit at old physical position 1312
 
 Unchanged source before the edit:
 
@@ -71,7 +78,7 @@ The following old source remains:
 DB 0
 ```
 
-### Edit at old physical position 1141
+### Edit at old physical position 1304
 
 Unchanged source before the edit:
 
@@ -95,7 +102,7 @@ T_WORD:
 DB "U_@:",13,10
 ```
 
-### Edit at old physical position 866
+### Edit at old physical position 872
 
 Unchanged source before the edit:
 
@@ -127,11 +134,10 @@ CALL LOOK
 ## Build and check
 
 ```dos
-COPY IR07.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP IR07.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 03105 bytes`. Save RESULT.COM as IR07.COM. VIEW.BAS must show length 3105.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 03598 bytes`. Save RESULT.COM as IR07.COM. VIEW.BAS must show length 3598.
 
 Create T07.IR:
 
@@ -144,11 +150,7 @@ EXIT
 ```
 
 ```dos
-COPY T07.IR SOURCE.IR
-```
-
-```dos
-CHECK IR07
+CHECK IR07 T07.IR RESULT.ASM
 ```
 
 Require:
@@ -159,8 +161,7 @@ PASS
 ```
 
 ```dos
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
 Require OK and PASS. VIEW.BAS must show RESULT.COM length 35 and these leading bytes:
@@ -173,13 +174,17 @@ Copy it to TRY.COM. CHECK TRY reports FAIL because the test returns 65.
 
 ## Check the new boundary
 
-Use this separate rejected source:
+Save this separate rejected source as X07.IR:
 
 ```ir
 UNKNOWN
 ```
 
-Copy it to SOURCE.IR and run CHECK IR07. Require:
+```dos
+CHECK IR07 X07.IR RESULT.ASM
+```
+
+Require:
 
 ```text
 IR ERROR 0000000001 CODE 1

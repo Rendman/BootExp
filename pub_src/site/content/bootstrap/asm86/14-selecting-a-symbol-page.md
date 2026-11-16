@@ -8,7 +8,7 @@ reader_names = 1
 url = "/bootstrap/asm86a/14-selecting-a-symbol-page/"
 +++
 
-A page selector and offset must travel together inside a table helper.
+My memory sketch now has boxes outside the main segment. A record number must lead me to both the right box and the right place inside it. I'll check the last record slot in the last page before trusting that calculation with any source names.
 
 ## The working parts
 
@@ -29,7 +29,7 @@ MEMCOUNT:
 DW 0
 ```
 
-Insert after old physical line 1647.
+Insert after old physical line 1836.
 
 Insert:
 
@@ -54,7 +54,7 @@ MOV ES,AX
 RET
 ```
 
-Insert after old physical line 1446.
+Insert after old physical line 1452.
 
 Insert:
 
@@ -105,8 +105,8 @@ RET
 The following old source stays in place:
 
 ```asm
-OKMSG:
-DB 79,75,32,82,69,83,85,76,84,46,67,79,77,32,36
+CMDINIT:
+MOV SI,81H
 ```
 
 ### Change 3 near `ROOM:`
@@ -114,12 +114,12 @@ DB 79,75,32,82,69,83,85,76,84,46,67,79,77,32,36
 Unchanged source immediately before this edit:
 
 ```asm
-JMP ERROR
 ROOM:
+CALL CMDFILES
 CALL MEMINIT
 ```
 
-Insert after old physical line 9.
+Insert after old physical line 10.
 
 Insert:
 
@@ -137,17 +137,16 @@ MOV AL,1
 ## Build the stopping point
 
 ```dos
-COPY A14.ASM SOURCE.ASM
-CHECK ASM1
+CHECK ASM1 A14.ASM RESULT.COM
 ```
 
-Require `OK RESULT.COM 03747 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 04185 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A14.COM
 ```
 
-VIEW.BAS must report A14.COM length 3747 bytes. Keep that executable and source together.
+VIEW.BAS must report A14.COM length 4185 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -162,11 +161,7 @@ INT 21H
 ```
 
 ```dos
-COPY T14.ASM SOURCE.ASM
-```
-
-```dos
-CHECK A14
+CHECK A14 T14.ASM RESULT.COM
 ```
 
 Require:
@@ -193,8 +188,7 @@ MOV AX,AL
 ```
 
 ```dos
-COPY X14.ASM SOURCE.ASM
-CHECK A14
+CHECK A14 X14.ASM RESULT.COM
 ```
 
 Require:

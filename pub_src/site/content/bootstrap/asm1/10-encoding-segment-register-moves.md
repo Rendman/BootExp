@@ -26,22 +26,27 @@ Copy `A09.ASM` to `A10.ASM`. Apply the following edits **from the bottom of the 
 Unchanged source immediately before this edit:
 
 ```asm
-
 CLEANFAIL:
 DB 0
 ```
 
-Insert after old physical line 1344.
+Insert after old physical line 1534.
 
 Insert:
 
 ```asm
-
 PREFIX:
 DB 0
 
 P1:
 DB 0
+```
+
+The following old source stays in place:
+
+```asm
+CMDCOUNT:
+DW 0
 ```
 
 ### Change 2 near `ENDPC:`
@@ -53,7 +58,7 @@ ENDPC:
 DW 0
 ```
 
-Insert after old physical line 1327.
+Insert after old physical line 1516.
 
 Insert:
 
@@ -79,7 +84,7 @@ DB 83,73,0,14
 DB 68,73,0,15
 ```
 
-Insert after old physical line 1266.
+Insert after old physical line 1455.
 
 Insert:
 
@@ -106,7 +111,7 @@ CLEANEND:
 RET
 ```
 
-Insert after old physical line 1163.
+Insert after old physical line 1169.
 
 Insert:
 
@@ -174,8 +179,8 @@ JMP TWOBAD
 The following old source stays in place:
 
 ```asm
-OKMSG:
-DB 79,75,32,82,69,83,85,76,84,46,67,79,77,32,36
+CMDINIT:
+MOV SI,81H
 ```
 
 ### Change 5 near `STOREOK:`
@@ -188,7 +193,7 @@ JMP ERROR
 STOREOK:
 ```
 
-Insert after old physical line 841.
+Insert after old physical line 847.
 
 Insert:
 
@@ -217,7 +222,7 @@ JMP EMITWORD
 LOADMEM:
 ```
 
-Insert after old physical line 819.
+Insert after old physical line 825.
 
 Insert:
 
@@ -246,7 +251,7 @@ JMP ERROR
 MOVOPERANDS:
 ```
 
-Insert after old physical line 773.
+Insert after old physical line 779.
 
 Insert:
 
@@ -280,7 +285,7 @@ MOV AL,[REG]
 MOV [R1],AL
 ```
 
-Insert after old physical line 731.
+Insert after old physical line 737.
 
 Insert:
 
@@ -306,7 +311,7 @@ CMP AX,0FFFFH
 JE IMMEDIATE
 ```
 
-Insert after old physical line 507.
+Insert after old physical line 513.
 
 Insert:
 
@@ -334,7 +339,7 @@ JMP ERROR
 OPERAND:
 ```
 
-Insert after old physical line 500.
+Insert after old physical line 506.
 
 Insert:
 
@@ -360,7 +365,7 @@ REGISTER:
 MOV BX,REGTAB
 ```
 
-Remove this exact source at old physical positions 307–307:
+Remove this exact source at old physical positions 313–313:
 
 ```asm
 MOV CX,16
@@ -381,9 +386,9 @@ CALL LOOK
 
 ## Build the stopping point
 
-Copy `A10.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK 03267 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM A10.COM`.
+Copy `A10.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK 03705 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM A10.COM`.
 
-VIEW.BAS must report A10.COM length 3267 bytes. Keep that executable and source together.
+VIEW.BAS must report A10.COM length 3705 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -398,11 +403,7 @@ INT 21H
 ```
 
 ```dos
-COPY T10.ASM SOURCE.ASM
-```
-
-```dos
-CHECK A10
+CHECK A10 T10.ASM RESULT.COM
 ```
 
 Require:
@@ -429,8 +430,7 @@ MOV AX,AL
 ```
 
 ```dos
-COPY X10.ASM SOURCE.ASM
-CHECK A10
+CHECK A10 X10.ASM RESULT.COM
 ```
 
 Require:
@@ -446,4 +446,4 @@ An unexpected PASS fails this rejection test.
 
 ## If the result differs
 
-Check the fixed name bytes, handle ownership flags, reader cursors at each pass, and the current output count. Inspect file length as well as the leading bytes. A copied data file is not an executable proof.
+Check the saved argument names and terminators, handle ownership flags, reader cursors at each pass, and the current output count. Inspect file length as well as the leading bytes. A copied data file is not an executable proof.

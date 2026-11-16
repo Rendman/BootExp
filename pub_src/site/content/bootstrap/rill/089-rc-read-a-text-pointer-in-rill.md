@@ -62,25 +62,23 @@ fn print(s) { let mut c = 0; while 1 { c = load8(s); if c == 0 { return 0; } put
 ## Build this stopping point
 
 ```dos
-COPY RC01.RIL SOURCE.RIL
-CHECK RILLBOOT
+CHECK RILLBOOT RC01.RIL RESULT.IR
 ```
 
-Require `OK RESULT.IR 0000001201` and PASS. Copy RESULT.IR to SOURCE.IR.
+Require `OK RESULT.IR 0000001201` and PASS. Pass RESULT.IR directly to the translator.
 
 ```dos
-CHECK IWKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IWKEEP SOURCE.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require IR86 `OK RESULT.ASM 0000006499 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 09999 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000007993 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 10361 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RC01.COM
 ```
 
-VIEW.BAS must report RC01.COM length 9999 bytes. Keep this executable and its source together.
+VIEW.BAS must report RC01.COM length 10361 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 

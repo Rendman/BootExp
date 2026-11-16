@@ -22,6 +22,45 @@ Keep the unchanged source. Apply these edits from the bottom of the old file upw
 Unchanged source immediately before the edit:
 
 ```rill
+    return 0;
+}
+```
+
+Insert after old physical line 93.
+
+Insert:
+
+```rill
+fn filearg(n,fallback){
+    let mut count=argc();
+    if count==0{
+        return fallback;
+    }
+    if count!=1{
+        exit(1);
+    }
+    if filesame(arg(1),"EDIT.TMP")|filesame(arg(1),"EDIT.BAK"){
+        exit(1);
+    }
+    return arg(n);
+}
+fn filesame(a,b){
+    let mut i=0;
+    while load8(a+i)==load8(b+i){
+        if load8(a+i)==0{
+            return 1;
+        }
+        i=i+1;
+    }
+    return 0;
+}
+```
+
+### Edit 2
+
+Unchanged source immediately before the edit:
+
+```rill
 }
 fn cleanup(){
 ```
@@ -53,7 +92,7 @@ The following old source remains:
 fn print(s){
 ```
 
-### Edit 2
+### Edit 3
 
 Unchanged source immediately before the edit:
 
@@ -70,14 +109,14 @@ Insert:
 fn loadfile(){
     let mut present=exists(filename());
     if status(){
-        fatal("Cannot inspect EDIT.TXT.");
+        fatal("Cannot inspect document.");
     }
     if present==0{
         return 0;
     }
     input=open(filename());
     if status(){
-        fatal("Cannot open EDIT.TXT.");
+        fatal("Cannot open document.");
     }
     inopen=1;
     while 1{
@@ -93,19 +132,19 @@ fn loadfile(){
         }
         let mut n=read(input,io,request);
         if status(){
-            fatal("Cannot read EDIT.TXT.");
+            fatal("Cannot read document.");
         }
         if n==0{
             close(input);
             if status(){
-                fatal("Cannot close EDIT.TXT.");
+                fatal("Cannot close document.");
             }
             inopen=0;
             difference(space,cap,length);
             return 0;
         }
         if load16(length+2)==4{
-            fatal("EDIT.TXT exceeds the 256 KiB text capacity.");
+            fatal("Document exceeds the 256 KiB text capacity.");
         }
         blockload(handle(load16(length),load16(length+2)),load16(length)&32767,io,n);
         if status(){
@@ -124,7 +163,7 @@ fn cleanup(){
     return release();
 ```
 
-### Edit 3
+### Edit 4
 
 Unchanged source immediately before the edit:
 
@@ -164,7 +203,7 @@ fn allocate(){
     let mut i=0;
 ```
 
-### Edit 4
+### Edit 5
 
 Unchanged source immediately before the edit:
 
@@ -195,7 +234,7 @@ Replace with:
     return cleanup()|bad;
 }
 fn filename(){
-    return "EDIT.TXT";
+    return filearg(1,"EDIT.TXT");
 }
 fn zero(p){
     store16(p,0);
@@ -210,7 +249,31 @@ The following old source remains:
 fn copypos(d,s){
 ```
 
-### Edit 5
+### Edit 6
+
+Unchanged source immediately before the edit:
+
+```rill
+bytes other[4];
+fn main(){
+```
+
+Insert after old physical line 7.
+
+Insert:
+
+```rill
+    filename();
+```
+
+The following old source remains:
+
+```rill
+    store16(cap+2,4);
+    copypos(gapend,cap);
+```
+
+### Edit 7
 
 Unchanged source immediately before the edit:
 
@@ -234,7 +297,7 @@ fn main(){
     store16(cap+2,4);
 ```
 
-### Edit 6
+### Edit 8
 
 Unchanged source immediately before the edit:
 
@@ -258,7 +321,7 @@ bytes other[4];
 fn main(){
 ```
 
-### Edit 7
+### Edit 9
 
 Unchanged source immediately before the edit:
 
@@ -282,7 +345,7 @@ bytes space[4];
 bytes cap[4];
 ```
 
-### Edit 8
+### Edit 10
 
 Unchanged source immediately before the edit:
 
@@ -306,7 +369,7 @@ bytes gapend[4];
 bytes space[4];
 ```
 
-### Edit 9
+### Edit 11
 
 Unchanged source immediately before the edit:
 
@@ -333,19 +396,16 @@ bytes gapend[4];
 ## Build and preserve the program
 
 ```dos
-COPY E10.RIL SOURCE.RIL
-CHECK RILLED
-COPY RESULT.IR SOURCE.IR
-CHECK IRED
-COPY RESULT.ASM SOURCE.ASM
-CHECK A0
+CHECK RILLED E10.RIL RESULT.IR
+CHECK IRED RESULT.IR RESULT.ASM EDITRT.ASM
+CHECK A0 RESULT.ASM RESULT.COM
 COPY RESULT.COM E10.COM
 ```
 
-Require compiler `OK RESULT.IR 0000008946`, translator `OK RESULT.ASM 0000027742 text bytes`, assembler `OK RESULT.COM 09046 bytes`, and each PASS before the following copy. VIEW.BAS must report E10.COM length 9046 bytes, beginning with:
+Require compiler `OK RESULT.IR 0000010077`, translator `OK RESULT.ASM 0000031548 text bytes`, assembler `OK RESULT.COM 09804 bytes`, and each PASS before the following copy. VIEW.BAS must report E10.COM length 9804 bytes, beginning with:
 
 ```text
-FC 81 FC FE FF 74 03 E9 EC 1F E8 44 1C B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+FC 81 FC FE FF 74 03 E9 84 21 E8 CA 21 81 F8 FF FF 75 03 E9 78 21 E8 D0 1D B4 4C CD 21 00 00 00
 ```
 
 ## The document fixture
@@ -358,8 +418,7 @@ two
 ```
 
 ```dos
-COPY T10.TXT EDIT.TXT
-CHECK E10
+CHECK E10 T10.TXT
 ```
 
 Require PASS. The diagnostic expects ten file bytes and the first byte 6F. It makes no output file. Copy `123` without a line ending over EDIT.TXT and repeat: require FAIL. Restore the fixture before continuing. A missing file is an empty new document in the retained reader, but this diagnostic intentionally rejects a length other than ten.

@@ -7,7 +7,17 @@ download_group = "tools/edit86"
 reader_names = 1
 +++
 
-EDIT86 edits one fixed document, EDIT.TXT. An absent file starts an empty document; a failed inspection or read is an error. Saving an empty document creates a genuine zero-byte file. No byte is treated as a text EOF marker: 1A, NUL and high bytes round-trip unchanged.
+EDIT86 edits the document selected by its PSP argument; EDIT.TXT is the no-argument default. An absent file starts an empty document; a failed inspection or read is an error. Saving an empty document creates a genuine zero-byte file. No byte is treated as a text EOF marker: 1A, NUL and high bytes round-trip unchanged.
+
+## Command-line filenames
+
+```dos
+CHECK EDIT86 INPUT.RIL
+```
+
+DOS supplies the names in the PSP command tail. The native entry binding copies them into owned zero-terminated storage before file services. The language-level interface supplies argument counts and ordinary string pointers through portable services. CHECK.BAT forwards the arguments and reports status immediately. No arguments select EDIT.TXT. Use unquoted 8.3 disk names in the current directory: letters, digits, underscore and hyphen, with an optional extension. Paths, switches, excess arguments and overlong names are rejected. Keep selected files distinct from each other and from EDIT.TMP and EDIT.BAK. Those temporary/backup names remain reserved.
+
+The selected document is opened and saved under the same name. Keep a separately named accepted source while editing; the status row shows the selected name.
 
 ## Keys
 
@@ -20,7 +30,7 @@ EDIT86 edits one fixed document, EDIT.TXT. An absent file starts an empty docume
 | Home, End | Beginning/end of the physical line |
 | Page Up, Page Down | Move twenty-four physical lines |
 | F6, F7 | Document start/end |
-| F2 or Control-S | Save EDIT.TXT |
+| F2 or Control-S | Save the selected document |
 | F3 | Enter a literal, case-sensitive search; Enter accepts, Escape cancels |
 | F5 | Find the next occurrence, starting one byte later; no wrap |
 | F4 or Control-Z | Undo one retained edit |
@@ -85,4 +95,4 @@ Ordinary failed saves leave the accepted document intact and keep dirty set. Fai
 
 The normal return is zero. Startup, fatal service or cleanup failure returns one; screen/file diagnostics identify the failing operation. A rejected edit or failed recoverable save leaves the editor running with a status-line explanation. CHECK reports the final DOS status, while the on-screen Saved message confirms an accepted save. A clean quit does not prove a prior failed save succeeded: a deliberate discard also returns zero.
 
-There are no filename prompts, command-line options, multiple documents, selection, clipboard, replace, redo, syntax coloring, automatic writes or disk-backed document pages. The fixed names and bounded records keep this first editor within the existing language and memory profile.
+The command line supplies the document name. There are no filename prompts, switches, multiple documents, selection, clipboard, replace, redo, syntax coloring, automatic writes or disk-backed document pages. The bounded names and records keep this first editor within the existing language and memory profile.

@@ -26,7 +26,7 @@ Unchanged source immediately before the edit:
     }
 ```
 
-Insert after old physical line 339.
+Insert after old physical line 340.
 
 Insert:
 
@@ -126,7 +126,7 @@ Unchanged source immediately before the edit:
     active=1;
 ```
 
-Remove old physical positions 51–53:
+Remove old physical positions 52–54:
 
 ```rill
     refresh();
@@ -256,19 +256,16 @@ let mut allrows=1;
 ## Build and preserve the program
 
 ```dos
-COPY E16.RIL SOURCE.RIL
-CHECK RILLED
-COPY RESULT.IR SOURCE.IR
-CHECK IRED
-COPY RESULT.ASM SOURCE.ASM
-CHECK A0
+CHECK RILLED E16.RIL RESULT.IR
+CHECK IRED RESULT.IR RESULT.ASM EDITRT.ASM
+CHECK A0 RESULT.ASM RESULT.COM
 COPY RESULT.COM E16.COM
 ```
 
-Require compiler `OK RESULT.IR 0000036851`, translator `OK RESULT.ASM 0000080213 text bytes`, assembler `OK RESULT.COM 17933 bytes`, and each PASS before the following copy. VIEW.BAS must report E16.COM length 17933 bytes, beginning with:
+Require compiler `OK RESULT.IR 0000038296`, translator `OK RESULT.ASM 0000084505 text bytes`, assembler `OK RESULT.COM 18780 bytes`, and each PASS before the following copy. VIEW.BAS must report E16.COM length 18780 bytes, beginning with:
 
 ```text
-FC 81 FC FE FF 74 03 E9 A3 42 E8 FB 3E B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+FC 81 FC FE FF 74 03 E9 94 44 E8 DA 44 81 F8 FF FF 75 03 E9 88 44 E8 E0 40 B4 4C CD 21 00 00 00
 ```
 
 ## The document fixture
@@ -281,8 +278,7 @@ two
 ```
 
 ```dos
-COPY T16.TXT EDIT.TXT
-CHECK E16
+CHECK E16 T16.TXT
 ```
 
 Try arrows, Home, End, Page Up, Page Down, F6 and F7. The insertion cursor must remain in the document window. F2 saves an unchanged file. F10 returns CHECK PASS; COMP against T16.TXT must show no difference. At the first byte, Left does nothing; at EOF, Right does nothing.

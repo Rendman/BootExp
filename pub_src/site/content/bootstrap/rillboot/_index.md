@@ -18,7 +18,7 @@ Continue the completed RILL0 source. Add word arithmetic, masks, strings, global
 - **Word arithmetic and masks:** Add multiplication, unsigned division/remainder, bitwise AND/OR, right shift and logical negation so compiler calculations and character tests can be expressed.
 - **Strings and global storage:** Add quoted text, mutable global words, byte buffers and byte access so the compiler can retain tokens, tables and output templates.
 - **Named procedures and recursion:** Add parameters and separate call frames, with sixteen parameters and sixteen live locals, so the compiler can be divided into reusable and recursive routines.
-- **File and workspace services:** Add counted transfers, file publication and checked allocated blocks so the compiler can process long source files and maintain its symbol table.
+- **File and workspace services:** Add command arguments, counted transfers, file publication and checked allocated blocks so the compiler can process long source files and maintain its symbol table.
 - **A compiler for its successor source:** Extend the accepted RILL0 implementation only far enough to compile the RILL-written compiler and its construction checkpoints.
 
 **Removing:** No accepted RILL0 language features are removed; every continuation retains the preceding compiler subset.

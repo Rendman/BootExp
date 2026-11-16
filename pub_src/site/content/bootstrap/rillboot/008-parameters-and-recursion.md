@@ -17,7 +17,7 @@ Retain every earlier language feature. This checkpoint edits the complete compil
 
 Copy RB07.IR to RB08.IR. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 1356
+### Edit at old physical position 1385
 
 Unchanged source before the edit:
 
@@ -88,13 +88,11 @@ LOCAL 2
 ## Build and check
 
 ```dos
-COPY RB08.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP RB08.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 20856 bytes`. Save RESULT.COM as RB08.COM. VIEW.BAS must show length 20856.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 21734 bytes`. Save RESULT.COM as RB08.COM. VIEW.BAS must show length 21734.
 
 Create TRB08.RIL:
 
@@ -103,11 +101,7 @@ fn main(){putc(twice(32)+1);}fn twice(x){return x*2;}
 ```
 
 ```dos
-COPY TRB08.RIL SOURCE.RIL
-```
-
-```dos
-CHECK RB08
+CHECK RB08 TRB08.RIL RESULT.IR
 ```
 
 Require:
@@ -137,17 +131,21 @@ Inspect RESULT.IR with VIEW.BAS. Require length 236 bytes and these complete byt
 20 30 0D 0A 52 45 54 55 52 4E 0D 0A
 ```
 
-This is a complete IR program. Translate it with IRKEEP, assemble its accepted output with ASMAKEEP, and save RESULT.COM as TRY.COM. Require fresh OK and PASS before both copies. VIEW.BAS must report length 1107. CHECK TRY displays `A` and reports PASS.
+This is a complete IR program. Translate it with IRKEEP, assemble its accepted output with ASMAKEEP, and save RESULT.COM as TRY.COM. Require fresh OK and PASS before both copies. VIEW.BAS must report length 1469. CHECK TRY displays `A` and reports PASS.
 
 ## Check the new boundary
 
-Use this separate rejected source:
+Save this separate rejected source as XRB08.RIL:
 
 ```rill
 fn main(){putc(65536);}
 ```
 
-Copy it to SOURCE.RIL and run CHECK RB08. Require:
+```dos
+CHECK RB08 XRB08.RIL RESULT.IR
+```
+
+Require:
 
 ```text
 ERROR 0000000001 CODE 00003

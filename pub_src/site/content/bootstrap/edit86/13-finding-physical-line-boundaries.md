@@ -26,7 +26,7 @@ Unchanged source immediately before the edit:
 }
 ```
 
-Insert after old physical line 236.
+Insert after old physical line 237.
 
 Insert:
 
@@ -103,7 +103,7 @@ Unchanged source immediately before the edit:
     store16(target,5);
 ```
 
-Remove old physical positions 32–37:
+Remove old physical positions 33–38:
 
 ```rill
     if before(length,target){
@@ -141,7 +141,7 @@ Unchanged source immediately before the edit:
     copypos(space,cap);
 ```
 
-Remove old physical positions 25–27:
+Remove old physical positions 26–28:
 
 ```rill
     if reserved(){
@@ -209,19 +209,16 @@ bytes work[4];
 ## Build and preserve the program
 
 ```dos
-COPY E13.RIL SOURCE.RIL
-CHECK RILLED
-COPY RESULT.IR SOURCE.IR
-CHECK IRED
-COPY RESULT.ASM SOURCE.ASM
-CHECK A0
+CHECK RILLED E13.RIL RESULT.IR
+CHECK IRED RESULT.IR RESULT.ASM EDITRT.ASM
+CHECK A0 RESULT.ASM RESULT.COM
 COPY RESULT.COM E13.COM
 ```
 
-Require compiler `OK RESULT.IR 0000022097`, translator `OK RESULT.ASM 0000053540 text bytes`, assembler `OK RESULT.COM 13322 bytes`, and each PASS before the following copy. VIEW.BAS must report E13.COM length 13322 bytes, beginning with:
+Require compiler `OK RESULT.IR 0000023219`, translator `OK RESULT.ASM 0000057256 text bytes`, assembler `OK RESULT.COM 14071 bytes`, and each PASS before the following copy. VIEW.BAS must report E13.COM length 14071 bytes, beginning with:
 
 ```text
-FC 81 FC FE FF 74 03 E9 A0 30 E8 F8 2C B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+FC 81 FC FE FF 74 03 E9 2F 32 E8 75 32 81 F8 FF FF 75 03 E9 23 32 E8 7B 2E B4 4C CD 21 00 00 00
 ```
 
 ## The document fixture
@@ -234,8 +231,7 @@ two
 ```
 
 ```dos
-COPY T13.TXT EDIT.TXT
-CHECK E13
+CHECK E13 T13.TXT
 ```
 
 Require PASS. The beginning, end and following-line positions must be five, eight and ten, and stepping back must recover five. Repeat with an empty document: require FAIL, since these diagnostic positions deliberately describe the supplied two-line fixture. The line routines themselves accept empty documents.

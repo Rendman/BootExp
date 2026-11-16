@@ -26,7 +26,7 @@ Unchanged source immediately before the edit:
 }
 ```
 
-Insert after old physical line 733.
+Insert after old physical line 741.
 
 Insert:
 
@@ -68,7 +68,7 @@ Unchanged source immediately before the edit:
 }
 ```
 
-Insert after old physical line 476.
+Insert after old physical line 477.
 
 Insert:
 
@@ -120,7 +120,7 @@ Unchanged source immediately before the edit:
         return 0;
 ```
 
-Insert after old physical line 109.
+Insert after old physical line 110.
 
 Insert:
 
@@ -150,7 +150,7 @@ Unchanged source immediately before the edit:
         }
 ```
 
-Remove old physical positions 63–63:
+Remove old physical positions 64–64:
 
 ```rill
         command(k);
@@ -180,7 +180,7 @@ Unchanged source immediately before the edit:
         if k==266{
 ```
 
-Remove old physical positions 61–61:
+Remove old physical positions 62–62:
 
 ```rill
             return cleanup();
@@ -204,19 +204,16 @@ The following old source remains:
 ## Build and preserve the program
 
 ```dos
-COPY E17.RIL SOURCE.RIL
-CHECK RILLED
-COPY RESULT.IR SOURCE.IR
-CHECK IRED
-COPY RESULT.ASM SOURCE.ASM
-CHECK A0
+CHECK RILLED E17.RIL RESULT.IR
+CHECK IRED RESULT.IR RESULT.ASM EDITRT.ASM
+CHECK A0 RESULT.ASM RESULT.COM
 COPY RESULT.COM E17.COM
 ```
 
-Require compiler `OK RESULT.IR 0000039445`, translator `OK RESULT.ASM 0000086003 text bytes`, assembler `OK RESULT.COM 18867 bytes`, and each PASS before the following copy. VIEW.BAS must report E17.COM length 18867 bytes, beginning with:
+Require compiler `OK RESULT.IR 0000040890`, translator `OK RESULT.ASM 0000090295 text bytes`, assembler `OK RESULT.COM 19714 bytes`, and each PASS before the following copy. VIEW.BAS must report E17.COM length 19714 bytes, beginning with:
 
 ```text
-FC 81 FC FE FF 74 03 E9 49 46 E8 A1 42 B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+FC 81 FC FE FF 74 03 E9 3A 48 E8 80 48 81 F8 FF FF 75 03 E9 2E 48 E8 86 44 B4 4C CD 21 00 00 00
 ```
 
 ## The document fixture
@@ -229,8 +226,7 @@ two
 ```
 
 ```dos
-COPY T17.TXT EDIT.TXT
-CHECK E17
+CHECK E17 T17.TXT
 ```
 
 Type ! at the beginning. The status gains an asterisk. Press F10, then Escape: the document must remain open. Press F2, then F10; require CHECK PASS. VIEW.BAS must report eleven bytes, exactly `21 6F 6E 65 0D 0A 74 77 6F 0D 0A`. On a separate run, type a character then F10 and Q: the accepted disk file must stay unchanged.

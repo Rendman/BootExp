@@ -8,7 +8,7 @@ reader_names = 1
 url = "/bootstrap/asm86a/30-the-complete-mov-family/"
 +++
 
-A fixed-width memory store and a segment transfer can now share the checked address machinery.
+So far, writing a value into memory has meant putting it through a register first. With the address description available, I can teach MOV to store an immediate value directly. The source will have to say BYTE or WORD so the assembler knows how much to write.
 
 ## The working parts
 
@@ -29,7 +29,7 @@ RMDISP:
 DW 0
 ```
 
-Insert after old physical line 2461.
+Insert after old physical line 2650.
 
 Insert:
 
@@ -54,7 +54,7 @@ MOV [ENCWIDTH],AL
 RET
 ```
 
-Insert after old physical line 2122.
+Insert after old physical line 2128.
 
 Insert:
 
@@ -86,7 +86,7 @@ CALL MEMFREE
 RET
 ```
 
-Remove this exact source at old physical positions 1545–1589:
+Remove this exact source at old physical positions 1551–1595:
 
 ```asm
 
@@ -155,7 +155,7 @@ IMMEDWORD:
 JMP EMITWORD
 ```
 
-Remove this exact source at old physical positions 1200–1226:
+Remove this exact source at old physical positions 1206–1232:
 
 ```asm
 
@@ -206,7 +206,7 @@ ADD AL,DL
 CALL EMIT
 ```
 
-Remove this exact source at old physical positions 1174–1181:
+Remove this exact source at old physical positions 1180–1187:
 
 ```asm
 JMP IMMEDVALUE
@@ -275,7 +275,7 @@ ZMOVOPERA2:
 MOV AL,[W1]
 ```
 
-Insert after old physical line 1168.
+Insert after old physical line 1174.
 
 Insert:
 
@@ -328,7 +328,7 @@ JE MOVREG
 CMP AL,2
 ```
 
-Remove this exact source at old physical positions 1165–1167:
+Remove this exact source at old physical positions 1171–1173:
 
 ```asm
 JNE ZMOVOPERA2
@@ -362,7 +362,7 @@ MOV AL,[KIND]
 CMP AL,1
 ```
 
-Remove this exact source at old physical positions 1163–1163:
+Remove this exact source at old physical positions 1169–1169:
 
 ```asm
 JE MOVREG
@@ -404,7 +404,7 @@ MOV AL,[K1]
 CMP AL,2
 ```
 
-Remove this exact source at old physical positions 1154–1160:
+Remove this exact source at old physical positions 1160–1166:
 
 ```asm
 JNE MOVDESTREG
@@ -439,7 +439,7 @@ MOVNOTSRC:
 MOV AL,[K1]
 ```
 
-Insert after old physical line 1152.
+Insert after old physical line 1158.
 
 Insert:
 
@@ -465,7 +465,7 @@ MOV AL,[KIND]
 CMP AL,4
 ```
 
-Remove this exact source at old physical positions 1149–1151:
+Remove this exact source at old physical positions 1155–1157:
 
 ```asm
 JNE MOVNOTSRC
@@ -502,7 +502,7 @@ MOV AL,[K1]
 CMP AL,4
 ```
 
-Remove this exact source at old physical positions 1144–1146:
+Remove this exact source at old physical positions 1150–1152:
 
 ```asm
 JNE MOVNOTSEG
@@ -528,17 +528,16 @@ CMP AL,4
 ## Build the stopping point
 
 ```dos
-COPY A30.ASM SOURCE.ASM
-CHECK ASM1
+CHECK ASM1 A30.ASM RESULT.COM
 ```
 
-Require `OK RESULT.COM 05606 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 06044 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A30.COM
 ```
 
-VIEW.BAS must report A30.COM length 5606 bytes. Keep that executable and source together.
+VIEW.BAS must report A30.COM length 6044 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -556,11 +555,7 @@ DB 0
 ```
 
 ```dos
-COPY T30.ASM SOURCE.ASM
-```
-
-```dos
-CHECK A30
+CHECK A30 T30.ASM RESULT.COM
 ```
 
 Require:
@@ -587,8 +582,7 @@ MOV CS,AX
 ```
 
 ```dos
-COPY X30.ASM SOURCE.ASM
-CHECK A30
+CHECK A30 X30.ASM RESULT.COM
 ```
 
 Require:

@@ -7,7 +7,17 @@ download_group = "tools/link86"
 reader_names = 1
 +++
 
-LINK86 reads MAIN.OBJ and UTIL.OBJ in that order and writes one DOS .COM image. The format is our own ASCII object text. It contains authored bytes and relocation records; it is not compatible with commercial OBJ files.
+LINK86 reads the first two command-line filenames in that order and writes the image named by its third argument. No arguments select MAIN.OBJ, UTIL.OBJ and RESULT.COM. The output is one DOS .COM image. The format is our own ASCII object text. It contains authored bytes and relocation records; it is not compatible with commercial OBJ files.
+
+## Command-line filenames
+
+```dos
+CHECK LINK86 FIRST.OBJ SECOND.OBJ OUTPUT.COM
+```
+
+DOS supplies the names in the PSP command tail. The native entry binding copies them into owned zero-terminated storage before file services. The language-level interface supplies argument counts and ordinary string pointers through portable services. CHECK.BAT forwards the arguments and reports status immediately. No arguments select MAIN.OBJ, UTIL.OBJ and RESULT.COM. Use unquoted 8.3 disk names in the current directory: letters, digits, underscore and hyphen, with an optional extension. Paths, switches, excess arguments and overlong names are rejected. Keep selected files distinct from each other and from LINK.TMP and LINK.BAK. Those temporary/backup names remain reserved.
+
+Success reports the selected result name. Rejected source preserves that accepted result; recovery rules apply to the selected name. Early diagnostic writers may deliberately retain a temporary file for inspection, as stated in their lesson.
 
 ## Records
 
@@ -36,7 +46,7 @@ Words are emitted low byte first. A near relative word is ordinary sixteen-bit d
 
 | Resource | Bound |
 |---|---|
-| Input modules | Two fixed files: MAIN.OBJ, then UTIL.OBJ |
+| Input modules | Two selected files, in argument order; MAIN.OBJ and UTIL.OBJ are defaults |
 | Emitted image | 61184 bytes, loaded at 0100H through EFFFH |
 | Public definitions | 256, stored in a checked 10240-byte allocated block |
 | Name spelling | 31 characters, compared in full |

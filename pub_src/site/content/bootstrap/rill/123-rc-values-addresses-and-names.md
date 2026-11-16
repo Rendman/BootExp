@@ -100,25 +100,23 @@ fn prec() {
 ## Build this stopping point
 
 ```dos
-COPY RC35.RIL SOURCE.RIL
-CHECK RILLBOOT
+CHECK RILLBOOT RC35.RIL RESULT.IR
 ```
 
-Require `OK RESULT.IR 0000034165` and PASS. Copy RESULT.IR to SOURCE.IR.
+Require `OK RESULT.IR 0000035747` and PASS. Pass RESULT.IR directly to the translator.
 
 ```dos
-CHECK IWKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IWKEEP SOURCE.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require IR86 `OK RESULT.ASM 0000073110 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 21391 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000078166 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 22322 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RC35.COM
 ```
 
-VIEW.BAS must report RC35.COM length 21391 bytes. Keep this executable and its source together.
+VIEW.BAS must report RC35.COM length 22322 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -129,16 +127,12 @@ ABC+1
 ```
 
 ```dos
-COPY TRC35.RIL SOURCE.RIL
-```
-
-```dos
-CHECK RC35
+CHECK RC35 TRC35.RIL RESULT.IR
 ```
 
 The checker must report PASS. Inspect the emitted file below.
 
-Use VIEW.BAS to inspect RILL.TMP. Require length 32 bytes. The complete bytes must be:
+Use VIEW.BAS to inspect RESULT.IR. Require length 32 bytes. The complete bytes must be:
 
 ```text
 4C 44 20 56 5F 41 42 43 0D 0A 50 55 53 48 0D 0A
@@ -146,8 +140,6 @@ Use VIEW.BAS to inspect RILL.TMP. Require length 32 bytes. The complete bytes mu
 ```
 
 This is an IR fragment for inspection. Do not translate it as a complete program or execute any file with its name.
-
-After inspection, delete this deliberately created RILL.TMP before another checkpoint. The file is diagnostic text, not an interrupted accepted compiler build.
 
 ## A rejection or boundary check
 
@@ -158,8 +150,7 @@ UNKNOWN
 ```
 
 ```dos
-COPY XRC35.RIL SOURCE.RIL
-CHECK RC35
+CHECK RC35 XRC35.RIL RESULT.IR
 ```
 
 Require:

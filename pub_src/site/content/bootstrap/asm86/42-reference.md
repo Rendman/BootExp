@@ -8,7 +8,17 @@ reader_names = 1
 url = "/bootstrap/asm86a/42-reference/"
 +++
 
-ASM86 is a two-pass 8086/8088 assembler for a single DOS COM image starting at 0100H. It reads SOURCE.ASM and publishes RESULT.COM. It has no filename prompt. Its preceding builder is ASM1, whose language and storage contract are documented in the separate [ASM1 reference](../../asma0/13-reference/index.html).
+ASM86 is a two-pass 8086/8088 assembler for a single DOS COM image starting at 0100H. Its input and result names come from the PSP command tail; SOURCE.ASM and RESULT.COM are the no-argument defaults. Its preceding builder is ASM1, whose language and storage contract are documented in the separate [ASM1 reference](../../asma0/13-reference/index.html).
+
+## Command-line filenames
+
+```dos
+CHECK ASM86 INPUT.ASM OUTPUT.COM
+```
+
+DOS supplies the names in the PSP command tail. The native entry binding copies them into owned zero-terminated storage before file services. CHECK.BAT forwards the arguments and reports status immediately. No arguments select SOURCE.ASM and RESULT.COM. Use unquoted 8.3 disk names in the current directory: letters, digits, underscore and hyphen, with an optional extension. Paths, switches, excess arguments and overlong names are rejected. Keep selected files distinct from each other and from ASMA.TMP and RESULT.BAK. Those temporary/backup names remain reserved.
+
+Success reports the selected result name. Rejected source preserves that accepted result; recovery rules apply to the selected name. Early diagnostic writers may deliberately retain a temporary file for inspection, as stated in their lesson.
 
 ## Source and values
 
@@ -103,7 +113,7 @@ There is no generated skip-label definition and no extra symbol-table record. Si
 
 | Resource | ASM86 bound |
 |---|---|
-| Executable produced by ASM1 | 5995 bytes |
+| Executable produced by ASM1 | 6433 bytes |
 | Input/output blocks | 4096 bytes each |
 | Definitions | 8192 |
 | Name length | 31 characters |
@@ -147,7 +157,7 @@ A pre-existing ASMA.TMP or RESULT.BAK is an error before output creation. The as
 
 Publication renames an old RESULT.COM to RESULT.BAK, renames ASMA.TMP to RESULT.COM, then deletes the backup. If the second rename fails, it attempts restoration. Failed restoration retains recovery files and prints a notice. Failed backup deletion also prevents OK. DOS rename is not atomic replacement; power loss can still require manual recovery. Inspect recovery files before renaming or deleting them.
 
-Success prints `OK RESULT.COM nnnnn bytes` and exits zero. Failure prints `ERROR llllllllll CODE n` and exits one. The seed prints five line digits; the full tool prints ten. Line zero identifies startup/file setup before a physical line is read; an EOF or publication error can retain the last source line. CHECK immediately prints PASS for zero or FAIL for nonzero.
+With default names, success prints `OK RESULT.COM nnnnn bytes` and exits zero. Failure prints `ERROR llllllllll CODE n` and exits one. The seed prints five line digits; the full tool prints ten. Line zero identifies startup/file setup before a physical line is read; an EOF or publication error can retain the last source line. CHECK immediately prints PASS for zero or FAIL for nonzero.
 
 | Code | Meaning |
 |---|---|
@@ -159,5 +169,6 @@ Success prints `OK RESULT.COM nnnnn bytes` and exits zero. Failure prints `ERROR
 | 6 | DOS file, read, write, close, rename, or cleanup failure |
 | 7 | Main-segment or allocated-memory failure |
 | 8 | Reserved temporary or backup name already present |
+| 9 | Invalid command-tail filenames, argument count or filename collision |
 
 Cleanup failure can accompany an earlier category and a recovery notice. The printed category alone does not prove every file operation succeeded. Require a fresh OK and PASS before using output. Microsoft, *MS-DOS 3.10 Programmer's Reference Manual*, November 1984, documents handle operations 3CH–41H, memory functions 48H–4AH, and rename 56H.

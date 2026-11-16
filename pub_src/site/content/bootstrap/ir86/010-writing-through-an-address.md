@@ -14,7 +14,7 @@ Store a word through a portable pointer and inspect the saved result.
 
 Copy IR09.ASM to IR10.ASM. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 1267
+### Edit at old physical position 1430
 
 Unchanged source before the edit:
 
@@ -33,7 +33,14 @@ DB 80,85,84,66,0,0,0,0,0,0,0,2,0,0
 DW T_PUTB
 ```
 
-### Edit at old physical position 1176
+The following old source remains:
+
+```asm
+
+CMDCOUNT:
+```
+
+### Edit at old physical position 1339
 
 Unchanged source before the edit:
 
@@ -63,7 +70,7 @@ T_ADD:
 DB "POP BX",13,10
 ```
 
-### Edit at old physical position 866
+### Edit at old physical position 872
 
 Unchanged source before the edit:
 
@@ -95,11 +102,10 @@ CALL LOOK
 ## Build and check
 
 ```dos
-COPY IR10.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP IR10.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 03600 bytes`. Save RESULT.COM as IR10.COM. VIEW.BAS must show length 3600.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 04093 bytes`. Save RESULT.COM as IR10.COM. VIEW.BAS must show length 4093.
 
 Create T10.IR:
 
@@ -115,11 +121,7 @@ EXIT
 ```
 
 ```dos
-COPY T10.IR SOURCE.IR
-```
-
-```dos
-CHECK IR10
+CHECK IR10 T10.IR RESULT.ASM
 ```
 
 Require:
@@ -130,8 +132,7 @@ PASS
 ```
 
 ```dos
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
 Require OK and PASS. VIEW.BAS must show RESULT.COM length 42 and these leading bytes:
@@ -144,13 +145,17 @@ Copy it to TRY.COM. CHECK TRY reports FAIL because the test returns 65.
 
 ## Check the new boundary
 
-Use this separate rejected source:
+Save this separate rejected source as X10.IR:
 
 ```ir
 UNKNOWN
 ```
 
-Copy it to SOURCE.IR and run CHECK IR10. Require:
+```dos
+CHECK IR10 X10.IR RESULT.ASM
+```
+
+Require:
 
 ```text
 IR ERROR 0000000001 CODE 1

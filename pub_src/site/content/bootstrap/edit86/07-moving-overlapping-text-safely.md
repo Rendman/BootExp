@@ -138,19 +138,16 @@ COPY S07.ASM EDITRT.ASM
 ```
 
 ```dos
-COPY S07.RIL SOURCE.RIL
-CHECK RILLED
-COPY RESULT.IR SOURCE.IR
-CHECK IRED
-COPY RESULT.ASM SOURCE.ASM
-CHECK A0
+CHECK RILLED S07.RIL RESULT.IR
+CHECK IRED RESULT.IR RESULT.ASM EDITRT.ASM
+CHECK A0 RESULT.ASM RESULT.COM
 COPY RESULT.COM S07.COM
 ```
 
-Require compiler `OK RESULT.IR 0000001935`, translator `OK RESULT.ASM 0000012524 text bytes`, assembler `OK RESULT.COM 02455 bytes`, and each PASS before the following copy. VIEW.BAS must report S07.COM length 2455 bytes, beginning with:
+Require compiler `OK RESULT.IR 0000001935`, translator `OK RESULT.ASM 0000014018 text bytes`, assembler `OK RESULT.COM 02817 bytes`, and each PASS before the following copy. VIEW.BAS must report S07.COM length 2817 bytes, beginning with:
 
 ```text
-FC 81 FC FE FF 74 03 E9 2D 06 E8 85 02 B4 4C CD 21 00 00 00 00 00 00 55 8B EC 81 EC 80 00 81 FC
+FC 81 FC FE FF 74 03 E9 39 06 E8 7F 06 81 F8 FF FF 75 03 E9 2D 06 E8 85 02 B4 4C CD 21 00 00 00
 ```
 
 Run `CHECK S07`. The exact copied bytes and the rejected extent are checked through status. CHECK must report PASS; no display helper is added.

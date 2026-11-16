@@ -26,7 +26,7 @@ Unchanged source immediately before the edit:
 }
 ```
 
-Insert after old physical line 767.
+Insert after old physical line 775.
 
 Insert:
 
@@ -141,7 +141,7 @@ Unchanged source immediately before the edit:
         savefile();
 ```
 
-Insert after old physical line 76.
+Insert after old physical line 77.
 
 Insert:
 
@@ -187,7 +187,7 @@ The following old source remains:
 
 ```rill
 fn main(){
-    store16(cap+2,4);
+    filename();
 ```
 
 ### Edit 4
@@ -241,19 +241,16 @@ bytes gap[4];
 ## Build and preserve the program
 
 ```dos
-COPY E20.RIL SOURCE.RIL
-CHECK RILLED
-COPY RESULT.IR SOURCE.IR
-CHECK IRED
-COPY RESULT.ASM SOURCE.ASM
-CHECK A0
+CHECK RILLED E20.RIL RESULT.IR
+CHECK IRED RESULT.IR RESULT.ASM EDITRT.ASM
+CHECK A0 RESULT.ASM RESULT.COM
 COPY RESULT.COM E20.COM
 ```
 
-Require compiler `OK RESULT.IR 0000049157`, translator `OK RESULT.ASM 0000104350 text bytes`, assembler `OK RESULT.COM 22073 bytes`, and each PASS before the following copy. VIEW.BAS must report E20.COM length 22073 bytes, beginning with:
+Require compiler `OK RESULT.IR 0000050602`, translator `OK RESULT.ASM 0000108642 text bytes`, assembler `OK RESULT.COM 22920 bytes`, and each PASS before the following copy. VIEW.BAS must report E20.COM length 22920 bytes, beginning with:
 
 ```text
-FC 81 FC FE FF 74 03 E9 CF 52 E8 27 4F B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+FC 81 FC FE FF 74 03 E9 C0 54 E8 06 55 81 F8 FF FF 75 03 E9 B4 54 E8 0C 51 B4 4C CD 21 00 00 00
 ```
 
 ## The document fixture
@@ -266,8 +263,7 @@ two
 ```
 
 ```dos
-COPY T20.TXT EDIT.TXT
-CHECK E20
+CHECK E20 T20.TXT
 ```
 
 Press F3, type two and press Enter. The cursor must move to the second line. Type !, then F2 and F10. Require CHECK PASS and eleven bytes: `6F 6E 65 0D 0A 21 74 77 6F 0D 0A`. Restore T20.TXT; search for absent text and require the not-found message with no document change. Escape cancels a partly entered query. F5 repeats from the byte after the current position.

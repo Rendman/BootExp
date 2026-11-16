@@ -29,13 +29,13 @@ bytes string[512];
 Remove this source at old physical positions 35–35 in RC04.RIL:
 
 ```rill
-fn main(){fail(2);return 0;}
+fn main(){filearg(1,"SOURCE.RIL");fail(2);return 0;}
 ```
 
 Replace it with:
 
 ```rill
-fn main(){return (letter(95))!=1;}
+fn main(){filearg(1,"SOURCE.RIL");return (letter(95))!=1;}
 
 fn letter(c) {
     if c == 95 { return 1; }
@@ -55,25 +55,23 @@ fn print(s) { let mut c = 0; while 1 { c = load8(s); if c == 0 { return 0; } put
 ## Build this stopping point
 
 ```dos
-COPY RC05.RIL SOURCE.RIL
-CHECK RILLBOOT
+CHECK RILLBOOT RC05.RIL RESULT.IR
 ```
 
-Require `OK RESULT.IR 0000005129` and PASS. Copy RESULT.IR to SOURCE.IR.
+Require `OK RESULT.IR 0000006584` and PASS. Pass RESULT.IR directly to the translator.
 
 ```dos
-CHECK IWKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IWKEEP SOURCE.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require IR86 `OK RESULT.ASM 0000014391 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 11347 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000019059 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 12228 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RC05.COM
 ```
 
-VIEW.BAS must report RC05.COM length 11347 bytes. Keep this executable and its source together.
+VIEW.BAS must report RC05.COM length 12228 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 

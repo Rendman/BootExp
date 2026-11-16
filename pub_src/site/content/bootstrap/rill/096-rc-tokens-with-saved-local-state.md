@@ -121,13 +121,13 @@ bytes string[512];
 Remove this source at old physical positions 35–35 in RC07.RIL:
 
 ```rill
-fn main(){input=open("SOURCE.RIL");if status(){fail(1);}next();return (ch)!=65;}
+fn main(){filearg(1,"SOURCE.RIL");input=open(filearg(1,"SOURCE.RIL"));if status(){fail(1);}next();return (ch)!=65;}
 ```
 
 Replace it with:
 
 ```rill
-fn main(){input=open("SOURCE.RIL");if status(){fail(1);}next();lex();return (value)!=65535;}
+fn main(){filearg(1,"SOURCE.RIL");input=open(filearg(1,"SOURCE.RIL"));if status(){fail(1);}next();lex();return (value)!=65535;}
 ```
 
 The following old source remains in place:
@@ -140,25 +140,23 @@ fn next() {
 ## Build this stopping point
 
 ```dos
-COPY RC08.RIL SOURCE.RIL
-CHECK RILLBOOT
+CHECK RILLBOOT RC08.RIL RESULT.IR
 ```
 
-Require `OK RESULT.IR 0000013361` and PASS. Copy RESULT.IR to SOURCE.IR.
+Require `OK RESULT.IR 0000014863` and PASS. Pass RESULT.IR directly to the translator.
 
 ```dos
-CHECK IWKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IWKEEP SOURCE.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require IR86 `OK RESULT.ASM 0000029203 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 14037 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000033935 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 14930 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RC08.COM
 ```
 
-VIEW.BAS must report RC08.COM length 14037 bytes. Keep this executable and its source together.
+VIEW.BAS must report RC08.COM length 14930 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -169,11 +167,7 @@ Create TRC08.RIL with COPY CON or a plain-text editor. Finish COPY CON with Ctrl
 ```
 
 ```dos
-COPY TRC08.RIL SOURCE.RIL
-```
-
-```dos
-CHECK RC08
+CHECK RC08 TRC08.RIL RESULT.IR
 ```
 
 The checker must report PASS. The driver compares the result with 65535 and returns nonzero on a mismatch; it adds no display routine.
@@ -187,8 +181,7 @@ Create XRC08.RIL:
 ```
 
 ```dos
-COPY XRC08.RIL SOURCE.RIL
-CHECK RC08
+CHECK RC08 XRC08.RIL RESULT.IR
 ```
 
 Require:

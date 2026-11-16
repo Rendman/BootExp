@@ -26,7 +26,7 @@ Unchanged source immediately before the edit:
     }
 ```
 
-Remove old physical positions 175–175:
+Remove old physical positions 176–176:
 
 ```rill
     return release()|bad;
@@ -79,7 +79,7 @@ Unchanged source immediately before the edit:
         }
 ```
 
-Remove old physical positions 173–173:
+Remove old physical positions 174–174:
 
 ```rill
         inopen=0;
@@ -109,7 +109,7 @@ Unchanged source immediately before the edit:
 }
 ```
 
-Insert after old physical line 165.
+Insert after old physical line 166.
 
 Insert:
 
@@ -228,7 +228,7 @@ fn savefile(){
         }
     }
     dirty=0;
-    message="Saved EDIT.TXT.";
+    message="Saved.";
     return 1;
 }
 ```
@@ -249,7 +249,7 @@ Unchanged source immediately before the edit:
     copypos(gap,length);
 ```
 
-Remove old physical positions 20–28:
+Remove old physical positions 21–29:
 
 ```rill
     let mut bad=(load16(length)!=10)|(load16(length+2)!=0);
@@ -286,7 +286,7 @@ Unchanged source immediately before the edit:
     copypos(space,cap);
 ```
 
-Insert after old physical line 16.
+Insert after old physical line 17.
 
 Insert:
 
@@ -359,19 +359,16 @@ bytes gap[4];
 ## Build and preserve the program
 
 ```dos
-COPY E11.RIL SOURCE.RIL
-CHECK RILLED
-COPY RESULT.IR SOURCE.IR
-CHECK IRED
-COPY RESULT.ASM SOURCE.ASM
-CHECK A0
+CHECK RILLED E11.RIL RESULT.IR
+CHECK IRED RESULT.IR RESULT.ASM EDITRT.ASM
+CHECK A0 RESULT.ASM RESULT.COM
 COPY RESULT.COM E11.COM
 ```
 
-Require compiler `OK RESULT.IR 0000014689`, translator `OK RESULT.ASM 0000040913 text bytes`, assembler `OK RESULT.COM 11068 bytes`, and each PASS before the following copy. VIEW.BAS must report E11.COM length 11068 bytes, beginning with:
+Require compiler `OK RESULT.IR 0000015811`, translator `OK RESULT.ASM 0000044629 text bytes`, assembler `OK RESULT.COM 11817 bytes`, and each PASS before the following copy. VIEW.BAS must report E11.COM length 11817 bytes, beginning with:
 
 ```text
-FC 81 FC FE FF 74 03 E9 D2 27 E8 2A 24 B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+FC 81 FC FE FF 74 03 E9 61 29 E8 A7 29 81 F8 FF FF 75 03 E9 55 29 E8 AD 25 B4 4C CD 21 00 00 00
 ```
 
 ## The document fixture
@@ -384,8 +381,7 @@ two
 ```
 
 ```dos
-COPY T11.TXT EDIT.TXT
-CHECK E11
+CHECK E11 T11.TXT
 ```
 
 Require PASS and an unchanged document. Compare EDIT.TXT with T11.TXT using COMP. For rejection, create EDIT.TMP containing HOLD, run CHECK E11 and require FAIL with the recovery-file diagnostic. TYPE EDIT.TMP must still show HOLD and COMP must still find the document unchanged. Inspect and remove only that exercise recovery file before continuing.

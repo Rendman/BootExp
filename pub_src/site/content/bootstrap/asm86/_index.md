@@ -11,6 +11,10 @@ collection_key = "asm86a"
 url = "/bootstrap/asm86a/"
 +++
 
+ASM1 has taught me to leave the source and the growing output on disk. That made room for more names, but the symbol table still occupies most of the program segment. I turn back to the memory sketch. The machine has more RAM than this one segment can address; using it means asking DOS for storage and keeping track of where each part belongs.
+
+I'll build **ASM86** from the working ASM1 source. Along with a larger table, I want source that lets me write a message as words, name a count, and describe a place inside a table or a procedure's stack frame. These are forms the 8086 can use, but my assembler must learn how to read and encode them. ASM1 will build every construction checkpoint, so the implementation must stay within the language it already accepts.
+
 **BOOTASM → ASM0 → ASM1 → ASM86 → IR86 → RILL0 → RILLBOOT → RILL.** ASM86 begins with the completed [ASM1 collection](../asma0/index.html). Its first executable is built by that verified streaming seed. ASM86 then assembles the same source twice and both generations must reproduce the seed-built executable.
 
 ## What we're adding
@@ -29,6 +33,6 @@ The construction adds separately allocated symbol pages, exact-spelling bucket l
 
 Twenty-four construction installments use A13–A33, A36, A37, and A40 as their saved source filenames. The first starts from a copy of ASM1.ASM; the existing seed routines are retained. A complete ladder exercise, a language and memory reference, and four complete programs close the collection.
 
-Read the workbench first and preserve ASM1.COM as the preceding builder. Preserve the completed ASM86.COM separately as ASMAKEEP.COM. The fixed files remain SOURCE.ASM and RESULT.COM; the processor remains the 8086/8088 and output remains DOS `.COM`.
+Read the workbench first and preserve ASM1.COM as the preceding builder. Preserve the completed ASM86.COM separately as ASMAKEEP.COM. SOURCE.ASM and RESULT.COM remain no-argument defaults; the processor remains the 8086/8088 and output remains DOS `.COM`.
 
 The complete source link above is ASM86.ASM. The [ASM86 disk sources](../../downloads/tools/asm86/ASM86.ZIP) include the verified seed prerequisite, all twenty-four construction checkpoints, fixtures, helpers, and examples. The [ASM1 disk sources](../../downloads/tools/asm1/ASM1.ZIP) contain the seed's own construction. Neither archive supplies preassembled programs.

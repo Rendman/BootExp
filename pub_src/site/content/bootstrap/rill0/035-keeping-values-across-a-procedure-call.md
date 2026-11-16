@@ -15,7 +15,7 @@ Build keeping values across a procedure call..
 
 Copy R34.IR to R35.IR. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 1060
+### Edit at old physical position 1073
 
 Unchanged source before the edit:
 
@@ -39,7 +39,7 @@ The following old source remains:
 PROC PREC 0 0
 ```
 
-### Edit at old physical position 1057
+### Edit at old physical position 1070
 
 Unchanged source before the edit:
 
@@ -76,7 +76,7 @@ LIT 0
 RETURN
 ```
 
-### Edit at old physical position 1056
+### Edit at old physical position 1069
 
 Unchanged source before the edit:
 
@@ -100,7 +100,7 @@ PUSH
 INVOKE ERROR 1
 ```
 
-### Edit at old physical position 1054
+### Edit at old physical position 1067
 
 Unchanged source before the edit:
 
@@ -168,7 +168,7 @@ LIT 2
 PUSH
 ```
 
-### Edit at old physical position 45
+### Edit at old physical position 50
 
 Unchanged source before the edit:
 
@@ -193,11 +193,11 @@ ST GLOBALS
 The following old source remains:
 
 ```ir
-LITS "RILL.TMP"
-CREATE
+LIT 2
+PUSH
 ```
 
-### Edit at old physical position 41
+### Edit at old physical position 46
 
 Unchanged source before the edit:
 
@@ -226,7 +226,7 @@ PUSH
 INVOKE RECORD 1
 ```
 
-### Edit at old physical position 37
+### Edit at old physical position 42
 
 Unchanged source before the edit:
 
@@ -255,7 +255,7 @@ ST RECVAL
 LIT 0
 ```
 
-### Edit at old physical position 35
+### Edit at old physical position 40
 
 Unchanged source before the edit:
 
@@ -309,13 +309,11 @@ WORD TOK 0
 ## Build and check
 
 ```dos
-COPY R35.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP R35.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 15540 bytes`. Save RESULT.COM as R35.COM. VIEW.BAS must show length 15540.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 16362 bytes`. Save RESULT.COM as R35.COM. VIEW.BAS must show length 16362.
 
 Create T35.RIL:
 
@@ -324,33 +322,33 @@ putc(65)
 ```
 
 ```dos
-COPY T35.RIL SOURCE.RIL
-```
-
-```dos
-CHECK R35
+CHECK R35 T35.RIL RESULT.IR
 ```
 
 Require PASS.
 
-Inspect RILL.TMP with VIEW.BAS. Require length 28 bytes and these complete bytes:
+Inspect RESULT.IR with VIEW.BAS. Require length 28 bytes and these complete bytes:
 
 ```text
 4C 49 54 20 30 30 30 36 35 0D 0A 50 55 53 48 0D
 0A 50 4F 50 0D 0A 50 55 54 43 0D 0A
 ```
 
-This is a fragment for inspection. Delete the deliberately created RILL.TMP after checking it.
+This is a fragment for inspection, not a complete program. The command-selected RESULT.IR contains that fragment.
 
 ## Check the new boundary
 
-Use this separate rejected source:
+Save this separate rejected source as X35.RIL:
 
 ```rill
 get8(1)
 ```
 
-Copy it to SOURCE.RIL and run CHECK R35. Require:
+```dos
+CHECK R35 X35.RIL RESULT.IR
+```
+
+Require:
 
 ```text
 ERROR 0000000001 CODE 00004

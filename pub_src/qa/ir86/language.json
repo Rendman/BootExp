@@ -234,6 +234,16 @@
     0,
     "CALL R_CLOSE\n"
   ],
+  "ARGC": [
+    0,
+    0,
+    "CALL R_ARGC\n"
+  ],
+  "ARG": [
+    0,
+    0,
+    "CALL R_ARG\n"
+  ],
   "STATUS": [
     0,
     0,

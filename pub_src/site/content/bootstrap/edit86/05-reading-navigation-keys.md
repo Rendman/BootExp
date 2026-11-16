@@ -136,19 +136,16 @@ COPY S05.ASM EDITRT.ASM
 ```
 
 ```dos
-COPY S05.RIL SOURCE.RIL
-CHECK RILLED
-COPY RESULT.IR SOURCE.IR
-CHECK IRED
-COPY RESULT.ASM SOURCE.ASM
-CHECK A0
+CHECK RILLED S05.RIL RESULT.IR
+CHECK IRED RESULT.IR RESULT.ASM EDITRT.ASM
+CHECK A0 RESULT.ASM RESULT.COM
 COPY RESULT.COM S05.COM
 ```
 
-Require compiler `OK RESULT.IR 0000000337`, translator `OK RESULT.ASM 0000007982 text bytes`, assembler `OK RESULT.COM 01635 bytes`, and each PASS before the following copy. VIEW.BAS must report S05.COM length 1635 bytes, beginning with:
+Require compiler `OK RESULT.IR 0000000337`, translator `OK RESULT.ASM 0000009476 text bytes`, assembler `OK RESULT.COM 01997 bytes`, and each PASS before the following copy. VIEW.BAS must report S05.COM length 1997 bytes, beginning with:
 
 ```text
-FC 81 FC FE FF 74 03 E9 26 04 E8 7E 00 B4 4C CD 21 55 8B EC 81 EC 80 00 81 FC 00 F0 73 03 E9 0F
+FC 81 FC FE FF 74 03 E9 32 04 E8 78 04 81 F8 FF FF 75 03 E9 26 04 E8 7E 00 B4 4C CD 21 55 8B EC
 ```
 
 Run `CHECK S05`. Press F10 at the prompt. CHECK must report PASS; a different key deliberately returns FAIL.

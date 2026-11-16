@@ -8,7 +8,7 @@ reader_names = 1
 url = "/bootstrap/asm86a/32-forming-an-effective-address/"
 +++
 
-Loading storage and forming a pointer are different operations.
+I mark a byte inside a table in the notebook. Sometimes I need that byte; sometimes I need its address to pass to a routine. LEA supplies the offset calculation without reading the stored byte. I'll keep those two jobs distinct as I add its encoding.
 
 ## The working parts
 
@@ -30,7 +30,7 @@ DB 82,69,83,66,0,0,12,0
 DB 82,69,83,87,0,0,12,1
 ```
 
-Insert after old physical line 2364.
+Insert after old physical line 2553.
 
 Insert:
 
@@ -53,7 +53,7 @@ CALL ENCODE
 JMP EMITIMM
 ```
 
-Insert after old physical line 2230.
+Insert after old physical line 2236.
 
 Insert:
 
@@ -90,8 +90,8 @@ JMP ENCODE
 The following old source stays in place:
 
 ```asm
-OKMSG:
-DB 79,75,32,82,69,83,85,76,84,46,67,79,77,32,36
+CMDINIT:
+MOV SI,81H
 ```
 
 ### Change 3 near `TWOOPERANDS:`
@@ -104,7 +104,7 @@ CMP AL,3
 JE MOVOPERANDS
 ```
 
-Insert after old physical line 1101.
+Insert after old physical line 1107.
 
 Insert:
 
@@ -132,7 +132,7 @@ CALL RESTORENAME
 MOV BX,OPTAB
 ```
 
-Remove this exact source at old physical positions 850–850:
+Remove this exact source at old physical positions 856–856:
 
 ```asm
 MOV CX,29
@@ -154,17 +154,16 @@ CALL LOOK
 ## Build the stopping point
 
 ```dos
-COPY A32.ASM SOURCE.ASM
-CHECK ASM1
+CHECK ASM1 A32.ASM RESULT.COM
 ```
 
-Require `OK RESULT.COM 05729 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 06167 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A32.COM
 ```
 
-VIEW.BAS must report A32.COM length 5729 bytes. Keep that executable and source together.
+VIEW.BAS must report A32.COM length 6167 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -185,11 +184,7 @@ DB "XA"
 ```
 
 ```dos
-COPY T32.ASM SOURCE.ASM
-```
-
-```dos
-CHECK A32
+CHECK A32 T32.ASM RESULT.COM
 ```
 
 Require:
@@ -216,8 +211,7 @@ LEA AL,[BX]
 ```
 
 ```dos
-COPY X32.ASM SOURCE.ASM
-CHECK A32
+CHECK A32 X32.ASM RESULT.COM
 ```
 
 Require:

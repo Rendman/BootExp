@@ -104,13 +104,11 @@ LIT 4660
 ## Build and check
 
 ```dos
-COPY R15.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP R15.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 08141 bytes`. Save RESULT.COM as R15.COM. VIEW.BAS must show length 8141.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 08910 bytes`. Save RESULT.COM as R15.COM. VIEW.BAS must show length 8910.
 
 ```dos
 CHECK R15

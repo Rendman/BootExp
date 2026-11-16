@@ -26,7 +26,7 @@ Unchanged source immediately before the edit:
     dirty=1;
 ```
 
-Insert after old physical line 514.
+Insert after old physical line 515.
 
 Insert:
 
@@ -79,7 +79,7 @@ Unchanged source immediately before the edit:
 }
 ```
 
-Insert after old physical line 497.
+Insert after old physical line 498.
 
 Insert:
 
@@ -108,7 +108,7 @@ Unchanged source immediately before the edit:
         layout=1;
 ```
 
-Insert after old physical line 112.
+Insert after old physical line 113.
 
 Insert:
 
@@ -133,19 +133,16 @@ The following old source remains:
 ## Build and preserve the program
 
 ```dos
-COPY E18.RIL SOURCE.RIL
-CHECK RILLED
-COPY RESULT.IR SOURCE.IR
-CHECK IRED
-COPY RESULT.ASM SOURCE.ASM
-CHECK A0
+CHECK RILLED E18.RIL RESULT.IR
+CHECK IRED RESULT.IR RESULT.ASM EDITRT.ASM
+CHECK A0 RESULT.ASM RESULT.COM
 COPY RESULT.COM E18.COM
 ```
 
-Require compiler `OK RESULT.IR 0000041187`, translator `OK RESULT.ASM 0000088844 text bytes`, assembler `OK RESULT.COM 19387 bytes`, and each PASS before the following copy. VIEW.BAS must report E18.COM length 19387 bytes, beginning with:
+Require compiler `OK RESULT.IR 0000042632`, translator `OK RESULT.ASM 0000093136 text bytes`, assembler `OK RESULT.COM 20234 bytes`, and each PASS before the following copy. VIEW.BAS must report E18.COM length 20234 bytes, beginning with:
 
 ```text
-FC 81 FC FE FF 74 03 E9 51 48 E8 A9 44 B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+FC 81 FC FE FF 74 03 E9 42 4A E8 88 4A 81 F8 FF FF 75 03 E9 36 4A E8 8E 46 B4 4C CD 21 00 00 00
 ```
 
 ## The document fixture
@@ -158,8 +155,7 @@ two
 ```
 
 ```dos
-COPY T18.TXT EDIT.TXT
-CHECK E18
+CHECK E18 T18.TXT
 ```
 
 Press Delete at the first byte, type !, then F2 and F10. Require PASS and exactly ten file bytes: `21 6E 65 0D 0A 74 77 6F 0D 0A`. Restore T18.TXT. End then Right crosses CR/LF as one action; Backspace there removes the whole pair. At document start Backspace must do nothing.

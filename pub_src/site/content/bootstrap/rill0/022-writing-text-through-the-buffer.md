@@ -15,7 +15,7 @@ Build writing text through the buffer..
 
 Copy R21.IR to R22.IR. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 755
+### Edit at old physical position 764
 
 Unchanged source before the edit:
 
@@ -69,7 +69,7 @@ PROC PRINT 0 1
 SETLOCAL 0
 ```
 
-### Edit at old physical position 34
+### Edit at old physical position 43
 
 Unchanged source before the edit:
 
@@ -103,25 +103,23 @@ LD OUTPUT
 ## Build and check
 
 ```dos
-COPY R22.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP R22.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 13283 bytes`. Save RESULT.COM as R22.COM. VIEW.BAS must show length 13283.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 14093 bytes`. Save RESULT.COM as R22.COM. VIEW.BAS must show length 14093.
 
 ```dos
-CHECK R22
+CHECK R22 SOURCE.RIL RESULT.IR
 ```
 
 Require PASS.
 
-Inspect RILL.TMP with VIEW.BAS. Require length 2 bytes and these complete bytes:
+Inspect RESULT.IR with VIEW.BAS. Require length 2 bytes and these complete bytes:
 
 ```text
 48 49
 ```
 
-This is a fragment for inspection. Delete the deliberately created RILL.TMP after checking it.
+This is a fragment for inspection, not a complete program. The command-selected RESULT.IR contains that fragment.
 

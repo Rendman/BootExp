@@ -8,7 +8,7 @@ All files here are ASCII/CRLF/8.3 source. No executable is supplied.
 
 ASM86.ASM and IRWIDE.ASM: unchanged native prerequisite sources.
 Preserve their tested executables as ASMAKEEP.COM and IWKEEP.COM.
-VIEW.BAS and CHECK.BAT: unchanged inspection and status helpers.
+VIEW.BAS inspects bytes; CHECK.BAT forwards filename arguments.
 RC01 through RC43: complete construction checkpoint sources.
 T-prefixed and X-prefixed RIL files: exact acceptance/rejection inputs.
 RILL.RIL: complete compiler source, identical to RC43.RIL.
@@ -29,7 +29,7 @@ After both compiler self-builds match, continue with Rebuilding Our
 Tools in RILL. Its TOOLCHN.ZIP supplies IR86.RIL, ASM86.RIL, and
 TMAKE.BAT for the complete three-tool builds and comparisons.
 
-Use fixed SOURCE.RIL/RESULT.IR, SOURCE.IR/RESULT.ASM and
+Default work names are SOURCE.RIL/RESULT.IR, SOURCE.IR/RESULT.ASM and
 SOURCE.ASM/RESULT.COM files in a hard-disk directory. Keep each builder
 separately named. Inspect existing temporary/backup files before a run.
 Source rejection preserves accepted output; failed publication can
@@ -39,3 +39,11 @@ or procedure symbols, sixteen parameters and sixty-four live local words, lexica
 scopes, recursive calls, byte buffers, strings and opaque file/block
 services. RILLBOOT accepts the subset used to implement that compiler.
 Consult each compiler's own reference for accepted syntax and bounds.
+
+COMMAND-LINE FILENAMES
+From ASM1 onward, supply input and output filenames on the command
+line: CHECK tool INPUT.EXT OUTPUT.EXT. No arguments select the
+default work names. Use unquoted 8.3 filenames in the current directory;
+paths and switches are not accepted. Input, output, temporary and backup
+names must be distinct. LINK86 takes two object names then the result;
+EDIT86 takes one document name and saves that same document.

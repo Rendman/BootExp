@@ -8,7 +8,7 @@ reader_names = 1
 url = "/bootstrap/asm86a/25-describing-a-memory-operand/"
 +++
 
-Several instruction families need the same memory-address information.
+The MOV paths already need to remember an address, a width and sometimes a segment prefix. I keep finding those same questions in the notes for each operand. I'll collect the answers into one description while retaining the address forms I can already check.
 
 ## The working parts
 
@@ -30,7 +30,7 @@ BRDEST:
 DW 0
 ```
 
-Insert after old physical line 2189.
+Insert after old physical line 2378.
 
 Insert:
 
@@ -74,7 +74,7 @@ NAMELEN:
 DW 0
 ```
 
-Insert after old physical line 2187.
+Insert after old physical line 2376.
 
 Insert:
 
@@ -99,7 +99,7 @@ RESERVEND:
 RET
 ```
 
-Insert after old physical line 1950.
+Insert after old physical line 1956.
 
 Insert:
 
@@ -137,8 +137,8 @@ RET
 The following old source stays in place:
 
 ```asm
-OKMSG:
-DB 79,75,32,82,69,83,85,76,84,46,67,79,77,32,36
+CMDINIT:
+MOV SI,81H
 ```
 
 ### Change 4 near `STOREPREFIX:`
@@ -151,7 +151,7 @@ CMP DL,6
 JNE STOREEND
 ```
 
-Remove this exact source at old physical positions 1110–1110:
+Remove this exact source at old physical positions 1116–1116:
 
 ```asm
 MOV AX,[V1]
@@ -180,7 +180,7 @@ MOV AL,[REG]
 CALL TIMES8
 ```
 
-Remove this exact source at old physical positions 1105–1105:
+Remove this exact source at old physical positions 1111–1111:
 
 ```asm
 MOV DL,[R1]
@@ -209,7 +209,7 @@ JMP ERROR
 STOREOK:
 ```
 
-Insert after old physical line 1094.
+Insert after old physical line 1100.
 
 Insert:
 
@@ -234,7 +234,7 @@ CMP DL,6
 JNE LOADEND
 ```
 
-Remove this exact source at old physical positions 1083–1083:
+Remove this exact source at old physical positions 1089–1089:
 
 ```asm
 MOV AX,[VAL]
@@ -263,7 +263,7 @@ MOV AL,[R1]
 CALL TIMES8
 ```
 
-Remove this exact source at old physical positions 1078–1078:
+Remove this exact source at old physical positions 1084–1084:
 
 ```asm
 MOV DL,[REG]
@@ -292,7 +292,7 @@ JMP EMITWORD
 LOADMEM:
 ```
 
-Insert after old physical line 1067.
+Insert after old physical line 1073.
 
 Insert:
 
@@ -317,7 +317,7 @@ MOV AL,[REG]
 MOV [R1],AL
 ```
 
-Insert after old physical line 955.
+Insert after old physical line 961.
 
 Insert:
 
@@ -343,7 +343,7 @@ RET
 MEMORY:
 ```
 
-Insert after old physical line 629.
+Insert after old physical line 635.
 
 Insert:
 
@@ -362,17 +362,16 @@ MOV AX,[0CC00H]
 ## Build the stopping point
 
 ```dos
-COPY A25.ASM SOURCE.ASM
-CHECK ASM1
+CHECK ASM1 A25.ASM RESULT.COM
 ```
 
-Require `OK RESULT.COM 05014 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 05452 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A25.COM
 ```
 
-VIEW.BAS must report A25.COM length 5014 bytes. Keep that executable and source together.
+VIEW.BAS must report A25.COM length 5452 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -384,11 +383,7 @@ MOV [BX],AX
 ```
 
 ```dos
-COPY T25.ASM SOURCE.ASM
-```
-
-```dos
-CHECK A25
+CHECK A25 T25.ASM RESULT.COM
 ```
 
 Require:
@@ -415,8 +410,7 @@ MOV AX,[BP]
 ```
 
 ```dos
-COPY X25.ASM SOURCE.ASM
-CHECK A25
+CHECK A25 X25.ASM RESULT.COM
 ```
 
 Require:

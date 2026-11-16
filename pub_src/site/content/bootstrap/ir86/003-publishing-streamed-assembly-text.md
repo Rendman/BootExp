@@ -14,12 +14,11 @@ Copy a byte stream through a checked output block and recoverable publication.
 
 Copy IR02.ASM to IR03.ASM. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 864
+### Edit at old physical position 1023
 
 Unchanged source before the edit:
 
 ```asm
-DW 0,1000,0,100,0,10
 DW 0,1
 DIV32END:
 ```
@@ -27,7 +26,6 @@ DIV32END:
 Insert in its place:
 
 ```asm
-
 TOTALLO:
 DW 0
 
@@ -38,7 +36,40 @@ DEPTH:
 DW 0
 ```
 
-### Edit at old physical position 753
+The following old source remains:
+
+```asm
+CMDCOUNT:
+DW 0
+```
+
+### Edit at old physical position 911
+
+Unchanged source before the edit:
+
+```asm
+CMDTEXTEND:
+RET
+```
+
+Insert in its place:
+
+```asm
+OKMSG:
+DB 79,75,32,36
+
+BYTEMSG:
+DB 32,116,101,120,116,32,98,121,116,101,115,13,10,36
+```
+
+The following old source remains:
+
+```asm
+ERRMSG:
+DB 73,82,32,69,82,82,79,82,32,36
+```
+
+### Edit at old physical position 754
 
 Unchanged source before the edit:
 
@@ -99,26 +130,42 @@ JMP ERROR
 TABLEFULL:
 MOV AX,5
 JMP ERROR
-
-OKMSG:
-DB 79,75,32,82,69,83,85,76,84,46,65,83,77,32,36
-
-BYTEMSG:
-DB 32,116,101,120,116,32,98,121,116,101,115,13,10,36
 ```
 
 The following old source remains:
 
 ```asm
-ERRMSG:
-DB 73,82,32,69,82,82,79,82,32,36
+CMDINIT:
+MOV SI,81H
 ```
 
-### Edit at old physical position 39
+### Edit at old physical position 23
 
 Unchanged source before the edit:
 
 ```asm
+MOV DL,91
+MOV AH,2
+INT 21H
+```
+
+Remove:
+
+```asm
+TOKENBYTE:
+LODSB
+CMP AL,0
+JE NEAR TOKENEND
+MOV DL,AL
+MOV AH,2
+INT 21H
+JMP TOKENBYTE
+TOKENEND:
+MOV DL,93
+MOV AH,2
+INT 21H
+POP SI
+JMP SHOWTOKEN
 JMP READNEXT
 READDONE:
 CALL CLOSEFILE
@@ -127,11 +174,6 @@ CALL CLOSEFILE
 Insert in its place:
 
 ```asm
-CALL FLUSH
-CALL CLOSEOUT
-CALL COMMIT
-MOV DX,OKMSG
-CALL TEXT
 MOV AX,[TOTALLO]
 MOV DX,[TOTALHI]
 CALL NUMBER32
@@ -146,7 +188,7 @@ MOV AX,4C00H
 INT 21H
 ```
 
-### Edit at old physical position 10
+### Edit at old physical position 11
 
 Unchanged source before the edit:
 
@@ -169,24 +211,6 @@ JE NEAR READNEXT
 PUSH SI
 MOV SI,0CC00H
 MOV DL,91
-MOV AH,2
-INT 21H
-TOKENBYTE:
-LODSB
-CMP AL,0
-JE NEAR TOKENEND
-MOV DL,AL
-MOV AH,2
-INT 21H
-JMP TOKENBYTE
-TOKENEND:
-MOV DL,93
-MOV AH,2
-INT 21H
-POP SI
-JMP SHOWTOKEN
-JMP READNEXT
-READDONE:
 ```
 
 Insert in its place:
@@ -197,22 +221,31 @@ MOV AL,[CHAR]
 CALL EMITCHAR
 JMP COPYBYTE
 COPYDONE:
+CALL CLOSEFILE
+CALL FLUSH
+CALL CLOSEOUT
+CALL COMMIT
+MOV DX,OKMSG
+CALL TEXT
+MOV SI,RESNAME
+CALL CMDTEXT
+MOV DL,32
 ```
 
 The following old source remains:
 
 ```asm
-CALL CLOSEFILE
-MOV AX,4C00H
+MOV AH,2
+INT 21H
 ```
 
-### Edit at old physical position 7
+### Edit at old physical position 8
 
 Unchanged source before the edit:
 
 ```asm
-CMP SP,0FFFEH
 JNE NEAR MEMORYBAD
+CALL CMDFILES
 CALL OPENFILE
 ```
 
@@ -238,14 +271,14 @@ CMP AX,0
 JE NEAR READDONE
 ```
 
-### Edit at old physical position 6
+### Edit at old physical position 7
 
 Unchanged source before the edit:
 
 ```asm
-CLD
 CMP SP,0FFFEH
 JNE NEAR MEMORYBAD
+CALL CMDFILES
 ```
 
 Insert in its place:
@@ -264,11 +297,10 @@ READNEXT:
 ## Build and check
 
 ```dos
-COPY IR03.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP IR03.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 02213 bytes`. Save RESULT.COM as IR03.COM. VIEW.BAS must show length 2213.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 02706 bytes`. Save RESULT.COM as IR03.COM. VIEW.BAS must show length 2706.
 
 Create T03.IR:
 
@@ -277,11 +309,7 @@ ABC
 ```
 
 ```dos
-COPY T03.IR SOURCE.IR
-```
-
-```dos
-CHECK IR03
+CHECK IR03 T03.IR RESULT.ASM
 ```
 
 Require:
@@ -295,7 +323,13 @@ Inspect RESULT.ASM with VIEW.BAS: length 5, bytes `41 42 43 0D 0A`. This copied 
 
 ## Check the new boundary
 
-Temporarily rename SOURCE.IR to HOLD.TXT and run CHECK IR03. Restore the source afterward. Require:
+Choose an absent disk filename, ABSENT.IR, and run:
+
+```dos
+CHECK IR03 ABSENT.IR RESULT.ASM
+```
+
+Require:
 
 ```text
 IR ERROR 0000000000 CODE 6

@@ -87,14 +87,14 @@ bytes source[121];
 Remove old physical positions 14–14:
 
 ```rill
-fn main(){openunit();let mut count=0;while readline(){count=count+1;}closein();return count!=2;}
+fn main(){filearg(1,"MAIN.OBJ");openunit();let mut count=0;while readline(){count=count+1;}closein();return count!=2;}
 ```
 
 Replace with:
 
 ```rill
 bytes token[32];
-fn main(){openunit();records();closein();return 0;}
+fn main(){filearg(1,"MAIN.OBJ");openunit();records();closein();return 0;}
 ```
 
 The following old source remains:
@@ -132,19 +132,16 @@ bytes source[121];
 ## Build and preserve the tool
 
 ```dos
-COPY L04.RIL SOURCE.RIL
-CHECK R0
-COPY RESULT.IR SOURCE.IR
-CHECK I0
-COPY RESULT.ASM SOURCE.ASM
-CHECK A0
+CHECK R0 L04.RIL RESULT.IR
+CHECK I0 RESULT.IR RESULT.ASM
+CHECK A0 RESULT.ASM RESULT.COM
 COPY RESULT.COM L04.COM
 ```
 
-Require compiler `OK RESULT.IR 0000008313`, translator `OK RESULT.ASM 0000020492 text bytes`, assembler `OK RESULT.COM 04952 bytes`, and each PASS before the following copy. VIEW.BAS must show L04.COM length 4952 and these first thirty-two bytes:
+Require compiler `OK RESULT.IR 0000010197`, translator `OK RESULT.ASM 0000026044 text bytes`, assembler `OK RESULT.COM 05973 bytes`, and each PASS before the following copy. VIEW.BAS must show L04.COM length 5973 and these first thirty-two bytes:
 
 ```text
-FC 81 FC FE FF 74 03 E9 05 13 E8 5D 0F B4 4C CD 21 00 00 00 00 01 00 00 00 00 00 00 00 00 00 00
+FC 81 FC FE FF 74 03 E9 A4 15 E8 EA 15 81 F8 FF FF 75 03 E9 98 15 E8 F0 11 B4 4C CD 21 00 00 00
 ```
 
 ## Check the accepted input
@@ -157,8 +154,7 @@ END
 ```
 
 ```dos
-COPY M04.OBJ MAIN.OBJ
-CHECK L04
+CHECK L04 M04.OBJ UTIL.OBJ RESULT.COM
 ```
 
 CHECK must report PASS. This checkpoint creates no linked output. Its input handling is checked by its return status; its retained executable was inspected above.
@@ -177,8 +173,7 @@ END
 ```
 
 ```dos
-COPY X04.OBJ MAIN.OBJ
-CHECK L04
+CHECK L04 X04.OBJ UTIL.OBJ RESULT.COM
 ```
 
 Require:

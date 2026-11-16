@@ -15,7 +15,7 @@ Skip whitespace and line comments, and recognize punctuation and paired operator
 
 Copy R07.IR to R08.IR. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 166
+### Edit at old physical position 175
 
 Unchanged source before the edit:
 
@@ -185,7 +185,7 @@ The following old source remains:
 RETURN
 ```
 
-### Edit at old physical position 24
+### Edit at old physical position 33
 
 Unchanged source before the edit:
 
@@ -214,7 +214,7 @@ CNE
 RETURN
 ```
 
-### Edit at old physical position 22
+### Edit at old physical position 31
 
 Unchanged source before the edit:
 
@@ -269,13 +269,11 @@ WORD LINE 1
 ## Build and check
 
 ```dos
-COPY R08.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP R08.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 07366 bytes`. Save RESULT.COM as R08.COM. VIEW.BAS must show length 7366.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 08176 bytes`. Save RESULT.COM as R08.COM. VIEW.BAS must show length 8176.
 
 Create T08.RIL:
 
@@ -284,11 +282,7 @@ Create T08.RIL:
 ```
 
 ```dos
-COPY T08.RIL SOURCE.RIL
-```
-
-```dos
-CHECK R08
+CHECK R08 T08.RIL RESULT.IR
 ```
 
 Require PASS.

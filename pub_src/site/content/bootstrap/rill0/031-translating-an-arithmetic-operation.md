@@ -15,7 +15,7 @@ Build translating an arithmetic operation..
 
 Copy R30.IR to R31.IR. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 1084
+### Edit at old physical position 1093
 
 Unchanged source before the edit:
 
@@ -98,7 +98,7 @@ LABEL IOFAIL
 LIT 1
 ```
 
-### Edit at old physical position 34
+### Edit at old physical position 43
 
 Unchanged source before the edit:
 
@@ -141,20 +141,19 @@ The following old source remains:
 RETURN
 ```
 
-### Edit at old physical position 29
+### Edit at old physical position 39
 
 Unchanged source before the edit:
 
 ```ir
-BUFFER IDENT 32
-WORD CALLBUILTIN 0
-PROC MAIN 0 0
+LITS "SOURCE.RIL"
+PUSH
+INVOKE FILEARG 2
 ```
 
 Remove:
 
 ```ir
-LITS "SOURCE.RIL"
 OPEN
 ST INPUT
 ```
@@ -162,7 +161,6 @@ ST INPUT
 Insert in its place:
 
 ```ir
-LITS "RILL.TMP"
 CREATE
 ST OUTPUT
 ```
@@ -174,28 +172,84 @@ STATUS
 JNZ IOFAIL
 ```
 
+### Edit at old physical position 36
+
+Unchanged source before the edit:
+
+```ir
+INVOKE FILEARG 2
+LIT 1
+PUSH
+```
+
+Remove:
+
+```ir
+LITS "SOURCE.RIL"
+```
+
+Insert in its place:
+
+```ir
+LITS "RILL.TMP"
+```
+
+The following old source remains:
+
+```ir
+PUSH
+INVOKE FILEARG 2
+```
+
+### Edit at old physical position 34
+
+Unchanged source before the edit:
+
+```ir
+LITS "SOURCE.RIL"
+PUSH
+INVOKE FILEARG 2
+```
+
+Remove:
+
+```ir
+LIT 1
+```
+
+Insert in its place:
+
+```ir
+LIT 2
+```
+
+The following old source remains:
+
+```ir
+PUSH
+LITS "SOURCE.RIL"
+```
+
 ## Build and check
 
 ```dos
-COPY R31.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP R31.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 14690 bytes`. Save RESULT.COM as R31.COM. VIEW.BAS must show length 14690.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 15500 bytes`. Save RESULT.COM as R31.COM. VIEW.BAS must show length 15500.
 
 ```dos
-CHECK R31
+CHECK R31 SOURCE.RIL RESULT.IR
 ```
 
 Require PASS.
 
-Inspect RILL.TMP with VIEW.BAS. Require length 5 bytes and these complete bytes:
+Inspect RESULT.IR with VIEW.BAS. Require length 5 bytes and these complete bytes:
 
 ```text
 41 44 44 0D 0A
 ```
 
-This is a fragment for inspection. Delete the deliberately created RILL.TMP after checking it.
+This is a fragment for inspection, not a complete program. The command-selected RESULT.IR contains that fragment.
 

@@ -2,6 +2,7 @@
 from pathlib import Path
 import json,re
 from build_asm86a import ROOT,W,Q,LIB,fields,SEED,STARTS,seed_source,full_source,fit_source_branches,fieldtext,dos
+from command_files import native
 
 def rewrite(code,mapping):
  pattern=re.compile(r'(?<![A-Z0-9_])('+'|'.join(re.escape(k) for k in mapping)+r')(?![A-Z0-9_])')
@@ -22,7 +23,12 @@ def dispatch(code,table,equ=False):
  out+='CALL TWOOPERANDS\nCALL FINISH\nRET\n'+tail
  return out
 
-def assemble_source(code,f,fit=False,roots=()):
+def assemble_source(code,f,fit=False,roots=(),output='RESNAME'):
+ code,f=native(code,f,output)
+ # The command routines are also written in ASM0's language; distant branches
+ # use explicit source bridges before the project assembler encodes them.
+ commands={k:v for k,v in code.items() if k.startswith('CMD')}
+ code.update(fit_source_branches(commands))
  if fit:code=fit_source_branches(code)
  owners={label:k for k,v in code.items() for label in re.findall(r'^([A-Z][A-Z0-9_]*):$',v,re.M)}
  selected={'START',*roots}
@@ -113,7 +119,7 @@ INT 21H
    code[key]=rewrite({key:code[key]},{'4080H':'2300H','4082H':'2302H'})[key]
  if n<9:code['START']=code['START'].replace('MOV AX,5000H\nMOV [SYMNEXT],AX','MOV AX,3000H\nMOV [SYMNEXT],AX')
  if n<=2:code['WRITEOUT']=fit_source_branches(code)['WRITEOUT']
- return assemble_source(code,f,roots=('STATEMENT','READLINE') if 3<=n<=6 else ())
+ return assemble_source(code,f,roots=('STATEMENT','READLINE') if 3<=n<=6 else (),output='TMPNAME' if 3<=n<=5 else 'RESNAME')
 
 def full_stage(n):
  core,cf,_=full_source(True,profile='core',fit=False)

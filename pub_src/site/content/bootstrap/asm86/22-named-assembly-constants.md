@@ -8,7 +8,7 @@ reader_names = 1
 url = "/bootstrap/asm86a/22-named-assembly-constants/"
 +++
 
-An explicit constant can replace repeated counts while leaving the location counter unchanged.
+I have started writing relationships between values in the source. A repeated count deserves a name of its own too. That name must have the same value on both passes, and defining it should leave the next instruction's address alone.
 
 ## The working parts
 
@@ -29,7 +29,7 @@ EXPRDEPTH:
 DW 0
 ```
 
-Insert after old physical line 2059.
+Insert after old physical line 2248.
 
 Insert:
 
@@ -55,7 +55,7 @@ MOV AX,1
 JMP ERROR
 ```
 
-Insert after old physical line 729.
+Insert after old physical line 735.
 
 Insert:
 
@@ -88,7 +88,7 @@ JNE ZSTATEMEN1
 JMP SYNTAXBAD
 ```
 
-Remove this exact source at old physical positions 686–686:
+Remove this exact source at old physical positions 692–692:
 
 ```asm
 ZSTATEMEN1:
@@ -117,7 +117,7 @@ CALL LOOK
 CMP BX,0
 ```
 
-Remove this exact source at old physical positions 684–684:
+Remove this exact source at old physical positions 690–690:
 
 ```asm
 JNE ZSTATEMEN1
@@ -146,7 +146,7 @@ INSTRUCTION:
 DEC SI
 ```
 
-Insert after old physical line 678.
+Insert after old physical line 684.
 
 Insert:
 
@@ -205,7 +205,7 @@ CALL FINISH
 RET
 ```
 
-Remove this exact source at old physical positions 677–677:
+Remove this exact source at old physical positions 683–683:
 
 ```asm
 INSTRUCTION:
@@ -234,7 +234,7 @@ JE AFTERWORD
 CMP AL,58
 ```
 
-Remove this exact source at old physical positions 669–669:
+Remove this exact source at old physical positions 675–675:
 
 ```asm
 JNE INSTRUCTION
@@ -263,7 +263,7 @@ CMP AL,32
 JE AFTERWORD
 ```
 
-Insert after old physical line 667.
+Insert after old physical line 673.
 
 Insert:
 
@@ -289,7 +289,7 @@ JNE STWORD
 RET
 ```
 
-Remove this exact source at old physical positions 663–663:
+Remove this exact source at old physical positions 669–669:
 
 ```asm
 STWORD:
@@ -314,7 +314,7 @@ MOV AL,[0CC00H]
 CMP AL,0
 ```
 
-Remove this exact source at old physical positions 661–661:
+Remove this exact source at old physical positions 667–667:
 
 ```asm
 JNE STWORD
@@ -343,7 +343,7 @@ RET
 STATEMENT:
 ```
 
-Insert after old physical line 657.
+Insert after old physical line 663.
 
 Insert:
 
@@ -362,17 +362,16 @@ MOV AL,[0CC00H]
 ## Build the stopping point
 
 ```dos
-COPY A22.ASM SOURCE.ASM
-CHECK ASM1
+CHECK ASM1 A22.ASM RESULT.COM
 ```
 
-Require `OK RESULT.COM 04688 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 05126 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A22.COM
 ```
 
-VIEW.BAS must report A22.COM length 4688 bytes. Keep that executable and source together.
+VIEW.BAS must report A22.COM length 5126 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -384,11 +383,7 @@ DW N
 ```
 
 ```dos
-COPY T22.ASM SOURCE.ASM
-```
-
-```dos
-CHECK A22
+CHECK A22 T22.ASM RESULT.COM
 ```
 
 Require:
@@ -416,8 +411,7 @@ LATER:
 ```
 
 ```dos
-COPY X22.ASM SOURCE.ASM
-CHECK A22
+CHECK A22 X22.ASM RESULT.COM
 ```
 
 Require:

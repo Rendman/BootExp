@@ -16,7 +16,7 @@ Retain every earlier language feature. This checkpoint edits the complete compil
 
 Copy RB11.IR to RB12.IR. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 1768
+### Edit at old physical position 1797
 
 Unchanged source before the edit:
 
@@ -29,13 +29,13 @@ PROC BUILTIN 0 5
 Remove:
 
 ```ir
-LITS "PUTC\01\0POP\nPUTC\0STATUS\00\0STATUS\0OPEN\01\0POP\nOPEN\0CREATE\01\0POP\nCREATE\0CLOSE\01\0POP\nCLOSE\0READ\03\0POP\nREAD\0WRITE\03\0POP\nWRITE\0EXISTS\01\0POP\nEXISTS\0DELETE\01\0POP\nDELETE\0RENAME\02\0POP\nRENAME\0ALLOC\01\0POP\nALLOC\0FREE\01\0POP\nFREEBLOCK\0LOAD8\01\0POP\nFETCHB\0EXIT\01\0POP\nEXIT\0\0"
+LITS "PUTC\01\0POP\nPUTC\0STATUS\00\0STATUS\0OPEN\01\0POP\nOPEN\0CREATE\01\0POP\nCREATE\0CLOSE\01\0POP\nCLOSE\0READ\03\0POP\nREAD\0WRITE\03\0POP\nWRITE\0EXISTS\01\0POP\nEXISTS\0DELETE\01\0POP\nDELETE\0RENAME\02\0POP\nRENAME\0ALLOC\01\0POP\nALLOC\0FREE\01\0POP\nFREEBLOCK\0LOAD8\01\0POP\nFETCHB\0EXIT\01\0POP\nEXIT\0ARGC\00\0ARGC\0ARG\01\0POP\nARG\0\0"
 ```
 
 Insert in its place:
 
 ```ir
-LITS "PUTC\01\0POP\nPUTC\0STATUS\00\0STATUS\0OPEN\01\0POP\nOPEN\0CREATE\01\0POP\nCREATE\0CLOSE\01\0POP\nCLOSE\0READ\03\0POP\nREAD\0WRITE\03\0POP\nWRITE\0EXISTS\01\0POP\nEXISTS\0DELETE\01\0POP\nDELETE\0RENAME\02\0POP\nRENAME\0ALLOC\01\0POP\nALLOC\0FREE\01\0POP\nFREEBLOCK\0GET8\02\0POP\nGET8\0GET16\02\0POP\nGET16\0SET8\03\0POP\nSET8\0SET16\03\0POP\nSET16\0LOAD8\01\0POP\nFETCHB\0EXIT\01\0POP\nEXIT\0\0"
+LITS "PUTC\01\0POP\nPUTC\0STATUS\00\0STATUS\0OPEN\01\0POP\nOPEN\0CREATE\01\0POP\nCREATE\0CLOSE\01\0POP\nCLOSE\0READ\03\0POP\nREAD\0WRITE\03\0POP\nWRITE\0EXISTS\01\0POP\nEXISTS\0DELETE\01\0POP\nDELETE\0RENAME\02\0POP\nRENAME\0ALLOC\01\0POP\nALLOC\0FREE\01\0POP\nFREEBLOCK\0GET8\02\0POP\nGET8\0GET16\02\0POP\nGET16\0SET8\03\0POP\nSET8\0SET16\03\0POP\nSET16\0LOAD8\01\0POP\nFETCHB\0EXIT\01\0POP\nEXIT\0ARGC\00\0ARGC\0ARG\01\0POP\nARG\0\0"
 ```
 
 The following old source remains:
@@ -48,13 +48,11 @@ LABEL BUILTINNEXT
 ## Build and check
 
 ```dos
-COPY RB12.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP RB12.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 21111 bytes`. Save RESULT.COM as RB12.COM. VIEW.BAS must show length 21111.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 22015 bytes`. Save RESULT.COM as RB12.COM. VIEW.BAS must show length 22015.
 
 Create TRB12.RIL:
 
@@ -69,11 +67,7 @@ fn main(){
 ```
 
 ```dos
-COPY TRB12.RIL SOURCE.RIL
-```
-
-```dos
-CHECK RB12
+CHECK RB12 TRB12.RIL RESULT.IR
 ```
 
 Require:
@@ -129,17 +123,21 @@ Inspect RESULT.IR with VIEW.BAS. Require length 656 bytes and these complete byt
 4D 41 49 4E 20 30 0D 0A 52 45 54 55 52 4E 0D 0A
 ```
 
-This is a complete IR program. Translate it with IRKEEP, assemble its accepted output with ASMAKEEP, and save RESULT.COM as TRY.COM. Require fresh OK and PASS before both copies. VIEW.BAS must report length 1230. CHECK TRY displays `A` and reports PASS.
+This is a complete IR program. Translate it with IRKEEP, assemble its accepted output with ASMAKEEP, and save RESULT.COM as TRY.COM. Require fresh OK and PASS before both copies. VIEW.BAS must report length 1592. CHECK TRY displays `A` and reports PASS.
 
 ## Check the new boundary
 
-Use this separate rejected source:
+Save this separate rejected source as XRB12.RIL:
 
 ```rill
 fn main(){putc(65536);}
 ```
 
-Copy it to SOURCE.RIL and run CHECK RB12. Require:
+```dos
+CHECK RB12 XRB12.RIL RESULT.IR
+```
+
+Require:
 
 ```text
 ERROR 0000000001 CODE 00003

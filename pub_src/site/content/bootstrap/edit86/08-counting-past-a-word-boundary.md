@@ -82,19 +82,16 @@ COPY S07.ASM EDITRT.ASM
 ```
 
 ```dos
-COPY E08.RIL SOURCE.RIL
-CHECK RILLED
-COPY RESULT.IR SOURCE.IR
-CHECK IRED
-COPY RESULT.ASM SOURCE.ASM
-CHECK A0
+CHECK RILLED E08.RIL RESULT.IR
+CHECK IRED RESULT.IR RESULT.ASM EDITRT.ASM
+CHECK A0 RESULT.ASM RESULT.COM
 COPY RESULT.COM E08.COM
 ```
 
-Require compiler `OK RESULT.IR 0000003388`, translator `OK RESULT.ASM 0000015515 text bytes`, assembler `OK RESULT.COM 02993 bytes`, and each PASS before the following copy. VIEW.BAS must report E08.COM length 2993 bytes, beginning with:
+Require compiler `OK RESULT.IR 0000003388`, translator `OK RESULT.ASM 0000017009 text bytes`, assembler `OK RESULT.COM 03355 bytes`, and each PASS before the following copy. VIEW.BAS must report E08.COM length 3355 bytes, beginning with:
 
 ```text
-FC 81 FC FE FF 74 03 E9 47 08 E8 9F 04 B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+FC 81 FC FE FF 74 03 E9 53 08 E8 99 08 81 F8 FF FF 75 03 E9 47 08 E8 9F 04 B4 4C CD 21 00 00 00
 ```
 
 ## Check the stopping point

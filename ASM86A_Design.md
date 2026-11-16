@@ -17,9 +17,9 @@ The construction has two separate article collections:
 
 This distinction is necessary. ASM0 can build at most 8192 executable bytes with 256 symbols. An assembler built within those bounds can nevertheless stream a much larger executable to disk. Its own workspace and the program it assembles are separate things.
 
-The unchanged ASM0 directly builds the 3302-byte ASM1. ASM1 builds the 5995-byte ASM86. Both reproduce their initial executable in two self-assembly generations. Native DOS 3.10 checks also rebuild the tools, IR86, RILL, and complete example programs. The results are retained in `pub_src/qa/asm86/`.
+The unchanged ASM0 directly builds the 3740-byte ASM1. ASM1 builds the 6433-byte ASM86. Both reproduce their initial executable in two self-assembly generations. Native DOS 3.10 checks also rebuild the tools, IR86, RILL, and complete example programs. The results are retained in `pub_src/qa/asm86/`.
 
-## Fixed files
+## Default files and command-line filenames
 
 | File | Role |
 |---|---|
@@ -28,9 +28,13 @@ The unchanged ASM0 directly builds the 3302-byte ASM1. ASM1 builds the 5995-byte
 | `ASMA.TMP` | Streamed output for the current assembly |
 | `RESULT.BAK` | Previous executable during the final rename sequence |
 
-Neither assembler prompts for a filename or reads command-line arguments. `COPY ASM1.ASM SOURCE.ASM` selects an input. Fixed names are also the default for the expanded IR86 and RILL tools: `SOURCE.IR -> RESULT.ASM` and `SOURCE.RIL -> RESULT.IR`.
+The assemblers obtain input and output filenames from the PSP command tail without prompts. With no arguments they use the defaults above. The expanded IR86 and RILL workbenches likewise use `SOURCE.IR -> RESULT.ASM` and `SOURCE.RIL -> RESULT.IR`.
 
-Retain the existing ASM0 filename prompt only for the initial seed build. No rewrite of a preceding tool is required.
+Command-line filename selection begins in the first ASM1 construction and is retained in ASM86 and the later file tools. The initial interface accepts either no arguments, preserving the defaults above, or an input filename followed by an output filename. For example, the invocation `ASM1 INPUT.ASM OUTPUT.COM` selects both files without a prompt.
+
+Read the length at PSP:80H and text at PSP:81H at startup. Accept bounded, unquoted 8.3 filenames without paths or switches initially; copy them into owned zero-terminated buffers before DOS services can reuse the command-tail area. Reject malformed argument counts, oversized names, and collisions among the source, output, ASMA.TMP and RESULT.BAK before creating output. Apply the existing publication and recovery rules to the selected output. For IR86 and RILL, command-tail access belongs in the native DOS binding.
+
+BOOTASM and ASM0 keep their fixed SOURCE.ASM and RESULT.COM names. Select the initial seed source with COPY and build it with the unchanged ASM0.
 
 ## Streaming, two passes, and publication
 

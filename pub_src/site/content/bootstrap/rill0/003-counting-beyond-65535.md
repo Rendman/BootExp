@@ -201,13 +201,11 @@ LIT 65535
 ## Build and check
 
 ```dos
-COPY R03.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP R03.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 01659 bytes`. Save RESULT.COM as R03.COM. VIEW.BAS must show length 1659.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 02021 bytes`. Save RESULT.COM as R03.COM. VIEW.BAS must show length 2021.
 
 ```dos
 CHECK R03

@@ -57,3 +57,4 @@ fn print32(hi,lo) {
     }
     while i { i = i-1; putc(decimal[i]); } return 0;
 }
+

@@ -104,19 +104,16 @@ The following old source remains:
 ## Build and preserve the tool
 
 ```dos
-COPY L10.RIL SOURCE.RIL
-CHECK R0
-COPY RESULT.IR SOURCE.IR
-CHECK I0
-COPY RESULT.ASM SOURCE.ASM
-CHECK A0
+CHECK R0 L10.RIL RESULT.IR
+CHECK I0 RESULT.IR RESULT.ASM
+CHECK A0 RESULT.ASM RESULT.COM
 COPY RESULT.COM L10.COM
 ```
 
-Require compiler `OK RESULT.IR 0000022300`, translator `OK RESULT.ASM 0000046715 text bytes`, assembler `OK RESULT.COM 10536 bytes`, and each PASS before the following copy. VIEW.BAS must show L10.COM length 10536 and these first thirty-two bytes:
+Require compiler `OK RESULT.IR 0000024493`, translator `OK RESULT.ASM 0000052775 text bytes`, assembler `OK RESULT.COM 11647 bytes`, and each PASS before the following copy. VIEW.BAS must show L10.COM length 11647 and these first thirty-two bytes:
 
 ```text
-FC 81 FC FE FF 74 03 E9 D5 28 E8 2D 25 B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+FC 81 FC FE FF 74 03 E9 CE 2B E8 14 2C 81 F8 FF FF 75 03 E9 C2 2B E8 1A 28 B4 4C CD 21 00 00 00
 ```
 
 ## Check the accepted input
@@ -141,9 +138,7 @@ END
 ```
 
 ```dos
-COPY M10.OBJ MAIN.OBJ
-COPY U10.OBJ UTIL.OBJ
-CHECK L10
+CHECK L10 M10.OBJ U10.OBJ RESULT.COM
 ```
 
 Require:
@@ -183,8 +178,7 @@ END
 ```
 
 ```dos
-COPY X10.OBJ MAIN.OBJ
-CHECK L10
+CHECK L10 X10.OBJ U10.OBJ RESULT.COM
 ```
 
 Require:

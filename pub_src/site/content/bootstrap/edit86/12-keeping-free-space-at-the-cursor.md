@@ -26,7 +26,7 @@ Unchanged source immediately before the edit:
         add(length,n);
 ```
 
-Insert after old physical line 163.
+Insert after old physical line 164.
 
 Insert:
 
@@ -111,7 +111,7 @@ Unchanged source immediately before the edit:
     copypos(gap,length);
 ```
 
-Insert after old physical line 27.
+Insert after old physical line 28.
 
 Insert:
 
@@ -159,19 +159,16 @@ bytes io[4096];
 ## Build and preserve the program
 
 ```dos
-COPY E12.RIL SOURCE.RIL
-CHECK RILLED
-COPY RESULT.IR SOURCE.IR
-CHECK IRED
-COPY RESULT.ASM SOURCE.ASM
-CHECK A0
+CHECK RILLED E12.RIL RESULT.IR
+CHECK IRED RESULT.IR RESULT.ASM EDITRT.ASM
+CHECK A0 RESULT.ASM RESULT.COM
 COPY RESULT.COM E12.COM
 ```
 
-Require compiler `OK RESULT.IR 0000019069`, translator `OK RESULT.ASM 0000048955 text bytes`, assembler `OK RESULT.COM 12406 bytes`, and each PASS before the following copy. VIEW.BAS must report E12.COM length 12406 bytes, beginning with:
+Require compiler `OK RESULT.IR 0000020191`, translator `OK RESULT.ASM 0000052671 text bytes`, assembler `OK RESULT.COM 13155 bytes`, and each PASS before the following copy. VIEW.BAS must report E12.COM length 13155 bytes, beginning with:
 
 ```text
-FC 81 FC FE FF 74 03 E9 0C 2D E8 64 29 B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+FC 81 FC FE FF 74 03 E9 9B 2E E8 E1 2E 81 F8 FF FF 75 03 E9 8F 2E E8 E7 2A B4 4C CD 21 00 00 00
 ```
 
 ## The document fixture
@@ -184,8 +181,7 @@ two
 ```
 
 ```dos
-COPY T12.TXT EDIT.TXT
-CHECK E12
+CHECK E12 T12.TXT
 ```
 
 Require PASS and an unchanged document by COMP against T12.TXT. The gap has moved to logical position five, but saving must still reproduce all ten bytes. Try a three-byte document: require FAIL with the shorter-than-gap diagnostic and preserve those input bytes. Restore the fixture.

@@ -74,6 +74,8 @@ for c in json.loads((ROOT/'qa/edit86/checkpoints.json').read_text()):
  files.append(c['source'])
  if n<8:files.append(c['probe'])
  elif n>=10:files.append(c['fixture'])
+from command_files import package
+package(W)
 for name in files:shutil.copyfile(W/name,D/name)
 archive=D/'EDIT86.ZIP';same=False
 if archive.exists():

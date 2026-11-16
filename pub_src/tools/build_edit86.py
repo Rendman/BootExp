@@ -71,6 +71,7 @@ for n in range(1,8):
 selected={'main'}
 for n in range(8,21):
  code=dict(procs);code['main']=MAINS.get(n,procs['main'])
+ if n>=10 and n<17:code['main']=code['main'].replace('fn main(){','fn main(){filename();',1)
  if n<19:
   code['allocate']=code['allocate'].replace('    undo=alloc(16384);if status(){fatal("Not enough DOS memory for undo storage.");}return 0;','    return 0;')
   code['release']=code['release'].replace('    if undo{free(undo);if status(){bad=1;}undo=0;}return bad;','    return bad;')

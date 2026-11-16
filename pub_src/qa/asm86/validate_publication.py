@@ -30,7 +30,11 @@ for stage,case in zip(json.loads((Q/'article-patches.json').read_text()),cases):
  assert not re.search(r'\b(?:contains|requires)\s+\*?\*?\d+\s+(?:required\s+)?(?:BASIC|source|assembly)?\s*lines',text,re.I),(n,'editorial line announcement')
 assert (W/'ASMA0.ASM').read_bytes()==(W/'A12.ASM').read_bytes()
 assert (W/'ASM86A.ASM').read_bytes()==(W/'A40.ASM').read_bytes()
-for name,group in [('BOOTASM.BAS','bootasm'),('VIEW.BAS','bootasm'),('CHECK.BAT','bootasm'),('ASM86.ASM','asm86')]:assert (W/name).read_bytes()==(ROOT/'workbench'/directory_name(group)/name).read_bytes(),name
+for name,group in [('BOOTASM.BAS','bootasm'),('VIEW.BAS','bootasm'),('ASM86.ASM','asm86')]:assert (W/name).read_bytes()==(ROOT/'workbench'/directory_name(group)/name).read_bytes(),name
+from command_files import CHECKER
+first=(C.parent/'asm1/01-fixed-work-files.md').read_text()
+printed=re.search(r'```dos\n(ECHO OFF\n.*?)\n```',first,re.S)[1]+'\n'
+assert printed==CHECKER==(W/'CHECK.BAT').read_text()
 files=json.loads((Q/'package-files.json').read_text())
 with zipfile.ZipFile(D/'ASM86A.ZIP') as z:
  assert z.namelist()==files

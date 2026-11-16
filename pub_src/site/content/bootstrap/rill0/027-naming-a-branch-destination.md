@@ -15,7 +15,7 @@ Build naming a branch destination..
 
 Copy R26.IR to R27.IR. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 846
+### Edit at old physical position 855
 
 Unchanged source before the edit:
 
@@ -45,7 +45,7 @@ PROC NEWLINE 0 0
 LITS "\r\n"
 ```
 
-### Edit at old physical position 36
+### Edit at old physical position 45
 
 Unchanged source before the edit:
 
@@ -77,25 +77,23 @@ LD OUTPUT
 ## Build and check
 
 ```dos
-COPY R27.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP R27.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 13615 bytes`. Save RESULT.COM as R27.COM. VIEW.BAS must show length 13615.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 14425 bytes`. Save RESULT.COM as R27.COM. VIEW.BAS must show length 14425.
 
 ```dos
-CHECK R27
+CHECK R27 SOURCE.RIL RESULT.IR
 ```
 
 Require PASS.
 
-Inspect RILL.TMP with VIEW.BAS. Require length 10 bytes and these complete bytes:
+Inspect RESULT.IR with VIEW.BAS. Require length 10 bytes and these complete bytes:
 
 ```text
 20 42 5F 30 30 30 30 37 0D 0A
 ```
 
-This is a fragment for inspection. Delete the deliberately created RILL.TMP after checking it.
+This is a fragment for inspection, not a complete program. The command-selected RESULT.IR contains that fragment.
 

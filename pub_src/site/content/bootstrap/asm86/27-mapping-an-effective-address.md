@@ -8,7 +8,7 @@ reader_names = 1
 url = "/bootstrap/asm86a/27-mapping-an-effective-address/"
 +++
 
-A parser should separate an address's meaning from its ModR/M representation.
+The processor manual gives each legal memory-register combination a ModR/M code. I copy that small table into the notebook and work through how an address reaches its code. The parser still supplies only a direct address or BX here; the mapping can be put in place without changing that vocabulary yet.
 
 ## The working parts
 
@@ -30,7 +30,7 @@ DB 0
 MOD:
 ```
 
-Insert after old physical line 2277.
+Insert after old physical line 2466.
 
 Insert:
 
@@ -58,7 +58,7 @@ NAMELEN:
 DW 0
 ```
 
-Insert after old physical line 2267.
+Insert after old physical line 2456.
 
 Insert:
 
@@ -83,7 +83,7 @@ MOV [ENCWIDTH],AL
 RET
 ```
 
-Insert after old physical line 2030.
+Insert after old physical line 2036.
 
 Insert:
 
@@ -188,8 +188,8 @@ RET
 The following old source stays in place:
 
 ```asm
-OKMSG:
-DB 79,75,32,82,69,83,85,76,84,46,67,79,77,32,36
+CMDINIT:
+MOV SI,81H
 ```
 
 ### Change 4 near `MEMORYEND:`
@@ -202,7 +202,7 @@ MOV AL,[0CC00H]
 CMP AL,93
 ```
 
-Remove this exact source at old physical positions 653–659:
+Remove this exact source at old physical positions 659–665:
 
 ```asm
 JE MEMORYOK
@@ -240,7 +240,7 @@ DIRECTMEM:
 CALL VALUE
 ```
 
-Remove this exact source at old physical positions 646–649:
+Remove this exact source at old physical positions 652–655:
 
 ```asm
 MOV [VAL],AX
@@ -275,7 +275,7 @@ MOV AL,[0CC02H]
 CMP AL,0
 ```
 
-Remove this exact source at old physical positions 640–644:
+Remove this exact source at old physical positions 646–650:
 
 ```asm
 JNE DIRECTMEM
@@ -312,7 +312,7 @@ MOV AX,[0CC00H]
 CMP AX,5842H
 ```
 
-Remove this exact source at old physical positions 637–637:
+Remove this exact source at old physical positions 643–643:
 
 ```asm
 JNE DIRECTMEM
@@ -341,7 +341,7 @@ RET
 MEMORY:
 ```
 
-Remove this exact source at old physical positions 632–633:
+Remove this exact source at old physical positions 638–639:
 
 ```asm
 MOV AL,0
@@ -367,17 +367,16 @@ MOV AX,[0CC00H]
 ## Build the stopping point
 
 ```dos
-COPY A27.ASM SOURCE.ASM
-CHECK ASM1
+CHECK ASM1 A27.ASM RESULT.COM
 ```
 
-Require `OK RESULT.COM 05338 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 05776 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A27.COM
 ```
 
-VIEW.BAS must report A27.COM length 5338 bytes. Keep that executable and source together.
+VIEW.BAS must report A27.COM length 5776 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -389,11 +388,7 @@ MOV [BX],AX
 ```
 
 ```dos
-COPY T27.ASM SOURCE.ASM
-```
-
-```dos
-CHECK A27
+CHECK A27 T27.ASM RESULT.COM
 ```
 
 Require:
@@ -420,8 +415,7 @@ MOV AX,[BP]
 ```
 
 ```dos
-COPY X27.ASM SOURCE.ASM
-CHECK A27
+CHECK A27 X27.ASM RESULT.COM
 ```
 
 Require:

@@ -32,7 +32,7 @@ bytes outbuf[4096];
 bytes ident[32];
 bytes string[512];
 
-fn main(){setident("PUTC");builtin();return (recval)!=1;}
+fn main(){filearg(1,"SOURCE.RIL");setident("PUTC");builtin();return (recval)!=1;}
 
 fn next() {
     if ch == 10 {
@@ -252,7 +252,7 @@ fn printnum(n) {
 }
 
 fn builtin() {
-    let mut p = "PUTC\01\0POP\nPUTC\0STATUS\00\0STATUS\0OPEN\01\0POP\nOPEN\0CREATE\01\0POP\nCREATE\0CLOSE\01\0POP\nCLOSE\0READ\03\0POP\nREAD\0WRITE\03\0POP\nWRITE\0EXISTS\01\0POP\nEXISTS\0DELETE\01\0POP\nDELETE\0RENAME\02\0POP\nRENAME\0ALLOC\01\0POP\nALLOC\0FREE\01\0POP\nFREEBLOCK\0GET8\02\0POP\nGET8\0GET16\02\0POP\nGET16\0SET8\03\0POP\nSET8\0SET16\03\0POP\nSET16\0LOAD8\01\0POP\nFETCHB\0LOAD16\01\0POP\nFETCH\0STORE8\02\0POP\nPUTB\0STORE16\02\0POP\nPUT\0EXIT\01\0POP\nEXIT\0\0";
+    let mut p = "PUTC\01\0POP\nPUTC\0STATUS\00\0STATUS\0OPEN\01\0POP\nOPEN\0CREATE\01\0POP\nCREATE\0CLOSE\01\0POP\nCLOSE\0READ\03\0POP\nREAD\0WRITE\03\0POP\nWRITE\0EXISTS\01\0POP\nEXISTS\0DELETE\01\0POP\nDELETE\0RENAME\02\0POP\nRENAME\0ALLOC\01\0POP\nALLOC\0FREE\01\0POP\nFREEBLOCK\0GET8\02\0POP\nGET8\0GET16\02\0POP\nGET16\0SET8\03\0POP\nSET8\0SET16\03\0POP\nSET16\0LOAD8\01\0POP\nFETCHB\0LOAD16\01\0POP\nFETCH\0STORE8\02\0POP\nPUTB\0STORE16\02\0POP\nPUT\0EXIT\01\0POP\nEXIT\0ARGC\00\0ARGC\0ARG\01\0POP\nARG\0\0";
     let mut i = 0; let mut same = 0;
     while load8(p) {
         i = 0; same = 1;
@@ -269,7 +269,7 @@ fn fail(code) {
     if input { close(input); }
     if output { close(output); }
     let mut recovery = 0;
-    if backup { rename("RILL.BAK","RESULT.IR"); if status() { recovery = 1; } }
+    if backup { rename("RILL.BAK",filearg(2,"RESULT.IR")); if status() { recovery = 1; } }
     if recovery == 0 { if own { delete("RILL.TMP"); if status() { recovery=1; } } }
     if table { free(table); table = 0; }
     print("ERROR "); print32(linehi,line); print(" CODE "); printnum(code); print("\r\n");
@@ -292,4 +292,21 @@ fn print32(hi,lo) {
         decimal[i] = rem+48; hi = qhi; lo = qlo; i = i+1;
     }
     while i { i = i-1; putc(decimal[i]); } return 0;
+}
+
+
+fn filearg(n,fallback){
+    let mut count=argc();
+    if count==0{return fallback;}
+    if count!=2{exit(1);}
+    if filesame(arg(1),arg(2))|filesame(arg(1),"RILL.TMP")|filesame(arg(1),"RILL.BAK")|filesame(arg(2),"RILL.TMP")|filesame(arg(2),"RILL.BAK"){exit(1);}
+    return arg(n);
+}
+
+fn filesame(a,b){
+    let mut i=0;
+    while load8(a+i)==load8(b+i){
+        if load8(a+i)==0{return 1;}i=i+1;
+    }
+    return 0;
 }

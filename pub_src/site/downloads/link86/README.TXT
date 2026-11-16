@@ -40,3 +40,11 @@ input number, physical record and reason code described in the reference.
 
 All archive members are ASCII/CRLF/8.3 sources. Keep the preceding
 source archives so the builders remain reproducible.
+
+COMMAND-LINE FILENAMES
+From ASM1 onward, supply input and output filenames on the command
+line: CHECK tool INPUT.EXT OUTPUT.EXT. No arguments select the
+default work names. Use unquoted 8.3 filenames in the current directory;
+paths and switches are not accepted. Input, output, temporary and backup
+names must be distinct. LINK86 takes two object names then the result;
+EDIT86 takes one document name and saves that same document.

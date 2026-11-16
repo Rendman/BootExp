@@ -29,7 +29,7 @@ DB 82,69,83,87,0,0,12,1
 DB 76,69,65,0,0,0,11,0
 ```
 
-Insert after old physical line 2423.
+Insert after old physical line 2612.
 
 Insert:
 
@@ -53,7 +53,7 @@ MOV [ENCOP],AL
 JMP ENCODE
 ```
 
-Insert after old physical line 2288.
+Insert after old physical line 2294.
 
 Insert:
 
@@ -79,8 +79,8 @@ JMP FINISH
 The following old source stays in place:
 
 ```asm
-OKMSG:
-DB 79,75,32,82,69,83,85,76,84,46,67,79,77,32,36
+CMDINIT:
+MOV SI,81H
 ```
 
 ### Change 3 near `DISPATCH8:`
@@ -93,7 +93,7 @@ RET
 DISPATCH8:
 ```
 
-Insert after old physical line 893.
+Insert after old physical line 899.
 
 Insert:
 
@@ -122,7 +122,7 @@ CALL RESTORENAME
 MOV BX,OPTAB
 ```
 
-Remove this exact source at old physical positions 850–850:
+Remove this exact source at old physical positions 856–856:
 
 ```asm
 MOV CX,30
@@ -144,17 +144,16 @@ CALL LOOK
 ## Build the stopping point
 
 ```dos
-COPY A36.ASM SOURCE.ASM
-CHECK ASM1
+CHECK ASM1 A36.ASM RESULT.COM
 ```
 
-Require `OK RESULT.COM 05864 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 06302 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A36.COM
 ```
 
-VIEW.BAS must report A36.COM length 5864 bytes. Keep that executable and source together.
+VIEW.BAS must report A36.COM length 6302 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -166,11 +165,7 @@ DIV BL
 ```
 
 ```dos
-COPY T36.ASM SOURCE.ASM
-```
-
-```dos
-CHECK A36
+CHECK A36 T36.ASM RESULT.COM
 ```
 
 Require:
@@ -197,8 +192,7 @@ MUL AX,BX
 ```
 
 ```dos
-COPY X36.ASM SOURCE.ASM
-CHECK A36
+CHECK A36 X36.ASM RESULT.COM
 ```
 
 Require:

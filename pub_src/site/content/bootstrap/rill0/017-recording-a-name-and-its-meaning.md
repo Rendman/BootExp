@@ -259,13 +259,11 @@ WORD VALUE 0
 ## Build and check
 
 ```dos
-COPY R17.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP R17.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 08469 bytes`. Save RESULT.COM as R17.COM. VIEW.BAS must show length 8469.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 09238 bytes`. Save RESULT.COM as R17.COM. VIEW.BAS must show length 9238.
 
 ```dos
 CHECK R17

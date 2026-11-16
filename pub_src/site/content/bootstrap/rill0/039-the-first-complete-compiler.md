@@ -1,20 +1,20 @@
 +++
 title = "39 \u00b7 The first complete compiler"
 weight = 39
-description = "Open the fixed source and stream generated text through an owned temporary file."
+description = "Open the source selected by the command arguments and stream generated text through an owned temporary file."
 download = "R39.IR"
 download_group = "tools/rill0"
 reader_names = 1
 url = "/bootstrap/rill/039-the-first-complete-compiler/"
 +++
 
-Open the fixed source and stream generated text through an owned temporary file. Publish it only after the full source, final flush, and both closes succeed.
+Open the source selected by the command arguments and stream generated text through an owned temporary file. Publish the selected result only after the full source, final flush, and both closes succeed.
 
 ## Enter the source
 
 Copy R38.IR to R39.IR. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 60
+### Edit at old physical position 73
 
 Unchanged source before the edit:
 
@@ -38,7 +38,15 @@ LD TABLE
 FREEBLOCK
 STATUS
 JNZ IOFAIL
-LITS "OK RESULT.IR "
+LITS "OK "
+CALL PRINT
+LIT 2
+PUSH
+LITS "RESULT.IR"
+PUSH
+INVOKE FILEARG 2
+CALL PRINT
+LITS " "
 CALL PRINT
 LD TOTALHI
 PUSH
@@ -57,7 +65,7 @@ LIT 0
 RETURN
 ```
 
-### Edit at old physical position 58
+### Edit at old physical position 71
 
 Unchanged source before the edit:
 
@@ -80,7 +88,7 @@ ST OWN
 LIT 0
 ```
 
-### Edit at old physical position 57
+### Edit at old physical position 70
 
 Unchanged source before the edit:
 
@@ -95,14 +103,22 @@ Insert in its place:
 ```ir
 STATUS
 JNZ IOFAIL
+LIT 2
+PUSH
 LITS "RESULT.IR"
+PUSH
+INVOKE FILEARG 2
 EXISTS
 ST FOUND
 STATUS
 JNZ IOFAIL
 LD FOUND
 JZ NOOLD
+LIT 2
+PUSH
 LITS "RESULT.IR"
+PUSH
+INVOKE FILEARG 2
 PUSH
 LITS "RILL.BAK"
 RENAME
@@ -113,7 +129,11 @@ ST BACKUP
 LABEL NOOLD
 LITS "RILL.TMP"
 PUSH
+LIT 2
+PUSH
 LITS "RESULT.IR"
+PUSH
+INVOKE FILEARG 2
 RENAME
 STATUS
 JNZ IOFAIL
@@ -126,7 +146,7 @@ LIT 0
 ST OUTPUT
 ```
 
-### Edit at old physical position 54
+### Edit at old physical position 67
 
 Unchanged source before the edit:
 
@@ -152,7 +172,7 @@ CALL FLUSH
 LD OUTPUT
 ```
 
-### Edit at old physical position 52
+### Edit at old physical position 65
 
 Unchanged source before the edit:
 
@@ -176,7 +196,7 @@ LITS "LIT 0\r\nRETURN\r\n"
 CALL OUTSTR
 ```
 
-### Edit at old physical position 49
+### Edit at old physical position 62
 
 Unchanged source before the edit:
 
@@ -212,25 +232,30 @@ LITS "PROC MAIN 0 16\r\n"
 CALL OUTSTR
 ```
 
-### Edit at old physical position 46
+### Edit at old physical position 60
 
 Unchanged source before the edit:
 
 ```ir
-OPEN
 ST INPUT
 STATUS
-```
-
-Remove:
-
-```ir
 JNZ IOFAIL
 ```
 
 Insert in its place:
 
 ```ir
+LITS "RILL.TMP"
+CREATE
+ST OUTPUT
+STATUS
+JNZ IOFAIL
+LIT 1
+ST OWN
+LIT 22000
+ALLOC
+ST TABLE
+STATUS
 JNZ CAPFAIL
 ```
 
@@ -241,78 +266,71 @@ CALL NEXT
 CALL LEX
 ```
 
-### Edit at old physical position 42
+### Edit at old physical position 43
 
 Unchanged source before the edit:
 
 ```ir
+LIT 2
+PUSH
+LITS "RILL.TMP"
+```
+
+Remove:
+
+```ir
+PUSH
+INVOKE FILEARG 2
+CREATE
+ST OUTPUT
+STATUS
 JNZ IOFAIL
 LIT 1
 ST OWN
 ```
 
-Remove:
-
-```ir
-LITS "SOURCE.RIL"
-OPEN
-ST INPUT
-```
-
 Insert in its place:
 
 ```ir
-LIT 22000
-ALLOC
-ST TABLE
-```
-
-The following old source remains:
-
-```ir
-STATUS
-JNZ IOFAIL
-```
-
-### Edit at old physical position 32
-
-Unchanged source before the edit:
-
-```ir
-WORD CALLBUILTIN 0
-WORD EXPRDEPTH 0
-PROC MAIN 0 0
-```
-
-Remove:
-
-```ir
-LIT 22000
-ALLOC
-ST TABLE
-```
-
-Insert in its place:
-
-```ir
-LITS "RILL.TMP"
 EXISTS
 JNZ CAPFAIL
 LITS "RILL.BAK"
 EXISTS
 JNZ CAPFAIL
+```
+
+The following old source remains:
+
+```ir
+LIT 1
+PUSH
+```
+
+### Edit at old physical position 37
+
+Unchanged source before the edit:
+
+```ir
 LITS "SOURCE.RIL"
-OPEN
-ST INPUT
-STATUS
-JNZ IOFAIL
+PUSH
+INVOKE FILEARG 2
+```
+
+Remove:
+
+```ir
+LIT 22000
+ALLOC
+ST TABLE
+LIT 2
+PUSH
 ```
 
 The following old source remains:
 
 ```ir
 LITS "RILL.TMP"
-CREATE
+PUSH
 ```
 
 ### Edit at old physical position 22
@@ -341,13 +359,11 @@ WORD RECVAL 0
 ## Build and check
 
 ```dos
-COPY R39.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP R39.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 17144 bytes`. Save RESULT.COM as R39.COM. VIEW.BAS must show length 17144.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 18022 bytes`. Save RESULT.COM as R39.COM. VIEW.BAS must show length 18022.
 
 Create T39.RIL:
 
@@ -356,11 +372,7 @@ fn main(){putc(72);putc(73);return 0;}
 ```
 
 ```dos
-COPY T39.RIL SOURCE.RIL
-```
-
-```dos
-CHECK R39
+CHECK R39 T39.RIL RESULT.IR
 ```
 
 Require:
@@ -382,17 +394,21 @@ Inspect RESULT.IR with VIEW.BAS. Require length 106 bytes and these complete byt
 0D 0A 52 45 54 55 52 4E 0D 0A
 ```
 
-This is a complete IR program. Translate it with IRKEEP, assemble its accepted output with ASMAKEEP, and save RESULT.COM as TRY.COM. Require fresh OK and PASS before both copies. VIEW.BAS must report length 1042. CHECK TRY displays `HI` and reports PASS.
+This is a complete IR program. Translate it with IRKEEP, assemble its accepted output with ASMAKEEP, and save RESULT.COM as TRY.COM. Require fresh OK and PASS before both copies. VIEW.BAS must report length 1404. CHECK TRY displays `HI` and reports PASS.
 
 ## Check the new boundary
 
-Use this separate rejected source:
+Save this separate rejected source as X39.RIL:
 
 ```rill
 fn main(){return 65536;}
 ```
 
-Copy it to SOURCE.RIL and run CHECK R39. Require:
+```dos
+CHECK R39 X39.RIL RESULT.IR
+```
+
+Require:
 
 ```text
 ERROR 0000000001 CODE 00003

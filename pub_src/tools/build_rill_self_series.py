@@ -1,6 +1,7 @@
 """Select authored RILL procedures and authored diagnostics into buildable source steps."""
 from pathlib import Path
 import re,json
+from command_files import rill_filenames
 ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/toolchain';Q=ROOT/'qa/toolchain'
 s=(ROOT/'tools/rill_self.ril').read_text();start=s.index('fn main(');data=s[:start];pieces=re.split(r'(?m)(?=^fn )',s[start:]);procs={re.match(r'fn (\w+)',p)[1]:p for p in pieces if p.strip()};args={n:re.match(r'fn \w+\(([^)]*)\)',p)[1].split(',') for n,p in procs.items()};args={n:[a.strip() for a in v if a.strip()] for n,v in args.items()}
 entries=[]
@@ -66,7 +67,12 @@ def build():
   if key=='expr':current['primary']='fn primary(){if tok!=2{fail(2);}outstr("LIT ");outnum(value);newline();lex();return 0;}\n'
   if key=='main':program=s
   else:
-   body=dict(current);body['main']='fn main(){'+e['body']+'}\n'
+   body=dict(current);driver=rill_filenames(e['body'],'SOURCE.RIL','RESULT.IR')
+   driver=driver.replace('create("RILL.TMP")','create(filearg(2,"RILL.TMP"))')
+   body['main']='fn main(){'+driver+'}\n'
+   if 'filearg(' in '\n'.join(body.values()):
+    body.update({name:procs[name] for name in ('filearg','filesame')})
+    body['main']=body['main'].replace('fn main(){','fn main(){filearg(1,"SOURCE.RIL");',1)
    text='\n'.join(body.values());plain=re.sub(r'"(?:\\.|[^"\\])*"','""',text)
    refs=set(re.findall(r'\b([a-z_][a-z_0-9]*)\s*\(',plain))&set(procs)
    for name in refs-set(body):body[name]='fn '+name+'('+','.join(args[name])+'){'+('exit(1);' if name=='fail' else 'fail(2);')+'return 0;}\n'

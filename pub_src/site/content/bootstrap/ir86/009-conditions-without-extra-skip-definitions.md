@@ -14,7 +14,7 @@ Use fixed native conditional bridges while keeping branch semantics in the virtu
 
 Copy IR08.ASM to IR09.ASM. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 1235
+### Edit at old physical position 1398
 
 Unchanged source before the edit:
 
@@ -37,7 +37,14 @@ DB 67,69,81,0,0,0,0,0,0,0,0,2,0,0
 DW T_CEQ
 ```
 
-### Edit at old physical position 1202
+The following old source remains:
+
+```asm
+
+CMDCOUNT:
+```
+
+### Edit at old physical position 1365
 
 Unchanged source before the edit:
 
@@ -81,7 +88,7 @@ IRTAB:
 DB 76,73,84,0,0,0,0,0,0,0,1,0,0,0
 ```
 
-### Edit at old physical position 866
+### Edit at old physical position 872
 
 Unchanged source before the edit:
 
@@ -113,11 +120,10 @@ CALL LOOK
 ## Build and check
 
 ```dos
-COPY IR09.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP IR09.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 03524 bytes`. Save RESULT.COM as IR09.COM. VIEW.BAS must show length 3524.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 04017 bytes`. Save RESULT.COM as IR09.COM. VIEW.BAS must show length 4017.
 
 Create T09.IR:
 
@@ -136,11 +142,7 @@ EXIT
 ```
 
 ```dos
-COPY T09.IR SOURCE.IR
-```
-
-```dos
-CHECK IR09
+CHECK IR09 T09.IR RESULT.ASM
 ```
 
 Require:
@@ -151,8 +153,7 @@ PASS
 ```
 
 ```dos
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
 Require OK and PASS. VIEW.BAS must show RESULT.COM length 61 and these leading bytes:
@@ -165,13 +166,17 @@ Copy it to TRY.COM. CHECK TRY reports PASS.
 
 ## Check the new boundary
 
-Use this separate rejected source:
+Save this separate rejected source as X09.IR:
 
 ```ir
 UNKNOWN
 ```
 
-Copy it to SOURCE.IR and run CHECK IR09. Require:
+```dos
+CHECK IR09 X09.IR RESULT.ASM
+```
+
+Require:
 
 ```text
 IR ERROR 0000000001 CODE 1

@@ -8,7 +8,7 @@ reader_names = 1
 url = "/bootstrap/asm86a/29-indexed-and-frame-relative-memory/"
 +++
 
-A word within a record, array, or procedure frame needs more than one fixed address form.
+I draw the stack after CALL and PUSH BP, marking the return address, the argument above it and a local word below BP. Addresses such as `[BP+4]` and `[BP-2]` would let the source follow that drawing. I'll extend the memory parser and trace the argument through a small routine.
 
 ## The working parts
 
@@ -29,7 +29,7 @@ MEMHAD:
 DB 0
 ```
 
-Insert after old physical line 2419.
+Insert after old physical line 2608.
 
 Insert:
 
@@ -55,7 +55,7 @@ JE ZMEMORY1
 JMP TWOBAD
 ```
 
-Remove this exact source at old physical positions 729–730:
+Remove this exact source at old physical positions 735–736:
 
 ```asm
 ZMEMORY1:
@@ -92,7 +92,7 @@ MOV AL,[0CC00H]
 CMP AL,93
 ```
 
-Remove this exact source at old physical positions 727–727:
+Remove this exact source at old physical positions 733–733:
 
 ```asm
 JE ZMEMORY1
@@ -127,7 +127,7 @@ MOV AL,1
 MOV [MEMHAD],AL
 ```
 
-Remove this exact source at old physical positions 723–723:
+Remove this exact source at old physical positions 729–729:
 
 ```asm
 SIMPLEMEMEND:
@@ -156,7 +156,7 @@ MOV [MEMDISP],AX
 MOV [ADDRMASK],AL
 ```
 
-Remove this exact source at old physical positions 707–720:
+Remove this exact source at old physical positions 713–726:
 
 ```asm
 MOV [MEMHAD],AL
@@ -211,7 +211,7 @@ MOV AX,0
 MOV [MEMDISP],AX
 ```
 
-Insert after old physical line 705.
+Insert after old physical line 711.
 
 Insert:
 
@@ -276,7 +276,7 @@ RET
 MEMORY:
 ```
 
-Insert after old physical line 703.
+Insert after old physical line 709.
 
 Insert:
 
@@ -297,17 +297,16 @@ MOV [MEMDISP],AX
 ## Build the stopping point
 
 ```dos
-COPY A29.ASM SOURCE.ASM
-CHECK ASM1
+CHECK ASM1 A29.ASM RESULT.COM
 ```
 
-Require `OK RESULT.COM 05570 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 06008 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A29.COM
 ```
 
-VIEW.BAS must report A29.COM length 5570 bytes. Keep that executable and source together.
+VIEW.BAS must report A29.COM length 6008 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -337,11 +336,7 @@ RET
 ```
 
 ```dos
-COPY T29.ASM SOURCE.ASM
-```
-
-```dos
-CHECK A29
+CHECK A29 T29.ASM RESULT.COM
 ```
 
 Require:
@@ -368,8 +363,7 @@ MOV AX,[BX+BP]
 ```
 
 ```dos
-COPY X29.ASM SOURCE.ASM
-CHECK A29
+CHECK A29 X29.ASM RESULT.COM
 ```
 
 Require:

@@ -26,7 +26,7 @@ Unchanged source immediately before the edit:
 }
 ```
 
-Insert after old physical line 289.
+Insert after old physical line 290.
 
 Insert:
 
@@ -84,7 +84,7 @@ Unchanged source immediately before the edit:
     copypos(gap,length);
 ```
 
-Remove old physical positions 30–35:
+Remove old physical positions 31–36:
 
 ```rill
     store16(target,5);
@@ -142,19 +142,16 @@ bytes probe[4];
 ## Build and preserve the program
 
 ```dos
-COPY E14.RIL SOURCE.RIL
-CHECK RILLED
-COPY RESULT.IR SOURCE.IR
-CHECK IRED
-COPY RESULT.ASM SOURCE.ASM
-CHECK A0
+CHECK RILLED E14.RIL RESULT.IR
+CHECK IRED RESULT.IR RESULT.ASM EDITRT.ASM
+CHECK A0 RESULT.ASM RESULT.COM
 COPY RESULT.COM E14.COM
 ```
 
-Require compiler `OK RESULT.IR 0000023742`, translator `OK RESULT.ASM 0000056236 text bytes`, assembler `OK RESULT.COM 13819 bytes`, and each PASS before the following copy. VIEW.BAS must report E14.COM length 13819 bytes, beginning with:
+Require compiler `OK RESULT.IR 0000024864`, translator `OK RESULT.ASM 0000059952 text bytes`, assembler `OK RESULT.COM 14568 bytes`, and each PASS before the following copy. VIEW.BAS must report E14.COM length 14568 bytes, beginning with:
 
 ```text
-FC 81 FC FE FF 74 03 E9 91 32 E8 E9 2E B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+FC 81 FC FE FF 74 03 E9 20 34 E8 66 34 81 F8 FF FF 75 03 E9 14 34 E8 6C 30 B4 4C CD 21 00 00 00
 ```
 
 ## The document fixture
@@ -167,8 +164,7 @@ abc
 ```
 
 ```dos
-COPY T14.TXT EDIT.TXT
-CHECK E14
+CHECK E14 T14.TXT
 ```
 
 Require PASS: the position after T, tab and X is visual column nine, and reaching column eight stops before X at byte position two. Repeat with T13.TXT in EDIT.TXT: require FAIL because that file does not contain the tab fixture. No file is saved by either run.

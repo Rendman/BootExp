@@ -14,7 +14,7 @@ Look up the complete mnemonic and inspect its argument-class field.
 
 Copy IR03.ASM to IR04.ASM. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 918
+### Edit at old physical position 1081
 
 Unchanged source before the edit:
 
@@ -50,7 +50,14 @@ DB 69,88,73,84,0,0,0,0,0,0,0,4,0,0
 DW T_EXIT
 ```
 
-### Edit at old physical position 916
+The following old source remains:
+
+```asm
+
+CMDCOUNT:
+```
+
+### Edit at old physical position 1079
 
 Unchanged source before the edit:
 
@@ -73,22 +80,20 @@ DEPTH:
 DW 0
 ```
 
-### Edit at old physical position 791
+### Edit at old physical position 955
 
 Unchanged source before the edit:
 
 ```asm
-TABLEFULL:
-MOV AX,5
-JMP ERROR
+CMDTEXTEND:
+RET
 ```
 
 Remove:
 
 ```asm
-
 OKMSG:
-DB 79,75,32,82,69,83,85,76,84,46,65,83,77,32,36
+DB 79,75,32,36
 
 BYTEMSG:
 DB 32,116,101,120,116,32,98,121,116,101,115,13,10,36
@@ -97,11 +102,11 @@ DB 32,116,101,120,116,32,98,121,116,101,115,13,10,36
 The following old source remains:
 
 ```asm
-
 ERRMSG:
+DB 73,82,32,69,82,82,79,82,32,36
 ```
 
-### Edit at old physical position 777
+### Edit at old physical position 783
 
 Unchanged source before the edit:
 
@@ -199,7 +204,7 @@ BALANCED:
 MOV AX,[DEPTH]
 ```
 
-### Edit at old physical position 18
+### Edit at old physical position 19
 
 Unchanged source before the edit:
 
@@ -217,6 +222,11 @@ CALL CLOSEOUT
 CALL COMMIT
 MOV DX,OKMSG
 CALL TEXT
+MOV SI,RESNAME
+CALL CMDTEXT
+MOV DL,32
+MOV AH,2
+INT 21H
 MOV AX,[TOTALLO]
 MOV DX,[TOTALHI]
 CALL NUMBER32
@@ -231,7 +241,7 @@ MOV AX,4C00H
 INT 21H
 ```
 
-### Edit at old physical position 12
+### Edit at old physical position 13
 
 Unchanged source before the edit:
 
@@ -284,12 +294,12 @@ CALL CLOSEFILE
 CALL FLUSH
 ```
 
-### Edit at old physical position 8
+### Edit at old physical position 9
 
 Unchanged source before the edit:
 
 ```asm
-JNE NEAR MEMORYBAD
+CALL CMDFILES
 CALL PREFLIGHT
 CALL OPENFILE
 ```
@@ -316,14 +326,14 @@ CMP AX,0
 JE NEAR COPYDONE
 ```
 
-### Edit at old physical position 6
+### Edit at old physical position 7
 
 Unchanged source before the edit:
 
 ```asm
-CLD
 CMP SP,0FFFEH
 JNE NEAR MEMORYBAD
+CALL CMDFILES
 ```
 
 Remove:
@@ -342,11 +352,10 @@ CALL CREATEOUT
 ## Build and check
 
 ```dos
-COPY IR04.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP IR04.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 02458 bytes`. Save RESULT.COM as IR04.COM. VIEW.BAS must show length 2458.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 02950 bytes`. Save RESULT.COM as IR04.COM. VIEW.BAS must show length 2950.
 
 Create T04.IR:
 
@@ -355,11 +364,7 @@ LIT
 ```
 
 ```dos
-COPY T04.IR SOURCE.IR
-```
-
-```dos
-CHECK IR04
+CHECK IR04 T04.IR RESULT.ASM
 ```
 
 Require:
@@ -371,7 +376,13 @@ PASS
 
 ## Check the new boundary
 
-Temporarily rename SOURCE.IR to HOLD.TXT and run CHECK IR04. Restore the source afterward. Require:
+Choose an absent disk filename, ABSENT.IR, and run:
+
+```dos
+CHECK IR04 ABSENT.IR RESULT.ASM
+```
+
+Require:
 
 ```text
 IR ERROR 0000000000 CODE 6

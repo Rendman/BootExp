@@ -47,6 +47,7 @@ HELP_TITLES={
  'CALLARGS':'Keeping Values Across a Procedure Call','GLOBALWORD':'Compiling a Global Variable','GLOBALBUFFER':'Compiling a Byte Buffer','DECLARE':'Initializing a Local Variable','BLOCK':'Remembering Which Names Are Visible',
  'STATEMENT':'Compiling Assignments and Branches','FUNCTION':'Compiling a Procedure','MAIN':'Compiling a Complete Program'}
 TITLES={
+ 'asma0/01-fixed-work-files.md':'Choosing the Source and Result Names',
  'asma0/02-reading-an-input-block.md':'Reading a File in Blocks',
  'asma0/03-writing-an-output-block.md':'Copying a File in Small Blocks',
  'asm86a/13-allocating-auxiliary-workspace.md':'Getting More Memory from DOS',
@@ -111,6 +112,8 @@ def write_page(path,text):
  if path.name=='_index.md' and group in SERIES:
   from series_overviews import with_overview
   text=with_overview(group,text)
+ from command_files import publication
+ text=publication(group,text,path)
  path.write_text(text)
 
 if __name__=='__main__':

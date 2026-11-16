@@ -30,7 +30,7 @@ CLEANEND:
 CALL MEMFREE
 ```
 
-Remove this exact source at old physical positions 1415–1450:
+Remove this exact source at old physical positions 1421–1456:
 
 ```asm
 RET
@@ -89,7 +89,7 @@ RET
 IMMEDIATE:
 ```
 
-Insert after old physical line 624.
+Insert after old physical line 630.
 
 Insert:
 
@@ -118,7 +118,7 @@ NORMALREGISTER:
 MOV DL,AL
 ```
 
-Insert after old physical line 612.
+Insert after old physical line 618.
 
 Insert:
 
@@ -148,7 +148,7 @@ ZOPERAND2:
 CMP AX,16
 ```
 
-Remove this exact source at old physical positions 609–610:
+Remove this exact source at old physical positions 615–616:
 
 ```asm
 JB NORMALREGISTER
@@ -213,7 +213,7 @@ MOV [PREFIX],AL
 CALL SCAN
 ```
 
-Insert after old physical line 597.
+Insert after old physical line 603.
 
 Insert:
 
@@ -252,7 +252,7 @@ MOV [EXWIDTH],AL
 MOV AL,0
 ```
 
-Remove this exact source at old physical positions 596–596:
+Remove this exact source at old physical positions 602–602:
 
 ```asm
 MOV [PREFIX],AL
@@ -281,7 +281,7 @@ MOV AL,255
 MOV [EXWIDTH],AL
 ```
 
-Insert after old physical line 594.
+Insert after old physical line 600.
 
 Insert:
 
@@ -315,7 +315,7 @@ JMP ERROR
 OPERAND:
 ```
 
-Insert after old physical line 592.
+Insert after old physical line 598.
 
 Insert:
 
@@ -334,17 +334,16 @@ MOV [EXWIDTH],AL
 ## Build the stopping point
 
 ```dos
-COPY A28.ASM SOURCE.ASM
-CHECK ASM1
+CHECK ASM1 A28.ASM RESULT.COM
 ```
 
-Require `OK RESULT.COM 05446 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 05884 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A28.COM
 ```
 
-VIEW.BAS must report A28.COM length 5446 bytes. Keep that executable and source together.
+VIEW.BAS must report A28.COM length 5884 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -356,11 +355,7 @@ MOV ES:[BX],AL
 ```
 
 ```dos
-COPY T28.ASM SOURCE.ASM
-```
-
-```dos
-CHECK A28
+CHECK A28 T28.ASM RESULT.COM
 ```
 
 Require:
@@ -387,8 +382,7 @@ MOV AX,BYTE [BX]
 ```
 
 ```dos
-COPY X28.ASM SOURCE.ASM
-CHECK A28
+CHECK A28 X28.ASM RESULT.COM
 ```
 
 Require:

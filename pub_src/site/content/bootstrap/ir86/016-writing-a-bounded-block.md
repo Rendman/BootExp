@@ -14,7 +14,7 @@ Check both service status and actual write progress.
 
 Copy IR15.ASM to IR16.ASM. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 1468
+### Edit at old physical position 1762
 
 Unchanged source before the edit:
 
@@ -31,7 +31,14 @@ DB 87,82,73,84,69,0,0,0,0,0,0,3,0,0
 DW T_WRITE
 ```
 
-### Edit at old physical position 1411
+The following old source remains:
+
+```asm
+
+CMDCOUNT:
+```
+
+### Edit at old physical position 1701
 
 Unchanged source before the edit:
 
@@ -57,7 +64,7 @@ IRTAB:
 DB 76,73,84,0,0,0,0,0,0,0,1,0,0,0
 ```
 
-### Edit at old physical position 1248
+### Edit at old physical position 1414
 
 Unchanged source before the edit:
 
@@ -106,7 +113,7 @@ DB "R_STATUS:",13,10
 DB "DW 0",13,10
 ```
 
-### Edit at old physical position 866
+### Edit at old physical position 872
 
 Unchanged source before the edit:
 
@@ -119,13 +126,13 @@ MOV BX,IRTAB
 Remove:
 
 ```asm
-MOV CX,28
+MOV CX,30
 ```
 
 Insert in its place:
 
 ```asm
-MOV CX,29
+MOV CX,31
 ```
 
 The following old source remains:
@@ -138,11 +145,10 @@ CALL LOOK
 ## Build and check
 
 ```dos
-COPY IR16.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP IR16.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 05975 bytes`. Save RESULT.COM as IR16.COM. VIEW.BAS must show length 5975.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 08023 bytes`. Save RESULT.COM as IR16.COM. VIEW.BAS must show length 8023.
 
 Create T16.IR:
 
@@ -172,42 +178,41 @@ EXIT
 ```
 
 ```dos
-COPY T16.IR SOURCE.IR
-```
-
-```dos
-CHECK IR16
+CHECK IR16 T16.IR RESULT.ASM
 ```
 
 Require:
 
 ```text
-OK RESULT.ASM 0000002586 text bytes
+OK RESULT.ASM 0000004082 text bytes
 PASS
 ```
 
 ```dos
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require OK and PASS. VIEW.BAS must show RESULT.COM length 516 and these leading bytes:
+Require OK and PASS. VIEW.BAS must show RESULT.COM length 878 and these leading bytes:
 
 ```text
-FC 81 FC FE FF 74 03 E9 F5 01 E8 0A 00 B4 4C CD 21 41 00 00 00 41 00 B8 11 01 E8 7D 00 89 06 13
+FC 81 FC FE FF 74 03 E9 01 02 E8 03 02 81 F8 FF FF 75 03 E9 F5 01 E8 0A 00 B4 4C CD 21 41 00 00
 ```
 
 Copy it to TRY.COM. CHECK TRY reports PASS.
 
 ## Check the new boundary
 
-Use this separate rejected source:
+Save this separate rejected source as X16.IR:
 
 ```ir
 UNKNOWN
 ```
 
-Copy it to SOURCE.IR and run CHECK IR16. Require:
+```dos
+CHECK IR16 X16.IR RESULT.ASM
+```
+
+Require:
 
 ```text
 IR ERROR 0000000001 CODE 1

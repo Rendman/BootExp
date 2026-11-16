@@ -2,9 +2,9 @@
   {
     "number": 1,
     "title": "Fixed work files",
-    "description": "Keep the fixed work files and name the accepted result in the report.",
-    "why": "Retain the completed assembler and its fixed SOURCE.ASM/RESULT.COM contract while preparing the streaming construction.",
-    "explain": "Copy the completed ASM86 source. Keep its two passes, accepted language and whole-image output buffer. OPENFILE uses SOURCE.ASM; WRITEOUT uses RESULT.COM. The success report now includes RESULT.COM so the accepted output is named explicitly.\n\nThe two input passes still finish before output creation. Preserve ASMKEEP.COM as the preceding assembler. To build a checkpoint, copy its source to SOURCE.ASM, run CHECK ASMKEEP, then copy the accepted RESULT.COM to the checkpoint executable name.",
+    "description": "Read source and result filenames from the PSP and name the accepted result in the report.",
+    "why": "Retain the completed assembler and let its source and result filenames come from the PSP while preparing the streaming construction.",
+    "explain": "Copy the completed ASM86 source. Keep its two passes, accepted language and whole-image output buffer. OPENFILE uses the selected source buffer; WRITEOUT uses the selected result buffer. With no arguments their defaults remain SOURCE.ASM and RESULT.COM. The success report prints the selected result name.\n\nThe two input passes still finish before output creation. Preserve ASMKEEP.COM as the preceding assembler. To build a checkpoint, copy its source to SOURCE.ASM, run CHECK ASMKEEP, then copy the accepted RESULT.COM to the checkpoint executable name.",
     "fixture": "MOV DL,41H\nMOV AH,2\nINT 21H\nMOV AX,4C00H\nINT 21H\n",
     "expected": "B241B402CD21B8004CCD21",
     "program_output": "A",
@@ -15,7 +15,7 @@
       "line": 1,
       "code": 1
     },
-    "binary_bytes": 2481,
+    "binary_bytes": 2939,
     "target_bytes": 11,
     "target_hex": "B2 41 B4 02 CD 21 B8 00 4C CD 21",
     "builder": "ASM86"
@@ -37,7 +37,7 @@
       "code": 1
     },
     "cartoon": "asm86a-press.png",
-    "binary_bytes": 2549,
+    "binary_bytes": 3007,
     "target_bytes": 11,
     "target_hex": "B2 41 B4 02 CD 21 B8 00 4C CD 21",
     "builder": "ASM86"
@@ -58,7 +58,7 @@
       "code": 6
     },
     "output_file": "ASMA.TMP",
-    "binary_bytes": 2565,
+    "binary_bytes": 3027,
     "target_bytes": 5,
     "target_hex": "41 42 43 0D 0A",
     "builder": "ASM86"
@@ -79,7 +79,7 @@
       "code": 6
     },
     "output_file": "ASMA.TMP",
-    "binary_bytes": 2726,
+    "binary_bytes": 3188,
     "target_bytes": 5,
     "target_hex": "41 42 43 0D 0A",
     "builder": "ASM86"
@@ -101,7 +101,7 @@
       "code": 8
     },
     "output_file": "ASMA.TMP",
-    "binary_bytes": 2806,
+    "binary_bytes": 3257,
     "target_bytes": 5,
     "target_hex": "41 42 43 0D 0A",
     "builder": "ASM86"
@@ -122,7 +122,7 @@
       "code": 6
     },
     "output_file": "RESULT.COM",
-    "binary_bytes": 2940,
+    "binary_bytes": 3378,
     "target_bytes": 5,
     "target_hex": "41 42 43 0D 0A",
     "builder": "ASM86"
@@ -143,7 +143,7 @@
       "line": 1,
       "code": 1
     },
-    "binary_bytes": 3016,
+    "binary_bytes": 3454,
     "target_bytes": 11,
     "target_hex": "B2 41 B4 02 CD 21 B8 00 4C CD 21",
     "builder": "ASM86"
@@ -164,7 +164,7 @@
       "line": 1,
       "code": 1
     },
-    "binary_bytes": 3028,
+    "binary_bytes": 3466,
     "target_bytes": 11,
     "target_hex": "B2 41 B4 02 CD 21 B8 00 4C CD 21",
     "builder": "ASM86"
@@ -185,7 +185,7 @@
       "line": 1,
       "code": 1
     },
-    "binary_bytes": 3028,
+    "binary_bytes": 3466,
     "target_bytes": 11,
     "target_hex": "B2 41 B4 02 CD 21 B8 00 4C CD 21",
     "builder": "ASM86"
@@ -206,7 +206,7 @@
       "line": 1,
       "code": 1
     },
-    "binary_bytes": 3267,
+    "binary_bytes": 3705,
     "target_bytes": 11,
     "target_hex": "B2 41 B4 02 CD 21 B8 00 4C CD 21",
     "builder": "ASM86"
@@ -227,7 +227,7 @@
       "line": 1,
       "code": 1
     },
-    "binary_bytes": 3302,
+    "binary_bytes": 3740,
     "target_bytes": 11,
     "target_hex": "B2 41 B4 02 CD 21 B8 00 4C CD 21",
     "builder": "ASM86"
@@ -237,7 +237,7 @@
     "title": "Proving the seed handoff",
     "description": "Build ASMA0 with ASM86 and compare two self-assembly generations.",
     "why": "A successor becomes a rung of the ladder only when its preceding builder can make it.",
-    "explain": "The source is the preceding tested checkpoint, saved here under a permanent seed name. ASM86 builds it directly. ASMA0 then reads that same source through SOURCE.ASM, writes RESULT.COM, and must reproduce its own executable. A second generation must match too.\n\nKeep the initial ASM86-built executable while making both comparisons. The seed has streaming I/O, 2048 symbols, a larger output profile, and explicit segment access. No outside assembler supplies an executable.",
+    "explain": "The source is the preceding tested checkpoint, saved here under a permanent seed name. ASM86 builds it directly. ASMA0 then reads that selected source and writes RESULT.COM, and must reproduce its own executable. A second generation must match too.\n\nKeep the initial ASM86-built executable while making both comparisons. The seed has streaming I/O, 2048 symbols, a larger output profile, and explicit segment access. No outside assembler supplies an executable.",
     "fixture": null,
     "expected": null,
     "program_output": null,
@@ -250,9 +250,9 @@
     },
     "fixture_ref": "ASMA0.ASM",
     "self_build": true,
-    "binary_bytes": 3302,
-    "target_bytes": 3302,
-    "target_hex": "FC 81 FC FE FF 74 06 B8 07 00 E9 8A 08 E8 5A 09 B0 01 88 06 4F 0C B8 00 00 89 06 43 0C B8 00 50 89 06 45 0C B8 00 01 89 06 41 0C B8 00 00 89 06 3F 0C 89 06 D2 0D 89 06 D4 0D 89 06 D6 0D 88 06",
+    "binary_bytes": 3740,
+    "target_bytes": 3740,
+    "target_hex": "FC 81 FC FE FF 74 06 B8 07 00 E9 99 08 E8 F9 0B E8 66 09 B0 01 88 06 D6 0D B8 00 00 89 06 CA 0D B8 00 50 89 06 CC 0D B8 00 01 89 06 C8 0D B8 00 00 89 06 C6 0D 89 06 5D 0F 89 06 5F 0F 89 06 61",
     "builder": "ASM86"
   },
   {
@@ -272,7 +272,7 @@
       "code": 1
     },
     "prefix": "",
-    "binary_bytes": 3657,
+    "binary_bytes": 4095,
     "target_bytes": 11,
     "target_hex": "B2 41 B4 02 CD 21 B8 00 4C CD 21",
     "builder": "ASMA0"
@@ -294,7 +294,7 @@
       "code": 1
     },
     "prefix": "",
-    "binary_bytes": 3747,
+    "binary_bytes": 4185,
     "target_bytes": 11,
     "target_hex": "B2 41 B4 02 CD 21 B8 00 4C CD 21",
     "builder": "ASMA0"
@@ -316,7 +316,7 @@
       "code": 1
     },
     "prefix": "",
-    "binary_bytes": 3889,
+    "binary_bytes": 4327,
     "target_bytes": 11,
     "target_hex": "B2 41 B4 02 CD 21 B8 00 4C CD 21",
     "builder": "ASMA0"
@@ -339,7 +339,7 @@
     },
     "prefix": "",
     "cartoon": "asm86a-cloakroom.png",
-    "binary_bytes": 4034,
+    "binary_bytes": 4472,
     "target_bytes": 11,
     "target_hex": "B2 41 B4 02 CD 21 B8 00 4C CD 21",
     "builder": "ASMA0"
@@ -360,7 +360,7 @@
       "line": 2,
       "code": 3
     },
-    "binary_bytes": 4017,
+    "binary_bytes": 4455,
     "target_bytes": 2,
     "target_hex": "00 01",
     "builder": "ASMA0"
@@ -381,7 +381,7 @@
       "line": 1,
       "code": 3
     },
-    "binary_bytes": 4017,
+    "binary_bytes": 4455,
     "target_bytes": 2,
     "target_hex": "00 01",
     "builder": "ASMA0"
@@ -402,7 +402,7 @@
       "line": 1,
       "code": 1
     },
-    "binary_bytes": 4286,
+    "binary_bytes": 4724,
     "target_bytes": 1,
     "target_hex": "01",
     "builder": "ASMA0"
@@ -423,7 +423,7 @@
       "line": 1,
       "code": 1
     },
-    "binary_bytes": 4372,
+    "binary_bytes": 4810,
     "target_bytes": 11,
     "target_hex": "48 65 6C 6C 6F 3B 20 78 0D 0A 00",
     "builder": "ASMA0"
@@ -444,7 +444,7 @@
       "line": 1,
       "code": 2
     },
-    "binary_bytes": 4565,
+    "binary_bytes": 5003,
     "target_bytes": 4,
     "target_hex": "03 03 03 03",
     "builder": "ASMA0"
@@ -465,7 +465,7 @@
       "line": 1,
       "code": 3
     },
-    "binary_bytes": 4688,
+    "binary_bytes": 5126,
     "target_bytes": 2,
     "target_hex": "03 00",
     "builder": "ASMA0"
@@ -486,7 +486,7 @@
       "line": 1,
       "code": 5
     },
-    "binary_bytes": 4788,
+    "binary_bytes": 5226,
     "target_bytes": 23,
     "target_hex": "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
     "builder": "ASMA0"
@@ -508,7 +508,7 @@
       "code": 1
     },
     "cartoon": "asm86a-bridge.png",
-    "binary_bytes": 4887,
+    "binary_bytes": 5325,
     "target_bytes": 5,
     "target_hex": "72 01 00 72 FE",
     "builder": "ASMA0"
@@ -529,7 +529,7 @@
       "line": 1,
       "code": 3
     },
-    "binary_bytes": 5014,
+    "binary_bytes": 5452,
     "target_bytes": 6,
     "target_hex": "8B 06 34 12 89 07",
     "builder": "ASMA0"
@@ -550,7 +550,7 @@
       "line": 1,
       "code": 3
     },
-    "binary_bytes": 5126,
+    "binary_bytes": 5564,
     "target_bytes": 6,
     "target_hex": "8B 06 34 12 89 07",
     "builder": "ASMA0"
@@ -571,7 +571,7 @@
       "line": 1,
       "code": 3
     },
-    "binary_bytes": 5338,
+    "binary_bytes": 5776,
     "target_bytes": 6,
     "target_hex": "8B 06 34 12 89 07",
     "builder": "ASMA0"
@@ -592,7 +592,7 @@
       "line": 1,
       "code": 1
     },
-    "binary_bytes": 5446,
+    "binary_bytes": 5884,
     "target_bytes": 7,
     "target_hex": "8B 06 34 12 26 88 07",
     "builder": "ASMA0"
@@ -613,7 +613,7 @@
       "line": 1,
       "code": 1
     },
-    "binary_bytes": 5570,
+    "binary_bytes": 6008,
     "target_bytes": 48,
     "target_hex": "B8 07 00 50 E8 12 00 81 C4 02 00 8B D0 80 C2 30 B4 02 CD 21 B8 00 4C CD 21 55 8B EC 81 EC 02 00 8B 86 04 00 89 86 FE FF 8B 86 FE FF 8B E5 5D C3",
     "builder": "ASMA0"
@@ -634,7 +634,7 @@
       "line": 1,
       "code": 1
     },
-    "binary_bytes": 5606,
+    "binary_bytes": 6044,
     "target_bytes": 19,
     "target_hex": "C6 06 12 01 41 8A 16 12 01 B4 02 CD 21 B8 00 4C CD 21 00",
     "builder": "ASMA0"
@@ -655,7 +655,7 @@
       "line": 1,
       "code": 1
     },
-    "binary_bytes": 5645,
+    "binary_bytes": 6083,
     "target_bytes": 7,
     "target_hex": "03 04 29 1D 80 3F 01",
     "builder": "ASMA0"
@@ -676,7 +676,7 @@
       "line": 1,
       "code": 1
     },
-    "binary_bytes": 5729,
+    "binary_bytes": 6167,
     "target_bytes": 23,
     "target_hex": "BB 15 01 BE 01 00 8D 10 8B DA 8A 17 B4 02 CD 21 B8 00 4C CD 21 58 41",
     "builder": "ASMA0"
@@ -697,7 +697,7 @@
       "line": 1,
       "code": 1
     },
-    "binary_bytes": 5793,
+    "binary_bytes": 6231,
     "target_bytes": 17,
     "target_hex": "BB 0A 01 FF D3 B8 00 4C CD 21 B2 41 B4 02 CD 21 C3",
     "builder": "ASMA0"
@@ -718,7 +718,7 @@
       "line": 1,
       "code": 1
     },
-    "binary_bytes": 5864,
+    "binary_bytes": 6302,
     "target_bytes": 4,
     "target_hex": "F7 E3 F6 F3",
     "builder": "ASMA0"
@@ -739,7 +739,7 @@
       "line": 1,
       "code": 4
     },
-    "binary_bytes": 5995,
+    "binary_bytes": 6433,
     "target_bytes": 4,
     "target_hex": "D1 E0 D3 E8",
     "builder": "ASMA0"
@@ -749,7 +749,7 @@
     "title": "Proving the larger assembler",
     "description": "Compare the seed-built program with two native self-assembly generations.",
     "why": "The expanded assembler is another working rung, not a source listing dependent on an outside tool.",
-    "explain": "Save the preceding source as ASM86A.ASM. ASMA0 builds its first executable from that source. ASM86A then assembles the same source twice and both outputs must match the seed-built original. Keep each known working generation under a distinct short disk name.\n\nThe tool uses fixed files, streamed I/O, 8192 exact-spelling symbols, an allocated workspace, and the documented native language. The complete ladder exercise carries its output into the IR86 and RILL tools.",
+    "explain": "Save the preceding source as ASM86A.ASM. ASMA0 builds its first executable from that source. ASM86A then assembles the same source twice and both outputs must match the seed-built original. Keep each known working generation under a distinct short disk name.\n\nThe tool uses command-line filenames, streamed I/O, 8192 exact-spelling symbols, an allocated workspace, and the documented native language. The complete ladder exercise carries its output into the IR86 and RILL tools.",
     "fixture": null,
     "expected": null,
     "program_output": null,
@@ -762,9 +762,9 @@
     },
     "fixture_ref": "ASM86A.ASM",
     "self_build": true,
-    "binary_bytes": 5995,
-    "target_bytes": 5995,
-    "target_hex": "FC 81 FC FE FF 74 06 B8 07 00 E9 01 0C E8 C4 0D E8 D2 0C B0 01 88 06 1F 16 B8 00 00 89 06 15 16 B8 00 01 89 06 13 16 B8 00 00 89 06 11 16 89 06 35 18 89 06 37 18 89 06 39 18 89 06 E2 17 89 06",
+    "binary_bytes": 6433,
+    "target_bytes": 6433,
+    "target_hex": "FC 81 FC FE FF 74 06 B8 07 00 E9 10 0C E8 CB 15 E8 D0 0D E8 DE 0C B0 01 88 06 A6 17 B8 00 00 89 06 9C 17 B8 00 01 89 06 9A 17 B8 00 00 89 06 98 17 89 06 C0 19 89 06 C2 19 89 06 C4 19 89 06 6D",
     "builder": "ASMA0"
   }
 ]

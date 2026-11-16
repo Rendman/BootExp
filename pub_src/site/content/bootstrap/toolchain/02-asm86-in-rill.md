@@ -10,7 +10,7 @@ reader_names = 1
 
 The streaming assembler, symbol pages, and 8086 encodings implemented in RILL.
 
-The complete ASM86.RIL below uses the ordinary RILL language and portable services. Begin after the completed RILL compiler and its self-build comparisons. Build it with the preserved R0 compiler, then IWKEEP and ASMAKEEP. Require a fresh OK and PASS at each boundary before copying the next result. Preserve the resulting executable as A0.COM; VIEW.BAS must show **30911 bytes**.
+The complete ASM86.RIL below uses the ordinary RILL language and portable services. Begin after the completed RILL compiler and its self-build comparisons. Build it with the preserved R0 compiler, then IWKEEP and ASMAKEEP. Require a fresh OK and PASS at each boundary before copying the next result. Preserve the resulting executable as A0.COM; VIEW.BAS must show **31886 bytes**.
 
 The parser, two passes, exact-spelling hash chains, symbol-page selection, fixed-width operands, and emitters have the same jobs as in the native ASM86 construction. Each symbol record is initialized explicitly. Its page is an opaque block handle and its record location a byte offset. No processor segment is exposed to the RILL implementation.
 
@@ -46,6 +46,7 @@ bytes first[16]; bytes ops[2048];
 
 ```rill
 fn main() {
+    filearg(1,"SOURCE.ASM");
     initops();
     if exists("ASMA.TMP") != 0 { fail(8); }
     if exists("RESULT.BAK") != 0 { fail(8); }
@@ -57,7 +58,7 @@ fn main() {
     i = 0; while i < 4096 { set16(hashblock,i*2,0); i = i+1; }
     while pass <= 2 {
         pc = 256; line = 0; linehi = 0; inpos = 0; inlen = 0; ended = 0; skipline = 0;
-        input = open("SOURCE.ASM"); if status() { fail(6); }
+        input = open(filearg(1,"SOURCE.ASM")); if status() { fail(6); }
         if pass == 2 { output = create("ASMA.TMP"); if status() { fail(6); } own = 1; }
         while readline() { pos = 0; statement(); }
         close(input); if status() { fail(6); } input = 0;
@@ -66,14 +67,14 @@ fn main() {
         pass = pass+1;
     }
     flush(); close(output); if status() { fail(6); } output = 0;
-    let mut present=exists("RESULT.COM");
+    let mut present=exists(filearg(2,"RESULT.COM"));
     if status() { fail(6); }
     if present {
-        rename("RESULT.COM","RESULT.BAK"); if status() { fail(6); } backup = 1;
+        rename(filearg(2,"RESULT.COM"),"RESULT.BAK"); if status() { fail(6); } backup = 1;
     }
-    rename("ASMA.TMP","RESULT.COM"); if status() { fail(6); } own = 0;
+    rename("ASMA.TMP",filearg(2,"RESULT.COM")); if status() { fail(6); } own = 0;
     if backup { delete("RESULT.BAK"); if status() { fail(6); } backup = 0; }
-    if release() { fail(7); } print("OK RESULT.COM "); printnum(pc-256); print(" bytes\r\n"); return 0;
+    if release() { fail(7); } print("OK ");print(filearg(2,"RESULT.COM"));print(" "); printnum(pc-256); print(" bytes\r\n"); return 0;
 }
 ```
 
@@ -675,7 +676,7 @@ fn printnum(n) {
 fn fail(code) {
     if input { close(input); } if output { close(output); }
     let mut recovery = 0;
-    if backup { rename("RESULT.BAK","RESULT.COM"); if status() { recovery = 1; } }
+    if backup { rename("RESULT.BAK",filearg(2,"RESULT.COM")); if status() { recovery = 1; } }
     if recovery == 0 { if own { delete("ASMA.TMP"); if status() { recovery=1; } } }
     release(); print("ERROR "); print32(linehi,line); print(" CODE "); printnum(code); print("\r\n"); if recovery { print("Recovery: inspect ASMA.TMP and RESULT.BAK\r\n"); } exit(1); return 0;
 }
@@ -700,6 +701,30 @@ fn print32(hi,lo) {
         decimal[i] = rem+48; hi = qhi; lo = qlo; i = i+1;
     }
     while i { i = i-1; putc(decimal[i]); } return 0;
+}
+```
+
+### filearg
+
+```rill
+fn filearg(n,fallback){
+    let mut count=argc();
+    if count==0{return fallback;}
+    if count!=2{exit(1);}
+    if filesame(arg(1),arg(2))|filesame(arg(1),"ASMA.TMP")|filesame(arg(1),"RESULT.BAK")|filesame(arg(2),"ASMA.TMP")|filesame(arg(2),"RESULT.BAK"){exit(1);}
+    return arg(n);
+}
+```
+
+### filesame
+
+```rill
+fn filesame(a,b){
+    let mut i=0;
+    while load8(a+i)==load8(b+i){
+        if load8(a+i)==0{return 1;}i=i+1;
+    }
+    return 0;
 }
 ```
 
@@ -748,12 +773,9 @@ fn initops() {
 ## Complete build
 
 ```dos
-COPY ASM86.RIL SOURCE.RIL
-CHECK R0
-COPY RESULT.IR SOURCE.IR
-CHECK IWKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK R0 ASM86.RIL RESULT.IR
+CHECK IWKEEP RESULT.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 COPY RESULT.COM A0.COM
 ```
 

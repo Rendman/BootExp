@@ -14,5 +14,6 @@ def main():
  shutil.copyfile(W/'IR86.ASM',W/'IRWIDE.ASM')
  (Q/'checkpoints.json').write_text(json.dumps(cases,indent=2)+'\n')
  (Q/'language.json').write_text(json.dumps(OPS,indent=2)+'\n')
+ (ROOT/'qa/toolchain/wide-ops.json').write_text(json.dumps(OPS,indent=2)+'\n')
  print('Prepared one native IR86 construction and its retained complete source')
 if __name__=='__main__':main()

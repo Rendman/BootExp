@@ -15,7 +15,7 @@ Build recognizing built-in services..
 
 Copy R27.IR to R28.IR. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 915
+### Edit at old physical position 924
 
 Unchanged source before the edit:
 
@@ -122,19 +122,33 @@ LABEL IOFAIL
 LIT 1
 ```
 
-### Edit at old physical position 34
+### Edit at old physical position 29
 
 Unchanged source before the edit:
 
 ```ir
-STATUS
-JNZ IOFAIL
+BUFFER IDENT 32
+PROC MAIN 0 0
 LIT 1
 ```
 
 Remove:
 
 ```ir
+PUSH
+LITS "SOURCE.RIL"
+PUSH
+INVOKE FILEARG 2
+LIT 2
+PUSH
+LITS "RILL.TMP"
+PUSH
+INVOKE FILEARG 2
+CREATE
+ST OUTPUT
+STATUS
+JNZ IOFAIL
+LIT 1
 ST OWN
 LIT 7
 CALL LABELJUMP
@@ -169,16 +183,6 @@ BUFFER IDENT 32
 PROC MAIN 0 0
 ```
 
-Remove:
-
-```ir
-LITS "RILL.TMP"
-CREATE
-ST OUTPUT
-STATUS
-JNZ IOFAIL
-```
-
 Insert in its place:
 
 ```ir
@@ -193,19 +197,17 @@ The following old source remains:
 
 ```ir
 LIT 1
-ST OWN
+PUSH
 ```
 
 ## Build and check
 
 ```dos
-COPY R28.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP R28.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 13949 bytes`. Save RESULT.COM as R28.COM. VIEW.BAS must show length 13949.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 14718 bytes`. Save RESULT.COM as R28.COM. VIEW.BAS must show length 14718.
 
 ```dos
 CHECK R28

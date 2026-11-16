@@ -26,7 +26,7 @@ fn cleanup(){
     let mut bad=0;
 ```
 
-Insert after old physical line 446.
+Insert after old physical line 447.
 
 Insert:
 
@@ -56,7 +56,7 @@ Unchanged source immediately before the edit:
 }
 ```
 
-Insert after old physical line 327.
+Insert after old physical line 328.
 
 Insert:
 
@@ -189,11 +189,18 @@ fn refresh(){
     }
     else{
         if dirty{
-            statusline("EDIT86 EDIT.TXT *  F2 Save F3 Find F4 Undo F5 Next F10 Quit");
+            statusline("EDIT86              * F2 Save F3 Find F4 Undo F5 Next F10 Quit");
         }
         else{
-            statusline("EDIT86 EDIT.TXT    F2 Save F3 Find F4 Undo F5 Next F10 Quit");
+            statusline("EDIT86                F2 Save F3 Find F4 Undo F5 Next F10 Quit");
         }
+        let mut title=filename();
+        let mut size=0;
+        while load8(title+size){
+            size=size+1;
+        }
+        vpos(1927);
+        vwrite(title,size);
     }
     vpos(crow*80+x);
     if status(){
@@ -219,7 +226,7 @@ Unchanged source immediately before the edit:
     copypos(gap,length);
 ```
 
-Remove old physical positions 32–39:
+Remove old physical positions 33–40:
 
 ```rill
     zero(start);
@@ -263,7 +270,7 @@ Unchanged source immediately before the edit:
     copypos(space,cap);
 ```
 
-Insert after old physical line 28.
+Insert after old physical line 29.
 
 Insert:
 
@@ -301,7 +308,7 @@ The following old source remains:
 
 ```rill
 fn main(){
-    store16(cap+2,4);
+    filename();
 ```
 
 ### Edit 6
@@ -412,19 +419,16 @@ let mut message=0;
 ## Build and preserve the program
 
 ```dos
-COPY E15.RIL SOURCE.RIL
-CHECK RILLED
-COPY RESULT.IR SOURCE.IR
-CHECK IRED
-COPY RESULT.ASM SOURCE.ASM
-CHECK A0
+CHECK RILLED E15.RIL RESULT.IR
+CHECK IRED RESULT.IR RESULT.ASM EDITRT.ASM
+CHECK A0 RESULT.ASM RESULT.COM
 COPY RESULT.COM E15.COM
 ```
 
-Require compiler `OK RESULT.IR 0000031010`, translator `OK RESULT.ASM 0000070076 text bytes`, assembler `OK RESULT.COM 16133 bytes`, and each PASS before the following copy. VIEW.BAS must report E15.COM length 16133 bytes, beginning with:
+Require compiler `OK RESULT.IR 0000032455`, translator `OK RESULT.ASM 0000074368 text bytes`, assembler `OK RESULT.COM 16980 bytes`, and each PASS before the following copy. VIEW.BAS must report E15.COM length 16980 bytes, beginning with:
 
 ```text
-FC 81 FC FE FF 74 03 E9 9B 3B E8 F3 37 B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+FC 81 FC FE FF 74 03 E9 8C 3D E8 D2 3D 81 F8 FF FF 75 03 E9 80 3D E8 D8 39 B4 4C CD 21 00 00 00
 ```
 
 ## The document fixture
@@ -437,8 +441,7 @@ two
 ```
 
 ```dos
-COPY T15.TXT EDIT.TXT
-CHECK E15
+CHECK E15 T15.TXT
 ```
 
 The screen must show one on the first row, two on the next and the help line on the last row. Press F10; CHECK must report PASS. COMP must still find EDIT.TXT identical to T15.TXT. An empty document displays blank document rows and leaves with PASS. A different exit key deliberately returns FAIL in this screen-only stopping test.

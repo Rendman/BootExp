@@ -17,7 +17,7 @@ Retain every earlier language feature. This checkpoint edits the complete compil
 
 Copy RB09.IR to RB10.IR. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 1768
+### Edit at old physical position 1797
 
 Unchanged source before the edit:
 
@@ -30,13 +30,13 @@ PROC BUILTIN 0 5
 Remove:
 
 ```ir
-LITS "PUTC\01\0POP\nPUTC\0STATUS\00\0STATUS\0OPEN\01\0POP\nOPEN\0CREATE\01\0POP\nCREATE\0CLOSE\01\0POP\nCLOSE\0READ\03\0POP\nREAD\0WRITE\03\0POP\nWRITE\0LOAD8\01\0POP\nFETCHB\0EXIT\01\0POP\nEXIT\0\0"
+LITS "PUTC\01\0POP\nPUTC\0STATUS\00\0STATUS\0OPEN\01\0POP\nOPEN\0CREATE\01\0POP\nCREATE\0CLOSE\01\0POP\nCLOSE\0READ\03\0POP\nREAD\0WRITE\03\0POP\nWRITE\0LOAD8\01\0POP\nFETCHB\0EXIT\01\0POP\nEXIT\0ARGC\00\0ARGC\0ARG\01\0POP\nARG\0\0"
 ```
 
 Insert in its place:
 
 ```ir
-LITS "PUTC\01\0POP\nPUTC\0STATUS\00\0STATUS\0OPEN\01\0POP\nOPEN\0CREATE\01\0POP\nCREATE\0CLOSE\01\0POP\nCLOSE\0READ\03\0POP\nREAD\0WRITE\03\0POP\nWRITE\0EXISTS\01\0POP\nEXISTS\0DELETE\01\0POP\nDELETE\0RENAME\02\0POP\nRENAME\0LOAD8\01\0POP\nFETCHB\0EXIT\01\0POP\nEXIT\0\0"
+LITS "PUTC\01\0POP\nPUTC\0STATUS\00\0STATUS\0OPEN\01\0POP\nOPEN\0CREATE\01\0POP\nCREATE\0CLOSE\01\0POP\nCLOSE\0READ\03\0POP\nREAD\0WRITE\03\0POP\nWRITE\0EXISTS\01\0POP\nEXISTS\0DELETE\01\0POP\nDELETE\0RENAME\02\0POP\nRENAME\0LOAD8\01\0POP\nFETCHB\0EXIT\01\0POP\nEXIT\0ARGC\00\0ARGC\0ARG\01\0POP\nARG\0\0"
 ```
 
 The following old source remains:
@@ -49,13 +49,11 @@ LABEL BUILTINNEXT
 ## Build and check
 
 ```dos
-COPY RB10.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP RB10.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 21004 bytes`. Save RESULT.COM as RB10.COM. VIEW.BAS must show length 21004.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 21908 bytes`. Save RESULT.COM as RB10.COM. VIEW.BAS must show length 21908.
 
 Create TRB10.RIL:
 
@@ -74,11 +72,7 @@ fn main(){
 ```
 
 ```dos
-COPY TRB10.RIL SOURCE.RIL
-```
-
-```dos
-CHECK RB10
+CHECK RB10 TRB10.RIL RESULT.IR
 ```
 
 Require:
@@ -157,19 +151,23 @@ Inspect RESULT.IR with VIEW.BAS. Require length 989 bytes and these complete byt
 
 This is a complete IR program. Translate it with IRKEEP, assemble its accepted output with ASMAKEEP, and save RESULT.COM as TRY.COM. Require fresh OK and PASS before both copies. First create OLD.TXT with `ECHO old>OLD.TXT`.
 
-VIEW.BAS must report length 1370. CHECK TRY reports PASS.
+VIEW.BAS must report length 1732. CHECK TRY reports PASS.
 
 Inspect OLD.TXT with VIEW.BAS: require length 1 and bytes `41`.
 
 ## Check the new boundary
 
-Use this separate rejected source:
+Save this separate rejected source as XRB10.RIL:
 
 ```rill
 fn main(){putc(65536);}
 ```
 
-Copy it to SOURCE.RIL and run CHECK RB10. Require:
+```dos
+CHECK RB10 XRB10.RIL RESULT.IR
+```
+
+Require:
 
 ```text
 ERROR 0000000001 CODE 00003

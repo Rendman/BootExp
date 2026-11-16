@@ -14,7 +14,7 @@ Zero-extend one byte from declared storage without a processor register in the s
 
 Copy IR11.ASM to IR12.ASM. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 1327
+### Edit at old physical position 1490
 
 Unchanged source before the edit:
 
@@ -31,7 +31,14 @@ DB 70,69,84,67,72,66,0,0,0,0,0,0,0,0
 DW T_FETCHB
 ```
 
-### Edit at old physical position 1202
+The following old source remains:
+
+```asm
+
+CMDCOUNT:
+```
+
+### Edit at old physical position 1365
 
 Unchanged source before the edit:
 
@@ -57,7 +64,7 @@ T_PUSH:
 DB "PUSH AX",13,10
 ```
 
-### Edit at old physical position 866
+### Edit at old physical position 872
 
 Unchanged source before the edit:
 
@@ -89,11 +96,10 @@ CALL LOOK
 ## Build and check
 
 ```dos
-COPY IR12.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP IR12.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 04066 bytes`. Save RESULT.COM as IR12.COM. VIEW.BAS must show length 4066.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 04559 bytes`. Save RESULT.COM as IR12.COM. VIEW.BAS must show length 4559.
 
 Create T12.IR:
 
@@ -108,11 +114,7 @@ EXIT
 ```
 
 ```dos
-COPY T12.IR SOURCE.IR
-```
-
-```dos
-CHECK IR12
+CHECK IR12 T12.IR RESULT.ASM
 ```
 
 Require:
@@ -123,8 +125,7 @@ PASS
 ```
 
 ```dos
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
 Require OK and PASS. VIEW.BAS must show RESULT.COM length 108 and these leading bytes:
@@ -137,13 +138,17 @@ Copy it to TRY.COM. CHECK TRY displays `A` and reports PASS.
 
 ## Check the new boundary
 
-Use this separate rejected source:
+Save this separate rejected source as X12.IR:
 
 ```ir
 UNKNOWN
 ```
 
-Copy it to SOURCE.IR and run CHECK IR12. Require:
+```dos
+CHECK IR12 X12.IR RESULT.ASM
+```
+
+Require:
 
 ```text
 IR ERROR 0000000001 CODE 1

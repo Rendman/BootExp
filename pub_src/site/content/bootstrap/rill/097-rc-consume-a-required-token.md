@@ -52,13 +52,13 @@ bytes string[512];
 Remove this source at old physical positions 35–35 in RC08.RIL:
 
 ```rill
-fn main(){input=open("SOURCE.RIL");if status(){fail(1);}next();lex();return (value)!=65535;}
+fn main(){filearg(1,"SOURCE.RIL");input=open(filearg(1,"SOURCE.RIL"));if status(){fail(1);}next();lex();return (value)!=65535;}
 ```
 
 Replace it with:
 
 ```rill
-fn main(){input=open("SOURCE.RIL");if status(){fail(1);}next();lex();expect(43);print("OK");return 0;}
+fn main(){filearg(1,"SOURCE.RIL");input=open(filearg(1,"SOURCE.RIL"));if status(){fail(1);}next();lex();expect(43);print("OK");return 0;}
 ```
 
 The following old source remains in place:
@@ -71,25 +71,23 @@ fn next() {
 ## Build this stopping point
 
 ```dos
-COPY RC09.RIL SOURCE.RIL
-CHECK RILLBOOT
+CHECK RILLBOOT RC09.RIL RESULT.IR
 ```
 
-Require `OK RESULT.IR 0000013622` and PASS. Copy RESULT.IR to SOURCE.IR.
+Require `OK RESULT.IR 0000015124` and PASS. Pass RESULT.IR directly to the translator.
 
 ```dos
-CHECK IWKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IWKEEP SOURCE.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require IR86 `OK RESULT.ASM 0000029700 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 14129 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000034432 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 15022 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RC09.COM
 ```
 
-VIEW.BAS must report RC09.COM length 14129 bytes. Keep this executable and its source together.
+VIEW.BAS must report RC09.COM length 15022 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -100,11 +98,7 @@ Create TRC09.RIL with COPY CON or a plain-text editor. Finish COPY CON with Ctrl
 ```
 
 ```dos
-COPY TRC09.RIL SOURCE.RIL
-```
-
-```dos
-CHECK RC09
+CHECK RC09 TRC09.RIL RESULT.IR
 ```
 
 Require:
@@ -123,8 +117,7 @@ Create XRC09.RIL:
 ```
 
 ```dos
-COPY XRC09.RIL SOURCE.RIL
-CHECK RC09
+CHECK RC09 XRC09.RIL RESULT.IR
 ```
 
 Require:

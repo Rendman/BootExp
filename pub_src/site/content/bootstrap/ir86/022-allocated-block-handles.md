@@ -14,7 +14,7 @@ Allocate byte extents beyond the main image and release owned blocks.
 
 Copy IR21.ASM to IR22.ASM. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 1892
+### Edit at old physical position 2186
 
 Unchanged source before the edit:
 
@@ -33,7 +33,14 @@ DB 70,82,69,69,66,76,79,67,75,0,0,0,0,0
 DW T_FREEBLOCK
 ```
 
-### Edit at old physical position 1780
+The following old source remains:
+
+```asm
+
+CMDCOUNT:
+```
+
+### Edit at old physical position 2070
 
 Unchanged source before the edit:
 
@@ -61,14 +68,14 @@ T_RENAME:
 DB "POP DX",13,10
 ```
 
-### Edit at old physical position 1490
+### Edit at old physical position 1772
 
 Unchanged source before the edit:
 
 ```asm
-DB "R_STACKFAIL:",13,10
-DB "MOV AX,4C02H",13,10
-DB "INT 21H",13,10
+DB "DB 0,0,0,0,0,0,0,0,0,0,0,0,0",13,10
+DB "DB 0,0,0,0,0,0,0,0,0,0,0,0,0",13,10
+DB "DB 0,0,0,0,0,0,0,0,0,0,0,0,0",13,10
 ```
 
 Insert in its place:
@@ -89,7 +96,7 @@ The following old source remains:
 DB 0
 ```
 
-### Edit at old physical position 1487
+### Edit at old physical position 1653
 
 Unchanged source before the edit:
 
@@ -181,7 +188,7 @@ DB "R_STACKFAIL:",13,10
 DB "MOV AX,4C02H",13,10
 ```
 
-### Edit at old physical position 866
+### Edit at old physical position 872
 
 Unchanged source before the edit:
 
@@ -194,13 +201,13 @@ MOV BX,IRTAB
 Remove:
 
 ```asm
-MOV CX,53
+MOV CX,55
 ```
 
 Insert in its place:
 
 ```asm
-MOV CX,55
+MOV CX,57
 ```
 
 The following old source remains:
@@ -213,11 +220,10 @@ CALL LOOK
 ## Build and check
 
 ```dos
-COPY IR22.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP IR22.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 09297 bytes`. Save RESULT.COM as IR22.COM. VIEW.BAS must show length 9297.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 11345 bytes`. Save RESULT.COM as IR22.COM. VIEW.BAS must show length 11345.
 
 Create T22.IR:
 
@@ -239,42 +245,41 @@ RETURN
 ```
 
 ```dos
-COPY T22.IR SOURCE.IR
-```
-
-```dos
-CHECK IR22
+CHECK IR22 T22.IR RESULT.ASM
 ```
 
 Require:
 
 ```text
-OK RESULT.ASM 0000004198 text bytes
+OK RESULT.ASM 0000005694 text bytes
 PASS
 ```
 
 ```dos
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require OK and PASS. VIEW.BAS must show RESULT.COM length 902 and these leading bytes:
+Require OK and PASS. VIEW.BAS must show RESULT.COM length 1264 and these leading bytes:
 
 ```text
-FC 81 FC FE FF 74 03 E9 33 03 E8 06 00 B4 4C CD 21 00 00 55 8B EC 81 EC 00 00 81 FC 00 F0 73 03
+FC 81 FC FE FF 74 03 E9 3F 03 E8 41 03 81 F8 FF FF 75 03 E9 33 03 E8 06 00 B4 4C CD 21 00 00 55
 ```
 
 Copy it to TRY.COM. CHECK TRY reports PASS.
 
 ## Check the new boundary
 
-Use this separate rejected source:
+Save this separate rejected source as X22.IR:
 
 ```ir
 UNKNOWN
 ```
 
-Copy it to SOURCE.IR and run CHECK IR22. Require:
+```dos
+CHECK IR22 X22.IR RESULT.ASM
+```
+
+Require:
 
 ```text
 IR ERROR 0000000001 CODE 1

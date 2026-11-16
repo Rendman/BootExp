@@ -15,7 +15,7 @@ Copy each complete identifier into IDENT, fold its letters to uppercase, and enf
 
 Copy R08.IR to R09.IR. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 309
+### Edit at old physical position 318
 
 Unchanged source before the edit:
 
@@ -99,7 +99,7 @@ LABEL LEXNUMBER
 JMP SYNTAX
 ```
 
-### Edit at old physical position 24
+### Edit at old physical position 33
 
 Unchanged source before the edit:
 
@@ -152,19 +152,17 @@ The following old source remains:
 
 ```ir
 PROC MAIN 0 0
-LITS "SOURCE.RIL"
+LIT 1
 ```
 
 ## Build and check
 
 ```dos
-COPY R09.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP R09.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 07601 bytes`. Save RESULT.COM as R09.COM. VIEW.BAS must show length 7601.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 08411 bytes`. Save RESULT.COM as R09.COM. VIEW.BAS must show length 8411.
 
 Create T09.RIL:
 
@@ -173,11 +171,7 @@ hello
 ```
 
 ```dos
-COPY T09.RIL SOURCE.RIL
-```
-
-```dos
-CHECK R09
+CHECK R09 T09.RIL RESULT.IR
 ```
 
 Require:

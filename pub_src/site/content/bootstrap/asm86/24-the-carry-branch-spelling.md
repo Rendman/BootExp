@@ -29,7 +29,7 @@ NAMELEN:
 DW 0
 ```
 
-Insert after old physical line 2153.
+Insert after old physical line 2342.
 
 Insert:
 
@@ -55,7 +55,7 @@ DB 82,69,83,66,0,0,12,0
 DB 82,69,83,87,0,0,12,1
 ```
 
-Insert after old physical line 2051.
+Insert after old physical line 2240.
 
 Insert:
 
@@ -80,7 +80,7 @@ POP AX
 CALL EMIT
 ```
 
-Remove this exact source at old physical positions 902–903:
+Remove this exact source at old physical positions 908–909:
 
 ```asm
 CALL FINISH
@@ -110,7 +110,7 @@ SHORTJUMP:
 CALL SCAN
 ```
 
-Insert after old physical line 882.
+Insert after old physical line 888.
 
 Insert:
 
@@ -168,7 +168,7 @@ CALL RESTORENAME
 MOV BX,OPTAB
 ```
 
-Remove this exact source at old physical positions 718–718:
+Remove this exact source at old physical positions 724–724:
 
 ```asm
 MOV CX,28
@@ -190,17 +190,16 @@ CALL LOOK
 ## Build the stopping point
 
 ```dos
-COPY A24.ASM SOURCE.ASM
-CHECK ASM1
+CHECK ASM1 A24.ASM RESULT.COM
 ```
 
-Require `OK RESULT.COM 04887 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 05325 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A24.COM
 ```
 
-VIEW.BAS must report A24.COM length 4887 bytes. Keep that executable and source together.
+VIEW.BAS must report A24.COM length 5325 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -214,11 +213,7 @@ JC X
 ```
 
 ```dos
-COPY T24.ASM SOURCE.ASM
-```
-
-```dos
-CHECK A24
+CHECK A24 T24.ASM RESULT.COM
 ```
 
 Require:
@@ -246,8 +241,7 @@ X:
 ```
 
 ```dos
-COPY X24.ASM SOURCE.ASM
-CHECK A24
+CHECK A24 X24.ASM RESULT.COM
 ```
 
 Require:

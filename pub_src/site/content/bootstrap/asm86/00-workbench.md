@@ -8,7 +8,19 @@ reader_names = 1
 url = "/bootstrap/asm86a/00-workbench/"
 +++
 
-Begin with the completed ASM1 collection and its two matching self-assembly generations. Keep ASM1.ASM, ASM1.COM, VIEW.BAS, and CHECK.BAT. ASM1 is the fixed-file streaming seed; ASMKEEP.COM remains the earlier fixed-file ASM0.
+I keep ASM1's tested executable under its own name and begin with a copy of its source. In the notebook I leave space beside the main-segment map for the storage DOS will allocate. The segment values will come from DOS at run time; I need to record them and release each block when the assembler finishes.
+
+## Command-line filenames
+
+```dos
+CHECK ASM86 INPUT.ASM OUTPUT.COM
+```
+
+DOS supplies the names in the PSP command tail. The native entry binding copies them into owned zero-terminated storage before file services. CHECK.BAT forwards the arguments and reports status immediately. No arguments select SOURCE.ASM and RESULT.COM. Use unquoted 8.3 disk names in the current directory: letters, digits, underscore and hyphen, with an optional extension. Paths, switches, excess arguments and overlong names are rejected. Keep selected files distinct from each other and from ASMA.TMP and RESULT.BAK. Those temporary/backup names remain reserved.
+
+Success reports the selected result name. Rejected source preserves that accepted result; recovery rules apply to the selected name. Early diagnostic writers may deliberately retain a temporary file for inspection, as stated in their lesson.
+
+Begin with the completed ASM1 collection and its two matching self-assembly generations. Keep ASM1.ASM, ASM1.COM, VIEW.BAS, and CHECK.BAT. ASM1 is the streaming seed with PSP filename arguments; ASMKEEP.COM remains the earlier fixed-file ASM0.
 
 ## Begin with the seed source
 
@@ -23,8 +35,7 @@ Apply the printed edits from the bottom upward. Their old physical positions ref
 Build the edited source with the preserved seed:
 
 ```dos
-COPY A13.ASM SOURCE.ASM
-CHECK ASM1
+CHECK ASM1 A13.ASM RESULT.COM
 COPY RESULT.COM A13.COM
 ```
 

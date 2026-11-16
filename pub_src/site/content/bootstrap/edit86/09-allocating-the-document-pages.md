@@ -175,19 +175,16 @@ bytes target[4];
 ## Build and preserve the program
 
 ```dos
-COPY E09.RIL SOURCE.RIL
-CHECK RILLED
-COPY RESULT.IR SOURCE.IR
-CHECK IRED
-COPY RESULT.ASM SOURCE.ASM
-CHECK A0
+CHECK RILLED E09.RIL RESULT.IR
+CHECK IRED RESULT.IR RESULT.ASM EDITRT.ASM
+CHECK A0 RESULT.ASM RESULT.COM
 COPY RESULT.COM E09.COM
 ```
 
-Require compiler `OK RESULT.IR 0000004264`, translator `OK RESULT.ASM 0000017505 text bytes`, assembler `OK RESULT.COM 03329 bytes`, and each PASS before the following copy. VIEW.BAS must report E09.COM length 3329 bytes, beginning with:
+Require compiler `OK RESULT.IR 0000004264`, translator `OK RESULT.ASM 0000018999 text bytes`, assembler `OK RESULT.COM 03691 bytes`, and each PASS before the following copy. VIEW.BAS must report E09.COM length 3691 bytes, beginning with:
 
 ```text
-FC 81 FC FE FF 74 03 E9 97 09 E8 EF 05 B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+FC 81 FC FE FF 74 03 E9 A3 09 E8 E9 09 81 F8 FF FF 75 03 E9 97 09 E8 EF 05 B4 4C CD 21 00 00 00
 ```
 
 ## Check the stopping point

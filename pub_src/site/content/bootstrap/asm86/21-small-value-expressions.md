@@ -8,7 +8,7 @@ reader_names = 1
 url = "/bootstrap/asm86a/21-small-value-expressions/"
 +++
 
-Addresses and counts often differ from a named value by a small offset.
+A label gives me an address, but I often need a place a little beyond it or the distance between two labels. I want to leave that relationship visible in the source. I'll begin with addition, subtraction and parentheses, keeping track of values that are not known on the first pass.
 
 ## The working parts
 
@@ -29,7 +29,7 @@ UNRESOLVED:
 DB 0
 ```
 
-Insert after old physical line 1965.
+Insert after old physical line 2154.
 
 Insert:
 
@@ -54,7 +54,7 @@ POP AX
 RET
 ```
 
-Insert after old physical line 1737.
+Insert after old physical line 1743.
 
 Insert:
 
@@ -150,8 +150,8 @@ JMP ERROR
 The following old source stays in place:
 
 ```asm
-OKMSG:
-DB 79,75,32,82,69,83,85,76,84,46,67,79,77,32,36
+CMDINIT:
+MOV SI,81H
 ```
 
 ### Change 3 near `BYTEVALUE:`
@@ -164,7 +164,7 @@ RET
 BYTEVALUE:
 ```
 
-Insert after old physical line 1049.
+Insert after old physical line 1055.
 
 Insert:
 
@@ -195,7 +195,7 @@ POP SI
 RET
 ```
 
-Remove this exact source at old physical positions 495–497:
+Remove this exact source at old physical positions 501–503:
 
 ```asm
 NUMBERBAD:
@@ -222,7 +222,7 @@ JMP NUMBERBAD
 ZVALUE3:
 ```
 
-Remove this exact source at old physical positions 453–493:
+Remove this exact source at old physical positions 459–499:
 
 ```asm
 DIGITOK:
@@ -300,7 +300,7 @@ JMP NUMBERBAD
 ZVALUE2:
 ```
 
-Remove this exact source at old physical positions 449–451:
+Remove this exact source at old physical positions 455–457:
 
 ```asm
 CMP AL,15
@@ -352,7 +352,7 @@ JMP NUMBERBAD
 ZVALUE1:
 ```
 
-Remove this exact source at old physical positions 438–447:
+Remove this exact source at old physical positions 444–453:
 
 ```asm
 MOV CX,0
@@ -399,7 +399,7 @@ VALUE:
 MOV AL,[0CC00H]
 ```
 
-Remove this exact source at old physical positions 414–436:
+Remove this exact source at old physical positions 420–442:
 
 ```asm
 CMP AL,48
@@ -479,7 +479,7 @@ JMP ERROR
 VALUE:
 ```
 
-Insert after old physical line 412.
+Insert after old physical line 418.
 
 Insert:
 
@@ -501,17 +501,16 @@ CMP AL,48
 ## Build the stopping point
 
 ```dos
-COPY A21.ASM SOURCE.ASM
-CHECK ASM1
+CHECK ASM1 A21.ASM RESULT.COM
 ```
 
-Require `OK RESULT.COM 04565 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 05003 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A21.COM
 ```
 
-VIEW.BAS must report A21.COM length 4565 bytes. Keep that executable and source together.
+VIEW.BAS must report A21.COM length 5003 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -522,11 +521,7 @@ DB 1+2,4-1,(5-2),-(-3)
 ```
 
 ```dos
-COPY T21.ASM SOURCE.ASM
-```
-
-```dos
-CHECK A21
+CHECK A21 T21.ASM RESULT.COM
 ```
 
 Require:
@@ -553,8 +548,7 @@ DW 65536
 ```
 
 ```dos
-COPY X21.ASM SOURCE.ASM
-CHECK A21
+CHECK A21 X21.ASM RESULT.COM
 ```
 
 Require:

@@ -3,10 +3,10 @@ import sys
 ROOT=Path(__file__).resolve().parents[2];sys.path.insert(0,str(ROOT/'qa/asm86'))
 from machine import AssemblerMachine,run_assembler
 W=ROOT/'workbench/toolchain';Q=ROOT/'qa/toolchain'
-def run(image,source=None,kind='IR',files=None,limit=2_000_000_000):
+def run(image,source=None,kind='IR',files=None,limit=2_000_000_000,command_line=''):
  f=dict(files or {})
  if source is not None:f['SOURCE.'+kind]=source.encode('ascii') if isinstance(source,str) else source
- return AssemblerMachine(f).run(image,limit=limit)
+ return AssemblerMachine(f,command_line=command_line).run(image,limit=limit)
 def asm(source):
  r=run_assembler((ROOT/'workbench/asm86/ASM86A.COM').read_bytes(),source)
  if r.exitcode:

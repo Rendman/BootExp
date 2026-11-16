@@ -1353,75 +1353,75 @@
       "resources": [
         {
           "source": "workbench/asm86/A01.ASM",
-          "definitions": 161,
-          "physical_line_width": 47,
-          "source_bytes": 12408
+          "definitions": 198,
+          "physical_line_width": 38,
+          "source_bytes": 14791
         },
         {
           "source": "workbench/asm86/A02.ASM",
-          "definitions": 165,
-          "physical_line_width": 47,
-          "source_bytes": 12744
+          "definitions": 202,
+          "physical_line_width": 38,
+          "source_bytes": 15127
         },
         {
           "source": "workbench/asm86/A03.ASM",
-          "definitions": 169,
-          "physical_line_width": 41,
-          "source_bytes": 12917
+          "definitions": 206,
+          "physical_line_width": 38,
+          "source_bytes": 15312
         },
         {
           "source": "workbench/asm86/A04.ASM",
-          "definitions": 178,
+          "definitions": 215,
           "physical_line_width": 61,
-          "source_bytes": 13781
+          "source_bytes": 16176
         },
         {
           "source": "workbench/asm86/A05.ASM",
-          "definitions": 186,
+          "definitions": 222,
           "physical_line_width": 61,
-          "source_bytes": 14234
+          "source_bytes": 16581
         },
         {
           "source": "workbench/asm86/A06.ASM",
-          "definitions": 195,
+          "definitions": 230,
           "physical_line_width": 61,
-          "source_bytes": 14993
+          "source_bytes": 17286
         },
         {
           "source": "workbench/asm86/A07.ASM",
-          "definitions": 201,
+          "definitions": 236,
           "physical_line_width": 61,
-          "source_bytes": 15380
+          "source_bytes": 17673
         },
         {
           "source": "workbench/asm86/A08.ASM",
-          "definitions": 203,
+          "definitions": 238,
           "physical_line_width": 61,
-          "source_bytes": 15461
+          "source_bytes": 17754
         },
         {
           "source": "workbench/asm86/A09.ASM",
-          "definitions": 203,
+          "definitions": 238,
           "physical_line_width": 61,
-          "source_bytes": 15462
+          "source_bytes": 17755
         },
         {
           "source": "workbench/asm86/A10.ASM",
-          "definitions": 217,
+          "definitions": 252,
           "physical_line_width": 61,
-          "source_bytes": 16627
+          "source_bytes": 18920
         },
         {
           "source": "workbench/asm86/A11.ASM",
-          "definitions": 219,
+          "definitions": 254,
           "physical_line_width": 61,
-          "source_bytes": 16796
+          "source_bytes": 19089
         },
         {
           "source": "workbench/asm86/A12.ASM",
-          "definitions": 219,
+          "definitions": 254,
           "physical_line_width": 61,
-          "source_bytes": 16796
+          "source_bytes": 19089
         },
         {
           "source": "workbench/asm0/ASM86.ASM",
@@ -2220,153 +2220,153 @@
       "resources": [
         {
           "source": "workbench/asm86/A13.ASM",
-          "definitions": 281,
+          "definitions": 316,
           "physical_line_width": 61,
-          "source_bytes": 19171
+          "source_bytes": 21464
         },
         {
           "source": "workbench/asm86/A14.ASM",
-          "definitions": 287,
+          "definitions": 322,
           "physical_line_width": 61,
-          "source_bytes": 19670
+          "source_bytes": 21963
         },
         {
           "source": "workbench/asm86/A15.ASM",
-          "definitions": 295,
+          "definitions": 330,
           "physical_line_width": 61,
-          "source_bytes": 20410
+          "source_bytes": 22703
         },
         {
           "source": "workbench/asm86/A16.ASM",
-          "definitions": 306,
+          "definitions": 341,
           "physical_line_width": 61,
-          "source_bytes": 21244
+          "source_bytes": 23537
         },
         {
           "source": "workbench/asm86/A17.ASM",
-          "definitions": 310,
+          "definitions": 345,
           "physical_line_width": 61,
-          "source_bytes": 21332
+          "source_bytes": 23625
         },
         {
           "source": "workbench/asm86/A18.ASM",
-          "definitions": 310,
+          "definitions": 345,
           "physical_line_width": 61,
-          "source_bytes": 21360
+          "source_bytes": 23653
         },
         {
           "source": "workbench/asm86/A19.ASM",
-          "definitions": 331,
+          "definitions": 366,
           "physical_line_width": 61,
-          "source_bytes": 22775
+          "source_bytes": 25068
         },
         {
           "source": "workbench/asm86/A20.ASM",
-          "definitions": 337,
+          "definitions": 372,
           "physical_line_width": 61,
-          "source_bytes": 23337
+          "source_bytes": 25630
         },
         {
           "source": "workbench/asm86/A21.ASM",
-          "definitions": 352,
+          "definitions": 387,
           "physical_line_width": 61,
-          "source_bytes": 24472
+          "source_bytes": 26765
         },
         {
           "source": "workbench/asm86/A22.ASM",
-          "definitions": 356,
+          "definitions": 391,
           "physical_line_width": 61,
-          "source_bytes": 25129
+          "source_bytes": 27422
         },
         {
           "source": "workbench/asm86/A23.ASM",
-          "definitions": 364,
+          "definitions": 399,
           "physical_line_width": 61,
-          "source_bytes": 25690
+          "source_bytes": 27983
         },
         {
           "source": "workbench/asm86/A24.ASM",
-          "definitions": 369,
+          "definitions": 404,
           "physical_line_width": 61,
-          "source_bytes": 26172
+          "source_bytes": 28465
         },
         {
           "source": "workbench/asm86/A25.ASM",
-          "definitions": 379,
+          "definitions": 414,
           "physical_line_width": 61,
-          "source_bytes": 26803
+          "source_bytes": 29096
         },
         {
           "source": "workbench/asm86/A26.ASM",
-          "definitions": 390,
+          "definitions": 425,
           "physical_line_width": 61,
-          "source_bytes": 27509
+          "source_bytes": 29802
         },
         {
           "source": "workbench/asm86/A27.ASM",
-          "definitions": 415,
+          "definitions": 450,
           "physical_line_width": 61,
-          "source_bytes": 28772
+          "source_bytes": 31065
         },
         {
           "source": "workbench/asm86/A28.ASM",
-          "definitions": 418,
+          "definitions": 453,
           "physical_line_width": 61,
-          "source_bytes": 29319
+          "source_bytes": 31612
         },
         {
           "source": "workbench/asm86/A29.ASM",
-          "definitions": 432,
+          "definitions": 467,
           "physical_line_width": 61,
-          "source_bytes": 30011
+          "source_bytes": 32304
         },
         {
           "source": "workbench/asm86/A30.ASM",
-          "definitions": 433,
+          "definitions": 468,
           "physical_line_width": 61,
-          "source_bytes": 30264
+          "source_bytes": 32557
         },
         {
           "source": "workbench/asm86/A31.ASM",
-          "definitions": 433,
+          "definitions": 468,
           "physical_line_width": 61,
-          "source_bytes": 30487
+          "source_bytes": 32780
         },
         {
           "source": "workbench/asm86/A32.ASM",
-          "definitions": 439,
+          "definitions": 474,
           "physical_line_width": 61,
-          "source_bytes": 30896
+          "source_bytes": 33189
         },
         {
           "source": "workbench/asm86/A33.ASM",
-          "definitions": 444,
+          "definitions": 479,
           "physical_line_width": 61,
-          "source_bytes": 31273
+          "source_bytes": 33566
         },
         {
           "source": "workbench/asm86/A36.ASM",
-          "definitions": 447,
+          "definitions": 482,
           "physical_line_width": 61,
-          "source_bytes": 31596
+          "source_bytes": 33889
         },
         {
           "source": "workbench/asm86/A37.ASM",
-          "definitions": 455,
+          "definitions": 490,
           "physical_line_width": 61,
-          "source_bytes": 32249
+          "source_bytes": 34542
         },
         {
           "source": "workbench/asm86/A40.ASM",
-          "definitions": 455,
+          "definitions": 490,
           "physical_line_width": 61,
-          "source_bytes": 32249
+          "source_bytes": 34542
         },
         {
           "source": "workbench/asm86/ASMA0.ASM",
-          "definitions": 219,
+          "definitions": 254,
           "physical_line_width": 61,
-          "source_bytes": 16796
+          "source_bytes": 19089
         }
       ]
     },
@@ -2963,6 +2963,8 @@
           "workbench/toolchain/RILL0.ASM"
         ],
         "LODSB": [
+          "qa/toolchain/generated/ASM86A.ASM",
+          "qa/toolchain/generated/IR86.ASM",
           "workbench/toolchain/IW01.ASM",
           "workbench/toolchain/IW02.ASM",
           "workbench/toolchain/IW03.ASM",
@@ -2985,7 +2987,9 @@
           "workbench/toolchain/IW20.ASM",
           "workbench/toolchain/IW21.ASM",
           "workbench/toolchain/IW22.ASM",
-          "workbench/toolchain/IW23.ASM"
+          "workbench/toolchain/IW23.ASM",
+          "workbench/toolchain/RILL0.ASM",
+          "workbench/toolchain/RILLBOOT.ASM"
         ],
         "MOV": [
           "qa/toolchain/generated/ASM86A.ASM",
@@ -3182,6 +3186,8 @@
           "workbench/toolchain/RILLBOOT.ASM"
         ],
         "STOSB": [
+          "qa/toolchain/generated/ASM86A.ASM",
+          "qa/toolchain/generated/IR86.ASM",
           "workbench/toolchain/IW01.ASM",
           "workbench/toolchain/IW02.ASM",
           "workbench/toolchain/IW03.ASM",
@@ -3204,7 +3210,9 @@
           "workbench/toolchain/IW20.ASM",
           "workbench/toolchain/IW21.ASM",
           "workbench/toolchain/IW22.ASM",
-          "workbench/toolchain/IW23.ASM"
+          "workbench/toolchain/IW23.ASM",
+          "workbench/toolchain/RILL0.ASM",
+          "workbench/toolchain/RILLBOOT.ASM"
         ],
         "SUB": [
           "qa/toolchain/generated/ASM86A.ASM",
@@ -3245,165 +3253,165 @@
       "resources": [
         {
           "source": "workbench/toolchain/IW01.ASM",
-          "definitions": 143,
+          "definitions": 165,
           "physical_line_width": 61,
-          "source_bytes": 10289
+          "source_bytes": 12356
         },
         {
           "source": "workbench/toolchain/IW02.ASM",
-          "definitions": 144,
+          "definitions": 166,
           "physical_line_width": 61,
-          "source_bytes": 10441
+          "source_bytes": 12508
         },
         {
           "source": "workbench/toolchain/IW03.ASM",
-          "definitions": 155,
+          "definitions": 177,
           "physical_line_width": 61,
-          "source_bytes": 11116
+          "source_bytes": 13210
         },
         {
           "source": "workbench/toolchain/IW04.ASM",
-          "definitions": 170,
+          "definitions": 192,
           "physical_line_width": 61,
-          "source_bytes": 12129
+          "source_bytes": 14196
         },
         {
           "source": "workbench/toolchain/IW05.ASM",
-          "definitions": 192,
+          "definitions": 214,
           "physical_line_width": 61,
-          "source_bytes": 13976
+          "source_bytes": 16070
         },
         {
           "source": "workbench/toolchain/IW06.ASM",
-          "definitions": 194,
+          "definitions": 216,
           "physical_line_width": 61,
-          "source_bytes": 14180
+          "source_bytes": 16274
         },
         {
           "source": "workbench/toolchain/IW07.ASM",
-          "definitions": 198,
+          "definitions": 220,
           "physical_line_width": 61,
-          "source_bytes": 14546
+          "source_bytes": 16640
         },
         {
           "source": "workbench/toolchain/IW08.ASM",
-          "definitions": 205,
+          "definitions": 227,
           "physical_line_width": 61,
-          "source_bytes": 15239
+          "source_bytes": 17333
         },
         {
           "source": "workbench/toolchain/IW09.ASM",
-          "definitions": 209,
+          "definitions": 231,
           "physical_line_width": 61,
-          "source_bytes": 15722
+          "source_bytes": 17816
         },
         {
           "source": "workbench/toolchain/IW10.ASM",
-          "definitions": 211,
+          "definitions": 233,
           "physical_line_width": 61,
-          "source_bytes": 15933
+          "source_bytes": 18027
         },
         {
           "source": "workbench/toolchain/IW11.ASM",
-          "definitions": 213,
+          "definitions": 235,
           "physical_line_width": 61,
-          "source_bytes": 16832
+          "source_bytes": 18926
         },
         {
           "source": "workbench/toolchain/IW12.ASM",
-          "definitions": 214,
+          "definitions": 236,
           "physical_line_width": 61,
-          "source_bytes": 16969
+          "source_bytes": 19063
         },
         {
           "source": "workbench/toolchain/IW13.ASM",
-          "definitions": 215,
+          "definitions": 239,
           "physical_line_width": 61,
-          "source_bytes": 18390
+          "source_bytes": 23458
         },
         {
           "source": "workbench/toolchain/IW14.ASM",
-          "definitions": 216,
+          "definitions": 240,
           "physical_line_width": 61,
-          "source_bytes": 18566
+          "source_bytes": 23634
         },
         {
           "source": "workbench/toolchain/IW15.ASM",
-          "definitions": 217,
+          "definitions": 241,
           "physical_line_width": 61,
-          "source_bytes": 19873
+          "source_bytes": 24941
         },
         {
           "source": "workbench/toolchain/IW16.ASM",
-          "definitions": 218,
+          "definitions": 242,
           "physical_line_width": 61,
-          "source_bytes": 20679
+          "source_bytes": 25747
         },
         {
           "source": "workbench/toolchain/IW17.ASM",
-          "definitions": 219,
+          "definitions": 243,
           "physical_line_width": 61,
-          "source_bytes": 21170
+          "source_bytes": 26238
         },
         {
           "source": "workbench/toolchain/IW18.ASM",
-          "definitions": 235,
+          "definitions": 259,
           "physical_line_width": 61,
-          "source_bytes": 23171
+          "source_bytes": 28239
         },
         {
           "source": "workbench/toolchain/IW19.ASM",
-          "definitions": 244,
+          "definitions": 268,
           "physical_line_width": 61,
-          "source_bytes": 24696
+          "source_bytes": 29764
         },
         {
           "source": "workbench/toolchain/IW20.ASM",
-          "definitions": 257,
+          "definitions": 281,
           "physical_line_width": 61,
-          "source_bytes": 25850
+          "source_bytes": 30918
         },
         {
           "source": "workbench/toolchain/IW21.ASM",
-          "definitions": 260,
+          "definitions": 284,
           "physical_line_width": 86,
-          "source_bytes": 27094
+          "source_bytes": 32162
         },
         {
           "source": "workbench/toolchain/IW22.ASM",
-          "definitions": 262,
+          "definitions": 286,
           "physical_line_width": 86,
-          "source_bytes": 29085
+          "source_bytes": 34153
         },
         {
           "source": "workbench/toolchain/IW23.ASM",
-          "definitions": 266,
+          "definitions": 290,
           "physical_line_width": 86,
-          "source_bytes": 30994
+          "source_bytes": 36052
         },
         {
           "source": "workbench/toolchain/RILLBOOT.ASM",
-          "definitions": 455,
+          "definitions": 496,
           "physical_line_width": 75,
-          "source_bytes": 68485
+          "source_bytes": 73233
         },
         {
           "source": "workbench/toolchain/RILL0.ASM",
-          "definitions": 811,
+          "definitions": 857,
           "physical_line_width": 75,
-          "source_bytes": 103091
+          "source_bytes": 108527
         },
         {
           "source": "qa/toolchain/generated/IR86.ASM",
-          "definitions": 736,
+          "definitions": 804,
           "physical_line_width": 75,
-          "source_bytes": 133377
+          "source_bytes": 154890
         },
         {
           "source": "qa/toolchain/generated/ASM86A.ASM",
-          "definitions": 811,
+          "definitions": 857,
           "physical_line_width": 75,
-          "source_bytes": 110225
+          "source_bytes": 115441
         }
       ]
     },
@@ -3470,6 +3478,8 @@
         "ADDR",
         "ALLOC",
         "AND",
+        "ARG",
+        "ARGC",
         "BUFFER",
         "CALL",
         "CEQ",
@@ -3531,6 +3541,8 @@
         "ADDR",
         "ALLOC",
         "AND",
+        "ARG",
+        "ARGC",
         "BUFFER",
         "CALL",
         "CEQ",
@@ -3732,6 +3744,112 @@
         ],
         "AND": [
           "workbench/rill0/R03.IR",
+          "workbench/rill0/R04.IR",
+          "workbench/rill0/R05.IR",
+          "workbench/rill0/R06.IR",
+          "workbench/rill0/R07.IR",
+          "workbench/rill0/R08.IR",
+          "workbench/rill0/R09.IR",
+          "workbench/rill0/R10.IR",
+          "workbench/rill0/R11.IR",
+          "workbench/rill0/R12.IR",
+          "workbench/rill0/R13.IR",
+          "workbench/rill0/R14.IR",
+          "workbench/rill0/R15.IR",
+          "workbench/rill0/R16.IR",
+          "workbench/rill0/R17.IR",
+          "workbench/rill0/R18.IR",
+          "workbench/rill0/R19.IR",
+          "workbench/rill0/R20.IR",
+          "workbench/rill0/R21.IR",
+          "workbench/rill0/R22.IR",
+          "workbench/rill0/R23.IR",
+          "workbench/rill0/R24.IR",
+          "workbench/rill0/R25.IR",
+          "workbench/rill0/R26.IR",
+          "workbench/rill0/R27.IR",
+          "workbench/rill0/R28.IR",
+          "workbench/rill0/R29.IR",
+          "workbench/rill0/R30.IR",
+          "workbench/rill0/R31.IR",
+          "workbench/rill0/R32.IR",
+          "workbench/rill0/R33.IR",
+          "workbench/rill0/R34.IR",
+          "workbench/rill0/R35.IR",
+          "workbench/rill0/R36.IR",
+          "workbench/rill0/R37.IR",
+          "workbench/rill0/R38.IR",
+          "workbench/rill0/R39.IR",
+          "workbench/toolchain/ASM86A.IR",
+          "workbench/toolchain/IR86.IR",
+          "workbench/toolchain/RB01.IR",
+          "workbench/toolchain/RB02.IR",
+          "workbench/toolchain/RB03.IR",
+          "workbench/toolchain/RB04.IR",
+          "workbench/toolchain/RB05.IR",
+          "workbench/toolchain/RB06.IR",
+          "workbench/toolchain/RB07.IR",
+          "workbench/toolchain/RB08.IR",
+          "workbench/toolchain/RB09.IR",
+          "workbench/toolchain/RB10.IR",
+          "workbench/toolchain/RB11.IR",
+          "workbench/toolchain/RB12.IR",
+          "workbench/toolchain/RILL0.IR"
+        ],
+        "ARG": [
+          "workbench/rill0/R04.IR",
+          "workbench/rill0/R05.IR",
+          "workbench/rill0/R06.IR",
+          "workbench/rill0/R07.IR",
+          "workbench/rill0/R08.IR",
+          "workbench/rill0/R09.IR",
+          "workbench/rill0/R10.IR",
+          "workbench/rill0/R11.IR",
+          "workbench/rill0/R12.IR",
+          "workbench/rill0/R13.IR",
+          "workbench/rill0/R14.IR",
+          "workbench/rill0/R15.IR",
+          "workbench/rill0/R16.IR",
+          "workbench/rill0/R17.IR",
+          "workbench/rill0/R18.IR",
+          "workbench/rill0/R19.IR",
+          "workbench/rill0/R20.IR",
+          "workbench/rill0/R21.IR",
+          "workbench/rill0/R22.IR",
+          "workbench/rill0/R23.IR",
+          "workbench/rill0/R24.IR",
+          "workbench/rill0/R25.IR",
+          "workbench/rill0/R26.IR",
+          "workbench/rill0/R27.IR",
+          "workbench/rill0/R28.IR",
+          "workbench/rill0/R29.IR",
+          "workbench/rill0/R30.IR",
+          "workbench/rill0/R31.IR",
+          "workbench/rill0/R32.IR",
+          "workbench/rill0/R33.IR",
+          "workbench/rill0/R34.IR",
+          "workbench/rill0/R35.IR",
+          "workbench/rill0/R36.IR",
+          "workbench/rill0/R37.IR",
+          "workbench/rill0/R38.IR",
+          "workbench/rill0/R39.IR",
+          "workbench/toolchain/ASM86A.IR",
+          "workbench/toolchain/IR86.IR",
+          "workbench/toolchain/RB01.IR",
+          "workbench/toolchain/RB02.IR",
+          "workbench/toolchain/RB03.IR",
+          "workbench/toolchain/RB04.IR",
+          "workbench/toolchain/RB05.IR",
+          "workbench/toolchain/RB06.IR",
+          "workbench/toolchain/RB07.IR",
+          "workbench/toolchain/RB08.IR",
+          "workbench/toolchain/RB09.IR",
+          "workbench/toolchain/RB10.IR",
+          "workbench/toolchain/RB11.IR",
+          "workbench/toolchain/RB12.IR",
+          "workbench/toolchain/RILL0.IR"
+        ],
+        "ARGC": [
           "workbench/rill0/R04.IR",
           "workbench/rill0/R05.IR",
           "workbench/rill0/R06.IR",
@@ -3996,6 +4114,7 @@
           "workbench/toolchain/RILL0.IR"
         ],
         "CNE": [
+          "workbench/rill0/R04.IR",
           "workbench/rill0/R05.IR",
           "workbench/rill0/R06.IR",
           "workbench/rill0/R07.IR",
@@ -6207,6 +6326,8 @@
     "immediate_successor": "RILL.RIL and all RC construction sources",
     "required_intrinsics": [
       "alloc",
+      "arg",
+      "argc",
       "close",
       "create",
       "delete",
@@ -6229,34 +6350,36 @@
     "not_observed_syntax": [],
     "successor_resources": {
       "source": "workbench/toolchain/RC43.RIL",
-      "global_and_procedure_names": 76,
+      "global_and_procedure_names": 78,
       "largest_parameter_list": 2,
-      "longest_string_bytes": 357
+      "longest_string_bytes": 381
     },
     "final_source_resources": {
       "source": "workbench/toolchain/RILL.RIL",
-      "global_and_procedure_names": 76,
+      "global_and_procedure_names": 78,
       "largest_parameter_list": 2,
-      "longest_string_bytes": 357
+      "longest_string_bytes": 381
     }
   },
   "final_compiler_consumers": {
     "tools": [
       {
         "source": "workbench/toolchain/IR86.RIL",
-        "global_and_procedure_names": 55,
+        "global_and_procedure_names": 57,
         "largest_parameter_list": 4,
         "longest_string_bytes": 240
       },
       {
         "source": "workbench/toolchain/ASM86A.RIL",
-        "global_and_procedure_names": 69,
+        "global_and_procedure_names": 71,
         "largest_parameter_list": 3,
         "longest_string_bytes": 60
       }
     ],
     "intrinsics": [
       "alloc",
+      "arg",
+      "argc",
       "close",
       "create",
       "delete",

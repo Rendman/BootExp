@@ -22,11 +22,11 @@ Keep the unchanged source. Apply these edits from the bottom of the old file upw
 Unchanged source immediately before the edit:
 
 ```rill
-    outstr(" R_MEMDONE\r\nR_SETWORD:\r\nMOV ES:[BX],AX\r\nJMP R_MEMDONE\r\nR_FREEBLOCK:\r\nMOV BX,AX\r\nCMP BX,1\r\nJB NEAR R_DFAIL\r\nCMP BX,16\r\nJA NEAR R_DFAIL\r\nDEC BX\r\nSHL BX,1\r\nSHL BX,1\r\nADD BX,R_BLOCKS\r\nMOV SI,BX\r\nMOV AX,[SI]\r\nCMP AX,0\r\nJE NEAR R_DFAIL\r\nMOV ES,AX");
-    outstr("\r\nMOV AH,49H\r\nINT 21H\r\nJC NEAR R_FREEBAD\r\nMOV WORD [SI],0\r\nMOV AX,CS\r\nMOV ES,AX\r\nMOV AX,0\r\nJMP R_OK\r\nR_FREEBAD:\r\nMOV AX,CS\r\nMOV ES,AX\r\nJMP R_FAIL\r\nR_STACKFAIL:\r\nMOV AX,4C02H\r\nINT 21H\r\nR_WANT:\r\nDW 0\r\nR_MEMVALUE:\r\nDW 0\r\nR_BLOCKS:\r\nRESW 32\r\n");
+    outstr("JE NEAR R_ARGDONE\r\nADD BX,13\r\nJMP R_ARGNEXT\r\nR_ARGDONE:\r\nMOV AX,BX\r\nJMP R_OK\r\nR_ARGBAD:\r\nMOV AX,0\r\nJMP R_ERROR\r\nCMDCOUNT:\r\nDW 0\r\nCMDPTR:\r\nDW 0\r\nCMDBUF:\r\nDB 0,0,0,0,0,0,0,0,0,0,0,0,0\r\nDB 0,0,0,0,0,0,0,0,0,0,0,0,0\r\nDB 0,0,0,0,0,0,0,0,0,0,0,0,");
+    outstr("0\r\n");
 ```
 
-Insert after old physical line 327.
+Insert after old physical line 352.
 
 Insert:
 
@@ -34,7 +34,7 @@ Insert:
     editorruntime(); return 0;
 }
 fn editorruntime() {
-    let mut file=open("EDITRT.ASM"); if status() { fail(6); }
+    let mut file=open(filearg(3,"EDITRT.ASM")); if status() { fail(6); }
     while 1 {
         let mut count=read(file,inbuf,4096); if status() { close(file); fail(6); }
         if count==0 { close(file); if status() { fail(6); } return 0; }
@@ -58,7 +58,7 @@ Unchanged source immediately before the edit:
     op("SET16",0,3,"POP DX\r\nPOP BX\r\nMOV CX,2\r\nCALL R_SETMEM\r\n");
 ```
 
-Insert after old physical line 304.
+Insert after old physical line 322.
 
 Insert:
 
@@ -85,11 +85,41 @@ The following old source remains:
 Unchanged source immediately before the edit:
 
 ```rill
+    let mut count=argc();
+    if count==0{return fallback;}
+```
+
+Remove old physical positions 249–249:
+
+```rill
+    if count!=2{exit(1);}
+```
+
+Replace with:
+
+```rill
+    if (count!=2)&(count!=3){exit(1);}
+    if n==3{if count==2{return fallback;}}
+    if count==3{if filesame(arg(3),arg(1))|filesame(arg(3),arg(2))|filesame(arg(3),"IRTX.TMP")|filesame(arg(3),"IRRES.BAK"){exit(1);}}
+```
+
+The following old source remains:
+
+```rill
+    if filesame(arg(1),arg(2))|filesame(arg(1),"IRTX.TMP")|filesame(arg(1),"IRRES.BAK")|filesame(arg(2),"IRTX.TMP")|filesame(arg(2),"IRRES.BAK"){exit(1);}
+    return arg(n);
+```
+
+### Edit 4
+
+Unchanged source immediately before the edit:
+
+```rill
     if delta == 3 { if depth < 2 { fail(4); } depth = depth-2; }
     if delta == 4 { if depth { fail(4); } }
 ```
 
-Insert after old physical line 168.
+Insert after old physical line 169.
 
 Insert:
 
@@ -108,19 +138,16 @@ The following old source remains:
 ## Build and preserve the builder
 
 ```dos
-COPY IRED.RIL SOURCE.RIL
-CHECK R0
-COPY RESULT.IR SOURCE.IR
-CHECK I0
-COPY RESULT.ASM SOURCE.ASM
-CHECK A0
+CHECK R0 IRED.RIL RESULT.IR
+CHECK I0 RESULT.IR RESULT.ASM
+CHECK A0 RESULT.ASM RESULT.COM
 COPY RESULT.COM IRED.COM
 ```
 
-Require compiler `OK RESULT.IR 0000042343`, translator `OK RESULT.ASM 0000140146 text bytes`, assembler `OK RESULT.COM 30657 bytes`, and each PASS before the following copy. VIEW.BAS must report IRED.COM length 30657 bytes, beginning with:
+Require compiler `OK RESULT.IR 0000047148`, translator `OK RESULT.ASM 0000163312 text bytes`, assembler `OK RESULT.COM 33598 bytes`, and each PASS before the following copy. VIEW.BAS must report IRED.COM length 33598 bytes, beginning with:
 
 ```text
-FC 81 FC FE FF 74 03 E9 6E 77 E8 C6 73 B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+FC 81 FC FE FF 74 03 E9 8D 81 E8 D3 81 81 F8 FF FF 75 03 E9 81 81 E8 D9 7D B4 4C CD 21 00 00 00
 ```
 
 Create the empty S02.ASM binding with `COPY NUL S02.ASM`, then copy it to EDITRT.ASM. Create P02.RIL:
@@ -142,8 +169,7 @@ RETURN
 ```
 
 ```dos
-COPY Q02.IR SOURCE.IR
-CHECK IRED
+CHECK IRED Q02.IR RESULT.ASM EDITRT.ASM
 ```
 
 Require FAIL with CODE 00004: BMOVE has no four saved arguments. Keep all binding files as ASCII assembly source. A missing EDITRT.ASM is an I/O error and cannot publish a new RESULT.ASM.

@@ -3,6 +3,7 @@ from pathlib import Path
 import re,json
 from build_asm86a import full_source,blocks,fieldtext,dos,ROOT,W as AW
 from ir86_runtime_text import PARTS,part_names
+from command_files import native, runtime as argument_runtime
 W=ROOT/'workbench/ir86';Q=ROOT/'qa/toolchain';Q.mkdir(exist_ok=True)
 # (argument class, stack action, authored assembly text)
 OPS={}
@@ -30,6 +31,7 @@ op('LOCAL',1,0,'MOV AX,[BP-#]\n');op('SETLOCAL',1,0,'MOV [BP-#],AX\n');op('LADDR
 op('SETPARAM',1,0,'MOV [BP+#],AX\n');op('PADDR',1,0,'LEA AX,[BP+#]\n')
 op('LITS',6,0,'')
 for name in ['PUTC','GETC','OPEN','CREATE','CLOSE']:op(name,0,0,'CALL R_'+name+'\n')
+for name in ['ARGC','ARG']:op(name,0,0,'CALL R_'+name+'\n')
 op('STATUS',0,0,'MOV AX,[R_STATUS]\n')
 for name in ['READ','WRITE']:op(name,0,3,'POP DX\nPOP BX\nCALL R_'+name+'\n')
 for name in ['DELETE','EXISTS','ALLOC','FREEBLOCK']:op(name,0,0,'CALL R_'+name+'\n')
@@ -38,9 +40,9 @@ for name,width in [('GET8',1),('GET16',2)]:op(name,0,2,f'POP BX\nMOV CX,{width}\
 for name,width in [('SET8',1),('SET16',2)]:op(name,0,3,f'POP DX\nPOP BX\nMOV CX,{width}\nCALL R_SETMEM\n')
 # Only the operations needed by the compiler constructions and their outputs.
 for unused in 'BYTE CSGE CSGT CSLE CSLT EQ GETC HALT LDB NE NEG NOP NOT RET SETPARAM SGE SGT SLE SLT STB UGE UGT ULE ULT'.split():OPS.pop(unused,None)
-HEADER='CLD\nCMP SP,0FFFEH\nJNE NEAR R_STACKFAIL\nCALL U_MAIN\nMOV AH,4CH\nINT 21H\n'
+HEADER='CLD\nCMP SP,0FFFEH\nJNE NEAR R_STACKFAIL\nCALL CMDINIT\nCMP AX,65535\nJE NEAR R_STACKFAIL\nCALL U_MAIN\nMOV AH,4CH\nINT 21H\n'
 def near(s):return re.sub(r'^(J(?:B|AE|E|NE|BE|A|L|GE|LE|G|C|NC)) ([A-Z_][A-Z0-9_]*)$',r'\1 NEAR \2',s,flags=re.M)
-RUNTIME=near('\n'.join(PARTS[n] for n in part_names(32) if n!='GETC')+'\n'+(ROOT/'tools/ir86_wide_runtime.asm').read_text())
+RUNTIME=near('\n'.join(PARTS[n] for n in part_names(32) if n!='GETC')+'\n'+(ROOT/'tools/ir86_wide_runtime.asm').read_text()+argument_runtime())
 LITS='MOV AX,S_?\nJMP I_?\nS_?:\nDB '
 LITSEND='0\nI_?:\n'
 def templatefield(name,text):
@@ -76,7 +78,8 @@ def source(ops=None,runtime=None,driver=None,frames=True,strings=True,roots=()):
  for n in ['TOTALLO','TOTALHI','NUMV','TPL','DEPTH','PARAMS','LOCALS','STRID']:f[n]=n+':\nDW 0\n'
  for n in ['IRCLASS','IRDELTA']:f[n]=n+':\nDB 0\n'
  f['IRNAME']='IRNAME:\nRESB 32\n'
- for name,text in [('HEADER',HEADER),('RUNTIME',runtime),('LITS',LITS),('LITSEND',LITSEND),('STRINGNEXT','\nDB ')]+[(n,r[2]) for n,r in OPS.items() if n!='LITS']:f['T_'+name]=templatefield('T_'+name,text) if text.endswith('\n') else fieldtext('T_'+name,text.replace('\n','\r\n')+'\0')
+ header=HEADER if 'ARGC' in ops else HEADER.replace('CALL CMDINIT\nCMP AX,65535\nJE NEAR R_STACKFAIL\n','')
+ for name,text in [('HEADER',header),('RUNTIME',runtime),('LITS',LITS),('LITSEND',LITSEND),('STRINGNEXT','\nDB ')]+[(n,r[2]) for n,r in OPS.items() if n!='LITS']:f['T_'+name]=templatefield('T_'+name,text) if text.endswith('\n') else fieldtext('T_'+name,text.replace('\n','\r\n')+'\0')
  f['IRTAB']='IRTAB:\n'+''.join('DB '+','.join(str(b) for b in n.encode().ljust(10,b'\0')+bytes([c,d,0,0]))+'\nDW T_'+n+'\n' for n,(c,d,t) in ops.items())
  owners={n:k for k,v in code.items() for n in re.findall(r'^([A-Z][A-Z0-9_]*):$',v,re.M)}
  used=({'START'}|set(selected)|set(roots)) if prune else set(code)
@@ -85,6 +88,8 @@ def source(ops=None,runtime=None,driver=None,frames=True,strings=True,roots=()):
   needed={owners[r] for r in refs if r in owners}
   if needed<=used:break
   used|=needed
+ code,f=native(code,f)
+ used|={k for k in code if k.startswith('CMD')}
  s=near(code['START']+'\n'+'\n'.join(v for k,v in code.items() if k!='START' and k in used))
  refs=set(re.findall(r'\b[A-Z][A-Z0-9_]*\b',s))
  if 'IRTAB' in refs:refs|={'T_'+n for n in ops}

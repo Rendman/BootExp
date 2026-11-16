@@ -17,7 +17,8 @@ for gen in [1,2]:
  for name,stem in [('RILL','R'),('IR86','I'),('ASM86A','A')]:
   commands += [f'COPY {name}.RIL SOURCE.RIL >NUL',f'R{gen-1}','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.IR SOURCE.IR >NUL',f'I{gen-1}','IF ERRORLEVEL 1 GOTO FAILED','COPY RESULT.ASM SOURCE.ASM >NUL',f'A{gen-1}','IF ERRORLEVEL 1 GOTO FAILED',f'COPY RESULT.COM {stem}{gen}.COM >NUL',f'ECHO PASS {name} GENERATION {gen}']
 commands += ['ECHO BUILDS COMPLETE - COMPARE THE GENERATIONS','GOTO END',':MISSING','ECHO MISSING TESTED ASMAKEEP.COM','GOTO END',':FAILED','ECHO FAIL - STOP AT THE FIRST TOOL ERROR',':END']
-dos('TMAKE.BAT','\n'.join(commands)+'\n')
+from command_files import command_text
+dos('TMAKE.BAT',command_text('\n'.join(commands)+'\n',batch=True))
 native_bytes=next(c['binary_bytes'] for c in json.loads((ROOT/'qa/asm86/checkpoints.json').read_text()) if c['number']==40)
 dos('README.TXT',f'''THE BOOTSTRAP PROJECT - THE TOOLCHAIN IN RILL
 A practical course in small-system software
@@ -98,6 +99,8 @@ for family,prefix,ext in [('ir-extensions','IW','IR'),('rill-seed-series','RB','
   if c.get('fixture') is not None:files.append(f'T{prefix}{n:02}.'+ext)
   if c.get('bad') is not None:files.append(f'X{prefix}{n:02}.'+ext)
 
+from command_files import package
+package(W)
 for name in files:shutil.copyfile(W/name,D/name)
 # These directories own generated publication files. Retire compiler-seed
 # checkpoints absent from the active construction, keeping other work files.

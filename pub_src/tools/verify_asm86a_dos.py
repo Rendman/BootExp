@@ -9,19 +9,19 @@ def vm(group,copies,commands,outputs):
  boot=Q/(group+'-boot.img');disk=Q/(group+'-work.img');shutil.copyfile(ROOT/'qa/dos-original.img',boot)
  subprocess.run(['mformat','-C','-f','360','-i',str(disk),'::'],check=True)
  def copy(p,name=None,image=disk):subprocess.run(['mcopy','-o','-i',str(image),str(p),'::'+(name or p.name)],check=True)
- copy(ROOT/'workbench/bootasm/CHECK.BAT')
+ copy(W/'CHECK.BAT')
  for p,name in copies:copy(p,name)
  copy(dos('CONFIG.SYS','FILES=30\n'),image=boot)
  copy(dos('AUTOEXEC.BAT','ECHO OFF\nB:\n'+'\n'.join(commands)+'\nECHO DONE >DONE.TXT\n'),image=boot)
  monitor='/tmp/bootexp-asma-'+group+'.sock';Path(monitor).unlink(missing_ok=True)
- p=subprocess.Popen(['qemu-system-i386','-machine','pc','-m','16M','-drive',f'file={boot},format=raw,if=floppy,index=0','-drive',f'file={disk},format=raw,if=floppy,index=1','-boot','a','-display','none','-monitor','unix:'+monitor+',server=on,wait=off','-serial','none','-no-reboot'],stdout=subprocess.DEVNULL,stderr=subprocess.PIPE)
+ p=subprocess.Popen(['qemu-system-i386','-machine','pc','-m','16M','-drive',f'file={boot},format=raw,if=floppy,index=0','-drive',f'file={disk},format=raw,if=floppy,index=1','-boot','a','-display','none','-monitor','stdio','-serial','none','-no-reboot'],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
  try:
   for attempt in range(360):
    if subprocess.run(['mtype','-i',str(disk),'::DONE.TXT'],capture_output=True).returncode==0:break
    if p.poll() is not None:raise RuntimeError(p.stderr.read().decode())
    time.sleep(.5)
   else:raise RuntimeError(group+' did not finish within 180 seconds')
-  s=socket.socket(socket.AF_UNIX);s.connect(monitor);s.sendall(b'quit\n');s.close();p.wait(timeout=10)
+  p.stdin.write(b'quit\n');p.stdin.flush();p.wait(timeout=10)
   dest=scratch/group;dest.mkdir(exist_ok=True)
   for name in outputs:subprocess.run(['mcopy','-o','-i',str(disk),'::'+name,str(dest/name)],check=True)
   return dest
@@ -31,7 +31,7 @@ def vm(group,copies,commands,outputs):
 records=[]
 copies=[(ROOT/'workbench/asm0/ASM86.COM','ASM86.COM'),(W/'ASMA0.ASM','ASMA0.ASM'),(W/'ASM86A.ASM','ASM86A.ASM'),(ROOT/'workbench/ir86/IR86.ASM','IR86.ASM'),(ROOT/'workbench/rill0/RILL.IR','RILL.IR'),(ROOT/'workbench/rill0/HELLO.RIL','RLSRC.RIL')]
 for name in ['ASMA0','RILL','RLHI']:copies.append((dos(name+'.IN',name+'\n'),name+'.IN'))
-commands=[r'A:\COMMAND /C CHECK ASM86 <ASMA0.IN >SEED.BLD','COPY ASMA0.ASM SOURCE.ASM >NUL',r'A:\COMMAND /C CHECK ASMA0 >SEED.SEL','COPY RESULT.COM SGEN1.COM >NUL',r'A:\COMMAND /C CHECK SGEN1 >SEED.TWO','COPY RESULT.COM SGEN2.COM >NUL','COPY ASM86A.ASM SOURCE.ASM >NUL',r'A:\COMMAND /C CHECK ASMA0 >FULL.BLD','COPY RESULT.COM AKEEP.COM >NUL',r'A:\COMMAND /C CHECK AKEEP >FULL.SEL','COPY RESULT.COM FGEN1.COM >NUL',r'A:\COMMAND /C CHECK FGEN1 >FULL.TWO','COPY RESULT.COM FGEN2.COM >NUL','COPY IR86.ASM SOURCE.ASM >NUL',r'A:\COMMAND /C CHECK AKEEP >IR.BLD','COPY RESULT.COM IR86.COM >NUL',r'A:\COMMAND /C CHECK IR86 <RILL.IN >RILL.TRN','COPY RILL.ASM SOURCE.ASM >NUL',r'A:\COMMAND /C CHECK AKEEP >RILL.BLD','COPY RESULT.COM RILL.COM >NUL','COPY RLSRC.RIL SOURCE.RIL >NUL',r'A:\COMMAND /C CHECK RILL >RLHI.CMP','COPY RESULT.IR RLHI.IR >NUL',r'A:\COMMAND /C CHECK IR86 <RLHI.IN >RLHI.TRN','COPY RLHI.ASM SOURCE.ASM >NUL',r'A:\COMMAND /C CHECK AKEEP >RLHI.BLD','COPY RESULT.COM RLHI.COM >NUL',r'A:\COMMAND /C CHECK RLHI >RLHI.OUT']
+commands=['COPY ASMA0.ASM SOURCE.ASM >NUL', 'A:\\COMMAND /C CHECK ASM86 >SEED.BLD', 'COPY RESULT.COM ASMA0.COM >NUL', 'A:\\COMMAND /C CHECK ASMA0 ASMA0.ASM RESULT.COM >SEED.SEL', 'COPY RESULT.COM SGEN1.COM >NUL', 'A:\\COMMAND /C CHECK SGEN1 ASMA0.ASM RESULT.COM >SEED.TWO', 'COPY RESULT.COM SGEN2.COM >NUL', 'A:\\COMMAND /C CHECK ASMA0 ASM86A.ASM RESULT.COM >FULL.BLD', 'COPY RESULT.COM AKEEP.COM >NUL', 'A:\\COMMAND /C CHECK AKEEP ASM86A.ASM RESULT.COM >FULL.SEL', 'COPY RESULT.COM FGEN1.COM >NUL', 'A:\\COMMAND /C CHECK FGEN1 ASM86A.ASM RESULT.COM >FULL.TWO', 'COPY RESULT.COM FGEN2.COM >NUL', 'A:\\COMMAND /C CHECK AKEEP IR86.ASM RESULT.COM >IR.BLD', 'COPY RESULT.COM IR86.COM >NUL', 'A:\\COMMAND /C CHECK IR86 RILL.IR RESULT.ASM >RILL.TRN', 'A:\\COMMAND /C CHECK AKEEP RESULT.ASM RESULT.COM >RILL.BLD', 'COPY RESULT.COM RILL.COM >NUL', 'A:\\COMMAND /C CHECK RILL RLSRC.RIL RESULT.IR >RLHI.CMP', 'A:\\COMMAND /C CHECK IR86 RESULT.IR RESULT.ASM >RLHI.TRN', 'A:\\COMMAND /C CHECK AKEEP RESULT.ASM RESULT.COM >RLHI.BLD', 'COPY RESULT.COM RLHI.COM >NUL', 'A:\\COMMAND /C CHECK RLHI >RLHI.OUT']
 outputs=['ASMA0.COM','SGEN1.COM','SGEN2.COM','AKEEP.COM','FGEN1.COM','FGEN2.COM','IR86.COM','RILL.COM','RLHI.COM','SEED.BLD','SEED.SEL','SEED.TWO','FULL.BLD','FULL.SEL','FULL.TWO','IR.BLD','RILL.TRN','RILL.BLD','RLHI.CMP','RLHI.TRN','RLHI.BLD','RLHI.OUT']
 for name in ['HELLO','FRAME','BRIDGE','COPYTEXT']:
  copies.append((W/(name+'.ASM'),name+'.ASM'));commands += [f'COPY {name}.ASM SOURCE.ASM >NUL',fr'A:\COMMAND /C CHECK AKEEP >{name}.BLD',f'COPY RESULT.COM {name}.COM >NUL',fr'A:\COMMAND /C CHECK {name} >{name}.OUT'];outputs.extend([name+'.COM',name+'.BLD',name+'.OUT'])

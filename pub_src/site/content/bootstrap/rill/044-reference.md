@@ -10,6 +10,16 @@ url = "/bootstrap/rc/044-reference/"
 
 RILLBOOT builds the completed RILL compiler from RC43.RIL, saved as RILL.RIL. That compiler already supports sixty-four live locals. Its first self-build establishes R0 with RILL's own frame convention; R0 and its next two compiler generations reproduce it. RILL adds the word operators and pointer wrappers used by the later tools.
 
+## Command-line filenames
+
+```dos
+CHECK RILL INPUT.RIL OUTPUT.IR
+```
+
+DOS supplies the names in the PSP command tail. The native entry binding copies them into owned zero-terminated storage before file services. The language-level interface supplies argument counts and ordinary string pointers through portable services. CHECK.BAT forwards the arguments and reports status immediately. No arguments select SOURCE.RIL and RESULT.IR. Use unquoted 8.3 disk names in the current directory: letters, digits, underscore and hyphen, with an optional extension. Paths, switches, excess arguments and overlong names are rejected. Keep selected files distinct from each other and from RILL.TMP and RILL.BAK. Those temporary/backup names remain reserved.
+
+Success reports the selected result name. Rejected source preserves that accepted result; recovery rules apply to the selected name. Early diagnostic writers may deliberately retain a temporary file for inspection, as stated in their lesson.
+
 ## Program structure
 
 A program contains global mutable words, global byte buffers, and procedures. Exactly one argument-free main procedure is required. Declarations and procedure definitions may be interspersed at top level; duplicate global names are errors. A normal procedure fall-through returns zero.
@@ -68,6 +78,8 @@ A bare global buffer name produces its first-byte pointer. `buffer[index]` reads
 
 | Call | Result and requirements |
 |---|---|
+| argc() | Number of startup arguments; the DOS binding accepts up to three filename arguments |
+| arg(n) | Stable zero-terminated ordinary byte pointer for argument n, indexed from one; invalid index returns zero and failed status |
 | putc(byte), status() | Write the low byte; read the persistent service status |
 | open(name), create(name) | Opaque readable/writable file handle; name is a terminated byte pointer |
 | read(handle,pointer,count), write(handle,pointer,count) | Actual progress; check status and exact write count |
@@ -98,10 +110,12 @@ PUTC and file/block services normalize STATUS to zero or one. Ordinary computati
 
 The global and local record regions share a 23680-byte opaque block. Records are initialized explicitly; new allocated memory may contain arbitrary bytes. Fixed bounds make this first systems compiler practical on the reference machine, and the complete toolchain fits them.
 
-SOURCE.RIL is reopenable disk text, terminated by EOF or Control-Z. Printable ASCII, tab, CR, and LF are accepted; other control/high bytes are rejected. Source line numbering counts LF. A // comment ends at LF or EOF; use CR/LF for ordinary disk text. A compiled program's file transfers are a separate byte interface and preserve every value.
+Run `RILL INPUT.RIL OUTPUT.IR`, or use the argument-forwarding CHECK.BAT. No arguments select SOURCE.RIL and RESULT.IR. The input and output must be distinct unquoted 8.3 names in the current directory and must not use RILL.TMP or RILL.BAK. Letters, digits, underscore and hyphen are accepted, with an optional extension. Paths, quotes and switches are rejected. The native binding saves the PSP arguments before entering the program; the compiler uses argc() and arg(n), not processor registers or PSP offsets. Malformed names, counts or collisions return failure before output creation.
+
+The input is reopenable disk text, terminated by EOF or Control-Z. Printable ASCII, tab, CR, and LF are accepted; other control/high bytes are rejected. Source line numbering counts LF. A // comment ends at LF or EOF; use CR/LF for ordinary disk text. A compiled program's file transfers are a separate byte interface and preserve every value.
 
 Accepted IR streams through RILL.TMP. Existing RILL.TMP or RILL.BAK prevents a full compiler run. Parsing and pending-procedure checks, source close, final write, and output close precede the rename publication as RESULT.IR. Ordinary source rejection preserves the previous result. Failed publication can retain recovery files; inspect them before another run. A fresh OK and PASS is required at every tool boundary.
 
-Success is `OK RESULT.IR nnnnnnnnnn`, with the actual complete byte count and exit zero. Failure is `ERROR llllllllll CODE ccccc`, with exit one. Codes are one for file I/O/publication, two for syntax/source bytes, three for numeric-literal overflow, four for binding/arity context, and five for a source-count, table, string, or parser capacity. An error report shows where recognition stopped, which can be just after the missing delimiter.
+With default names, success is `OK RESULT.IR nnnnnnnnnn`, with the actual complete byte count and exit zero. Failure is `ERROR llllllllll CODE ccccc`, with exit one. Codes are one for file I/O/publication, two for syntax/source bytes, three for numeric-literal overflow, four for binding/arity context, and five for a source-count, table, string, or parser capacity. An error report shows where recognition stopped, which can be just after the missing delimiter.
 
 The backend remains a DOS COM image with at most 61184 emitted bytes and a reserved upper stack area. Allocated workspace does not enlarge the near code segment. Assembly text may be much larger than the executable because neither the compiler nor translator retains a complete output file in memory.

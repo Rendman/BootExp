@@ -14,7 +14,7 @@ The RILL-written toolchain can now build another tool. LINK86 places two object 
 
 ## What we're adding
 
-- **Two object modules:** Place MAIN.OBJ before UTIL.OBJ so independently described pieces can form one DOS .COM image.
+- **Two object modules:** Place the first selected object before the second so independently described pieces can form one DOS .COM image.
 - **Public names:** Collect complete exported spellings and module-relative offsets so one module can refer to a definition in the other.
 - **Relative and absolute words:** Resolve near calls and loaded addresses while streaming so the output needs no backward patching.
 - **Checked publication:** Validate both passes and publish a closed temporary file so rejected objects do not replace an accepted executable.

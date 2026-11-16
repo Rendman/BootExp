@@ -15,7 +15,7 @@ Build giving each branch a unique name..
 
 Copy R24.IR to R25.IR. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 824
+### Edit at old physical position 833
 
 Unchanged source before the edit:
 
@@ -45,19 +45,33 @@ PROC NEWLINE 0 0
 LITS "\r\n"
 ```
 
-### Edit at old physical position 33
+### Edit at old physical position 28
 
 Unchanged source before the edit:
 
 ```ir
-STATUS
-JNZ IOFAIL
+BUFFER IDENT 32
+PROC MAIN 0 0
 LIT 1
 ```
 
 Remove:
 
 ```ir
+PUSH
+LITS "SOURCE.RIL"
+PUSH
+INVOKE FILEARG 2
+LIT 2
+PUSH
+LITS "RILL.TMP"
+PUSH
+INVOKE FILEARG 2
+CREATE
+ST OUTPUT
+STATUS
+JNZ IOFAIL
+LIT 1
 ST OWN
 CALL NEWLINE
 CALL FLUSH
@@ -91,16 +105,6 @@ BUFFER IDENT 32
 PROC MAIN 0 0
 ```
 
-Remove:
-
-```ir
-LITS "RILL.TMP"
-CREATE
-ST OUTPUT
-STATUS
-JNZ IOFAIL
-```
-
 Insert in its place:
 
 ```ir
@@ -112,7 +116,7 @@ The following old source remains:
 
 ```ir
 LIT 1
-ST OWN
+PUSH
 ```
 
 ### Edit at old physical position 16
@@ -141,13 +145,11 @@ WORD OWN 0
 ## Build and check
 
 ```dos
-COPY R25.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP R25.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 13454 bytes`. Save RESULT.COM as R25.COM. VIEW.BAS must show length 13454.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 14223 bytes`. Save RESULT.COM as R25.COM. VIEW.BAS must show length 14223.
 
 ```dos
 CHECK R25

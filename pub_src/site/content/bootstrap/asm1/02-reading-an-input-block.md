@@ -22,16 +22,16 @@ The driver clears both fields at the start of each pass. NEXTBYTE changes AX, BX
 
 Copy `A01.ASM` to `A02.ASM`. Apply the following edits **from the bottom of the old file upward**. Physical positions locate an edit in the unchanged old file; use the nearby label and printed context to identify it. Keep all other source. The Z labels are ordinary implementation labels for explicit short-branch bridges.
 
-### Change 1 near `RESNAME:`
+### Change 1 near `BAKNAME:`
 
 Unchanged source immediately before this edit:
 
 ```asm
-RESNAME:
-DB 82,69,83,85,76,84,46,67,79,77,0
+BAKNAME:
+DB 82,69,83,85,76,84,46,66,65,75,0
 ```
 
-Insert after old physical line 1095.
+Insert after old physical line 1290.
 
 Insert:
 
@@ -60,7 +60,7 @@ MOV AH,3FH
 INT 21H
 ```
 
-Remove this exact source at old physical positions 114–117:
+Remove this exact source at old physical positions 120–123:
 
 ```asm
 JAE BYTEOK
@@ -110,7 +110,7 @@ NEXTBYTE:
 MOV BX,[HANDLE]
 ```
 
-Remove this exact source at old physical positions 110–111:
+Remove this exact source at old physical positions 116–117:
 
 ```asm
 MOV CX,1
@@ -141,7 +141,7 @@ RET
 NEXTBYTE:
 ```
 
-Insert after old physical line 108.
+Insert after old physical line 114.
 
 Insert:
 
@@ -169,7 +169,7 @@ MOV AX,0
 MOV [LINENO],AX
 ```
 
-Insert after old physical line 21.
+Insert after old physical line 22.
 
 Insert:
 
@@ -187,9 +187,9 @@ MOV [SKIPLF],AL
 
 ## Build the stopping point
 
-Copy `A02.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK 02549 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM A02.COM`.
+Copy `A02.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK 03007 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM A02.COM`.
 
-VIEW.BAS must report A02.COM length 2549 bytes. Keep that executable and source together.
+VIEW.BAS must report A02.COM length 3007 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -204,11 +204,7 @@ INT 21H
 ```
 
 ```dos
-COPY T02.ASM SOURCE.ASM
-```
-
-```dos
-CHECK A02
+CHECK A02 T02.ASM RESULT.COM
 ```
 
 Require:
@@ -235,8 +231,7 @@ MOV AX,AL
 ```
 
 ```dos
-COPY X02.ASM SOURCE.ASM
-CHECK A02
+CHECK A02 X02.ASM RESULT.COM
 ```
 
 Require:
@@ -252,4 +247,4 @@ An unexpected PASS fails this rejection test.
 
 ## If the result differs
 
-Check the fixed name bytes, handle ownership flags, reader cursors at each pass, and the current output count. Inspect file length as well as the leading bytes. A copied data file is not an executable proof.
+Check the saved argument names and terminators, handle ownership flags, reader cursors at each pass, and the current output count. Inspect file length as well as the leading bytes. A copied data file is not an executable proof.

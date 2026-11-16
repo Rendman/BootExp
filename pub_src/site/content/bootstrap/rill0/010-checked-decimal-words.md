@@ -15,7 +15,7 @@ Accumulate decimal VALUE only after checking that the next digit fits a word. TO
 
 Copy R09.IR to R10.IR. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 366
+### Edit at old physical position 375
 
 Unchanged source before the edit:
 
@@ -81,7 +81,7 @@ LABEL LEXSTRING
 JMP SYNTAX
 ```
 
-### Edit at old physical position 25
+### Edit at old physical position 34
 
 Unchanged source before the edit:
 
@@ -140,13 +140,11 @@ WORD LINE 1
 ## Build and check
 
 ```dos
-COPY R10.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP R10.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 07760 bytes`. Save RESULT.COM as R10.COM. VIEW.BAS must show length 7760.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 08570 bytes`. Save RESULT.COM as R10.COM. VIEW.BAS must show length 8570.
 
 Create T10.RIL:
 
@@ -155,11 +153,7 @@ Create T10.RIL:
 ```
 
 ```dos
-COPY T10.RIL SOURCE.RIL
-```
-
-```dos
-CHECK R10
+CHECK R10 T10.RIL RESULT.IR
 ```
 
 Require PASS.
@@ -168,13 +162,17 @@ The driver compares the result with 65535 and returns nonzero on a mismatch; it 
 
 ## Check the new boundary
 
-Use this separate rejected source:
+Save this separate rejected source as X10.RIL:
 
 ```rill
 65536
 ```
 
-Copy it to SOURCE.RIL and run CHECK R10. Require:
+```dos
+CHECK R10 X10.RIL RESULT.IR
+```
+
+Require:
 
 ```text
 ERROR 0000000001 CODE 00003

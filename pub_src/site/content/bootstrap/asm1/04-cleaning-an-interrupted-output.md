@@ -26,17 +26,15 @@ Copy `A03.ASM` to `A04.ASM`. Apply the following edits **from the bottom of the 
 Unchanged source immediately before this edit:
 
 ```asm
-
 OWNTMP:
 DB 0
 ```
 
-Insert after old physical line 1151.
+Insert after old physical line 1347.
 
 Insert:
 
 ```asm
-
 HAVEBAK:
 DB 0
 
@@ -47,16 +45,23 @@ CLEANFAIL:
 DB 0
 ```
 
-### Change 2 near `TMPNAME:`
+The following old source stays in place:
+
+```asm
+CMDCOUNT:
+DW 0
+```
+
+### Change 2 near `BAKNAME:`
 
 Unchanged source immediately before this edit:
 
 ```asm
-TMPNAME:
-DB 65,83,77,65,46,84,77,80,0
+BAKNAME:
+DB 82,69,83,85,76,84,46,66,65,75,0
 ```
 
-Insert after old physical line 1131.
+Insert after old physical line 1326.
 
 Insert:
 
@@ -84,7 +89,7 @@ POP BX
 POP AX
 ```
 
-Insert after old physical line 991.
+Insert after old physical line 997.
 
 Insert:
 
@@ -143,7 +148,7 @@ MOV DX,NEWLINE
 CALL TEXT
 ```
 
-Insert after old physical line 938.
+Insert after old physical line 944.
 
 Insert:
 
@@ -177,7 +182,7 @@ ERROR:
 MOV [ERRCODE],AL
 ```
 
-Insert after old physical line 925.
+Insert after old physical line 931.
 
 Insert:
 
@@ -194,9 +199,9 @@ CALL TEXT
 
 ## Build the stopping point
 
-Copy `A04.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK 02726 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM A04.COM`.
+Copy `A04.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK 03188 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM A04.COM`.
 
-VIEW.BAS must report A04.COM length 2726 bytes. Keep that executable and source together.
+VIEW.BAS must report A04.COM length 3188 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -207,11 +212,7 @@ ABC
 ```
 
 ```dos
-COPY T04.ASM SOURCE.ASM
-```
-
-```dos
-CHECK A04
+CHECK A04 T04.ASM RESULT.COM
 ```
 
 Require:
@@ -234,11 +235,11 @@ The byte inspection is the stopping check for this encoding exercise. Keep the r
 After inspecting the successful copy, delete ASMA.TMP. It belongs to this copy exercise.
 
 ```dos
-REN SOURCE.ASM HOLD.ASM
-CHECK A04
+REN T04.ASM HOLD.ASM
+CHECK A04 T04.ASM RESULT.COM
 ```
 
-Choose an unused HOLD.ASM name before renaming. Restore HOLD.ASM to SOURCE.ASM afterward.
+Choose an unused HOLD.ASM name before renaming. Restore HOLD.ASM to the selected fixture name afterward.
 
 Require:
 
@@ -253,4 +254,4 @@ An unexpected PASS fails this rejection test.
 
 ## If the result differs
 
-Check the fixed name bytes, handle ownership flags, reader cursors at each pass, and the current output count. Inspect file length as well as the leading bytes. A copied data file is not an executable proof.
+Check the saved argument names and terminators, handle ownership flags, reader cursors at each pass, and the current output count. Inspect file length as well as the leading bytes. A copied data file is not an executable proof.

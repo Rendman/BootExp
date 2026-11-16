@@ -33,6 +33,8 @@ for group,family,prefix,work,complete,archive in [('ir86','ir-extensions','IR','
   if c.get('bad') is not None:
    reject=('X'+f'{n:02}' if group!='rb' else f'XRB{n:02}')+('.IR' if group=='ir86' else '.RIL')
    (W/reject).write_bytes((c['bad'].rstrip('\n')+'\n').replace('\n','\r\n').encode());files.append(reject)
+ from command_files import package
+ package(W)
  for name in files:shutil.copyfile(W/name,D/name)
  with zipfile.ZipFile(D/archive,'w',zipfile.ZIP_DEFLATED) as z:
   for name in files:

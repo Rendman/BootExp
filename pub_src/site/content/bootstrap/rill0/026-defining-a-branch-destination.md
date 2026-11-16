@@ -82,6 +82,40 @@ The following old source remains:
 RETURN
 ```
 
+### Edit at old physical position 30
+
+Unchanged source before the edit:
+
+```ir
+PROC MAIN 0 0
+CALL NEWLABEL
+PUSH
+```
+
+Insert in its place:
+
+```ir
+LITS "SOURCE.RIL"
+PUSH
+INVOKE FILEARG 2
+LIT 2
+PUSH
+LITS "RILL.TMP"
+PUSH
+INVOKE FILEARG 2
+CREATE
+ST OUTPUT
+STATUS
+JNZ IOFAIL
+```
+
+The following old source remains:
+
+```ir
+LIT 1
+CNE
+```
+
 ### Edit at old physical position 28
 
 Unchanged source before the edit:
@@ -96,48 +130,41 @@ Remove:
 
 ```ir
 CALL NEWLABEL
-PUSH
 ```
 
 Insert in its place:
 
 ```ir
-LITS "RILL.TMP"
-CREATE
-ST OUTPUT
-STATUS
-JNZ IOFAIL
+LIT 1
 ```
 
 The following old source remains:
 
 ```ir
+PUSH
 LIT 1
-CNE
 ```
 
 ## Build and check
 
 ```dos
-COPY R26.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP R26.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 13565 bytes`. Save RESULT.COM as R26.COM. VIEW.BAS must show length 13565.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 14375 bytes`. Save RESULT.COM as R26.COM. VIEW.BAS must show length 14375.
 
 ```dos
-CHECK R26
+CHECK R26 SOURCE.RIL RESULT.IR
 ```
 
 Require PASS.
 
-Inspect RILL.TMP with VIEW.BAS. Require length 15 bytes and these complete bytes:
+Inspect RESULT.IR with VIEW.BAS. Require length 15 bytes and these complete bytes:
 
 ```text
 4C 41 42 45 4C 20 42 5F 30 30 30 30 37 0D 0A
 ```
 
-This is a fragment for inspection. Delete the deliberately created RILL.TMP after checking it.
+This is a fragment for inspection, not a complete program. The command-selected RESULT.IR contains that fragment.
 

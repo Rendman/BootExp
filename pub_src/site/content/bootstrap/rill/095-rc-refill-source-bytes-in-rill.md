@@ -29,13 +29,13 @@ bytes string[512];
 Remove this source at old physical positions 35–35 in RC06.RIL:
 
 ```rill
-fn main(){return (digit(57))!=1;}
+fn main(){filearg(1,"SOURCE.RIL");return (digit(57))!=1;}
 ```
 
 Replace it with:
 
 ```rill
-fn main(){input=open("SOURCE.RIL");if status(){fail(1);}next();return (ch)!=65;}
+fn main(){filearg(1,"SOURCE.RIL");input=open(filearg(1,"SOURCE.RIL"));if status(){fail(1);}next();return (ch)!=65;}
 
 fn next() {
     if ch == 10 {
@@ -70,25 +70,23 @@ fn letter(c) {
 ## Build this stopping point
 
 ```dos
-COPY RC07.RIL SOURCE.RIL
-CHECK RILLBOOT
+CHECK RILLBOOT RC07.RIL RESULT.IR
 ```
 
-Require `OK RESULT.IR 0000007602` and PASS. Copy RESULT.IR to SOURCE.IR.
+Require `OK RESULT.IR 0000009104` and PASS. Pass RESULT.IR directly to the translator.
 
 ```dos
-CHECK IWKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IWKEEP SOURCE.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require IR86 `OK RESULT.ASM 0000019024 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 12169 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000023756 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 13062 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RC07.COM
 ```
 
-VIEW.BAS must report RC07.COM length 12169 bytes. Keep this executable and its source together.
+VIEW.BAS must report RC07.COM length 13062 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -99,11 +97,7 @@ A
 ```
 
 ```dos
-COPY TRC07.RIL SOURCE.RIL
-```
-
-```dos
-CHECK RC07
+CHECK RC07 TRC07.RIL RESULT.IR
 ```
 
 The checker must report PASS. The driver compares the result with 65 and returns nonzero on a mismatch; it adds no display routine.

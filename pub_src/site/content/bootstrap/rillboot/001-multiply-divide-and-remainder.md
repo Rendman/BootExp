@@ -17,7 +17,7 @@ Retain every earlier language feature. This checkpoint edits the complete compil
 
 Copy RILL0.IR to RB01.IR. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 1592
+### Edit at old physical position 1621
 
 Unchanged source before the edit:
 
@@ -48,7 +48,7 @@ JMP BINDONE
 LABEL BINEQ
 ```
 
-### Edit at old physical position 1562
+### Edit at old physical position 1591
 
 Unchanged source before the edit:
 
@@ -85,7 +85,7 @@ LIT 256
 CEQ
 ```
 
-### Edit at old physical position 1486
+### Edit at old physical position 1515
 
 Unchanged source before the edit:
 
@@ -125,13 +125,11 @@ RETURN
 ## Build and check
 
 ```dos
-COPY RB01.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP RB01.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 17345 bytes`. Save RESULT.COM as RB01.COM. VIEW.BAS must show length 17345.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 18223 bytes`. Save RESULT.COM as RB01.COM. VIEW.BAS must show length 18223.
 
 Create TRB01.RIL:
 
@@ -140,11 +138,7 @@ fn main(){putc(13*5);}
 ```
 
 ```dos
-COPY TRB01.RIL SOURCE.RIL
-```
-
-```dos
-CHECK RB01
+CHECK RB01 TRB01.RIL RESULT.IR
 ```
 
 Require:
@@ -165,17 +159,21 @@ Inspect RESULT.IR with VIEW.BAS. Require length 81 bytes and these complete byte
 0A
 ```
 
-This is a complete IR program. Translate it with IRKEEP, assemble its accepted output with ASMAKEEP, and save RESULT.COM as TRY.COM. Require fresh OK and PASS before both copies. VIEW.BAS must report length 1034. CHECK TRY displays `A` and reports PASS.
+This is a complete IR program. Translate it with IRKEEP, assemble its accepted output with ASMAKEEP, and save RESULT.COM as TRY.COM. Require fresh OK and PASS before both copies. VIEW.BAS must report length 1396. CHECK TRY displays `A` and reports PASS.
 
 ## Check the new boundary
 
-Use this separate rejected source:
+Save this separate rejected source as XRB01.RIL:
 
 ```rill
 fn main(){putc(65536);}
 ```
 
-Copy it to SOURCE.RIL and run CHECK RB01. Require:
+```dos
+CHECK RB01 XRB01.RIL RESULT.IR
+```
+
+Require:
 
 ```text
 ERROR 0000000001 CODE 00003

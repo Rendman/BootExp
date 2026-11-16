@@ -6,8 +6,8 @@
     "kind": "rill",
     "changes": [
       {
-        "a1": 379,
-        "a2": 379,
+        "a1": 380,
+        "a2": 380,
         "old": [],
         "new": [
           "    let mut hit = findbuiltin(p); if hit { return hit; }",
@@ -17,7 +17,7 @@
         ],
         "context": [
           "fn builtin() {",
-          "    let mut p = \"PUTC\\01\\0POP\\nPUTC\\0STATUS\\00\\0STATUS\\0OPEN\\01\\0POP\\nOPEN\\0CREATE\\01\\0POP\\nCREATE\\0CLOSE\\01\\0POP\\nCLOSE\\0READ\\03\\0POP\\nREAD\\0WRITE\\03\\0POP\\nWRITE\\0EXISTS\\01\\0POP\\nEXISTS\\0DELETE\\01\\0POP\\nDELETE\\0RENAME\\02\\0POP\\nRENAME\\0ALLOC\\01\\0POP\\nALLOC\\0FREE\\01\\0POP\\nFREEBLOCK\\0GET8\\02\\0POP\\nGET8\\0GET16\\02\\0POP\\nGET16\\0SET8\\03\\0POP\\nSET8\\0SET16\\03\\0POP\\nSET16\\0LOAD8\\01\\0POP\\nFETCHB\\0LOAD16\\01\\0POP\\nFETCH\\0STORE8\\02\\0POP\\nPUTB\\0STORE16\\02\\0POP\\nPUT\\0EXIT\\01\\0POP\\nEXIT\\0\\0\";"
+          "    let mut p = \"PUTC\\01\\0POP\\nPUTC\\0STATUS\\00\\0STATUS\\0OPEN\\01\\0POP\\nOPEN\\0CREATE\\01\\0POP\\nCREATE\\0CLOSE\\01\\0POP\\nCLOSE\\0READ\\03\\0POP\\nREAD\\0WRITE\\03\\0POP\\nWRITE\\0EXISTS\\01\\0POP\\nEXISTS\\0DELETE\\01\\0POP\\nDELETE\\0RENAME\\02\\0POP\\nRENAME\\0ALLOC\\01\\0POP\\nALLOC\\0FREE\\01\\0POP\\nFREEBLOCK\\0GET8\\02\\0POP\\nGET8\\0GET16\\02\\0POP\\nGET16\\0SET8\\03\\0POP\\nSET8\\0SET16\\03\\0POP\\nSET16\\0LOAD8\\01\\0POP\\nFETCHB\\0LOAD16\\01\\0POP\\nFETCH\\0STORE8\\02\\0POP\\nPUTB\\0STORE16\\02\\0POP\\nPUT\\0EXIT\\01\\0POP\\nEXIT\\0ARGC\\00\\0ARGC\\0ARG\\01\\0POP\\nARG\\0\\0\";"
         ],
         "after": [
           "    let mut i = 0; let mut same = 0;",
@@ -33,14 +33,14 @@
     "kind": "rill",
     "changes": [
       {
-        "a1": 327,
-        "a2": 327,
+        "a1": 352,
+        "a2": 352,
         "old": [],
         "new": [
           "    editorruntime(); return 0;",
           "}",
           "fn editorruntime() {",
-          "    let mut file=open(\"EDITRT.ASM\"); if status() { fail(6); }",
+          "    let mut file=open(filearg(3,\"EDITRT.ASM\")); if status() { fail(6); }",
           "    while 1 {",
           "        let mut count=read(file,inbuf,4096); if status() { close(file); fail(6); }",
           "        if count==0 { close(file); if status() { fail(6); } return 0; }",
@@ -48,8 +48,8 @@
           "    }"
         ],
         "context": [
-          "    outstr(\" R_MEMDONE\\r\\nR_SETWORD:\\r\\nMOV ES:[BX],AX\\r\\nJMP R_MEMDONE\\r\\nR_FREEBLOCK:\\r\\nMOV BX,AX\\r\\nCMP BX,1\\r\\nJB NEAR R_DFAIL\\r\\nCMP BX,16\\r\\nJA NEAR R_DFAIL\\r\\nDEC BX\\r\\nSHL BX,1\\r\\nSHL BX,1\\r\\nADD BX,R_BLOCKS\\r\\nMOV SI,BX\\r\\nMOV AX,[SI]\\r\\nCMP AX,0\\r\\nJE NEAR R_DFAIL\\r\\nMOV ES,AX\");",
-          "    outstr(\"\\r\\nMOV AH,49H\\r\\nINT 21H\\r\\nJC NEAR R_FREEBAD\\r\\nMOV WORD [SI],0\\r\\nMOV AX,CS\\r\\nMOV ES,AX\\r\\nMOV AX,0\\r\\nJMP R_OK\\r\\nR_FREEBAD:\\r\\nMOV AX,CS\\r\\nMOV ES,AX\\r\\nJMP R_FAIL\\r\\nR_STACKFAIL:\\r\\nMOV AX,4C02H\\r\\nINT 21H\\r\\nR_WANT:\\r\\nDW 0\\r\\nR_MEMVALUE:\\r\\nDW 0\\r\\nR_BLOCKS:\\r\\nRESW 32\\r\\n\");"
+          "    outstr(\"JE NEAR R_ARGDONE\\r\\nADD BX,13\\r\\nJMP R_ARGNEXT\\r\\nR_ARGDONE:\\r\\nMOV AX,BX\\r\\nJMP R_OK\\r\\nR_ARGBAD:\\r\\nMOV AX,0\\r\\nJMP R_ERROR\\r\\nCMDCOUNT:\\r\\nDW 0\\r\\nCMDPTR:\\r\\nDW 0\\r\\nCMDBUF:\\r\\nDB 0,0,0,0,0,0,0,0,0,0,0,0,0\\r\\nDB 0,0,0,0,0,0,0,0,0,0,0,0,0\\r\\nDB 0,0,0,0,0,0,0,0,0,0,0,0,\");",
+          "    outstr(\"0\\r\\n\");"
         ],
         "after": [
           "    return 0;",
@@ -57,8 +57,8 @@
         ]
       },
       {
-        "a1": 304,
-        "a2": 304,
+        "a1": 322,
+        "a2": 322,
         "old": [],
         "new": [
           "    op(\"VBEGIN\",0,0,\"CALL R_VBEGIN\\r\\n\");",
@@ -80,8 +80,28 @@
         ]
       },
       {
-        "a1": 168,
-        "a2": 168,
+        "a1": 248,
+        "a2": 249,
+        "old": [
+          "    if count!=2{exit(1);}"
+        ],
+        "new": [
+          "    if (count!=2)&(count!=3){exit(1);}",
+          "    if n==3{if count==2{return fallback;}}",
+          "    if count==3{if filesame(arg(3),arg(1))|filesame(arg(3),arg(2))|filesame(arg(3),\"IRTX.TMP\")|filesame(arg(3),\"IRRES.BAK\"){exit(1);}}"
+        ],
+        "context": [
+          "    let mut count=argc();",
+          "    if count==0{return fallback;}"
+        ],
+        "after": [
+          "    if filesame(arg(1),arg(2))|filesame(arg(1),\"IRTX.TMP\")|filesame(arg(1),\"IRRES.BAK\")|filesame(arg(2),\"IRTX.TMP\")|filesame(arg(2),\"IRRES.BAK\"){exit(1);}",
+          "    return arg(n);"
+        ]
+      },
+      {
+        "a1": 169,
+        "a2": 169,
         "old": [],
         "new": [
           "    if delta == 5 { if depth < 4 { fail(4); } depth = depth-4; }",
@@ -769,6 +789,41 @@
     "kind": "rill",
     "changes": [
       {
+        "a1": 93,
+        "a2": 93,
+        "old": [],
+        "new": [
+          "fn filearg(n,fallback){",
+          "    let mut count=argc();",
+          "    if count==0{",
+          "        return fallback;",
+          "    }",
+          "    if count!=1{",
+          "        exit(1);",
+          "    }",
+          "    if filesame(arg(1),\"EDIT.TMP\")|filesame(arg(1),\"EDIT.BAK\"){",
+          "        exit(1);",
+          "    }",
+          "    return arg(n);",
+          "}",
+          "fn filesame(a,b){",
+          "    let mut i=0;",
+          "    while load8(a+i)==load8(b+i){",
+          "        if load8(a+i)==0{",
+          "            return 1;",
+          "        }",
+          "        i=i+1;",
+          "    }",
+          "    return 0;",
+          "}"
+        ],
+        "context": [
+          "    return 0;",
+          "}"
+        ],
+        "after": []
+      },
+      {
         "a1": 77,
         "a2": 78,
         "old": [
@@ -802,14 +857,14 @@
           "fn loadfile(){",
           "    let mut present=exists(filename());",
           "    if status(){",
-          "        fatal(\"Cannot inspect EDIT.TXT.\");",
+          "        fatal(\"Cannot inspect document.\");",
           "    }",
           "    if present==0{",
           "        return 0;",
           "    }",
           "    input=open(filename());",
           "    if status(){",
-          "        fatal(\"Cannot open EDIT.TXT.\");",
+          "        fatal(\"Cannot open document.\");",
           "    }",
           "    inopen=1;",
           "    while 1{",
@@ -825,19 +880,19 @@
           "        }",
           "        let mut n=read(input,io,request);",
           "        if status(){",
-          "            fatal(\"Cannot read EDIT.TXT.\");",
+          "            fatal(\"Cannot read document.\");",
           "        }",
           "        if n==0{",
           "            close(input);",
           "            if status(){",
-          "                fatal(\"Cannot close EDIT.TXT.\");",
+          "                fatal(\"Cannot close document.\");",
           "            }",
           "            inopen=0;",
           "            difference(space,cap,length);",
           "            return 0;",
           "        }",
           "        if load16(length+2)==4{",
-          "            fatal(\"EDIT.TXT exceeds the 256 KiB text capacity.\");",
+          "            fatal(\"Document exceeds the 256 KiB text capacity.\");",
           "        }",
           "        blockload(handle(load16(length),load16(length+2)),load16(length)&32767,io,n);",
           "        if status(){",
@@ -909,7 +964,7 @@
           "    return cleanup()|bad;",
           "}",
           "fn filename(){",
-          "    return \"EDIT.TXT\";",
+          "    return filearg(1,\"EDIT.TXT\");",
           "}",
           "fn zero(p){",
           "    store16(p,0);",
@@ -923,6 +978,22 @@
         "after": [
           "}",
           "fn copypos(d,s){"
+        ]
+      },
+      {
+        "a1": 7,
+        "a2": 7,
+        "old": [],
+        "new": [
+          "    filename();"
+        ],
+        "context": [
+          "bytes other[4];",
+          "fn main(){"
+        ],
+        "after": [
+          "    store16(cap+2,4);",
+          "    copypos(gapend,cap);"
         ]
       },
       {
@@ -1014,8 +1085,8 @@
     "kind": "rill",
     "changes": [
       {
-        "a1": 174,
-        "a2": 175,
+        "a1": 175,
+        "a2": 176,
         "old": [
           "    return release()|bad;"
         ],
@@ -1057,8 +1128,8 @@
         ]
       },
       {
-        "a1": 172,
-        "a2": 173,
+        "a1": 173,
+        "a2": 174,
         "old": [
           "        inopen=0;"
         ],
@@ -1077,8 +1148,8 @@
         ]
       },
       {
-        "a1": 165,
-        "a2": 165,
+        "a1": 166,
+        "a2": 166,
         "old": [],
         "new": [
           "fn reserved(){",
@@ -1195,7 +1266,7 @@
           "        }",
           "    }",
           "    dirty=0;",
-          "    message=\"Saved EDIT.TXT.\";",
+          "    message=\"Saved.\";",
           "    return 1;",
           "}"
         ],
@@ -1209,8 +1280,8 @@
         ]
       },
       {
-        "a1": 19,
-        "a2": 28,
+        "a1": 20,
+        "a2": 29,
         "old": [
           "    let mut bad=(load16(length)!=10)|(load16(length+2)!=0);",
           "    zero(target);",
@@ -1236,8 +1307,8 @@
         ]
       },
       {
-        "a1": 16,
-        "a2": 16,
+        "a1": 17,
+        "a2": 17,
         "old": [],
         "new": [
           "    if reserved(){",
@@ -1299,8 +1370,8 @@
     "kind": "rill",
     "changes": [
       {
-        "a1": 163,
-        "a2": 163,
+        "a1": 164,
+        "a2": 164,
         "old": [],
         "new": [
           "    }",
@@ -1376,8 +1447,8 @@
         ]
       },
       {
-        "a1": 27,
-        "a2": 27,
+        "a1": 28,
+        "a2": 28,
         "old": [],
         "new": [
           "    store16(target,5);",
@@ -1422,8 +1493,8 @@
     "kind": "rill",
     "changes": [
       {
-        "a1": 236,
-        "a2": 236,
+        "a1": 237,
+        "a2": 237,
         "old": [],
         "new": [
           "fn linebegin(d,p){",
@@ -1491,8 +1562,8 @@
         ]
       },
       {
-        "a1": 31,
-        "a2": 37,
+        "a1": 32,
+        "a2": 38,
         "old": [
           "    if before(length,target){",
           "        fatal(\"Fixture is shorter than the gap position.\");",
@@ -1519,8 +1590,8 @@
         ]
       },
       {
-        "a1": 24,
-        "a2": 27,
+        "a1": 25,
+        "a2": 28,
         "old": [
           "    if reserved(){",
           "        fatal(\"Recovery files EDIT.TMP or EDIT.BAK already exist.\");",
@@ -1577,8 +1648,8 @@
     "kind": "rill",
     "changes": [
       {
-        "a1": 289,
-        "a2": 289,
+        "a1": 290,
+        "a2": 290,
         "old": [],
         "new": [
           "fn column(d,from,to){",
@@ -1627,8 +1698,8 @@
         ]
       },
       {
-        "a1": 29,
-        "a2": 35,
+        "a1": 30,
+        "a2": 36,
         "old": [
           "    store16(target,5);",
           "    linebegin(start,target);",
@@ -1681,8 +1752,8 @@
     "kind": "rill",
     "changes": [
       {
-        "a1": 446,
-        "a2": 446,
+        "a1": 447,
+        "a2": 447,
         "old": [],
         "new": [
           "    if active{",
@@ -1703,8 +1774,8 @@
         ]
       },
       {
-        "a1": 327,
-        "a2": 327,
+        "a1": 328,
+        "a2": 328,
         "old": [],
         "new": [
           "fn statusline(s){",
@@ -1835,11 +1906,18 @@
           "    }",
           "    else{",
           "        if dirty{",
-          "            statusline(\"EDIT86 EDIT.TXT *  F2 Save F3 Find F4 Undo F5 Next F10 Quit\");",
+          "            statusline(\"EDIT86              * F2 Save F3 Find F4 Undo F5 Next F10 Quit\");",
           "        }",
           "        else{",
-          "            statusline(\"EDIT86 EDIT.TXT    F2 Save F3 Find F4 Undo F5 Next F10 Quit\");",
+          "            statusline(\"EDIT86                F2 Save F3 Find F4 Undo F5 Next F10 Quit\");",
           "        }",
+          "        let mut title=filename();",
+          "        let mut size=0;",
+          "        while load8(title+size){",
+          "            size=size+1;",
+          "        }",
+          "        vpos(1927);",
+          "        vwrite(title,size);",
           "    }",
           "    vpos(crow*80+x);",
           "    if status(){",
@@ -1858,8 +1936,8 @@
         ]
       },
       {
-        "a1": 31,
-        "a2": 39,
+        "a1": 32,
+        "a2": 40,
         "old": [
           "    zero(start);",
           "    store16(target,3);",
@@ -1892,8 +1970,8 @@
         ]
       },
       {
-        "a1": 28,
-        "a2": 28,
+        "a1": 29,
+        "a2": 29,
         "old": [],
         "new": [
           "    if reserved(){",
@@ -1922,7 +2000,7 @@
         ],
         "after": [
           "fn main(){",
-          "    store16(cap+2,4);"
+          "    filename();"
         ]
       },
       {
@@ -2005,8 +2083,8 @@
     "kind": "rill",
     "changes": [
       {
-        "a1": 339,
-        "a2": 339,
+        "a1": 340,
+        "a2": 340,
         "old": [],
         "new": [
           "    return 0;",
@@ -2097,8 +2175,8 @@
         ]
       },
       {
-        "a1": 50,
-        "a2": 53,
+        "a1": 51,
+        "a2": 54,
         "old": [
           "    refresh();",
           "    let mut k=key();",
@@ -2215,8 +2293,8 @@
     "kind": "rill",
     "changes": [
       {
-        "a1": 733,
-        "a2": 733,
+        "a1": 741,
+        "a2": 741,
         "old": [],
         "new": [
           "fn confirm(){",
@@ -2249,8 +2327,8 @@
         ]
       },
       {
-        "a1": 476,
-        "a2": 476,
+        "a1": 477,
+        "a2": 477,
         "old": [],
         "new": [
           "fn rawinsert(c){",
@@ -2293,8 +2371,8 @@
         ]
       },
       {
-        "a1": 109,
-        "a2": 109,
+        "a1": 110,
+        "a2": 110,
         "old": [],
         "new": [
           "    }",
@@ -2315,8 +2393,8 @@
         ]
       },
       {
-        "a1": 62,
-        "a2": 63,
+        "a1": 63,
+        "a2": 64,
         "old": [
           "        command(k);"
         ],
@@ -2335,8 +2413,8 @@
         ]
       },
       {
-        "a1": 60,
-        "a2": 61,
+        "a1": 61,
+        "a2": 62,
         "old": [
           "            return cleanup();"
         ],
@@ -2363,8 +2441,8 @@
     "kind": "rill",
     "changes": [
       {
-        "a1": 514,
-        "a2": 514,
+        "a1": 515,
+        "a2": 515,
         "old": [],
         "new": [
           "    return 0;",
@@ -2408,8 +2486,8 @@
         ]
       },
       {
-        "a1": 497,
-        "a2": 497,
+        "a1": 498,
+        "a2": 498,
         "old": [],
         "new": [
           "fn rawdelete(n){",
@@ -2429,8 +2507,8 @@
         ]
       },
       {
-        "a1": 112,
-        "a2": 112,
+        "a1": 113,
+        "a2": 113,
         "old": [],
         "new": [
           "        return 0;",
@@ -2460,8 +2538,8 @@
     "kind": "rill",
     "changes": [
       {
-        "a1": 558,
-        "a2": 558,
+        "a1": 559,
+        "a2": 559,
         "old": [],
         "new": [
           "    return 0;",
@@ -2504,8 +2582,8 @@
         ]
       },
       {
-        "a1": 548,
-        "a2": 548,
+        "a1": 549,
+        "a2": 549,
         "old": [],
         "new": [
           "        remember(2,n,c,d);"
@@ -2520,8 +2598,8 @@
         ]
       },
       {
-        "a1": 518,
-        "a2": 518,
+        "a1": 519,
+        "a2": 519,
         "old": [],
         "new": [
           "    remember(1,n,0,0);"
@@ -2536,8 +2614,8 @@
         ]
       },
       {
-        "a1": 511,
-        "a2": 511,
+        "a1": 512,
+        "a2": 512,
         "old": [],
         "new": [
           "fn remember(kind,n,c,d){",
@@ -2568,8 +2646,8 @@
         ]
       },
       {
-        "a1": 216,
-        "a2": 216,
+        "a1": 217,
+        "a2": 217,
         "old": [],
         "new": [
           "    }",
@@ -2590,8 +2668,8 @@
         ]
       },
       {
-        "a1": 201,
-        "a2": 201,
+        "a1": 202,
+        "a2": 202,
         "old": [],
         "new": [
           "    undo=alloc(16384);",
@@ -2609,8 +2687,8 @@
         ]
       },
       {
-        "a1": 73,
-        "a2": 73,
+        "a1": 74,
+        "a2": 74,
         "old": [],
         "new": [
           "        return 0;",
@@ -2654,8 +2732,8 @@
     "kind": "rill",
     "changes": [
       {
-        "a1": 767,
-        "a2": 767,
+        "a1": 775,
+        "a2": 775,
         "old": [],
         "new": [
           "fn askfind(){",
@@ -2761,8 +2839,8 @@
         ]
       },
       {
-        "a1": 76,
-        "a2": 76,
+        "a1": 77,
+        "a2": 77,
         "old": [],
         "new": [
           "        return 0;",
@@ -2799,7 +2877,7 @@
         ],
         "after": [
           "fn main(){",
-          "    store16(cap+2,4);"
+          "    filename();"
         ]
       },
       {

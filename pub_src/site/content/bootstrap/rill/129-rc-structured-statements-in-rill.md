@@ -97,13 +97,13 @@ bytes string[512];
 Remove this source at old physical positions 35–35 in RC40.RIL:
 
 ```rill
-fn main(){table=alloc(23680);output=create("RILL.TMP");own=1;input=open("SOURCE.RIL");if status(){fail(1);}next();lex();block();flush();close(output);output=0;own=0;return 0;}
+fn main(){filearg(1,"SOURCE.RIL");table=alloc(23680);output=create(filearg(2,"RILL.TMP"));own=1;input=open(filearg(1,"SOURCE.RIL"));if status(){fail(1);}next();lex();block();flush();close(output);output=0;own=0;return 0;}
 ```
 
 Replace it with:
 
 ```rill
-fn main(){table=alloc(23680);output=create("RILL.TMP");own=1;input=open("SOURCE.RIL");if status(){fail(1);}next();lex();outstr("PROC MAIN 0 64\r\n");block();outstr("LIT 0\r\nRETURN\r\n");flush();close(output);output=0;own=0;return 0;}
+fn main(){filearg(1,"SOURCE.RIL");table=alloc(23680);output=create(filearg(2,"RILL.TMP"));own=1;input=open(filearg(1,"SOURCE.RIL"));if status(){fail(1);}next();lex();outstr("PROC MAIN 0 64\r\n");block();outstr("LIT 0\r\nRETURN\r\n");flush();close(output);output=0;own=0;return 0;}
 ```
 
 The following old source remains in place:
@@ -116,25 +116,23 @@ fn next() {
 ## Build this stopping point
 
 ```dos
-COPY RC41.RIL SOURCE.RIL
-CHECK RILLBOOT
+CHECK RILLBOOT RC41.RIL RESULT.IR
 ```
 
-Require `OK RESULT.IR 0000044237` and PASS. Copy RESULT.IR to SOURCE.IR.
+Require `OK RESULT.IR 0000045819` and PASS. Pass RESULT.IR directly to the translator.
 
 ```dos
-CHECK IWKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IWKEEP SOURCE.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require IR86 `OK RESULT.ASM 0000091874 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 24707 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000096930 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 25638 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RC41.COM
 ```
 
-VIEW.BAS must report RC41.COM length 24707 bytes. Keep this executable and its source together.
+VIEW.BAS must report RC41.COM length 25638 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -145,16 +143,12 @@ Create TRC41.RIL with COPY CON or a plain-text editor. Finish COPY CON with Ctrl
 ```
 
 ```dos
-COPY TRC41.RIL SOURCE.RIL
-```
-
-```dos
-CHECK RC41
+CHECK RC41 TRC41.RIL RESULT.IR
 ```
 
 The checker must report PASS. Inspect the emitted file below.
 
-TYPE RILL.TMP. Its complete IR is:
+TYPE RESULT.IR. Its complete IR is:
 
 ```ir
 PROC MAIN 0 64
@@ -183,9 +177,7 @@ LIT 0
 RETURN
 ```
 
-VIEW.BAS must show length 238 bytes. This is a complete program. Copy it to SOURCE.IR, run CHECK IWKEEP, copy the accepted RESULT.ASM to SOURCE.ASM, and run CHECK ASMAKEEP. Require OK and PASS at both steps. VIEW.BAS must report RESULT.COM length 1083. Copy that file to TRY.COM; CHECK TRY displays `AB` and reports PASS.
-
-After inspection, delete this deliberately created RILL.TMP before another checkpoint. The file is diagnostic text, not an interrupted accepted compiler build.
+VIEW.BAS must show length 238 bytes. This is a complete program. Run CHECK IWKEEP RESULT.IR RESULT.ASM, then CHECK ASMAKEEP RESULT.ASM RESULT.COM. Require OK and PASS at both steps. VIEW.BAS must report RESULT.COM length 1445. Copy that file to TRY.COM; CHECK TRY displays `AB` and reports PASS.
 
 ## A rejection or boundary check
 
@@ -196,8 +188,7 @@ Create XRC41.RIL:
 ```
 
 ```dos
-COPY XRC41.RIL SOURCE.RIL
-CHECK RC41
+CHECK RC41 XRC41.RIL RESULT.IR
 ```
 
 Require:

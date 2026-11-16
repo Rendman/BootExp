@@ -14,7 +14,7 @@ Expand names and literal operands into a complete native assembly file.
 
 Copy IR04.ASM to IR05.ASM. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 1018
+### Edit at old physical position 1176
 
 Unchanged source before the edit:
 
@@ -31,7 +31,14 @@ DB 76,65,66,69,76,0,0,0,0,0,2,0,0,0
 DW T_LABEL
 ```
 
-### Edit at old physical position 1007
+The following old source remains:
+
+```asm
+
+CMDCOUNT:
+```
+
+### Edit at old physical position 1165
 
 Unchanged source before the edit:
 
@@ -56,7 +63,7 @@ The following old source remains:
 DB 0
 ```
 
-### Edit at old physical position 1003
+### Edit at old physical position 1161
 
 Unchanged source before the edit:
 
@@ -93,7 +100,7 @@ The following old source remains:
 T_EXIT:
 ```
 
-### Edit at old physical position 1001
+### Edit at old physical position 1159
 
 Unchanged source before the edit:
 
@@ -119,7 +126,7 @@ IRNAME:
 RESB 32
 ```
 
-### Edit at old physical position 995
+### Edit at old physical position 1153
 
 Unchanged source before the edit:
 
@@ -142,22 +149,20 @@ DEPTH:
 DW 0
 ```
 
-### Edit at old physical position 873
+### Edit at old physical position 1032
 
 Unchanged source before the edit:
 
 ```asm
-TABLEFULL:
-MOV AX,5
-JMP ERROR
+CMDTEXTEND:
+RET
 ```
 
 Insert in its place:
 
 ```asm
-
 OKMSG:
-DB 79,75,32,82,69,83,85,76,84,46,65,83,77,32,36
+DB 79,75,32,36
 
 BYTEMSG:
 DB 32,116,101,120,116,32,98,121,116,101,115,13,10,36
@@ -166,11 +171,11 @@ DB 32,116,101,120,116,32,98,121,116,101,115,13,10,36
 The following old source remains:
 
 ```asm
-
 ERRMSG:
+DB 73,82,32,69,82,82,79,82,32,36
 ```
 
-### Edit at old physical position 859
+### Edit at old physical position 860
 
 Unchanged source before the edit:
 
@@ -283,7 +288,7 @@ BALANCED:
 MOV AX,[DEPTH]
 ```
 
-### Edit at old physical position 29
+### Edit at old physical position 30
 
 Unchanged source before the edit:
 
@@ -308,7 +313,7 @@ MOV AX,4C00H
 INT 21H
 ```
 
-### Edit at old physical position 27
+### Edit at old physical position 28
 
 Unchanged source before the edit:
 
@@ -337,7 +342,7 @@ CALL TEXT
 JMP READNEXT
 ```
 
-### Edit at old physical position 12
+### Edit at old physical position 13
 
 Unchanged source before the edit:
 
@@ -381,6 +386,11 @@ CALL CLOSEOUT
 CALL COMMIT
 MOV DX,OKMSG
 CALL TEXT
+MOV SI,RESNAME
+CALL CMDTEXT
+MOV DL,32
+MOV AH,2
+INT 21H
 MOV AX,[TOTALLO]
 MOV DX,[TOTALHI]
 ```
@@ -392,7 +402,7 @@ CALL NUMBER32
 MOV DX,NEWLINE
 ```
 
-### Edit at old physical position 10
+### Edit at old physical position 11
 
 Unchanged source before the edit:
 
@@ -421,13 +431,13 @@ MOV SI,0C800H
 CALL SCAN
 ```
 
-### Edit at old physical position 7
+### Edit at old physical position 8
 
 Unchanged source before the edit:
 
 ```asm
-CMP SP,0FFFEH
 JNE NEAR MEMORYBAD
+CALL CMDFILES
 CALL OPENFILE
 ```
 
@@ -453,14 +463,14 @@ CALL READLINE
 CMP AX,0
 ```
 
-### Edit at old physical position 6
+### Edit at old physical position 7
 
 Unchanged source before the edit:
 
 ```asm
-CLD
 CMP SP,0FFFEH
 JNE NEAR MEMORYBAD
+CALL CMDFILES
 ```
 
 Insert in its place:
@@ -479,11 +489,10 @@ READNEXT:
 ## Build and check
 
 ```dos
-COPY IR05.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP IR05.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 02913 bytes`. Save RESULT.COM as IR05.COM. VIEW.BAS must show length 2913.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 03406 bytes`. Save RESULT.COM as IR05.COM. VIEW.BAS must show length 3406.
 
 Create T05.IR:
 
@@ -495,11 +504,7 @@ EXIT
 ```
 
 ```dos
-COPY T05.IR SOURCE.IR
-```
-
-```dos
-CHECK IR05
+CHECK IR05 T05.IR RESULT.ASM
 ```
 
 Require:
@@ -510,8 +515,7 @@ PASS
 ```
 
 ```dos
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
 Require OK and PASS. VIEW.BAS must show RESULT.COM length 32 and these leading bytes:
@@ -524,13 +528,17 @@ Copy it to TRY.COM. CHECK TRY reports PASS.
 
 ## Check the new boundary
 
-Use this separate rejected source:
+Save this separate rejected source as X05.IR:
 
 ```ir
 UNKNOWN
 ```
 
-Copy it to SOURCE.IR and run CHECK IR05. Require:
+```dos
+CHECK IR05 X05.IR RESULT.ASM
+```
+
+Require:
 
 ```text
 IR ERROR 0000000001 CODE 1

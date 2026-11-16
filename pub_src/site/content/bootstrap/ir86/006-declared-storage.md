@@ -14,7 +14,7 @@ Declare initialized words with WORD and byte extents with BUFFER; emit larger st
 
 Copy IR05.ASM to IR06.ASM. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 1148
+### Edit at old physical position 1311
 
 Unchanged source before the edit:
 
@@ -33,7 +33,14 @@ DB 66,85,70,70,69,82,0,0,0,0,3,4,0,0
 DW T_BUFFER
 ```
 
-### Edit at old physical position 1141
+The following old source remains:
+
+```asm
+
+CMDCOUNT:
+```
+
+### Edit at old physical position 1304
 
 Unchanged source before the edit:
 
@@ -63,7 +70,7 @@ IRTAB:
 DB 76,73,84,0,0,0,0,0,0,0,1,0,0,0
 ```
 
-### Edit at old physical position 866
+### Edit at old physical position 872
 
 Unchanged source before the edit:
 
@@ -95,11 +102,10 @@ CALL LOOK
 ## Build and check
 
 ```dos
-COPY IR06.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP IR06.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 02973 bytes`. Save RESULT.COM as IR06.COM. VIEW.BAS must show length 2973.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 03466 bytes`. Save RESULT.COM as IR06.COM. VIEW.BAS must show length 3466.
 
 Create T06.IR:
 
@@ -113,11 +119,7 @@ EXIT
 ```
 
 ```dos
-COPY T06.IR SOURCE.IR
-```
-
-```dos
-CHECK IR06
+CHECK IR06 T06.IR RESULT.ASM
 ```
 
 Require:
@@ -128,8 +130,7 @@ PASS
 ```
 
 ```dos
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
 Require OK and PASS. VIEW.BAS must show RESULT.COM length 333 and these leading bytes:
@@ -142,13 +143,17 @@ Copy it to TRY.COM. CHECK TRY reports PASS.
 
 ## Check the new boundary
 
-Use this separate rejected source:
+Save this separate rejected source as X06.IR:
 
 ```ir
 UNKNOWN
 ```
 
-Copy it to SOURCE.IR and run CHECK IR06. Require:
+```dos
+CHECK IR06 X06.IR RESULT.ASM
+```
+
+Require:
 
 ```text
 IR ERROR 0000000001 CODE 1

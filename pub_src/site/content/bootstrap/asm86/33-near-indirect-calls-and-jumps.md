@@ -30,7 +30,7 @@ POP AX
 CALL EMITWORD
 ```
 
-Remove this exact source at old physical positions 1010–1011:
+Remove this exact source at old physical positions 1016–1017:
 
 ```asm
 CALL FINISH
@@ -60,7 +60,7 @@ RET
 NEARJUMP:
 ```
 
-Remove this exact source at old physical positions 1000–1001:
+Remove this exact source at old physical positions 1006–1007:
 
 ```asm
 CALL SCAN
@@ -111,17 +111,16 @@ ADD DX,3
 ## Build the stopping point
 
 ```dos
-COPY A33.ASM SOURCE.ASM
-CHECK ASM1
+CHECK ASM1 A33.ASM RESULT.COM
 ```
 
-Require `OK RESULT.COM 05793 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 06231 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A33.COM
 ```
 
-VIEW.BAS must report A33.COM length 5793 bytes. Keep that executable and source together.
+VIEW.BAS must report A33.COM length 6231 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -140,11 +139,7 @@ RET
 ```
 
 ```dos
-COPY T33.ASM SOURCE.ASM
-```
-
-```dos
-CHECK A33
+CHECK A33 T33.ASM RESULT.COM
 ```
 
 Require:
@@ -171,8 +166,7 @@ CALL AL
 ```
 
 ```dos
-COPY X33.ASM SOURCE.ASM
-CHECK A33
+CHECK A33 X33.ASM RESULT.COM
 ```
 
 Require:

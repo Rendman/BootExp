@@ -17,3 +17,11 @@ Early helper output can be an incomplete fragment; inspect its bytes.
 Execute only programs identified as complete in their article.
 Source rejection preserves accepted output. A failed publication may
 leave temporary or backup files; inspect those before a new run.
+
+COMMAND-LINE FILENAMES
+From ASM1 onward, supply input and output filenames on the command
+line: CHECK tool INPUT.EXT OUTPUT.EXT. No arguments select the
+default work names. Use unquoted 8.3 filenames in the current directory;
+paths and switches are not accepted. Input, output, temporary and backup
+names must be distinct. LINK86 takes two object names then the result;
+EDIT86 takes one document name and saves that same document.

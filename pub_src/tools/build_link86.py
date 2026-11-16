@@ -14,7 +14,7 @@ RELUTIL='OBJ1\nP VALUE 0000\nB 33 C0 C3\nEND\n'
 ABSMAIN='OBJ1\nB BA\nA TEXT\nB B4 09 CD 21 B8 00 4C CD 21\nEND\n'
 ABSUTIL='OBJ1\nP TEXT 0000\nB 48 49 0D 0A 24\nEND\n'
 SIMPLEFAIL='fn fail(code){if inopen{close(input);}exit(1);return 0;}\n'
-SINGLEOPEN='fn openunit(){input=open("MAIN.OBJ");if status(){fail(6);}inopen=1;return 0;}\n'
+SINGLEOPEN='fn openunit(){input=open(filearg(1,"MAIN.OBJ"));if status(){fail(6);}inopen=1;return 0;}\n'
 NOSYMBOLS=procs['main'].replace('    table=alloc(10240);if status(){fail(6);}\n','').replace('            modulecheck(size);\n','')
 a=NOSYMBOLS.index('    unit=0;line=0;let mut i=0;');b=NOSYMBOLS.index('    commit();',a)
 NOSYMBOLS=NOSYMBOLS[:a]+'    unit=0;line=0;finishout();\n'+NOSYMBOLS[b:]
@@ -31,7 +31,7 @@ MAINS={
 }
 TITLES=['Opening the first object','Refilling a bounded input block','Reading one physical record','Recognizing the object envelope','Writing literal bytes','Publishing the accepted image','Placing two modules','Recording public names','Calling into another module','Taking an address from another module']
 WHY=[
-'Open MAIN.OBJ read-only and close its owned handle. Fixed work files keep console parsing out of the linker.',
+'Obtain module and result names through the portable argument services, then open the selected first object read-only and close its owned handle.',
 'Read through a 1024-byte block and consume every positive read before refilling. Zero count is EOF; Control-Z ends object text.',
 'Bound a physical record to 120 characters, count its line, and accept ordinary DOS text endings without retaining the complete object.',
 'Recognize OBJ1 and END, including blank lines and semicolon comments. Reject unknown records instead of silently copying malformed text.',
@@ -45,6 +45,7 @@ WHY=[
 records=[]
 for n,title in enumerate(TITLES,1):
  code=dict(procs);code['main']=MAINS.get(n,procs['main'])
+ code['main']=code['main'].replace('fn main(){','fn main(){filearg(1,"MAIN.OBJ");',1)
  if n==1:code['openunit']=SINGLEOPEN
  if n<=2:code['fail']=SIMPLEFAIL
  elif n<5:code['fail']='fn fail(code){if inopen{close(input);inopen=0;}print("LINK ERROR ");number(unit);putc(32);number(line);print(" CODE ");number(code);print("\\r\\n");exit(1);return 0;}\n'

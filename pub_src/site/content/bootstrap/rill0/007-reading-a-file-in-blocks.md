@@ -11,6 +11,8 @@ url = "/bootstrap/rill/007-reading-a-file-in-blocks/"
 
 Refill the input block only after consuming its valid bytes. A short positive read still contains data; zero is EOF. Keep checked source-line counts separately.
 
+FILEARG and FILESAME select the source through ARGC and ARG. Their default names are used only when there is no command tail. The first file-using driver obtains its selected name before OPEN; the same helpers are retained by later file-using checkpoints. Invalid counts, equal input/output names and reserved recovery names exit with failure before output creation. The native PSP handling remains in IR86, outside this compiler implementation.
+
 ## Enter the source
 
 Copy R06.IR to R07.IR. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
@@ -158,6 +160,21 @@ INVOKE DIGIT 1
 Insert in its place:
 
 ```ir
+LITS "SOURCE.RIL"
+PUSH
+INVOKE FILEARG 2
+LIT 1
+PUSH
+LITS "SOURCE.RIL"
+PUSH
+INVOKE FILEARG 2
+OPEN
+ST INPUT
+STATUS
+JNZ IOFAIL
+CALL NEXT
+LD CH
+PUSH
 LIT 65
 CNE
 RETURN
@@ -197,13 +214,7 @@ LIT 57
 Insert in its place:
 
 ```ir
-LITS "SOURCE.RIL"
-OPEN
-ST INPUT
-STATUS
-JNZ IOFAIL
-CALL NEXT
-LD CH
+LIT 1
 ```
 
 The following old source remains:
@@ -286,13 +297,11 @@ WORD LINEHI 0
 ## Build and check
 
 ```dos
-COPY R07.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP R07.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 06735 bytes`. Save RESULT.COM as R07.COM. VIEW.BAS must show length 6735.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 07545 bytes`. Save RESULT.COM as R07.COM. VIEW.BAS must show length 7545.
 
 Create T07.RIL:
 
@@ -301,11 +310,7 @@ A
 ```
 
 ```dos
-COPY T07.RIL SOURCE.RIL
-```
-
-```dos
-CHECK R07
+CHECK R07 T07.RIL RESULT.IR
 ```
 
 Require PASS.
@@ -314,7 +319,13 @@ The driver compares the result with 65 and returns nonzero on a mismatch; it add
 
 ## Check the new boundary
 
-Temporarily rename SOURCE.RIL to HOLD.TXT and run CHECK R07. Restore the source afterward. Require:
+Choose an absent disk filename, ABSENT.RIL, and run:
+
+```dos
+CHECK R07 ABSENT.RIL RESULT.IR
+```
+
+Require:
 
 ```text
 ERROR 0000000001 CODE 00001

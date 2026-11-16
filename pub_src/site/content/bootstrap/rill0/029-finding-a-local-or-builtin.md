@@ -203,13 +203,11 @@ LITS "PUTC"
 ## Build and check
 
 ```dos
-COPY R29.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP R29.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 14098 bytes`. Save RESULT.COM as R29.COM. VIEW.BAS must show length 14098.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 14867 bytes`. Save RESULT.COM as R29.COM. VIEW.BAS must show length 14867.
 
 ```dos
 CHECK R29

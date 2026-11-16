@@ -1,7 +1,7 @@
 ECHO OFF
 IF "%1"=="" GOTO USAGE
 IF NOT EXIST %1.COM GOTO MISSING
-%1
+%1 %2 %3 %4 %5 %6 %7 %8 %9
 IF ERRORLEVEL 1 GOTO FAIL
 ECHO.
 ECHO PASS
@@ -14,5 +14,5 @@ GOTO END
 ECHO Missing program
 GOTO END
 :USAGE
-ECHO Use CHECK name
+ECHO Use CHECK name [filenames]
 :END

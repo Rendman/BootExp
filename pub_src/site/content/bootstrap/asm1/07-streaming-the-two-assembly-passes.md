@@ -30,7 +30,7 @@ OUTHANDLE:
 DW 0
 ```
 
-Insert after old physical line 1290.
+Insert after old physical line 1479.
 
 Insert:
 
@@ -56,7 +56,7 @@ MOV DX,BYTEMSG
 CALL TEXT
 ```
 
-Insert after old physical line 39.
+Insert after old physical line 45.
 
 Insert:
 
@@ -81,7 +81,7 @@ MOV AL,2
 MOV [PASS],AL
 ```
 
-Remove this exact source at old physical positions 19–29:
+Remove this exact source at old physical positions 20–30:
 
 ```asm
 CALL CREATEOUT
@@ -128,7 +128,7 @@ MOV [RDLEN],AX
 MOV [OUTCNT],AX
 ```
 
-Remove this exact source at old physical positions 14–16:
+Remove this exact source at old physical positions 15–17:
 
 ```asm
 MOV [LINENO],AX
@@ -175,12 +175,12 @@ MOV [PASS],AL
 Unchanged source immediately before this edit:
 
 ```asm
-ROOM:
+CALL CMDFILES
 CALL PREFLIGHT
 MOV AX,0
 ```
 
-Insert after old physical line 10.
+Insert after old physical line 11.
 
 Insert:
 
@@ -207,12 +207,12 @@ MOV [RDLEN],AX
 Unchanged source immediately before this edit:
 
 ```asm
-JMP ERROR
 ROOM:
+CALL CMDFILES
 CALL PREFLIGHT
 ```
 
-Insert after old physical line 9.
+Insert after old physical line 10.
 
 Insert:
 
@@ -230,9 +230,9 @@ MOV [RDPOS],AX
 
 ## Build the stopping point
 
-Copy `A07.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK 03016 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM A07.COM`.
+Copy `A07.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK 03454 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM A07.COM`.
 
-VIEW.BAS must report A07.COM length 3016 bytes. Keep that executable and source together.
+VIEW.BAS must report A07.COM length 3454 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -247,11 +247,7 @@ INT 21H
 ```
 
 ```dos
-COPY T07.ASM SOURCE.ASM
-```
-
-```dos
-CHECK A07
+CHECK A07 T07.ASM RESULT.COM
 ```
 
 Require:
@@ -280,8 +276,7 @@ MOV AX,AL
 ```
 
 ```dos
-COPY X07.ASM SOURCE.ASM
-CHECK A07
+CHECK A07 X07.ASM RESULT.COM
 ```
 
 Require:
@@ -297,4 +292,4 @@ An unexpected PASS fails this rejection test.
 
 ## If the result differs
 
-Check the fixed name bytes, handle ownership flags, reader cursors at each pass, and the current output count. Inspect file length as well as the leading bytes. A copied data file is not an executable proof.
+Check the saved argument names and terminators, handle ownership flags, reader cursors at each pass, and the current output count. Inspect file length as well as the leading bytes. A copied data file is not an executable proof.

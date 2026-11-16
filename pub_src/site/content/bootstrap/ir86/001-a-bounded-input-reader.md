@@ -10,11 +10,13 @@ aliases = ["/bootstrap/ir86/01-reading-an-ir-source/", "/bootstrap/ir86/037-iw-a
 
 Read a fixed source through the inherited line reader and checked source counters.
 
+The inherited CMDFILES routine obtains two filenames from the PSP before any DOS file operation. Its owned source/result buffers replace only the selected spellings; the streaming reader and publication routines keep their existing interfaces. With no arguments the defaults are SOURCE.IR and RESULT.ASM.
+
 ## Enter the source
 
 Copy ASM86.ASM to IR01.ASM. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 2681
+### Edit at old physical position 2870
 
 Unchanged source before the edit:
 
@@ -36,7 +38,7 @@ The following old source remains:
 DIV32END:
 ```
 
-### Edit at old physical position 2551
+### Edit at old physical position 2740
 
 Unchanged source before the edit:
 
@@ -46,7 +48,7 @@ DB 0
 CLEANFAIL:
 ```
 
-Remove the complete old physical range 2551–2652. Its first source is:
+Remove the complete old physical range 2740–2841. Its first source is:
 
 ```asm
 DB 0
@@ -70,7 +72,7 @@ The following old source remains:
 DB 0
 ```
 
-### Edit at old physical position 2527
+### Edit at old physical position 2716
 
 Unchanged source before the edit:
 
@@ -97,7 +99,7 @@ The following old source remains:
 DW 0
 ```
 
-### Edit at old physical position 2514
+### Edit at old physical position 2703
 
 Unchanged source before the edit:
 
@@ -128,12 +130,12 @@ The following old source remains:
 RDPOS:
 ```
 
-### Edit at old physical position 2510
+### Edit at old physical position 2699
 
 Unchanged source before the edit:
 
 ```asm
-DB 82,69,83,85,76,84,46,67,79,77,0
+DB 82,69,83,85,76,84,46,67,79,77,0,0,0
 
 BAKNAME:
 ```
@@ -157,7 +159,7 @@ The following old source remains:
 RECOVERMSG:
 ```
 
-### Edit at old physical position 2507
+### Edit at old physical position 2696
 
 Unchanged source before the edit:
 
@@ -170,13 +172,13 @@ RESNAME:
 Remove:
 
 ```asm
-DB 82,69,83,85,76,84,46,67,79,77,0
+DB 82,69,83,85,76,84,46,67,79,77,0,0,0
 ```
 
 Insert in its place:
 
 ```asm
-DB 82,69,83,85,76,84,46,65,83,77,0
+DB 82,69,83,85,76,84,46,65,83,77,0,0,0
 ```
 
 The following old source remains:
@@ -186,12 +188,12 @@ The following old source remains:
 BAKNAME:
 ```
 
-### Edit at old physical position 2504
+### Edit at old physical position 2693
 
 Unchanged source before the edit:
 
 ```asm
-DB 83,79,85,82,67,69,46,65,83,77,0
+DB 83,79,85,82,67,69,46,65,83,77,0,0,0
 
 TMPNAME:
 ```
@@ -215,7 +217,7 @@ The following old source remains:
 RESNAME:
 ```
 
-### Edit at old physical position 2501
+### Edit at old physical position 2690
 
 Unchanged source before the edit:
 
@@ -228,13 +230,13 @@ SRCNAME:
 Remove:
 
 ```asm
-DB 83,79,85,82,67,69,46,65,83,77,0
+DB 83,79,85,82,67,69,46,65,83,77,0,0,0
 ```
 
 Insert in its place:
 
 ```asm
-DB 83,79,85,82,67,69,46,73,82,0
+DB 83,79,85,82,67,69,46,73,82,0,0,0,0
 ```
 
 The following old source remains:
@@ -244,7 +246,7 @@ The following old source remains:
 TMPNAME:
 ```
 
-### Edit at old physical position 2442
+### Edit at old physical position 2631
 
 Unchanged source before the edit:
 
@@ -253,7 +255,7 @@ ERRCODE:
 DB 0
 ```
 
-Remove the complete old physical range 2442–2499. Its first source is:
+Remove the complete old physical range 2631–2688. Its first source is:
 
 ```asm
 REGTAB:
@@ -274,10 +276,10 @@ The following old source remains:
 
 ```asm
 SRCNAME:
-DB 83,79,85,82,67,69,46,65,83,77,0
+DB 83,79,85,82,67,69,46,65,83,77,0,0,0
 ```
 
-### Edit at old physical position 2415
+### Edit at old physical position 2604
 
 Unchanged source before the edit:
 
@@ -321,7 +323,7 @@ ERRCODE:
 DB 0
 ```
 
-### Edit at old physical position 2396
+### Edit at old physical position 2585
 
 Unchanged source before the edit:
 
@@ -352,7 +354,7 @@ The following old source remains:
 ENDED:
 ```
 
-### Edit at old physical position 2385
+### Edit at old physical position 2574
 
 Unchanged source before the edit:
 
@@ -378,7 +380,7 @@ TOKLEN:
 DW 0
 ```
 
-### Edit at old physical position 2376
+### Edit at old physical position 2565
 
 Unchanged source before the edit:
 
@@ -400,7 +402,7 @@ The following old source remains:
 DIVEND:
 ```
 
-### Edit at old physical position 2366
+### Edit at old physical position 2555
 
 Unchanged source before the edit:
 
@@ -429,31 +431,24 @@ The following old source remains:
 CODEMSG:
 ```
 
-### Edit at old physical position 1879
+### Edit at old physical position 2548
 
 Unchanged source before the edit:
 
 ```asm
-POP AX
+CMDTEXTEND:
 RET
 ```
 
-Remove the complete old physical range 1879–2364. Its first source is:
+Remove:
 
 ```asm
-ATOM:
-MOV AL,[0CC00H]
-CMP AL,48
-```
+OKMSG:
+DB 79,75,32,36
 
-Its last source is:
-
-```asm
 BYTEMSG:
 DB 32,98,121,116,101,115,13,10,36
 ```
-
-Remove both boundaries and all source between them.
 
 The following old source remains:
 
@@ -462,7 +457,967 @@ ERRMSG:
 DB 69,82,82,79,82,32,36
 ```
 
-### Edit at old physical position 1869
+### Edit at old physical position 2540
+
+Unchanged source before the edit:
+
+```asm
+CMDTEXT:
+LODSB
+CMP AL,0
+```
+
+Remove:
+
+```asm
+JE CMDTEXTEND
+```
+
+Insert in its place:
+
+```asm
+JE NEAR CMDTEXTEND
+```
+
+The following old source remains:
+
+```asm
+MOV DL,AL
+MOV AH,2
+```
+
+### Edit at old physical position 2530
+
+Unchanged source before the edit:
+
+```asm
+MOV DI,BAKNAME
+CALL CMDMATCH
+CMP AX,0
+```
+
+Remove:
+
+```asm
+JNE CMDFAIL
+```
+
+Insert in its place:
+
+```asm
+JNE NEAR CMDFAIL
+```
+
+The following old source remains:
+
+```asm
+CMDREADY:
+RET
+```
+
+### Edit at old physical position 2525
+
+Unchanged source before the edit:
+
+```asm
+MOV DI,TMPNAME
+CALL CMDMATCH
+CMP AX,0
+```
+
+Remove:
+
+```asm
+JNE CMDFAIL
+```
+
+Insert in its place:
+
+```asm
+JNE NEAR CMDFAIL
+```
+
+The following old source remains:
+
+```asm
+MOV SI,RESNAME
+MOV DI,BAKNAME
+```
+
+### Edit at old physical position 2520
+
+Unchanged source before the edit:
+
+```asm
+MOV DI,BAKNAME
+CALL CMDMATCH
+CMP AX,0
+```
+
+Remove:
+
+```asm
+JNE CMDFAIL
+```
+
+Insert in its place:
+
+```asm
+JNE NEAR CMDFAIL
+```
+
+The following old source remains:
+
+```asm
+MOV SI,RESNAME
+MOV DI,TMPNAME
+```
+
+### Edit at old physical position 2513
+
+Unchanged source before the edit:
+
+```asm
+MOV DI,TMPNAME
+CALL CMDMATCH
+CMP AX,0
+```
+
+Remove:
+
+```asm
+JE ZCMDFILES4
+JMP CMDFAIL
+ZCMDFILES4:
+```
+
+Insert in its place:
+
+```asm
+JNE NEAR CMDFAIL
+```
+
+The following old source remains:
+
+```asm
+MOV SI,SRCNAME
+MOV DI,BAKNAME
+```
+
+### Edit at old physical position 2506
+
+Unchanged source before the edit:
+
+```asm
+MOV DI,RESNAME
+CALL CMDMATCH
+CMP AX,0
+```
+
+Remove:
+
+```asm
+JE ZCMDFILES3
+JMP CMDFAIL
+ZCMDFILES3:
+```
+
+Insert in its place:
+
+```asm
+JNE NEAR CMDFAIL
+```
+
+The following old source remains:
+
+```asm
+MOV SI,SRCNAME
+MOV DI,TMPNAME
+```
+
+### Edit at old physical position 2492
+
+Unchanged source before the edit:
+
+```asm
+JMP CMDREADY
+ZCMDFILES1:
+CMP AX,2
+```
+
+Remove:
+
+```asm
+JE ZCMDFILES2
+JMP CMDFAIL
+ZCMDFILES2:
+```
+
+Insert in its place:
+
+```asm
+JNE NEAR CMDFAIL
+```
+
+The following old source remains:
+
+```asm
+MOV SI,CMDBUF
+MOV DI,SRCNAME
+```
+
+### Edit at old physical position 2488
+
+Unchanged source before the edit:
+
+```asm
+CMDFILES:
+CALL CMDINIT
+CMP AX,0
+```
+
+Remove:
+
+```asm
+JNE ZCMDFILES1
+JMP CMDREADY
+ZCMDFILES1:
+```
+
+Insert in its place:
+
+```asm
+JE NEAR CMDREADY
+```
+
+The following old source remains:
+
+```asm
+CMP AX,2
+JE ZCMDFILES2
+```
+
+### Edit at old physical position 2478
+
+Unchanged source before the edit:
+
+```asm
+JNE CMDNO
+INC DI
+CMP AL,0
+```
+
+Remove:
+
+```asm
+JNE CMDMATCH
+```
+
+Insert in its place:
+
+```asm
+JNE NEAR CMDMATCH
+```
+
+The following old source remains:
+
+```asm
+MOV AX,1
+RET
+```
+
+### Edit at old physical position 2475
+
+Unchanged source before the edit:
+
+```asm
+MOV BX,DI
+MOV AH,[BX]
+CMP AL,AH
+```
+
+Remove:
+
+```asm
+JNE CMDNO
+```
+
+Insert in its place:
+
+```asm
+JNE NEAR CMDNO
+```
+
+The following old source remains:
+
+```asm
+INC DI
+CMP AL,0
+```
+
+### Edit at old physical position 2456
+
+Unchanged source before the edit:
+
+```asm
+ZCMDINIT9:
+CMDEND:
+CMP BX,0
+```
+
+Remove:
+
+```asm
+JE CMDBAD
+```
+
+Insert in its place:
+
+```asm
+JE NEAR CMDBAD
+```
+
+The following old source remains:
+
+```asm
+MOV AL,0
+STOSB
+```
+
+### Edit at old physical position 2451
+
+Unchanged source before the edit:
+
+```asm
+CMP AL,32
+JE CMDEND
+CMP AL,9
+```
+
+Remove:
+
+```asm
+JE ZCMDINIT9
+JMP CMDCHAR
+ZCMDINIT9:
+```
+
+Insert in its place:
+
+```asm
+JNE NEAR CMDCHAR
+```
+
+The following old source remains:
+
+```asm
+CMDEND:
+CMP BX,0
+```
+
+### Edit at old physical position 2449
+
+Unchanged source before the edit:
+
+```asm
+LODSB
+DEC CX
+CMP AL,32
+```
+
+Remove:
+
+```asm
+JE CMDEND
+```
+
+Insert in its place:
+
+```asm
+JE NEAR CMDEND
+```
+
+The following old source remains:
+
+```asm
+CMP AL,9
+JE ZCMDINIT9
+```
+
+### Edit at old physical position 2445
+
+Unchanged source before the edit:
+
+```asm
+STOSB
+CMDNEXT:
+CMP CX,0
+```
+
+Remove:
+
+```asm
+JE CMDEND
+```
+
+Insert in its place:
+
+```asm
+JE NEAR CMDEND
+```
+
+The following old source remains:
+
+```asm
+LODSB
+DEC CX
+```
+
+### Edit at old physical position 2437
+
+Unchanged source before the edit:
+
+```asm
+JMP CMDBAD
+ZCMDINIT7:
+CMP BX,0
+```
+
+Remove:
+
+```asm
+JNE ZCMDINIT8
+JMP CMDBAD
+ZCMDINIT8:
+```
+
+Insert in its place:
+
+```asm
+JE NEAR CMDBAD
+```
+
+The following old source remains:
+
+```asm
+MOV DX,3
+MOV BX,0
+```
+
+### Edit at old physical position 2433
+
+Unchanged source before the edit:
+
+```asm
+JMP CMDNEXT
+CMDDOT:
+CMP DX,8
+```
+
+Remove:
+
+```asm
+JE ZCMDINIT7
+JMP CMDBAD
+ZCMDINIT7:
+```
+
+Insert in its place:
+
+```asm
+JNE NEAR CMDBAD
+```
+
+The following old source remains:
+
+```asm
+CMP BX,0
+JNE ZCMDINIT8
+```
+
+### Edit at old physical position 2426
+
+Unchanged source before the edit:
+
+```asm
+CMDPUT:
+INC BX
+CMP BX,DX
+```
+
+Remove:
+
+```asm
+JBE ZCMDINIT6
+JMP CMDBAD
+ZCMDINIT6:
+```
+
+Insert in its place:
+
+```asm
+JA NEAR CMDBAD
+```
+
+The following old source remains:
+
+```asm
+STOSB
+JMP CMDNEXT
+```
+
+### Edit at old physical position 2420
+
+Unchanged source before the edit:
+
+```asm
+CMP AL,95
+JE CMDPUT
+CMP AL,45
+```
+
+Remove:
+
+```asm
+JE ZCMDINIT5
+JMP CMDBAD
+ZCMDINIT5:
+```
+
+Insert in its place:
+
+```asm
+JNE NEAR CMDBAD
+```
+
+The following old source remains:
+
+```asm
+CMDPUT:
+INC BX
+```
+
+### Edit at old physical position 2418
+
+Unchanged source before the edit:
+
+```asm
+JBE CMDPUT
+CMDEXTRA:
+CMP AL,95
+```
+
+Remove:
+
+```asm
+JE CMDPUT
+```
+
+Insert in its place:
+
+```asm
+JE NEAR CMDPUT
+```
+
+The following old source remains:
+
+```asm
+CMP AL,45
+JE ZCMDINIT5
+```
+
+### Edit at old physical position 2415
+
+Unchanged source before the edit:
+
+```asm
+CMP AL,48
+JB CMDEXTRA
+CMP AL,57
+```
+
+Remove:
+
+```asm
+JBE CMDPUT
+```
+
+Insert in its place:
+
+```asm
+JBE NEAR CMDPUT
+```
+
+The following old source remains:
+
+```asm
+CMDEXTRA:
+CMP AL,95
+```
+
+### Edit at old physical position 2413
+
+Unchanged source before the edit:
+
+```asm
+JBE CMDPUT
+CMDNUM:
+CMP AL,48
+```
+
+Remove:
+
+```asm
+JB CMDEXTRA
+```
+
+Insert in its place:
+
+```asm
+JB NEAR CMDEXTRA
+```
+
+The following old source remains:
+
+```asm
+CMP AL,57
+JBE CMDPUT
+```
+
+### Edit at old physical position 2410
+
+Unchanged source before the edit:
+
+```asm
+CMP AL,65
+JB CMDNUM
+CMP AL,90
+```
+
+Remove:
+
+```asm
+JBE CMDPUT
+```
+
+Insert in its place:
+
+```asm
+JBE NEAR CMDPUT
+```
+
+The following old source remains:
+
+```asm
+CMDNUM:
+CMP AL,48
+```
+
+### Edit at old physical position 2408
+
+Unchanged source before the edit:
+
+```asm
+SUB AL,32
+CMDUP:
+CMP AL,65
+```
+
+Remove:
+
+```asm
+JB CMDNUM
+```
+
+Insert in its place:
+
+```asm
+JB NEAR CMDNUM
+```
+
+The following old source remains:
+
+```asm
+CMP AL,90
+JBE CMDPUT
+```
+
+### Edit at old physical position 2404
+
+Unchanged source before the edit:
+
+```asm
+CMP AL,97
+JB CMDUP
+CMP AL,122
+```
+
+Remove:
+
+```asm
+JA CMDUP
+```
+
+Insert in its place:
+
+```asm
+JA NEAR CMDUP
+```
+
+The following old source remains:
+
+```asm
+SUB AL,32
+CMDUP:
+```
+
+### Edit at old physical position 2402
+
+Unchanged source before the edit:
+
+```asm
+JMP CMDDOT
+ZCMDINIT4:
+CMP AL,97
+```
+
+Remove:
+
+```asm
+JB CMDUP
+```
+
+Insert in its place:
+
+```asm
+JB NEAR CMDUP
+```
+
+The following old source remains:
+
+```asm
+CMP AL,122
+JA CMDUP
+```
+
+### Edit at old physical position 2398
+
+Unchanged source before the edit:
+
+```asm
+MOV DX,8
+CMDCHAR:
+CMP AL,46
+```
+
+Remove:
+
+```asm
+JNE ZCMDINIT4
+JMP CMDDOT
+ZCMDINIT4:
+```
+
+Insert in its place:
+
+```asm
+JE NEAR CMDDOT
+```
+
+The following old source remains:
+
+```asm
+CMP AL,97
+JB CMDUP
+```
+
+### Edit at old physical position 2389
+
+Unchanged source before the edit:
+
+```asm
+JE CMDSKIP
+MOV BX,[CMDCOUNT]
+CMP BX,3
+```
+
+Remove:
+
+```asm
+JB ZCMDINIT3
+JMP CMDBAD
+ZCMDINIT3:
+```
+
+Insert in its place:
+
+```asm
+JAE NEAR CMDBAD
+```
+
+The following old source remains:
+
+```asm
+INC BX
+MOV [CMDCOUNT],BX
+```
+
+### Edit at old physical position 2386
+
+Unchanged source before the edit:
+
+```asm
+CMP AL,32
+JE CMDSKIP
+CMP AL,9
+```
+
+Remove:
+
+```asm
+JE CMDSKIP
+```
+
+Insert in its place:
+
+```asm
+JE NEAR CMDSKIP
+```
+
+The following old source remains:
+
+```asm
+MOV BX,[CMDCOUNT]
+CMP BX,3
+```
+
+### Edit at old physical position 2384
+
+Unchanged source before the edit:
+
+```asm
+LODSB
+DEC CX
+CMP AL,32
+```
+
+Remove:
+
+```asm
+JE CMDSKIP
+```
+
+Insert in its place:
+
+```asm
+JE NEAR CMDSKIP
+```
+
+The following old source remains:
+
+```asm
+CMP AL,9
+JE CMDSKIP
+```
+
+### Edit at old physical position 2378
+
+Unchanged source before the edit:
+
+```asm
+ZCMDINIT1:
+CMDSKIP:
+CMP CX,0
+```
+
+Remove:
+
+```asm
+JNE ZCMDINIT2
+JMP CMDDONE
+ZCMDINIT2:
+```
+
+Insert in its place:
+
+```asm
+JE NEAR CMDDONE
+```
+
+The following old source remains:
+
+```asm
+LODSB
+DEC CX
+```
+
+### Edit at old physical position 2373
+
+Unchanged source before the edit:
+
+```asm
+MOV AH,0
+MOV CX,AX
+CMP CX,127
+```
+
+Remove:
+
+```asm
+JB ZCMDINIT1
+JMP CMDBAD
+ZCMDINIT1:
+```
+
+Insert in its place:
+
+```asm
+JAE NEAR CMDBAD
+```
+
+The following old source remains:
+
+```asm
+CMDSKIP:
+CMP CX,0
+```
+
+### Edit at old physical position 1884
+
+Unchanged source before the edit:
+
+```asm
+POP BX
+POP AX
+RET
+```
+
+Remove the complete old physical range 1884–2363. Its first source is:
+
+```asm
+
+ATOM:
+MOV AL,[0CC00H]
+```
+
+Its last source is:
+
+```asm
+SHIFTRANGE:
+MOV AX,4
+JMP ERROR
+```
+
+Remove both boundaries and all source between them.
+
+The following old source remains:
+
+```asm
+
+CMDINIT:
+```
+
+### Edit at old physical position 1875
 
 Unchanged source before the edit:
 
@@ -493,7 +1448,7 @@ POP SI
 POP DX
 ```
 
-### Edit at old physical position 1851
+### Edit at old physical position 1857
 
 Unchanged source before the edit:
 
@@ -522,7 +1477,7 @@ MOV AX,[N32HI]
 DEC AX
 ```
 
-### Edit at old physical position 1843
+### Edit at old physical position 1849
 
 Unchanged source before the edit:
 
@@ -553,7 +1508,7 @@ N32TAKE:
 MOV AX,[N32LO]
 ```
 
-### Edit at old physical position 1836
+### Edit at old physical position 1842
 
 Unchanged source before the edit:
 
@@ -586,7 +1541,7 @@ MOV AX,[N32LO]
 MOV DX,[D32LO]
 ```
 
-### Edit at old physical position 1804
+### Edit at old physical position 1810
 
 Unchanged source before the edit:
 
@@ -615,7 +1570,7 @@ INC AX
 MOV [INBYTEHI],AX
 ```
 
-### Edit at old physical position 1801
+### Edit at old physical position 1807
 
 Unchanged source before the edit:
 
@@ -644,7 +1599,7 @@ MOV AX,[INBYTEHI]
 CMP AX,0FFFFH
 ```
 
-### Edit at old physical position 1784
+### Edit at old physical position 1790
 
 Unchanged source before the edit:
 
@@ -673,7 +1628,7 @@ INC AX
 MOV [LINEHI],AX
 ```
 
-### Edit at old physical position 1781
+### Edit at old physical position 1787
 
 Unchanged source before the edit:
 
@@ -702,7 +1657,7 @@ MOV AX,[LINEHI]
 CMP AX,0FFFFH
 ```
 
-### Edit at old physical position 1563
+### Edit at old physical position 1569
 
 Unchanged source before the edit:
 
@@ -712,7 +1667,7 @@ MOV [CLEANFAIL],AL
 CLEANEND:
 ```
 
-Remove the complete old physical range 1563–1775. Its first source is:
+Remove the complete old physical range 1569–1781. Its first source is:
 
 ```asm
 CALL MEMFREE
@@ -735,7 +1690,7 @@ The following old source remains:
 RET
 ```
 
-### Edit at old physical position 1559
+### Edit at old physical position 1565
 
 Unchanged source before the edit:
 
@@ -764,7 +1719,7 @@ MOV AL,1
 MOV [CLEANFAIL],AL
 ```
 
-### Edit at old physical position 1555
+### Edit at old physical position 1561
 
 Unchanged source before the edit:
 
@@ -793,7 +1748,7 @@ MOV DX,TMPNAME
 MOV AH,41H
 ```
 
-### Edit at old physical position 1552
+### Edit at old physical position 1558
 
 Unchanged source before the edit:
 
@@ -822,7 +1777,7 @@ MOV AL,[KEEPFILES]
 CMP AL,0
 ```
 
-### Edit at old physical position 1546
+### Edit at old physical position 1552
 
 Unchanged source before the edit:
 
@@ -851,7 +1806,7 @@ MOV AL,1
 MOV [CLEANFAIL],AL
 ```
 
-### Edit at old physical position 1542
+### Edit at old physical position 1548
 
 Unchanged source before the edit:
 
@@ -880,7 +1835,7 @@ MOV BX,[OUTHANDLE]
 MOV AH,3EH
 ```
 
-### Edit at old physical position 1536
+### Edit at old physical position 1542
 
 Unchanged source before the edit:
 
@@ -909,7 +1864,7 @@ MOV AL,1
 MOV [CLEANFAIL],AL
 ```
 
-### Edit at old physical position 1532
+### Edit at old physical position 1538
 
 Unchanged source before the edit:
 
@@ -938,7 +1893,7 @@ MOV BX,[HANDLE]
 MOV AH,3EH
 ```
 
-### Edit at old physical position 1521
+### Edit at old physical position 1527
 
 Unchanged source before the edit:
 
@@ -967,7 +1922,7 @@ JMP FILEBAD
 BACKREMOVED:
 ```
 
-### Edit at old physical position 1517
+### Edit at old physical position 1523
 
 Unchanged source before the edit:
 
@@ -996,7 +1951,7 @@ MOV DX,BAKNAME
 MOV AH,41H
 ```
 
-### Edit at old physical position 1503
+### Edit at old physical position 1509
 
 Unchanged source before the edit:
 
@@ -1025,7 +1980,7 @@ MOV AL,1
 MOV [KEEPFILES],AL
 ```
 
-### Edit at old physical position 1498
+### Edit at old physical position 1504
 
 Unchanged source before the edit:
 
@@ -1054,7 +2009,7 @@ MOV DX,BAKNAME
 MOV DI,RESNAME
 ```
 
-### Edit at old physical position 1493
+### Edit at old physical position 1499
 
 Unchanged source before the edit:
 
@@ -1085,7 +2040,7 @@ MOV AL,[HAVEBAK]
 CMP AL,0
 ```
 
-### Edit at old physical position 1483
+### Edit at old physical position 1489
 
 Unchanged source before the edit:
 
@@ -1114,7 +2069,7 @@ JMP FILEBAD
 BACKEDUP:
 ```
 
-### Edit at old physical position 1478
+### Edit at old physical position 1484
 
 Unchanged source before the edit:
 
@@ -1143,7 +2098,7 @@ MOV DX,RESNAME
 MOV DI,BAKNAME
 ```
 
-### Edit at old physical position 1467
+### Edit at old physical position 1473
 
 Unchanged source before the edit:
 
@@ -1172,7 +2127,7 @@ NAMEBUSY:
 MOV AX,8
 ```
 
-### Edit at old physical position 1463
+### Edit at old physical position 1469
 
 Unchanged source before the edit:
 
@@ -1201,7 +2156,7 @@ MOV DX,BAKNAME
 CALL EXISTS
 ```
 
-### Edit at old physical position 1451
+### Edit at old physical position 1457
 
 Unchanged source before the edit:
 
@@ -1230,7 +2185,7 @@ JMP FILEBAD
 EXISTSCLOSED:
 ```
 
-### Edit at old physical position 1445
+### Edit at old physical position 1451
 
 Unchanged source before the edit:
 
@@ -1259,7 +2214,7 @@ JMP FILEBAD
 FILEEXISTS:
 ```
 
-### Edit at old physical position 1443
+### Edit at old physical position 1449
 
 Unchanged source before the edit:
 
@@ -1288,7 +2243,7 @@ CMP AX,2
 JE FILENONE
 ```
 
-### Edit at old physical position 1388
+### Edit at old physical position 1394
 
 Unchanged source before the edit:
 
@@ -1297,7 +2252,7 @@ MOV AX,4C01H
 INT 21H
 ```
 
-Remove the complete old physical range 1388–1439. Its first source is:
+Remove the complete old physical range 1394–1445. Its first source is:
 
 ```asm
 CREATEOUT:
@@ -1321,7 +2276,7 @@ EXISTS:
 MOV AX,3D00H
 ```
 
-### Edit at old physical position 1381
+### Edit at old physical position 1387
 
 Unchanged source before the edit:
 
@@ -1350,7 +2305,7 @@ MOV DX,RECOVERMSG
 CALL TEXT
 ```
 
-### Edit at old physical position 1350
+### Edit at old physical position 1356
 
 Unchanged source before the edit:
 
@@ -1379,7 +2334,7 @@ POP SI
 POP DX
 ```
 
-### Edit at old physical position 1340
+### Edit at old physical position 1346
 
 Unchanged source before the edit:
 
@@ -1408,7 +2363,7 @@ SUB CX,DX
 ADD AL,1
 ```
 
-### Edit at old physical position 1318
+### Edit at old physical position 1324
 
 Unchanged source before the edit:
 
@@ -1436,7 +2391,7 @@ The following old source remains:
 RET
 ```
 
-### Edit at old physical position 1114
+### Edit at old physical position 1120
 
 Unchanged source before the edit:
 
@@ -1446,7 +2401,7 @@ JMP ERROR
 FINISHED:
 ```
 
-Remove the complete old physical range 1114–1311. Its first source is:
+Remove the complete old physical range 1120–1317. Its first source is:
 
 ```asm
 RET
@@ -1470,7 +2425,7 @@ The following old source remains:
 RET
 ```
 
-### Edit at old physical position 1110
+### Edit at old physical position 1116
 
 Unchanged source before the edit:
 
@@ -1499,7 +2454,7 @@ MOV AX,1
 JMP ERROR
 ```
 
-### Edit at old physical position 524
+### Edit at old physical position 530
 
 Unchanged source before the edit:
 
@@ -1509,7 +2464,7 @@ MOV AX,3
 JMP ERROR
 ```
 
-Remove the complete old physical range 524–1104. Its first source is:
+Remove the complete old physical range 530–1110. Its first source is:
 
 ```asm
 
@@ -1534,7 +2489,7 @@ The following old source remains:
 FINISH:
 ```
 
-### Edit at old physical position 426
+### Edit at old physical position 432
 
 Unchanged source before the edit:
 
@@ -1544,7 +2499,7 @@ POP AX
 RET
 ```
 
-Remove the complete old physical range 426–522. Its first source is:
+Remove the complete old physical range 432–528. Its first source is:
 
 ```asm
 EXPRESSIONADD:
@@ -1575,7 +2530,7 @@ The following old source remains:
 JMP ERROR
 ```
 
-### Edit at old physical position 424
+### Edit at old physical position 430
 
 Unchanged source before the edit:
 
@@ -1598,7 +2553,7 @@ RET
 EXPRESSIONADD:
 ```
 
-### Edit at old physical position 417
+### Edit at old physical position 423
 
 Unchanged source before the edit:
 
@@ -1688,7 +2643,7 @@ POP SI
 POP AX
 ```
 
-### Edit at old physical position 412
+### Edit at old physical position 418
 
 Unchanged source before the edit:
 
@@ -1727,7 +2682,7 @@ PUSH SI
 CALL SCAN
 ```
 
-### Edit at old physical position 403
+### Edit at old physical position 409
 
 Unchanged source before the edit:
 
@@ -1756,7 +2711,7 @@ JMP SYMBOLBAD
 NAMEVALIDEND:
 ```
 
-### Edit at old physical position 401
+### Edit at old physical position 407
 
 Unchanged source before the edit:
 
@@ -1785,7 +2740,7 @@ CMP AL,90
 JBE NAMEVALID
 ```
 
-### Edit at old physical position 399
+### Edit at old physical position 405
 
 Unchanged source before the edit:
 
@@ -1814,7 +2769,7 @@ CMP AL,65
 JB SYMBOLBAD
 ```
 
-### Edit at old physical position 397
+### Edit at old physical position 403
 
 Unchanged source before the edit:
 
@@ -1843,7 +2798,7 @@ CMP AL,57
 JBE NAMEVALID
 ```
 
-### Edit at old physical position 395
+### Edit at old physical position 401
 
 Unchanged source before the edit:
 
@@ -1872,7 +2827,7 @@ CMP AL,48
 JB SYMBOLBAD
 ```
 
-### Edit at old physical position 393
+### Edit at old physical position 399
 
 Unchanged source before the edit:
 
@@ -1901,7 +2856,7 @@ CMP AL,95
 JE NAMEVALID
 ```
 
-### Edit at old physical position 387
+### Edit at old physical position 393
 
 Unchanged source before the edit:
 
@@ -1932,7 +2887,7 @@ NAMEVALID:
 LODSB
 ```
 
-### Edit at old physical position 383
+### Edit at old physical position 389
 
 Unchanged source before the edit:
 
@@ -1963,7 +2918,7 @@ CMP AL,90
 JBE ZVALIDNAM2
 ```
 
-### Edit at old physical position 381
+### Edit at old physical position 387
 
 Unchanged source before the edit:
 
@@ -1992,7 +2947,7 @@ CMP AL,65
 JAE ZVALIDNAM1
 ```
 
-### Edit at old physical position 374
+### Edit at old physical position 380
 
 Unchanged source before the edit:
 
@@ -2021,7 +2976,7 @@ JMP SYMBOLBAD
 NAMELIMIT:
 ```
 
-### Edit at old physical position 356
+### Edit at old physical position 362
 
 Unchanged source before the edit:
 
@@ -2056,7 +3011,7 @@ VALIDNAME:
 MOV AX,[TOKLEN]
 ```
 
-### Edit at old physical position 339
+### Edit at old physical position 345
 
 Unchanged source before the edit:
 
@@ -2085,7 +3040,7 @@ INC DI
 JMP LOOKCHAR
 ```
 
-### Edit at old physical position 337
+### Edit at old physical position 343
 
 Unchanged source before the edit:
 
@@ -2114,7 +3069,7 @@ CMP AL,0
 JE LOOKFOUND
 ```
 
-### Edit at old physical position 327
+### Edit at old physical position 333
 
 Unchanged source before the edit:
 
@@ -2145,7 +3100,7 @@ MOV DI,BP
 MOV SI,0CC00H
 ```
 
-### Edit at old physical position 316
+### Edit at old physical position 322
 
 Unchanged source before the edit:
 
@@ -2174,7 +3129,7 @@ MOV AH,0
 SEPARATORRET:
 ```
 
-### Edit at old physical position 314
+### Edit at old physical position 320
 
 Unchanged source before the edit:
 
@@ -2203,7 +3158,7 @@ CMP AL,34
 JE SEPARATORRET
 ```
 
-### Edit at old physical position 312
+### Edit at old physical position 318
 
 Unchanged source before the edit:
 
@@ -2232,7 +3187,7 @@ CMP AL,41
 JE SEPARATORRET
 ```
 
-### Edit at old physical position 310
+### Edit at old physical position 316
 
 Unchanged source before the edit:
 
@@ -2261,7 +3216,7 @@ CMP AL,40
 JE SEPARATORRET
 ```
 
-### Edit at old physical position 308
+### Edit at old physical position 314
 
 Unchanged source before the edit:
 
@@ -2290,7 +3245,7 @@ CMP AL,45
 JE SEPARATORRET
 ```
 
-### Edit at old physical position 306
+### Edit at old physical position 312
 
 Unchanged source before the edit:
 
@@ -2319,7 +3274,7 @@ CMP AL,43
 JE SEPARATORRET
 ```
 
-### Edit at old physical position 304
+### Edit at old physical position 310
 
 Unchanged source before the edit:
 
@@ -2348,7 +3303,7 @@ CMP AL,93
 JE SEPARATORRET
 ```
 
-### Edit at old physical position 302
+### Edit at old physical position 308
 
 Unchanged source before the edit:
 
@@ -2377,7 +3332,7 @@ CMP AL,91
 JE SEPARATORRET
 ```
 
-### Edit at old physical position 298
+### Edit at old physical position 304
 
 Unchanged source before the edit:
 
@@ -2408,7 +3363,7 @@ CMP AL,58
 JE SEPARATORRET
 ```
 
-### Edit at old physical position 291
+### Edit at old physical position 297
 
 Unchanged source before the edit:
 
@@ -2437,7 +3392,7 @@ SUB AL,32
 TOKENKEPT:
 ```
 
-### Edit at old physical position 289
+### Edit at old physical position 295
 
 Unchanged source before the edit:
 
@@ -2466,7 +3421,7 @@ CMP AL,122
 JA TOKENKEPT
 ```
 
-### Edit at old physical position 268
+### Edit at old physical position 274
 
 Unchanged source before the edit:
 
@@ -2495,7 +3450,7 @@ CALL TOKENCHAR
 STOSB
 ```
 
-### Edit at old physical position 266
+### Edit at old physical position 272
 
 Unchanged source before the edit:
 
@@ -2524,7 +3479,7 @@ CMP DI,0CC3FH
 JAE TOKENBAD
 ```
 
-### Edit at old physical position 263
+### Edit at old physical position 269
 
 Unchanged source before the edit:
 
@@ -2553,7 +3508,7 @@ CALL SEPARATOR
 CMP AH,1
 ```
 
-### Edit at old physical position 261
+### Edit at old physical position 267
 
 Unchanged source before the edit:
 
@@ -2582,7 +3537,7 @@ CMP AL,59
 JE SCANBACK
 ```
 
-### Edit at old physical position 259
+### Edit at old physical position 265
 
 Unchanged source before the edit:
 
@@ -2611,7 +3566,7 @@ CMP AL,9
 JE SCANBACK
 ```
 
-### Edit at old physical position 257
+### Edit at old physical position 263
 
 Unchanged source before the edit:
 
@@ -2640,7 +3595,7 @@ CMP AL,32
 JE SCANBACK
 ```
 
-### Edit at old physical position 251
+### Edit at old physical position 257
 
 Unchanged source before the edit:
 
@@ -2671,7 +3626,7 @@ SCANMORE:
 LODSB
 ```
 
-### Edit at old physical position 244
+### Edit at old physical position 250
 
 Unchanged source before the edit:
 
@@ -2702,7 +3657,7 @@ CALL TOKENCHAR
 STOSB
 ```
 
-### Edit at old physical position 240
+### Edit at old physical position 246
 
 Unchanged source before the edit:
 
@@ -2733,7 +3688,7 @@ CMP AL,59
 JNE ZSCAN2
 ```
 
-### Edit at old physical position 238
+### Edit at old physical position 244
 
 Unchanged source before the edit:
 
@@ -2762,7 +3717,7 @@ CMP AL,0
 JNE ZSCAN1
 ```
 
-### Edit at old physical position 236
+### Edit at old physical position 242
 
 Unchanged source before the edit:
 
@@ -2791,7 +3746,7 @@ CMP AL,9
 JE SCANSPACE
 ```
 
-### Edit at old physical position 210
+### Edit at old physical position 216
 
 Unchanged source before the edit:
 
@@ -2820,7 +3775,7 @@ LINEEND:
 MOV AL,0
 ```
 
-### Edit at old physical position 198
+### Edit at old physical position 204
 
 Unchanged source before the edit:
 
@@ -2849,7 +3804,7 @@ MOV AL,0
 MOV [SKIPLF],AL
 ```
 
-### Edit at old physical position 188
+### Edit at old physical position 194
 
 Unchanged source before the edit:
 
@@ -2880,7 +3835,7 @@ KEEPCHAR:
 STOSB
 ```
 
-### Edit at old physical position 184
+### Edit at old physical position 190
 
 Unchanged source before the edit:
 
@@ -2911,7 +3866,7 @@ CMP AL,126
 JBE ZREADLINE7
 ```
 
-### Edit at old physical position 182
+### Edit at old physical position 188
 
 Unchanged source before the edit:
 
@@ -2940,7 +3895,7 @@ CMP AL,32
 JAE ZREADLINE6
 ```
 
-### Edit at old physical position 178
+### Edit at old physical position 184
 
 Unchanged source before the edit:
 
@@ -2971,7 +3926,7 @@ CMP AL,9
 JE KEEPCHAR
 ```
 
-### Edit at old physical position 174
+### Edit at old physical position 180
 
 Unchanged source before the edit:
 
@@ -3002,7 +3957,7 @@ CMP BP,1023
 JB ZREADLINE5
 ```
 
-### Edit at old physical position 170
+### Edit at old physical position 176
 
 Unchanged source before the edit:
 
@@ -3033,7 +3988,7 @@ CMP AL,26
 JNE ZREADLINE4
 ```
 
-### Edit at old physical position 164
+### Edit at old physical position 170
 
 Unchanged source before the edit:
 
@@ -3064,7 +4019,7 @@ MOV AH,0
 MOV [SKIPLF],AH
 ```
 
-### Edit at old physical position 159
+### Edit at old physical position 165
 
 Unchanged source before the edit:
 
@@ -3095,7 +4050,7 @@ MOV AL,[CHAR]
 CMP AL,10
 ```
 
-### Edit at old physical position 153
+### Edit at old physical position 159
 
 Unchanged source before the edit:
 
@@ -3124,7 +4079,7 @@ MOV AX,0
 RET
 ```
 
-### Edit at old physical position 132
+### Edit at old physical position 138
 
 Unchanged source before the edit:
 
@@ -3153,7 +4108,7 @@ BUFFERBYTE:
 MOV BX,[RDPOS]
 ```
 
-### Edit at old physical position 125
+### Edit at old physical position 131
 
 Unchanged source before the edit:
 
@@ -3182,7 +4137,7 @@ JMP FILEBAD
 REFILLED:
 ```
 
-### Edit at old physical position 119
+### Edit at old physical position 125
 
 Unchanged source before the edit:
 
@@ -3211,7 +4166,7 @@ MOV BX,[HANDLE]
 MOV DX,0D000H
 ```
 
-### Edit at old physical position 115
+### Edit at old physical position 121
 
 Unchanged source before the edit:
 
@@ -3283,7 +4238,7 @@ NEXTBYTE:
 MOV AX,[RDPOS]
 ```
 
-### Edit at old physical position 108
+### Edit at old physical position 114
 
 Unchanged source before the edit:
 
@@ -3312,7 +4267,7 @@ JMP FILEBAD
 INPUTCLOSED:
 ```
 
-### Edit at old physical position 96
+### Edit at old physical position 102
 
 Unchanged source before the edit:
 
@@ -3351,12 +4306,12 @@ MOV AX,7
 JMP ERROR
 ```
 
-Remove the complete old physical range 8–86. Its first source is:
+Remove the complete old physical range 8–92. Its first source is:
 
 ```asm
 ROOM:
+CALL CMDFILES
 CALL MEMINIT
-CALL PREFLIGHT
 ```
 
 Its last source is:
@@ -3396,6 +4351,7 @@ Insert in its place:
 
 ```asm
 JNE NEAR MEMORYBAD
+CALL CMDFILES
 CALL OPENFILE
 READNEXT:
 CALL READLINE
@@ -3452,11 +4408,10 @@ CLD
 ## Build and check
 
 ```dos
-COPY IR01.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP IR01.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 02042 bytes`. Save RESULT.COM as IR01.COM. VIEW.BAS must show length 2042.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 02534 bytes`. Save RESULT.COM as IR01.COM. VIEW.BAS must show length 2534.
 
 Create T01.IR:
 
@@ -3465,11 +4420,7 @@ ABC
 ```
 
 ```dos
-COPY T01.IR SOURCE.IR
-```
-
-```dos
-CHECK IR01
+CHECK IR01 T01.IR RESULT.ASM
 ```
 
 Require:
@@ -3481,7 +4432,13 @@ PASS
 
 ## Check the new boundary
 
-Temporarily rename SOURCE.IR to HOLD.TXT and run CHECK IR01. Restore the source afterward. Require:
+Choose an absent disk filename, ABSENT.IR, and run:
+
+```dos
+CHECK IR01 ABSENT.IR RESULT.ASM
+```
+
+Require:
 
 ```text
 IR ERROR 0000000000 CODE 6

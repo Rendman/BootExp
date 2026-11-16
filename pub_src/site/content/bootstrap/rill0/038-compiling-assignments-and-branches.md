@@ -15,7 +15,7 @@ Compile assignments, local declarations, if/else, and while with saved branch de
 
 Copy R37.IR to R38.IR. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 1042
+### Edit at old physical position 1055
 
 Unchanged source before the edit:
 
@@ -196,7 +196,7 @@ LIT 0
 RETURN
 ```
 
-### Edit at old physical position 1039
+### Edit at old physical position 1052
 
 Unchanged source before the edit:
 
@@ -226,7 +226,7 @@ PUSH
 INVOKE ERROR 1
 ```
 
-### Edit at old physical position 50
+### Edit at old physical position 63
 
 Unchanged source before the edit:
 
@@ -250,7 +250,7 @@ CALL FLUSH
 LD OUTPUT
 ```
 
-### Edit at old physical position 49
+### Edit at old physical position 62
 
 Unchanged source before the edit:
 
@@ -277,13 +277,11 @@ CALL FLUSH
 ## Build and check
 
 ```dos
-COPY R38.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP R38.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 16691 bytes`. Save RESULT.COM as R38.COM. VIEW.BAS must show length 16691.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 17513 bytes`. Save RESULT.COM as R38.COM. VIEW.BAS must show length 17513.
 
 Create T38.RIL:
 
@@ -292,16 +290,12 @@ Create T38.RIL:
 ```
 
 ```dos
-COPY T38.RIL SOURCE.RIL
-```
-
-```dos
-CHECK R38
+CHECK R38 T38.RIL RESULT.IR
 ```
 
 Require PASS.
 
-Inspect RILL.TMP with VIEW.BAS. Require length 238 bytes and these complete bytes:
+Inspect RESULT.IR with VIEW.BAS. Require length 238 bytes and these complete bytes:
 
 ```text
 50 52 4F 43 20 4D 41 49 4E 20 30 20 31 36 0D 0A
@@ -321,17 +315,21 @@ Inspect RILL.TMP with VIEW.BAS. Require length 238 bytes and these complete byte
 49 54 20 30 0D 0A 52 45 54 55 52 4E 0D 0A
 ```
 
-This is a complete IR program. Translate it with IRKEEP, assemble its accepted output with ASMAKEEP, and save RESULT.COM as TRY.COM. Require fresh OK and PASS before both copies. VIEW.BAS must report length 1083. CHECK TRY displays `AB` and reports PASS.
+This is a complete IR program. Translate it with IRKEEP, assemble its accepted output with ASMAKEEP, and save RESULT.COM as TRY.COM. Require fresh OK and PASS before both copies. VIEW.BAS must report length 1445. CHECK TRY displays `AB` and reports PASS.
 
 ## Check the new boundary
 
-Use this separate rejected source:
+Save this separate rejected source as X38.RIL:
 
 ```rill
 {putc();}
 ```
 
-Copy it to SOURCE.RIL and run CHECK R38. Require:
+```dos
+CHECK R38 X38.RIL RESULT.IR
+```
+
+Require:
 
 ```text
 ERROR 0000000001 CODE 00004

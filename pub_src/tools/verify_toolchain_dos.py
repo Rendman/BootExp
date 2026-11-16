@@ -10,22 +10,22 @@ volume=str(disk)+'@@32256'
 subprocess.run(['mformat','-i',volume,'-h','16','-s','63','-T','32697','-H','63','-c','4','::'],check=True)
 def copy(p,name=None,image=volume):subprocess.run(['mcopy','-o','-i',image,str(p),'::'+(name or p.name)],check=True)
 def dos(name,s):p=scratch/name;p.write_bytes(s.replace('\n','\r\n').encode('ascii'));return p
-copy(ROOT/'workbench/bootasm/CHECK.BAT')
+copy(W/'CHECK.BAT')
 copy(W/'TMAKE.BAT')
 for p,name in [(ROOT/'workbench/asm86/ASM86A.COM','ASMAKEEP.COM'),(ROOT/'workbench/ir86/IRWIDE.ASM','IRWIDE.ASM'),(ROOT/'workbench/rill0/RILLBOOT.IR','RILLBOOT.IR'),(ROOT/'workbench/rill0/RILL.IR','RILL.IR'),(W/'TSMALL.RIL','TSMALL.RIL')]+[(W/(n+'.RIL'),n+'.RIL') for n in ['RILL','IR86','ASM86A']]:copy(p,name)
 commands=['C:',r'A:\COMMAND /C TMAKE >TMAKE.LOG']
 copy(dos('HI.RIL','fn main(){putc(72);putc(73);return 0;}\n'))
-commands += ['COPY HI.RIL SOURCE.RIL >NUL',r'A:\COMMAND /C CHECK R2 >HI.CMP','COPY RESULT.IR SOURCE.IR >NUL',r'A:\COMMAND /C CHECK I2 >HI.TRN','COPY RESULT.ASM SOURCE.ASM >NUL',r'A:\COMMAND /C CHECK A2 >HI.BLD','COPY RESULT.COM HI.COM >NUL',r'A:\COMMAND /C CHECK HI >HI.OUT','ECHO DONE >DONE.TXT']
+commands += [r'A:\COMMAND /C CHECK R2 HI.RIL HI.IR >HI.CMP',r'A:\COMMAND /C CHECK I2 HI.IR HI.ASM >HI.TRN',r'A:\COMMAND /C CHECK A2 HI.ASM HI.COM >HI.BLD',r'A:\COMMAND /C CHECK HI >HI.OUT','ECHO DONE >DONE.TXT']
 copy(dos('CONFIG.SYS','FILES=30\n'),image=str(boot));copy(dos('AUTOEXEC.BAT','ECHO OFF\n'+'\n'.join(commands)+'\n'),image=str(boot))
 monitor='/tmp/bootexp-rill-tools.sock';Path(monitor).unlink(missing_ok=True)
-p=subprocess.Popen(['qemu-system-i386','-machine','pc','-m','16M','-drive',f'file={boot},format=raw,if=floppy,index=0','-drive',f'file={disk},format=raw,if=ide,index=0','-boot','a','-display','none','-monitor','unix:'+monitor+',server=on,wait=off','-serial','none','-no-reboot'],stdout=subprocess.DEVNULL,stderr=subprocess.PIPE)
+p=subprocess.Popen(['qemu-system-i386','-machine','pc','-m','16M','-drive',f'file={boot},format=raw,if=floppy,index=0','-drive',f'file={disk},format=raw,if=ide,index=0','-boot','a','-display','none','-monitor','stdio','-serial','none','-no-reboot'],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
 try:
  for n in range(1200):
   if subprocess.run(['mtype','-i',volume,'::DONE.TXT'],capture_output=True).returncode==0:break
   if p.poll() is not None:raise RuntimeError(p.stderr.read().decode())
   time.sleep(.5)
  else:raise RuntimeError('DOS toolchain did not finish within ten minutes')
- s=socket.socket(socket.AF_UNIX);s.connect(monitor);s.sendall(b'quit\n');s.close();p.wait(timeout=10)
+ p.stdin.write(b'quit\n');p.stdin.flush();p.wait(timeout=10)
  logs=[]
  buildlog=subprocess.check_output(['mtype','-i',volume,'::TMAKE.LOG']);(scratch/'TMAKE.LOG').write_bytes(buildlog)
  assert buildlog.count(b'PASS ')==10 and b'FAIL' not in buildlog,buildlog

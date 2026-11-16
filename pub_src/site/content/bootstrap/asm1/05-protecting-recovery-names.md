@@ -21,32 +21,7 @@ The checks occur before CREATEOUT. A reserved file is not silently erased. Inspe
 
 Copy `A04.ASM` to `A05.ASM`. Apply the following edits **from the bottom of the old file upward**. Physical positions locate an edit in the unchanged old file; use the nearby label and printed context to identify it. Keep all other source. The Z labels are ordinary implementation labels for explicit short-branch bridges.
 
-### Change 1 near `TMPNAME:`
-
-Unchanged source immediately before this edit:
-
-```asm
-TMPNAME:
-DB 65,83,77,65,46,84,77,80,0
-```
-
-Insert after old physical line 1178.
-
-Insert:
-
-```asm
-BAKNAME:
-DB 82,69,83,85,76,84,46,66,65,75,0
-```
-
-The following old source stays in place:
-
-```asm
-RECOVERMSG:
-DB 82,101,99,111,118,101,114,121,58,32,105,110,115,112,101,99
-```
-
-### Change 2 near `FLUSHDONE:`
+### Change 1 near `FLUSHDONE:`
 
 Unchanged source immediately before this edit:
 
@@ -55,7 +30,7 @@ POP AX
 RET
 ```
 
-Insert after old physical line 1004.
+Insert after old physical line 1010.
 
 Insert:
 
@@ -102,17 +77,17 @@ CLEANUP:
 MOV AL,[INOPEN]
 ```
 
-### Change 3 near `ROOM:`
+### Change 2 near `ROOM:`
 
 Unchanged source immediately before this edit:
 
 ```asm
-MOV AX,7
 JMP ERROR
 ROOM:
+CALL CMDFILES
 ```
 
-Insert after old physical line 8.
+Insert after old physical line 9.
 
 Insert:
 
@@ -129,9 +104,9 @@ MOV [RDPOS],AX
 
 ## Build the stopping point
 
-Copy `A05.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK 02806 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM A05.COM`.
+Copy `A05.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK 03257 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM A05.COM`.
 
-VIEW.BAS must report A05.COM length 2806 bytes. Keep that executable and source together.
+VIEW.BAS must report A05.COM length 3257 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -142,11 +117,7 @@ ABC
 ```
 
 ```dos
-COPY T05.ASM SOURCE.ASM
-```
-
-```dos
-CHECK A05
+CHECK A05 T05.ASM RESULT.COM
 ```
 
 Require:
@@ -170,7 +141,7 @@ After inspecting the successful copy, delete ASMA.TMP. It belongs to this copy e
 
 ```dos
 ECHO RECOVERY>ASMA.TMP
-CHECK A05
+CHECK A05 T05.ASM RESULT.COM
 ```
 
 TYPE ASMA.TMP afterward: its RECOVERY text must be unchanged. After inspection, delete this deliberately created test file.
@@ -188,4 +159,4 @@ An unexpected PASS fails this rejection test.
 
 ## If the result differs
 
-Check the fixed name bytes, handle ownership flags, reader cursors at each pass, and the current output count. Inspect file length as well as the leading bytes. A copied data file is not an executable proof.
+Check the saved argument names and terminators, handle ownership flags, reader cursors at each pass, and the current output count. Inspect file length as well as the leading bytes. A copied data file is not an executable proof.

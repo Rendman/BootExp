@@ -15,7 +15,7 @@ Build adding a byte to the output..
 
 Copy R20.IR to R21.IR. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 697
+### Edit at old physical position 706
 
 Unchanged source before the edit:
 
@@ -72,7 +72,7 @@ PROC FLUSH 0 1
 LD OUTLEN
 ```
 
-### Edit at old physical position 35
+### Edit at old physical position 44
 
 Unchanged source before the edit:
 
@@ -103,7 +103,7 @@ CALL FLUSH
 LD OUTPUT
 ```
 
-### Edit at old physical position 32
+### Edit at old physical position 41
 
 Unchanged source before the edit:
 
@@ -154,25 +154,23 @@ WORD OWN 0
 ## Build and check
 
 ```dos
-COPY R21.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP R21.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 13135 bytes`. Save RESULT.COM as R21.COM. VIEW.BAS must show length 13135.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 13945 bytes`. Save RESULT.COM as R21.COM. VIEW.BAS must show length 13945.
 
 ```dos
-CHECK R21
+CHECK R21 SOURCE.RIL RESULT.IR
 ```
 
 Require PASS.
 
-Inspect RILL.TMP with VIEW.BAS. Require length 1 bytes and these complete bytes:
+Inspect RESULT.IR with VIEW.BAS. Require length 1 bytes and these complete bytes:
 
 ```text
 41
 ```
 
-This is a fragment for inspection. Delete the deliberately created RILL.TMP after checking it.
+This is a fragment for inspection, not a complete program. The command-selected RESULT.IR contains that fragment.
 

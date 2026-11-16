@@ -8,7 +8,7 @@ reader_names = 1
 url = "/bootstrap/asm86a/17-using-the-paged-symbol-table/"
 +++
 
-The table is ready to replace the seed's fixed in-segment records.
+The page helpers have passed their small checks while the old symbol table has continued doing the assembly. Now I can connect the new table to definitions and operands. I'll leave the file buffers where they are while I check that change.
 
 ## The working parts
 
@@ -29,7 +29,7 @@ HASHSEG:
 DW 0
 ```
 
-Remove this exact source at old physical positions 1828–1829:
+Remove this exact source at old physical positions 2017–2018:
 
 ```asm
 TESTNAME:
@@ -43,6 +43,13 @@ UNRESOLVED:
 DB 0
 ```
 
+The following old source stays in place:
+
+```asm
+
+CMDCOUNT:
+```
+
 ### Change 2 near `DEFTYPE:`
 
 Unchanged source immediately before this edit:
@@ -52,7 +59,7 @@ DEFTYPE:
 DW 0
 ```
 
-Insert after old physical line 1821.
+Insert after old physical line 2010.
 
 Insert:
 
@@ -73,15 +80,13 @@ DW 0,0,0,0,0,0,0,0
 Unchanged source immediately before this edit:
 
 ```asm
-
 SYMC:
 DW 0
 ```
 
-Remove this exact source at old physical positions 1634–1636:
+Remove this exact source at old physical positions 1824–1826:
 
 ```asm
-
 SYMNEXT:
 DW 12288
 ```
@@ -91,8 +96,8 @@ There is no replacement source.
 The following old source stays in place:
 
 ```asm
-
 TOKLEN:
+DW 0
 ```
 
 ### Change 4 near `EARLYTEST:`
@@ -105,7 +110,7 @@ MOV [SYMID],AX
 MOV AX,[SYMID]
 ```
 
-Remove this exact source at old physical positions 1588–1600:
+Remove this exact source at old physical positions 1594–1606:
 
 ```asm
 CALL RECORDWRITE
@@ -145,7 +150,7 @@ CALL COPYZ
 POP SI
 ```
 
-Remove this exact source at old physical positions 1575–1586:
+Remove this exact source at old physical positions 1581–1592:
 
 ```asm
 CALL SYMLOOK
@@ -197,7 +202,7 @@ EARLYTEST:
 PUSH SI
 ```
 
-Remove this exact source at old physical positions 1571–1572:
+Remove this exact source at old physical positions 1577–1578:
 
 ```asm
 MOV SI,TESTNAME
@@ -226,7 +231,7 @@ POP SI
 RET
 ```
 
-Remove this exact source at old physical positions 1569–1569:
+Remove this exact source at old physical positions 1575–1575:
 
 ```asm
 EARLYTEST:
@@ -263,7 +268,7 @@ MOV [RECORDPTR],BX
 RET
 ```
 
-Remove this exact source at old physical positions 1475–1505:
+Remove this exact source at old physical positions 1481–1511:
 
 ```asm
 RECORDWRITE:
@@ -317,7 +322,7 @@ CALL SHORTJUMP
 RET
 ```
 
-Remove this exact source at old physical positions 687–687:
+Remove this exact source at old physical positions 693–693:
 
 ```asm
 STNEXT8:
@@ -346,7 +351,7 @@ STNEXT7:
 CMP AL,8
 ```
 
-Remove this exact source at old physical positions 684–684:
+Remove this exact source at old physical positions 690–690:
 
 ```asm
 JNE STNEXT8
@@ -375,7 +380,7 @@ CALL NEARJUMP
 RET
 ```
 
-Remove this exact source at old physical positions 682–682:
+Remove this exact source at old physical positions 688–688:
 
 ```asm
 STNEXT7:
@@ -404,7 +409,7 @@ STNEXT6:
 CMP AL,7
 ```
 
-Remove this exact source at old physical positions 679–679:
+Remove this exact source at old physical positions 685–685:
 
 ```asm
 JNE STNEXT7
@@ -433,7 +438,7 @@ CALL INTERRUPT
 RET
 ```
 
-Remove this exact source at old physical positions 677–677:
+Remove this exact source at old physical positions 683–683:
 
 ```asm
 STNEXT6:
@@ -462,7 +467,7 @@ STNEXT5:
 CMP AL,6
 ```
 
-Remove this exact source at old physical positions 674–674:
+Remove this exact source at old physical positions 680–680:
 
 ```asm
 JNE STNEXT6
@@ -491,7 +496,7 @@ CALL SINGLE
 RET
 ```
 
-Remove this exact source at old physical positions 672–672:
+Remove this exact source at old physical positions 678–678:
 
 ```asm
 STNEXT5:
@@ -520,7 +525,7 @@ STNEXT2:
 CMP AL,5
 ```
 
-Remove this exact source at old physical positions 669–669:
+Remove this exact source at old physical positions 675–675:
 
 ```asm
 JNE STNEXT5
@@ -549,7 +554,7 @@ CALL FIXED
 RET
 ```
 
-Remove this exact source at old physical positions 667–667:
+Remove this exact source at old physical positions 673–673:
 
 ```asm
 STNEXT2:
@@ -578,7 +583,7 @@ STNEXT1:
 CMP AL,2
 ```
 
-Remove this exact source at old physical positions 664–664:
+Remove this exact source at old physical positions 670–670:
 
 ```asm
 JNE STNEXT2
@@ -607,7 +612,7 @@ CALL DATAITEM
 RET
 ```
 
-Remove this exact source at old physical positions 662–662:
+Remove this exact source at old physical positions 668–668:
 
 ```asm
 STNEXT1:
@@ -636,7 +641,7 @@ MOV AL,[TYPE]
 CMP AL,1
 ```
 
-Remove this exact source at old physical positions 659–659:
+Remove this exact source at old physical positions 665–665:
 
 ```asm
 JNE STNEXT1
@@ -665,7 +670,7 @@ CALL LOOK
 CMP BX,0
 ```
 
-Remove this exact source at old physical positions 647–650:
+Remove this exact source at old physical positions 653–656:
 
 ```asm
 JNE STOPFOUND
@@ -699,7 +704,7 @@ CMP AL,58
 JNE INSTRUCTION
 ```
 
-Insert after old physical line 636.
+Insert after old physical line 642.
 
 Insert:
 
@@ -727,7 +732,7 @@ MOV AX,[SYMC]
 INC AX
 ```
 
-Remove this exact source at old physical positions 539–550:
+Remove this exact source at old physical positions 545–556:
 
 ```asm
 MOV [SYMC],AX
@@ -770,7 +775,7 @@ JMP DEFINEBAD
 ZDEFINE3:
 ```
 
-Remove this exact source at old physical positions 520–537:
+Remove this exact source at old physical positions 526–543:
 
 ```asm
 MOV AX,[SYMC]
@@ -823,7 +828,7 @@ JMP CHECKDEFINE
 ZDEFINE2:
 ```
 
-Remove this exact source at old physical positions 516–516:
+Remove this exact source at old physical positions 522–522:
 
 ```asm
 CMP BX,0
@@ -854,7 +859,7 @@ CMP AL,1
 JE ZDEFINE2
 ```
 
-Remove this exact source at old physical positions 514–514:
+Remove this exact source at old physical positions 520–520:
 
 ```asm
 JMP CHECKDEFINE
@@ -883,7 +888,7 @@ JMP DEFINEBAD
 ZDEFINE1:
 ```
 
-Remove this exact source at old physical positions 507–512:
+Remove this exact source at old physical positions 513–518:
 
 ```asm
 MOV BX,5000H
@@ -921,7 +926,7 @@ CALL REGISTER
 CMP AX,0FFFFH
 ```
 
-Remove this exact source at old physical positions 504–504:
+Remove this exact source at old physical positions 510–510:
 
 ```asm
 JE ZDEFINE1
@@ -975,7 +980,7 @@ CMP AL,1
 JNE VALUEBAD
 ```
 
-Insert after old physical line 493.
+Insert after old physical line 499.
 
 Insert:
 
@@ -1001,7 +1006,7 @@ CMP BX,0
 JE NOTDEFINED
 ```
 
-Remove this exact source at old physical positions 487–488:
+Remove this exact source at old physical positions 493–494:
 
 ```asm
 ADD BX,18
@@ -1035,7 +1040,7 @@ CALL REGISTER
 CMP AX,0FFFFH
 ```
 
-Remove this exact source at old physical positions 480–485:
+Remove this exact source at old physical positions 486–491:
 
 ```asm
 JNE VALUEBAD
@@ -1074,7 +1079,7 @@ RET
 VALIDNAME:
 ```
 
-Insert after old physical line 353.
+Insert after old physical line 359.
 
 Insert:
 
@@ -1103,7 +1108,7 @@ CALL COMMIT
 CALL MEMFREE
 ```
 
-Insert after old physical line 62.
+Insert after old physical line 63.
 
 Insert:
 
@@ -1133,7 +1138,7 @@ JMP ERROR
 PASSVALID:
 ```
 
-Insert after old physical line 58.
+Insert after old physical line 59.
 
 Insert:
 
@@ -1164,7 +1169,7 @@ MOV [RDLEN],AX
 MOV [OUTCNT],AX
 ```
 
-Insert after old physical line 25.
+Insert after old physical line 26.
 
 Insert:
 
@@ -1189,7 +1194,7 @@ MOV AX,0
 MOV [SYMC],AX
 ```
 
-Remove this exact source at old physical positions 16–17:
+Remove this exact source at old physical positions 17–18:
 
 ```asm
 MOV AX,5000H
@@ -1210,12 +1215,12 @@ MOV AX,100H
 Unchanged source immediately before this edit:
 
 ```asm
-JMP ERROR
 ROOM:
+CALL CMDFILES
 CALL MEMINIT
 ```
 
-Remove this exact source at old physical positions 10–10:
+Remove this exact source at old physical positions 11–11:
 
 ```asm
 CALL EARLYTEST
@@ -1233,17 +1238,16 @@ MOV AL,1
 ## Build the stopping point
 
 ```dos
-COPY A17.ASM SOURCE.ASM
-CHECK ASM1
+CHECK ASM1 A17.ASM RESULT.COM
 ```
 
-Require `OK RESULT.COM 04017 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 04455 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A17.COM
 ```
 
-VIEW.BAS must report A17.COM length 4017 bytes. Keep that executable and source together.
+VIEW.BAS must report A17.COM length 4455 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -1255,11 +1259,7 @@ DW HERE
 ```
 
 ```dos
-COPY T17.ASM SOURCE.ASM
-```
-
-```dos
-CHECK A17
+CHECK A17 T17.ASM RESULT.COM
 ```
 
 Require:
@@ -1277,6 +1277,8 @@ In VIEW.BAS, inspect RESULT.COM. Require length **2 bytes** and these complete c
 
 The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
 
+The two bytes `00 01` give HERE its expected address. This time the definition and the operand have met through the allocated table. The page helpers are doing the assembler's ordinary work now.
+
 ## A rejection check
 
 Create X17.ASM with this separate source:
@@ -1287,8 +1289,7 @@ SAME:
 ```
 
 ```dos
-COPY X17.ASM SOURCE.ASM
-CHECK A17
+CHECK A17 X17.ASM RESULT.COM
 ```
 
 Require:
@@ -1315,9 +1316,9 @@ Enter SYMS.BAS as a source-text exercise:
 80 PRINT "SOURCE.ASM READY"
 ```
 
-Run GWBASIC SYMS.BAS, require SOURCE.ASM READY, and use SYSTEM to return to DOS. BASIC closes the text file with its normal source Control-Z marker. Run CHECK A17. Require `OK RESULT.COM 00004 bytes` and PASS. VIEW.BAS must show `00 01 00 01`: all definitions have value 0100H because none emits bytes. This file is data, not an executable.
+Run GWBASIC SYMS.BAS, require SOURCE.ASM READY, and use SYSTEM to return to DOS. BASIC closes the text file with its normal source Control-Z marker. Run CHECK A17 SOURCE.ASM RESULT.COM. Require `OK RESULT.COM 00004 bytes` and PASS. VIEW.BAS must show `00 01 00 01`: all definitions have value 0100H because none emits bytes. This file is data, not an executable.
 
-Keep a copy of that result. Change BASIC line 10 to `10 N=8193` and RUN again. CHECK A17 must report `ERROR 08193 CODE 5` and FAIL, preserving the four-byte result. Restore the stated accepted N before another run. The BASIC program creates assembly source, never executable bytes.
+Keep a copy of that result. Change BASIC line 10 to `10 N=8193` and RUN again. CHECK A17 SOURCE.ASM RESULT.COM must report `ERROR 08193 CODE 5` and FAIL, preserving the four-byte result. Restore the stated accepted N before another run. The BASIC program creates assembly source, never executable bytes.
 
 An unexpected PASS fails this rejection test.
 

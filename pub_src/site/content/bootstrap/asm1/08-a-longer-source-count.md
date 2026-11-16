@@ -31,7 +31,7 @@ MOV DX,[LINENO]
 INC DX
 ```
 
-Insert after old physical line 207.
+Insert after old physical line 213.
 
 Insert:
 
@@ -56,7 +56,7 @@ READFAIL:
 MOV DX,[LINENO]
 ```
 
-Insert after old physical line 206.
+Insert after old physical line 212.
 
 Insert:
 
@@ -82,7 +82,7 @@ MOV AX,[LINENO]
 INC AX
 ```
 
-Remove this exact source at old physical positions 192–193:
+Remove this exact source at old physical positions 198–199:
 
 ```asm
 CMP AX,4000
@@ -108,9 +108,9 @@ MOV AX,1
 
 ## Build the stopping point
 
-Copy `A08.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK 03028 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM A08.COM`.
+Copy `A08.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK 03466 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM A08.COM`.
 
-VIEW.BAS must report A08.COM length 3028 bytes. Keep that executable and source together.
+VIEW.BAS must report A08.COM length 3466 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -125,11 +125,7 @@ INT 21H
 ```
 
 ```dos
-COPY T08.ASM SOURCE.ASM
-```
-
-```dos
-CHECK A08
+CHECK A08 T08.ASM RESULT.COM
 ```
 
 Require:
@@ -156,8 +152,7 @@ MOV AX,AL
 ```
 
 ```dos
-COPY X08.ASM SOURCE.ASM
-CHECK A08
+CHECK A08 X08.ASM RESULT.COM
 ```
 
 Require:
@@ -173,4 +168,4 @@ An unexpected PASS fails this rejection test.
 
 ## If the result differs
 
-Check the fixed name bytes, handle ownership flags, reader cursors at each pass, and the current output count. Inspect file length as well as the leading bytes. A copied data file is not an executable proof.
+Check the saved argument names and terminators, handle ownership flags, reader cursors at each pass, and the current output count. Inspect file length as well as the leading bytes. A copied data file is not an executable proof.

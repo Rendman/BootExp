@@ -8,7 +8,7 @@ reader_names = 1
 url = "/bootstrap/asm86a/13-allocating-auxiliary-workspace/"
 +++
 
-A full symbol table should not compete with resident code for the same segment.
+ASM1 can encode segment-register moves and ES memory accesses. Now I have a use for them in the assembler itself. I turn to the DOS memory calls in the manual: before moving the names out of the main segment, I need to obtain their storage and be able to return it, even if a later allocation fails.
 
 ## The working parts
 
@@ -25,17 +25,15 @@ Copy `ASM1.ASM` to `A13.ASM`. Apply the following edits **from the bottom of the
 Unchanged source immediately before this edit:
 
 ```asm
-
 P1:
 DB 0
 ```
 
-Insert after old physical line 1458.
+Insert after old physical line 1648.
 
 Insert:
 
 ```asm
-
 MEMNEXT:
 DW 0
 
@@ -49,6 +47,13 @@ HASHSEG:
 DW 0
 ```
 
+The following old source stays in place:
+
+```asm
+CMDCOUNT:
+DW 0
+```
+
 ### Change 2 near `SEGBAD:`
 
 Unchanged source immediately before this edit:
@@ -59,7 +64,7 @@ SEGBAD:
 JMP TWOBAD
 ```
 
-Insert after old physical line 1263.
+Insert after old physical line 1269.
 
 Insert:
 
@@ -161,7 +166,7 @@ The following old source stays in place:
 
 ```asm
 
-OKMSG:
+CMDINIT:
 ```
 
 ### Change 3 near `SEGMOV:`
@@ -174,7 +179,7 @@ MOV AL,[WIDTH]
 CMP AL,1
 ```
 
-Remove this exact source at old physical positions 1238–1238:
+Remove this exact source at old physical positions 1244–1244:
 
 ```asm
 JNE SEGBAD
@@ -205,7 +210,7 @@ MOV AL,[KIND]
 CMP AL,1
 ```
 
-Remove this exact source at old physical positions 1235–1235:
+Remove this exact source at old physical positions 1241–1241:
 
 ```asm
 JNE SEGBAD
@@ -236,7 +241,7 @@ MOV AL,[R1]
 CMP AL,1
 ```
 
-Remove this exact source at old physical positions 1232–1232:
+Remove this exact source at old physical positions 1238–1238:
 
 ```asm
 JE SEGBAD
@@ -267,7 +272,7 @@ MOV AL,[4080H]
 CMP AL,58
 ```
 
-Remove this exact source at old physical positions 1198–1198:
+Remove this exact source at old physical positions 1204–1204:
 
 ```asm
 JNE SEGREGISTER
@@ -298,7 +303,7 @@ MOV [CLEANFAIL],AL
 CLEANEND:
 ```
 
-Insert after old physical line 1189.
+Insert after old physical line 1195.
 
 Insert:
 
@@ -322,7 +327,7 @@ MOV AH,56H
 INT 21H
 ```
 
-Remove this exact source at old physical positions 1122–1122:
+Remove this exact source at old physical positions 1128–1128:
 
 ```asm
 JAE PUBLISHED
@@ -353,7 +358,7 @@ JE MOVREG
 CMP AL,2
 ```
 
-Remove this exact source at old physical positions 803–803:
+Remove this exact source at old physical positions 809–809:
 
 ```asm
 JE LOADMEM
@@ -384,7 +389,7 @@ MOVDESTREG:
 CMP AL,1
 ```
 
-Remove this exact source at old physical positions 798–798:
+Remove this exact source at old physical positions 804–804:
 
 ```asm
 JNE TWOBAD
@@ -415,7 +420,7 @@ JE MATHREG
 CMP AL,3
 ```
 
-Remove this exact source at old physical positions 757–757:
+Remove this exact source at old physical positions 763–763:
 
 ```asm
 JNE TWOBAD
@@ -446,7 +451,7 @@ MOV AL,[K1]
 CMP AL,1
 ```
 
-Remove this exact source at old physical positions 752–752:
+Remove this exact source at old physical positions 758–758:
 
 ```asm
 JNE TWOBAD
@@ -477,7 +482,7 @@ MOV AL,[TYPE]
 CMP AL,3
 ```
 
-Remove this exact source at old physical positions 749–749:
+Remove this exact source at old physical positions 755–755:
 
 ```asm
 JE MOVOPERANDS
@@ -508,7 +513,7 @@ MOV AL,[4080H]
 CMP AL,44
 ```
 
-Remove this exact source at old physical positions 745–745:
+Remove this exact source at old physical positions 751–751:
 
 ```asm
 JNE TWOBAD
@@ -539,7 +544,7 @@ JB SYNTAXBAD
 CMP AX,15
 ```
 
-Remove this exact source at old physical positions 663–663:
+Remove this exact source at old physical positions 669–669:
 
 ```asm
 JA SYNTAXBAD
@@ -570,7 +575,7 @@ CALL REGISTER
 CMP AX,8
 ```
 
-Remove this exact source at old physical positions 661–661:
+Remove this exact source at old physical positions 667–667:
 
 ```asm
 JB SYNTAXBAD
@@ -601,7 +606,7 @@ JE DATAITEM
 CMP AL,0
 ```
 
-Remove this exact source at old physical positions 648–648:
+Remove this exact source at old physical positions 654–654:
 
 ```asm
 JNE SYNTAXBAD
@@ -631,7 +636,7 @@ CALL REGISTER
 CMP AX,0FFFFH
 ```
 
-Remove this exact source at old physical positions 509–509:
+Remove this exact source at old physical positions 515–515:
 
 ```asm
 JE IMMEDIATE
@@ -662,7 +667,7 @@ MOV AL,[4080H]
 CMP AL,91
 ```
 
-Remove this exact source at old physical positions 506–506:
+Remove this exact source at old physical positions 512–512:
 
 ```asm
 JE MEMORY
@@ -693,7 +698,7 @@ MOV AX,[SYMC]
 CMP AX,2048
 ```
 
-Remove this exact source at old physical positions 465–465:
+Remove this exact source at old physical positions 471–471:
 
 ```asm
 JAE TABLEFULL
@@ -724,7 +729,7 @@ JNE CHECKDEFINE
 CMP BX,0
 ```
 
-Remove this exact source at old physical positions 462–462:
+Remove this exact source at old physical positions 468–468:
 
 ```asm
 JNE DEFINEBAD
@@ -755,7 +760,7 @@ MOV AL,[PASS]
 CMP AL,1
 ```
 
-Remove this exact source at old physical positions 460–460:
+Remove this exact source at old physical positions 466–466:
 
 ```asm
 JNE CHECKDEFINE
@@ -786,7 +791,7 @@ CALL REGISTER
 CMP AX,0FFFFH
 ```
 
-Remove this exact source at old physical positions 453–453:
+Remove this exact source at old physical positions 459–459:
 
 ```asm
 JNE DEFINEBAD
@@ -817,7 +822,7 @@ ADD CX,DX
 CMP SI,DI
 ```
 
-Remove this exact source at old physical positions 417–417:
+Remove this exact source at old physical positions 423–423:
 
 ```asm
 JB DIGIT
@@ -848,7 +853,7 @@ JB DECDIGIT
 CMP DX,5
 ```
 
-Remove this exact source at old physical positions 398–398:
+Remove this exact source at old physical positions 404–404:
 
 ```asm
 JA NUMBERBAD
@@ -879,7 +884,7 @@ JE HEXDIGIT
 CMP CX,6553
 ```
 
-Remove this exact source at old physical positions 395–395:
+Remove this exact source at old physical positions 401–401:
 
 ```asm
 JA NUMBERBAD
@@ -910,7 +915,7 @@ MOV DX,AX
 CMP DX,BP
 ```
 
-Remove this exact source at old physical positions 391–391:
+Remove this exact source at old physical positions 397–397:
 
 ```asm
 JAE NUMBERBAD
@@ -941,7 +946,7 @@ JB NUMBERBAD
 CMP AL,15
 ```
 
-Remove this exact source at old physical positions 386–386:
+Remove this exact source at old physical positions 392–392:
 
 ```asm
 JA NUMBERBAD
@@ -972,7 +977,7 @@ SUB AL,7
 CMP AL,10
 ```
 
-Remove this exact source at old physical positions 384–384:
+Remove this exact source at old physical positions 390–390:
 
 ```asm
 JB NUMBERBAD
@@ -1003,7 +1008,7 @@ NUMBERSTART:
 CMP SI,DI
 ```
 
-Remove this exact source at old physical positions 375–375:
+Remove this exact source at old physical positions 381–381:
 
 ```asm
 JE NUMBERBAD
@@ -1034,7 +1039,7 @@ JB SYMBOLBAD
 CMP AL,90
 ```
 
-Remove this exact source at old physical positions 329–329:
+Remove this exact source at old physical positions 335–335:
 
 ```asm
 JA SYMBOLBAD
@@ -1065,7 +1070,7 @@ JE NAMEVALID
 CMP AL,65
 ```
 
-Remove this exact source at old physical positions 327–327:
+Remove this exact source at old physical positions 333–333:
 
 ```asm
 JB SYMBOLBAD
@@ -1096,7 +1101,7 @@ LOOKNEXT:
 CMP CX,0
 ```
 
-Remove this exact source at old physical positions 278–278:
+Remove this exact source at old physical positions 284–284:
 
 ```asm
 JE LOOKMISS
@@ -1127,7 +1132,7 @@ LODSB
 CMP AL,0
 ```
 
-Remove this exact source at old physical positions 239–239:
+Remove this exact source at old physical positions 245–245:
 
 ```asm
 JE SCANBACK
@@ -1158,7 +1163,7 @@ JE SCANDONE
 CMP AL,93
 ```
 
-Remove this exact source at old physical positions 235–235:
+Remove this exact source at old physical positions 241–241:
 
 ```asm
 JE SCANDONE
@@ -1189,7 +1194,7 @@ JE SCANDONE
 CMP AL,91
 ```
 
-Remove this exact source at old physical positions 233–233:
+Remove this exact source at old physical positions 239–239:
 
 ```asm
 JE SCANDONE
@@ -1220,7 +1225,7 @@ JE SCANDONE
 CMP AL,58
 ```
 
-Remove this exact source at old physical positions 231–231:
+Remove this exact source at old physical positions 237–237:
 
 ```asm
 JE SCANDONE
@@ -1251,7 +1256,7 @@ STOSB
 CMP AL,44
 ```
 
-Remove this exact source at old physical positions 229–229:
+Remove this exact source at old physical positions 235–235:
 
 ```asm
 JE SCANDONE
@@ -1282,7 +1287,7 @@ JE SCANEND
 CMP AL,59
 ```
 
-Remove this exact source at old physical positions 226–226:
+Remove this exact source at old physical positions 232–232:
 
 ```asm
 JE SCANEND
@@ -1313,7 +1318,7 @@ JE SCANSPACE
 CMP AL,0
 ```
 
-Remove this exact source at old physical positions 224–224:
+Remove this exact source at old physical positions 230–230:
 
 ```asm
 JE SCANEND
@@ -1344,7 +1349,7 @@ JB READBAD
 CMP AL,126
 ```
 
-Remove this exact source at old physical positions 158–158:
+Remove this exact source at old physical positions 164–164:
 
 ```asm
 JA READBAD
@@ -1375,7 +1380,7 @@ JE TABCHAR
 CMP AL,32
 ```
 
-Remove this exact source at old physical positions 156–156:
+Remove this exact source at old physical positions 162–162:
 
 ```asm
 JB READBAD
@@ -1406,7 +1411,7 @@ JE ENDFILE
 CMP BP,120
 ```
 
-Remove this exact source at old physical positions 152–152:
+Remove this exact source at old physical positions 158–158:
 
 ```asm
 JAE READFULL
@@ -1437,7 +1442,7 @@ JE CARRIAGE
 CMP AL,26
 ```
 
-Remove this exact source at old physical positions 150–150:
+Remove this exact source at old physical positions 156–156:
 
 ```asm
 JE ENDFILE
@@ -1468,7 +1473,7 @@ MOV [SKIPLF],AH
 CMP AL,13
 ```
 
-Remove this exact source at old physical positions 148–148:
+Remove this exact source at old physical positions 154–154:
 
 ```asm
 JE CARRIAGE
@@ -1499,7 +1504,7 @@ MOV AL,[CHAR]
 CMP AL,10
 ```
 
-Remove this exact source at old physical positions 144–144:
+Remove this exact source at old physical positions 150–150:
 
 ```asm
 JE LINEFEED
@@ -1530,7 +1535,7 @@ CALL NEXTBYTE
 CMP AX,0
 ```
 
-Remove this exact source at old physical positions 141–141:
+Remove this exact source at old physical positions 147–147:
 
 ```asm
 JE ENDFILE
@@ -1561,7 +1566,7 @@ CALL CLOSEOUT
 CALL COMMIT
 ```
 
-Insert after old physical line 59.
+Insert after old physical line 60.
 
 Insert:
 
@@ -1581,12 +1586,12 @@ CALL TEXT
 Unchanged source immediately before this edit:
 
 ```asm
-MOV AX,7
 JMP ERROR
 ROOM:
+CALL CMDFILES
 ```
 
-Insert after old physical line 8.
+Insert after old physical line 9.
 
 Insert:
 
@@ -1604,17 +1609,16 @@ MOV AL,1
 ## Build the stopping point
 
 ```dos
-COPY A13.ASM SOURCE.ASM
-CHECK ASM1
+CHECK ASM1 A13.ASM RESULT.COM
 ```
 
-Require `OK RESULT.COM 03657 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 04095 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A13.COM
 ```
 
-VIEW.BAS must report A13.COM length 3657 bytes. Keep that executable and source together.
+VIEW.BAS must report A13.COM length 4095 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -1629,11 +1633,7 @@ INT 21H
 ```
 
 ```dos
-COPY T13.ASM SOURCE.ASM
-```
-
-```dos
-CHECK A13
+CHECK A13 T13.ASM RESULT.COM
 ```
 
 Require:
@@ -1660,8 +1660,7 @@ MOV AX,AL
 ```
 
 ```dos
-COPY X13.ASM SOURCE.ASM
-CHECK A13
+CHECK A13 X13.ASM RESULT.COM
 ```
 
 Require:

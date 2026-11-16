@@ -133,7 +133,8 @@
           "        decimal[i] = rem+48; hi = qhi; lo = qlo; i = i+1;",
           "    }",
           "    while i { i = i-1; putc(decimal[i]); } return 0;",
-          "}"
+          "}",
+          ""
         ],
         "context": [
           "    while place { c = 48; while n >= place { n = n-place; c = c+1; } putc(c); place = place/10; }",
@@ -173,6 +174,35 @@
     "kind": "rill",
     "changes": [
       {
+        "a1": 60,
+        "a2": 60,
+        "old": [],
+        "new": [
+          "",
+          "fn filearg(n,fallback){",
+          "    let mut count=argc();",
+          "    if count==0{return fallback;}",
+          "    if count!=2{exit(1);}",
+          "    if filesame(arg(1),arg(2))|filesame(arg(1),\"RILL.TMP\")|filesame(arg(1),\"RILL.BAK\")|filesame(arg(2),\"RILL.TMP\")|filesame(arg(2),\"RILL.BAK\"){exit(1);}",
+          "    return arg(n);",
+          "}",
+          "",
+          "fn filesame(a,b){",
+          "    let mut i=0;",
+          "    while load8(a+i)==load8(b+i){",
+          "        if load8(a+i)==0{return 1;}i=i+1;",
+          "    }",
+          "    return 0;",
+          "}"
+        ],
+        "context": [
+          "    while i { i = i-1; putc(decimal[i]); } return 0;",
+          "}",
+          ""
+        ],
+        "after": []
+      },
+      {
         "a1": 43,
         "a2": 43,
         "old": [],
@@ -182,7 +212,7 @@
           "    if input { close(input); }",
           "    if output { close(output); }",
           "    let mut recovery = 0;",
-          "    if backup { rename(\"RILL.BAK\",\"RESULT.IR\"); if status() { recovery = 1; } }",
+          "    if backup { rename(\"RILL.BAK\",filearg(2,\"RESULT.IR\")); if status() { recovery = 1; } }",
           "    if recovery == 0 { if own { delete(\"RILL.TMP\"); if status() { recovery=1; } } }",
           "    if table { free(table); table = 0; }",
           "    print(\"ERROR \"); print32(linehi,line); print(\" CODE \"); printnum(code); print(\"\\r\\n\");",
@@ -208,7 +238,7 @@
           "fn main(){print32(1,1);return 0;}"
         ],
         "new": [
-          "fn main(){fail(2);return 0;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");fail(2);return 0;}"
         ],
         "context": [
           "bytes ident[32];",
@@ -235,10 +265,10 @@
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){fail(2);return 0;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");fail(2);return 0;}"
         ],
         "new": [
-          "fn main(){return (letter(95))!=1;}",
+          "fn main(){filearg(1,\"SOURCE.RIL\");return (letter(95))!=1;}",
           "",
           "fn letter(c) {",
           "    if c == 95 { return 1; }",
@@ -290,10 +320,10 @@
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){return (letter(95))!=1;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");return (letter(95))!=1;}"
         ],
         "new": [
-          "fn main(){return (digit(57))!=1;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");return (digit(57))!=1;}"
         ],
         "context": [
           "bytes ident[32];",
@@ -320,10 +350,10 @@
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){return (digit(57))!=1;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");return (digit(57))!=1;}"
         ],
         "new": [
-          "fn main(){input=open(\"SOURCE.RIL\");if status(){fail(1);}next();return (ch)!=65;}",
+          "fn main(){filearg(1,\"SOURCE.RIL\");input=open(filearg(1,\"SOURCE.RIL\"));if status(){fail(1);}next();return (ch)!=65;}",
           "",
           "fn next() {",
           "    if ch == 10 {",
@@ -456,10 +486,10 @@
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){input=open(\"SOURCE.RIL\");if status(){fail(1);}next();return (ch)!=65;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");input=open(filearg(1,\"SOURCE.RIL\"));if status(){fail(1);}next();return (ch)!=65;}"
         ],
         "new": [
-          "fn main(){input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();return (value)!=65535;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");input=open(filearg(1,\"SOURCE.RIL\"));if status(){fail(1);}next();lex();return (value)!=65535;}"
         ],
         "context": [
           "bytes ident[32];",
@@ -504,10 +534,10 @@
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();return (value)!=65535;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");input=open(filearg(1,\"SOURCE.RIL\"));if status(){fail(1);}next();lex();return (value)!=65535;}"
         ],
         "new": [
-          "fn main(){input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();expect(43);print(\"OK\");return 0;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");input=open(filearg(1,\"SOURCE.RIL\"));if status(){fail(1);}next();lex();expect(43);print(\"OK\");return 0;}"
         ],
         "context": [
           "bytes ident[32];",
@@ -557,10 +587,10 @@
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();expect(43);print(\"OK\");return 0;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");input=open(filearg(1,\"SOURCE.RIL\"));if status(){fail(1);}next();lex();expect(43);print(\"OK\");return 0;}"
         ],
         "new": [
-          "fn main(){input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();return (isword(\"FN\"))!=1;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");input=open(filearg(1,\"SOURCE.RIL\"));if status(){fail(1);}next();lex();return (isword(\"FN\"))!=1;}"
         ],
         "context": [
           "bytes ident[32];",
@@ -605,10 +635,10 @@
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();return (isword(\"FN\"))!=1;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");input=open(filearg(1,\"SOURCE.RIL\"));if status(){fail(1);}next();lex();return (isword(\"FN\"))!=1;}"
         ],
         "new": [
-          "fn main(){setident(\"ABC\");tok=1;return isword(\"ABC\")!=1;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");setident(\"ABC\");tok=1;return isword(\"ABC\")!=1;}"
         ],
         "context": [
           "bytes ident[32];",
@@ -653,10 +683,10 @@
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){setident(\"ABC\");tok=1;return isword(\"ABC\")!=1;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");setident(\"ABC\");tok=1;return isword(\"ABC\")!=1;}"
         ],
         "new": [
-          "fn main(){table=alloc(23680);set16(table,100,4660);return (tword(100))!=4660;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);set16(table,100,4660);return (tword(100))!=4660;}"
         ],
         "context": [
           "bytes ident[32];",
@@ -701,10 +731,10 @@
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){table=alloc(23680);set16(table,100,4660);return (tword(100))!=4660;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);set16(table,100,4660);return (tword(100))!=4660;}"
         ],
         "new": [
-          "fn main(){table=alloc(23680);set16(table,100,4660);return (tbyte(100))!=52;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);set16(table,100,4660);return (tbyte(100))!=52;}"
         ],
         "context": [
           "bytes ident[32];",
@@ -769,10 +799,10 @@
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){table=alloc(23680);set16(table,100,4660);return (tbyte(100))!=52;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);set16(table,100,4660);return (tbyte(100))!=52;}"
         ],
         "new": [
-          "fn main(){table=alloc(23680);setident(\"ABC\");return (find(0,0))!=65535;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);setident(\"ABC\");return (find(0,0))!=65535;}"
         ],
         "context": [
           "bytes ident[32];",
@@ -817,10 +847,10 @@
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){table=alloc(23680);setident(\"ABC\");return (find(0,0))!=65535;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);setident(\"ABC\");return (find(0,0))!=65535;}"
         ],
         "new": [
-          "fn main(){table=alloc(23680);rectype=1;recval=12345;reclevel=0;recordfields(0);return (tword(34))!=12345;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);rectype=1;recval=12345;reclevel=0;recordfields(0);return (tword(34))!=12345;}"
         ],
         "context": [
           "bytes ident[32];",
@@ -870,10 +900,10 @@
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){table=alloc(23680);rectype=1;recval=12345;reclevel=0;recordfields(0);return (tword(34))!=12345;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);rectype=1;recval=12345;reclevel=0;recordfields(0);return (tword(34))!=12345;}"
         ],
         "new": [
-          "fn main(){table=alloc(23680);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;return (tword(34))!=12345;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;return (tword(34))!=12345;}"
         ],
         "context": [
           "bytes ident[32];",
@@ -923,10 +953,10 @@
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){table=alloc(23680);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;return (tword(34))!=12345;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;return (tword(34))!=12345;}"
         ],
         "new": [
-          "fn main(){table=alloc(23680);setident(\"ABC\");recval=12345;newglobal(1);return (tword(34))!=12345;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);setident(\"ABC\");recval=12345;newglobal(1);return (tword(34))!=12345;}"
         ],
         "context": [
           "bytes ident[32];",
@@ -976,10 +1006,10 @@
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){table=alloc(23680);setident(\"ABC\");recval=12345;newglobal(1);return (tword(34))!=12345;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);setident(\"ABC\");recval=12345;newglobal(1);return (tword(34))!=12345;}"
         ],
         "new": [
-          "fn main(){table=alloc(23680);setident(\"ABC\");recval=7;newlocal(5);return (tword(20514))!=7;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);setident(\"ABC\");recval=7;newlocal(5);return (tword(20514))!=7;}"
         ],
         "context": [
           "bytes ident[32];",
@@ -1024,10 +1054,10 @@
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){table=alloc(23680);setident(\"ABC\");recval=7;newlocal(5);return (tword(20514))!=7;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);setident(\"ABC\");recval=7;newlocal(5);return (tword(20514))!=7;}"
         ],
         "new": [
-          "fn main(){table=alloc(23680);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;lookglobal();return (recval)!=12345;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;lookglobal();return (recval)!=12345;}"
         ],
         "context": [
           "bytes ident[32];",
@@ -1076,10 +1106,10 @@
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){table=alloc(23680);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;lookglobal();return (recval)!=12345;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;lookglobal();return (recval)!=12345;}"
         ],
         "new": [
-          "fn main(){table=alloc(23680);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;resolve();return (recval)!=12345;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;resolve();return (recval)!=12345;}"
         ],
         "context": [
           "bytes ident[32];",
@@ -1132,10 +1162,10 @@
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){table=alloc(23680);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;resolve();return (recval)!=12345;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;resolve();return (recval)!=12345;}"
         ],
         "new": [
-          "fn main(){output=create(\"RILL.TMP\");own=1;outbuf[0]=65;outlen=1;flush();close(output);output=0;own=0;return 0;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");output=create(filearg(2,\"RILL.TMP\"));own=1;outbuf[0]=65;outlen=1;flush();close(output);output=0;own=0;return 0;}"
         ],
         "context": [
           "bytes ident[32];",
@@ -1185,10 +1215,10 @@
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){output=create(\"RILL.TMP\");own=1;outbuf[0]=65;outlen=1;flush();close(output);output=0;own=0;return 0;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");output=create(filearg(2,\"RILL.TMP\"));own=1;outbuf[0]=65;outlen=1;flush();close(output);output=0;own=0;return 0;}"
         ],
         "new": [
-          "fn main(){output=create(\"RILL.TMP\");own=1;outchar(65);flush();close(output);output=0;own=0;return 0;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");output=create(filearg(2,\"RILL.TMP\"));own=1;outchar(65);flush();close(output);output=0;own=0;return 0;}"
         ],
         "context": [
           "bytes ident[32];",
@@ -1240,10 +1270,10 @@
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){output=create(\"RILL.TMP\");own=1;outchar(65);flush();close(output);output=0;own=0;return 0;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");output=create(filearg(2,\"RILL.TMP\"));own=1;outchar(65);flush();close(output);output=0;own=0;return 0;}"
         ],
         "new": [
-          "fn main(){output=create(\"RILL.TMP\");own=1;outstr(\"HI\");flush();close(output);output=0;own=0;return 0;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");output=create(filearg(2,\"RILL.TMP\"));own=1;outstr(\"HI\");flush();close(output);output=0;own=0;return 0;}"
         ],
         "context": [
           "bytes ident[32];",
@@ -1292,10 +1322,10 @@
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){output=create(\"RILL.TMP\");own=1;outstr(\"HI\");flush();close(output);output=0;own=0;return 0;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");output=create(filearg(2,\"RILL.TMP\"));own=1;outstr(\"HI\");flush();close(output);output=0;own=0;return 0;}"
         ],
         "new": [
-          "fn main(){output=create(\"RILL.TMP\");own=1;outnum(12345);flush();close(output);output=0;own=0;return 0;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");output=create(filearg(2,\"RILL.TMP\"));own=1;outnum(12345);flush();close(output);output=0;own=0;return 0;}"
         ],
         "context": [
           "bytes ident[32];",
@@ -1340,10 +1370,10 @@
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){output=create(\"RILL.TMP\");own=1;outnum(12345);flush();close(output);output=0;own=0;return 0;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");output=create(filearg(2,\"RILL.TMP\"));own=1;outnum(12345);flush();close(output);output=0;own=0;return 0;}"
         ],
         "new": [
-          "fn main(){output=create(\"RILL.TMP\");own=1;newline();flush();close(output);output=0;own=0;return 0;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");output=create(filearg(2,\"RILL.TMP\"));own=1;newline();flush();close(output);output=0;own=0;return 0;}"
         ],
         "context": [
           "bytes ident[32];",
@@ -1388,10 +1418,10 @@
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){output=create(\"RILL.TMP\");own=1;newline();flush();close(output);output=0;own=0;return 0;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");output=create(filearg(2,\"RILL.TMP\"));own=1;newline();flush();close(output);output=0;own=0;return 0;}"
         ],
         "new": [
-          "fn main(){return (newlabel())!=1;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");return (newlabel())!=1;}"
         ],
         "context": [
           "bytes ident[32];",
@@ -1436,10 +1466,10 @@
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){return (newlabel())!=1;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");return (newlabel())!=1;}"
         ],
         "new": [
-          "fn main(){output=create(\"RILL.TMP\");own=1;labeldef(7);flush();close(output);output=0;own=0;return 0;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");output=create(filearg(2,\"RILL.TMP\"));own=1;labeldef(7);flush();close(output);output=0;own=0;return 0;}"
         ],
         "context": [
           "bytes ident[32];",
@@ -1484,10 +1514,10 @@
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){output=create(\"RILL.TMP\");own=1;labeldef(7);flush();close(output);output=0;own=0;return 0;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");output=create(filearg(2,\"RILL.TMP\"));own=1;labeldef(7);flush();close(output);output=0;own=0;return 0;}"
         ],
         "new": [
-          "fn main(){output=create(\"RILL.TMP\");own=1;labeljump(7);flush();close(output);output=0;own=0;return 0;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");output=create(filearg(2,\"RILL.TMP\"));own=1;labeljump(7);flush();close(output);output=0;own=0;return 0;}"
         ],
         "context": [
           "bytes ident[32];",
@@ -1532,10 +1562,10 @@
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){output=create(\"RILL.TMP\");own=1;labeljump(7);flush();close(output);output=0;own=0;return 0;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");output=create(filearg(2,\"RILL.TMP\"));own=1;labeljump(7);flush();close(output);output=0;own=0;return 0;}"
         ],
         "new": [
-          "fn main(){table=alloc(23680);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;output=create(\"RILL.TMP\");own=1;outname(0);flush();close(output);output=0;own=0;return 0;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;output=create(filearg(2,\"RILL.TMP\"));own=1;outname(0);flush();close(output);output=0;own=0;return 0;}"
         ],
         "context": [
           "bytes ident[32];",
@@ -1564,7 +1594,7 @@
         "old": [],
         "new": [
           "fn builtin() {",
-          "    let mut p = \"PUTC\\01\\0POP\\nPUTC\\0STATUS\\00\\0STATUS\\0OPEN\\01\\0POP\\nOPEN\\0CREATE\\01\\0POP\\nCREATE\\0CLOSE\\01\\0POP\\nCLOSE\\0READ\\03\\0POP\\nREAD\\0WRITE\\03\\0POP\\nWRITE\\0EXISTS\\01\\0POP\\nEXISTS\\0DELETE\\01\\0POP\\nDELETE\\0RENAME\\02\\0POP\\nRENAME\\0ALLOC\\01\\0POP\\nALLOC\\0FREE\\01\\0POP\\nFREEBLOCK\\0GET8\\02\\0POP\\nGET8\\0GET16\\02\\0POP\\nGET16\\0SET8\\03\\0POP\\nSET8\\0SET16\\03\\0POP\\nSET16\\0LOAD8\\01\\0POP\\nFETCHB\\0LOAD16\\01\\0POP\\nFETCH\\0STORE8\\02\\0POP\\nPUTB\\0STORE16\\02\\0POP\\nPUT\\0EXIT\\01\\0POP\\nEXIT\\0\\0\";",
+          "    let mut p = \"PUTC\\01\\0POP\\nPUTC\\0STATUS\\00\\0STATUS\\0OPEN\\01\\0POP\\nOPEN\\0CREATE\\01\\0POP\\nCREATE\\0CLOSE\\01\\0POP\\nCLOSE\\0READ\\03\\0POP\\nREAD\\0WRITE\\03\\0POP\\nWRITE\\0EXISTS\\01\\0POP\\nEXISTS\\0DELETE\\01\\0POP\\nDELETE\\0RENAME\\02\\0POP\\nRENAME\\0ALLOC\\01\\0POP\\nALLOC\\0FREE\\01\\0POP\\nFREEBLOCK\\0GET8\\02\\0POP\\nGET8\\0GET16\\02\\0POP\\nGET16\\0SET8\\03\\0POP\\nSET8\\0SET16\\03\\0POP\\nSET16\\0LOAD8\\01\\0POP\\nFETCHB\\0LOAD16\\01\\0POP\\nFETCH\\0STORE8\\02\\0POP\\nPUTB\\0STORE16\\02\\0POP\\nPUT\\0EXIT\\01\\0POP\\nEXIT\\0ARGC\\00\\0ARGC\\0ARG\\01\\0POP\\nARG\\0\\0\";",
           "    let mut i = 0; let mut same = 0;",
           "    while load8(p) {",
           "        i = 0; same = 1;",
@@ -1592,10 +1622,10 @@
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){table=alloc(23680);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;output=create(\"RILL.TMP\");own=1;outname(0);flush();close(output);output=0;own=0;return 0;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;output=create(filearg(2,\"RILL.TMP\"));own=1;outname(0);flush();close(output);output=0;own=0;return 0;}"
         ],
         "new": [
-          "fn main(){setident(\"PUTC\");builtin();return (recval)!=1;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");setident(\"PUTC\");builtin();return (recval)!=1;}"
         ],
         "context": [
           "bytes ident[32];",
@@ -1647,10 +1677,10 @@
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){setident(\"PUTC\");builtin();return (recval)!=1;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");setident(\"PUTC\");builtin();return (recval)!=1;}"
         ],
         "new": [
-          "fn main(){table=alloc(23680);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;resolveoptional();return (rectype)!=1;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;resolveoptional();return (rectype)!=1;}"
         ],
         "context": [
           "bytes ident[32];",
@@ -1704,10 +1734,10 @@
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){table=alloc(23680);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;resolveoptional();return (rectype)!=1;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;resolveoptional();return (rectype)!=1;}"
         ],
         "new": [
-          "fn main(){input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();return (prec())!=7;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");input=open(filearg(1,\"SOURCE.RIL\"));if status(){fail(1);}next();lex();return (prec())!=7;}"
         ],
         "context": [
           "bytes ident[32];",
@@ -1769,10 +1799,10 @@
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();return (prec())!=7;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");input=open(filearg(1,\"SOURCE.RIL\"));if status(){fail(1);}next();lex();return (prec())!=7;}"
         ],
         "new": [
-          "fn main(){output=create(\"RILL.TMP\");own=1;binary(43);flush();close(output);output=0;own=0;return 0;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");output=create(filearg(2,\"RILL.TMP\"));own=1;binary(43);flush();close(output);output=0;own=0;return 0;}"
         ],
         "context": [
           "bytes ident[32];",
@@ -1844,10 +1874,10 @@
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){output=create(\"RILL.TMP\");own=1;binary(43);flush();close(output);output=0;own=0;return 0;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");output=create(filearg(2,\"RILL.TMP\"));own=1;binary(43);flush();close(output);output=0;own=0;return 0;}"
         ],
         "new": [
-          "fn main(){table=alloc(23680);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;output=create(\"RILL.TMP\");own=1;input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();expr(1);if tok!=0{fail(2);}flush();close(output);output=0;own=0;return 0;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;output=create(filearg(2,\"RILL.TMP\"));own=1;input=open(filearg(1,\"SOURCE.RIL\"));if status(){fail(1);}next();lex();expr(1);if tok!=0{fail(2);}flush();close(output);output=0;own=0;return 0;}"
         ],
         "context": [
           "bytes ident[32];",
@@ -1954,22 +1984,22 @@
         ],
         "new": [
           "fn callargs(p,bi) {",
-          "    let mut argc = 0; let mut kind = 0; let mut wanted = 0;",
+          "    let mut nargs = 0; let mut kind = 0; let mut wanted = 0;",
           "    expect(40);",
           "    while tok != 41 {",
-          "        if argc >= 16 { fail(5); } expr(1); outstr(\"PUSH\\r\\n\"); argc = argc+1;",
+          "        if nargs >= 16 { fail(5); } expr(1); outstr(\"PUSH\\r\\n\"); nargs = nargs+1;",
           "        if tok != 41 { expect(44); }",
           "    }",
           "    lex();",
           "    if bi {",
-          "        if load8(bi-2)-48 != argc { fail(4); }",
+          "        if load8(bi-2)-48 != nargs { fail(4); }",
           "        outstr(bi); newline(); return 0;",
           "    }",
           "    kind = tword(p+32); if kind != 3 { if kind != 4 { fail(4); } }",
           "    wanted = tword(p+34);",
-          "    if wanted == 65535 { set16(table,p+34,argc); }",
-          "    else { if wanted != argc { fail(4); } }",
-          "    outstr(\"INVOKE F_\"); outname(p); outchar(32); outnum(argc); newline(); return 0;",
+          "    if wanted == 65535 { set16(table,p+34,nargs); }",
+          "    else { if wanted != nargs { fail(4); } }",
+          "    outstr(\"INVOKE F_\"); outname(p); outchar(32); outnum(nargs); newline(); return 0;",
           "}"
         ],
         "context": [
@@ -2016,17 +2046,17 @@
         ],
         "after": [
           "fn builtin() {",
-          "    let mut p = \"PUTC\\01\\0POP\\nPUTC\\0STATUS\\00\\0STATUS\\0OPEN\\01\\0POP\\nOPEN\\0CREATE\\01\\0POP\\nCREATE\\0CLOSE\\01\\0POP\\nCLOSE\\0READ\\03\\0POP\\nREAD\\0WRITE\\03\\0POP\\nWRITE\\0EXISTS\\01\\0POP\\nEXISTS\\0DELETE\\01\\0POP\\nDELETE\\0RENAME\\02\\0POP\\nRENAME\\0ALLOC\\01\\0POP\\nALLOC\\0FREE\\01\\0POP\\nFREEBLOCK\\0GET8\\02\\0POP\\nGET8\\0GET16\\02\\0POP\\nGET16\\0SET8\\03\\0POP\\nSET8\\0SET16\\03\\0POP\\nSET16\\0LOAD8\\01\\0POP\\nFETCHB\\0LOAD16\\01\\0POP\\nFETCH\\0STORE8\\02\\0POP\\nPUTB\\0STORE16\\02\\0POP\\nPUT\\0EXIT\\01\\0POP\\nEXIT\\0\\0\";"
+          "    let mut p = \"PUTC\\01\\0POP\\nPUTC\\0STATUS\\00\\0STATUS\\0OPEN\\01\\0POP\\nOPEN\\0CREATE\\01\\0POP\\nCREATE\\0CLOSE\\01\\0POP\\nCLOSE\\0READ\\03\\0POP\\nREAD\\0WRITE\\03\\0POP\\nWRITE\\0EXISTS\\01\\0POP\\nEXISTS\\0DELETE\\01\\0POP\\nDELETE\\0RENAME\\02\\0POP\\nRENAME\\0ALLOC\\01\\0POP\\nALLOC\\0FREE\\01\\0POP\\nFREEBLOCK\\0GET8\\02\\0POP\\nGET8\\0GET16\\02\\0POP\\nGET16\\0SET8\\03\\0POP\\nSET8\\0SET16\\03\\0POP\\nSET16\\0LOAD8\\01\\0POP\\nFETCHB\\0LOAD16\\01\\0POP\\nFETCH\\0STORE8\\02\\0POP\\nPUTB\\0STORE16\\02\\0POP\\nPUT\\0EXIT\\01\\0POP\\nEXIT\\0ARGC\\00\\0ARGC\\0ARG\\01\\0POP\\nARG\\0\\0\";"
         ]
       },
       {
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){table=alloc(23680);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;output=create(\"RILL.TMP\");own=1;input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();expr(1);if tok!=0{fail(2);}flush();close(output);output=0;own=0;return 0;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);setident(\"ABC\");rectype=1;recval=12345;reclevel=0;record(0);globals=1;output=create(filearg(2,\"RILL.TMP\"));own=1;input=open(filearg(1,\"SOURCE.RIL\"));if status(){fail(1);}next();lex();expr(1);if tok!=0{fail(2);}flush();close(output);output=0;own=0;return 0;}"
         ],
         "new": [
-          "fn main(){table=alloc(23680);output=create(\"RILL.TMP\");own=1;input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();globalword();flush();close(output);output=0;own=0;return 0;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);output=create(filearg(2,\"RILL.TMP\"));own=1;input=open(filearg(1,\"SOURCE.RIL\"));if status(){fail(1);}next();lex();globalword();flush();close(output);output=0;own=0;return 0;}"
         ],
         "context": [
           "bytes ident[32];",
@@ -2071,17 +2101,17 @@
         ],
         "after": [
           "fn builtin() {",
-          "    let mut p = \"PUTC\\01\\0POP\\nPUTC\\0STATUS\\00\\0STATUS\\0OPEN\\01\\0POP\\nOPEN\\0CREATE\\01\\0POP\\nCREATE\\0CLOSE\\01\\0POP\\nCLOSE\\0READ\\03\\0POP\\nREAD\\0WRITE\\03\\0POP\\nWRITE\\0EXISTS\\01\\0POP\\nEXISTS\\0DELETE\\01\\0POP\\nDELETE\\0RENAME\\02\\0POP\\nRENAME\\0ALLOC\\01\\0POP\\nALLOC\\0FREE\\01\\0POP\\nFREEBLOCK\\0GET8\\02\\0POP\\nGET8\\0GET16\\02\\0POP\\nGET16\\0SET8\\03\\0POP\\nSET8\\0SET16\\03\\0POP\\nSET16\\0LOAD8\\01\\0POP\\nFETCHB\\0LOAD16\\01\\0POP\\nFETCH\\0STORE8\\02\\0POP\\nPUTB\\0STORE16\\02\\0POP\\nPUT\\0EXIT\\01\\0POP\\nEXIT\\0\\0\";"
+          "    let mut p = \"PUTC\\01\\0POP\\nPUTC\\0STATUS\\00\\0STATUS\\0OPEN\\01\\0POP\\nOPEN\\0CREATE\\01\\0POP\\nCREATE\\0CLOSE\\01\\0POP\\nCLOSE\\0READ\\03\\0POP\\nREAD\\0WRITE\\03\\0POP\\nWRITE\\0EXISTS\\01\\0POP\\nEXISTS\\0DELETE\\01\\0POP\\nDELETE\\0RENAME\\02\\0POP\\nRENAME\\0ALLOC\\01\\0POP\\nALLOC\\0FREE\\01\\0POP\\nFREEBLOCK\\0GET8\\02\\0POP\\nGET8\\0GET16\\02\\0POP\\nGET16\\0SET8\\03\\0POP\\nSET8\\0SET16\\03\\0POP\\nSET16\\0LOAD8\\01\\0POP\\nFETCHB\\0LOAD16\\01\\0POP\\nFETCH\\0STORE8\\02\\0POP\\nPUTB\\0STORE16\\02\\0POP\\nPUT\\0EXIT\\01\\0POP\\nEXIT\\0ARGC\\00\\0ARGC\\0ARG\\01\\0POP\\nARG\\0\\0\";"
         ]
       },
       {
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){table=alloc(23680);output=create(\"RILL.TMP\");own=1;input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();globalword();flush();close(output);output=0;own=0;return 0;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);output=create(filearg(2,\"RILL.TMP\"));own=1;input=open(filearg(1,\"SOURCE.RIL\"));if status(){fail(1);}next();lex();globalword();flush();close(output);output=0;own=0;return 0;}"
         ],
         "new": [
-          "fn main(){table=alloc(23680);output=create(\"RILL.TMP\");own=1;input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();globalbuffer();flush();close(output);output=0;own=0;return 0;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);output=create(filearg(2,\"RILL.TMP\"));own=1;input=open(filearg(1,\"SOURCE.RIL\"));if status(){fail(1);}next();lex();globalbuffer();flush();close(output);output=0;own=0;return 0;}"
         ],
         "context": [
           "bytes ident[32];",
@@ -2128,17 +2158,17 @@
         ],
         "after": [
           "fn builtin() {",
-          "    let mut p = \"PUTC\\01\\0POP\\nPUTC\\0STATUS\\00\\0STATUS\\0OPEN\\01\\0POP\\nOPEN\\0CREATE\\01\\0POP\\nCREATE\\0CLOSE\\01\\0POP\\nCLOSE\\0READ\\03\\0POP\\nREAD\\0WRITE\\03\\0POP\\nWRITE\\0EXISTS\\01\\0POP\\nEXISTS\\0DELETE\\01\\0POP\\nDELETE\\0RENAME\\02\\0POP\\nRENAME\\0ALLOC\\01\\0POP\\nALLOC\\0FREE\\01\\0POP\\nFREEBLOCK\\0GET8\\02\\0POP\\nGET8\\0GET16\\02\\0POP\\nGET16\\0SET8\\03\\0POP\\nSET8\\0SET16\\03\\0POP\\nSET16\\0LOAD8\\01\\0POP\\nFETCHB\\0LOAD16\\01\\0POP\\nFETCH\\0STORE8\\02\\0POP\\nPUTB\\0STORE16\\02\\0POP\\nPUT\\0EXIT\\01\\0POP\\nEXIT\\0\\0\";"
+          "    let mut p = \"PUTC\\01\\0POP\\nPUTC\\0STATUS\\00\\0STATUS\\0OPEN\\01\\0POP\\nOPEN\\0CREATE\\01\\0POP\\nCREATE\\0CLOSE\\01\\0POP\\nCLOSE\\0READ\\03\\0POP\\nREAD\\0WRITE\\03\\0POP\\nWRITE\\0EXISTS\\01\\0POP\\nEXISTS\\0DELETE\\01\\0POP\\nDELETE\\0RENAME\\02\\0POP\\nRENAME\\0ALLOC\\01\\0POP\\nALLOC\\0FREE\\01\\0POP\\nFREEBLOCK\\0GET8\\02\\0POP\\nGET8\\0GET16\\02\\0POP\\nGET16\\0SET8\\03\\0POP\\nSET8\\0SET16\\03\\0POP\\nSET16\\0LOAD8\\01\\0POP\\nFETCHB\\0LOAD16\\01\\0POP\\nFETCH\\0STORE8\\02\\0POP\\nPUTB\\0STORE16\\02\\0POP\\nPUT\\0EXIT\\01\\0POP\\nEXIT\\0ARGC\\00\\0ARGC\\0ARG\\01\\0POP\\nARG\\0\\0\";"
         ]
       },
       {
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){table=alloc(23680);output=create(\"RILL.TMP\");own=1;input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();globalbuffer();flush();close(output);output=0;own=0;return 0;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);output=create(filearg(2,\"RILL.TMP\"));own=1;input=open(filearg(1,\"SOURCE.RIL\"));if status(){fail(1);}next();lex();globalbuffer();flush();close(output);output=0;own=0;return 0;}"
         ],
         "new": [
-          "fn main(){table=alloc(23680);output=create(\"RILL.TMP\");own=1;input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();level=1;declare();flush();close(output);output=0;own=0;return 0;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);output=create(filearg(2,\"RILL.TMP\"));own=1;input=open(filearg(1,\"SOURCE.RIL\"));if status(){fail(1);}next();lex();level=1;declare();flush();close(output);output=0;own=0;return 0;}"
         ],
         "context": [
           "bytes ident[32];",
@@ -2208,10 +2238,10 @@
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){table=alloc(23680);output=create(\"RILL.TMP\");own=1;input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();level=1;declare();flush();close(output);output=0;own=0;return 0;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);output=create(filearg(2,\"RILL.TMP\"));own=1;input=open(filearg(1,\"SOURCE.RIL\"));if status(){fail(1);}next();lex();level=1;declare();flush();close(output);output=0;own=0;return 0;}"
         ],
         "new": [
-          "fn main(){table=alloc(23680);output=create(\"RILL.TMP\");own=1;input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();block();flush();close(output);output=0;own=0;return 0;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);output=create(filearg(2,\"RILL.TMP\"));own=1;input=open(filearg(1,\"SOURCE.RIL\"));if status(){fail(1);}next();lex();block();flush();close(output);output=0;own=0;return 0;}"
         ],
         "context": [
           "bytes ident[32];",
@@ -2297,10 +2327,10 @@
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){table=alloc(23680);output=create(\"RILL.TMP\");own=1;input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();block();flush();close(output);output=0;own=0;return 0;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);output=create(filearg(2,\"RILL.TMP\"));own=1;input=open(filearg(1,\"SOURCE.RIL\"));if status(){fail(1);}next();lex();block();flush();close(output);output=0;own=0;return 0;}"
         ],
         "new": [
-          "fn main(){table=alloc(23680);output=create(\"RILL.TMP\");own=1;input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();outstr(\"PROC MAIN 0 64\\r\\n\");block();outstr(\"LIT 0\\r\\nRETURN\\r\\n\");flush();close(output);output=0;own=0;return 0;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);output=create(filearg(2,\"RILL.TMP\"));own=1;input=open(filearg(1,\"SOURCE.RIL\"));if status(){fail(1);}next();lex();outstr(\"PROC MAIN 0 64\\r\\n\");block();outstr(\"LIT 0\\r\\nRETURN\\r\\n\");flush();close(output);output=0;own=0;return 0;}"
         ],
         "context": [
           "bytes ident[32];",
@@ -2336,18 +2366,18 @@
           "    let mut oldargs = tword(p+34);",
           "    set16(table,p+32,3);",
           "    localcount = 0; nextlocal = 0; level = 0;",
-          "    let mut argc = 0;",
+          "    let mut nargs = 0;",
           "    lex(); expect(40);",
           "    while tok != 41 {",
           "        if tok != 1 { fail(2); }",
           "        if find(20480,localcount) != 65535 { fail(4); }",
-          "        if argc >= 16 { fail(5); }",
-          "        recval = argc; reclevel = 0; newlocal(6); argc = argc+1;",
+          "        if nargs >= 16 { fail(5); }",
+          "        recval = nargs; reclevel = 0; newlocal(6); nargs = nargs+1;",
           "        lex(); if tok != 41 { expect(44); }",
           "    }",
-          "    if oldargs != 65535 { if oldargs != argc { fail(4); } }",
-          "    set16(table,p+34,argc);",
-          "    outstr(\"PROC F_\"); outname(p); outchar(32); outnum(argc); outstr(\" 64\\r\\n\");",
+          "    if oldargs != 65535 { if oldargs != nargs { fail(4); } }",
+          "    set16(table,p+34,nargs);",
+          "    outstr(\"PROC F_\"); outname(p); outchar(32); outnum(nargs); outstr(\" 64\\r\\n\");",
           "    lex(); block(); outstr(\"LIT 0\\r\\nRETURN\\r\\n\"); return 0;",
           "}",
           ""
@@ -2366,10 +2396,10 @@
         "a1": 34,
         "a2": 35,
         "old": [
-          "fn main(){table=alloc(23680);output=create(\"RILL.TMP\");own=1;input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();outstr(\"PROC MAIN 0 64\\r\\n\");block();outstr(\"LIT 0\\r\\nRETURN\\r\\n\");flush();close(output);output=0;own=0;return 0;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);output=create(filearg(2,\"RILL.TMP\"));own=1;input=open(filearg(1,\"SOURCE.RIL\"));if status(){fail(1);}next();lex();outstr(\"PROC MAIN 0 64\\r\\n\");block();outstr(\"LIT 0\\r\\nRETURN\\r\\n\");flush();close(output);output=0;own=0;return 0;}"
         ],
         "new": [
-          "fn main(){table=alloc(23680);output=create(\"RILL.TMP\");own=1;input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();function();outstr(\"PROC MAIN 0 0\\r\\nINVOKE F_MAIN 0\\r\\nRETURN\\r\\n\");flush();close(output);output=0;own=0;return 0;}"
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);output=create(filearg(2,\"RILL.TMP\"));own=1;input=open(filearg(1,\"SOURCE.RIL\"));if status(){fail(1);}next();lex();function();outstr(\"PROC MAIN 0 0\\r\\nINVOKE F_MAIN 0\\r\\nRETURN\\r\\n\");flush();close(output);output=0;own=0;return 0;}"
         ],
         "context": [
           "bytes ident[32];",
@@ -2392,6 +2422,40 @@
     "base": "RC42.RIL",
     "kind": "rill",
     "changes": [
+      {
+        "a1": 507,
+        "a2": 508,
+        "old": [
+          ""
+        ],
+        "new": [],
+        "context": [
+          "    if filesame(arg(1),arg(2))|filesame(arg(1),\"RILL.TMP\")|filesame(arg(1),\"RILL.BAK\")|filesame(arg(2),\"RILL.TMP\")|filesame(arg(2),\"RILL.BAK\"){exit(1);}",
+          "    return arg(n);",
+          "}"
+        ],
+        "after": [
+          "fn filesame(a,b){",
+          "    let mut i=0;"
+        ]
+      },
+      {
+        "a1": 499,
+        "a2": 500,
+        "old": [
+          ""
+        ],
+        "new": [],
+        "context": [
+          "    while i { i = i-1; putc(decimal[i]); } return 0;",
+          "}",
+          ""
+        ],
+        "after": [
+          "fn filearg(n,fallback){",
+          "    let mut count=argc();"
+        ]
+      },
       {
         "a1": 482,
         "a2": 483,
@@ -2485,8 +2549,8 @@
         ],
         "new": [],
         "context": [
-          "    else { if wanted != argc { fail(4); } }",
-          "    outstr(\"INVOKE F_\"); outname(p); outchar(32); outnum(argc); newline(); return 0;",
+          "    else { if wanted != nargs { fail(4); } }",
+          "    outstr(\"INVOKE F_\"); outname(p); outchar(32); outnum(nargs); newline(); return 0;",
           "}"
         ],
         "after": [
@@ -2508,7 +2572,7 @@
         ],
         "after": [
           "fn callargs(p,bi) {",
-          "    let mut argc = 0; let mut kind = 0; let mut wanted = 0;"
+          "    let mut nargs = 0; let mut kind = 0; let mut wanted = 0;"
         ]
       },
       {
@@ -2542,7 +2606,7 @@
         ],
         "after": [
           "fn builtin() {",
-          "    let mut p = \"PUTC\\01\\0POP\\nPUTC\\0STATUS\\00\\0STATUS\\0OPEN\\01\\0POP\\nOPEN\\0CREATE\\01\\0POP\\nCREATE\\0CLOSE\\01\\0POP\\nCLOSE\\0READ\\03\\0POP\\nREAD\\0WRITE\\03\\0POP\\nWRITE\\0EXISTS\\01\\0POP\\nEXISTS\\0DELETE\\01\\0POP\\nDELETE\\0RENAME\\02\\0POP\\nRENAME\\0ALLOC\\01\\0POP\\nALLOC\\0FREE\\01\\0POP\\nFREEBLOCK\\0GET8\\02\\0POP\\nGET8\\0GET16\\02\\0POP\\nGET16\\0SET8\\03\\0POP\\nSET8\\0SET16\\03\\0POP\\nSET16\\0LOAD8\\01\\0POP\\nFETCHB\\0LOAD16\\01\\0POP\\nFETCH\\0STORE8\\02\\0POP\\nPUTB\\0STORE16\\02\\0POP\\nPUT\\0EXIT\\01\\0POP\\nEXIT\\0\\0\";"
+          "    let mut p = \"PUTC\\01\\0POP\\nPUTC\\0STATUS\\00\\0STATUS\\0OPEN\\01\\0POP\\nOPEN\\0CREATE\\01\\0POP\\nCREATE\\0CLOSE\\01\\0POP\\nCLOSE\\0READ\\03\\0POP\\nREAD\\0WRITE\\03\\0POP\\nWRITE\\0EXISTS\\01\\0POP\\nEXISTS\\0DELETE\\01\\0POP\\nDELETE\\0RENAME\\02\\0POP\\nRENAME\\0ALLOC\\01\\0POP\\nALLOC\\0FREE\\01\\0POP\\nFREEBLOCK\\0GET8\\02\\0POP\\nGET8\\0GET16\\02\\0POP\\nGET16\\0SET8\\03\\0POP\\nSET8\\0SET16\\03\\0POP\\nSET16\\0LOAD8\\01\\0POP\\nFETCHB\\0LOAD16\\01\\0POP\\nFETCH\\0STORE8\\02\\0POP\\nPUTB\\0STORE16\\02\\0POP\\nPUT\\0EXIT\\01\\0POP\\nEXIT\\0ARGC\\00\\0ARGC\\0ARG\\01\\0POP\\nARG\\0\\0\";"
         ]
       },
       {
@@ -2587,7 +2651,7 @@
         ],
         "new": [],
         "context": [
-          "    outstr(\"PROC F_\"); outname(p); outchar(32); outnum(argc); outstr(\" 64\\r\\n\");",
+          "    outstr(\"PROC F_\"); outname(p); outchar(32); outnum(nargs); outstr(\" 64\\r\\n\");",
           "    lex(); block(); outstr(\"LIT 0\\r\\nRETURN\\r\\n\"); return 0;",
           "}"
         ],
@@ -3111,14 +3175,15 @@
         "a2": 36,
         "old": [
           "",
-          "fn main(){table=alloc(23680);output=create(\"RILL.TMP\");own=1;input=open(\"SOURCE.RIL\");if status(){fail(1);}next();lex();function();outstr(\"PROC MAIN 0 0\\r\\nINVOKE F_MAIN 0\\r\\nRETURN\\r\\n\");flush();close(output);output=0;own=0;return 0;}",
+          "fn main(){filearg(1,\"SOURCE.RIL\");table=alloc(23680);output=create(filearg(2,\"RILL.TMP\"));own=1;input=open(filearg(1,\"SOURCE.RIL\"));if status(){fail(1);}next();lex();function();outstr(\"PROC MAIN 0 0\\r\\nINVOKE F_MAIN 0\\r\\nRETURN\\r\\n\");flush();close(output);output=0;own=0;return 0;}",
           ""
         ],
         "new": [
           "fn main() {",
+          "    filearg(1,\"SOURCE.RIL\");",
           "    if exists(\"RILL.TMP\") != 0 { fail(5); }",
           "    if exists(\"RILL.BAK\") != 0 { fail(5); }",
-          "    input = open(\"SOURCE.RIL\");",
+          "    input = open(filearg(1,\"SOURCE.RIL\"));",
           "    if status() != 0 { fail(1); }",
           "    output = create(\"RILL.TMP\");",
           "    if status() != 0 { fail(1); }",
@@ -3151,14 +3216,14 @@
           "    if status() != 0 { fail(1); }",
           "    flush(); close(output);",
           "    if status() != 0 { fail(1); }",
-          "    let mut present=exists(\"RESULT.IR\");",
+          "    let mut present=exists(filearg(2,\"RESULT.IR\"));",
           "    if status() { fail(1); }",
           "    if present {",
-          "        rename(\"RESULT.IR\",\"RILL.BAK\");",
+          "        rename(filearg(2,\"RESULT.IR\"),\"RILL.BAK\");",
           "        if status() != 0 { fail(1); }",
           "        backup = 1;",
           "    }",
-          "    rename(\"RILL.TMP\",\"RESULT.IR\");",
+          "    rename(\"RILL.TMP\",filearg(2,\"RESULT.IR\"));",
           "    if status() != 0 { fail(1); }",
           "    own = 0;",
           "    if backup {",
@@ -3167,7 +3232,7 @@
           "    }",
           "    free(table);",
           "    if status() != 0 { fail(1); }",
-          "    print(\"OK RESULT.IR \");",
+          "    print(\"OK \");print(filearg(2,\"RESULT.IR\"));print(\" \");",
           "    print32(totalhi,total);",
           "    print(\"\\r\\n\");",
           "    return 0;",

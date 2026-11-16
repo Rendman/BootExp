@@ -31,7 +31,7 @@ POP AX
 JMP TWOBAD
 ```
 
-Insert after old physical line 1200.
+Insert after old physical line 1206.
 
 Insert:
 
@@ -66,7 +66,7 @@ JNE SEGREGISTER
 POP AX
 ```
 
-Insert after old physical line 1199.
+Insert after old physical line 1205.
 
 Insert:
 
@@ -85,9 +85,9 @@ SEGREGISTER:
 
 ## Build the stopping point
 
-Copy `A11.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK 03302 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM A11.COM`.
+Copy `A11.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK 03740 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM A11.COM`.
 
-VIEW.BAS must report A11.COM length 3302 bytes. Keep that executable and source together.
+VIEW.BAS must report A11.COM length 3740 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -102,11 +102,7 @@ INT 21H
 ```
 
 ```dos
-COPY T11.ASM SOURCE.ASM
-```
-
-```dos
-CHECK A11
+CHECK A11 T11.ASM RESULT.COM
 ```
 
 Require:
@@ -133,8 +129,7 @@ MOV AX,AL
 ```
 
 ```dos
-COPY X11.ASM SOURCE.ASM
-CHECK A11
+CHECK A11 X11.ASM RESULT.COM
 ```
 
 Require:
@@ -150,4 +145,4 @@ An unexpected PASS fails this rejection test.
 
 ## If the result differs
 
-Check the fixed name bytes, handle ownership flags, reader cursors at each pass, and the current output count. Inspect file length as well as the leading bytes. A copied data file is not an executable proof.
+Check the saved argument names and terminators, handle ownership flags, reader cursors at each pass, and the current output count. Inspect file length as well as the leading bytes. A copied data file is not an executable proof.

@@ -1,9 +1,9 @@
 PASS canonical BOOTASM.BAS -> ASM86 -> ASMA0 -> ASM86A -> streaming IR86 -> IR-written compiler seed
 PASS single required native IR86 -> RILL0 -> accepted executable; RILLBOOT continues the same IR compiler source
 PASS compiler seed -> RILL compiler -> IR86 and ASM86 implementations -> identical executables
-PASS fresh ladder generation 1: RILL reproduces 26617 bytes
-PASS fresh ladder generation 1: IR86 reproduces 29678 bytes
-PASS fresh ladder generation 1: ASM86A reproduces 30911 bytes
-PASS fresh ladder generation 2: RILL reproduces 26617 bytes
-PASS fresh ladder generation 2: IR86 reproduces 29678 bytes
-PASS fresh ladder generation 2: ASM86A reproduces 30911 bytes
+PASS fresh ladder generation 1: RILL reproduces 27614 bytes
+PASS fresh ladder generation 1: IR86 reproduces 32343 bytes
+PASS fresh ladder generation 1: ASM86A reproduces 31886 bytes
+PASS fresh ladder generation 2: RILL reproduces 27614 bytes
+PASS fresh ladder generation 2: IR86 reproduces 32343 bytes
+PASS fresh ladder generation 2: ASM86A reproduces 31886 bytes

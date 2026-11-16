@@ -52,7 +52,7 @@ HELP={
 'BLOCK':'Save the active local-name count and next local slot at entry. Restore both at the closing brace. This permits a nested binding to shadow an outer one without permanently consuming its name or slot.',
 'STATEMENT':'Keep assignment destinations, false targets, and loop targets in local slots. An if/else join and a while back edge meet with no expression temporaries. Parse every statement even after an explicit return.',
 'FUNCTION':'Record the procedure name before scanning parameters, verify any earlier call arity, and create parameter bindings. Each procedure accepts at most sixteen parameters. PROC reserves sixty-four local words, matching the declaration routine and IR86 frame bound. Those 128 local bytes are reserved on every call, even when fewer slots are used; parameters, return state and expression temporaries need additional stack space. The native stack guard still applies. Every normal fall-through ends with return value zero.',
-'MAIN':'Open the fixed source, stream accepted IR through an owned temporary file, and verify all pending procedures. Require an argument-free main. Publish only after parsing, source close, flush, and output close succeed.'}
+'MAIN':'Open the command-selected source, stream accepted IR through an owned temporary file, and verify all pending procedures. Require an argument-free main. Publish the selected output only after parsing, source close, flush, and output close succeed.'}
 def helper(c):return HELP.get(c.get('key','').upper(),'Keep the input fields, result, and scratch state explicit. Use the saved descriptor and checked stream interfaces rather than retaining a complete source or output image.')
 def patches(old,new,kind,oldname):
  t='';changes=[]
@@ -91,7 +91,7 @@ for family,collection,offset,prefix,language in [('rill-self-series','rc',88,'RC
    t+=fence('dos',f'COPY {c["source"]} SOURCE.ASM\nCHECK ASMAKEEP')+f'Require `OK RESULT.COM {c["binary_bytes"]:05} bytes` and PASS, then save it:\n\n'+fence('dos',f'COPY RESULT.COM {name}.COM')
   else:
    if prefix=='RC':
-    t+=fence('dos',f'COPY {c["source"]} SOURCE.RIL\nCHECK RILLBOOT')+f'Require `OK RESULT.IR {c["ir_bytes"]:010}` and PASS. Copy RESULT.IR to SOURCE.IR.\n\n'
+    t+=fence('dos',f'COPY {c["source"]} SOURCE.RIL\nCHECK RILLBOOT')+f'Require `OK RESULT.IR {c["ir_bytes"]:010}` and PASS. Pass RESULT.IR directly to the translator.\n\n'
    else:t+=fence('dos',f'COPY {c["source"]} SOURCE.IR')
    t+=fence('dos','CHECK IWKEEP\nCOPY RESULT.ASM SOURCE.ASM\nCHECK ASMAKEEP')+f'Require IR86 `OK RESULT.ASM {c["assembly_bytes"]:010} text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM {c["binary_bytes"]:05} bytes` and PASS before saving:\n\n'+fence('dos',f'COPY RESULT.COM {name}.COM')
   t+=f'VIEW.BAS must report {name}.COM length {c["binary_bytes"]} bytes. Keep this executable and its source together.\n\n## Acceptance check\n\n'
@@ -120,7 +120,7 @@ for family,collection,offset,prefix,language in [('rill-self-series','rc',88,'RC
     else:t+='It returns zero and the checker reports PASS.\n\n'
    if n==23:t+=fence('dos','COPY IW23.COM IRWIDE.COM\nCOPY IRWIDE.COM IWKEEP.COM')+'Preserve IWKEEP as the fixed-file translator. IRKEEP and IWKEEP are identical fixed-file translator aliases. IRWIDE.ASM and IW23.ASM are identical.\n\n'
   elif 'result' in c:
-   resultname='RESULT.IR' if c['key'].upper()=='MAIN' else 'RILL.TMP'
+   resultname='RESULT.IR'
    if c['complete']:
     t+=f'TYPE {resultname}. Its complete IR is:\n\n'+fence('ir',c['result'])+f'VIEW.BAS must show length {c["result_bytes"]} bytes. '
    else:
@@ -129,7 +129,7 @@ for family,collection,offset,prefix,language in [('rill-self-series','rc',88,'RC
     if raw:t+='The complete bytes must be:\n\n'+fence('text','\n'.join(hexrows))
     else:t+='An empty file is the expected result.\n\n'
    if c['complete']:
-    t+='This is a complete program. Copy it to SOURCE.IR, run CHECK IWKEEP, copy the accepted RESULT.ASM to SOURCE.ASM, and run CHECK ASMAKEEP. Require OK and PASS at both steps. '
+    t+='This is a complete program. Run CHECK IWKEEP RESULT.IR RESULT.ASM, then CHECK ASMAKEEP RESULT.ASM RESULT.COM. Require OK and PASS at both steps. '
     t+=f'VIEW.BAS must report RESULT.COM length {c["program_bytes"]}. Copy that file to TRY.COM; CHECK TRY displays `{c["program_output"]}` and reports PASS.\n\n'
    else:t+='This is an IR fragment for inspection. Do not translate it as a complete program or execute any file with its name.\n\n'
    if resultname=='RILL.TMP':t+='After inspection, delete this deliberately created RILL.TMP before another checkpoint. The file is diagnostic text, not an interrupted accepted compiler build.\n\n'

@@ -16,7 +16,8 @@ for c,s in zip(cases,patches):
   else:assert '\n'.join(e['new']) in text
   old[a:b]=e['new']
  assert old==(W/s['source']).read_text().splitlines(),s['page']
- n=c['number'];assert f'COPY {c["source"]} SOURCE.RIL' in text
+ n=c['number'];assert f'CHECK R0 {c["source"]} RESULT.IR' in text
+ assert f'CHECK L{n:02} M{n:02}.OBJ '+(f'U{n:02}.OBJ' if c['util'] is not None else 'UTIL.OBJ')+' RESULT.COM' in text
  for key,name in [('main',f'M{n:02}.OBJ'),('util',f'U{n:02}.OBJ'),('bad',f'X{n:02}.OBJ')]:
   if c[key] is not None:assert c[key].rstrip('\n') in text and (W/name).read_text()==c[key]
  assert c['binary_hex'] in text and f'{c["binary_bytes"]:05} bytes' in text

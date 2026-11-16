@@ -32,7 +32,7 @@ Insert:
 
 ```rill
 fn builtin() {
-    let mut p = "PUTC\01\0POP\nPUTC\0STATUS\00\0STATUS\0OPEN\01\0POP\nOPEN\0CREATE\01\0POP\nCREATE\0CLOSE\01\0POP\nCLOSE\0READ\03\0POP\nREAD\0WRITE\03\0POP\nWRITE\0EXISTS\01\0POP\nEXISTS\0DELETE\01\0POP\nDELETE\0RENAME\02\0POP\nRENAME\0ALLOC\01\0POP\nALLOC\0FREE\01\0POP\nFREEBLOCK\0GET8\02\0POP\nGET8\0GET16\02\0POP\nGET16\0SET8\03\0POP\nSET8\0SET16\03\0POP\nSET16\0LOAD8\01\0POP\nFETCHB\0LOAD16\01\0POP\nFETCH\0STORE8\02\0POP\nPUTB\0STORE16\02\0POP\nPUT\0EXIT\01\0POP\nEXIT\0\0";
+    let mut p = "PUTC\01\0POP\nPUTC\0STATUS\00\0STATUS\0OPEN\01\0POP\nOPEN\0CREATE\01\0POP\nCREATE\0CLOSE\01\0POP\nCLOSE\0READ\03\0POP\nREAD\0WRITE\03\0POP\nWRITE\0EXISTS\01\0POP\nEXISTS\0DELETE\01\0POP\nDELETE\0RENAME\02\0POP\nRENAME\0ALLOC\01\0POP\nALLOC\0FREE\01\0POP\nFREEBLOCK\0GET8\02\0POP\nGET8\0GET16\02\0POP\nGET16\0SET8\03\0POP\nSET8\0SET16\03\0POP\nSET16\0LOAD8\01\0POP\nFETCHB\0LOAD16\01\0POP\nFETCH\0STORE8\02\0POP\nPUTB\0STORE16\02\0POP\nPUT\0EXIT\01\0POP\nEXIT\0ARGC\00\0ARGC\0ARG\01\0POP\nARG\0\0";
     let mut i = 0; let mut same = 0;
     while load8(p) {
         i = 0; same = 1;
@@ -65,13 +65,13 @@ bytes string[512];
 Remove this source at old physical positions 35–35 in RC29.RIL:
 
 ```rill
-fn main(){table=alloc(23680);setident("ABC");rectype=1;recval=12345;reclevel=0;record(0);globals=1;output=create("RILL.TMP");own=1;outname(0);flush();close(output);output=0;own=0;return 0;}
+fn main(){filearg(1,"SOURCE.RIL");table=alloc(23680);setident("ABC");rectype=1;recval=12345;reclevel=0;record(0);globals=1;output=create(filearg(2,"RILL.TMP"));own=1;outname(0);flush();close(output);output=0;own=0;return 0;}
 ```
 
 Replace it with:
 
 ```rill
-fn main(){setident("PUTC");builtin();return (recval)!=1;}
+fn main(){filearg(1,"SOURCE.RIL");setident("PUTC");builtin();return (recval)!=1;}
 ```
 
 The following old source remains in place:
@@ -84,25 +84,23 @@ fn next() {
 ## Build this stopping point
 
 ```dos
-COPY RC30.RIL SOURCE.RIL
-CHECK RILLBOOT
+CHECK RILLBOOT RC30.RIL RESULT.IR
 ```
 
-Require `OK RESULT.IR 0000023519` and PASS. Copy RESULT.IR to SOURCE.IR.
+Require `OK RESULT.IR 0000025007` and PASS. Pass RESULT.IR directly to the translator.
 
 ```dos
-CHECK IWKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IWKEEP SOURCE.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require IR86 `OK RESULT.ASM 0000051337 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 17693 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000056265 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 18600 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RC30.COM
 ```
 
-VIEW.BAS must report RC30.COM length 17693 bytes. Keep this executable and its source together.
+VIEW.BAS must report RC30.COM length 18600 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 

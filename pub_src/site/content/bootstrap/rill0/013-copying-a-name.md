@@ -15,7 +15,7 @@ Build copying a name..
 
 Copy R12.IR to R13.IR. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 466
+### Edit at old physical position 475
 
 Unchanged source before the edit:
 
@@ -62,20 +62,28 @@ PROC PRINT 0 1
 SETLOCAL 0
 ```
 
-### Edit at old physical position 19
+### Edit at old physical position 20
 
 Unchanged source before the edit:
 
 ```ir
-BUFFER INBUF 4096
 BUFFER IDENT 32
 PROC MAIN 0 0
+LIT 1
 ```
 
 Remove:
 
 ```ir
+PUSH
 LITS "SOURCE.RIL"
+PUSH
+INVOKE FILEARG 2
+LIT 1
+PUSH
+LITS "SOURCE.RIL"
+PUSH
+INVOKE FILEARG 2
 OPEN
 ST INPUT
 STATUS
@@ -88,9 +96,6 @@ LITS "FN"
 Insert in its place:
 
 ```ir
-LITS "ABC"
-CALL SETIDENT
-LIT 1
 ST TOK
 LITS "ABC"
 ```
@@ -102,16 +107,38 @@ CALL ISWORD
 PUSH
 ```
 
+### Edit at old physical position 19
+
+Unchanged source before the edit:
+
+```ir
+BUFFER INBUF 4096
+BUFFER IDENT 32
+PROC MAIN 0 0
+```
+
+Insert in its place:
+
+```ir
+LITS "ABC"
+CALL SETIDENT
+```
+
+The following old source remains:
+
+```ir
+LIT 1
+PUSH
+```
+
 ## Build and check
 
 ```dos
-COPY R13.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP R13.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 08058 bytes`. Save RESULT.COM as R13.COM. VIEW.BAS must show length 8058.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 08827 bytes`. Save RESULT.COM as R13.COM. VIEW.BAS must show length 8827.
 
 ```dos
 CHECK R13

@@ -10,6 +10,16 @@ url = "/bootstrap/asma0/00-workbench/"
 
 I put the tested ASM0 copy aside before opening its source again. Beside the routine notes I draw a map of its memory: code, working values, buffers, names and stack. As I move those boundaries, I want to be able to find both the bytes and the source that made my last working assembler.
 
+## Command-line filenames
+
+```dos
+CHECK ASM1 INPUT.ASM OUTPUT.COM
+```
+
+DOS supplies the names in the PSP command tail. The native entry binding copies them into owned zero-terminated storage before file services. CHECK.BAT forwards the arguments and reports status immediately. No arguments select SOURCE.ASM and RESULT.COM. Use unquoted 8.3 disk names in the current directory: letters, digits, underscore and hyphen, with an optional extension. Paths, switches, excess arguments and overlong names are rejected. Keep selected files distinct from each other and from ASMA.TMP and RESULT.BAK. Those temporary/backup names remain reserved.
+
+Success reports the selected result name. Rejected source preserves that accepted result; recovery rules apply to the selected name. Early diagnostic writers may deliberately retain a temporary file for inspection, as stated in their lesson.
+
 Begin with the completed BOOTASM and ASM0 collections. Keep BOOTASM.BAS, ASM0.ASM, VIEW.BAS, CHECK.BAT, and the tested ASM0.COM. Use the same DOS 3.10 and period GW-BASIC workbench. GWBASIC in these instructions means the interpreter's actual disk name; note its startup banner.
 
 ## Preserve the builder
@@ -27,8 +37,7 @@ Each article copies the preceding source under the next filename and gives exact
 The new checkpoints select their source with COPY:
 
 ```dos
-COPY T01.ASM SOURCE.ASM
-CHECK A01
+CHECK A01 T01.ASM RESULT.COM
 ```
 
 A01.COM is the diagnostic or assembler being tested. RESULT.COM is its output, which must be saved under a separate name before another assembly. The byte-copy exercises explicitly inspect their output as data; execute an output only when its article identifies a complete program.
@@ -52,4 +61,4 @@ Run GWBASIC VIEW.BAS and enter the full filename to check both length and hexade
 
 ## The seed handoff
 
-A12.ASM is ASM1.ASM. ASMKEEP builds the 3302-byte executable; ASM1 must then reproduce it through both self-assembly comparisons. Save that tested ASM1.COM separately. The ASM86 workbench begins by copying this completed source, so the seed's routines need not be typed again.
+A12.ASM is ASM1.ASM. ASMKEEP builds the 3740-byte executable; ASM1 must then reproduce it through both self-assembly comparisons. Save that tested ASM1.COM separately. The ASM86 workbench begins by copying this completed source, so the seed's routines need not be typed again.

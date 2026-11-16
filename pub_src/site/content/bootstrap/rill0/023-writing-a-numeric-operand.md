@@ -15,7 +15,7 @@ Build writing a numeric operand..
 
 Copy R22.IR to R23.IR. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 789
+### Edit at old physical position 798
 
 Unchanged source before the edit:
 
@@ -71,7 +71,7 @@ PROC PRINT 0 1
 SETLOCAL 0
 ```
 
-### Edit at old physical position 34
+### Edit at old physical position 43
 
 Unchanged source before the edit:
 
@@ -105,25 +105,23 @@ LD OUTPUT
 ## Build and check
 
 ```dos
-COPY R23.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP R23.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 13425 bytes`. Save RESULT.COM as R23.COM. VIEW.BAS must show length 13425.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 14235 bytes`. Save RESULT.COM as R23.COM. VIEW.BAS must show length 14235.
 
 ```dos
-CHECK R23
+CHECK R23 SOURCE.RIL RESULT.IR
 ```
 
 Require PASS.
 
-Inspect RILL.TMP with VIEW.BAS. Require length 5 bytes and these complete bytes:
+Inspect RESULT.IR with VIEW.BAS. Require length 5 bytes and these complete bytes:
 
 ```text
 31 32 33 34 35
 ```
 
-This is a fragment for inspection. Delete the deliberately created RILL.TMP after checking it.
+This is a fragment for inspection, not a complete program. The command-selected RESULT.IR contains that fragment.
 

@@ -97,6 +97,71 @@ LABEL IOFAIL
 LIT 1
 ```
 
+### Edit at old physical position 48
+
+Unchanged source before the edit:
+
+```ir
+CALL RESOLVEOPTIONAL
+LD RECTYPE
+PUSH
+```
+
+Remove:
+
+```ir
+LIT 5
+```
+
+Insert in its place:
+
+```ir
+LITS "SOURCE.RIL"
+PUSH
+INVOKE FILEARG 2
+OPEN
+ST INPUT
+STATUS
+JNZ IOFAIL
+CALL NEXT
+CALL LEX
+CALL PREC
+PUSH
+LIT 6
+```
+
+The following old source remains:
+
+```ir
+CNE
+RETURN
+```
+
+### Edit at old physical position 44
+
+Unchanged source before the edit:
+
+```ir
+PUSH
+INVOKE RECORD 1
+LIT 1
+```
+
+Remove:
+
+```ir
+ST LOCALCOUNT
+CALL RESOLVEOPTIONAL
+LD RECTYPE
+```
+
+The following old source remains:
+
+```ir
+PUSH
+LIT 5
+```
+
 ### Edit at old physical position 42
 
 Unchanged source before the edit:
@@ -111,25 +176,21 @@ Remove:
 
 ```ir
 INVOKE RECORD 1
-LIT 1
-ST LOCALCOUNT
-CALL RESOLVEOPTIONAL
-LD RECTYPE
-PUSH
-LIT 5
 ```
 
 Insert in its place:
 
 ```ir
-LIT 6
+LITS "SOURCE.RIL"
+PUSH
+INVOKE FILEARG 2
 ```
 
 The following old source remains:
 
 ```ir
-CNE
-RETURN
+LIT 1
+ST LOCALCOUNT
 ```
 
 ### Edit at old physical position 29
@@ -162,14 +223,7 @@ LIT 20480
 Insert in its place:
 
 ```ir
-LITS "SOURCE.RIL"
-OPEN
-ST INPUT
-STATUS
-JNZ IOFAIL
-CALL NEXT
-CALL LEX
-CALL PREC
+LIT 1
 ```
 
 The following old source remains:
@@ -182,13 +236,11 @@ INVOKE RECORD 1
 ## Build and check
 
 ```dos
-COPY R30.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP R30.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 14348 bytes`. Save RESULT.COM as R30.COM. VIEW.BAS must show length 14348.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 15158 bytes`. Save RESULT.COM as R30.COM. VIEW.BAS must show length 15158.
 
 Create T30.RIL:
 
@@ -197,11 +249,7 @@ Create T30.RIL:
 ```
 
 ```dos
-COPY T30.RIL SOURCE.RIL
-```
-
-```dos
-CHECK R30
+CHECK R30 T30.RIL RESULT.IR
 ```
 
 Require PASS.

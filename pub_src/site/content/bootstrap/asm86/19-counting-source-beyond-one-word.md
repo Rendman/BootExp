@@ -8,7 +8,7 @@ reader_names = 1
 url = "/bootstrap/asm86a/19-counting-source-beyond-one-word/"
 +++
 
-A source file with many comments and definitions can exceed a sixteen-bit line count.
+The source reader can refill its block as often as needed, but a word-sized count still ends at 65535. Comments count as source lines too, even though they add no program bytes. I work through the carry from the low word into a second word before changing the counters and their printed report.
 
 ## The working parts
 
@@ -25,17 +25,15 @@ Copy `A18.ASM` to `A19.ASM`. Apply the following edits **from the bottom of the 
 Unchanged source immediately before this edit:
 
 ```asm
-
 UNRESOLVED:
 DB 0
 ```
 
-Insert after old physical line 1827.
+Insert after old physical line 2017.
 
 Insert:
 
 ```asm
-
 LINEHI:
 DW 0
 
@@ -66,6 +64,13 @@ DW 0,1
 DIV32END:
 ```
 
+The following old source stays in place:
+
+```asm
+CMDCOUNT:
+DW 0
+```
+
 ### Change 2 near `DEFINITIONCLEAR:`
 
 Unchanged source immediately before this edit:
@@ -75,7 +80,7 @@ MOV ES:[BX],AX
 RET
 ```
 
-Insert after old physical line 1600.
+Insert after old physical line 1606.
 
 Insert:
 
@@ -185,8 +190,8 @@ RET
 The following old source stays in place:
 
 ```asm
-OKMSG:
-DB 79,75,32,82,69,83,85,76,84,46,67,79,77,32,36
+CMDINIT:
+MOV SI,81H
 ```
 
 ### Change 3 near `ERROR:`
@@ -199,7 +204,7 @@ CALL TEXT
 MOV AX,[LINENO]
 ```
 
-Remove this exact source at old physical positions 1107–1107:
+Remove this exact source at old physical positions 1113–1113:
 
 ```asm
 CALL NUMBER
@@ -229,7 +234,7 @@ MOV AX,6
 READFAIL:
 ```
 
-Remove this exact source at old physical positions 237–242:
+Remove this exact source at old physical positions 243–248:
 
 ```asm
 MOV DX,[LINENO]
@@ -264,7 +269,7 @@ MOV AL,0
 STOSB
 ```
 
-Remove this exact source at old physical positions 218–225:
+Remove this exact source at old physical positions 224–231:
 
 ```asm
 MOV AX,[LINENO]
@@ -300,7 +305,7 @@ INC AX
 MOV [RDPOS],AX
 ```
 
-Insert after old physical line 137.
+Insert after old physical line 143.
 
 Insert:
 
@@ -325,7 +330,7 @@ MOV AX,0
 MOV [LINENO],AX
 ```
 
-Insert after old physical line 19.
+Insert after old physical line 20.
 
 Insert:
 
@@ -345,17 +350,16 @@ MOV [RDLEN],AX
 ## Build the stopping point
 
 ```dos
-COPY A19.ASM SOURCE.ASM
-CHECK ASM1
+CHECK ASM1 A19.ASM RESULT.COM
 ```
 
-Require `OK RESULT.COM 04286 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 04724 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A19.COM
 ```
 
-VIEW.BAS must report A19.COM length 4286 bytes. Keep that executable and source together.
+VIEW.BAS must report A19.COM length 4724 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -366,11 +370,7 @@ DB 1
 ```
 
 ```dos
-COPY T19.ASM SOURCE.ASM
-```
-
-```dos
-CHECK A19
+CHECK A19 T19.ASM RESULT.COM
 ```
 
 Require:
@@ -397,8 +397,7 @@ UNKNOWN
 ```
 
 ```dos
-COPY X19.ASM SOURCE.ASM
-CHECK A19
+CHECK A19 X19.ASM RESULT.COM
 ```
 
 Require:
@@ -424,9 +423,9 @@ Enter LONGSRC.BAS:
 70 PRINT "SOURCE.ASM READY"
 ```
 
-Run it in BASIC, require SOURCE.ASM READY, and return to DOS with SYSTEM. Its closed text file includes BASIC's ordinary source Control-Z. CHECK A19 must report `OK RESULT.COM 00001 bytes` and PASS. VIEW.BAS must show exactly `01`. The comments exceed a word-sized physical-line count while the output stays small; do not execute this data.
+Run it in BASIC, require SOURCE.ASM READY, and return to DOS with SYSTEM. Its closed text file includes BASIC's ordinary source Control-Z. CHECK A19 SOURCE.ASM RESULT.COM must report `OK RESULT.COM 00001 bytes` and PASS. VIEW.BAS must show exactly `01`. The comments exceed a word-sized physical-line count while the output stays small; do not execute this data.
 
-Change BASIC line 50 to `50 PRINT #1,"UNKNOWN"`, RUN again, and return to DOS. CHECK A19 must report `ERROR 0000065537 CODE 1` and FAIL. The one-byte accepted RESULT.COM must remain unchanged. Restore the original line 50 before another run.
+Change BASIC line 50 to `50 PRINT #1,"UNKNOWN"`, RUN again, and return to DOS. CHECK A19 SOURCE.ASM RESULT.COM must report `ERROR 0000065537 CODE 1` and FAIL. The one-byte accepted RESULT.COM must remain unchanged. Restore the original line 50 before another run.
 
 An unexpected PASS fails this rejection test.
 

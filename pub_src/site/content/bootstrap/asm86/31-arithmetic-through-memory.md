@@ -28,7 +28,7 @@ MOV [KIND],AL
 RET
 ```
 
-Insert after old physical line 2224.
+Insert after old physical line 2230.
 
 Insert:
 
@@ -105,8 +105,8 @@ JMP EMITIMM
 The following old source stays in place:
 
 ```asm
-OKMSG:
-DB 79,75,32,82,69,83,85,76,84,46,67,79,77,32,36
+CMDINIT:
+MOV SI,81H
 ```
 
 ### Change 2 near `ZMOVOPERA9:`
@@ -119,7 +119,7 @@ MOV [ENCOP],AL
 JMP ENCODE
 ```
 
-Remove this exact source at old physical positions 1251–1278:
+Remove this exact source at old physical positions 1257–1284:
 
 ```asm
 
@@ -171,7 +171,7 @@ MOV AL,[TYPE]
 CMP AL,3
 ```
 
-Remove this exact source at old physical positions 1103–1136:
+Remove this exact source at old physical positions 1109–1142:
 
 ```asm
 JNE ZTWOOPERA2
@@ -234,7 +234,7 @@ MOV AL,[0CC00H]
 CMP AL,44
 ```
 
-Remove this exact source at old physical positions 1097–1099:
+Remove this exact source at old physical positions 1103–1105:
 
 ```asm
 JE ZTWOOPERA1
@@ -258,17 +258,16 @@ MOV AL,[TYPE]
 ## Build the stopping point
 
 ```dos
-COPY A31.ASM SOURCE.ASM
-CHECK ASM1
+CHECK ASM1 A31.ASM RESULT.COM
 ```
 
-Require `OK RESULT.COM 05645 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 06083 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A31.COM
 ```
 
-VIEW.BAS must report A31.COM length 5645 bytes. Keep that executable and source together.
+VIEW.BAS must report A31.COM length 6083 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -281,11 +280,7 @@ CMP BYTE [BX],1
 ```
 
 ```dos
-COPY T31.ASM SOURCE.ASM
-```
-
-```dos
-CHECK A31
+CHECK A31 T31.ASM RESULT.COM
 ```
 
 Require:
@@ -312,8 +307,7 @@ ADD [BX],[DI]
 ```
 
 ```dos
-COPY X31.ASM SOURCE.ASM
-CHECK A31
+CHECK A31 X31.ASM RESULT.COM
 ```
 
 Require:

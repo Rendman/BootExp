@@ -114,19 +114,16 @@ COPY S04.ASM EDITRT.ASM
 ```
 
 ```dos
-COPY S04.RIL SOURCE.RIL
-CHECK RILLED
-COPY RESULT.IR SOURCE.IR
-CHECK IRED
-COPY RESULT.ASM SOURCE.ASM
-CHECK A0
+CHECK RILLED S04.RIL RESULT.IR
+CHECK IRED RESULT.IR RESULT.ASM EDITRT.ASM
+CHECK A0 RESULT.ASM RESULT.COM
 COPY RESULT.COM S04.COM
 ```
 
-Require compiler `OK RESULT.IR 0000000463`, translator `OK RESULT.ASM 0000007414 text bytes`, assembler `OK RESULT.COM 01534 bytes`, and each PASS before the following copy. VIEW.BAS must report S04.COM length 1534 bytes, beginning with:
+Require compiler `OK RESULT.IR 0000000463`, translator `OK RESULT.ASM 0000008908 text bytes`, assembler `OK RESULT.COM 01896 bytes`, and each PASS before the following copy. VIEW.BAS must report S04.COM length 1896 bytes, beginning with:
 
 ```text
-FC 81 FC FE FF 74 03 E9 47 04 E8 9F 00 B4 4C CD 21 55 8B EC 81 EC 80 00 81 FC 00 F0 73 03 E9 30
+FC 81 FC FE FF 74 03 E9 53 04 E8 99 04 81 F8 FF FF 75 03 E9 47 04 E8 9F 00 B4 4C CD 21 55 8B EC
 ```
 
 Run `CHECK S04`. EDIT86 appears in the upper left; the deliberately invalid position is detected, then CHECK reports PASS.

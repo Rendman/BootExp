@@ -15,7 +15,7 @@ Build recognizing a complete keyword..
 
 Copy R11.IR to R12.IR. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 425
+### Edit at old physical position 434
 
 Unchanged source before the edit:
 
@@ -77,7 +77,7 @@ PROC PRINT 0 1
 SETLOCAL 0
 ```
 
-### Edit at old physical position 28
+### Edit at old physical position 37
 
 Unchanged source before the edit:
 
@@ -109,7 +109,7 @@ The following old source remains:
 RETURN
 ```
 
-### Edit at old physical position 26
+### Edit at old physical position 35
 
 Unchanged source before the edit:
 
@@ -142,13 +142,11 @@ INVOKE EXPECT 1
 ## Build and check
 
 ```dos
-COPY R12.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP R12.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 07986 bytes`. Save RESULT.COM as R12.COM. VIEW.BAS must show length 7986.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 08796 bytes`. Save RESULT.COM as R12.COM. VIEW.BAS must show length 8796.
 
 Create T12.RIL:
 
@@ -157,11 +155,7 @@ fn
 ```
 
 ```dos
-COPY T12.RIL SOURCE.RIL
-```
-
-```dos
-CHECK R12
+CHECK R12 T12.RIL RESULT.IR
 ```
 
 Require PASS.

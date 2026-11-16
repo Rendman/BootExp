@@ -8,7 +8,7 @@ reader_names = 1
 url = "/bootstrap/asm86a/15-writing-a-complete-symbol-record/"
 +++
 
-Allocated RAM is not guaranteed to contain zeroes.
+DOS has given me storage, but it has not promised what bytes are already there. I sketch one complete symbol record in the notebook and mark what every field should contain. The writer must establish all of it, including the unused name bytes.
 
 ## The working parts
 
@@ -30,7 +30,7 @@ HASHSEG:
 DW 0
 ```
 
-Insert after old physical line 1698.
+Insert after old physical line 1887.
 
 Insert:
 
@@ -38,6 +38,13 @@ Insert:
 
 TESTNAME:
 DB 80,65,71,69,68,0
+```
+
+The following old source stays in place:
+
+```asm
+
+CMDCOUNT:
 ```
 
 ### Change 2 near `RECORDPTR:`
@@ -49,7 +56,7 @@ RECORDPTR:
 DW 0
 ```
 
-Insert after old physical line 1693.
+Insert after old physical line 1882.
 
 Insert:
 
@@ -87,7 +94,7 @@ MOV DX,CS
 MOV ES,DX
 ```
 
-Remove this exact source at old physical positions 1483–1483:
+Remove this exact source at old physical positions 1489–1489:
 
 ```asm
 CMP AX,42
@@ -116,7 +123,7 @@ MOV AX,8192
 CALL SYMPTR
 ```
 
-Remove this exact source at old physical positions 1478–1479:
+Remove this exact source at old physical positions 1484–1485:
 
 ```asm
 MOV AX,42
@@ -146,7 +153,7 @@ RET
 EARLYTEST:
 ```
 
-Insert after old physical line 1475.
+Insert after old physical line 1481.
 
 Insert:
 
@@ -184,7 +191,7 @@ MOV [RECORDPTR],BX
 RET
 ```
 
-Insert after old physical line 1474.
+Insert after old physical line 1480.
 
 Insert:
 
@@ -231,17 +238,16 @@ MOV AX,8192
 ## Build the stopping point
 
 ```dos
-COPY A15.ASM SOURCE.ASM
-CHECK ASM1
+CHECK ASM1 A15.ASM RESULT.COM
 ```
 
-Require `OK RESULT.COM 03889 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 04327 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A15.COM
 ```
 
-VIEW.BAS must report A15.COM length 3889 bytes. Keep that executable and source together.
+VIEW.BAS must report A15.COM length 4327 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -256,11 +262,7 @@ INT 21H
 ```
 
 ```dos
-COPY T15.ASM SOURCE.ASM
-```
-
-```dos
-CHECK A15
+CHECK A15 T15.ASM RESULT.COM
 ```
 
 Require:
@@ -287,8 +289,7 @@ MOV AX,AL
 ```
 
 ```dos
-COPY X15.ASM SOURCE.ASM
-CHECK A15
+CHECK A15 X15.ASM RESULT.COM
 ```
 
 Require:

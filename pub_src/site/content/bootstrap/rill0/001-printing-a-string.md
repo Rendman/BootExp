@@ -45,13 +45,11 @@ RETURN
 ## Build and check
 
 ```dos
-COPY R01.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP R01.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 01098 bytes`. Save RESULT.COM as R01.COM. VIEW.BAS must show length 1098.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 01460 bytes`. Save RESULT.COM as R01.COM. VIEW.BAS must show length 1460.
 
 ```dos
 CHECK R01

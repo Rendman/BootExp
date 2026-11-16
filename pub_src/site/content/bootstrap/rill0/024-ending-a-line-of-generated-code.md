@@ -15,7 +15,7 @@ Build ending a line of generated code..
 
 Copy R23.IR to R24.IR. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 825
+### Edit at old physical position 834
 
 Unchanged source before the edit:
 
@@ -41,7 +41,7 @@ PROC PRINT 0 1
 SETLOCAL 0
 ```
 
-### Edit at old physical position 34
+### Edit at old physical position 43
 
 Unchanged source before the edit:
 
@@ -74,25 +74,23 @@ LD OUTPUT
 ## Build and check
 
 ```dos
-COPY R24.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP R24.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 13457 bytes`. Save RESULT.COM as R24.COM. VIEW.BAS must show length 13457.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 14267 bytes`. Save RESULT.COM as R24.COM. VIEW.BAS must show length 14267.
 
 ```dos
-CHECK R24
+CHECK R24 SOURCE.RIL RESULT.IR
 ```
 
 Require PASS.
 
-Inspect RILL.TMP with VIEW.BAS. Require length 2 bytes and these complete bytes:
+Inspect RESULT.IR with VIEW.BAS. Require length 2 bytes and these complete bytes:
 
 ```text
 0D 0A
 ```
 
-This is a fragment for inspection. Delete the deliberately created RILL.TMP after checking it.
+This is a fragment for inspection, not a complete program. The command-selected RESULT.IR contains that fragment.
 

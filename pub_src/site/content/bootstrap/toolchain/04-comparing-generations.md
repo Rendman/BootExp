@@ -11,9 +11,9 @@ Begin after TMAKE has completed successfully. Keep A0/A1/A2, I0/I1/I2, and R0/R1
 
 | Tool | Bytes in every generation |
 |---|---|
-| ASM86 | 30911 |
-| IR86 | 29678 |
-| RILL | 26617 |
+| ASM86 | 31886 |
+| IR86 | 32343 |
+| RILL | 27614 |
 
 ## Compare the generations
 
@@ -38,12 +38,9 @@ fn main(){putc(72);putc(73);return 0;}
 ```
 
 ```dos
-COPY HI.RIL SOURCE.RIL
-CHECK R2
-COPY RESULT.IR SOURCE.IR
-CHECK I2
-COPY RESULT.ASM SOURCE.ASM
-CHECK A2
+CHECK R2 HI.RIL RESULT.IR
+CHECK I2 RESULT.IR RESULT.ASM
+CHECK A2 RESULT.ASM RESULT.COM
 COPY RESULT.COM HI.COM
 CHECK HI
 ```

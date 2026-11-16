@@ -10,16 +10,25 @@ url = "/bootstrap/asma0/13-reference/"
 
 ASM1 is the completed A12 streaming seed. Its first executable is built by the published ASM0; two self-assembly generations must reproduce it. The seed's own implementation uses only ASM0's accepted instructions. The language it accepts includes the segment-access forms below.
 
-## Files and passes
-
-COPY selects the input; the tool has no filename prompt:
+## Command-line filenames
 
 ```dos
-COPY HELLO.ASM SOURCE.ASM
-CHECK ASM1
+CHECK ASM1 INPUT.ASM OUTPUT.COM
 ```
 
-Pass one reads and validates while recording definitions and counting output. Pass two closes and reopens the same source, checks label values and the final image length, resolves forward values, and streams ASMA.TMP. Keep SOURCE.ASM unchanged throughout both passes. The checks detect some changes, not every possible same-size edit.
+DOS supplies the names in the PSP command tail. The native entry binding copies them into owned zero-terminated storage before file services. CHECK.BAT forwards the arguments and reports status immediately. No arguments select SOURCE.ASM and RESULT.COM. Use unquoted 8.3 disk names in the current directory: letters, digits, underscore and hyphen, with an optional extension. Paths, switches, excess arguments and overlong names are rejected. Keep selected files distinct from each other and from ASMA.TMP and RESULT.BAK. Those temporary/backup names remain reserved.
+
+Success reports the selected result name. Rejected source preserves that accepted result; recovery rules apply to the selected name. Early diagnostic writers may deliberately retain a temporary file for inspection, as stated in their lesson.
+
+## Files and passes
+
+Supply input and result names on the command line; no prompt is needed:
+
+```dos
+CHECK ASM1 HELLO.ASM RESULT.COM
+```
+
+Pass one reads and validates while recording definitions and counting output. Pass two closes and reopens the same source, checks label values and the final image length, resolves forward values, and streams ASMA.TMP. Keep the selected source unchanged throughout both passes. The checks detect some changes, not every possible same-size edit.
 
 The reader and writer each use a 1024-byte block. A short positive read is consumed and followed by another refill; zero means file EOF. A nonempty flush checks both DOS carry and actual progress. The final partial block and close must succeed before publication. The assembler retains neither the whole source nor the whole emitted image.
 
@@ -77,7 +86,7 @@ CALL uses E8H and JMP E9H, followed by `target-(instruction offset+3)` as a word
 
 | Resource | Bound |
 |---|---|
-| Seed executable | 3302 bytes, built by ASM0 |
+| Seed executable | 3740 bytes, built by ASM0 |
 | Definitions | 2048 records |
 | Name/token content | 16 characters |
 | Physical line content | 120 characters |
@@ -105,7 +114,7 @@ A record holds a terminated name of at most sixteen characters in its initial na
 
 ## Reports and ownership
 
-Success is `OK RESULT.COM nnnnn bytes`, exit zero. Failure is `ERROR lllll CODE n`, exit one. The line is zero before source reading, then the current physical line; an EOF/publication failure may retain the last line. CHECK reports PASS or FAIL immediately.
+With default names, success is `OK RESULT.COM nnnnn bytes`, exit zero. Failure is `ERROR lllll CODE n`, exit one. The line is zero before source reading, then the current physical line; an EOF/publication failure may retain the last line. CHECK reports PASS or FAIL immediately.
 
 | Code | Meaning |
 |---|---|
@@ -117,5 +126,6 @@ Success is `OK RESULT.COM nnnnn bytes`, exit zero. Failure is `ERROR lllll CODE 
 | 6 | File I/O, publication, or cleanup failure |
 | 7 | Main-segment/entry-stack requirement |
 | 8 | Reserved temporary or backup name present |
+| 9 | Invalid command-tail filenames, argument count or filename collision |
 
 The tool does not prove the safety of an assembled program's memory accesses, stack use, or DOS calls. Intel, *The 8086 Family User's Manual*, October 1979, describes CPU behavior; Microsoft, *MS-DOS 3.10 Programmer's Reference Manual*, November 1984, describes handle operations and rename. The accepted syntax and chosen limits above belong to this seed.

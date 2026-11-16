@@ -63,6 +63,9 @@ Consult each compiler's own reference for accepted syntax and bounds.
  (W/'README.TXT').write_bytes(text.replace('\n','\r\n').encode('ascii'))
  for name in files:
   if name!='README.TXT':shutil.copyfile(SOURCE/name,W/name)
+ from command_files import package
+ package(W)
+ for name in files:
   shutil.copyfile(W/name,D/name)
  archive=D/(prefix+'.ZIP');same=False
  if archive.exists():

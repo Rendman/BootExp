@@ -8,7 +8,7 @@ reader_names = 1
 url = "/bootstrap/asm86a/18-room-for-names-and-physical-lines/"
 +++
 
-A larger assembler needs a memory map which permits its own code and source vocabulary to grow.
+The names have moved out of the main segment. I spread the memory sketch across another notebook page and give the code, line, token, file blocks and stack their marked ranges. There is room to retain longer spellings and read longer source lines, provided every copy stays within its boundary.
 
 ## The working parts
 
@@ -30,7 +30,7 @@ MOV DI,[RECORDPTR]
 PUSH SI
 ```
 
-Remove this exact source at old physical positions 1581–1581:
+Remove this exact source at old physical positions 1587–1587:
 
 ```asm
 MOV SI,4080H
@@ -59,7 +59,7 @@ CALL SYMPTR
 MOV DI,BX
 ```
 
-Remove this exact source at old physical positions 1545–1545:
+Remove this exact source at old physical positions 1551–1551:
 
 ```asm
 MOV SI,4080H
@@ -88,7 +88,7 @@ SYMLOOK:
 PUSH SI
 ```
 
-Remove this exact source at old physical positions 1509–1509:
+Remove this exact source at old physical positions 1515–1515:
 
 ```asm
 MOV SI,4080H
@@ -117,7 +117,7 @@ SEGES:
 CALL SCAN
 ```
 
-Remove this exact source at old physical positions 1324–1324:
+Remove this exact source at old physical positions 1330–1330:
 
 ```asm
 MOV AL,[4080H]
@@ -146,7 +146,7 @@ PUSH SI
 CALL SCAN
 ```
 
-Remove this exact source at old physical positions 1312–1312:
+Remove this exact source at old physical positions 1318–1318:
 
 ```asm
 MOV AL,[4080H]
@@ -175,7 +175,7 @@ JE FLUSHDONE
 MOV BX,[OUTHANDLE]
 ```
 
-Remove this exact source at old physical positions 1163–1163:
+Remove this exact source at old physical positions 1169–1169:
 
 ```asm
 MOV DX,4600H
@@ -204,7 +204,7 @@ INC BX
 MOV [OUTCNT],BX
 ```
 
-Remove this exact source at old physical positions 1046–1046:
+Remove this exact source at old physical positions 1052–1052:
 
 ```asm
 CMP BX,1024
@@ -233,7 +233,7 @@ JNE COUNTBYTE
 MOV BX,[OUTCNT]
 ```
 
-Remove this exact source at old physical positions 1041–1041:
+Remove this exact source at old physical positions 1047–1047:
 
 ```asm
 ADD BX,4600H
@@ -262,7 +262,7 @@ MOV [V1],AX
 CALL SCAN
 ```
 
-Remove this exact source at old physical positions 844–844:
+Remove this exact source at old physical positions 850–850:
 
 ```asm
 MOV AL,[4080H]
@@ -291,7 +291,7 @@ FINISH:
 CALL SCAN
 ```
 
-Remove this exact source at old physical positions 823–823:
+Remove this exact source at old physical positions 829–829:
 
 ```asm
 MOV AL,[4080H]
@@ -320,7 +320,7 @@ DATASEP:
 CALL SCAN
 ```
 
-Remove this exact source at old physical positions 739–739:
+Remove this exact source at old physical positions 745–745:
 
 ```asm
 MOV AL,[4080H]
@@ -349,7 +349,7 @@ STATEMENT:
 CALL SCAN
 ```
 
-Remove this exact source at old physical positions 655–655:
+Remove this exact source at old physical positions 661–661:
 
 ```asm
 MOV AL,[4080H]
@@ -378,7 +378,7 @@ MEMORYEND:
 CALL SCAN
 ```
 
-Remove this exact source at old physical positions 643–643:
+Remove this exact source at old physical positions 649–649:
 
 ```asm
 MOV AL,[4080H]
@@ -407,7 +407,7 @@ CMP AX,5842H
 JNE DIRECTMEM
 ```
 
-Remove this exact source at old physical positions 630–630:
+Remove this exact source at old physical positions 636–636:
 
 ```asm
 MOV AL,[4082H]
@@ -436,7 +436,7 @@ MEMORY:
 CALL SCAN
 ```
 
-Remove this exact source at old physical positions 627–627:
+Remove this exact source at old physical positions 633–633:
 
 ```asm
 MOV AX,[4080H]
@@ -465,7 +465,7 @@ MOV [PREFIX],AL
 CALL SCAN
 ```
 
-Remove this exact source at old physical positions 592–592:
+Remove this exact source at old physical positions 598–598:
 
 ```asm
 MOV AL,[4080H]
@@ -494,7 +494,7 @@ MOV SI,4080H
 MOV DI,[TOKLEN]
 ```
 
-Remove this exact source at old physical positions 417–417:
+Remove this exact source at old physical positions 423–423:
 
 ```asm
 ADD DI,4080H
@@ -523,7 +523,7 @@ LITERAL:
 PUSH SI
 ```
 
-Remove this exact source at old physical positions 415–415:
+Remove this exact source at old physical positions 421–421:
 
 ```asm
 MOV SI,4080H
@@ -552,7 +552,7 @@ JMP ERROR
 VALUE:
 ```
 
-Remove this exact source at old physical positions 406–406:
+Remove this exact source at old physical positions 412–412:
 
 ```asm
 MOV AL,[4080H]
@@ -581,7 +581,7 @@ NAMELIMIT:
 PUSH SI
 ```
 
-Remove this exact source at old physical positions 371–371:
+Remove this exact source at old physical positions 377–377:
 
 ```asm
 MOV SI,4080H
@@ -610,7 +610,7 @@ ZLOOK1:
 MOV DI,BP
 ```
 
-Remove this exact source at old physical positions 324–324:
+Remove this exact source at old physical positions 330–330:
 
 ```asm
 MOV SI,4080H
@@ -639,7 +639,7 @@ SCANDONE:
 MOV AX,DI
 ```
 
-Remove this exact source at old physical positions 302–302:
+Remove this exact source at old physical positions 308–308:
 
 ```asm
 SUB AX,4080H
@@ -668,7 +668,7 @@ CMP AL,93
 JE SCANBACK
 ```
 
-Remove this exact source at old physical positions 294–294:
+Remove this exact source at old physical positions 300–300:
 
 ```asm
 CMP DI,4090H
@@ -697,7 +697,7 @@ JMP ERROR
 SCAN:
 ```
 
-Remove this exact source at old physical positions 246–246:
+Remove this exact source at old physical positions 252–252:
 
 ```asm
 MOV DI,4080H
@@ -726,7 +726,7 @@ JMP ENDFILE
 ZREADLINE4:
 ```
 
-Remove this exact source at old physical positions 173–173:
+Remove this exact source at old physical positions 179–179:
 
 ```asm
 CMP BP,120
@@ -755,7 +755,7 @@ RET
 READLINE:
 ```
 
-Remove this exact source at old physical positions 145–145:
+Remove this exact source at old physical positions 151–151:
 
 ```asm
 MOV DI,4000H
@@ -784,7 +784,7 @@ BUFFERBYTE:
 MOV BX,[RDPOS]
 ```
 
-Remove this exact source at old physical positions 132–132:
+Remove this exact source at old physical positions 138–138:
 
 ```asm
 ADD BX,4200H
@@ -813,7 +813,7 @@ JB BUFFERBYTE
 MOV BX,[HANDLE]
 ```
 
-Remove this exact source at old physical positions 118–119:
+Remove this exact source at old physical positions 124–125:
 
 ```asm
 MOV DX,4200H
@@ -844,7 +844,7 @@ CMP AX,0
 JE PASSEND
 ```
 
-Remove this exact source at old physical positions 36–36:
+Remove this exact source at old physical positions 37–37:
 
 ```asm
 MOV SI,4000H
@@ -866,17 +866,16 @@ JMP NEXTLINE
 ## Build the stopping point
 
 ```dos
-COPY A18.ASM SOURCE.ASM
-CHECK ASM1
+CHECK ASM1 A18.ASM RESULT.COM
 ```
 
-Require `OK RESULT.COM 04017 bytes` and PASS. Preserve this executable before using its fixed output name:
+Require `OK RESULT.COM 04455 bytes` and PASS. Preserve this executable before using its fixed output name:
 
 ```dos
 COPY RESULT.COM A18.COM
 ```
 
-VIEW.BAS must report A18.COM length 4017 bytes. Keep that executable and source together.
+VIEW.BAS must report A18.COM length 4455 bytes. Keep that executable and source together.
 
 ## Acceptance check
 
@@ -888,11 +887,7 @@ DW ABCDEFGHIJKLMNOPQRSTUVWXYZABCDE
 ```
 
 ```dos
-COPY T18.ASM SOURCE.ASM
-```
-
-```dos
-CHECK A18
+CHECK A18 T18.ASM RESULT.COM
 ```
 
 Require:
@@ -919,8 +914,7 @@ ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEF:
 ```
 
 ```dos
-COPY X18.ASM SOURCE.ASM
-CHECK A18
+CHECK A18 X18.ASM RESULT.COM
 ```
 
 Require:

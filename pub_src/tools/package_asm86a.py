@@ -66,6 +66,8 @@ for c in json.loads((ROOT/'qa/asm86/checkpoints.json').read_text()):
  if c.get('fixture') is not None:files.append(f'T{n:02}.ASM')
  if c['bad']['kind']=='source':files.append(f'X{n:02}.ASM')
 files+=['HELLO.ASM','FRAME.ASM','BRIDGE.ASM','COPYTEXT.ASM']
+from command_files import package
+package(W)
 for name in files:shutil.copyfile(W/name,D/name)
 for n in [34,35,38,39]:
  for prefix in ['A','T','X']:(D/f'{prefix}{n:02}.ASM').unlink(missing_ok=True)

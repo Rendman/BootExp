@@ -1,7 +1,7 @@
 +++
 title = "43 \u00b7 Compiling a Complete Program"
 weight = 43
-description = "Open the fixed source, stream accepted IR through an owned temporary file, and verify all pending procedures."
+description = "Open the command-selected source, stream accepted IR through an owned temporary file, and verify all pending procedures."
 download = "RC43.RIL"
 download_group = "tools/rill"
 aliases = ["/bootstrap/rill/131-rc-the-compiler-compiles-its-own-language/"]
@@ -11,13 +11,62 @@ url = "/bootstrap/rc/131-rc-the-compiler-compiles-its-own-language/"
 
 ## The working parts
 
-Open the fixed source, stream accepted IR through an owned temporary file, and verify all pending procedures. Require an argument-free main. Publish only after parsing, source close, flush, and output close succeed.
+Open the command-selected source, stream accepted IR through an owned temporary file, and verify all pending procedures. Require an argument-free main. Publish the selected output only after parsing, source close, flush, and output close succeed.
 
 ## Enter the source
 
 Copy RC42.RIL to RC43.RIL. Apply edits **from the bottom of the old file upward**. Physical positions refer to that unchanged old file; use the printed context to identify each place. Keep all other source.
 
 ### Edit 1
+
+Unchanged source immediately before the edit:
+
+```rill
+    if filesame(arg(1),arg(2))|filesame(arg(1),"RILL.TMP")|filesame(arg(1),"RILL.BAK")|filesame(arg(2),"RILL.TMP")|filesame(arg(2),"RILL.BAK"){exit(1);}
+    return arg(n);
+}
+```
+
+Remove this source at old physical positions 508–508 in RC42.RIL:
+
+```rill
+
+```
+
+There is no replacement source.
+
+The following old source remains in place:
+
+```rill
+fn filesame(a,b){
+    let mut i=0;
+```
+
+### Edit 2
+
+Unchanged source immediately before the edit:
+
+```rill
+    while i { i = i-1; putc(decimal[i]); } return 0;
+}
+```
+
+Remove this source at old physical positions 500–500 in RC42.RIL:
+
+```rill
+
+```
+
+There is no replacement source.
+
+The following old source remains in place:
+
+```rill
+fn filearg(n,fallback){
+    let mut count=argc();
+```
+
+### Edit 3
 
 Unchanged source immediately before the edit:
 
@@ -42,7 +91,7 @@ fn print32(hi,lo) {
     let mut i = 0; let mut qhi = 0; let mut rem = 0;
 ```
 
-### Edit 2
+### Edit 4
 
 Unchanged source immediately before the edit:
 
@@ -67,7 +116,7 @@ fn fail(code) {
     if input { close(input); }
 ```
 
-### Edit 3
+### Edit 5
 
 Unchanged source immediately before the edit:
 
@@ -92,7 +141,7 @@ fn primary() {
     let mut p = 0; let mut kind = 0; let mut slot = 0; let mut bi = 0;
 ```
 
-### Edit 4
+### Edit 6
 
 Unchanged source immediately before the edit:
 
@@ -117,7 +166,7 @@ fn binary(op) {
     if op == 43 { return outstr("ADD\r\n"); }
 ```
 
-### Edit 5
+### Edit 7
 
 Unchanged source immediately before the edit:
 
@@ -142,13 +191,13 @@ fn expr(min) {
     let mut p = 0; let mut op = 0;
 ```
 
-### Edit 6
+### Edit 8
 
 Unchanged source immediately before the edit:
 
 ```rill
-    else { if wanted != argc { fail(4); } }
-    outstr("INVOKE F_"); outname(p); outchar(32); outnum(argc); newline(); return 0;
+    else { if wanted != nargs { fail(4); } }
+    outstr("INVOKE F_"); outname(p); outchar(32); outnum(nargs); newline(); return 0;
 }
 ```
 
@@ -167,7 +216,7 @@ fn prec() {
     if tok == 124 { return 1; } if tok == 94 { return 2; } if tok == 38 { return 3; }
 ```
 
-### Edit 7
+### Edit 9
 
 Unchanged source immediately before the edit:
 
@@ -189,10 +238,10 @@ The following old source remains in place:
 
 ```rill
 fn callargs(p,bi) {
-    let mut argc = 0; let mut kind = 0; let mut wanted = 0;
+    let mut nargs = 0; let mut kind = 0; let mut wanted = 0;
 ```
 
-### Edit 8
+### Edit 10
 
 Unchanged source immediately before the edit:
 
@@ -217,7 +266,7 @@ fn resolveoptional() {
     callbuiltin = builtin();
 ```
 
-### Edit 9
+### Edit 11
 
 Unchanged source immediately before the edit:
 
@@ -239,10 +288,10 @@ The following old source remains in place:
 
 ```rill
 fn builtin() {
-    let mut p = "PUTC\01\0POP\nPUTC\0STATUS\00\0STATUS\0OPEN\01\0POP\nOPEN\0CREATE\01\0POP\nCREATE\0CLOSE\01\0POP\nCLOSE\0READ\03\0POP\nREAD\0WRITE\03\0POP\nWRITE\0EXISTS\01\0POP\nEXISTS\0DELETE\01\0POP\nDELETE\0RENAME\02\0POP\nRENAME\0ALLOC\01\0POP\nALLOC\0FREE\01\0POP\nFREEBLOCK\0GET8\02\0POP\nGET8\0GET16\02\0POP\nGET16\0SET8\03\0POP\nSET8\0SET16\03\0POP\nSET16\0LOAD8\01\0POP\nFETCHB\0LOAD16\01\0POP\nFETCH\0STORE8\02\0POP\nPUTB\0STORE16\02\0POP\nPUT\0EXIT\01\0POP\nEXIT\0\0";
+    let mut p = "PUTC\01\0POP\nPUTC\0STATUS\00\0STATUS\0OPEN\01\0POP\nOPEN\0CREATE\01\0POP\nCREATE\0CLOSE\01\0POP\nCLOSE\0READ\03\0POP\nREAD\0WRITE\03\0POP\nWRITE\0EXISTS\01\0POP\nEXISTS\0DELETE\01\0POP\nDELETE\0RENAME\02\0POP\nRENAME\0ALLOC\01\0POP\nALLOC\0FREE\01\0POP\nFREEBLOCK\0GET8\02\0POP\nGET8\0GET16\02\0POP\nGET16\0SET8\03\0POP\nSET8\0SET16\03\0POP\nSET16\0LOAD8\01\0POP\nFETCHB\0LOAD16\01\0POP\nFETCH\0STORE8\02\0POP\nPUTB\0STORE16\02\0POP\nPUT\0EXIT\01\0POP\nEXIT\0ARGC\00\0ARGC\0ARG\01\0POP\nARG\0\0";
 ```
 
-### Edit 10
+### Edit 12
 
 Unchanged source immediately before the edit:
 
@@ -267,7 +316,7 @@ fn statement() {
     let mut p = 0; let mut kind = 0; let mut slot = 0;
 ```
 
-### Edit 11
+### Edit 13
 
 Unchanged source immediately before the edit:
 
@@ -292,12 +341,12 @@ fn declare() {
     lex(); if !isword("MUT") { fail(2); } lex(); if tok != 1 { fail(2); }
 ```
 
-### Edit 12
+### Edit 14
 
 Unchanged source immediately before the edit:
 
 ```rill
-    outstr("PROC F_"); outname(p); outchar(32); outnum(argc); outstr(" 64\r\n");
+    outstr("PROC F_"); outname(p); outchar(32); outnum(nargs); outstr(" 64\r\n");
     lex(); block(); outstr("LIT 0\r\nRETURN\r\n"); return 0;
 }
 ```
@@ -317,7 +366,7 @@ fn block() {
     let mut oldcount = localcount;
 ```
 
-### Edit 13
+### Edit 15
 
 Unchanged source immediately before the edit:
 
@@ -342,7 +391,7 @@ fn function() {
     lex(); if tok != 1 { fail(2); }
 ```
 
-### Edit 14
+### Edit 16
 
 Unchanged source immediately before the edit:
 
@@ -367,7 +416,7 @@ fn globalbuffer() {
     lex(); if tok != 1 { fail(2); } if lookglobal() != 65535 { fail(4); }
 ```
 
-### Edit 15
+### Edit 17
 
 Unchanged source immediately before the edit:
 
@@ -392,7 +441,7 @@ fn globalword() {
     lex(); if !isword("MUT") { fail(2); } lex(); if tok != 1 { fail(2); }
 ```
 
-### Edit 16
+### Edit 18
 
 Unchanged source immediately before the edit:
 
@@ -417,7 +466,7 @@ fn printnum(n) {
     let mut place = 10000; let mut c = 0;
 ```
 
-### Edit 17
+### Edit 19
 
 Unchanged source immediately before the edit:
 
@@ -441,7 +490,7 @@ The following old source remains in place:
 fn print(s) { let mut c = 0; while 1 { c = load8(s); if c == 0 { return 0; } putc(c); s = s+1; } }
 ```
 
-### Edit 18
+### Edit 20
 
 Unchanged source immediately before the edit:
 
@@ -465,7 +514,7 @@ The following old source remains in place:
 fn labeljump(n) { outstr(" B_"); outnum(n); newline(); return 0; }
 ```
 
-### Edit 19
+### Edit 21
 
 Unchanged source immediately before the edit:
 
@@ -489,7 +538,7 @@ The following old source remains in place:
 fn labeldef(n) { outstr("LABEL B_"); outnum(n); newline(); return 0; }
 ```
 
-### Edit 20
+### Edit 22
 
 Unchanged source immediately before the edit:
 
@@ -513,7 +562,7 @@ The following old source remains in place:
 fn newlabel() { labelno = labelno+1; if labelno == 0 { fail(5); } return labelno; }
 ```
 
-### Edit 21
+### Edit 23
 
 Unchanged source immediately before the edit:
 
@@ -537,7 +586,7 @@ The following old source remains in place:
 fn newline() { return outstr("\r\n"); }
 ```
 
-### Edit 22
+### Edit 24
 
 Unchanged source immediately before the edit:
 
@@ -562,7 +611,7 @@ fn outnum(n) {
     let mut place = 10000; let mut c = 0;
 ```
 
-### Edit 23
+### Edit 25
 
 Unchanged source immediately before the edit:
 
@@ -587,7 +636,7 @@ fn outstr(s) {
     let mut c=0; let mut previous=0;
 ```
 
-### Edit 24
+### Edit 26
 
 Unchanged source immediately before the edit:
 
@@ -612,7 +661,7 @@ fn flush() {
     if outlen {
 ```
 
-### Edit 25
+### Edit 27
 
 Unchanged source immediately before the edit:
 
@@ -637,7 +686,7 @@ fn outchar(c) {
     outbuf[outlen] = c; outlen = outlen+1; total = total+1;
 ```
 
-### Edit 26
+### Edit 28
 
 Unchanged source immediately before the edit:
 
@@ -661,7 +710,7 @@ The following old source remains in place:
 fn outname(p) { let mut i = 0; let mut c = 0; while 1 { c = tbyte(p+i); if c == 0 { return 0; } outchar(c); i = i+1; } }
 ```
 
-### Edit 27
+### Edit 29
 
 Unchanged source immediately before the edit:
 
@@ -686,7 +735,7 @@ fn resolve() {
     found = find(20480,localcount);
 ```
 
-### Edit 28
+### Edit 30
 
 Unchanged source immediately before the edit:
 
@@ -710,7 +759,7 @@ The following old source remains in place:
 fn lookglobal() { return find(0,globals); }
 ```
 
-### Edit 29
+### Edit 31
 
 Unchanged source immediately before the edit:
 
@@ -735,7 +784,7 @@ fn newlocal(kind) {
     if localcount >= 80 { fail(5); }
 ```
 
-### Edit 30
+### Edit 32
 
 Unchanged source immediately before the edit:
 
@@ -760,7 +809,7 @@ fn newglobal(kind) {
     if globals >= 512 { fail(5); }
 ```
 
-### Edit 31
+### Edit 33
 
 Unchanged source immediately before the edit:
 
@@ -784,7 +833,7 @@ The following old source remains in place:
 fn recordfields(p) { set16(table,p+32,rectype); set16(table,p+34,recval); set16(table,p+36,reclevel); return p; }
 ```
 
-### Edit 32
+### Edit 34
 
 Unchanged source immediately before the edit:
 
@@ -809,7 +858,7 @@ fn record(p) {
     let mut i = 0;
 ```
 
-### Edit 33
+### Edit 35
 
 Unchanged source immediately before the edit:
 
@@ -834,7 +883,7 @@ fn find(base,count) {
     let mut p = 0;
 ```
 
-### Edit 34
+### Edit 36
 
 Unchanged source immediately before the edit:
 
@@ -858,7 +907,7 @@ The following old source remains in place:
 fn tbyte(p) { return get8(table,p); }
 ```
 
-### Edit 35
+### Edit 37
 
 Unchanged source immediately before the edit:
 
@@ -882,7 +931,7 @@ The following old source remains in place:
 fn tword(p) { return get16(table,p); }
 ```
 
-### Edit 36
+### Edit 38
 
 Unchanged source immediately before the edit:
 
@@ -906,7 +955,7 @@ The following old source remains in place:
 fn setident(s) { let mut i = 0; while 1 { ident[i] = load8(s+i); if ident[i] == 0 { return 0; } i = i+1; } }
 ```
 
-### Edit 37
+### Edit 39
 
 Unchanged source immediately before the edit:
 
@@ -931,7 +980,7 @@ fn isword(s) {
     let mut i = 0;
 ```
 
-### Edit 38
+### Edit 40
 
 Unchanged source immediately before the edit:
 
@@ -955,7 +1004,7 @@ The following old source remains in place:
 fn expect(t) { if tok != t { fail(2); } lex(); return 0; }
 ```
 
-### Edit 39
+### Edit 41
 
 Unchanged source immediately before the edit:
 
@@ -980,7 +1029,7 @@ fn lexkind() {
     let mut n = 0;
 ```
 
-### Edit 40
+### Edit 42
 
 Unchanged source immediately before the edit:
 
@@ -1005,7 +1054,7 @@ fn lex() {
     while 1 {
 ```
 
-### Edit 41
+### Edit 43
 
 Unchanged source immediately before the edit:
 
@@ -1029,7 +1078,7 @@ The following old source remains in place:
 fn digit(c) { if c < 48 { return 0; } if c > 57 { return 0; } return 1; }
 ```
 
-### Edit 42
+### Edit 44
 
 Unchanged source immediately before the edit:
 
@@ -1054,7 +1103,7 @@ fn letter(c) {
     if c == 95 { return 1; }
 ```
 
-### Edit 43
+### Edit 45
 
 Unchanged source immediately before the edit:
 
@@ -1068,16 +1117,17 @@ Remove this source at old physical positions 34–36 in RC42.RIL:
 
 ```rill
 
-fn main(){table=alloc(23680);output=create("RILL.TMP");own=1;input=open("SOURCE.RIL");if status(){fail(1);}next();lex();function();outstr("PROC MAIN 0 0\r\nINVOKE F_MAIN 0\r\nRETURN\r\n");flush();close(output);output=0;own=0;return 0;}
+fn main(){filearg(1,"SOURCE.RIL");table=alloc(23680);output=create(filearg(2,"RILL.TMP"));own=1;input=open(filearg(1,"SOURCE.RIL"));if status(){fail(1);}next();lex();function();outstr("PROC MAIN 0 0\r\nINVOKE F_MAIN 0\r\nRETURN\r\n");flush();close(output);output=0;own=0;return 0;}
 ```
 
 Replace it with:
 
 ```rill
 fn main() {
+    filearg(1,"SOURCE.RIL");
     if exists("RILL.TMP") != 0 { fail(5); }
     if exists("RILL.BAK") != 0 { fail(5); }
-    input = open("SOURCE.RIL");
+    input = open(filearg(1,"SOURCE.RIL"));
     if status() != 0 { fail(1); }
     output = create("RILL.TMP");
     if status() != 0 { fail(1); }
@@ -1110,14 +1160,14 @@ fn main() {
     if status() != 0 { fail(1); }
     flush(); close(output);
     if status() != 0 { fail(1); }
-    let mut present=exists("RESULT.IR");
+    let mut present=exists(filearg(2,"RESULT.IR"));
     if status() { fail(1); }
     if present {
-        rename("RESULT.IR","RILL.BAK");
+        rename(filearg(2,"RESULT.IR"),"RILL.BAK");
         if status() != 0 { fail(1); }
         backup = 1;
     }
-    rename("RILL.TMP","RESULT.IR");
+    rename("RILL.TMP",filearg(2,"RESULT.IR"));
     if status() != 0 { fail(1); }
     own = 0;
     if backup {
@@ -1126,7 +1176,7 @@ fn main() {
     }
     free(table);
     if status() != 0 { fail(1); }
-    print("OK RESULT.IR ");
+    print("OK ");print(filearg(2,"RESULT.IR"));print(" ");
     print32(totalhi,total);
     print("\r\n");
     return 0;
@@ -1143,25 +1193,23 @@ fn next() {
 ## Build this stopping point
 
 ```dos
-COPY RC43.RIL SOURCE.RIL
-CHECK RILLBOOT
+CHECK RILLBOOT RC43.RIL RESULT.IR
 ```
 
-Require `OK RESULT.IR 0000049992` and PASS. Copy RESULT.IR to SOURCE.IR.
+Require `OK RESULT.IR 0000051789` and PASS. Pass RESULT.IR directly to the translator.
 
 ```dos
-CHECK IWKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IWKEEP SOURCE.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require IR86 `OK RESULT.ASM 0000103091 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 26617 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000108527 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 27614 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RC43.COM
 ```
 
-VIEW.BAS must report RC43.COM length 26617 bytes. Keep this executable and its source together.
+VIEW.BAS must report RC43.COM length 27614 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -1172,11 +1220,7 @@ fn main(){putc(72);putc(73);return 0;}
 ```
 
 ```dos
-COPY TRC43.RIL SOURCE.RIL
-```
-
-```dos
-CHECK RC43
+CHECK RC43 TRC43.RIL RESULT.IR
 ```
 
 Require:
@@ -1207,7 +1251,7 @@ INVOKE F_MAIN 0
 RETURN
 ```
 
-VIEW.BAS must show length 152 bytes. This is a complete program. Copy it to SOURCE.IR, run CHECK IWKEEP, copy the accepted RESULT.ASM to SOURCE.ASM, and run CHECK ASMAKEEP. Require OK and PASS at both steps. VIEW.BAS must report RESULT.COM length 1069. Copy that file to TRY.COM; CHECK TRY displays `HI` and reports PASS.
+VIEW.BAS must show length 152 bytes. This is a complete program. Run CHECK IWKEEP RESULT.IR RESULT.ASM, then CHECK ASMAKEEP RESULT.ASM RESULT.COM. Require OK and PASS at both steps. VIEW.BAS must report RESULT.COM length 1431. Copy that file to TRY.COM; CHECK TRY displays `HI` and reports PASS.
 
 ## A rejection or boundary check
 
@@ -1218,8 +1262,7 @@ fn main(){return 65536;}
 ```
 
 ```dos
-COPY XRC43.RIL SOURCE.RIL
-CHECK RC43
+CHECK RC43 XRC43.RIL RESULT.IR
 ```
 
 Require:
@@ -1263,20 +1306,17 @@ fn main(){return check(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);}
 ```
 
 ```dos
-COPY TLOCAL.RIL SOURCE.RIL
-CHECK RC43
-COPY RESULT.IR SOURCE.IR
-CHECK IWKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK RC43 TLOCAL.RIL RESULT.IR
+CHECK IWKEEP RESULT.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 COPY RESULT.COM TRY.COM
 CHECK TRY
 ```
 
-Require compiler `OK RESULT.IR 0000005625`, translator `OK RESULT.ASM 0000015732 text bytes`, and assembler `OK RESULT.COM 03098 bytes`, with PASS before each following copy. TRY must return zero and report PASS; it needs no display routine. VIEW.BAS must show 3098 bytes and these first thirty-two bytes:
+Require compiler `OK RESULT.IR 0000005625`, translator `OK RESULT.ASM 0000017226 text bytes`, and assembler `OK RESULT.COM 03460 bytes`, with PASS before each following copy. TRY must return zero and report PASS; it needs no display routine. VIEW.BAS must show 3460 bytes and these first thirty-two bytes:
 
 ```text
-FC 81 FC FE FF 74 03 E9 C7 0B E8 1F 08 B4 4C CD 21 55 8B EC 81 EC 80 00 81 FC 00 F0 73 03 E9 B0
+FC 81 FC FE FF 74 03 E9 D3 0B E8 19 0C 81 F8 FF FF 75 03 E9 C7 0B E8 1F 08 B4 4C CD 21 55 8B EC
 ```
 
 ## Reject one more live local
@@ -1288,8 +1328,7 @@ let mut extra=0;
 ```
 
 ```dos
-COPY XLOCAL.RIL SOURCE.RIL
-CHECK RC43
+CHECK RC43 XLOCAL.RIL RESULT.IR
 ```
 
 Require `ERROR 0000000018 CODE 00005` and FAIL. The accepted RESULT.IR must remain unchanged; keep a copy for comparison before this check.
@@ -1322,20 +1361,17 @@ let mut result=0;
 The complete disk source has the declarations in place. It checks both slot reuse between sibling scopes and restoration of an outer binding after a shadowing block.
 
 ```dos
-COPY TSCOPE.RIL SOURCE.RIL
-CHECK RC43
-COPY RESULT.IR SOURCE.IR
-CHECK IWKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK RC43 TSCOPE.RIL RESULT.IR
+CHECK IWKEEP RESULT.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 COPY RESULT.COM TRY.COM
 CHECK TRY
 ```
 
-Require compiler `OK RESULT.IR 0000004080`, translator `OK RESULT.ASM 0000010171 text bytes`, and assembler `OK RESULT.COM 02133 bytes`, with PASS before each following copy. TRY must return zero and report PASS; it needs no display routine. VIEW.BAS must show 2133 bytes and these first thirty-two bytes:
+Require compiler `OK RESULT.IR 0000004080`, translator `OK RESULT.ASM 0000011665 text bytes`, and assembler `OK RESULT.COM 02495 bytes`, with PASS before each following copy. TRY must return zero and report PASS; it needs no display routine. VIEW.BAS must show 2495 bytes and these first thirty-two bytes:
 
 ```text
-FC 81 FC FE FF 74 03 E9 02 08 E8 5A 04 B4 4C CD 21 00 00 55 8B EC 81 EC 80 00 81 FC 00 F0 73 03
+FC 81 FC FE FF 74 03 E9 0E 08 E8 54 08 81 F8 FF FF 75 03 E9 02 08 E8 5A 04 B4 4C CD 21 00 00 55
 ```
 
 

@@ -20,15 +20,17 @@ Copy L01.RIL to L02.RIL. Apply these edits from the bottom of the unchanged old 
 Unchanged source immediately before the edit:
 
 ```rill
+fn openunit(){input=open(filearg(1,"MAIN.OBJ"));if status(){fail(6);}inopen=1;return 0;}
 
 fn closein(){close(input);if status(){fail(6);}inopen=0;return 0;}
 ```
 
-Insert after old physical line 9.
+Insert after old physical line 8.
 
 Insert:
 
 ```rill
+
 fn nextbyte(){
     if ended{return 65535;}
     if inpos==inlen{
@@ -43,6 +45,7 @@ fn nextbyte(){
 The following old source remains:
 
 ```rill
+
 fn fail(code){if inopen{close(input);}exit(1);return 0;}
 ```
 
@@ -52,13 +55,13 @@ Unchanged source immediately before the edit:
 
 ```rill
 let mut inopen=0;
-fn main(){openunit();closein();return 0;}
+fn main(){filearg(1,"MAIN.OBJ");openunit();closein();return 0;}
 ```
 
 Remove old physical positions 6–6:
 
 ```rill
-fn openunit(){input=open("MAIN.OBJ");if status(){fail(6);}inopen=1;return 0;}
+fn openunit(){input=open(filearg(1,"MAIN.OBJ"));if status(){fail(6);}inopen=1;return 0;}
 ```
 
 Replace with:
@@ -66,8 +69,8 @@ Replace with:
 ```rill
 fn openunit(){
     line=0;ended=0;skip=0;inpos=0;inlen=0;
-    if unit==1{input=open("MAIN.OBJ");}
-    else{input=open("UTIL.OBJ");}
+    if unit==1{input=open(filearg(1,"MAIN.OBJ"));}
+    else{input=open(filearg(2,"UTIL.OBJ"));}
     if status(){fail(6);}inopen=1;return 0;
 }
 ```
@@ -92,7 +95,7 @@ let mut inopen=0;
 Remove old physical positions 4–4:
 
 ```rill
-fn main(){openunit();closein();return 0;}
+fn main(){filearg(1,"MAIN.OBJ");openunit();closein();return 0;}
 ```
 
 Replace with:
@@ -105,32 +108,29 @@ let mut skip=0;
 let mut inpos=0;
 let mut inlen=0;
 bytes inbuf[1024];
-fn main(){openunit();let mut count=0;while nextbyte()!=65535{count=count+1;}closein();return count!=11;}
+fn main(){filearg(1,"MAIN.OBJ");openunit();let mut count=0;while nextbyte()!=65535{count=count+1;}closein();return count!=11;}
 ```
 
 The following old source remains:
 
 ```rill
 
-fn openunit(){input=open("MAIN.OBJ");if status(){fail(6);}inopen=1;return 0;}
+fn openunit(){input=open(filearg(1,"MAIN.OBJ"));if status(){fail(6);}inopen=1;return 0;}
 ```
 
 ## Build and preserve the tool
 
 ```dos
-COPY L02.RIL SOURCE.RIL
-CHECK R0
-COPY RESULT.IR SOURCE.IR
-CHECK I0
-COPY RESULT.ASM SOURCE.ASM
-CHECK A0
+CHECK R0 L02.RIL RESULT.IR
+CHECK I0 RESULT.IR RESULT.ASM
+CHECK A0 RESULT.ASM RESULT.COM
 COPY RESULT.COM L02.COM
 ```
 
-Require compiler `OK RESULT.IR 0000002403`, translator `OK RESULT.ASM 0000009198 text bytes`, assembler `OK RESULT.COM 02797 bytes`, and each PASS before the following copy. VIEW.BAS must show L02.COM length 2797 and these first thirty-two bytes:
+Require compiler `OK RESULT.IR 0000004287`, translator `OK RESULT.ASM 0000014750 text bytes`, assembler `OK RESULT.COM 03818 bytes`, and each PASS before the following copy. VIEW.BAS must show L02.COM length 3818 and these first thirty-two bytes:
 
 ```text
-FC 81 FC FE FF 74 03 E9 9A 0A E8 F2 06 B4 4C CD 21 00 00 00 00 01 00 00 00 00 00 00 00 00 00 00
+FC 81 FC FE FF 74 03 E9 39 0D E8 7F 0D 81 F8 FF FF 75 03 E9 2D 0D E8 85 09 B4 4C CD 21 00 00 00
 ```
 
 ## Check the accepted input
@@ -143,8 +143,7 @@ END
 ```
 
 ```dos
-COPY M02.OBJ MAIN.OBJ
-CHECK L02
+CHECK L02 M02.OBJ UTIL.OBJ RESULT.COM
 ```
 
 CHECK must report PASS. This checkpoint creates no linked output. Its input handling is checked by its return status; its retained executable was inspected above.
@@ -157,7 +156,7 @@ COPY RESULT.COM HOLD.COM
 
 ```dos
 REN MAIN.OBJ HOLD.OBJ
-CHECK L02
+CHECK L02 M02.OBJ UTIL.OBJ RESULT.COM
 ```
 
 Use an unused HOLD.OBJ name and restore it to MAIN.OBJ after the check.

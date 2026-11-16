@@ -14,7 +14,7 @@ Bind PUTC and persistent STATUS to checked byte output.
 
 Copy IR10.ASM to IR11.ASM. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 1281
+### Edit at old physical position 1444
 
 Unchanged source before the edit:
 
@@ -33,7 +33,14 @@ DB 83,84,65,84,85,83,0,0,0,0,0,0,0,0
 DW T_STATUS
 ```
 
-### Edit at old physical position 1236
+The following old source remains:
+
+```asm
+
+CMDCOUNT:
+```
+
+### Edit at old physical position 1399
 
 Unchanged source before the edit:
 
@@ -61,7 +68,7 @@ IRTAB:
 DB 76,73,84,0,0,0,0,0,0,0,1,0,0,0
 ```
 
-### Edit at old physical position 1123
+### Edit at old physical position 1286
 
 Unchanged source before the edit:
 
@@ -117,7 +124,7 @@ DB "R_STACKFAIL:",13,10
 DB "MOV AX,4C02H",13,10
 ```
 
-### Edit at old physical position 866
+### Edit at old physical position 872
 
 Unchanged source before the edit:
 
@@ -149,11 +156,10 @@ CALL LOOK
 ## Build and check
 
 ```dos
-COPY IR11.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP IR11.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 04015 bytes`. Save RESULT.COM as IR11.COM. VIEW.BAS must show length 4015.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 04508 bytes`. Save RESULT.COM as IR11.COM. VIEW.BAS must show length 4508.
 
 Create T11.IR:
 
@@ -166,11 +172,7 @@ EXIT
 ```
 
 ```dos
-COPY T11.IR SOURCE.IR
-```
-
-```dos
-CHECK IR11
+CHECK IR11 T11.IR RESULT.ASM
 ```
 
 Require:
@@ -181,8 +183,7 @@ PASS
 ```
 
 ```dos
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
 Require OK and PASS. VIEW.BAS must show RESULT.COM length 100 and these leading bytes:
@@ -195,13 +196,17 @@ Copy it to TRY.COM. CHECK TRY displays `A` and reports PASS.
 
 ## Check the new boundary
 
-Use this separate rejected source:
+Save this separate rejected source as X11.IR:
 
 ```ir
 UNKNOWN
 ```
 
-Copy it to SOURCE.IR and run CHECK IR11. Require:
+```dos
+CHECK IR11 X11.IR RESULT.ASM
+```
+
+Require:
 
 ```text
 IR ERROR 0000000001 CODE 1

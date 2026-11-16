@@ -53,13 +53,13 @@ bytes string[512];
 Remove this source at old physical positions 35–35 in RC28.RIL:
 
 ```rill
-fn main(){output=create("RILL.TMP");own=1;labeljump(7);flush();close(output);output=0;own=0;return 0;}
+fn main(){filearg(1,"SOURCE.RIL");output=create(filearg(2,"RILL.TMP"));own=1;labeljump(7);flush();close(output);output=0;own=0;return 0;}
 ```
 
 Replace it with:
 
 ```rill
-fn main(){table=alloc(23680);setident("ABC");rectype=1;recval=12345;reclevel=0;record(0);globals=1;output=create("RILL.TMP");own=1;outname(0);flush();close(output);output=0;own=0;return 0;}
+fn main(){filearg(1,"SOURCE.RIL");table=alloc(23680);setident("ABC");rectype=1;recval=12345;reclevel=0;record(0);globals=1;output=create(filearg(2,"RILL.TMP"));own=1;outname(0);flush();close(output);output=0;own=0;return 0;}
 ```
 
 The following old source remains in place:
@@ -72,43 +72,39 @@ fn next() {
 ## Build this stopping point
 
 ```dos
-COPY RC29.RIL SOURCE.RIL
-CHECK RILLBOOT
+CHECK RILLBOOT RC29.RIL RESULT.IR
 ```
 
-Require `OK RESULT.IR 0000022173` and PASS. Copy RESULT.IR to SOURCE.IR.
+Require `OK RESULT.IR 0000023675` and PASS. Pass RESULT.IR directly to the translator.
 
 ```dos
-CHECK IWKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IWKEEP SOURCE.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require IR86 `OK RESULT.ASM 0000045864 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 17008 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000050596 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 17901 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RC29.COM
 ```
 
-VIEW.BAS must report RC29.COM length 17008 bytes. Keep this executable and its source together.
+VIEW.BAS must report RC29.COM length 17901 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
 ```dos
-CHECK RC29
+CHECK RC29 RC29.RIL RESULT.IR
 ```
 
 The checker must report PASS. Inspect the emitted file below.
 
-Use VIEW.BAS to inspect RILL.TMP. Require length 3 bytes. The complete bytes must be:
+Use VIEW.BAS to inspect RESULT.IR. Require length 3 bytes. The complete bytes must be:
 
 ```text
 41 42 43
 ```
 
 This is an IR fragment for inspection. Do not translate it as a complete program or execute any file with its name.
-
-After inspection, delete this deliberately created RILL.TMP before another checkpoint. The file is diagnostic text, not an interrupted accepted compiler build.
 
 ## If the result differs
 

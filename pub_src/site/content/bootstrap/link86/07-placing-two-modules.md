@@ -26,13 +26,13 @@ bytes token[32];
 Remove old physical positions 24–24:
 
 ```rill
-fn main(){preflight();pass=2;openunit();createout();records();closein();unit=0;line=0;finishout();commit();report();return 0;}
+fn main(){filearg(1,"MAIN.OBJ");preflight();pass=2;openunit();createout();records();closein();unit=0;line=0;finishout();commit();report();return 0;}
 ```
 
 Replace with:
 
 ```rill
-fn main(){
+fn main(){filearg(1,"MAIN.OBJ");
     unit=0;preflight();
     pass=1;
     while pass<=2{
@@ -93,19 +93,16 @@ bytes inbuf[1024];
 ## Build and preserve the tool
 
 ```dos
-COPY L07.RIL SOURCE.RIL
-CHECK R0
-COPY RESULT.IR SOURCE.IR
-CHECK I0
-COPY RESULT.ASM SOURCE.ASM
-CHECK A0
+CHECK R0 L07.RIL RESULT.IR
+CHECK I0 RESULT.IR RESULT.ASM
+CHECK A0 RESULT.ASM RESULT.COM
 COPY RESULT.COM L07.COM
 ```
 
-Require compiler `OK RESULT.IR 0000015428`, translator `OK RESULT.ASM 0000034281 text bytes`, assembler `OK RESULT.COM 08291 bytes`, and each PASS before the following copy. VIEW.BAS must show L07.COM length 8291 and these first thirty-two bytes:
+Require compiler `OK RESULT.IR 0000017621`, translator `OK RESULT.ASM 0000040341 text bytes`, assembler `OK RESULT.COM 09402 bytes`, and each PASS before the following copy. VIEW.BAS must show L07.COM length 9402 and these first thirty-two bytes:
 
 ```text
-FC 81 FC FE FF 74 03 E9 10 20 E8 68 1C B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 01 00 01
+FC 81 FC FE FF 74 03 E9 09 23 E8 4F 23 81 F8 FF FF 75 03 E9 FD 22 E8 55 1F B4 4C CD 21 00 00 00
 ```
 
 ## Check the accepted input
@@ -127,9 +124,7 @@ END
 ```
 
 ```dos
-COPY M07.OBJ MAIN.OBJ
-COPY U07.OBJ UTIL.OBJ
-CHECK L07
+CHECK L07 M07.OBJ U07.OBJ RESULT.COM
 ```
 
 Require:
@@ -161,8 +156,7 @@ B 90
 ```
 
 ```dos
-COPY X07.OBJ MAIN.OBJ
-CHECK L07
+CHECK L07 X07.OBJ U07.OBJ RESULT.COM
 ```
 
 Require:

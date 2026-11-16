@@ -68,6 +68,13 @@ fn number(value){
 fn fail(code){if inopen{close(input);inopen=0;}print("LINK ERROR ");number(unit);putc(32);number(line);print(" CODE ");number(code);print("\r\n");exit(1);return 0;}
 ```
 
+The following old source remains:
+
+```rill
+
+fn filearg(n,fallback){
+```
+
 ### Edit 2
 
 Unchanged source immediately before the edit:
@@ -81,14 +88,14 @@ bytes inbuf[1024];
 Remove old physical positions 11–11:
 
 ```rill
-fn main(){openunit();let mut count=0;while nextbyte()!=65535{count=count+1;}closein();return count!=11;}
+fn main(){filearg(1,"MAIN.OBJ");openunit();let mut count=0;while nextbyte()!=65535{count=count+1;}closein();return count!=11;}
 ```
 
 Replace with:
 
 ```rill
 bytes source[121];
-fn main(){openunit();let mut count=0;while readline(){count=count+1;}closein();return count!=2;}
+fn main(){filearg(1,"MAIN.OBJ");openunit();let mut count=0;while readline(){count=count+1;}closein();return count!=2;}
 ```
 
 The following old source remains:
@@ -121,25 +128,22 @@ The following old source remains:
 
 ```rill
 bytes inbuf[1024];
-fn main(){openunit();let mut count=0;while nextbyte()!=65535{count=count+1;}closein();return count!=11;}
+fn main(){filearg(1,"MAIN.OBJ");openunit();let mut count=0;while nextbyte()!=65535{count=count+1;}closein();return count!=11;}
 ```
 
 ## Build and preserve the tool
 
 ```dos
-COPY L03.RIL SOURCE.RIL
-CHECK R0
-COPY RESULT.IR SOURCE.IR
-CHECK I0
-COPY RESULT.ASM SOURCE.ASM
-CHECK A0
+CHECK R0 L03.RIL RESULT.IR
+CHECK I0 RESULT.IR RESULT.ASM
+CHECK A0 RESULT.ASM RESULT.COM
 COPY RESULT.COM L03.COM
 ```
 
-Require compiler `OK RESULT.IR 0000005405`, translator `OK RESULT.ASM 0000014890 text bytes`, assembler `OK RESULT.COM 03926 bytes`, and each PASS before the following copy. VIEW.BAS must show L03.COM length 3926 and these first thirty-two bytes:
+Require compiler `OK RESULT.IR 0000007289`, translator `OK RESULT.ASM 0000020442 text bytes`, assembler `OK RESULT.COM 04947 bytes`, and each PASS before the following copy. VIEW.BAS must show L03.COM length 4947 and these first thirty-two bytes:
 
 ```text
-FC 81 FC FE FF 74 03 E9 03 0F E8 5B 0B B4 4C CD 21 00 00 00 00 01 00 00 00 00 00 00 00 00 00 00
+FC 81 FC FE FF 74 03 E9 A2 11 E8 E8 11 81 F8 FF FF 75 03 E9 96 11 E8 EE 0D B4 4C CD 21 00 00 00
 ```
 
 ## Check the accepted input
@@ -152,8 +156,7 @@ END
 ```
 
 ```dos
-COPY M03.OBJ MAIN.OBJ
-CHECK L03
+CHECK L03 M03.OBJ UTIL.OBJ RESULT.COM
 ```
 
 CHECK must report PASS. This checkpoint creates no linked output. Its input handling is checked by its return status; its retained executable was inspected above.
@@ -171,8 +174,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ```
 
 ```dos
-COPY X03.OBJ MAIN.OBJ
-CHECK L03
+CHECK L03 X03.OBJ UTIL.OBJ RESULT.COM
 ```
 
 Require:

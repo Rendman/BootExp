@@ -54,8 +54,8 @@ fn main(){
 }
 fn openunit(){
     line=0;ended=0;skip=0;inpos=0;inlen=0;
-    if unit==1{input=open("MAIN.OBJ");}
-    else{input=open("UTIL.OBJ");}
+    if unit==1{input=open(filearg(1,"MAIN.OBJ"));}
+    else{input=open(filearg(2,"UTIL.OBJ"));}
     if status(){fail(6);}inopen=1;return 0;
 }
 fn closein(){close(input);if status(){fail(6);}inopen=0;return 0;}
@@ -172,11 +172,11 @@ fn preflight(){
     if exists("LINK.BAK"){fail(8);}if status(){fail(6);}return 0;
 }
 fn commit(){
-    let mut backup=exists("RESULT.COM");if status(){fail(6);}
-    if backup{rename("RESULT.COM","LINK.BAK");if status(){fail(6);}}
-    rename("LINK.TMP","RESULT.COM");
+    let mut backup=exists(filearg(3,"RESULT.COM"));if status(){fail(6);}
+    if backup{rename(filearg(3,"RESULT.COM"),"LINK.BAK");if status(){fail(6);}}
+    rename("LINK.TMP",filearg(3,"RESULT.COM"));
     if status(){
-        if backup{rename("LINK.BAK","RESULT.COM");if status(){keep=1;}}
+        if backup{rename("LINK.BAK",filearg(3,"RESULT.COM"));if status(){keep=1;}}
         fail(6);
     }
     own=0;
@@ -252,7 +252,7 @@ fn number(value){
     }
     return 0;
 }
-fn report(){print("OK RESULT.COM ");number(pc);print(" bytes\r\n");return 0;}
+fn report(){print("OK ");print(filearg(3,"RESULT.COM"));print(" ");number(pc);print(" bytes\r\n");return 0;}
 fn fail(code){
     if inopen{close(input);inopen=0;}
     if outopen{close(output);outopen=0;}
@@ -260,4 +260,19 @@ fn fail(code){
     if table{free(table);table=0;}
     print("LINK ERROR ");number(unit);putc(32);number(line);
     print(" CODE ");number(code);print("\r\n");exit(1);return 0;
+}
+
+fn filearg(n,fallback){
+    let mut count=argc();
+    if count==0{return fallback;}
+    if count!=3{exit(1);}
+    if filesame(arg(1),arg(2))|filesame(arg(1),arg(3))|filesame(arg(1),"LINK.TMP")|filesame(arg(1),"LINK.BAK")|filesame(arg(2),arg(3))|filesame(arg(2),"LINK.TMP")|filesame(arg(2),"LINK.BAK")|filesame(arg(3),"LINK.TMP")|filesame(arg(3),"LINK.BAK"){exit(1);}
+    return arg(n);
+}
+fn filesame(a,b){
+    let mut i=0;
+    while load8(a+i)==load8(b+i){
+        if load8(a+i)==0{return 1;}i=i+1;
+    }
+    return 0;
 }

@@ -40,6 +40,13 @@ fn fail(code){
 }
 ```
 
+The following old source remains:
+
+```rill
+
+fn filearg(n,fallback){
+```
+
 ### Edit 2
 
 Unchanged source immediately before the edit:
@@ -153,13 +160,13 @@ bytes token[32];
 Remove old physical positions 16–16:
 
 ```rill
-fn main(){openunit();records();closein();return 0;}
+fn main(){filearg(1,"MAIN.OBJ");openunit();records();closein();return 0;}
 ```
 
 Replace with:
 
 ```rill
-fn main(){preflight();pass=2;openunit();createout();records();closein();finishout();print("OK LINK.TMP ");number(pc);print(" bytes\r\n");return 0;}
+fn main(){filearg(1,"MAIN.OBJ");preflight();pass=2;openunit();createout();records();closein();finishout();print("OK LINK.TMP ");number(pc);print(" bytes\r\n");return 0;}
 ```
 
 The following old source remains:
@@ -276,19 +283,16 @@ let mut line=0;
 ## Build and preserve the tool
 
 ```dos
-COPY L05.RIL SOURCE.RIL
-CHECK R0
-COPY RESULT.IR SOURCE.IR
-CHECK I0
-COPY RESULT.ASM SOURCE.ASM
-CHECK A0
+CHECK R0 L05.RIL RESULT.IR
+CHECK I0 RESULT.IR RESULT.ASM
+CHECK A0 RESULT.ASM RESULT.COM
 COPY RESULT.COM L05.COM
 ```
 
-Require compiler `OK RESULT.IR 0000012599`, translator `OK RESULT.ASM 0000028504 text bytes`, assembler `OK RESULT.COM 07361 bytes`, and each PASS before the following copy. VIEW.BAS must show L05.COM length 7361 and these first thirty-two bytes:
+Require compiler `OK RESULT.IR 0000014483`, translator `OK RESULT.ASM 0000034056 text bytes`, assembler `OK RESULT.COM 08382 bytes`, and each PASS before the following copy. VIEW.BAS must show L05.COM length 8382 and these first thirty-two bytes:
 
 ```text
-FC 81 FC FE FF 74 03 E9 6E 1C E8 C6 18 B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 01 00 01
+FC 81 FC FE FF 74 03 E9 0D 1F E8 53 1F 81 F8 FF FF 75 03 E9 01 1F E8 59 1B B4 4C CD 21 00 00 00
 ```
 
 ## Check the accepted input
@@ -302,8 +306,7 @@ END
 ```
 
 ```dos
-COPY M05.OBJ MAIN.OBJ
-CHECK L05
+CHECK L05 M05.OBJ UTIL.OBJ RESULT.COM
 ```
 
 Require:
@@ -342,8 +345,7 @@ END
 ```
 
 ```dos
-COPY X05.OBJ MAIN.OBJ
-CHECK L05
+CHECK L05 X05.OBJ UTIL.OBJ RESULT.COM
 ```
 
 Require:

@@ -36,22 +36,22 @@ Replace it with:
 
 ```rill
 fn callargs(p,bi) {
-    let mut argc = 0; let mut kind = 0; let mut wanted = 0;
+    let mut nargs = 0; let mut kind = 0; let mut wanted = 0;
     expect(40);
     while tok != 41 {
-        if argc >= 16 { fail(5); } expr(1); outstr("PUSH\r\n"); argc = argc+1;
+        if nargs >= 16 { fail(5); } expr(1); outstr("PUSH\r\n"); nargs = nargs+1;
         if tok != 41 { expect(44); }
     }
     lex();
     if bi {
-        if load8(bi-2)-48 != argc { fail(4); }
+        if load8(bi-2)-48 != nargs { fail(4); }
         outstr(bi); newline(); return 0;
     }
     kind = tword(p+32); if kind != 3 { if kind != 4 { fail(4); } }
     wanted = tword(p+34);
-    if wanted == 65535 { set16(table,p+34,argc); }
-    else { if wanted != argc { fail(4); } }
-    outstr("INVOKE F_"); outname(p); outchar(32); outnum(argc); newline(); return 0;
+    if wanted == 65535 { set16(table,p+34,nargs); }
+    else { if wanted != nargs { fail(4); } }
+    outstr("INVOKE F_"); outname(p); outchar(32); outnum(nargs); newline(); return 0;
 }
 ```
 
@@ -65,25 +65,23 @@ fn prec() {
 ## Build this stopping point
 
 ```dos
-COPY RC36.RIL SOURCE.RIL
-CHECK RILLBOOT
+CHECK RILLBOOT RC36.RIL RESULT.IR
 ```
 
-Require `OK RESULT.IR 0000035999` and PASS. Copy RESULT.IR to SOURCE.IR.
+Require `OK RESULT.IR 0000037581` and PASS. Pass RESULT.IR directly to the translator.
 
 ```dos
-CHECK IWKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IWKEEP SOURCE.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require IR86 `OK RESULT.ASM 0000076350 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 21978 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000081406 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 22909 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RC36.COM
 ```
 
-VIEW.BAS must report RC36.COM length 21978 bytes. Keep this executable and its source together.
+VIEW.BAS must report RC36.COM length 22909 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 
@@ -94,16 +92,12 @@ putc(65)
 ```
 
 ```dos
-COPY TRC36.RIL SOURCE.RIL
-```
-
-```dos
-CHECK RC36
+CHECK RC36 TRC36.RIL RESULT.IR
 ```
 
 The checker must report PASS. Inspect the emitted file below.
 
-Use VIEW.BAS to inspect RILL.TMP. Require length 28 bytes. The complete bytes must be:
+Use VIEW.BAS to inspect RESULT.IR. Require length 28 bytes. The complete bytes must be:
 
 ```text
 4C 49 54 20 30 30 30 36 35 0D 0A 50 55 53 48 0D
@@ -111,8 +105,6 @@ Use VIEW.BAS to inspect RILL.TMP. Require length 28 bytes. The complete bytes mu
 ```
 
 This is an IR fragment for inspection. Do not translate it as a complete program or execute any file with its name.
-
-After inspection, delete this deliberately created RILL.TMP before another checkpoint. The file is diagnostic text, not an interrupted accepted compiler build.
 
 ## A rejection or boundary check
 
@@ -123,8 +115,7 @@ get8(1)
 ```
 
 ```dos
-COPY XRC36.RIL SOURCE.RIL
-CHECK RC36
+CHECK RC36 XRC36.RIL RESULT.IR
 ```
 
 Require:

@@ -14,7 +14,7 @@ Preserve case and escape bytes while branching around inline constant storage.
 
 Copy IR19.ASM to IR20.ASM. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 1750
+### Edit at old physical position 2044
 
 Unchanged source before the edit:
 
@@ -31,20 +31,25 @@ DB 76,73,84,83,0,0,0,0,0,0,6,0,0,0
 DW T_LITS
 ```
 
-### Edit at old physical position 1382
+The following old source remains:
+
+```asm
+
+CMDCOUNT:
+```
+
+### Edit at old physical position 1665
 
 Unchanged source before the edit:
 
 ```asm
-DB "MOV AX,4C02H",13,10
-DB "INT 21H",13,10
+DB "DB 0,0,0,0,0,0,0,0,0,0,0,0,0",13,10
 DB 0
 ```
 
 Insert in its place:
 
 ```asm
-
 T_LITS:
 DB 77,79,86,32,65,88,44,83,95,63,13,10,74,77,80,32
 DB 73,95,63,13,10,83,95,63,58,13,10,68,66,32,0
@@ -61,11 +66,11 @@ DB 13,10,68,66,32,0
 The following old source remains:
 
 ```asm
-
 T_EXIT:
+DB "MOV AH,4CH",13,10
 ```
 
-### Edit at old physical position 1025
+### Edit at old physical position 1031
 
 Unchanged source before the edit:
 
@@ -149,10 +154,10 @@ The following old source remains:
 
 ```asm
 
-OKMSG:
+CMDINIT:
 ```
 
-### Edit at old physical position 927
+### Edit at old physical position 933
 
 Unchanged source before the edit:
 
@@ -177,7 +182,7 @@ STATFINISH:
 CALL FINISH
 ```
 
-### Edit at old physical position 891
+### Edit at old physical position 897
 
 Unchanged source before the edit:
 
@@ -201,7 +206,7 @@ JMP STATFINISH
 STATNUMBER:
 ```
 
-### Edit at old physical position 866
+### Edit at old physical position 872
 
 Unchanged source before the edit:
 
@@ -214,13 +219,13 @@ MOV BX,IRTAB
 Remove:
 
 ```asm
-MOV CX,49
+MOV CX,51
 ```
 
 Insert in its place:
 
 ```asm
-MOV CX,50
+MOV CX,52
 ```
 
 The following old source remains:
@@ -233,11 +238,10 @@ CALL LOOK
 ## Build and check
 
 ```dos
-COPY IR20.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP IR20.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 07666 bytes`. Save RESULT.COM as IR20.COM. VIEW.BAS must show length 7666.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 09714 bytes`. Save RESULT.COM as IR20.COM. VIEW.BAS must show length 9714.
 
 Create T20.IR:
 
@@ -251,42 +255,41 @@ RETURN
 ```
 
 ```dos
-COPY T20.IR SOURCE.IR
-```
-
-```dos
-CHECK IR20
+CHECK IR20 T20.IR RESULT.ASM
 ```
 
 Require:
 
 ```text
-OK RESULT.ASM 0000002670 text bytes
+OK RESULT.ASM 0000004166 text bytes
 PASS
 ```
 
 ```dos
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require OK and PASS. VIEW.BAS must show RESULT.COM length 529 and these leading bytes:
+Require OK and PASS. VIEW.BAS must show RESULT.COM length 891 and these leading bytes:
 
 ```text
-FC 81 FC FE FF 74 03 E9 02 02 E8 04 00 B4 4C CD 21 55 8B EC 81 EC 00 00 81 FC 00 F0 73 03 E9 EB
+FC 81 FC FE FF 74 03 E9 0E 02 E8 10 02 81 F8 FF FF 75 03 E9 02 02 E8 04 00 B4 4C CD 21 55 8B EC
 ```
 
 Copy it to TRY.COM. CHECK TRY displays `H` and reports PASS.
 
 ## Check the new boundary
 
-Use this separate rejected source:
+Save this separate rejected source as X20.IR:
 
 ```ir
 UNKNOWN
 ```
 
-Copy it to SOURCE.IR and run CHECK IR20. Require:
+```dos
+CHECK IR20 X20.IR RESULT.ASM
+```
+
+Require:
 
 ```text
 IR ERROR 0000000001 CODE 1

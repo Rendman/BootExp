@@ -80,19 +80,16 @@ The following old source remains:
 ## Build and preserve the tool
 
 ```dos
-COPY L09.RIL SOURCE.RIL
-CHECK R0
-COPY RESULT.IR SOURCE.IR
-CHECK I0
-COPY RESULT.ASM SOURCE.ASM
-CHECK A0
+CHECK R0 L09.RIL RESULT.IR
+CHECK I0 RESULT.IR RESULT.ASM
+CHECK A0 RESULT.ASM RESULT.COM
 COPY RESULT.COM L09.COM
 ```
 
-Require compiler `OK RESULT.IR 0000022058`, translator `OK RESULT.ASM 0000046298 text bytes`, assembler `OK RESULT.COM 10464 bytes`, and each PASS before the following copy. VIEW.BAS must show L09.COM length 10464 and these first thirty-two bytes:
+Require compiler `OK RESULT.IR 0000024251`, translator `OK RESULT.ASM 0000052358 text bytes`, assembler `OK RESULT.COM 11575 bytes`, and each PASS before the following copy. VIEW.BAS must show L09.COM length 11575 and these first thirty-two bytes:
 
 ```text
-FC 81 FC FE FF 74 03 E9 8D 28 E8 E5 24 B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+FC 81 FC FE FF 74 03 E9 86 2B E8 CC 2B 81 F8 FF FF 75 03 E9 7A 2B E8 D2 27 B4 4C CD 21 00 00 00
 ```
 
 ## Check the accepted input
@@ -117,9 +114,7 @@ END
 ```
 
 ```dos
-COPY M09.OBJ MAIN.OBJ
-COPY U09.OBJ UTIL.OBJ
-CHECK L09
+CHECK L09 M09.OBJ U09.OBJ RESULT.COM
 ```
 
 Require:
@@ -159,8 +154,7 @@ END
 ```
 
 ```dos
-COPY X09.OBJ MAIN.OBJ
-CHECK L09
+CHECK L09 X09.OBJ U09.OBJ RESULT.COM
 ```
 
 Require:

@@ -159,13 +159,11 @@ PUSH
 ## Build and check
 
 ```dos
-COPY R16.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP R16.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 08178 bytes`. Save RESULT.COM as R16.COM. VIEW.BAS must show length 8178.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 08947 bytes`. Save RESULT.COM as R16.COM. VIEW.BAS must show length 8947.
 
 ```dos
 CHECK R16

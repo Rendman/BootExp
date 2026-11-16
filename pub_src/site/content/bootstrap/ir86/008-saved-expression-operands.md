@@ -14,7 +14,7 @@ Check push/pop depth and apply word arithmetic before a control boundary.
 
 Copy IR07.ASM to IR08.ASM. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 1187
+### Edit at old physical position 1350
 
 Unchanged source before the edit:
 
@@ -43,7 +43,14 @@ DB 88,79,82,0,0,0,0,0,0,0,0,2,0,0
 DW T_XOR
 ```
 
-### Edit at old physical position 1168
+The following old source remains:
+
+```asm
+
+CMDCOUNT:
+```
+
+### Edit at old physical position 1331
 
 Unchanged source before the edit:
 
@@ -97,7 +104,7 @@ IRTAB:
 DB 76,73,84,0,0,0,0,0,0,0,1,0,0,0
 ```
 
-### Edit at old physical position 866
+### Edit at old physical position 872
 
 Unchanged source before the edit:
 
@@ -129,11 +136,10 @@ CALL LOOK
 ## Build and check
 
 ```dos
-COPY IR08.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP IR08.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 03346 bytes`. Save RESULT.COM as IR08.COM. VIEW.BAS must show length 3346.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 03839 bytes`. Save RESULT.COM as IR08.COM. VIEW.BAS must show length 3839.
 
 Create T08.IR:
 
@@ -147,11 +153,7 @@ EXIT
 ```
 
 ```dos
-COPY T08.IR SOURCE.IR
-```
-
-```dos
-CHECK IR08
+CHECK IR08 T08.IR RESULT.ASM
 ```
 
 Require:
@@ -162,8 +164,7 @@ PASS
 ```
 
 ```dos
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
 Require OK and PASS. VIEW.BAS must show RESULT.COM length 38 and these leading bytes:
@@ -176,13 +177,17 @@ Copy it to TRY.COM. CHECK TRY reports PASS.
 
 ## Check the new boundary
 
-Use this separate rejected source:
+Save this separate rejected source as X08.IR:
 
 ```ir
 UNKNOWN
 ```
 
-Copy it to SOURCE.IR and run CHECK IR08. Require:
+```dos
+CHECK IR08 X08.IR RESULT.ASM
+```
+
+Require:
 
 ```text
 IR ERROR 0000000001 CODE 1

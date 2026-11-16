@@ -52,6 +52,8 @@ for c in json.loads((ROOT/'qa/link86/checkpoints.json').read_text()):
  n=c['number'];files += [c['source'],f'M{n:02}.OBJ']
  if c['util'] is not None:files.append(f'U{n:02}.OBJ')
  if c['bad'] is not None:files.append(f'X{n:02}.OBJ')
+from command_files import package
+package(W)
 for name in files:shutil.copyfile(W/name,D/name)
 archive=D/'LINK86.ZIP'
 same=False

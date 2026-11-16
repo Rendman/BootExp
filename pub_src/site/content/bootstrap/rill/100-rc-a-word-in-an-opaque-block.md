@@ -52,13 +52,13 @@ bytes string[512];
 Remove this source at old physical positions 35–35 in RC11.RIL:
 
 ```rill
-fn main(){setident("ABC");tok=1;return isword("ABC")!=1;}
+fn main(){filearg(1,"SOURCE.RIL");setident("ABC");tok=1;return isword("ABC")!=1;}
 ```
 
 Replace it with:
 
 ```rill
-fn main(){table=alloc(23680);set16(table,100,4660);return (tword(100))!=4660;}
+fn main(){filearg(1,"SOURCE.RIL");table=alloc(23680);set16(table,100,4660);return (tword(100))!=4660;}
 ```
 
 The following old source remains in place:
@@ -71,25 +71,23 @@ fn next() {
 ## Build this stopping point
 
 ```dos
-COPY RC12.RIL SOURCE.RIL
-CHECK RILLBOOT
+CHECK RILLBOOT RC12.RIL RESULT.IR
 ```
 
-Require `OK RESULT.IR 0000014604` and PASS. Copy RESULT.IR to SOURCE.IR.
+Require `OK RESULT.IR 0000016059` and PASS. Pass RESULT.IR directly to the translator.
 
 ```dos
-CHECK IWKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IWKEEP SOURCE.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require IR86 `OK RESULT.ASM 0000031630 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 14482 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000036298 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 15363 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RC12.COM
 ```
 
-VIEW.BAS must report RC12.COM length 14482 bytes. Keep this executable and its source together.
+VIEW.BAS must report RC12.COM length 15363 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 

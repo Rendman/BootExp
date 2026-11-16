@@ -15,7 +15,7 @@ Build initializing a local variable..
 
 Copy R35.IR to R36.IR. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 944
+### Edit at old physical position 957
 
 Unchanged source before the edit:
 
@@ -105,7 +105,7 @@ PROC BUILTIN 0 5
 LITS "PUTC\01\0POP\nPUTC\0STATUS\00\0STATUS\0EXIT\01\0POP\nEXIT\0\0"
 ```
 
-### Edit at old physical position 62
+### Edit at old physical position 75
 
 Unchanged source before the edit:
 
@@ -138,7 +138,7 @@ CALL FLUSH
 LD OUTPUT
 ```
 
-### Edit at old physical position 34
+### Edit at old physical position 39
 
 Unchanged source before the edit:
 
@@ -169,8 +169,8 @@ ST GLOBALS
 The following old source remains:
 
 ```ir
-LITS "RILL.TMP"
-CREATE
+LIT 2
+PUSH
 ```
 
 ### Edit at old physical position 5
@@ -222,13 +222,11 @@ WORD TOK 0
 ## Build and check
 
 ```dos
-COPY R36.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP R36.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 15777 bytes`. Save RESULT.COM as R36.COM. VIEW.BAS must show length 15777.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 16599 bytes`. Save RESULT.COM as R36.COM. VIEW.BAS must show length 16599.
 
 Create T36.RIL:
 
@@ -237,33 +235,33 @@ let mut x=7;
 ```
 
 ```dos
-COPY T36.RIL SOURCE.RIL
-```
-
-```dos
-CHECK R36
+CHECK R36 T36.RIL RESULT.IR
 ```
 
 Require PASS.
 
-Inspect RILL.TMP with VIEW.BAS. Require length 27 bytes and these complete bytes:
+Inspect RESULT.IR with VIEW.BAS. Require length 27 bytes and these complete bytes:
 
 ```text
 4C 49 54 20 30 30 30 30 37 0D 0A 53 45 54 4C 4F
 43 41 4C 20 30 30 30 30 30 0D 0A
 ```
 
-This is a fragment for inspection. Delete the deliberately created RILL.TMP after checking it.
+This is a fragment for inspection, not a complete program. The command-selected RESULT.IR contains that fragment.
 
 ## Check the new boundary
 
-Use this separate rejected source:
+Save this separate rejected source as X36.RIL:
 
 ```rill
 let mut x=x;
 ```
 
-Copy it to SOURCE.RIL and run CHECK R36. Require:
+```dos
+CHECK R36 X36.RIL RESULT.IR
+```
+
+Require:
 
 ```text
 ERROR 0000000001 CODE 00004

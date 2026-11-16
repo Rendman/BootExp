@@ -14,7 +14,7 @@ Retire an owned handle only after a successful close.
 
 Copy IR16.ASM to IR17.ASM. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 1503
+### Edit at old physical position 1797
 
 Unchanged source before the edit:
 
@@ -31,7 +31,14 @@ DB 67,76,79,83,69,0,0,0,0,0,0,0,0,0
 DW T_CLOSE
 ```
 
-### Edit at old physical position 1428
+The following old source remains:
+
+```asm
+
+CMDCOUNT:
+```
+
+### Edit at old physical position 1710
 
 Unchanged source before the edit:
 
@@ -51,11 +58,11 @@ DB 0
 The following old source remains:
 
 ```asm
-T_STATUS:
-DB "MOV AX,[R_STATUS]",13,10
+T_ARGC:
+DB "CALL R_ARGC",13,10
 ```
 
-### Edit at old physical position 1275
+### Edit at old physical position 1441
 
 Unchanged source before the edit:
 
@@ -94,7 +101,7 @@ DB "R_STATUS:",13,10
 DB "DW 0",13,10
 ```
 
-### Edit at old physical position 866
+### Edit at old physical position 872
 
 Unchanged source before the edit:
 
@@ -107,13 +114,13 @@ MOV BX,IRTAB
 Remove:
 
 ```asm
-MOV CX,29
+MOV CX,31
 ```
 
 Insert in its place:
 
 ```asm
-MOV CX,30
+MOV CX,32
 ```
 
 The following old source remains:
@@ -126,11 +133,10 @@ CALL LOOK
 ## Build and check
 
 ```dos
-COPY IR17.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP IR17.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 06221 bytes`. Save RESULT.COM as IR17.COM. VIEW.BAS must show length 6221.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 08269 bytes`. Save RESULT.COM as IR17.COM. VIEW.BAS must show length 8269.
 
 Create T17.IR:
 
@@ -145,42 +151,41 @@ EXIT
 ```
 
 ```dos
-COPY T17.IR SOURCE.IR
-```
-
-```dos
-CHECK IR17
+CHECK IR17 T17.IR RESULT.ASM
 ```
 
 Require:
 
 ```text
-OK RESULT.ASM 0000002541 text bytes
+OK RESULT.ASM 0000004037 text bytes
 PASS
 ```
 
 ```dos
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require OK and PASS. VIEW.BAS must show RESULT.COM length 507 and these leading bytes:
+Require OK and PASS. VIEW.BAS must show RESULT.COM length 869 and these leading bytes:
 
 ```text
-FC 81 FC FE FF 74 03 E9 EC 01 E8 06 00 B4 4C CD 21 41 00 B8 11 01 E8 49 00 E8 92 01 8B 06 D7 02
+FC 81 FC FE FF 74 03 E9 F8 01 E8 FA 01 81 F8 FF FF 75 03 E9 EC 01 E8 06 00 B4 4C CD 21 41 00 B8
 ```
 
 Copy it to TRY.COM. First create A with `ECHO A>A`. CHECK TRY reports PASS.
 
 ## Check the new boundary
 
-Use this separate rejected source:
+Save this separate rejected source as X17.IR:
 
 ```ir
 UNKNOWN
 ```
 
-Copy it to SOURCE.IR and run CHECK IR17. Require:
+```dos
+CHECK IR17 X17.IR RESULT.ASM
+```
+
+Require:
 
 ```text
 IR ERROR 0000000001 CODE 1

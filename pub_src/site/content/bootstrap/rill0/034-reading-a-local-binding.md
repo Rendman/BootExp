@@ -14,7 +14,7 @@ Resolve a local binding or builtin name and save its metadata before scanning fu
 
 Copy R33.IR to R34.IR. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 1239
+### Edit at old physical position 1252
 
 Unchanged source before the edit:
 
@@ -50,7 +50,7 @@ LABEL PRIMARYNUM
 LITS "LIT "
 ```
 
-### Edit at old physical position 1238
+### Edit at old physical position 1251
 
 Unchanged source before the edit:
 
@@ -91,7 +91,7 @@ JMP NAMEFAIL
 LABEL PRIMARYNUM
 ```
 
-### Edit at old physical position 1055
+### Edit at old physical position 1068
 
 Unchanged source before the edit:
 
@@ -118,7 +118,7 @@ PROC PREC 0 0
 LD TOK
 ```
 
-### Edit at old physical position 46
+### Edit at old physical position 51
 
 Unchanged source before the edit:
 
@@ -143,11 +143,11 @@ ST LOCALCOUNT
 The following old source remains:
 
 ```ir
-LITS "RILL.TMP"
-CREATE
+LIT 2
+PUSH
 ```
 
-### Edit at old physical position 42
+### Edit at old physical position 47
 
 Unchanged source before the edit:
 
@@ -176,7 +176,7 @@ PUSH
 INVOKE RECORD 1
 ```
 
-### Edit at old physical position 38
+### Edit at old physical position 43
 
 Unchanged source before the edit:
 
@@ -205,7 +205,7 @@ ST RECVAL
 LIT 0
 ```
 
-### Edit at old physical position 36
+### Edit at old physical position 41
 
 Unchanged source before the edit:
 
@@ -259,13 +259,11 @@ WORD TOK 0
 ## Build and check
 
 ```dos
-COPY R34.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP R34.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 15321 bytes`. Save RESULT.COM as R34.COM. VIEW.BAS must show length 15321.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 16143 bytes`. Save RESULT.COM as R34.COM. VIEW.BAS must show length 16143.
 
 Create T34.RIL:
 
@@ -274,16 +272,12 @@ ABC+1
 ```
 
 ```dos
-COPY T34.RIL SOURCE.RIL
-```
-
-```dos
-CHECK R34
+CHECK R34 T34.RIL RESULT.IR
 ```
 
 Require PASS.
 
-Inspect RILL.TMP with VIEW.BAS. Require length 35 bytes and these complete bytes:
+Inspect RESULT.IR with VIEW.BAS. Require length 35 bytes and these complete bytes:
 
 ```text
 4C 4F 43 41 4C 20 30 30 30 30 30 0D 0A 50 55 53
@@ -291,17 +285,21 @@ Inspect RILL.TMP with VIEW.BAS. Require length 35 bytes and these complete bytes
 44 0D 0A
 ```
 
-This is a fragment for inspection. Delete the deliberately created RILL.TMP after checking it.
+This is a fragment for inspection, not a complete program. The command-selected RESULT.IR contains that fragment.
 
 ## Check the new boundary
 
-Use this separate rejected source:
+Save this separate rejected source as X34.RIL:
 
 ```rill
 UNKNOWN
 ```
 
-Copy it to SOURCE.RIL and run CHECK R34. Require:
+```dos
+CHECK R34 X34.RIL RESULT.IR
+```
+
+Require:
 
 ```text
 ERROR 0000000001 CODE 00004

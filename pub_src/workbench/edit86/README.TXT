@@ -60,3 +60,11 @@ A clean quit after deliberate discard does not imply a prior save.
 
 All members are source-only ASCII with DOS CR/LF and 8.3 filenames.
 Keep the earlier source collections to reproduce every builder.
+
+COMMAND-LINE FILENAMES
+From ASM1 onward, supply input and output filenames on the command
+line: CHECK tool INPUT.EXT OUTPUT.EXT. No arguments select the
+default work names. Use unquoted 8.3 filenames in the current directory;
+paths and switches are not accepted. Input, output, temporary and backup
+names must be distinct. LINK86 takes two object names then the result;
+EDIT86 takes one document name and saves that same document.

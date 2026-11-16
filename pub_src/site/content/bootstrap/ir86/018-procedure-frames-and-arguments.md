@@ -14,7 +14,7 @@ Name parameter and local slots in IR; leave native frame offsets to the backend.
 
 Copy IR17.ASM to IR18.ASM. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 1526
+### Edit at old physical position 1820
 
 Unchanged source before the edit:
 
@@ -49,7 +49,14 @@ DB 67,65,76,76,0,0,0,0,0,0,2,0,0,0
 DW T_CALL
 ```
 
-### Edit at old physical position 1431
+The following old source remains:
+
+```asm
+
+CMDCOUNT:
+```
+
+### Edit at old physical position 1713
 
 Unchanged source before the edit:
 
@@ -114,7 +121,7 @@ The following old source remains:
 DB 0
 ```
 
-### Edit at old physical position 1409
+### Edit at old physical position 1691
 
 Unchanged source before the edit:
 
@@ -139,7 +146,7 @@ T_CEQ:
 DB "POP BX",13,10
 ```
 
-### Edit at old physical position 1099
+### Edit at old physical position 1262
 
 Unchanged source before the edit:
 
@@ -166,7 +173,7 @@ The following old source remains:
 DW 0
 ```
 
-### Edit at old physical position 908
+### Edit at old physical position 914
 
 Unchanged source before the edit:
 
@@ -217,7 +224,7 @@ STATFLOW:
 MOV AL,[IRDELTA]
 ```
 
-### Edit at old physical position 898
+### Edit at old physical position 904
 
 Unchanged source before the edit:
 
@@ -264,7 +271,7 @@ STATFINISH:
 CALL FINISH
 ```
 
-### Edit at old physical position 887
+### Edit at old physical position 893
 
 Unchanged source before the edit:
 
@@ -290,7 +297,7 @@ JMP STATFINISH
 STATNUMBER:
 ```
 
-### Edit at old physical position 866
+### Edit at old physical position 872
 
 Unchanged source before the edit:
 
@@ -303,13 +310,13 @@ MOV BX,IRTAB
 Remove:
 
 ```asm
-MOV CX,30
+MOV CX,32
 ```
 
 Insert in its place:
 
 ```asm
-MOV CX,40
+MOV CX,42
 ```
 
 The following old source remains:
@@ -322,11 +329,10 @@ CALL LOOK
 ## Build and check
 
 ```dos
-COPY IR18.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP IR18.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 06809 bytes`. Save RESULT.COM as IR18.COM. VIEW.BAS must show length 6809.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 08857 bytes`. Save RESULT.COM as IR18.COM. VIEW.BAS must show length 8857.
 
 Create T18.IR:
 
@@ -356,42 +362,41 @@ RETURN
 ```
 
 ```dos
-COPY T18.IR SOURCE.IR
-```
-
-```dos
-CHECK IR18
+CHECK IR18 T18.IR RESULT.ASM
 ```
 
 Require:
 
 ```text
-OK RESULT.ASM 0000002949 text bytes
+OK RESULT.ASM 0000004445 text bytes
 PASS
 ```
 
 ```dos
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require OK and PASS. VIEW.BAS must show RESULT.COM length 587 and these leading bytes:
+Require OK and PASS. VIEW.BAS must show RESULT.COM length 949 and these leading bytes:
 
 ```text
-FC 81 FC FE FF 74 03 E9 3C 02 E8 04 00 B4 4C CD 21 55 8B EC 81 EC 00 00 81 FC 00 F0 73 03 E9 25
+FC 81 FC FE FF 74 03 E9 48 02 E8 4A 02 81 F8 FF FF 75 03 E9 3C 02 E8 04 00 B4 4C CD 21 55 8B EC
 ```
 
 Copy it to TRY.COM. CHECK TRY reports PASS.
 
 ## Check the new boundary
 
-Use this separate rejected source:
+Save this separate rejected source as X18.IR:
 
 ```ir
 UNKNOWN
 ```
 
-Copy it to SOURCE.IR and run CHECK IR18. Require:
+```dos
+CHECK IR18 X18.IR RESULT.ASM
+```
+
+Require:
 
 ```text
 IR ERROR 0000000001 CODE 1

@@ -58,91 +58,37 @@ PROC PRINT 0 1
 SETLOCAL 0
 ```
 
-### Edit at old physical position 36
+### Edit at old physical position 47
 
 Unchanged source before the edit:
 
 ```ir
-LIT 0
-ST RECLEVEL
-LIT 0
+INVOKE FIND 2
+LD RECVAL
+PUSH
 ```
 
 Remove:
 
 ```ir
-PUSH
-INVOKE RECORD 1
-LIT 1
-ST GLOBALS
-LIT 0
-PUSH
-LIT 1
-PUSH
-INVOKE FIND 2
-LD RECVAL
-PUSH
 LIT 12345
 CNE
 ```
 
-The following old source remains:
-
-```ir
-RETURN
-```
-
-### Edit at old physical position 34
-
-Unchanged source before the edit:
-
-```ir
-LIT 12345
-ST RECVAL
-LIT 0
-```
-
-Remove:
-
-```ir
-ST RECLEVEL
-```
-
 Insert in its place:
 
 ```ir
-ST OUTPUT
-ST OWN
-```
-
-The following old source remains:
-
-```ir
-LIT 0
+INVOKE FILEARG 2
+LIT 2
 PUSH
-```
-
-### Edit at old physical position 30
-
-Unchanged source before the edit:
-
-```ir
-LITS "ABC"
-CALL SETIDENT
+LITS "RILL.TMP"
+PUSH
+INVOKE FILEARG 2
+CREATE
+ST OUTPUT
+STATUS
+JNZ IOFAIL
 LIT 1
-```
-
-Remove:
-
-```ir
-ST RECTYPE
-LIT 12345
-ST RECVAL
-```
-
-Insert in its place:
-
-```ir
 ST OWN
 ADDR OUTBUF
 PUSH
@@ -153,13 +99,46 @@ ST OUTLEN
 CALL FLUSH
 LD OUTPUT
 CLOSE
+LIT 0
+ST OUTPUT
+ST OWN
+LIT 0
 ```
 
 The following old source remains:
 
 ```ir
-LIT 0
-ST RECLEVEL
+RETURN
+```
+
+### Edit at old physical position 44
+
+Unchanged source before the edit:
+
+```ir
+PUSH
+LIT 1
+PUSH
+```
+
+Remove:
+
+```ir
+INVOKE FIND 2
+LD RECVAL
+```
+
+Insert in its place:
+
+```ir
+LITS "SOURCE.RIL"
+```
+
+The following old source remains:
+
+```ir
+PUSH
+LIT 12345
 ```
 
 ### Edit at old physical position 24
@@ -180,23 +159,26 @@ ALLOC
 ST TABLE
 LITS "ABC"
 CALL SETIDENT
-```
-
-Insert in its place:
-
-```ir
-LITS "RILL.TMP"
-CREATE
-ST OUTPUT
-STATUS
-JNZ IOFAIL
+LIT 1
+ST RECTYPE
+LIT 12345
+ST RECVAL
+LIT 0
+ST RECLEVEL
+LIT 0
+PUSH
+INVOKE RECORD 1
+LIT 1
+ST GLOBALS
+LIT 0
+PUSH
 ```
 
 The following old source remains:
 
 ```ir
 LIT 1
-ST RECTYPE
+PUSH
 ```
 
 ### Edit at old physical position 22
@@ -270,25 +252,23 @@ WORD TOK 0
 ## Build and check
 
 ```dos
-COPY R20.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP R20.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 13004 bytes`. Save RESULT.COM as R20.COM. VIEW.BAS must show length 13004.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 13814 bytes`. Save RESULT.COM as R20.COM. VIEW.BAS must show length 13814.
 
 ```dos
-CHECK R20
+CHECK R20 SOURCE.RIL RESULT.IR
 ```
 
 Require PASS.
 
-Inspect RILL.TMP with VIEW.BAS. Require length 1 bytes and these complete bytes:
+Inspect RESULT.IR with VIEW.BAS. Require length 1 bytes and these complete bytes:
 
 ```text
 41
 ```
 
-This is a fragment for inspection. Delete the deliberately created RILL.TMP after checking it.
+This is a fragment for inspection, not a complete program. The command-selected RESULT.IR contains that fragment.
 

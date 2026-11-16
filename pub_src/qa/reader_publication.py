@@ -37,15 +37,20 @@ for family,group in [('rill-initial-series','rill'),('rill-seed-series','rb'),('
    else:assert 'empty file' in text
   if c.get('accept_exit'):assert c['console']=='ERROR 0000000001 CODE 00002\r\n' and ('FAIL is the intended status' in text or 'the intended result' in text)
 batch=(D/'toolchain/TMAKE.BAT').read_text()
-for name in re.findall(r'(?m)^COPY (\S+) SOURCE\.',batch):
+from command_files import tool_kind
+for command in batch.splitlines():
+ words=command.split()
+ if words and tool_kind(words[0]) and len(words)==3:
+  name=words[1]
+ else:continue
  if not name.startswith('RESULT.'):assert (D/'toolchain'/name).exists(),name
-assert 'COPY ASM86.RIL SOURCE.RIL' in batch
+assert 'R0 ASM86.RIL RESULT.IR' in batch
 commands=batch.splitlines()
 for name,builder in [('RILL','RILLBOOT'),('IR86','R0'),('ASM86','R0')]:
- i=commands.index(f'COPY {name}.RIL SOURCE.RIL >NUL');assert commands[i+1]==builder,(name,'minimum seed handoff')
-assert commands.count('RILLBOOT')==1
+ assert f'{builder} {name}.RIL RESULT.IR' in commands,(name,'minimum seed handoff')
+assert sum(c.startswith('RILLBOOT ') for c in commands)==1
 assert 'COPY RESULT.COM RBOOT.COM >NUL' in commands
-assert commands.count('RBOOT')==1
-assert commands.count('COPY RILL.RIL SOURCE.RIL >NUL')==4
+assert sum(c.startswith('RBOOT ') for c in commands)==1
+assert sum(c.endswith(' RILL.RIL RESULT.IR') for c in commands)==4
 assert 'RC44' not in batch and 'RSELF' not in batch
 print(f'PASS reader publication: {len(manifest)} named series; {count} canonical source members; all compiler stopping checks use natural reports, status assertions or exact file bytes; batch prerequisites resolve')

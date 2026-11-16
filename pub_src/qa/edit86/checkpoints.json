@@ -6,10 +6,10 @@
     "kind": "compiler",
     "source": "RILLED.RIL",
     "probe": null,
-    "ir_bytes": 50410,
-    "assembly_bytes": 104969,
-    "binary_bytes": 26840,
-    "binary_hex": "FC 81 FC FE FF 74 03 E9 85 68 E8 DD 64 B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00"
+    "ir_bytes": 52207,
+    "assembly_bytes": 110405,
+    "binary_bytes": 27837,
+    "binary_hex": "FC 81 FC FE FF 74 03 E9 0C 6B E8 52 6B 81 F8 FF FF 75 03 E9 00 6B E8 58 67 B4 4C CD 21 00 00 00"
   },
   {
     "number": 2,
@@ -18,10 +18,10 @@
     "kind": "translator",
     "source": "IRED.RIL",
     "probe": null,
-    "ir_bytes": 42343,
-    "assembly_bytes": 140146,
-    "binary_bytes": 30657,
-    "binary_hex": "FC 81 FC FE FF 74 03 E9 6E 77 E8 C6 73 B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00"
+    "ir_bytes": 47148,
+    "assembly_bytes": 163312,
+    "binary_bytes": 33598,
+    "binary_hex": "FC 81 FC FE FF 74 03 E9 8D 81 E8 D3 81 81 F8 FF FF 75 03 E9 81 81 E8 D9 7D B4 4C CD 21 00 00 00"
   },
   {
     "number": 3,
@@ -31,9 +31,9 @@
     "source": "S03.ASM",
     "probe": "S03.RIL",
     "ir_bytes": 189,
-    "assembly_bytes": 6225,
-    "binary_bytes": 1301,
-    "binary_hex": "FC 81 FC FE FF 74 03 E9 E8 03 E8 40 00 B4 4C CD 21 55 8B EC 81 EC 80 00 81 FC 00 F0 73 03 E9 D1"
+    "assembly_bytes": 7719,
+    "binary_bytes": 1663,
+    "binary_hex": "FC 81 FC FE FF 74 03 E9 F4 03 E8 3A 04 81 F8 FF FF 75 03 E9 E8 03 E8 40 00 B4 4C CD 21 55 8B EC"
   },
   {
     "number": 4,
@@ -43,9 +43,9 @@
     "source": "S04.ASM",
     "probe": "S04.RIL",
     "ir_bytes": 463,
-    "assembly_bytes": 7414,
-    "binary_bytes": 1534,
-    "binary_hex": "FC 81 FC FE FF 74 03 E9 47 04 E8 9F 00 B4 4C CD 21 55 8B EC 81 EC 80 00 81 FC 00 F0 73 03 E9 30"
+    "assembly_bytes": 8908,
+    "binary_bytes": 1896,
+    "binary_hex": "FC 81 FC FE FF 74 03 E9 53 04 E8 99 04 81 F8 FF FF 75 03 E9 47 04 E8 9F 00 B4 4C CD 21 55 8B EC"
   },
   {
     "number": 5,
@@ -55,9 +55,9 @@
     "source": "S05.ASM",
     "probe": "S05.RIL",
     "ir_bytes": 337,
-    "assembly_bytes": 7982,
-    "binary_bytes": 1635,
-    "binary_hex": "FC 81 FC FE FF 74 03 E9 26 04 E8 7E 00 B4 4C CD 21 55 8B EC 81 EC 80 00 81 FC 00 F0 73 03 E9 0F"
+    "assembly_bytes": 9476,
+    "binary_bytes": 1997,
+    "binary_hex": "FC 81 FC FE FF 74 03 E9 32 04 E8 78 04 81 F8 FF FF 75 03 E9 26 04 E8 7E 00 B4 4C CD 21 55 8B EC"
   },
   {
     "number": 6,
@@ -67,9 +67,9 @@
     "source": "S06.ASM",
     "probe": "S06.RIL",
     "ir_bytes": 1133,
-    "assembly_bytes": 10529,
-    "binary_bytes": 2106,
-    "binary_hex": "FC 81 FC FE FF 74 03 E9 21 05 E8 79 01 B4 4C CD 21 00 00 00 00 00 00 55 8B EC 81 EC 80 00 81 FC"
+    "assembly_bytes": 12023,
+    "binary_bytes": 2468,
+    "binary_hex": "FC 81 FC FE FF 74 03 E9 2D 05 E8 73 05 81 F8 FF FF 75 03 E9 21 05 E8 79 01 B4 4C CD 21 00 00 00"
   },
   {
     "number": 7,
@@ -79,9 +79,9 @@
     "source": "S07.ASM",
     "probe": "S07.RIL",
     "ir_bytes": 1935,
-    "assembly_bytes": 12524,
-    "binary_bytes": 2455,
-    "binary_hex": "FC 81 FC FE FF 74 03 E9 2D 06 E8 85 02 B4 4C CD 21 00 00 00 00 00 00 55 8B EC 81 EC 80 00 81 FC"
+    "assembly_bytes": 14018,
+    "binary_bytes": 2817,
+    "binary_hex": "FC 81 FC FE FF 74 03 E9 39 06 E8 7F 06 81 F8 FF FF 75 03 E9 2D 06 E8 85 02 B4 4C CD 21 00 00 00"
   },
   {
     "number": 8,
@@ -91,9 +91,9 @@
     "source": "E08.RIL",
     "fixture": "T08.TXT",
     "ir_bytes": 3388,
-    "assembly_bytes": 15515,
-    "binary_bytes": 2993,
-    "binary_hex": "FC 81 FC FE FF 74 03 E9 47 08 E8 9F 04 B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00"
+    "assembly_bytes": 17009,
+    "binary_bytes": 3355,
+    "binary_hex": "FC 81 FC FE FF 74 03 E9 53 08 E8 99 08 81 F8 FF FF 75 03 E9 47 08 E8 9F 04 B4 4C CD 21 00 00 00"
   },
   {
     "number": 9,
@@ -103,9 +103,9 @@
     "source": "E09.RIL",
     "fixture": "T09.TXT",
     "ir_bytes": 4264,
-    "assembly_bytes": 17505,
-    "binary_bytes": 3329,
-    "binary_hex": "FC 81 FC FE FF 74 03 E9 97 09 E8 EF 05 B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00"
+    "assembly_bytes": 18999,
+    "binary_bytes": 3691,
+    "binary_hex": "FC 81 FC FE FF 74 03 E9 A3 09 E8 E9 09 81 F8 FF FF 75 03 E9 97 09 E8 EF 05 B4 4C CD 21 00 00 00"
   },
   {
     "number": 10,
@@ -114,10 +114,10 @@
     "kind": "editor",
     "source": "E10.RIL",
     "fixture": "T10.TXT",
-    "ir_bytes": 8946,
-    "assembly_bytes": 27742,
-    "binary_bytes": 9046,
-    "binary_hex": "FC 81 FC FE FF 74 03 E9 EC 1F E8 44 1C B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00"
+    "ir_bytes": 10077,
+    "assembly_bytes": 31548,
+    "binary_bytes": 9804,
+    "binary_hex": "FC 81 FC FE FF 74 03 E9 84 21 E8 CA 21 81 F8 FF FF 75 03 E9 78 21 E8 D0 1D B4 4C CD 21 00 00 00"
   },
   {
     "number": 11,
@@ -126,10 +126,10 @@
     "kind": "editor",
     "source": "E11.RIL",
     "fixture": "T11.TXT",
-    "ir_bytes": 14689,
-    "assembly_bytes": 40913,
-    "binary_bytes": 11068,
-    "binary_hex": "FC 81 FC FE FF 74 03 E9 D2 27 E8 2A 24 B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00"
+    "ir_bytes": 15811,
+    "assembly_bytes": 44629,
+    "binary_bytes": 11817,
+    "binary_hex": "FC 81 FC FE FF 74 03 E9 61 29 E8 A7 29 81 F8 FF FF 75 03 E9 55 29 E8 AD 25 B4 4C CD 21 00 00 00"
   },
   {
     "number": 12,
@@ -138,10 +138,10 @@
     "kind": "editor",
     "source": "E12.RIL",
     "fixture": "T12.TXT",
-    "ir_bytes": 19069,
-    "assembly_bytes": 48955,
-    "binary_bytes": 12406,
-    "binary_hex": "FC 81 FC FE FF 74 03 E9 0C 2D E8 64 29 B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00"
+    "ir_bytes": 20191,
+    "assembly_bytes": 52671,
+    "binary_bytes": 13155,
+    "binary_hex": "FC 81 FC FE FF 74 03 E9 9B 2E E8 E1 2E 81 F8 FF FF 75 03 E9 8F 2E E8 E7 2A B4 4C CD 21 00 00 00"
   },
   {
     "number": 13,
@@ -150,10 +150,10 @@
     "kind": "editor",
     "source": "E13.RIL",
     "fixture": "T13.TXT",
-    "ir_bytes": 22097,
-    "assembly_bytes": 53540,
-    "binary_bytes": 13322,
-    "binary_hex": "FC 81 FC FE FF 74 03 E9 A0 30 E8 F8 2C B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00"
+    "ir_bytes": 23219,
+    "assembly_bytes": 57256,
+    "binary_bytes": 14071,
+    "binary_hex": "FC 81 FC FE FF 74 03 E9 2F 32 E8 75 32 81 F8 FF FF 75 03 E9 23 32 E8 7B 2E B4 4C CD 21 00 00 00"
   },
   {
     "number": 14,
@@ -162,10 +162,10 @@
     "kind": "editor",
     "source": "E14.RIL",
     "fixture": "T14.TXT",
-    "ir_bytes": 23742,
-    "assembly_bytes": 56236,
-    "binary_bytes": 13819,
-    "binary_hex": "FC 81 FC FE FF 74 03 E9 91 32 E8 E9 2E B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00"
+    "ir_bytes": 24864,
+    "assembly_bytes": 59952,
+    "binary_bytes": 14568,
+    "binary_hex": "FC 81 FC FE FF 74 03 E9 20 34 E8 66 34 81 F8 FF FF 75 03 E9 14 34 E8 6C 30 B4 4C CD 21 00 00 00"
   },
   {
     "number": 15,
@@ -174,10 +174,10 @@
     "kind": "editor",
     "source": "E15.RIL",
     "fixture": "T15.TXT",
-    "ir_bytes": 31010,
-    "assembly_bytes": 70076,
-    "binary_bytes": 16133,
-    "binary_hex": "FC 81 FC FE FF 74 03 E9 9B 3B E8 F3 37 B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00"
+    "ir_bytes": 32455,
+    "assembly_bytes": 74368,
+    "binary_bytes": 16980,
+    "binary_hex": "FC 81 FC FE FF 74 03 E9 8C 3D E8 D2 3D 81 F8 FF FF 75 03 E9 80 3D E8 D8 39 B4 4C CD 21 00 00 00"
   },
   {
     "number": 16,
@@ -186,10 +186,10 @@
     "kind": "editor",
     "source": "E16.RIL",
     "fixture": "T16.TXT",
-    "ir_bytes": 36851,
-    "assembly_bytes": 80213,
-    "binary_bytes": 17933,
-    "binary_hex": "FC 81 FC FE FF 74 03 E9 A3 42 E8 FB 3E B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00"
+    "ir_bytes": 38296,
+    "assembly_bytes": 84505,
+    "binary_bytes": 18780,
+    "binary_hex": "FC 81 FC FE FF 74 03 E9 94 44 E8 DA 44 81 F8 FF FF 75 03 E9 88 44 E8 E0 40 B4 4C CD 21 00 00 00"
   },
   {
     "number": 17,
@@ -198,10 +198,10 @@
     "kind": "editor",
     "source": "E17.RIL",
     "fixture": "T17.TXT",
-    "ir_bytes": 39445,
-    "assembly_bytes": 86003,
-    "binary_bytes": 18867,
-    "binary_hex": "FC 81 FC FE FF 74 03 E9 49 46 E8 A1 42 B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00"
+    "ir_bytes": 40890,
+    "assembly_bytes": 90295,
+    "binary_bytes": 19714,
+    "binary_hex": "FC 81 FC FE FF 74 03 E9 3A 48 E8 80 48 81 F8 FF FF 75 03 E9 2E 48 E8 86 44 B4 4C CD 21 00 00 00"
   },
   {
     "number": 18,
@@ -210,10 +210,10 @@
     "kind": "editor",
     "source": "E18.RIL",
     "fixture": "T18.TXT",
-    "ir_bytes": 41187,
-    "assembly_bytes": 88844,
-    "binary_bytes": 19387,
-    "binary_hex": "FC 81 FC FE FF 74 03 E9 51 48 E8 A9 44 B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00"
+    "ir_bytes": 42632,
+    "assembly_bytes": 93136,
+    "binary_bytes": 20234,
+    "binary_hex": "FC 81 FC FE FF 74 03 E9 42 4A E8 88 4A 81 F8 FF FF 75 03 E9 36 4A E8 8E 46 B4 4C CD 21 00 00 00"
   },
   {
     "number": 19,
@@ -222,10 +222,10 @@
     "kind": "editor",
     "source": "E19.RIL",
     "fixture": "T19.TXT",
-    "ir_bytes": 44523,
-    "assembly_bytes": 95700,
-    "binary_bytes": 20506,
-    "binary_hex": "FC 81 FC FE FF 74 03 E9 B0 4C E8 08 49 B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00"
+    "ir_bytes": 45968,
+    "assembly_bytes": 99992,
+    "binary_bytes": 21353,
+    "binary_hex": "FC 81 FC FE FF 74 03 E9 A1 4E E8 E7 4E 81 F8 FF FF 75 03 E9 95 4E E8 ED 4A B4 4C CD 21 00 00 00"
   },
   {
     "number": 20,
@@ -234,9 +234,9 @@
     "kind": "editor",
     "source": "E20.RIL",
     "fixture": "T20.TXT",
-    "ir_bytes": 49157,
-    "assembly_bytes": 104350,
-    "binary_bytes": 22073,
-    "binary_hex": "FC 81 FC FE FF 74 03 E9 CF 52 E8 27 4F B4 4C CD 21 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00"
+    "ir_bytes": 50602,
+    "assembly_bytes": 108642,
+    "binary_bytes": 22920,
+    "binary_hex": "FC 81 FC FE FF 74 03 E9 C0 54 E8 06 55 81 F8 FF FF 75 03 E9 B4 54 E8 0C 51 B4 4C CD 21 00 00 00"
   }
 ]

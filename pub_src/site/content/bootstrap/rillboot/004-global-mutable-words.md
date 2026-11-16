@@ -17,7 +17,7 @@ Retain every earlier language feature. This checkpoint edits the complete compil
 
 Copy RB03.IR to RB04.IR. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 1839
+### Edit at old physical position 1868
 
 Unchanged source before the edit:
 
@@ -46,7 +46,7 @@ LABEL PRIMARYLOCAL
 LITS "LOCAL "
 ```
 
-### Edit at old physical position 1835
+### Edit at old physical position 1864
 
 Unchanged source before the edit:
 
@@ -73,7 +73,7 @@ LIT 5
 CEQ
 ```
 
-### Edit at old physical position 1479
+### Edit at old physical position 1508
 
 Unchanged source before the edit:
 
@@ -101,7 +101,7 @@ SETLOCAL 0
 PUSH
 ```
 
-### Edit at old physical position 1265
+### Edit at old physical position 1294
 
 Unchanged source before the edit:
 
@@ -130,7 +130,7 @@ LABEL STLOCAL
 LITS "LADDR "
 ```
 
-### Edit at old physical position 1261
+### Edit at old physical position 1290
 
 Unchanged source before the edit:
 
@@ -157,7 +157,7 @@ LIT 5
 CEQ
 ```
 
-### Edit at old physical position 1108
+### Edit at old physical position 1137
 
 Unchanged source before the edit:
 
@@ -224,7 +224,7 @@ PROC BLOCK 0 2
 LD LOCALCOUNT
 ```
 
-### Edit at old physical position 887
+### Edit at old physical position 916
 
 Unchanged source before the edit:
 
@@ -275,7 +275,7 @@ The following old source remains:
 RETURN
 ```
 
-### Edit at old physical position 864
+### Edit at old physical position 893
 
 Unchanged source before the edit:
 
@@ -317,7 +317,7 @@ PROC NEWLOCAL 0 1
 ST RECTYPE
 ```
 
-### Edit at old physical position 59
+### Edit at old physical position 68
 
 Unchanged source before the edit:
 
@@ -371,13 +371,11 @@ WORD LEVEL 0
 ## Build and check
 
 ```dos
-COPY RB04.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP RB04.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 19239 bytes`. Save RESULT.COM as RB04.COM. VIEW.BAS must show length 19239.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 20117 bytes`. Save RESULT.COM as RB04.COM. VIEW.BAS must show length 20117.
 
 Create TRB04.RIL:
 
@@ -386,11 +384,7 @@ let mut x=65;fn main(){putc(x);}
 ```
 
 ```dos
-COPY TRB04.RIL SOURCE.RIL
-```
-
-```dos
-CHECK RB04
+CHECK RB04 TRB04.RIL RESULT.IR
 ```
 
 Require:
@@ -410,17 +404,21 @@ Inspect RESULT.IR with VIEW.BAS. Require length 72 bytes and these complete byte
 52 45 54 55 52 4E 0D 0A
 ```
 
-This is a complete IR program. Translate it with IRKEEP, assemble its accepted output with ASMAKEEP, and save RESULT.COM as TRY.COM. Require fresh OK and PASS before both copies. VIEW.BAS must report length 1030. CHECK TRY displays `A` and reports PASS.
+This is a complete IR program. Translate it with IRKEEP, assemble its accepted output with ASMAKEEP, and save RESULT.COM as TRY.COM. Require fresh OK and PASS before both copies. VIEW.BAS must report length 1392. CHECK TRY displays `A` and reports PASS.
 
 ## Check the new boundary
 
-Use this separate rejected source:
+Save this separate rejected source as XRB04.RIL:
 
 ```rill
 fn main(){putc(65536);}
 ```
 
-Copy it to SOURCE.RIL and run CHECK RB04. Require:
+```dos
+CHECK RB04 XRB04.RIL RESULT.IR
+```
+
+Require:
 
 ```text
 ERROR 0000000001 CODE 00003

@@ -14,12 +14,12 @@ Consume a saved handle and pointer, return actual progress, and refill after sho
 
 Copy IR14.ASM to IR15.ASM. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 1409
+### Edit at old physical position 1703
 
 Unchanged source before the edit:
 
 ```asm
-DW T_OPEN
+DW T_ARG
 DB 67,82,69,65,84,69,0,0,0,0,0,0,0,0
 DW T_CREATE
 ```
@@ -31,7 +31,14 @@ DB 82,69,65,68,0,0,0,0,0,0,0,3,0,0
 DW T_READ
 ```
 
-### Edit at old physical position 1354
+The following old source remains:
+
+```asm
+
+CMDCOUNT:
+```
+
+### Edit at old physical position 1644
 
 Unchanged source before the edit:
 
@@ -57,7 +64,7 @@ IRTAB:
 DB 76,73,84,0,0,0,0,0,0,0,1,0,0,0
 ```
 
-### Edit at old physical position 1218
+### Edit at old physical position 1384
 
 Unchanged source before the edit:
 
@@ -84,7 +91,7 @@ DB 13,10
 DB "R_STACKFAIL:",13,10
 ```
 
-### Edit at old physical position 1202
+### Edit at old physical position 1368
 
 Unchanged source before the edit:
 
@@ -152,7 +159,7 @@ DB "R_STATUS:",13,10
 DB "DW 0",13,10
 ```
 
-### Edit at old physical position 866
+### Edit at old physical position 872
 
 Unchanged source before the edit:
 
@@ -165,13 +172,13 @@ MOV BX,IRTAB
 Remove:
 
 ```asm
-MOV CX,27
+MOV CX,29
 ```
 
 Insert in its place:
 
 ```asm
-MOV CX,28
+MOV CX,30
 ```
 
 The following old source remains:
@@ -184,11 +191,10 @@ CALL LOOK
 ## Build and check
 
 ```dos
-COPY IR15.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP IR15.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 05546 bytes`. Save RESULT.COM as IR15.COM. VIEW.BAS must show length 5546.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 07594 bytes`. Save RESULT.COM as IR15.COM. VIEW.BAS must show length 7594.
 
 Create T15.IR:
 
@@ -218,42 +224,41 @@ EXIT
 ```
 
 ```dos
-COPY T15.IR SOURCE.IR
-```
-
-```dos
-CHECK IR15
+CHECK IR15 T15.IR RESULT.ASM
 ```
 
 Require:
 
 ```text
-OK RESULT.ASM 0000002203 text bytes
+OK RESULT.ASM 0000003699 text bytes
 PASS
 ```
 
 ```dos
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require OK and PASS. VIEW.BAS must show RESULT.COM length 440 and these leading bytes:
+Require OK and PASS. VIEW.BAS must show RESULT.COM length 802 and these leading bytes:
 
 ```text
-FC 81 FC FE FF 74 03 E9 A9 01 E8 09 00 B4 4C CD 21 41 00 00 00 00 B8 11 01 E8 77 00 89 06 13 01
+FC 81 FC FE FF 74 03 E9 B5 01 E8 B7 01 81 F8 FF FF 75 03 E9 A9 01 E8 09 00 B4 4C CD 21 41 00 00
 ```
 
 Copy it to TRY.COM. First create A with `ECHO A>A`. CHECK TRY reports PASS.
 
 ## Check the new boundary
 
-Use this separate rejected source:
+Save this separate rejected source as X15.IR:
 
 ```ir
 UNKNOWN
 ```
 
-Copy it to SOURCE.IR and run CHECK IR15. Require:
+```dos
+CHECK IR15 X15.IR RESULT.ASM
+```
+
+Require:
 
 ```text
 IR ERROR 0000000001 CODE 1

@@ -52,13 +52,13 @@ bytes string[512];
 Remove this source at old physical positions 35–35 in RC18.RIL:
 
 ```rill
-fn main(){table=alloc(23680);setident("ABC");recval=7;newlocal(5);return (tword(20514))!=7;}
+fn main(){filearg(1,"SOURCE.RIL");table=alloc(23680);setident("ABC");recval=7;newlocal(5);return (tword(20514))!=7;}
 ```
 
 Replace it with:
 
 ```rill
-fn main(){table=alloc(23680);setident("ABC");rectype=1;recval=12345;reclevel=0;record(0);globals=1;lookglobal();return (recval)!=12345;}
+fn main(){filearg(1,"SOURCE.RIL");table=alloc(23680);setident("ABC");rectype=1;recval=12345;reclevel=0;record(0);globals=1;lookglobal();return (recval)!=12345;}
 ```
 
 The following old source remains in place:
@@ -71,25 +71,23 @@ fn next() {
 ## Build this stopping point
 
 ```dos
-COPY RC19.RIL SOURCE.RIL
-CHECK RILLBOOT
+CHECK RILLBOOT RC19.RIL RESULT.IR
 ```
 
-Require `OK RESULT.IR 0000018074` and PASS. Copy RESULT.IR to SOURCE.IR.
+Require `OK RESULT.IR 0000019529` and PASS. Pass RESULT.IR directly to the translator.
 
 ```dos
-CHECK IWKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IWKEEP SOURCE.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require IR86 `OK RESULT.ASM 0000038102 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 15627 bytes` and PASS before saving:
+Require IR86 `OK RESULT.ASM 0000042770 text bytes` and PASS **before** the copy. Require assembler `OK RESULT.COM 16508 bytes` and PASS before saving:
 
 ```dos
 COPY RESULT.COM RC19.COM
 ```
 
-VIEW.BAS must report RC19.COM length 15627 bytes. Keep this executable and its source together.
+VIEW.BAS must report RC19.COM length 16508 bytes. Keep this executable and its source together.
 
 ## Acceptance check
 

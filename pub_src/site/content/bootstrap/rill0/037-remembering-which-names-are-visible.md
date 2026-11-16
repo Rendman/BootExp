@@ -15,7 +15,7 @@ Build remembering which names are visible..
 
 Copy R36.IR to R37.IR. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 997
+### Edit at old physical position 1010
 
 Unchanged source before the edit:
 
@@ -44,7 +44,7 @@ LIT 0
 RETURN
 ```
 
-### Edit at old physical position 930
+### Edit at old physical position 943
 
 Unchanged source before the edit:
 
@@ -105,7 +105,7 @@ PROC DECLARE 0 2
 CALL LEX
 ```
 
-### Edit at old physical position 49
+### Edit at old physical position 62
 
 Unchanged source before the edit:
 
@@ -139,13 +139,11 @@ LD OUTPUT
 ## Build and check
 
 ```dos
-COPY R37.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP R37.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 15972 bytes`. Save RESULT.COM as R37.COM. VIEW.BAS must show length 15972.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 16794 bytes`. Save RESULT.COM as R37.COM. VIEW.BAS must show length 16794.
 
 Create T37.RIL:
 
@@ -154,28 +152,28 @@ Create T37.RIL:
 ```
 
 ```dos
-COPY T37.RIL SOURCE.RIL
-```
-
-```dos
-CHECK R37
+CHECK R37 T37.RIL RESULT.IR
 ```
 
 Require PASS.
 
-Inspect RILL.TMP with VIEW.BAS. Require length 0 bytes and an empty file.
+Inspect RESULT.IR with VIEW.BAS. Require length 0 bytes and an empty file.
 
-This is a fragment for inspection. Delete the deliberately created RILL.TMP after checking it.
+This is a fragment for inspection, not a complete program. The command-selected RESULT.IR contains that fragment.
 
 ## Check the new boundary
 
-Use this separate rejected source:
+Save this separate rejected source as X37.RIL:
 
 ```rill
 {putc(65);}
 ```
 
-Copy it to SOURCE.RIL and run CHECK R37. Require:
+```dos
+CHECK R37 X37.RIL RESULT.IR
+```
+
+Require:
 
 ```text
 ERROR 0000000001 CODE 00002

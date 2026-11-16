@@ -15,7 +15,7 @@ Compile the left primary, save its value, and recurse at a higher minimum preced
 
 Copy R31.IR to R32.IR. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 1149
+### Edit at old physical position 1158
 
 Unchanged source before the edit:
 
@@ -52,7 +52,7 @@ LIT 0
 RETURN
 ```
 
-### Edit at old physical position 1089
+### Edit at old physical position 1098
 
 Unchanged source before the edit:
 
@@ -114,7 +114,7 @@ PROC BINARY 0 1
 SETLOCAL 0
 ```
 
-### Edit at old physical position 36
+### Edit at old physical position 45
 
 Unchanged source before the edit:
 
@@ -134,7 +134,11 @@ CALL BINARY
 Insert in its place:
 
 ```ir
+LIT 1
+PUSH
 LITS "SOURCE.RIL"
+PUSH
+INVOKE FILEARG 2
 OPEN
 ST INPUT
 STATUS
@@ -155,14 +159,14 @@ CALL FLUSH
 LD OUTPUT
 ```
 
-### Edit at old physical position 29
+### Edit at old physical position 34
 
 Unchanged source before the edit:
 
 ```ir
-BUFFER IDENT 32
-WORD CALLBUILTIN 0
-PROC MAIN 0 0
+LITS "SOURCE.RIL"
+PUSH
+INVOKE FILEARG 2
 ```
 
 Insert in its place:
@@ -189,8 +193,8 @@ ST GLOBALS
 The following old source remains:
 
 ```ir
-LITS "RILL.TMP"
-CREATE
+LIT 2
+PUSH
 ```
 
 ### Edit at old physical position 28
@@ -213,7 +217,7 @@ The following old source remains:
 
 ```ir
 PROC MAIN 0 0
-LITS "RILL.TMP"
+LIT 1
 ```
 
 ### Edit at old physical position 3
@@ -241,13 +245,11 @@ WORD TOK 0
 ## Build and check
 
 ```dos
-COPY R32.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP R32.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 15068 bytes`. Save RESULT.COM as R32.COM. VIEW.BAS must show length 15068.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 15890 bytes`. Save RESULT.COM as R32.COM. VIEW.BAS must show length 15890.
 
 Create T32.RIL:
 
@@ -256,16 +258,12 @@ Create T32.RIL:
 ```
 
 ```dos
-COPY T32.RIL SOURCE.RIL
-```
-
-```dos
-CHECK R32
+CHECK R32 T32.RIL RESULT.IR
 ```
 
 Require PASS.
 
-Inspect RILL.TMP with VIEW.BAS. Require length 55 bytes and these complete bytes:
+Inspect RESULT.IR with VIEW.BAS. Require length 55 bytes and these complete bytes:
 
 ```text
 4C 49 54 20 30 30 30 30 31 0D 0A 50 55 53 48 0D
@@ -274,17 +272,21 @@ Inspect RILL.TMP with VIEW.BAS. Require length 55 bytes and these complete bytes
 0D 0A 53 55 42 0D 0A
 ```
 
-This is a fragment for inspection. Delete the deliberately created RILL.TMP after checking it.
+This is a fragment for inspection, not a complete program. The command-selected RESULT.IR contains that fragment.
 
 ## Check the new boundary
 
-Use this separate rejected source:
+Save this separate rejected source as X32.RIL:
 
 ```rill
 (1)
 ```
 
-Copy it to SOURCE.RIL and run CHECK R32. Require:
+```dos
+CHECK R32 X32.RIL RESULT.IR
+```
+
+Require:
 
 ```text
 ERROR 0000000001 CODE 00002

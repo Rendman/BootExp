@@ -14,7 +14,7 @@ Validate an opaque block and byte extent before reading or writing a word.
 
 Copy IR22.ASM to IR23.ASM. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 1981
+### Edit at old physical position 2275
 
 Unchanged source before the edit:
 
@@ -39,7 +39,14 @@ DB 83,69,84,49,54,0,0,0,0,0,0,3,0,0
 DW T_SET16
 ```
 
-### Edit at old physical position 1973
+The following old source remains:
+
+```asm
+
+CMDCOUNT:
+```
+
+### Edit at old physical position 2267
 
 Unchanged source before the edit:
 
@@ -65,7 +72,7 @@ DB 65,76,76,79,67,0,0,0,0,0,0,0,0,0
 DW T_ALLOC
 ```
 
-### Edit at old physical position 1971
+### Edit at old physical position 2265
 
 Unchanged source before the edit:
 
@@ -86,6 +93,10 @@ DB 67,82,69,65,84,69,0,0,0,0,0,0,0,0
 DW T_CREATE
 DB 67,76,79,83,69,0,0,0,0,0,0,0,0,0
 DW T_CLOSE
+DB 65,82,71,67,0,0,0,0,0,0,0,0,0,0
+DW T_ARGC
+DB 65,82,71,0,0,0,0,0,0,0,0,0,0,0
+DW T_ARG
 DB 83,84,65,84,85,83,0,0,0,0,0,0,0,0
 DW T_STATUS
 DB 82,69,65,68,0,0,0,0,0,0,0,3,0,0
@@ -103,7 +114,7 @@ DB 69,88,73,83,84,83,0,0,0,0,0,0,0,0
 DW T_EXISTS
 ```
 
-### Edit at old physical position 1947
+### Edit at old physical position 2241
 
 Unchanged source before the edit:
 
@@ -147,7 +158,7 @@ DB 76,73,84,83,0,0,0,0,0,0,6,0,0,0
 DW T_LITS
 ```
 
-### Edit at old physical position 1909
+### Edit at old physical position 2199
 
 Unchanged source before the edit:
 
@@ -174,6 +185,10 @@ DB 70,69,84,67,72,66,0,0,0,0,0,0,0,0
 DW T_FETCHB
 DB 79,80,69,78,0,0,0,0,0,0,0,0,0,0
 DW T_OPEN
+DB 65,82,71,67,0,0,0,0,0,0,0,0,0,0
+DW T_ARGC
+DB 65,82,71,0,0,0,0,0,0,0,0,0,0,0
+DW T_ARG
 DB 67,82,69,65,84,69,0,0,0,0,0,0,0,0
 DW T_CREATE
 DB 82,69,65,68,0,0,0,0,0,0,0,3,0,0
@@ -200,7 +215,7 @@ DB 80,82,79,67,0,0,0,0,0,0,4,0,0,0
 DW T_PROC
 ```
 
-### Edit at old physical position 1903
+### Edit at old physical position 2193
 
 Unchanged source before the edit:
 
@@ -253,7 +268,7 @@ DB 74,90,0,0,0,0,0,0,0,0,2,4,0,0
 DW T_JZ
 ```
 
-### Edit at old physical position 1895
+### Edit at old physical position 2185
 
 Unchanged source before the edit:
 
@@ -277,7 +292,7 @@ DB 65,78,68,0,0,0,0,0,0,0,0,2,0,0
 DW T_AND
 ```
 
-### Edit at old physical position 1893
+### Edit at old physical position 2183
 
 Unchanged source before the edit:
 
@@ -303,7 +318,7 @@ DB 65,68,68,0,0,0,0,0,0,0,0,2,0,0
 DW T_ADD
 ```
 
-### Edit at old physical position 1889
+### Edit at old physical position 2179
 
 Unchanged source before the edit:
 
@@ -327,7 +342,7 @@ DB 80,85,83,72,0,0,0,0,0,0,0,1,0,0
 DW T_PUSH
 ```
 
-### Edit at old physical position 1885
+### Edit at old physical position 2175
 
 Unchanged source before the edit:
 
@@ -351,7 +366,7 @@ DB 70,69,84,67,72,0,0,0,0,0,0,0,0,0
 DW T_FETCH
 ```
 
-### Edit at old physical position 1877
+### Edit at old physical position 2167
 
 Unchanged source before the edit:
 
@@ -377,7 +392,7 @@ DB 87,79,82,68,0,0,0,0,0,0,3,4,0,0
 DW T_WORD
 ```
 
-### Edit at old physical position 1871
+### Edit at old physical position 2161
 
 Unchanged source before the edit:
 
@@ -401,7 +416,7 @@ DB 69,88,73,84,0,0,0,0,0,0,0,4,0,0
 DW T_EXIT
 ```
 
-### Edit at old physical position 1870
+### Edit at old physical position 2160
 
 Unchanged source before the edit:
 
@@ -447,7 +462,35 @@ IRTAB:
 DB 76,73,84,0,0,0,0,0,0,0,1,0,0,0
 ```
 
-### Edit at old physical position 1560
+### Edit at old physical position 1842
+
+Unchanged source before the edit:
+
+```asm
+DB "DB 0,0,0,0,0,0,0,0,0,0,0,0,0",13,10
+DB "DB 0,0,0,0,0,0,0,0,0,0,0,0,0",13,10
+DB "DB 0,0,0,0,0,0,0,0,0,0,0,0,0",13,10
+```
+
+Remove:
+
+```asm
+DB 13,10
+DB "R_WANT:",13,10
+DB "DW 0",13,10
+DB "R_MEMVALUE:",13,10
+DB "DW 0",13,10
+DB "R_BLOCKS:",13,10
+DB "RESW 32",13,10
+```
+
+The following old source remains:
+
+```asm
+DB 0
+```
+
+### Edit at old physical position 1726
 
 Unchanged source before the edit:
 
@@ -463,14 +506,25 @@ Remove:
 DB 13,10
 ```
 
-The following old source remains:
+Insert in its place:
 
 ```asm
 DB "R_WANT:",13,10
 DB "DW 0",13,10
+DB "R_MEMVALUE:",13,10
+DB "DW 0",13,10
+DB "R_BLOCKS:",13,10
+DB "RESW 32",13,10
 ```
 
-### Edit at old physical position 1556
+The following old source remains:
+
+```asm
+DB "CMDINIT:",13,10
+DB "MOV SI,81H",13,10
+```
+
+### Edit at old physical position 1722
 
 Unchanged source before the edit:
 
@@ -493,7 +547,7 @@ DB "R_STACKFAIL:",13,10
 DB "MOV AX,4C02H",13,10
 ```
 
-### Edit at old physical position 1529
+### Edit at old physical position 1695
 
 Unchanged source before the edit:
 
@@ -572,7 +626,7 @@ DB "R_FREEBLOCK:",13,10
 DB "MOV BX,AX",13,10
 ```
 
-### Edit at old physical position 1486
+### Edit at old physical position 1652
 
 Unchanged source before the edit:
 
@@ -595,7 +649,7 @@ DB "R_ALLOC:",13,10
 DB "CMP AX,0",13,10
 ```
 
-### Edit at old physical position 866
+### Edit at old physical position 872
 
 Unchanged source before the edit:
 
@@ -608,13 +662,13 @@ MOV BX,IRTAB
 Remove:
 
 ```asm
-MOV CX,55
+MOV CX,57
 ```
 
 Insert in its place:
 
 ```asm
-MOV CX,59
+MOV CX,61
 ```
 
 The following old source remains:
@@ -627,11 +681,10 @@ CALL LOOK
 ## Build and check
 
 ```dos
-COPY IR23.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP IR23.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 10255 bytes`. Save RESULT.COM as IR23.COM. VIEW.BAS must show length 10255.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 12301 bytes`. Save RESULT.COM as IR23.COM. VIEW.BAS must show length 12301.
 
 Create T23.IR:
 
@@ -662,42 +715,41 @@ RETURN
 ```
 
 ```dos
-COPY T23.IR SOURCE.IR
-```
-
-```dos
-CHECK IR23
+CHECK IR23 T23.IR RESULT.ASM
 ```
 
 Require:
 
 ```text
-OK RESULT.ASM 0000005104 text bytes
+OK RESULT.ASM 0000006598 text bytes
 PASS
 ```
 
 ```dos
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require OK and PASS. VIEW.BAS must show RESULT.COM length 1091 and these leading bytes:
+Require OK and PASS. VIEW.BAS must show RESULT.COM length 1453 and these leading bytes:
 
 ```text
-FC 81 FC FE FF 74 03 E9 F0 03 E8 06 00 B4 4C CD 21 00 00 55 8B EC 81 EC 02 00 81 FC 00 F0 73 03
+FC 81 FC FE FF 74 03 E9 FC 03 E8 42 04 81 F8 FF FF 75 03 E9 F0 03 E8 06 00 B4 4C CD 21 00 00 55
 ```
 
 Copy it to TRY.COM. CHECK TRY reports PASS.
 
 ## Check the new boundary
 
-Use this separate rejected source:
+Save this separate rejected source as X23.IR:
 
 ```ir
 UNKNOWN
 ```
 
-Copy it to SOURCE.IR and run CHECK IR23. Require:
+```dos
+CHECK IR23 X23.IR RESULT.ASM
+```
+
+Require:
 
 ```text
 IR ERROR 0000000001 CODE 1

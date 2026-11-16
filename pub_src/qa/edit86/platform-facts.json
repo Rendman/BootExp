@@ -1,18 +1,18 @@
 {
   "RILLED": {
-    "bootstrap_ir_bytes": 50410,
-    "bootstrap_assembly_bytes": 104969,
-    "bootstrap_binary_bytes": 26840,
-    "ir_bytes": 50410,
-    "assembly_bytes": 108931,
-    "binary_bytes": 27631
+    "bootstrap_ir_bytes": 52207,
+    "bootstrap_assembly_bytes": 110405,
+    "bootstrap_binary_bytes": 27837,
+    "ir_bytes": 52207,
+    "assembly_bytes": 114367,
+    "binary_bytes": 28628
   },
   "IRED": {
-    "bootstrap_ir_bytes": 42343,
-    "bootstrap_assembly_bytes": 140146,
-    "bootstrap_binary_bytes": 30657,
-    "ir_bytes": 42343,
-    "assembly_bytes": 144108,
-    "binary_bytes": 31448
+    "bootstrap_ir_bytes": 47148,
+    "bootstrap_assembly_bytes": 163312,
+    "bootstrap_binary_bytes": 33598,
+    "ir_bytes": 47148,
+    "assembly_bytes": 167274,
+    "binary_bytes": 34389
   }
 }

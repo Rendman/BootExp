@@ -10,7 +10,7 @@ url = "/bootstrap/asma0/14-programs/"
 
 I return to the greeting, the stored letter and the counted loop. Their results are familiar, which helps me follow what the file-handling changes have left intact. The completed seed can still do these small jobs while keeping its file buffers bounded.
 
-These programs use the completed ASM1 seed. Its fixed input is SOURCE.ASM and its output is RESULT.COM. Preserve each accepted output under the program's own filename before another assembly. Run an output only after a fresh OK and PASS and a VIEW.BAS inspection.
+These programs use the completed ASM1 seed. Supply source and result names after the program name; SOURCE.ASM and RESULT.COM are the defaults when no arguments are given. Preserve each accepted output under the program's own filename before another assembly. Run an output only after a fresh OK and PASS and a VIEW.BAS inspection.
 
 ## HELLO
 
@@ -29,8 +29,7 @@ DB 72,101,108,108,111,13,10,36
 DOS function 9 prints the bytes ending at the dollar marker. DB supplies numeric ASCII values because the seed has no quoted-string syntax. Carriage return and line feed are explicit.
 
 ```dos
-COPY HELLO.ASM SOURCE.ASM
-CHECK ASM1
+CHECK ASM1 HELLO.ASM RESULT.COM
 ```
 
 Require `OK RESULT.COM 00020 bytes` and PASS. VIEW.BAS must report length 20 and these complete bytes:
@@ -46,7 +45,7 @@ CHECK HELLO
 
 It displays "Hello\r\n" and the checker reports PASS. Here `\r\n` denotes carriage return and line feed.
 
-For a separate rejection, copy the source to BAD.ASM and replace the first `INT 21H` with `INT 256`. Copy BAD.ASM to SOURCE.ASM and run CHECK ASM1. Require `ERROR 00003 CODE 4` and FAIL. The accepted RESULT.COM must remain unchanged. An unexpected PASS fails this test. Restore the accepted source before building again.
+For a separate rejection, copy the source to BAD.ASM and replace the first `INT 21H` with `INT 256`. Run CHECK ASM1 BAD.ASM RESULT.COM. Require `ERROR 00003 CODE 4` and FAIL. The accepted RESULT.COM must remain unchanged. An unexpected PASS fails this test. Restore the accepted source before building again.
 
 ## MEMORY
 
@@ -70,8 +69,7 @@ DB 0
 BX holds the source byte address. A byte register supplies the width for the [BX] load and direct [COPY] store. The second direct load demonstrates that COPY received M. Both objects belong to the program segment selected by DS.
 
 ```dos
-COPY MEMORY.ASM SOURCE.ASM
-CHECK ASM1
+CHECK ASM1 MEMORY.ASM RESULT.COM
 ```
 
 Require `OK RESULT.COM 00024 bytes` and PASS. VIEW.BAS must report length 24 and these complete bytes:
@@ -87,7 +85,7 @@ CHECK MEMORY
 
 It displays "M" and the checker reports PASS. Here `\r\n` denotes carriage return and line feed.
 
-For a separate rejection, copy the source to BAD.ASM and replace the first `MOV AL,[BX]` with `MOV AX,AL`. Copy BAD.ASM to SOURCE.ASM and run CHECK ASM1. Require `ERROR 00002 CODE 1` and FAIL. The accepted RESULT.COM must remain unchanged. An unexpected PASS fails this test. Restore the accepted source before building again.
+For a separate rejection, copy the source to BAD.ASM and replace the first `MOV AL,[BX]` with `MOV AX,AL`. Run CHECK ASM1 BAD.ASM RESULT.COM. Require `ERROR 00002 CODE 1` and FAIL. The accepted RESULT.COM must remain unchanged. An unexpected PASS fails this test. Restore the accepted source before building again.
 
 ## COUNT
 
@@ -108,8 +106,7 @@ INT 21H
 DL starts at ASCII zero and advances after each output. CMP leaves the unsigned flags tested by JB. AGAIN is close enough for the seed's short conditional encoding.
 
 ```dos
-COPY COUNT.ASM SOURCE.ASM
-CHECK ASM1
+CHECK ASM1 COUNT.ASM RESULT.COM
 ```
 
 Require `OK RESULT.COM 00017 bytes` and PASS. VIEW.BAS must report length 17 and these complete bytes:
@@ -125,6 +122,6 @@ CHECK COUNT
 
 It displays "012" and the checker reports PASS. Here `\r\n` denotes carriage return and line feed.
 
-For a separate rejection, copy the source to BAD.ASM and replace the first `JB AGAIN` with `JB 400H`. Copy BAD.ASM to SOURCE.ASM and run CHECK ASM1. Require `ERROR 00007 CODE 4` and FAIL. The accepted RESULT.COM must remain unchanged. An unexpected PASS fails this test. Restore the accepted source before building again.
+For a separate rejection, copy the source to BAD.ASM and replace the first `JB AGAIN` with `JB 400H`. Run CHECK ASM1 BAD.ASM RESULT.COM. Require `ERROR 00007 CODE 4` and FAIL. The accepted RESULT.COM must remain unchanged. An unexpected PASS fails this test. Restore the accepted source before building again.
 
 The completed seed source and its matching self-builds are the handoff to the separate ASM86 collection. Keep ASM1.COM and ASM1.ASM with their tested examples.

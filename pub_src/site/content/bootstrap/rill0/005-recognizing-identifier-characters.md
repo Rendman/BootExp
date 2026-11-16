@@ -111,13 +111,11 @@ INVOKE ERROR 1
 ## Build and check
 
 ```dos
-COPY R05.IR SOURCE.IR
-CHECK IRKEEP
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK IRKEEP R05.IR RESULT.ASM
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 02113 bytes`. Save RESULT.COM as R05.COM. VIEW.BAS must show length 2113.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 02882 bytes`. Save RESULT.COM as R05.COM. VIEW.BAS must show length 2882.
 
 ```dos
 CHECK R05

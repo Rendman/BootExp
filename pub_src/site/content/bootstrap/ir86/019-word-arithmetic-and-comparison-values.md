@@ -14,7 +14,7 @@ Define multiply, unsigned quotient/remainder, masked shifts, and zero-or-one rel
 
 Copy IR18.ASM to IR19.ASM. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
 
-### Edit at old physical position 1659
+### Edit at old physical position 1953
 
 Unchanged source before the edit:
 
@@ -47,7 +47,14 @@ DB 67,85,71,69,0,0,0,0,0,0,0,2,0,0
 DW T_CUGE
 ```
 
-### Edit at old physical position 1483
+The following old source remains:
+
+```asm
+
+CMDCOUNT:
+```
+
+### Edit at old physical position 1765
 
 Unchanged source before the edit:
 
@@ -109,7 +116,7 @@ DB "INC AX",13,10
 DB 0
 ```
 
-### Edit at old physical position 1478
+### Edit at old physical position 1760
 
 Unchanged source before the edit:
 
@@ -162,7 +169,7 @@ T_CEQ:
 DB "POP BX",13,10
 ```
 
-### Edit at old physical position 866
+### Edit at old physical position 872
 
 Unchanged source before the edit:
 
@@ -175,13 +182,13 @@ MOV BX,IRTAB
 Remove:
 
 ```asm
-MOV CX,40
+MOV CX,42
 ```
 
 Insert in its place:
 
 ```asm
-MOV CX,49
+MOV CX,51
 ```
 
 The following old source remains:
@@ -194,11 +201,10 @@ CALL LOOK
 ## Build and check
 
 ```dos
-COPY IR19.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP IR19.ASM RESULT.COM
 ```
 
-Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 07420 bytes`. Save RESULT.COM as IR19.COM. VIEW.BAS must show length 7420.
+Require fresh OK and PASS reports before each following copy. The assembler must report `OK RESULT.COM 09468 bytes`. Save RESULT.COM as IR19.COM. VIEW.BAS must show length 9468.
 
 Create T19.IR:
 
@@ -215,42 +221,41 @@ RETURN
 ```
 
 ```dos
-COPY T19.IR SOURCE.IR
-```
-
-```dos
-CHECK IR19
+CHECK IR19 T19.IR RESULT.ASM
 ```
 
 Require:
 
 ```text
-OK RESULT.ASM 0000002708 text bytes
+OK RESULT.ASM 0000004204 text bytes
 PASS
 ```
 
 ```dos
-COPY RESULT.ASM SOURCE.ASM
-CHECK ASMAKEEP
+CHECK ASMAKEEP RESULT.ASM RESULT.COM
 ```
 
-Require OK and PASS. VIEW.BAS must show RESULT.COM length 544 and these leading bytes:
+Require OK and PASS. VIEW.BAS must show RESULT.COM length 906 and these leading bytes:
 
 ```text
-FC 81 FC FE FF 74 03 E9 11 02 E8 04 00 B4 4C CD 21 55 8B EC 81 EC 00 00 81 FC 00 F0 73 03 E9 FA
+FC 81 FC FE FF 74 03 E9 1D 02 E8 1F 02 81 F8 FF FF 75 03 E9 11 02 E8 04 00 B4 4C CD 21 55 8B EC
 ```
 
 Copy it to TRY.COM. CHECK TRY reports PASS.
 
 ## Check the new boundary
 
-Use this separate rejected source:
+Save this separate rejected source as X19.IR:
 
 ```ir
 UNKNOWN
 ```
 
-Copy it to SOURCE.IR and run CHECK IR19. Require:
+```dos
+CHECK IR19 X19.IR RESULT.ASM
+```
+
+Require:
 
 ```text
 IR ERROR 0000000001 CODE 1
