@@ -7,7 +7,7 @@ import json,re,tomllib
 ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/asm86';Q=ROOT/'qa/asm86';C=ROOT/'site/content/bootstrap/asm86';C.mkdir(parents=True,exist_ok=True)
 cases=json.loads((Q/'checkpoints.json').read_text());examples=json.loads((Q/'examples.json').read_text())
 SEED_STORY_OPENINGS={
- 1:"ASM0 can assemble its own source now. I keep that working copy beside the BASIC listing and copy its source to begin ASM1. This time I want to type the source and result names after the program name, and have its report tell me which result it wrote.",
+ 1:"I have followed the names from the PSP to the file services and into the success report. Now I turn to the arithmetic table. The next assembler will hash names, and I need to account for the XOR instruction it will use.",
  2:"I follow the source reader in my notebook: it asks DOS for one byte, then asks again for the next. I want to collect a small block at once and let the reader hand those bytes to the parser one at a time. The parser should still receive the same characters in the same order.",
  3:"The output buffer still has to hold every byte of the assembled program. I want to write a block when it fills and reuse that space. I'll first try the writer by copying a few characters from one file to another, with the parser left out of the path.",
  4:"The copy writer creates its temporary file before opening the source. If that open fails, an empty file remains. I need to keep track of which handles are open and which file this run created, so the error routine can clean up after itself.",
@@ -58,29 +58,13 @@ def front(title,weight,description,download,cartoon=None):
  if cartoon:s+=f'cartoon = "{cartoon}"\n'
  return s+'+++\n\n'
 def slug(s):return re.sub('[^a-z0-9]+','-',s.lower()).strip('-')
-previous=(ROOT/'workbench/asm0/ASM86.ASM').read_text().splitlines();patches=[];previous_number=None
+from write_asm1_steps import publish as publish_intro
+publish_intro()
+previous=(ROOT/'workbench/asm1/A01F.ASM').read_text().splitlines();patches=[];previous_number=None
 chapters={c['number']:i for i,c in enumerate([r for r in cases if r['number']>12],1)}
 for case in cases:
- n=case['number'];collection='asma0' if n<=12 else 'asm86a';chapter=n if n<=12 else chapters[n];C=ROOT/'site/content/bootstrap'/directory_name(collection);C.mkdir(parents=True,exist_ok=True);name=f'A{n:02}';oldfile='ASM86.ASM' if n==1 else 'ASMA0.ASM' if n==13 else f'A{previous_number:02}.ASM';lines=(W/(name+'.ASM')).read_text().splitlines();page=f'{n:02}-{slug(case["title"])}.md'
+ n=case['number'];collection='asma0' if n<=12 else 'asm86a';chapter=n+6 if n<=12 else chapters[n];C=ROOT/'site/content/bootstrap'/directory_name(collection);C.mkdir(parents=True,exist_ok=True);name=f'A{n:02}';oldfile='A01F.ASM' if n==1 else 'ASMA0.ASM' if n==13 else f'A{previous_number:02}.ASM';lines=(W/(name+'.ASM')).read_text().splitlines();page='01-fixed-work-files.md' if n==1 else f'{n:02}-{slug(case["title"])}.md'
  t=front(f'{chapter:02} · '+case['title'],chapter,case['description'],name+'.ASM',case.get('cartoon'))+STORY_OPENINGS.get(n,case['why'])+'\n\n## The working parts\n\n'+case['explain']+'\n\n## Enter the source\n\n'
- if n==1:
-  from command_files import CHECKER
-  lesson='''## Names after the program name
-
-DOS leaves a command tail in the Program Segment Prefix, or PSP, the area before the program's 0100H entry. Its byte at 80H is the tail length; the text starts at 81H. Read that length rather than searching for a zero terminator. At entry DS and ES select the program segment, including the PSP.
-
-CMDINIT walks the bounded tail before any file service. Spaces and tabs separate names. It folds letters, checks an eight-character base and optional three-character extension, and copies each spelling plus a zero terminator into a separate owned slot. A dot needs a nonempty base and extension. Paths, quotes and switches are rejected. The saved names survive DOS services that can reuse the PSP tail area as a disk-transfer area.
-
-CMDFILES accepts no names, preserving SOURCE.ASM and RESULT.COM, or exactly two names selecting source and result. It copies the selections into the source/result buffers and rejects equal names and either recovery name before opening output. CMDMATCH compares complete terminated spellings; CMDTEXT prints the selected result. These routines use only instructions ASM0 already accepts. They change the working registers, so the assembly driver initializes its counters afterward. Error category 9 means invalid command-line names or count.
-
-The temporary ASMA.TMP and backup RESULT.BAK keep their reserved roles. Use ordinary disk files in the current directory. The chosen result is not the running builder; preserve each checkpoint executable separately.
-
-Replace CHECK.BAT with this version, which passes the filename arguments to its program and checks its status immediately:
-
-'''+fence('dos',CHECKER)+'''The original ASMKEEP still takes no arguments. Build this checkpoint with it using the fixed SOURCE.ASM name. Once A01.COM is saved, `CHECK A01 T01.ASM RESULT.COM` supplies the new names through the PSP.
-
-'''
-  t=t.replace('## Enter the source\n\n',lesson+'## Enter the source\n\n',1)
  if n<=12:
   t=t.replace('+++\n\n',f'aliases = [\"/bootstrap/asm86a/{page[:-3]}/\"]\n+++\n\n',1)
   (ROOT/'site/content/bootstrap/asm86'/page).unlink(missing_ok=True)
@@ -113,8 +97,8 @@ Replace CHECK.BAT with this version, which passes the filename arguments to its 
  t+=f'In VIEW.BAS, inspect {target}. Require length **{case["target_bytes"]} bytes** and '+('these complete contents' if case['target_bytes']<=32 else 'these first thirty-two bytes')+':\n\n'+fence('text',' '.join(shown))
  if case.get('self_build'):
   alias='ASMA0' if n==12 else 'ASM86A'
-  t+='Compare the first self-produced executable with the preserved original, then use that new generation to assemble the same source once more:\n\n'+fence('dos',f'ECHO N>NO.TXT\nCOMP {alias}.COM RESULT.COM <NO.TXT\nCOPY RESULT.COM GEN1.COM\nCHECK GEN1\nCOMP {alias}.COM RESULT.COM <NO.TXT')
-  t+=f'Both COMP comparisons must report no differences. GEN1 must report `OK RESULT.COM {case["binary_bytes"]:05} bytes` and PASS. COMP may ask whether to compare more files; NO.TXT answers N. Keep the original {alias}.COM separately.\n\n'
+  t+='Compare the first self-produced executable with the preserved original, then use that new generation to assemble the same source once more:\n\n'+fence('dos',f'FC /B {alias}.COM RESULT.COM\nCOPY RESULT.COM GEN1.COM\nCHECK GEN1\nFC /B {alias}.COM RESULT.COM')
+  t+=f'Both FC comparisons must report no differences. GEN1 must report `OK RESULT.COM {case["binary_bytes"]:05} bytes` and PASS. Keep the original {alias}.COM separately.\n\n'
   if n in STORY_AFTER_CHECKS:t+=STORY_AFTER_CHECKS[n]+'\n\n'
   if n==12:t+='Continue with the separate [ASM86A collection](../../asm86a/index.html). For its construction builds, ASMA0.COM is the preceding builder. ASMKEEP.COM remains the original ASM86. ASM1 accepts PSP filenames; ASM0 keeps its fixed work files. Preserve each builder under its own name.\n\n'
   else:t+=fence('dos','COPY ASM86A.COM ASMAKEEP.COM')+'ASMAKEEP.COM is the preserved command-line assembler. ASMKEEP.COM still names the original ASM86.\n\n'
@@ -130,7 +114,7 @@ Replace CHECK.BAT with this version, which passes the filename arguments to its 
  t+='Require:\n\n'+fence('text',case.get('prefix','').replace('\r\n','\n')+f'ERROR {bad["line"]:0{10 if n>=19 else 5}} CODE {bad["code"]}\nFAIL')
  if n==3:t+='This early writer creates an empty ASMA.TMP before discovering the missing source. Inspect it and delete it before another run. RESULT.COM must be unchanged.\n\n'
  elif n in [4,5]:t+='The pre-existing RESULT.COM must remain unchanged. A missing-source failure must remove only the temporary file this run owned.\n\n'
- else:t+='The accepted RESULT.COM must remain unchanged. Keep a copy and compare it with COMP if in doubt. Require a fresh OK before using any output.\n\n'
+ else:t+='The accepted RESULT.COM must remain unchanged. Keep a copy and compare it with FC /B if in doubt. Require a fresh OK before using any output.\n\n'
  if n in [9,17]:
   limit=2048 if n==9 else 8192
   t+='## Fill the symbol table\n\nEnter SYMS.BAS as a source-text exercise:\n\n'+fence('basic',(W/'SYMS.BAS').read_text().replace('10 N=8192',f'10 N={limit}'))
@@ -142,17 +126,8 @@ Replace CHECK.BAT with this version, which passes the filename arguments to its 
  if n==23:
   t+='## Reach the image boundary\n\nMake LIMIT.ASM containing `RESB 61184`. Run CHECK A23 LIMIT.ASM RESULT.COM. Require `OK RESULT.COM 61184 bytes` and PASS. VIEW.BAS must show length 61184 and zero bytes. This is storage data, never a runnable program. Preserve it; change the count to 61185 and repeat. Require `ERROR 0000000001 CODE 5` and FAIL, with the previous result unchanged. The target limit is independent of the assembler\'s output-block size.\n\n'
  t+='An unexpected PASS fails this rejection test.\n\n## If the result differs\n\n'
- if n==1:
-  t=t.replace('## If the result differs\n\n','''## Check the command tail
-
-With T01.ASM retained, run `CHECK A01 T01.ASM CHOSEN.COM`. Require `OK CHOSEN.COM 00011 bytes` and PASS. Inspect CHOSEN.COM: its bytes must match the accepted fixture. The source itself is unchanged.
-
-Then run `CHECK A01 T01.ASM` and `CHECK A01 T01.ASM t01.asm`. Each must report `ERROR 00000 CODE 9` and FAIL before creating any output. Preserve the accepted CHOSEN.COM and source. A too-long base, a second dot, a path, or either reserved recovery name also fails the argument check.
-
-## If the result differs
-
-''',1)
- if n<13:t+='Check the saved argument names and terminators, handle ownership flags, reader cursors at each pass, and the current output count. Inspect file length as well as the leading bytes. A copied data file is not an executable proof.\n'
+ if n==1:t+='Check the six spelling bytes, the table count of twenty-six, class four and selector six. Register widths must agree. The existing arithmetic encoder supplies the instruction bytes.\n'
+ elif n<13:t+='Check the saved argument names and terminators, handle ownership flags, reader cursors at each pass, and the current output count. Inspect file length as well as the leading bytes. A copied data file is not an executable proof.\n'
  elif n<20:t+='Check ES at helper exits, the saved page segment and offset, record padding, and the complete spelling comparison. Check carry after every DOS memory call. A successful allocation does not initialize its contents.\n'
  elif n<25:t+='Check saved expression values across EMIT, the unresolved-reference flag, and fixed statement lengths in both passes. Quoted text bypasses mnemonic folding. A reserve count must be checked before multiplication or output.\n'
  else:t+='Check descriptor width, segment selection, ModR/M bits, displacement order, and registers changed by EMIT. Use the printed bytes to distinguish a parser mistake from an encoding mistake. Keep the branch size the same in both passes.\n'
@@ -185,4 +160,4 @@ for r in examples:
  t+=f'After saving RESULT.COM as {name}.COM, CHECK {name} displays '+json.dumps(r['output'])+' and reports PASS. Here `\\r\\n` means carriage return followed by line feed.\n\n'
  t+='For a separate rejection, copy the source to BAD.ASM. Replace `'+r['bad_before']+'` with `'+r['bad_after']+'`. Run CHECK ASMAKEEP BAD.ASM RESULT.COM. Require '+f'`ERROR {r["bad_line"]:010} CODE {r["bad_code"]}` and FAIL. The accepted RESULT.COM must remain unchanged; an unexpected PASS fails the check. Restore the accepted source before rebuilding.\n\n'
 write_page((C/'43-programs.md'),t)
-print('Rendered 12 ASMA0 and 24 ASM86A checkpoints and the complete ASM86A programs.')
+print('Rendered 18 ASM1 and 24 ASM86 checkpoints and the complete ASM86 programs.')

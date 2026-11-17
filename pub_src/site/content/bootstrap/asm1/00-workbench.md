@@ -28,19 +28,25 @@ Begin with the completed BOOTASM and ASM0 collections. Keep BOOTASM.BAS, ASM0.AS
 COPY ASM0.COM ASMKEEP.COM
 ```
 
-ASMKEEP is the original ASM0 and uses fixed SOURCE.ASM and RESULT.COM. It accepts an 8192-byte image, 256 definitions, 4000 physical lines, and 120 characters per line. Every A01 through A12 source fits that builder. Copy the checkpoint to SOURCE.ASM, run CHECK ASMKEEP, require the stated OK count and PASS, then copy RESULT.COM to the checkpoint executable name.
+ASMKEEP is the original ASM0 and uses fixed SOURCE.ASM and RESULT.COM. It accepts an 8192-byte image, 256 definitions, 4000 physical lines, and 120 characters per line. The six opening A01A through A01F sources and every A01 through A12 source fit that builder. Copy the checkpoint to SOURCE.ASM, run CHECK ASMKEEP, require the stated OK count and PASS, then copy RESULT.COM to the checkpoint executable name.
 
 Each article copies the preceding source under the next filename and gives exact edits from the bottom upward. Preserve both the source and executable after each stopping test. The article number and saved source name are separate locators; keep the printed disk filenames exactly as given.
 
-## Fixed work files
+## The opening checkpoints
 
-The new checkpoints select their source with COPY:
+Begin with A01A, then A01B, A01C, A01D, A01E and A01F, before A01. Each is a separate article and saved source. A01A and A01B retain fixed SOURCE.ASM/RESULT.COM work names. A01C is a command-reader probe: it expects two names, opens no files and reports only status. A01D restores the assembly driver and accepts either no arguments or two names. A01E adds the result spelling to its report; A01F adds input-handle state. A01 then introduces XOR.
+
+ASMKEEP always uses its fixed work names to build these checkpoints. COPY the selected source to SOURCE.ASM before CHECK ASMKEEP, and save the accepted RESULT.COM under the printed checkpoint name.
+
+## Select work files
+
+From A01D onward, pass filenames directly:
 
 ```dos
 CHECK A01 T01.ASM RESULT.COM
 ```
 
-A01.COM is the diagnostic or assembler being tested. RESULT.COM is its output, which must be saved under a separate name before another assembly. The byte-copy exercises explicitly inspect their output as data; execute an output only when its article identifies a complete program.
+The checkpoint executable is the diagnostic or assembler being tested. RESULT.COM is its output, which must be saved under a separate name before another assembly. The byte-copy exercises explicitly inspect their output as data; execute an output only when its article identifies a complete program.
 
 | Name | Role |
 |---|---|

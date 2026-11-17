@@ -78,7 +78,7 @@ def check():
  assert reader_text('toolchain','TMAKE.BAT',batch).strip() in page
  compare=(C/'toolchain/04-comparing-generations.md').read_text()
  for stem in ['A','I','R']:
-  for gen in [1,2]:assert f'COMP {stem}0.COM {stem}{gen}.COM' in compare
+  for gen in [1,2]:assert rf'C:\DOS\FC.EXE /B {stem}0.COM {stem}{gen}.COM' in compare
  # Every legacy archive is independently checked against its source snapshot.
  specs=[('ir86','IR86.ZIP','ir86','ir86/package-files.json'),('rill','RILL.ZIP','rill','rill/package-files.json'),('rb','RB.ZIP','rb','compilers/rb-files.json'),('rc','RC.ZIP','rc','compilers/rc-files.json'),('toolchain','TOOLCHN.ZIP','toolchain','toolchain/package-files.json')]
  for group,archive,work,manifest in specs:

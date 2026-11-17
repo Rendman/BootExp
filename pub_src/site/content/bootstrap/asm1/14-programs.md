@@ -1,6 +1,6 @@
 +++
-title = "14 \u00b7 Complete seed programs"
-weight = 14
+title = "20 \u00b7 Complete seed programs"
+weight = 20
 description = "A terminated greeting, a byte copied through memory, and a short loop."
 download = "ASM1.ZIP"
 download_group = "tools/asm1"

@@ -61,14 +61,13 @@ FC 81 FC FE FF 74 06 B8 07 00 E9 10 0C E8 CB 15 E8 D0 0D E8 DE 0C B0 01 88 06 A6
 Compare the first self-produced executable with the preserved original, then use that new generation to assemble the same source once more:
 
 ```dos
-ECHO N>NO.TXT
-COMP ASM86.COM RESULT.COM <NO.TXT
+C:\DOS\FC.EXE /B ASM86.COM RESULT.COM
 COPY RESULT.COM GEN1.COM
 CHECK GEN1 ASM86.ASM RESULT.COM
-COMP ASM86.COM RESULT.COM <NO.TXT
+C:\DOS\FC.EXE /B ASM86.COM RESULT.COM
 ```
 
-Both COMP comparisons must report no differences. GEN1 must report `OK RESULT.COM 06433 bytes` and PASS. COMP may ask whether to compare more files; NO.TXT answers N. Keep the original ASM86.COM separately.
+Both FC comparisons must report no differences. GEN1 must report `OK RESULT.COM 06433 bytes` and PASS. Keep the original ASM86.COM separately.
 
 I keep the seed-built copy beside the two matching generations. Its file is still a single COM program; the extra symbol pages are workspace it obtains when it runs. I can follow how ASM1 made the first copy and how that copy made the next.
 
@@ -97,7 +96,7 @@ ERROR 0000000001 CODE 1
 FAIL
 ```
 
-The accepted RESULT.COM must remain unchanged. Keep a copy and compare it with COMP if in doubt. Require a fresh OK before using any output.
+The accepted RESULT.COM must remain unchanged. Keep a copy and compare it with C:\DOS\FC.EXE /B if in doubt. Require a fresh OK before using any output.
 
 An unexpected PASS fails this rejection test.
 

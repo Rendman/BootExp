@@ -5,10 +5,11 @@ ROOT=Path(__file__).resolve().parents[2];W=ROOT/'workbench/asm86';Q=ROOT/'qa/asm
 import sys
 sys.path.insert(0,str(ROOT/'tools'))
 from project_paths import directory_name
-program=(ROOT/'workbench/asm0/ASM86.ASM').read_text().splitlines();cases=json.loads((Q/'checkpoints.json').read_text())
+import runpy
+program=runpy.run_path(str(ROOT/'qa/asm1/validate_steps.py'))['reconstruct']();cases=json.loads((Q/'checkpoints.json').read_text())
 for stage,case in zip(json.loads((Q/'article-patches.json').read_text()),cases):
  n=stage['number'];collection=stage['collection'];chapter=stage['chapter'];text=(C.parent/directory_name(collection)/stage['page']).read_text();
- assert collection==('asma0' if n<=12 else 'asm86a') and chapter==(n if n<=12 else 1+[c['number'] for c in cases if c['number']>12].index(n))
+ assert collection==('asma0' if n<=12 else 'asm86a') and chapter==(n+6 if n<=12 else 1+[c['number'] for c in cases if c['number']>12].index(n))
  if n==13:assert stage['base']=='ASMA0.ASM'
  sections=re.split(r'### Change \d+[^\n]*\n',text)[1:]
  assert len(sections)==len(stage['changes']),(n,'printed edit count')
@@ -32,7 +33,7 @@ assert (W/'ASMA0.ASM').read_bytes()==(W/'A12.ASM').read_bytes()
 assert (W/'ASM86A.ASM').read_bytes()==(W/'A40.ASM').read_bytes()
 for name,group in [('BOOTASM.BAS','bootasm'),('VIEW.BAS','bootasm'),('ASM86.ASM','asm86')]:assert (W/name).read_bytes()==(ROOT/'workbench'/directory_name(group)/name).read_bytes(),name
 from command_files import CHECKER
-first=(C.parent/'asm1/01-fixed-work-files.md').read_text()
+first=(C.parent/'asm1/01c-reading-the-command-tail.md').read_text()
 printed=re.search(r'```dos\n(ECHO OFF\n.*?)\n```',first,re.S)[1]+'\n'
 assert printed==CHECKER==(W/'CHECK.BAT').read_text()
 files=json.loads((Q/'package-files.json').read_text())
@@ -53,7 +54,7 @@ for n,name in [(9,'SYMS'),(17,'SYMS'),(19,'LONGSRC')]:
  assert len(blocks[0].splitlines())<=50
 for img in ['press','cloakroom','bridge']:assert (ROOT/f'site/static/images/asm86a-{img}.png').is_file()
 assert len(list(C.glob('*.md')))==29
-assert len(list((C.parent/'asm1').glob('*.md')))==16
+assert len(list((C.parent/'asm1').glob('*.md')))==22
 for n in [0,41,42,43]:assert len(list(C.glob(f'{n:02}-*.md')))==1
 assert 'BOOTASM → ASM0 → ASM1 → ASM86 → IR86 → RILL' in (C/'_index.md').read_text()
-print(f'PASS ASMA0/ASM86A: all 12 seed and 24 larger-assembler printed edits reconstruct exact source; {len(files)} source-only archive files match ASCII/CRLF/8.3 downloads; fixtures, programs, text generators, and assets agree')
+print(f'PASS ASMA0/ASM86A: all 18 seed and 24 larger-assembler printed edits reconstruct exact source; {len(files)} source-only archive files match ASCII/CRLF/8.3 downloads; fixtures, programs, text generators, and assets agree')

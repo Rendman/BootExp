@@ -167,7 +167,7 @@ abc
 CHECK E14 T14.TXT
 ```
 
-Require PASS: the position after T, tab and X is visual column nine, and reaching column eight stops before X at byte position two. Repeat with T13.TXT in EDIT.TXT: require FAIL because that file does not contain the tab fixture. No file is saved by either run.
+Require PASS: the position after T, tab and X is visual column nine, and reaching column eight stops before X at byte position two. Repeat with CHECK E14 T13.TXT: require FAIL because that file does not contain the tab fixture. No file is saved by either run.
 
 ## If the check disagrees
 

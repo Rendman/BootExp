@@ -36,11 +36,10 @@ COPY RESULT.COM R1.COM
 Each copy follows its own fresh OK and PASS. Use VIEW.BAS to check both lengths before comparing:
 
 ```dos
-ECHO N>NO.TXT
-COMP R0.COM R1.COM <NO.TXT
+C:\DOS\FC.EXE /B R0.COM R1.COM
 ```
 
-Require no differences. NO.TXT answers N if COMP asks whether to compare more files. A successful comparison is separate from the preceding tools' success reports.
+Require no differences. A successful comparison is separate from the preceding tools' success reports.
 
 ## Let that copy do the same job
 
@@ -49,10 +48,10 @@ CHECK R1 RILL.RIL RESULT.IR
 CHECK IWKEEP RESULT.IR RESULT.ASM
 CHECK ASMAKEEP RESULT.ASM RESULT.COM
 COPY RESULT.COM R2.COM
-COMP R0.COM R2.COM <NO.TXT
+C:\DOS\FC.EXE /B R0.COM R2.COM
 ```
 
-Require each OK and PASS and no COMP differences. R0, R1, and R2 must all have length 27614. This is the same RILL source compiled through the published IR translator and assembler. Preserve these matching copies for the toolchain collection.
+Require each OK and PASS and no FC differences. R0, R1, and R2 must all have length 27614. This is the same RILL source compiled through the published IR translator and assembler. Preserve these matching copies for the toolchain collection.
 
 ## A rejected input must stay rejected
 

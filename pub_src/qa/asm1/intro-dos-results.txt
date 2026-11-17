@@ -1,0 +1,2 @@
+PASS DOS 3.10: ASM0 builds all six focused ASM1 checkpoints and the separate XOR step; all byte/status fixtures agree.
+PASS DOS 3.10: ASM0 builds the final ASM1; two self-built generations reproduce every byte of its established executable.

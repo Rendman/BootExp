@@ -1,1 +1,1 @@
-MOV AX,AL
+XOR AX,BL

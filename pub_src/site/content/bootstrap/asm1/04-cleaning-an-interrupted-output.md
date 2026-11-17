@@ -1,6 +1,6 @@
 +++
-title = "04 \u00b7 Cleaning an interrupted output"
-weight = 4
+title = "10 \u00b7 Cleaning an interrupted output"
+weight = 10
 description = "Track handles and temporary-file ownership separately."
 download = "A04.ASM"
 aliases = ["/bootstrap/asm86a/04-cleaning-an-interrupted-output/"]

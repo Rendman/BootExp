@@ -11,10 +11,12 @@ with zipfile.ZipFile(D/'ASMA0.ZIP') as z:
   raw=(W/name).read_bytes();raw.decode('ascii');assert b'\n' not in raw.replace(b'\r\n',b'')
   assert raw==z.read(name)==(D/name).read_bytes(),name
 assert (W/'ASMA0.ASM').read_bytes()==(W/'A12.ASM').read_bytes()==(ROOT/'workbench/asm86/ASMA0.ASM').read_bytes()
+intro=json.loads((Q/'intro.json').read_text())
+assert all(s['id']+'.ASM' in manifest for s in intro)
 for n in range(1,13):
  assert (W/f'A{n:02}.ASM').read_bytes()==(ROOT/f'workbench/asm86/A{n:02}.ASM').read_bytes()
  p=next(C.glob(f'{n:02}-*.md'));meta=tomllib.loads(p.read_text().split('+++')[1])
- assert meta['weight']==n and meta['title'].startswith(f'{n:02} ')
+ assert meta['weight']==n+6 and meta['title'].startswith(f'{n+6:02} ')
  assert meta['aliases']==[f'/bootstrap/asm86a/{p.stem}/']
  assert meta['download']==f'A{n:02}.ASM'
  assert (ROOT/'site/downloads/asm86'/f'A{n:02}.ASM').read_bytes()==(W/f'A{n:02}.ASM').read_bytes(),'legacy source link'
@@ -34,4 +36,4 @@ assert all(f'A{n:02}.ASM' in full for n in retained)
 for index,n in enumerate(retained,1):
  p=next((C.parent/'asm86').glob(f'{n:02}-*.md'));meta=tomllib.loads(p.read_text().split('+++')[1]);assert meta['weight']==index and meta['title'].startswith(f'{index:02} ')
 assert 'Copy `ASM1.ASM` to `A13.ASM`' in next((C.parent/'asm86').glob('13-*.md')).read_text()
-print(f'PASS ASMA0: 12 articles, independent reference/programs, {len(manifest)} source-only files, canonical seed and A13 handoff, separate archives and legacy source links')
+print(f'PASS ASMA0: 18 articles, independent reference/programs, {len(manifest)} source-only files, canonical seed and A13 handoff, separate archives and legacy source links')

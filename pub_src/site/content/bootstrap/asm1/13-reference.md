@@ -1,6 +1,6 @@
 +++
-title = "13 \u00b7 ASM1 reference"
-weight = 13
+title = "19 \u00b7 ASM1 reference"
+weight = 19
 description = "The seed language, streaming files, single-segment symbol table, and handoff contract."
 download = "ASM1.ASM"
 download_group = "tools/asm1"
@@ -72,7 +72,7 @@ MOV ES:[1234H],DX
 
 MOV ES,AX encodes as `8E C0`; MOV AX,ES is `8C C0`. The segment register occupies the ModR/M register field. An ES memory override emits 26H before the ordinary MOV encoding. Other overrides are outside the seed's grammar. Segment-register PUSH/POP, indirect CALL/JMP, RET with an operand, multiply/divide, shifts/rotates, and repeated/word string forms are also outside this language.
 
-Write JE/JNE rather than JZ/JNZ, and JB/JAE rather than JC/JNC. There is no Jcc NEAR qualifier. Spell a distant conditional explicitly as the opposite short condition around a near JMP, with your own label. The source formatter's Z labels are ordinary implementation labels for such bridges.
+Write JE/JNE rather than JZ/JNZ, and JB/JAE rather than JC/JNC. There is no Jcc NEAR qualifier. Spell a distant conditional explicitly as the opposite short condition around a near JMP, with your own label. The Z labels in the printed source are ordinary labels for these bridges.
 
 ## Fixed encodings
 
@@ -80,7 +80,7 @@ MOV register-immediate uses B0H plus the byte register number or B8H plus the wo
 
 Arithmetic groups are ADD=0, OR=1, AND=4, SUB=5, XOR=6, CMP=7. Register-source opcodes are `8*group+2+width`, where width is zero for byte and one for word. Immediate arithmetic uses 80H/81H with the full immediate width; there is no sign-extended byte shortening.
 
-CALL uses E8H and JMP E9H, followed by `target-(instruction offset+3)` as a word. Conditional opcodes are JB=72H, JAE=73H, JE=74H, JNE=75H, JBE=76H, JA=77H, JL=7CH, JGE=7DH, JLE=7EH, JG=7FH. Their displacement subtracts `instruction offset+2`. There is no branch relaxation.
+CALL uses E8H and JMP E9H, followed by `target-(instruction offset+3)` as a word. Conditional opcodes are JB=72H, JAE=73H, JE=74H, JNE=75H, JBE=76H, JA=77H. Their displacement subtracts `instruction offset+2`. There is no branch relaxation.
 
 ## Capacity and memory
 

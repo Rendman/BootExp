@@ -7,7 +7,8 @@ ASMA0 is the streaming seed collection, built directly by ASM86.
 Read its workbench, construction articles, reference, and programs.
 
 BOOTASM.BAS and ASM86.ASM: unchanged preceding bootstrap sources.
-A01.ASM through A12.ASM: complete seed construction checkpoints.
+A01A.ASM through A01F.ASM: six focused opening checkpoints.
+A01.ASM adds XOR; A02.ASM through A12.ASM continue the construction.
 ASMA0.ASM: complete seed, identical to A12.ASM.
 Tnn.ASM and Xnn.ASM: exact acceptance/rejection inputs where applicable.
 VIEW.BAS inspects bytes; CHECK.BAT forwards filename arguments.
@@ -16,15 +17,18 @@ HELLO.ASM, MEMORY.ASM, COUNT.ASM: complete executable examples.
 
 Use your own DOS 3.10 and period GW-BASIC interpreter; note its banner.
 Build ASM86 from BOOTASM.BAS. Preserve it as ASMKEEP.COM.
-COPY A01.ASM SOURCE.ASM selects a checkpoint for CHECK ASMKEEP.
-Preserve the accepted RESULT.COM as A01.COM; use the same pattern
-for A02 through A12.
+Begin with A01A.ASM copied to SOURCE.ASM for CHECK ASMKEEP.
+Preserve RESULT.COM under the checkpoint name. Follow the six
+opening articles, then A01 through A12. A01C is a status-only
+command-reader probe. A01A/A01B still use fixed work names; A01D
+and later accept PSP names. A01E adds the selected result to OK.
 Require OK and PASS at every build. Preserve each source/executable.
 A03 through A06 copy data; inspect that output, never execute it.
 Only fixtures expressly identified as complete programs may be run.
 
 ASMA0.COM is 3740 bytes. Compare both self-assembly generations with
-its ASM86-built original. The seed defaults to SOURCE.ASM/RESULT.COM,
+its ASM86-built original. The seed accepts PSP source/result names, defaulting to
+SOURCE.ASM/RESULT.COM,
 1024-byte input/output blocks, 2048 symbols, sixteen-character names,
 120-character physical lines, and at most 65535 lines per pass.
 It runs in one full 64 KB segment and allocates no extra symbol pages.

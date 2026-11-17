@@ -1,6 +1,6 @@
 +++
-title = "05 \u00b7 Protecting recovery names"
-weight = 5
+title = "11 \u00b7 Protecting recovery names"
+weight = 11
 description = "Refuse an occupied temporary or backup name before creating output."
 download = "A05.ASM"
 aliases = ["/bootstrap/asm86a/05-protecting-recovery-names/"]

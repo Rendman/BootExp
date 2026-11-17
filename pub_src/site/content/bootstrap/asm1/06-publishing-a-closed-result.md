@@ -1,6 +1,6 @@
 +++
-title = "06 \u00b7 Publishing a closed result"
-weight = 6
+title = "12 \u00b7 Publishing a closed result"
+weight = 12
 description = "Rename a completed temporary file into its public name."
 download = "A06.ASM"
 aliases = ["/bootstrap/asm86a/06-publishing-a-closed-result/"]
@@ -199,7 +199,7 @@ ERROR 00000 CODE 6
 FAIL
 ```
 
-The accepted RESULT.COM must remain unchanged. Keep a copy and compare it with COMP if in doubt. Require a fresh OK before using any output.
+The accepted RESULT.COM must remain unchanged. Keep a copy and compare it with C:\DOS\FC.EXE /B if in doubt. Require a fresh OK before using any output.
 
 An unexpected PASS fails this rejection test.
 

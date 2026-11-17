@@ -441,10 +441,15 @@ two
 ```
 
 ```dos
+COPY T15.TXT HOLD.TXT
 CHECK E15 T15.TXT
 ```
 
-The screen must show one on the first row, two on the next and the help line on the last row. Press F10; CHECK must report PASS. COMP must still find EDIT.TXT identical to T15.TXT. An empty document displays blank document rows and leaves with PASS. A different exit key deliberately returns FAIL in this screen-only stopping test.
+The screen must show one on the first row, two on the next and the help line on the last row. Press F10; CHECK must report PASS. C:\DOS\FC.EXE /B must still find T15.TXT identical to HOLD.TXT. An empty document displays blank document rows and leaves with PASS. A different exit key deliberately returns FAIL in this screen-only stopping test.
+
+```dos
+C:\DOS\FC.EXE /B T15.TXT HOLD.TXT
+```
 
 ## If the check disagrees
 

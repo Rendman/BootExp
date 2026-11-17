@@ -1,17 +1,17 @@
 [
   {
     "number": 1,
-    "title": "Fixed work files",
-    "description": "Read source and result filenames from the PSP and name the accepted result in the report.",
-    "why": "Retain the completed assembler and let its source and result filenames come from the PSP while preparing the streaming construction.",
-    "explain": "Copy the completed ASM86 source. Keep its two passes, accepted language and whole-image output buffer. OPENFILE uses the selected source buffer; WRITEOUT uses the selected result buffer. With no arguments their defaults remain SOURCE.ASM and RESULT.COM. The success report prints the selected result name.\n\nThe two input passes still finish before output creation. Preserve ASMKEEP.COM as the preceding assembler. To build a checkpoint, copy its source to SOURCE.ASM, run CHECK ASMKEEP, then copy the accepted RESULT.COM to the checkpoint executable name.",
-    "fixture": "MOV DL,41H\nMOV AH,2\nINT 21H\nMOV AX,4C00H\nINT 21H\n",
-    "expected": "B241B402CD21B8004CCD21",
-    "program_output": "A",
+    "title": "Adding XOR to the arithmetic table",
+    "description": "Extend the shared arithmetic encoder with one explicitly documented table record.",
+    "why": "I need XOR for the symbol hash in ASM86. I can add that operation through the arithmetic machinery I already understand.",
+    "explain": "The preceding A01F source already selects PSP filenames, reports the selected result and records input-handle state. This step adds only XOR recognition. The instruction-table count changes from twenty-five to twenty-six, and one eight-byte record is appended before SRCNAME.\n\nThe first six bytes, 88,79,82,0,0,0, spell XOR with zero padding. The next byte, 4, selects the existing two-operand arithmetic path. The final byte, 6, is the operation selector, not an opcode byte to copy into the result. The register encoder computes selector times eight plus two plus the width bit, producing 32H for byte registers and 33H for word registers. The immediate encoder uses the same selector in the ModR/M operation field with 80H or 81H.\n\nAccepted forms are XOR between same-width registers, or a register and an immediate value, for bytes and words. Memory arithmetic is not added. A mismatched register width remains an error. No new emitter or filename routine is needed. The DB records after SRCNAME are filename and state data; the counted table lookup stops before them.\n\nThe required successor, ASM86A, uses XOR while hashing symbol names. Teaching it as a separate operation here makes that dependency explicit. Keep ASMKEEP as the ASM0 builder: the new source uses only instructions it already accepts, and the new mnemonic is represented by ordinary DB data.",
+    "fixture": "XOR AL,AL\nXOR AX,BX\nXOR AL,80H\nXOR AX,1234H\n",
+    "expected": "32C033C380F08081F03412",
+    "program_output": null,
     "program_exit": 0,
     "bad": {
       "kind": "source",
-      "text": "MOV AX,AL\n",
+      "text": "XOR AX,BL\n",
       "line": 1,
       "code": 1
     }

@@ -1,6 +1,6 @@
 +++
-title = "03 \u00b7 Copying a File in Small Blocks"
-weight = 3
+title = "09 \u00b7 Copying a File in Small Blocks"
+weight = 9
 description = "Copy a stream through a bounded output block and inspect the result."
 download = "A03.ASM"
 aliases = ["/bootstrap/asm86a/03-writing-an-output-block/"]

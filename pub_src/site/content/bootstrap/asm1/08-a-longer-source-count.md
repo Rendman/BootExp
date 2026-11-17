@@ -1,6 +1,6 @@
 +++
-title = "08 \u00b7 A longer source count"
-weight = 8
+title = "14 \u00b7 A longer source count"
+weight = 14
 description = "Keep source extent separate from the emitted image limit."
 download = "A08.ASM"
 aliases = ["/bootstrap/asm86a/08-a-longer-source-count/"]
@@ -162,7 +162,7 @@ ERROR 00001 CODE 1
 FAIL
 ```
 
-The accepted RESULT.COM must remain unchanged. Keep a copy and compare it with COMP if in doubt. Require a fresh OK before using any output.
+The accepted RESULT.COM must remain unchanged. Keep a copy and compare it with C:\DOS\FC.EXE /B if in doubt. Require a fresh OK before using any output.
 
 An unexpected PASS fails this rejection test.
 

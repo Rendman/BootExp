@@ -39,6 +39,7 @@ Require every fresh OK report and PASS before the following COPY. Preserve each 
 ## Select a document
 
 ```dos
+COPY T15.TXT HOLD.TXT
 CHECK E15 T15.TXT
 ```
 
@@ -48,14 +49,13 @@ Do not run two editor instances in the same work directory or change these files
 
 ## Inspect results
 
-Use CHECK immediately so a silent return is visibly PASS or FAIL. Use VIEW.BAS for the reported length and hexadecimal bytes. COMP compares a round trip against its preserved original:
+Use CHECK immediately so a silent return is visibly PASS or FAIL. Use VIEW.BAS for the reported length and hexadecimal bytes. FC compares a round trip against its preserved original:
 
 ```dos
-ECHO N>NO.TXT
-COMP T15.TXT T15.TXT <NO.TXT
+C:\DOS\FC.EXE /B T15.TXT HOLD.TXT
 ```
 
-NO.TXT answers N to COMP's request for another comparison. The screen services need the physical text screen and keyboard; redirecting ordinary DOS output does not supply key events or capture the screen. F10 leaves a screen probe or editor. After editing is introduced, Escape cancels the unsaved-changes question.
+Require FC to report no differences encountered. The /B switch compares every byte; the full path selects the DOS utility even when C:\DOS is absent from PATH. The screen services need the physical text screen and keyboard; redirecting ordinary DOS output does not supply key events or capture the screen. F10 leaves a screen probe or editor. After editing is introduced, Escape cancels the unsaved-changes question.
 
 ## Memory before entry
 

@@ -22,7 +22,7 @@ for c in json.loads((ROOT/'qa/compilers/rc-examples.json').read_text()):
  t+=fence('dos',f'COPY RESULT.COM {name}.COM')
  if c.get('files'):t+='Create IN.TXT with `ECHO A short copy.>IN.TXT`. '
  t+='CHECK '+name+' '+('displays '+json.dumps(c['output'])+' and ' if c['output'] else '')+'reports PASS. '
- if c.get('result_file'):t+='COMP IN.TXT OUT.TXT must report no differences; answer N to the compare-more-files question. An empty input and every possible byte value must also copy unchanged. '
+ if c.get('result_file'):t+='FC /B IN.TXT OUT.TXT must report no differences. An empty input and every possible byte value must also copy unchanged. '
  t+='\n\nFor a separate rejection, save BAD.RIL:\n\n'+fence('rill',c['bad'])+fence('dos','COPY BAD.RIL SOURCE.RIL\nCHECK R0')+f'Require `{c["error"]}` and FAIL. The accepted RESULT.IR must remain unchanged. An unexpected PASS fails the check. Restore the accepted source before building again.\n\n'
 write_page((ROOT/'site/content/bootstrap/rill/048-programs.md'),t)
 

@@ -61,9 +61,9 @@ A nonzero tool status immediately stops the batch with FAIL. Stop at
 that first error; old output never proves a new successful translation.
 A0.COM/I0.COM/R0.COM are the first RILL-written assembler/IR/compiler.
 A1/I1/R1 and A2/I2/R2 are the next two generations.
-ECHO N>NO.TXT answers COMP's compare-more-files question. Compare
+Compare
 A0.COM A1.COM, A0.COM A2.COM, I0.COM I1.COM, I0.COM I2.COM,
-R0.COM R1.COM, and R0.COM R2.COM, each with COMP and <NO.TXT.
+R0.COM R1.COM, and R0.COM R2.COM, each with FC /B.
 Every comparison must report no differences. Byte equality and fresh
 successful builds are separate checks.
 

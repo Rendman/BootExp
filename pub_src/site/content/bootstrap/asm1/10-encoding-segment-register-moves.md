@@ -1,6 +1,6 @@
 +++
-title = "10 \u00b7 Encoding segment-register moves"
-weight = 10
+title = "16 \u00b7 Encoding segment-register moves"
+weight = 16
 description = "Teach an instruction form before using it in a successor."
 download = "A10.ASM"
 aliases = ["/bootstrap/asm86a/10-encoding-segment-register-moves/"]
@@ -440,7 +440,7 @@ ERROR 00001 CODE 1
 FAIL
 ```
 
-The accepted RESULT.COM must remain unchanged. Keep a copy and compare it with COMP if in doubt. Require a fresh OK before using any output.
+The accepted RESULT.COM must remain unchanged. Keep a copy and compare it with C:\DOS\FC.EXE /B if in doubt. Require a fresh OK before using any output.
 
 An unexpected PASS fails this rejection test.
 

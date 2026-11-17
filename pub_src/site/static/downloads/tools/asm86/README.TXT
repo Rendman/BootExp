@@ -19,7 +19,7 @@ LONGSRC.BAS and SYMS.BAS: BASIC generators of source text only.
 
 Use your own DOS 3.10 and period GW-BASIC interpreter. Note its banner.
 Build ASM0 with BOOTASM.BAS; preserve it as ASMKEEP.COM.
-The ASM1 collection uses ASMKEEP to build A01 through A12.
+The ASM1 collection uses ASMKEEP for A01A-A01F, then A01-A12.
 The completed seed is 3740 bytes, with two matching self-builds.
 Keep the tested ASM1.COM to build A13-A33, A36, A37 and A40.
 

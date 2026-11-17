@@ -51,6 +51,6 @@ Inspect any pre-existing recovery names before a run. Source rejection preserves
 
 ## Observe the produced artifacts
 
-Inspect the actual assembly, IR, or executable made by each tool. Use the stated file lengths and bytes for encoding checks, and COMP for complete executable comparisons. A fixture intended for inspection is data; run a generated program only when its article identifies a complete program.
+Inspect the actual assembly, IR, or executable made by each tool. Use the stated file lengths and bytes for encoding checks, and `C:\DOS\FC.EXE /B` for complete executable comparisons. The commands name `C:\DOS\FC.EXE` directly so they also work when that directory is absent from PATH. Require `no differences encountered`. A fixture intended for inspection is data; run a generated program only when its article identifies a complete program.
 
 TMAKE.BAT begins with the preserved native ASMAKEEP.COM. It rebuilds the native IR translator, RILL0, and RILLBOOT, then produces RILL-tool generations zero, one, and two. The BASIC and native assembler constructions remain its prerequisites. Its source is printed in the build installment. The following comparison installment checks all six executable comparisons and runs a short RILL program with generation two. Preserve each generation until all comparisons agree.

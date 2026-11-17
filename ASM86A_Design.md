@@ -1,6 +1,6 @@
 # ASM86: the capacity-building bootstrap step
 
-Status: implemented and verified. The ASM1 collection has twelve native construction checkpoints, its own reference, and three complete programs. The following ASM86 collection has twenty-four construction checkpoints, a complete ladder exercise, a language/memory reference, and four complete programs. The streaming IR and systems RILL workbenches use this capacity to build a complete RILL-written toolchain; the initial smaller milestones remain separately named builders.
+Status: implemented and verified. The ASM1 collection has eighteen native construction checkpoints, its own reference, and three complete programs. The following ASM86 collection has twenty-four construction checkpoints, a complete ladder exercise, a language/memory reference, and four complete programs. The streaming IR and systems RILL workbenches use this capacity to build a complete RILL-written toolchain; the initial smaller milestones remain separately named builders.
 
 ## Position in the chain
 
@@ -30,7 +30,7 @@ The unchanged ASM0 directly builds the 3740-byte ASM1. ASM1 builds the 6433-byte
 
 The assemblers obtain input and output filenames from the PSP command tail without prompts. With no arguments they use the defaults above. The expanded IR86 and RILL workbenches likewise use `SOURCE.IR -> RESULT.ASM` and `SOURCE.RIL -> RESULT.IR`.
 
-Command-line filename selection begins in the first ASM1 construction and is retained in ASM86 and the later file tools. The initial interface accepts either no arguments, preserving the defaults above, or an input filename followed by an output filename. For example, the invocation `ASM1 INPUT.ASM OUTPUT.COM` selects both files without a prompt.
+Command-line filename selection is built in the opening ASM1 sequence: A01C probes the PSP reader, A01D connects the selected names to the file services, and A01E adds the selected result to the report. It is retained in ASM86 and the later file tools. The initial interface accepts either no arguments, preserving the defaults above, or an input filename followed by an output filename. For example, the invocation `ASM1 INPUT.ASM OUTPUT.COM` selects both files without a prompt.
 
 Read the length at PSP:80H and text at PSP:81H at startup. Accept bounded, unquoted 8.3 filenames without paths or switches initially; copy them into owned zero-terminated buffers before DOS services can reuse the command-tail area. Reject malformed argument counts, oversized names, and collisions among the source, output, ASMA.TMP and RESULT.BAK before creating output. Apply the existing publication and recovery rules to the selected output. For IR86 and RILL, command-tail access belongs in the native DOS binding.
 
@@ -171,9 +171,9 @@ Layout values are evaluated as words with checked context-specific narrowing. In
 
 ## Gradual construction order
 
-The published construction splits these capability groups into twelve ASM1 checkpoints and twenty-four ASM86 checkpoints, each ending with its own self-assembly handoff. The retained disk checkpoints are A01–A33, A36, A37, and A40; the ASM86 articles restart chapter numbering at 01 while retaining A13 as their first source filename. Both collections have their own workbench, language reference, programs, and source archive. The source generators and the shared checkpoint verification chain remain shared under pub_src/tools and pub_src/qa/asm86.
+The published construction splits these capability groups into eighteen ASM1 checkpoints and twenty-four ASM86 checkpoints, each ending with its own self-assembly handoff. The six opening sources are A01A–A01F; the retained disk checkpoints then continue with A01–A33, A36, A37, and A40; the ASM86 articles restart chapter numbering at 01 while retaining A13 as their first source filename. Both collections have their own workbench, language reference, programs, and source archive. The source generators and the shared checkpoint verification chain remain shared under pub_src/tools and pub_src/qa/asm86.
 
-1. Fixed source name and an owned temporary-file copy diagnostic; inspect file length and bytes rather than executing copied data.
+1. Six focused opening steps for explicit branch bridges, filename buffers and data layout, bounded PSP reading, source/result selection, result-name reporting and input-handle state. A01 then adds XOR through its arithmetic-table record and lookup count. Give every step its own explanation and byte or status check; preserve A01A–A01F as the incremental sources.
 2. Block input, with EOF, short reads, and boundary-crossing line endings.
 3. Block output, final partial flush, short writes, and close failures.
 4. Fixed result publication and recovery handling.

@@ -6,7 +6,11 @@ ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/asm1';D=ROOT/'site/do
 for p in [W,D,Q]:p.mkdir(parents=True,exist_ok=True)
 for name,group in [('BOOTASM.BAS','bootasm'),('ASM86.ASM','asm86'),('VIEW.BAS','bootasm'),('CHECK.BAT','bootasm'),('ASMA0.ASM','asm86a')]:shutil.copyfile(ROOT/'workbench'/directory_name(group)/name,W/name)
 syms=(ROOT/'workbench/asm86/SYMS.BAS').read_text().replace('10 N=8192','10 N=2048');(W/'SYMS.BAS').write_bytes(syms.replace('\n','\r\n').encode('ascii'))
+intro=json.loads((Q/'intro.json').read_text())
 files=['BOOTASM.BAS','ASM86.ASM','ASMA0.ASM','VIEW.BAS','CHECK.BAT','SYMS.BAS','README.TXT']
+for step in intro:
+ files.append(step['id']+'.ASM')
+ if 'fixture' in step:files.append('T'+step['id'][1:]+'.ASM')
 for c in json.loads((ROOT/'qa/asm86/checkpoints.json').read_text()):
  n=c['number']
  if n>12:continue
@@ -26,7 +30,8 @@ ASMA0 is the streaming seed collection, built directly by ASM86.
 Read its workbench, construction articles, reference, and programs.
 
 BOOTASM.BAS and ASM86.ASM: unchanged preceding bootstrap sources.
-A01.ASM through A12.ASM: complete seed construction checkpoints.
+A01A.ASM through A01F.ASM: six focused opening checkpoints.
+A01.ASM adds XOR; A02.ASM through A12.ASM continue the construction.
 ASMA0.ASM: complete seed, identical to A12.ASM.
 Tnn.ASM and Xnn.ASM: exact acceptance/rejection inputs where applicable.
 VIEW.BAS and CHECK.BAT: unchanged inspection and DOS status helpers.
@@ -35,15 +40,18 @@ HELLO.ASM, MEMORY.ASM, COUNT.ASM: complete executable examples.
 
 Use your own DOS 3.10 and period GW-BASIC interpreter; note its banner.
 Build ASM86 from BOOTASM.BAS. Preserve it as ASMKEEP.COM.
-COPY A01.ASM SOURCE.ASM selects a checkpoint for CHECK ASMKEEP.
-Preserve the accepted RESULT.COM as A01.COM; use the same pattern
-for A02 through A12.
+Begin with A01A.ASM copied to SOURCE.ASM for CHECK ASMKEEP.
+Preserve RESULT.COM under the checkpoint name. Follow the six
+opening articles, then A01 through A12. A01C is a status-only
+command-reader probe. A01A/A01B still use fixed work names; A01D
+and later accept PSP names. A01E adds the selected result to OK.
 Require OK and PASS at every build. Preserve each source/executable.
 A03 through A06 copy data; inspect that output, never execute it.
 Only fixtures expressly identified as complete programs may be run.
 
 ASMA0.COM is {seed_bytes} bytes. Compare both self-assembly generations with
-its ASM86-built original. The seed uses fixed SOURCE.ASM/RESULT.COM,
+its ASM86-built original. The seed accepts PSP source/result names, defaulting to
+SOURCE.ASM/RESULT.COM,
 1024-byte input/output blocks, 2048 symbols, sixteen-character names,
 120-character physical lines, and at most 65535 lines per pass.
 It runs in one full 64 KB segment and allocates no extra symbol pages.

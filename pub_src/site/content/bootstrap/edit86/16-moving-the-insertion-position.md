@@ -278,10 +278,15 @@ two
 ```
 
 ```dos
+COPY T16.TXT HOLD.TXT
 CHECK E16 T16.TXT
 ```
 
-Try arrows, Home, End, Page Up, Page Down, F6 and F7. The insertion cursor must remain in the document window. F2 saves an unchanged file. F10 returns CHECK PASS; COMP against T16.TXT must show no difference. At the first byte, Left does nothing; at EOF, Right does nothing.
+Try arrows, Home, End, Page Up, Page Down, F6 and F7. The insertion cursor must remain in the document window. F2 saves an unchanged file. F10 returns CHECK PASS; C:\DOS\FC.EXE /B against HOLD.TXT must show no difference. At the first byte, Left does nothing; at EOF, Right does nothing.
+
+```dos
+C:\DOS\FC.EXE /B T16.TXT HOLD.TXT
+```
 
 ## If the check disagrees
 

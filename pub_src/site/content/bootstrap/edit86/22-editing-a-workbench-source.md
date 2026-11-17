@@ -17,12 +17,12 @@ CHECK EDIT86 IR86.RIL
 Try F3 to find a routine name, F5 for another occurrence, and F6/F7 for document ends. On this first pass, make no changes; press F2 then F10. Require Saved on screen and CHECK PASS. Compare the complete file:
 
 ```dos
-COMP IR86.RIL HOLD.RIL <NO.TXT
+C:\DOS\FC.EXE /B IR86.RIL HOLD.RIL
 ```
 
 Require no difference, then inspect its length with VIEW.BAS. Repeat by passing a .BAS, .ASM and .IR source filename directly to EDIT86. This checks source round trips rather than adding a new display program. A source larger than 65535 bytes is still one document. The total occupied bytes must not exceed 262144, and a full document needs a deletion before growth.
 
-For an actual edit, keep HOLD.RIL, change the working document, save with F2 and leave with F10. The save replaces the selected source only after the temporary file is closed. After the Saved report, inspect and rebuild that same named source:
+For an actual edit, keep HOLD.RIL, change the working document, save with F2 and leave with F10. The save replaces the selected source only after the temporary file is closed. After the Saved report, inspect and rebuild that same named source.
 
 Build and test that changed source with the existing toolchain before replacing an accepted tool executable. Keep the old source and executable until that check passes. EDIT86 edits bytes; it does not validate RILL syntax or assemble source for you.
 

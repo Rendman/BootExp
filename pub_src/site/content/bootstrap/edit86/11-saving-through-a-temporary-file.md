@@ -381,10 +381,15 @@ two
 ```
 
 ```dos
+COPY T11.TXT HOLD.TXT
 CHECK E11 T11.TXT
 ```
 
-Require PASS and an unchanged document. Compare EDIT.TXT with T11.TXT using COMP. For rejection, create EDIT.TMP containing HOLD, run CHECK E11 and require FAIL with the recovery-file diagnostic. TYPE EDIT.TMP must still show HOLD and COMP must still find the document unchanged. Inspect and remove only that exercise recovery file before continuing.
+Require PASS and an unchanged document. Compare T11.TXT with HOLD.TXT using C:\DOS\FC.EXE /B. For rejection, create EDIT.TMP containing HOLD, run CHECK E11 T11.TXT and require FAIL with the recovery-file diagnostic. TYPE EDIT.TMP must still show HOLD and FC must still find the document unchanged. Inspect and remove only that exercise recovery file before continuing.
+
+```dos
+C:\DOS\FC.EXE /B T11.TXT HOLD.TXT
+```
 
 ## If the check disagrees
 

@@ -181,10 +181,15 @@ two
 ```
 
 ```dos
+COPY T12.TXT HOLD.TXT
 CHECK E12 T12.TXT
 ```
 
-Require PASS and an unchanged document by COMP against T12.TXT. The gap has moved to logical position five, but saving must still reproduce all ten bytes. Try a three-byte document: require FAIL with the shorter-than-gap diagnostic and preserve those input bytes. Restore the fixture.
+Require PASS and an unchanged document by C:\DOS\FC.EXE /B against HOLD.TXT. The gap has moved to logical position five, but saving must still reproduce all ten bytes. Try a three-byte document: require FAIL with the shorter-than-gap diagnostic and preserve those input bytes. Restore the fixture.
+
+```dos
+C:\DOS\FC.EXE /B T12.TXT HOLD.TXT
+```
 
 ## If the check disagrees
 

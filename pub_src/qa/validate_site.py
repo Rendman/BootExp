@@ -77,6 +77,14 @@ runpy.run_path(str(ROOT/'qa/link86/validate_publication.py'),run_name='__main__'
 runpy.run_path(str(ROOT/'qa/edit86/validate_publication.py'),run_name='__main__')
 for p in CONTENT.rglob('*.md'):
  text=p.read_text().lower()
+ for block in re.findall(r'```dos\n(.*?)\n```',text,re.S):
+  for command in block.splitlines():
+   words=command.split()
+   if not words:continue
+   if words[0]=='comp' or 'no.txt' in command:errors.append(f'{p}: obsolete comparison command')
+   if words[0].endswith('fc.exe') or words[0]=='fc':
+    if words[:2]!=[r'c:\dos\fc.exe','/b']:errors.append(f'{p}: comparison must select the binary DOS utility')
+    if len(words)>=4 and words[2]==words[3]:errors.append(f'{p}: comparison uses the same file twice')
  for forbidden in ('checksum','unicorn','python','automated regression','ai-generated','ai tools'):
   if forbidden in text:errors.append(f'{p}: production language {forbidden}')
 if errors:
@@ -91,5 +99,5 @@ rb_count=len(json.loads((ROOT/'qa/compilers/rb-files.json').read_text()))
 rc_count=len(json.loads((ROOT/'qa/reader-packages.json').read_text())['rill']['files'])
 link_count=len(json.loads((ROOT/'qa/link86/package-files.json').read_text()))
 edit_count=len(json.loads((ROOT/'qa/edit86/package-files.json').read_text()))
-text=f'PASS: {count} HTML files (including {redirect_count} article redirects); all local links, assets and anchors; 59 BOOTASM + {asm_count} ASM0 + {seed_count} ASM1 + {asma_count} ASM86 + {ir_count} IR86 + {rill_count} RILL0 + {rb_count} RILLBOOT + {rc_count} RILL + {tool_count} toolchain + {link_count} LINK86 + {edit_count} EDIT86 archive sources; ASCII/CRLF/8.3; all 17 BASIC, 28 ASM0, 12 ASM1, 24 ASM86, 23 IR86, 39 first RILL, 12 compiler-seed, 43 self-compiling RILL, 10 LINK86 and 20 EDIT86 printed edits reconstruct exact checkpoints; editorial exclusions.'
+text=f'PASS: {count} HTML files (including {redirect_count} article redirects); all local links, assets and anchors; 59 BOOTASM + {asm_count} ASM0 + {seed_count} ASM1 + {asma_count} ASM86 + {ir_count} IR86 + {rill_count} RILL0 + {rb_count} RILLBOOT + {rc_count} RILL + {tool_count} toolchain + {link_count} LINK86 + {edit_count} EDIT86 archive sources; ASCII/CRLF/8.3; all 17 BASIC, 28 ASM0, 18 ASM1, 24 ASM86, 23 IR86, 39 first RILL, 12 compiler-seed, 43 self-compiling RILL, 10 LINK86 and 20 EDIT86 printed edits reconstruct exact checkpoints; editorial exclusions.'
 print(text);(ROOT/'qa/site-results.txt').write_text(text+'\n')

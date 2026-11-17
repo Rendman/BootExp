@@ -273,6 +273,8 @@ def build_all():
   if c.get('bad',{}).get('kind')=='source':dos(W/f'X{n:02}.ASM',c['bad']['text'])
  dos(W/'ASMA0.ASM',source(12));dos(W/'ASM86A.ASM',source(40))
  (Q/'checkpoints.json').write_text(json.dumps(cases,indent=2)+'\n')
+ from asm1_steps import prepare
+ prepare()
  print('Prepared ASM86A manuscript source checkpoints, never executable bytes')
 
 if __name__=='__main__':build_all()

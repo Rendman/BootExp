@@ -152,7 +152,7 @@ FC 81 FC FE FF 74 03 E9 6E 06 E8 B4 06 81 F8 FF FF 75 03 E9 62 06 E8 BA 02 B4 4C
 COPY RESULT.COM ECOPY.COM
 ```
 
-Create IN.TXT with `ECHO A short copy.>IN.TXT`. CHECK ECOPY reports PASS. COMP IN.TXT OUT.TXT must report no differences; answer N to the compare-more-files question. An empty input and every possible byte value must also copy unchanged. 
+Create IN.TXT with `ECHO A short copy.>IN.TXT`. CHECK ECOPY reports PASS. C:\DOS\FC.EXE /B IN.TXT OUT.TXT must report no differences. An empty input and every possible byte value must also copy unchanged. 
 
 For a separate rejection, save BAD.RIL:
 

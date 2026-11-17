@@ -1,0 +1,731 @@
+[
+  {
+    "source": "A01A.ASM",
+    "base": "ASM0.ASM",
+    "page": "01a-reaching-error-handlers.md",
+    "chapter": 1,
+    "changes": [
+      {
+        "a1": 1080,
+        "a2": 1080,
+        "old": [],
+        "new": [
+          ""
+        ],
+        "context": [
+          "DB 74,78,69,0,0,0,8,117",
+          "DB 74,66,69,0,0,0,8,118",
+          "DB 74,65,0,0,0,0,8,119"
+        ],
+        "after": []
+      },
+      {
+        "a1": 783,
+        "a2": 784,
+        "old": [
+          "JE BYTEVALUE"
+        ],
+        "new": [
+          "JNE IMMEDWORD",
+          "JMP BYTEVALUE",
+          "IMMEDWORD:"
+        ],
+        "context": [
+          "MOV AL,[W1]",
+          "CMP AL,0",
+          "MOV AX,[VAL]"
+        ],
+        "after": [
+          "JMP EMITWORD",
+          ""
+        ]
+      },
+      {
+        "a1": 83,
+        "a2": 84,
+        "old": [
+          "JB FILEBAD"
+        ],
+        "new": [
+          "JAE ZWRITEOUT4",
+          "JMP FILEBAD",
+          "ZWRITEOUT4:"
+        ],
+        "context": [
+          "MOV BX,[HANDLE]",
+          "MOV AH,3EH",
+          "INT 21H"
+        ],
+        "after": [
+          "MOV DX,OKMSG",
+          "CALL TEXT"
+        ]
+      },
+      {
+        "a1": 79,
+        "a2": 80,
+        "old": [
+          "JNE FILEBAD"
+        ],
+        "new": [
+          "JE ZWRITEOUT3",
+          "JMP FILEBAD",
+          "ZWRITEOUT3:"
+        ],
+        "context": [
+          "INT 21H",
+          "JB FILEBAD",
+          "CMP AX,CX"
+        ],
+        "after": [
+          "MOV BX,[HANDLE]",
+          "MOV AH,3EH"
+        ]
+      },
+      {
+        "a1": 77,
+        "a2": 78,
+        "old": [
+          "JB FILEBAD"
+        ],
+        "new": [
+          "JAE ZWRITEOUT2",
+          "JMP FILEBAD",
+          "ZWRITEOUT2:"
+        ],
+        "context": [
+          "MOV DX,6000H",
+          "MOV AH,40H",
+          "INT 21H"
+        ],
+        "after": [
+          "CMP AX,CX",
+          "JNE FILEBAD"
+        ]
+      },
+      {
+        "a1": 69,
+        "a2": 70,
+        "old": [
+          "JB FILEBAD"
+        ],
+        "new": [
+          "JAE ZWRITEOUT1",
+          "JMP FILEBAD",
+          "ZWRITEOUT1:"
+        ],
+        "context": [
+          "MOV CX,0",
+          "MOV AH,3CH",
+          "INT 21H"
+        ],
+        "after": [
+          "MOV [HANDLE],AX",
+          "MOV BX,AX"
+        ]
+      },
+      {
+        "a1": 61,
+        "a2": 62,
+        "old": [
+          "JB FILEBAD"
+        ],
+        "new": [
+          "JAE INPUTCLOSED",
+          "JMP FILEBAD",
+          "INPUTCLOSED:"
+        ],
+        "context": [
+          "MOV BX,[HANDLE]",
+          "MOV AH,3EH",
+          "INT 21H"
+        ],
+        "after": [
+          "RET",
+          ""
+        ]
+      },
+      {
+        "a1": 0,
+        "a2": 1,
+        "old": [
+          "; ASM86 construction checkpoint. Plain BOOTASM source."
+        ],
+        "new": [
+          "; ASM86A construction checkpoint."
+        ],
+        "context": [],
+        "after": [
+          "START:",
+          "CLD"
+        ]
+      }
+    ]
+  },
+  {
+    "source": "A01B.ASM",
+    "base": "A01A.ASM",
+    "page": "01b-storing-file-names.md",
+    "chapter": 2,
+    "changes": [
+      {
+        "a1": 1093,
+        "a2": 1093,
+        "old": [],
+        "new": [
+          "SRCNAME:",
+          "DB 83,79,85,82,67,69,46,65,83,77,0,0,0",
+          "",
+          "RESNAME:",
+          "DB 82,69,83,85,76,84,46,67,79,77,0,0,0",
+          "",
+          "OUTPTR:",
+          "DW 24576",
+          ""
+        ],
+        "context": [
+          "DB 74,66,69,0,0,0,8,118",
+          "DB 74,65,0,0,0,0,8,119",
+          ""
+        ],
+        "after": []
+      },
+      {
+        "a1": 987,
+        "a2": 990,
+        "old": [
+          "",
+          "OUTPTR:",
+          "DW 24576"
+        ],
+        "new": [],
+        "context": [
+          "",
+          "PC:",
+          "DW 256"
+        ],
+        "after": [
+          "",
+          "SYMC:"
+        ]
+      },
+      {
+        "a1": 973,
+        "a2": 979,
+        "old": [
+          "FNAME:",
+          "DB 83,79,85,82,67,69,46,65,83,77,0",
+          "",
+          "RESNAME:",
+          "DB 82,69,83,85,76,84,46,67,79,77,0",
+          ""
+        ],
+        "new": [],
+        "context": [
+          "",
+          "DIVEND:",
+          ""
+        ],
+        "after": [
+          "HANDLE:",
+          "DW 0"
+        ]
+      },
+      {
+        "a1": 48,
+        "a2": 49,
+        "old": [
+          "MOV DX,FNAME"
+        ],
+        "new": [
+          "MOV DX,SRCNAME"
+        ],
+        "context": [
+          "JMP ERROR",
+          "",
+          "OPENFILE:"
+        ],
+        "after": [
+          "MOV AX,3D00H",
+          "INT 21H"
+        ]
+      }
+    ]
+  },
+  {
+    "source": "A01C.ASM",
+    "base": "A01B.ASM",
+    "page": "01c-reading-the-command-tail.md",
+    "chapter": 3,
+    "changes": [
+      {
+        "a1": 1093,
+        "a2": 1093,
+        "old": [],
+        "new": [
+          "CMDCOUNT:",
+          "DW 0",
+          "",
+          "CMDPTR:",
+          "DW 0",
+          "",
+          "CMDBUF:",
+          "DB 0,0,0,0,0,0,0,0,0,0,0,0,0",
+          "DB 0,0,0,0,0,0,0,0,0,0,0,0,0",
+          "DB 0,0,0,0,0,0,0,0,0,0,0,0,0"
+        ],
+        "context": [
+          "OUTPTR:",
+          "DW 24576",
+          ""
+        ],
+        "after": []
+      },
+      {
+        "a1": 953,
+        "a2": 953,
+        "old": [],
+        "new": [
+          "CMDPROBE:",
+          "MOV AX,0",
+          "MOV [LINENO],AX",
+          "CALL CMDINIT",
+          "CMP AX,2",
+          "JE PROBEOK",
+          "MOV AX,9",
+          "JMP ERROR",
+          "PROBEOK:",
+          "MOV AX,4C00H",
+          "INT 21H",
+          "",
+          "CMDINIT:",
+          "MOV SI,81H",
+          "MOV DI,CMDBUF",
+          "MOV [CMDPTR],DI",
+          "MOV AL,[80H]",
+          "MOV AH,0",
+          "MOV CX,AX",
+          "CMP CX,127",
+          "JB ZCMDINIT1",
+          "JMP CMDBAD",
+          "ZCMDINIT1:",
+          "CMDSKIP:",
+          "CMP CX,0",
+          "JNE ZCMDINIT2",
+          "JMP CMDDONE",
+          "ZCMDINIT2:",
+          "LODSB",
+          "DEC CX",
+          "CMP AL,32",
+          "JE CMDSKIP",
+          "CMP AL,9",
+          "JE CMDSKIP",
+          "MOV BX,[CMDCOUNT]",
+          "CMP BX,3",
+          "JB ZCMDINIT3",
+          "JMP CMDBAD",
+          "ZCMDINIT3:",
+          "INC BX",
+          "MOV [CMDCOUNT],BX",
+          "MOV BX,0",
+          "MOV DX,8",
+          "CMDCHAR:",
+          "CMP AL,46",
+          "JNE ZCMDINIT4",
+          "JMP CMDDOT",
+          "ZCMDINIT4:",
+          "CMP AL,97",
+          "JB CMDUP",
+          "CMP AL,122",
+          "JA CMDUP",
+          "SUB AL,32",
+          "CMDUP:",
+          "CMP AL,65",
+          "JB CMDNUM",
+          "CMP AL,90",
+          "JBE CMDPUT",
+          "CMDNUM:",
+          "CMP AL,48",
+          "JB CMDEXTRA",
+          "CMP AL,57",
+          "JBE CMDPUT",
+          "CMDEXTRA:",
+          "CMP AL,95",
+          "JE CMDPUT",
+          "CMP AL,45",
+          "JE ZCMDINIT5",
+          "JMP CMDBAD",
+          "ZCMDINIT5:",
+          "CMDPUT:",
+          "INC BX",
+          "CMP BX,DX",
+          "JBE ZCMDINIT6",
+          "JMP CMDBAD",
+          "ZCMDINIT6:",
+          "STOSB",
+          "JMP CMDNEXT",
+          "CMDDOT:",
+          "CMP DX,8",
+          "JE ZCMDINIT7",
+          "JMP CMDBAD",
+          "ZCMDINIT7:",
+          "CMP BX,0",
+          "JNE ZCMDINIT8",
+          "JMP CMDBAD",
+          "ZCMDINIT8:",
+          "MOV DX,3",
+          "MOV BX,0",
+          "STOSB",
+          "CMDNEXT:",
+          "CMP CX,0",
+          "JE CMDEND",
+          "LODSB",
+          "DEC CX",
+          "CMP AL,32",
+          "JE CMDEND",
+          "CMP AL,9",
+          "JE ZCMDINIT9",
+          "JMP CMDCHAR",
+          "ZCMDINIT9:",
+          "CMDEND:",
+          "CMP BX,0",
+          "JE CMDBAD",
+          "MOV AL,0",
+          "STOSB",
+          "MOV DI,[CMDPTR]",
+          "ADD DI,13",
+          "MOV [CMDPTR],DI",
+          "JMP CMDSKIP",
+          "CMDDONE:",
+          "MOV AX,[CMDCOUNT]",
+          "RET",
+          "CMDBAD:",
+          "MOV AX,65535",
+          "RET",
+          ""
+        ],
+        "context": [
+          "MOV AX,4C01H",
+          "INT 21H",
+          ""
+        ],
+        "after": [
+          "OKMSG:",
+          "DB 79,75,32,36"
+        ]
+      },
+      {
+        "a1": 8,
+        "a2": 8,
+        "old": [],
+        "new": [
+          "CALL CMDPROBE"
+        ],
+        "context": [
+          "MOV AX,7",
+          "JMP ERROR",
+          "ROOM:"
+        ],
+        "after": [
+          "MOV AL,1",
+          "MOV [PASS],AL"
+        ]
+      }
+    ]
+  },
+  {
+    "source": "A01D.ASM",
+    "base": "A01C.ASM",
+    "page": "01d-selecting-the-work-files.md",
+    "chapter": 4,
+    "changes": [
+      {
+        "a1": 1207,
+        "a2": 1207,
+        "old": [],
+        "new": [
+          "",
+          "BAKNAME:",
+          "DB 82,69,83,85,76,84,46,66,65,75,0"
+        ],
+        "context": [
+          "",
+          "RESNAME:",
+          "DB 82,69,83,85,76,84,46,67,79,77,0,0,0"
+        ],
+        "after": [
+          "",
+          "OUTPTR:"
+        ]
+      },
+      {
+        "a1": 1205,
+        "a2": 1205,
+        "old": [],
+        "new": [
+          "TMPNAME:",
+          "DB 65,83,77,65,46,84,77,80,0",
+          ""
+        ],
+        "context": [
+          "SRCNAME:",
+          "DB 83,79,85,82,67,69,46,65,83,77,0,0,0",
+          ""
+        ],
+        "after": [
+          "RESNAME:",
+          "DB 82,69,83,85,76,84,46,67,79,77,0,0,0"
+        ]
+      },
+      {
+        "a1": 1070,
+        "a2": 1070,
+        "old": [],
+        "new": [
+          "",
+          "CMDMATCH:",
+          "LODSB",
+          "MOV BX,DI",
+          "MOV AH,[BX]",
+          "CMP AL,AH",
+          "JNE CMDNO",
+          "INC DI",
+          "CMP AL,0",
+          "JNE CMDMATCH",
+          "MOV AX,1",
+          "RET",
+          "CMDNO:",
+          "MOV AX,0",
+          "RET",
+          "",
+          "CMDFILES:",
+          "CALL CMDINIT",
+          "CMP AX,0",
+          "JNE ZCMDFILES1",
+          "JMP CMDREADY",
+          "ZCMDFILES1:",
+          "CMP AX,2",
+          "JE ZCMDFILES2",
+          "JMP CMDFAIL",
+          "ZCMDFILES2:",
+          "MOV SI,CMDBUF",
+          "MOV DI,SRCNAME",
+          "CALL COPYZ",
+          "MOV SI,CMDBUF",
+          "ADD SI,13",
+          "MOV DI,RESNAME",
+          "CALL COPYZ",
+          "MOV SI,SRCNAME",
+          "MOV DI,RESNAME",
+          "CALL CMDMATCH",
+          "CMP AX,0",
+          "JE ZCMDFILES3",
+          "JMP CMDFAIL",
+          "ZCMDFILES3:",
+          "MOV SI,SRCNAME",
+          "MOV DI,TMPNAME",
+          "CALL CMDMATCH",
+          "CMP AX,0",
+          "JE ZCMDFILES4",
+          "JMP CMDFAIL",
+          "ZCMDFILES4:",
+          "MOV SI,SRCNAME",
+          "MOV DI,BAKNAME",
+          "CALL CMDMATCH",
+          "CMP AX,0",
+          "JNE CMDFAIL",
+          "MOV SI,RESNAME",
+          "MOV DI,TMPNAME",
+          "CALL CMDMATCH",
+          "CMP AX,0",
+          "JNE CMDFAIL",
+          "MOV SI,RESNAME",
+          "MOV DI,BAKNAME",
+          "CALL CMDMATCH",
+          "CMP AX,0",
+          "JNE CMDFAIL",
+          "CMDREADY:",
+          "RET",
+          "CMDFAIL:",
+          "MOV AX,9",
+          "JMP ERROR"
+        ],
+        "context": [
+          "CMDBAD:",
+          "MOV AX,65535",
+          "RET"
+        ],
+        "after": [
+          "",
+          "OKMSG:"
+        ]
+      },
+      {
+        "a1": 954,
+        "a2": 966,
+        "old": [
+          "CMDPROBE:",
+          "MOV AX,0",
+          "MOV [LINENO],AX",
+          "CALL CMDINIT",
+          "CMP AX,2",
+          "JE PROBEOK",
+          "MOV AX,9",
+          "JMP ERROR",
+          "PROBEOK:",
+          "MOV AX,4C00H",
+          "INT 21H",
+          ""
+        ],
+        "new": [],
+        "context": [
+          "MOV AX,4C01H",
+          "INT 21H",
+          ""
+        ],
+        "after": [
+          "CMDINIT:",
+          "MOV SI,81H"
+        ]
+      },
+      {
+        "a1": 8,
+        "a2": 9,
+        "old": [
+          "CALL CMDPROBE"
+        ],
+        "new": [
+          "CALL CMDFILES"
+        ],
+        "context": [
+          "MOV AX,7",
+          "JMP ERROR",
+          "ROOM:"
+        ],
+        "after": [
+          "MOV AL,1",
+          "MOV [PASS],AL"
+        ]
+      }
+    ]
+  },
+  {
+    "source": "A01E.ASM",
+    "base": "A01D.ASM",
+    "page": "01e-reporting-the-result-name.md",
+    "chapter": 5,
+    "changes": [
+      {
+        "a1": 1126,
+        "a2": 1126,
+        "old": [],
+        "new": [
+          "CMDTEXT:",
+          "LODSB",
+          "CMP AL,0",
+          "JE CMDTEXTEND",
+          "MOV DL,AL",
+          "MOV AH,2",
+          "INT 21H",
+          "JMP CMDTEXT",
+          "CMDTEXTEND:",
+          "RET",
+          ""
+        ],
+        "context": [
+          "MOV AX,9",
+          "JMP ERROR",
+          ""
+        ],
+        "after": [
+          "OKMSG:",
+          "DB 79,75,32,36"
+        ]
+      },
+      {
+        "a1": 97,
+        "a2": 97,
+        "old": [],
+        "new": [
+          "MOV SI,RESNAME",
+          "CALL CMDTEXT",
+          "MOV DL,32",
+          "MOV AH,2",
+          "INT 21H"
+        ],
+        "context": [
+          "ZWRITEOUT4:",
+          "MOV DX,OKMSG",
+          "CALL TEXT"
+        ],
+        "after": [
+          "MOV AX,[PC]",
+          "SUB AX,100H"
+        ]
+      }
+    ]
+  },
+  {
+    "source": "A01F.ASM",
+    "base": "A01E.ASM",
+    "page": "01f-remembering-an-open-input.md",
+    "chapter": 6,
+    "changes": [
+      {
+        "a1": 1285,
+        "a2": 1285,
+        "old": [],
+        "new": [
+          "INOPEN:",
+          "DB 0",
+          ""
+        ],
+        "context": [
+          "BAKNAME:",
+          "DB 82,69,83,85,76,84,46,66,65,75,0",
+          ""
+        ],
+        "after": [
+          "OUTPTR:",
+          "DW 24576"
+        ]
+      },
+      {
+        "a1": 65,
+        "a2": 65,
+        "old": [],
+        "new": [
+          "MOV AL,0",
+          "MOV [INOPEN],AL"
+        ],
+        "context": [
+          "JAE INPUTCLOSED",
+          "JMP FILEBAD",
+          "INPUTCLOSED:"
+        ],
+        "after": [
+          "RET",
+          ""
+        ]
+      },
+      {
+        "a1": 56,
+        "a2": 56,
+        "old": [],
+        "new": [
+          "MOV AL,1",
+          "MOV [INOPEN],AL"
+        ],
+        "context": [
+          "JMP FILEBAD",
+          "INPUTOPEN:",
+          "MOV [HANDLE],AX"
+        ],
+        "after": [
+          "RET",
+          ""
+        ]
+      }
+    ]
+  }
+]

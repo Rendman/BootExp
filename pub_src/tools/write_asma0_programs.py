@@ -5,8 +5,8 @@ import json
 ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/asm1';C=ROOT/'site/content/bootstrap/asm1'
 def fence(k,s):return '```'+k+'\n'+s.rstrip('\n')+'\n```\n\n'
 t='''+++
-title = "14 · Complete seed programs"
-weight = 14
+title = "20 · Complete seed programs"
+weight = 20
 description = "A terminated greeting, a byte copied through memory, and a short loop."
 download = "ASMA0.ZIP"
 +++

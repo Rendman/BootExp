@@ -18,16 +18,15 @@ Begin after TMAKE has completed successfully. Keep A0/A1/A2, I0/I1/I2, and R0/R1
 ## Compare the generations
 
 ```dos
-ECHO N>NO.TXT
-COMP A0.COM A1.COM <NO.TXT
-COMP A0.COM A2.COM <NO.TXT
-COMP I0.COM I1.COM <NO.TXT
-COMP I0.COM I2.COM <NO.TXT
-COMP R0.COM R1.COM <NO.TXT
-COMP R0.COM R2.COM <NO.TXT
+C:\DOS\FC.EXE /B A0.COM A1.COM
+C:\DOS\FC.EXE /B A0.COM A2.COM
+C:\DOS\FC.EXE /B I0.COM I1.COM
+C:\DOS\FC.EXE /B I0.COM I2.COM
+C:\DOS\FC.EXE /B R0.COM R1.COM
+C:\DOS\FC.EXE /B R0.COM R2.COM
 ```
 
-Every comparison must report no differences, and VIEW.BAS must show the corresponding length in the table. NO.TXT answers N if COMP asks whether to compare more files. Build status and byte comparison are independent observations.
+Every comparison must report no differences, and VIEW.BAS must show the corresponding length in the table. Build status and byte comparison are independent observations.
 
 ## Use generation two
 

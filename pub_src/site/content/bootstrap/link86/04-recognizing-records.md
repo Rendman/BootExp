@@ -184,7 +184,7 @@ FAIL
 ```
 
 ```dos
-COMP HOLD.COM RESULT.COM <NO.TXT
+C:\DOS\FC.EXE /B HOLD.COM RESULT.COM
 ```
 
-COMP must report no differences. An unexpected PASS fails the rejection. Require a fresh successful run before preserving any new output.
+FC must report no differences. An unexpected PASS fails the rejection. Require a fresh successful run before preserving any new output.

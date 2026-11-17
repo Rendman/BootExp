@@ -8,6 +8,10 @@ import json
 from functools import lru_cache
 
 ROOT=Path(__file__).resolve().parents[1]
+FC_BINARY=r'C:\DOS\FC.EXE /B'
+
+def binary_comparisons(text):
+ return text.replace('FC /B',FC_BINARY)
 PARSER='''CMDINIT:
 MOV SI,81H
 MOV DI,CMDBUF
@@ -388,7 +392,7 @@ def command_text(text,group='',batch=False):
   for ext in ('ASM','IR','RIL'):
    if plain.upper().startswith('REN SOURCE.'+ext+' '):plain=plain.replace('SOURCE.'+ext,sources[ext])
    if plain.upper().startswith('REN HOLD.') and plain.upper().endswith(' SOURCE.'+ext):plain=plain[:-len('SOURCE.'+ext)]+sources[ext]
-  if plain.upper().startswith(('COMP ','TYPE ','COPY ')) and 'EDIT.TXT' in plain:
+  if plain.upper().startswith(('FC /B ',FC_BINARY.upper()+' ','TYPE ','COPY ')) and 'EDIT.TXT' in plain:
    plain=plain.replace('EDIT.TXT',sources['TXT'])
    words=plain.split()
    if len(words)==3 and words[0].upper()=='COPY' and words[1].upper()==words[2].upper():continue
@@ -397,6 +401,9 @@ def command_text(text,group='',batch=False):
 
 def publication(group,text,path=None):
  if group in {'bootasm','asm86'}:return text  # metadata key asm86 is ASM0
+ # Early construction probes deliberately precede the completed PSP interface.
+ # Their examples already spell out the interface of that precise checkpoint.
+ if 'command_examples = "literal"' in text.split('+++',2)[1]:return text
  if path is not None and (path.stem in {'00-workbench','000-workbench'} or path.stem.endswith('reference')) and '## Command-line filenames' not in text:
   tool={'asma0':'ASM1','asm86a':'ASM86','ir86':'IR86','rill':'RILL0','rb':'RILLBOOT','rc':'RILL','toolchain':'RILL','link86':'LINK86','edit86':'EDIT86'}[group]
   if group=='link86':usage='CHECK LINK86 FIRST.OBJ SECOND.OBJ OUTPUT.COM';defaults='MAIN.OBJ, UTIL.OBJ and RESULT.COM';reserved='LINK.TMP and LINK.BAK'
@@ -427,4 +434,5 @@ def package(folder):
   text=re.sub(r'(?m)^VIEW\.BAS and CHECK\.BAT[^\n]*','VIEW.BAS inspects bytes; CHECK.BAT forwards filename arguments.',text)
   text+='\nCOMMAND-LINE FILENAMES\n'
   text+='From ASM1 onward, supply input and output filenames on the command\nline: CHECK tool INPUT.EXT OUTPUT.EXT. No arguments select the\ndefault work names. Use unquoted 8.3 filenames in the current directory;\npaths and switches are not accepted. Input, output, temporary and backup\nnames must be distinct. LINK86 takes two object names then the result;\nEDIT86 takes one document name and saves that same document.\n'
+  text=binary_comparisons(text)
   p.write_bytes(text.replace('\n','\r\n').encode('ascii'))

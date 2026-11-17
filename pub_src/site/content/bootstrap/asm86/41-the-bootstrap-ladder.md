@@ -32,16 +32,15 @@ Require `OK RESULT.COM 06433 bytes` and PASS before the copy. VIEW.BAS must show
 ```dos
 CHECK A0 ASM86.ASM RESULT.COM
 COPY RESULT.COM A1.COM
-ECHO N>NO.TXT
-COMP A0.COM A1.COM <NO.TXT
+C:\DOS\FC.EXE /B A0.COM A1.COM
 ```
 
-Require the same OK and PASS before the copy, and no COMP differences. SOURCE.ASM remains the complete ASM86 source. Build one more copy:
+Require the same OK and PASS before the copy, and no FC differences. SOURCE.ASM remains the complete ASM86 source. Build one more copy:
 
 ```dos
 CHECK A1 ASM86.ASM RESULT.COM
 COPY RESULT.COM A2.COM
-COMP A0.COM A2.COM <NO.TXT
+C:\DOS\FC.EXE /B A0.COM A2.COM
 ```
 
 Again require fresh OK and PASS and no differences. All three files have length 6433. Preserve A0.COM as ASMAKEEP.COM, together with ASM86.ASM and the preceding builder sources.

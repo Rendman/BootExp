@@ -292,10 +292,15 @@ two
 ```
 
 ```dos
+COPY T19.TXT HOLD.TXT
 CHECK E19 T19.TXT
 ```
 
-Press Delete, type !, then F4 twice. Save with F2 and leave with F10. Require CHECK PASS and COMP equality with T19.TXT. Another F4 reports that no earlier edit remains. Undoing a line ending restores both CR and LF; navigation alone never creates an undo record.
+Press Delete, type !, then F4 twice. Save with F2 and leave with F10. Require CHECK PASS and C:\DOS\FC.EXE /B equality between T19.TXT and HOLD.TXT. Another F4 reports that no earlier edit remains. Undoing a line ending restores both CR and LF; navigation alone never creates an undo record.
+
+```dos
+C:\DOS\FC.EXE /B T19.TXT HOLD.TXT
+```
 
 ## If the check disagrees
 

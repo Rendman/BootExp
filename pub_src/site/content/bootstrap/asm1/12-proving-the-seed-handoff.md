@@ -1,6 +1,6 @@
 +++
-title = "12 \u00b7 Proving the seed handoff"
-weight = 12
+title = "18 \u00b7 Proving the seed handoff"
+weight = 18
 description = "Build ASM1 with ASM0 and compare two self-assembly generations."
 download = "A12.ASM"
 aliases = ["/bootstrap/asm86a/12-proving-the-seed-handoff/"]
@@ -54,14 +54,13 @@ FC 81 FC FE FF 74 06 B8 07 00 E9 99 08 E8 F9 0B E8 66 09 B0 01 88 06 D6 0D B8 00
 Compare the first self-produced executable with the preserved original, then use that new generation to assemble the same source once more:
 
 ```dos
-ECHO N>NO.TXT
-COMP ASM1.COM RESULT.COM <NO.TXT
+C:\DOS\FC.EXE /B ASM1.COM RESULT.COM
 COPY RESULT.COM GEN1.COM
 CHECK GEN1 ASM1.ASM RESULT.COM
-COMP ASM1.COM RESULT.COM <NO.TXT
+C:\DOS\FC.EXE /B ASM1.COM RESULT.COM
 ```
 
-Both COMP comparisons must report no differences. GEN1 must report `OK RESULT.COM 03740 bytes` and PASS. COMP may ask whether to compare more files; NO.TXT answers N. Keep the original ASM1.COM separately.
+Both FC comparisons must report no differences. GEN1 must report `OK RESULT.COM 03740 bytes` and PASS. Keep the original ASM1.COM separately.
 
 I put the matching generations beside the ASM0-built copy, still under its own name. Looking back at the memory sketch, I can account for the space I have reused and the file routines doing the work. ASM1 can reproduce itself with that arrangement.
 
@@ -86,7 +85,7 @@ ERROR 00001 CODE 1
 FAIL
 ```
 
-The accepted RESULT.COM must remain unchanged. Keep a copy and compare it with COMP if in doubt. Require a fresh OK before using any output.
+The accepted RESULT.COM must remain unchanged. Keep a copy and compare it with C:\DOS\FC.EXE /B if in doubt. Require a fresh OK before using any output.
 
 An unexpected PASS fails this rejection test.
 

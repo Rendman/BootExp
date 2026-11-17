@@ -8,7 +8,7 @@ first=assemble((ROOT/'workbench/asm0/ASM86.COM').read_bytes(),(W/'ASMA0.ASM').re
 assert first.exitcode==0 and first.files['ASMA0.COM']==seed
 for _ in range(2):
  r=run_assembler(seed,(W/'ASMA0.ASM').read_bytes());assert r.exitcode==0 and r.files['RESULT.COM']==seed
-logs.append('PASS ASMA0: unchanged ASM86 builds the seed; two seed self-builds reproduce 3342 bytes')
+logs.append(f'PASS ASMA0: unchanged ASM86 builds the seed; two seed self-builds reproduce {len(seed)} bytes')
 for name,expected,before,after,code in [('HELLO',b'Hello\r\n','INT 21H','INT 256',4),('MEMORY',b'M','MOV AL,[BX]','MOV AX,AL',1),('COUNT',b'012','JB AGAIN','JB 400H',4)]:
  source=(W/(name+'.ASM')).read_text();r=run_assembler(seed,source);assert r.exitcode==0,(name,r.output)
  image=r.files['RESULT.COM'];target=AssemblerMachine().run(image);assert target.exitcode==0 and target.output==expected,(name,target.output)

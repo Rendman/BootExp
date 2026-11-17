@@ -1,0 +1,7 @@
+PASS A01A: ASM0 build and focused fixed checks
+PASS A01B: ASM0 build and focused fixed checks
+PASS A01C: ASM0 build and focused probe checks
+PASS A01D: ASM0 build and focused selected checks
+PASS A01E: ASM0 build and focused selected checks
+PASS A01F: ASM0 build and focused selected checks
+PASS A01: separate XOR step retains the established executable and checks register/immediate bytes and width rejection

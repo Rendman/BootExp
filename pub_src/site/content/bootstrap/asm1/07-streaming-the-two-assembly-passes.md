@@ -1,6 +1,6 @@
 +++
-title = "07 \u00b7 Streaming the two assembly passes"
-weight = 7
+title = "13 \u00b7 Streaming the two assembly passes"
+weight = 13
 description = "Return to the assembler with no complete image buffer."
 download = "A07.ASM"
 aliases = ["/bootstrap/asm86a/07-streaming-the-two-assembly-passes/"]
@@ -286,7 +286,7 @@ ERROR 00001 CODE 1
 FAIL
 ```
 
-The accepted RESULT.COM must remain unchanged. Keep a copy and compare it with COMP if in doubt. Require a fresh OK before using any output.
+The accepted RESULT.COM must remain unchanged. Keep a copy and compare it with C:\DOS\FC.EXE /B if in doubt. Require a fresh OK before using any output.
 
 An unexpected PASS fails this rejection test.
 

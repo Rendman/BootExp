@@ -1,6 +1,6 @@
 +++
-title = "02 \u00b7 Reading a File in Blocks"
-weight = 2
+title = "08 \u00b7 Reading a File in Blocks"
+weight = 8
 description = "Refill a small block instead of making a DOS call for every byte."
 download = "A02.ASM"
 cartoon = "asm86a-press.png"
@@ -241,7 +241,7 @@ ERROR 00001 CODE 1
 FAIL
 ```
 
-The accepted RESULT.COM must remain unchanged. Keep a copy and compare it with COMP if in doubt. Require a fresh OK before using any output.
+The accepted RESULT.COM must remain unchanged. Keep a copy and compare it with C:\DOS\FC.EXE /B if in doubt. Require a fresh OK before using any output.
 
 An unexpected PASS fails this rejection test.
 

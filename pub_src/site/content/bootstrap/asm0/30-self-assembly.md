@@ -31,11 +31,10 @@ SOURCE.ASM still contains the exact assembler source. Require `OK 02431 bytes` a
 
 ```dos
 COPY RESULT.COM SELF.COM
-ECHO N>NO.TXT
-COMP ASMKEEP.COM SELF.COM <NO.TXT
+C:\DOS\FC.EXE /B ASMKEEP.COM SELF.COM
 ```
 
-COMP must report no differences. NO.TXT answers N if the DOS utility asks whether to compare more files. The native tool reads SOURCE.ASM and writes RESULT.COM without console input. Keep ASMKEEP.COM separately named so the output cannot overwrite the running builder.
+FC must report `no differences encountered`. The `/B` switch compares every byte, including bytes which are not printable text. The full path finds FC even when `C:\DOS` is absent from the current PATH. The native tool reads SOURCE.ASM and writes RESULT.COM without console input. Keep ASMKEEP.COM separately named so the output cannot overwrite the running builder.
 
 The comparison reports no differences. I read the filenames again: one copy came from BOOTASM, and the other from the assembler I just built. I keep the BASIC-built copy untouched while I try the second generation.
 
@@ -49,7 +48,7 @@ Require `OK 02431 bytes` and PASS, then preserve and compare the second generati
 
 ```dos
 COPY RESULT.COM AGAIN.COM
-COMP SELF.COM AGAIN.COM <NO.TXT
+C:\DOS\FC.EXE /B SELF.COM AGAIN.COM
 ```
 
 Both generated files must be exactly 2,431 bytes and match every byte of the BASIC-built executable. A failed assembly is not a new generation, even if an older RESULT.COM remains on disk.

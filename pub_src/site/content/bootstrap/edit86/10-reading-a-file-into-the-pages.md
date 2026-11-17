@@ -421,7 +421,7 @@ two
 CHECK E10 T10.TXT
 ```
 
-Require PASS. The diagnostic expects ten file bytes and the first byte 6F. It makes no output file. Copy `123` without a line ending over EDIT.TXT and repeat: require FAIL. Restore the fixture before continuing. A missing file is an empty new document in the retained reader, but this diagnostic intentionally rejects a length other than ten.
+Require PASS. The diagnostic expects ten file bytes and the first byte 6F. It makes no output file. Copy `123` without a line ending over T10.TXT and repeat: require FAIL. Restore the fixture before continuing. A missing file is an empty new document in the retained reader, but this diagnostic intentionally rejects a length other than ten.
 
 ## If the check disagrees
 

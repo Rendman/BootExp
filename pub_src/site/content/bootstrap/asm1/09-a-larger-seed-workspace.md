@@ -1,6 +1,6 @@
 +++
-title = "09 \u00b7 A larger seed workspace"
-weight = 9
+title = "15 \u00b7 A larger seed workspace"
+weight = 15
 description = "Separate the resident image, I/O blocks, symbols, and stack."
 download = "A09.ASM"
 aliases = ["/bootstrap/asm86a/09-a-larger-seed-workspace/"]
@@ -860,7 +860,7 @@ ERROR 00001 CODE 1
 FAIL
 ```
 
-The accepted RESULT.COM must remain unchanged. Keep a copy and compare it with COMP if in doubt. Require a fresh OK before using any output.
+The accepted RESULT.COM must remain unchanged. Keep a copy and compare it with C:\DOS\FC.EXE /B if in doubt. Require a fresh OK before using any output.
 
 ## Fill the symbol table
 

@@ -24,7 +24,7 @@ for size in [61184,61185]:
 logs.append('PASS A23 exact image boundary and overflow rejection')
 # The assembler collection stops at its own self-assembly handoff.
 text=(C/'41-the-bootstrap-ladder.md').read_text()
-for command in ['CHECK ASM1','CHECK A0','CHECK A1','COMP A0.COM A1.COM <NO.TXT','COMP A0.COM A2.COM <NO.TXT']:assert command in text
+for command in ['CHECK ASM1','CHECK A0','CHECK A1',r'C:\DOS\FC.EXE /B A0.COM A1.COM',r'C:\DOS\FC.EXE /B A0.COM A2.COM']:assert command in text
 assert str(len((W/'ASM86A.COM').read_bytes())) in text
 logs.append('PASS printed assembler handoff preserves all builders and compares both self-generations')
 (Q/'reader-results.txt').write_text('\n'.join(logs)+'\n');print('\n'.join(logs))

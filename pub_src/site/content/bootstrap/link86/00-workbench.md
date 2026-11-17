@@ -52,8 +52,4 @@ Early reader checkpoints use only MAIN.OBJ and report success through CHECK.BAT.
 
 VIEW.BAS reports file lengths and hexadecimal bytes. Encoding fixtures are data for inspection; execute only the complete L09 and L10 linked programs. A zero-byte result is valid for inspection and is never a runnable program.
 
-```dos
-ECHO N>NO.TXT
-```
-
-NO.TXT answers N when COMP asks whether to compare more files. Each rejection check preserves the accepted RESULT.COM as HOLD.COM and compares it afterward. CHECK must report FAIL for that input. An older output is never evidence of a new successful link. Inspect pre-existing LINK.TMP or LINK.BAK before running a publishing checkpoint; failed publication can retain recovery files.
+Use C:\DOS\FC.EXE /B for complete byte comparisons and require no differences encountered. The full C:\DOS path finds the utility independently of PATH. Each rejection check preserves the accepted RESULT.COM as HOLD.COM and compares it afterward. CHECK must report FAIL for that input. An older output is never evidence of a new successful link. Inspect pre-existing LINK.TMP or LINK.BAK before running a publishing checkpoint; failed publication can retain recovery files.
