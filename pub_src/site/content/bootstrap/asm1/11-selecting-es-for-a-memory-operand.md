@@ -19,19 +19,15 @@ LOADMEM and STOREMEM emit prefix 26H before the ordinary MOV encoding. An ES ove
 
 ## Enter the source
 
-Copy `A10.ASM` to `A11.ASM`. Apply the following edits **from the bottom of the old file upward**. Physical positions locate an edit in the unchanged old file; use the nearby label and printed context to identify it. Keep all other source. The Z labels are ordinary implementation labels for explicit short-branch bridges.
+Copy `A10.ASM` to `A11.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1 near `SEGOPERAND:`
+### Change 1 · `SEGREGISTER:`
 
-Unchanged source immediately before this edit:
+Find the unique label `SEGREGISTER:`. Insert the new source immediately before this existing label:
 
 ```asm
-JNE SEGREGISTER
-POP AX
-JMP TWOBAD
+SEGREGISTER:
 ```
-
-Insert after old physical line 1206.
 
 Insert:
 
@@ -49,24 +45,22 @@ MOV [PREFIX],AL
 RET
 ```
 
-The following old source stays in place:
+### Change 2 · `SEGOPERAND:`
+
+Find the unique label `SEGOPERAND:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-SEGREGISTER:
-POP SI
-```
-
-### Change 2 near `SEGOPERAND:`
-
-Unchanged source immediately before this edit:
-
-```asm
+SEGOPERAND:
+MOV [SEGCODE],AX
+PUSH SI
+CALL SCAN
+MOV AL,[4080H]
 CMP AL,58
 JNE SEGREGISTER
 POP AX
 ```
 
-Insert after old physical line 1205.
+The edit begins immediately after that unchanged block.
 
 Insert:
 
@@ -74,13 +68,6 @@ Insert:
 MOV AX,[SEGCODE]
 CMP AX,16
 JE SEGES
-```
-
-The following old source stays in place:
-
-```asm
-JMP TWOBAD
-SEGREGISTER:
 ```
 
 ## Build the stopping point

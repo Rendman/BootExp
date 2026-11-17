@@ -19,7 +19,7 @@ Keep the initial ASM0-built executable while making both comparisons. The seed h
 
 ## Enter the source
 
-Copy `A11.ASM` to `A12.ASM`. The tested source is retained without edits. This stopping point proves the executable handoff.
+Copy `A11.ASM` to `A12.ASM`. The instructions and data are retained without edits. This stopping point proves the executable handoff.
 
 ## Build the stopping point
 

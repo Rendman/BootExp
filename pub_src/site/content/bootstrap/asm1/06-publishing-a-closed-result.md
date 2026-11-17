@@ -19,18 +19,15 @@ A failed backup removal also prevents OK. DOS rename is not atomic replacement, 
 
 ## Enter the source
 
-Copy `A05.ASM` to `A06.ASM`. Apply the following edits **from the bottom of the old file upward**. Physical positions locate an edit in the unchanged old file; use the nearby label and printed context to identify it. Keep all other source. The Z labels are ordinary implementation labels for explicit short-branch bridges.
+Copy `A05.ASM` to `A06.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1 near `PREFLIGHTOK:`
+### Change 1 · `CLEANUP:`
 
-Unchanged source immediately before this edit:
+Find the unique label `CLEANUP:`. Insert the new source immediately before this existing label:
 
 ```asm
-PREFLIGHTOK:
-RET
+CLEANUP:
 ```
-
-Insert after old physical line 1045.
 
 Insert:
 
@@ -89,65 +86,50 @@ COMMITDONE:
 RET
 ```
 
-The following old source stays in place:
+### Change 2 · `COPYDONE:`
+
+Find the unique label `COPYDONE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CLEANUP:
-MOV AL,[INOPEN]
-```
-
-### Change 2 near `COPYDONE:`
-
-Unchanged source immediately before this edit:
-
-```asm
+COPYDONE:
+CALL CLOSEFILE
+CALL FLUSH
 CALL CLOSEOUT
 MOV DX,OKMSG
 CALL TEXT
 ```
 
-Remove this exact source at old physical positions 35–35:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 MOV SI,TMPNAME
 ```
 
-Replace it with:
+With:
 
 ```asm
 MOV SI,RESNAME
 ```
 
-The following old source stays in place:
+### Change 3 · `COPYDONE:`
+
+Find the unique label `COPYDONE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CALL CMDTEXT
-MOV DL,32
-```
-
-### Change 3 near `COPYDONE:`
-
-Unchanged source immediately before this edit:
-
-```asm
+COPYDONE:
 CALL CLOSEFILE
 CALL FLUSH
 CALL CLOSEOUT
 ```
 
-Insert after old physical line 32.
+The edit begins immediately after that unchanged block.
 
 Insert:
 
 ```asm
 CALL COMMIT
-```
-
-The following old source stays in place:
-
-```asm
-MOV DX,OKMSG
-CALL TEXT
 ```
 
 ## Build the stopping point

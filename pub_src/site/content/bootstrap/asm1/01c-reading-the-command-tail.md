@@ -56,44 +56,39 @@ ECHO Use CHECK name [filenames]
 
 ## Enter the source
 
-Copy A01B.ASM to A01C.ASM. Apply these edits from the bottom of the old file upward. Physical positions locate the old source; the context identifies the exact edit. Keep all other source.
+Copy A01B.ASM to A01C.ASM. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1
+### Change 1 · `OUTPTR:`
 
-Unchanged source immediately before the edit:
+Find the unique label `OUTPTR:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 OUTPTR:
 DW 24576
 ```
 
-Insert after old physical line 1093.
+The edit begins immediately after that unchanged block.
 
 Insert:
 
 ```asm
 CMDCOUNT:
 DW 0
-
 CMDPTR:
 DW 0
-
 CMDBUF:
 DB 0,0,0,0,0,0,0,0,0,0,0,0,0
 DB 0,0,0,0,0,0,0,0,0,0,0,0,0
 DB 0,0,0,0,0,0,0,0,0,0,0,0,0
 ```
 
-### Change 2
+### Change 2 · `OKMSG:`
 
-Unchanged source immediately before the edit:
+Find the unique label `OKMSG:`. Insert the new source immediately before this existing label:
 
 ```asm
-MOV AX,4C01H
-INT 21H
+OKMSG:
 ```
-
-Insert after old physical line 953.
 
 Insert:
 
@@ -109,7 +104,6 @@ JMP ERROR
 PROBEOK:
 MOV AX,4C00H
 INT 21H
-
 CMDINIT:
 MOV SI,81H
 MOV DI,CMDBUF
@@ -216,36 +210,20 @@ MOV AX,65535
 RET
 ```
 
-The following old source stays in place:
+### Change 3 · `ROOM:`
+
+Find the unique label `ROOM:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-OKMSG:
-DB 79,75,32,36
-```
-
-### Change 3
-
-Unchanged source immediately before the edit:
-
-```asm
-MOV AX,7
-JMP ERROR
 ROOM:
 ```
 
-Insert after old physical line 8.
+The edit begins immediately after that unchanged block.
 
 Insert:
 
 ```asm
 CALL CMDPROBE
-```
-
-The following old source stays in place:
-
-```asm
-MOV AL,1
-MOV [PASS],AL
 ```
 
 ## Build this stopping point

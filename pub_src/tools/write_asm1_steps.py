@@ -1,6 +1,6 @@
 """Publish the small source edits leading from ASM0 to the named-file assembler."""
 from pathlib import Path
-from difflib import SequenceMatcher
+from assembly_edits import patch
 import json
 from asm1_steps import ROOT,BASE,STEPS
 from command_files import CHECKER
@@ -21,7 +21,7 @@ An 8086 conditional jump has a signed byte displacement, measured from the follo
 
 These are explicit source bridges. We are not adding a new long-conditional spelling to the assembler. The file paths use JAE to skip an error JMP when carry is clear; the short-write test uses JE to skip its error JMP when the counts agree. INPUTCLOSED and the four ZWRITEOUT labels name those nearby landing points. IMMEDWORD makes the byte-versus-word immediate choice with the same pattern. The Z labels are ordinary labels, not generated instruction forms.
 
-Some branches already fit their present routines. We choose the wider source pattern here so later report and file-handling additions do not rely on that spare reach. No new error category or encoding routine is introduced. The opening comment identifies the construction source and emits no bytes.
+Some branches already fit their present routines. We choose the wider source pattern here so later report and file-handling additions do not rely on that spare reach. No new error category or encoding routine is introduced. Comments and blank lines are left to the reader; they emit no bytes.
 ''',
 'A01B':'''I will need two independently saved names. Before reading the command line, I give each name a place in the assembler's data and follow the existing file calls to those places.
 
@@ -97,20 +97,6 @@ This checkpoint records ownership state; it does not yet add cleanup, deletion o
 The new byte lives between BAKNAME and OUTPTR. OUTPTR still contains 6000H, and the complete-image output buffer remains in use. No opcode-table record is added here.
 ''',
 }
-
-def patch(previous,lines):
- changes=[];text='Apply these edits from the bottom of the old file upward. Physical positions locate the old source; the context identifies the exact edit. Keep all other source.\n\n'
- for i,(_,a,b,c,d) in enumerate(reversed([x for x in SequenceMatcher(None,previous,lines,autojunk=False).get_opcodes() if x[0]!='equal']),1):
-  before=previous[max(0,a-3):a];after=previous[b:b+2];old=previous[a:b];new=lines[c:d]
-  text+=f'### Change {i}\n\n'
-  if before:text+='Unchanged source immediately before the edit:\n\n'+fence('asm','\n'.join(before))
-  if old:text+=f'Remove old physical positions {a+1}–{b}:\n\n'+fence('asm','\n'.join(old))
-  else:text+=f'Insert after old physical line {a}.\n\n'
-  if new:text+=('Replace with:\n\n' if old else 'Insert:\n\n')+fence('asm','\n'.join(new))
-  else:text+='There is no replacement source.\n\n'
-  if after:text+='The following old source stays in place:\n\n'+fence('asm','\n'.join(after))
-  changes.append(dict(a1=a,a2=b,old=old,new=new,context=before,after=after))
- return text,changes
 
 def publish():
  facts=json.loads((Q/'intro.json').read_text());previous=BASE.splitlines();oldfile='ASM0.ASM';patches=[]

@@ -19,48 +19,33 @@ An 8086 conditional jump has a signed byte displacement, measured from the follo
 
 These are explicit source bridges. We are not adding a new long-conditional spelling to the assembler. The file paths use JAE to skip an error JMP when carry is clear; the short-write test uses JE to skip its error JMP when the counts agree. INPUTCLOSED and the four ZWRITEOUT labels name those nearby landing points. IMMEDWORD makes the byte-versus-word immediate choice with the same pattern. The Z labels are ordinary labels, not generated instruction forms.
 
-Some branches already fit their present routines. We choose the wider source pattern here so later report and file-handling additions do not rely on that spare reach. No new error category or encoding routine is introduced. The opening comment identifies the construction source and emits no bytes.
+Some branches already fit their present routines. We choose the wider source pattern here so later report and file-handling additions do not rely on that spare reach. No new error category or encoding routine is introduced. Comments and blank lines are left to the reader; they emit no bytes.
 
 
 ## Enter the source
 
-Copy ASM0.ASM to A01A.ASM. Apply these edits from the bottom of the old file upward. Physical positions locate the old source; the context identifies the exact edit. Keep all other source.
+Copy ASM0.ASM to A01A.ASM. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1
+### Change 1 · `IMMEDVALUE:`
 
-Unchanged source immediately before the edit:
-
-```asm
-DB 74,78,69,0,0,0,8,117
-DB 74,66,69,0,0,0,8,118
-DB 74,65,0,0,0,0,8,119
-```
-
-Insert after old physical line 1080.
-
-Insert:
+Find the unique label `IMMEDVALUE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-
-```
-
-### Change 2
-
-Unchanged source immediately before the edit:
-
-```asm
+IMMEDVALUE:
 MOV AL,[W1]
 CMP AL,0
 MOV AX,[VAL]
 ```
 
-Remove old physical positions 784–784:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE BYTEVALUE
 ```
 
-Replace with:
+With:
 
 ```asm
 JNE IMMEDWORD
@@ -68,29 +53,41 @@ JMP BYTEVALUE
 IMMEDWORD:
 ```
 
-The following old source stays in place:
+### Change 2 · `WRITEOUT:`
+
+Find the unique label `WRITEOUT:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-JMP EMITWORD
-```
-
-### Change 3
-
-Unchanged source immediately before the edit:
-
-```asm
+WRITEOUT:
+MOV DX,RESNAME
+MOV CX,0
+MOV AH,3CH
+INT 21H
+JB FILEBAD
+MOV [HANDLE],AX
+MOV BX,AX
+MOV CX,[PC]
+SUB CX,100H
+MOV DX,6000H
+MOV AH,40H
+INT 21H
+JB FILEBAD
+CMP AX,CX
+JNE FILEBAD
 MOV BX,[HANDLE]
 MOV AH,3EH
 INT 21H
 ```
 
-Remove old physical positions 84–84:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JB FILEBAD
 ```
 
-Replace with:
+With:
 
 ```asm
 JAE ZWRITEOUT4
@@ -98,30 +95,37 @@ JMP FILEBAD
 ZWRITEOUT4:
 ```
 
-The following old source stays in place:
+### Change 3 · `WRITEOUT:`
+
+Find the unique label `WRITEOUT:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV DX,OKMSG
-CALL TEXT
-```
-
-### Change 4
-
-Unchanged source immediately before the edit:
-
-```asm
+WRITEOUT:
+MOV DX,RESNAME
+MOV CX,0
+MOV AH,3CH
+INT 21H
+JB FILEBAD
+MOV [HANDLE],AX
+MOV BX,AX
+MOV CX,[PC]
+SUB CX,100H
+MOV DX,6000H
+MOV AH,40H
 INT 21H
 JB FILEBAD
 CMP AX,CX
 ```
 
-Remove old physical positions 80–80:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JNE FILEBAD
 ```
 
-Replace with:
+With:
 
 ```asm
 JE ZWRITEOUT3
@@ -129,30 +133,35 @@ JMP FILEBAD
 ZWRITEOUT3:
 ```
 
-The following old source stays in place:
+### Change 4 · `WRITEOUT:`
+
+Find the unique label `WRITEOUT:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV BX,[HANDLE]
-MOV AH,3EH
-```
-
-### Change 5
-
-Unchanged source immediately before the edit:
-
-```asm
+WRITEOUT:
+MOV DX,RESNAME
+MOV CX,0
+MOV AH,3CH
+INT 21H
+JB FILEBAD
+MOV [HANDLE],AX
+MOV BX,AX
+MOV CX,[PC]
+SUB CX,100H
 MOV DX,6000H
 MOV AH,40H
 INT 21H
 ```
 
-Remove old physical positions 78–78:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JB FILEBAD
 ```
 
-Replace with:
+With:
 
 ```asm
 JAE ZWRITEOUT2
@@ -160,30 +169,27 @@ JMP FILEBAD
 ZWRITEOUT2:
 ```
 
-The following old source stays in place:
+### Change 5 · `WRITEOUT:`
+
+Find the unique label `WRITEOUT:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMP AX,CX
-JNE FILEBAD
-```
-
-### Change 6
-
-Unchanged source immediately before the edit:
-
-```asm
+WRITEOUT:
+MOV DX,RESNAME
 MOV CX,0
 MOV AH,3CH
 INT 21H
 ```
 
-Remove old physical positions 70–70:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JB FILEBAD
 ```
 
-Replace with:
+With:
 
 ```asm
 JAE ZWRITEOUT1
@@ -191,62 +197,31 @@ JMP FILEBAD
 ZWRITEOUT1:
 ```
 
-The following old source stays in place:
+### Change 6 · `CLOSEFILE:`
+
+Find the unique label `CLOSEFILE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV [HANDLE],AX
-MOV BX,AX
-```
-
-### Change 7
-
-Unchanged source immediately before the edit:
-
-```asm
+CLOSEFILE:
 MOV BX,[HANDLE]
 MOV AH,3EH
 INT 21H
 ```
 
-Remove old physical positions 62–62:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JB FILEBAD
 ```
 
-Replace with:
+With:
 
 ```asm
 JAE INPUTCLOSED
 JMP FILEBAD
 INPUTCLOSED:
-```
-
-The following old source stays in place:
-
-```asm
-RET
-```
-
-### Change 8
-
-Remove old physical positions 1–1:
-
-```asm
-; ASM86 construction checkpoint. Plain BOOTASM source.
-```
-
-Replace with:
-
-```asm
-; ASM86A construction checkpoint.
-```
-
-The following old source stays in place:
-
-```asm
-START:
-CLD
 ```
 
 ## Build this stopping point

@@ -24,114 +24,109 @@ OPTAB still has twenty-five records. Its counted lookup ends before SRCNAME. The
 
 ## Enter the source
 
-Copy A01A.ASM to A01B.ASM. Apply these edits from the bottom of the old file upward. Physical positions locate the old source; the context identifies the exact edit. Keep all other source.
+Copy A01A.ASM to A01B.ASM. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1
+### Change 1 · `OPTAB:`
 
-Unchanged source immediately before the edit:
+Find the unique label `OPTAB:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+OPTAB:
+DB 68,66,0,0,0,0,1,0
+DB 68,87,0,0,0,0,1,1
+DB 82,69,84,0,0,0,2,195
+DB 67,76,68,0,0,0,2,252
+DB 76,79,68,83,66,0,2,172
+DB 83,84,79,83,66,0,2,170
+DB 77,79,86,0,0,0,3,0
+DB 65,68,68,0,0,0,4,0
+DB 79,82,0,0,0,0,4,1
+DB 65,78,68,0,0,0,4,4
+DB 83,85,66,0,0,0,4,5
+DB 67,77,80,0,0,0,4,7
+DB 73,78,67,0,0,0,5,64
+DB 68,69,67,0,0,0,5,72
+DB 80,85,83,72,0,0,5,80
+DB 80,79,80,0,0,0,5,88
+DB 73,78,84,0,0,0,6,205
+DB 67,65,76,76,0,0,7,232
+DB 74,77,80,0,0,0,7,233
+DB 74,66,0,0,0,0,8,114
+DB 74,65,69,0,0,0,8,115
+DB 74,69,0,0,0,0,8,116
+DB 74,78,69,0,0,0,8,117
 DB 74,66,69,0,0,0,8,118
 DB 74,65,0,0,0,0,8,119
 ```
 
-Insert after old physical line 1093.
+The edit begins immediately after that unchanged block.
 
 Insert:
 
 ```asm
 SRCNAME:
 DB 83,79,85,82,67,69,46,65,83,77,0,0,0
-
 RESNAME:
 DB 82,69,83,85,76,84,46,67,79,77,0,0,0
-
 OUTPTR:
 DW 24576
 ```
 
-### Change 2
+### Change 2 · `PC:`
 
-Unchanged source immediately before the edit:
+Find the unique label `PC:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-
 PC:
 DW 256
 ```
 
-Remove old physical positions 988–990:
+The edit begins immediately after that unchanged block.
+
+Remove this existing source:
 
 ```asm
-
 OUTPTR:
 DW 24576
 ```
 
-There is no replacement source.
+Keep the following `SYMC:` label and the source after it in place.
 
-The following old source stays in place:
+### Change 3 · `FNAME:`
 
-```asm
+Find the unique label `FNAME:`. The old block below starts at that label.
 
-SYMC:
-```
-
-### Change 3
-
-Unchanged source immediately before the edit:
-
-```asm
-
-DIVEND:
-```
-
-Remove old physical positions 974–979:
+Remove this existing source:
 
 ```asm
 FNAME:
 DB 83,79,85,82,67,69,46,65,83,77,0
-
 RESNAME:
 DB 82,69,83,85,76,84,46,67,79,77,0
 ```
 
-There is no replacement source.
+Keep the following `HANDLE:` label and the source after it in place.
 
-The following old source stays in place:
+### Change 4 · `OPENFILE:`
 
-```asm
-HANDLE:
-DW 0
-```
-
-### Change 4
-
-Unchanged source immediately before the edit:
+Find the unique label `OPENFILE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-JMP ERROR
-
 OPENFILE:
 ```
 
-Remove old physical positions 49–49:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 MOV DX,FNAME
 ```
 
-Replace with:
+With:
 
 ```asm
 MOV DX,SRCNAME
-```
-
-The following old source stays in place:
-
-```asm
-MOV AX,3D00H
-INT 21H
 ```
 
 ## Build this stopping point

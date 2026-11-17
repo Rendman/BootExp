@@ -6,19 +6,25 @@ import sys
 sys.path.insert(0,str(ROOT/'tools'))
 from project_paths import directory_name
 import runpy
-program=runpy.run_path(str(ROOT/'qa/asm1/validate_steps.py'))['reconstruct']();cases=json.loads((Q/'checkpoints.json').read_text())
+label_checks=runpy.run_path(str(ROOT/'qa/asm1/validate_steps.py'))
+program=label_checks['reconstruct']();cases=json.loads((Q/'checkpoints.json').read_text())
 for stage,case in zip(json.loads((Q/'article-patches.json').read_text()),cases):
  n=stage['number'];collection=stage['collection'];chapter=stage['chapter'];text=(C.parent/directory_name(collection)/stage['page']).read_text();
  assert collection==('asma0' if n<=12 else 'asm86a') and chapter==(n+6 if n<=12 else 1+[c['number'] for c in cases if c['number']>12].index(n))
  if n==13:assert stage['base']=='ASMA0.ASM'
- sections=re.split(r'### Change \d+[^\n]*\n',text)[1:]
- assert len(sections)==len(stage['changes']),(n,'printed edit count')
- for section,change in zip(sections,stage['changes']):
-  blocks=re.findall(r'```asm\n(.*?)\n```',section,re.S);a,b=change['a1'],change['a2']
-  assert program[a:b]==change['old'],(n,'old source')
-  expected=['\n'.join(change[k]).rstrip('\n') for k in ['context','old','new','after'] if change[k]]
-  assert blocks[:len(expected)]==expected,(n,'printed source/context differs')
-  program[a:b]=change['new']
+ if stage.get('edit_style')=='labels':
+  program=label_checks['apply_label_edits'](program,stage,text)
+  assert program==label_checks['code']((W/f'A{n:02}.ASM').read_text().splitlines()),(n,'label reconstruction')
+  program=(W/f'A{n:02}.ASM').read_text().splitlines()
+ else:
+  sections=re.split(r'### Change \d+[^\n]*\n',text)[1:]
+  assert len(sections)==len(stage['changes']),(n,'printed edit count')
+  for section,change in zip(sections,stage['changes']):
+   blocks=re.findall(r'```asm\n(.*?)\n```',section,re.S);a,b=change['a1'],change['a2']
+   assert program[a:b]==change['old'],(n,'old source')
+   expected=['\n'.join(change[k]).rstrip('\n') for k in ['context','old','new','after'] if change[k]]
+   assert blocks[:len(expected)]==expected,(n,'printed source/context differs')
+   program[a:b]=change['new']
  assert program==(W/f'A{n:02}.ASM').read_text().splitlines(),(n,'printed reconstruction')
  assert f'CHECK A{n:02}' in text and 'FAIL' in text and 'PASS' in text,(n,'visible checks')
  assert f'{case["binary_bytes"]:05} bytes' in text,(n,'build count')

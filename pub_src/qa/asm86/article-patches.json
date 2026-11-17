@@ -7,42 +7,43 @@
     "base": "A01F.ASM",
     "changes": [
       {
-        "a1": 1276,
-        "a2": 1276,
+        "a1": 1201,
+        "a2": 1201,
+        "anchor": "SRCNAME",
+        "placement": "before_label",
+        "landmark": [
+          "SRCNAME:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "DB 88,79,82,0,0,0,4,6"
         ],
-        "context": [
-          "DB 74,78,69,0,0,0,8,117",
-          "DB 74,66,69,0,0,0,8,118",
-          "DB 74,65,0,0,0,0,8,119"
-        ],
-        "after": [
-          "",
-          "SRCNAME:"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 563,
-        "a2": 564,
+        "a1": 546,
+        "a2": 547,
+        "anchor": "INSTRUCTION",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "INSTRUCTION:",
+          "DEC SI",
+          "MOV BX,OPTAB"
+        ],
         "old": [
           "MOV CX,25"
         ],
         "new": [
           "MOV CX,26"
         ],
-        "context": [
-          "INSTRUCTION:",
-          "DEC SI",
-          "MOV BX,OPTAB"
-        ],
-        "after": [
-          "MOV AX,8",
-          "CALL LOOK"
-        ]
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 2,
@@ -52,30 +53,38 @@
     "base": "A01.ASM",
     "changes": [
       {
-        "a1": 1290,
-        "a2": 1290,
+        "a1": 1210,
+        "a2": 1210,
+        "anchor": "INOPEN",
+        "placement": "before_label",
+        "landmark": [
+          "INOPEN:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "RDPOS:",
           "DW 0",
-          "",
           "RDLEN:",
-          "DW 0",
-          ""
+          "DW 0"
         ],
-        "context": [
-          "BAKNAME:",
-          "DB 82,69,83,85,76,84,46,66,65,75,0",
-          ""
-        ],
-        "after": [
-          "INOPEN:",
-          "DB 0"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 119,
-        "a2": 123,
+        "a1": 113,
+        "a2": 117,
+        "anchor": "NEXTBYTE",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "NEXTBYTE:",
+          "MOV BX,[HANDLE]",
+          "MOV CX,1",
+          "MOV DX,CHAR",
+          "MOV AH,3FH",
+          "INT 21H"
+        ],
         "old": [
           "JAE BYTEOK",
           "MOV AX,6",
@@ -104,19 +113,19 @@
           "BUFFEREND:",
           "MOV AX,0"
         ],
-        "context": [
-          "MOV DX,CHAR",
-          "MOV AH,3FH",
-          "INT 21H"
-        ],
-        "after": [
-          "RET",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 115,
-        "a2": 117,
+        "a1": 109,
+        "a2": 111,
+        "anchor": "NEXTBYTE",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "NEXTBYTE:",
+          "MOV BX,[HANDLE]"
+        ],
         "old": [
           "MOV CX,1",
           "MOV DX,CHAR"
@@ -125,19 +134,18 @@
           "MOV DX,5000H",
           "MOV CX,1024"
         ],
-        "context": [
-          "",
-          "NEXTBYTE:",
-          "MOV BX,[HANDLE]"
-        ],
-        "after": [
-          "MOV AH,3FH",
-          "INT 21H"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 114,
-        "a2": 114,
+        "a1": 108,
+        "a2": 108,
+        "anchor": "NEXTBYTE",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "NEXTBYTE:"
+        ],
         "old": [],
         "new": [
           "MOV AX,[RDPOS]",
@@ -145,35 +153,34 @@
           "CMP AX,DX",
           "JB BUFFERBYTE"
         ],
-        "context": [
-          "RET",
-          "",
-          "NEXTBYTE:"
-        ],
-        "after": [
-          "MOV BX,[HANDLE]",
-          "MOV CX,1"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 22,
-        "a2": 22,
+        "a1": 21,
+        "a2": 21,
+        "anchor": "PASSSTART",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "PASSSTART:",
+          "MOV AX,100H",
+          "MOV [PC],AX",
+          "MOV AX,6000H",
+          "MOV [OUTPTR],AX",
+          "MOV AX,0",
+          "MOV [LINENO],AX"
+        ],
         "old": [],
         "new": [
           "MOV [RDPOS],AX",
           "MOV [RDLEN],AX"
         ],
-        "context": [
-          "MOV [OUTPTR],AX",
-          "MOV AX,0",
-          "MOV [LINENO],AX"
-        ],
-        "after": [
-          "MOV [ENDED],AL",
-          "MOV [SKIPLF],AL"
-        ]
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 3,
@@ -183,8 +190,12 @@
     "base": "A02.ASM",
     "changes": [
       {
-        "a1": 1321,
-        "a2": 1323,
+        "a1": 1238,
+        "a2": 1240,
+        "anchor": "OUTPTR",
+        "placement": "at_label",
+        "landmark": [],
+        "context": [],
         "old": [
           "OUTPTR:",
           "DW 24576"
@@ -192,48 +203,42 @@
         "new": [
           "OUTOPEN:",
           "DB 0",
-          "",
           "OWNTMP:",
           "DB 0"
         ],
-        "context": [
-          "INOPEN:",
-          "DB 0",
-          ""
-        ],
-        "after": [
-          "",
-          "CMDCOUNT:"
-        ]
+        "after": [],
+        "end_anchor": "CMDCOUNT"
       },
       {
-        "a1": 1318,
-        "a2": 1318,
+        "a1": 1236,
+        "a2": 1236,
+        "anchor": "INOPEN",
+        "placement": "before_label",
+        "landmark": [
+          "INOPEN:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "OUTCNT:",
           "DW 0",
-          "",
           "OUTHANDLE:",
-          "DW 0",
-          ""
+          "DW 0"
         ],
-        "context": [
-          "RDLEN:",
-          "DW 0",
-          ""
-        ],
-        "after": [
-          "INOPEN:",
-          "DB 0"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 984,
-        "a2": 984,
+        "a1": 944,
+        "a2": 944,
+        "anchor": "CMDINIT",
+        "placement": "before_label",
+        "landmark": [
+          "CMDINIT:"
+        ],
+        "context": [],
         "old": [],
         "new": [
-          "",
           "CREATEOUT:",
           "MOV DX,TMPNAME",
           "MOV CX,0",
@@ -257,7 +262,6 @@
           "MOV AL,0",
           "MOV [OUTOPEN],AL",
           "RET",
-          "",
           "FLUSH:",
           "PUSH AX",
           "PUSH BX",
@@ -286,57 +290,55 @@
           "POP AX",
           "RET"
         ],
-        "context": [
-          "CALL TEXT",
-          "MOV AX,4C01H",
-          "INT 21H"
-        ],
-        "after": [
-          "",
-          "CMDINIT:"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 919,
-        "a2": 922,
+        "a1": 883,
+        "a2": 886,
+        "anchor": "IMAGEFULL",
+        "placement": "at_label",
+        "landmark": [],
+        "context": [],
         "old": [
           "IMAGEFULL:",
           "MOV AX,5",
           "JMP ERROR"
         ],
         "new": [],
-        "context": [
-          "POP BX",
-          "POP AX",
-          "RET"
-        ],
-        "after": [
-          "",
-          "COPYZ:"
-        ]
+        "after": [],
+        "end_anchor": "COPYZ"
       },
       {
-        "a1": 913,
-        "a2": 916,
+        "a1": 877,
+        "a2": 880,
+        "anchor": "COUNTBYTE",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "COUNTBYTE:",
+          "MOV BX,[PC]",
+          "INC BX",
+          "MOV [PC],BX"
+        ],
         "old": [
           "MOV BX,[OUTPTR]",
           "INC BX",
           "MOV [OUTPTR],BX"
         ],
         "new": [],
-        "context": [
-          "MOV BX,[PC]",
-          "INC BX",
-          "MOV [PC],BX"
-        ],
-        "after": [
-          "POP BX",
-          "POP AX"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 909,
-        "a2": 909,
+        "a1": 873,
+        "a2": 873,
+        "anchor": "COUNTBYTE",
+        "placement": "before_label",
+        "landmark": [
+          "COUNTBYTE:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "MOV BX,[OUTCNT]",
@@ -346,19 +348,26 @@
           "JB COUNTBYTE",
           "CALL FLUSH"
         ],
-        "context": [
-          "JNE COUNTBYTE",
-          "MOV BX,[OUTPTR]",
-          "MOV [BX],AL"
-        ],
-        "after": [
-          "COUNTBYTE:",
-          "MOV BX,[PC]"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 907,
-        "a2": 908,
+        "a1": 871,
+        "a2": 872,
+        "anchor": "EMIT",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "EMIT:",
+          "PUSH AX",
+          "PUSH BX",
+          "MOV BX,[PC]",
+          "CMP BX,2100H",
+          "JAE IMAGEFULL",
+          "MOV AH,[PASS]",
+          "CMP AH,2",
+          "JNE COUNTBYTE"
+        ],
         "old": [
           "MOV BX,[OUTPTR]"
         ],
@@ -366,19 +375,21 @@
           "MOV BX,[OUTCNT]",
           "ADD BX,6000H"
         ],
-        "context": [
-          "MOV AH,[PASS]",
-          "CMP AH,2",
-          "JNE COUNTBYTE"
-        ],
-        "after": [
-          "MOV [BX],AL",
-          "COUNTBYTE:"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 902,
-        "a2": 904,
+        "a1": 866,
+        "a2": 868,
+        "anchor": "EMIT",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "EMIT:",
+          "PUSH AX",
+          "PUSH BX",
+          "MOV BX,[PC]"
+        ],
         "old": [
           "CMP BX,2100H",
           "JAE IMAGEFULL"
@@ -390,22 +401,22 @@
           "JMP ERROR",
           "EMITROOM:"
         ],
-        "context": [
-          "PUSH AX",
-          "PUSH BX",
-          "MOV BX,[PC]"
-        ],
-        "after": [
-          "MOV AH,[PASS]",
-          "CMP AH,2"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 71,
-        "a2": 113,
+        "a1": 67,
+        "a2": 108,
+        "anchor": "INPUTCLOSED",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "INPUTCLOSED:",
+          "MOV AL,0",
+          "MOV [INOPEN],AL"
+        ],
         "old": [
           "RET",
-          "",
           "WRITEOUT:",
           "MOV DX,RESNAME",
           "MOV CX,0",
@@ -448,19 +459,19 @@
           "CALL TEXT"
         ],
         "new": [],
-        "context": [
-          "INPUTCLOSED:",
-          "MOV AL,0",
-          "MOV [INOPEN],AL"
-        ],
-        "after": [
-          "RET",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 36,
-        "a2": 43,
+        "a1": 35,
+        "a2": 42,
+        "anchor": "PASSEND",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "PASSEND:",
+          "CALL CLOSEFILE"
+        ],
         "old": [
           "MOV AL,[PASS]",
           "ADD AL,1",
@@ -486,19 +497,20 @@
           "MOV DX,BYTEMSG",
           "CALL TEXT"
         ],
-        "context": [
-          "JMP NEXTLINE",
-          "PASSEND:",
-          "CALL CLOSEFILE"
-        ],
-        "after": [
-          "MOV AX,4C00H",
-          "INT 21H"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 30,
-        "a2": 35,
+        "a1": 29,
+        "a2": 34,
+        "anchor": "NEXTLINE",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "NEXTLINE:",
+          "CALL READLINE",
+          "CMP AX,0"
+        ],
         "old": [
           "JE PASSEND",
           "MOV SI,2200H",
@@ -513,19 +525,16 @@
           "JMP COPYBYTE",
           "COPYDONE:"
         ],
-        "context": [
-          "NEXTLINE:",
-          "CALL READLINE",
-          "CMP AX,0"
-        ],
-        "after": [
-          "CALL CLOSEFILE",
-          "MOV AL,[PASS]"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 27,
-        "a2": 29,
+        "a1": 26,
+        "a2": 28,
+        "anchor": "NEXTLINE",
+        "placement": "at_label",
+        "landmark": [],
+        "context": [],
         "old": [
           "NEXTLINE:",
           "CALL READLINE"
@@ -534,19 +543,20 @@
           "COPYBYTE:",
           "CALL NEXTBYTE"
         ],
-        "context": [
-          "MOV [ENDED],AL",
-          "MOV [SKIPLF],AL",
-          "CALL OPENFILE"
-        ],
-        "after": [
-          "CMP AX,0",
-          "JE PASSEND"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 18,
-        "a2": 26,
+        "a1": 17,
+        "a2": 25,
+        "anchor": "PASSSTART",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "PASSSTART:",
+          "MOV AX,100H",
+          "MOV [PC],AX"
+        ],
         "old": [
           "MOV AX,6000H",
           "MOV [OUTPTR],AX",
@@ -562,19 +572,22 @@
           "MOV [PASS],AL",
           "CALL CREATEOUT"
         ],
-        "context": [
-          "PASSSTART:",
-          "MOV AX,100H",
-          "MOV [PC],AX"
-        ],
-        "after": [
-          "CALL OPENFILE",
-          "NEXTLINE:"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 12,
-        "a2": 16,
+        "a1": 11,
+        "a2": 15,
+        "anchor": "ROOM",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "ROOM:",
+          "CALL CMDFILES",
+          "MOV AL,1",
+          "MOV [PASS],AL",
+          "MOV AX,0"
+        ],
         "old": [
           "MOV [SYMC],AX",
           "MOV AX,3000H",
@@ -587,35 +600,29 @@
           "MOV [OUTCNT],AX",
           "MOV [LINENO],AX"
         ],
-        "context": [
-          "MOV AL,1",
-          "MOV [PASS],AL",
-          "MOV AX,0"
-        ],
-        "after": [
-          "MOV AX,100H",
-          "MOV [PC],AX"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 9,
-        "a2": 11,
+        "a1": 8,
+        "a2": 10,
+        "anchor": "ROOM",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "ROOM:",
+          "CALL CMDFILES"
+        ],
         "old": [
           "MOV AL,1",
           "MOV [PASS],AL"
         ],
         "new": [],
-        "context": [
-          "JMP ERROR",
-          "ROOM:",
-          "CALL CMDFILES"
-        ],
-        "after": [
-          "MOV AX,0",
-          "MOV [SYMC],AX"
-        ]
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 4,
@@ -625,58 +632,61 @@
     "base": "A03.ASM",
     "changes": [
       {
-        "a1": 1347,
-        "a2": 1347,
+        "a1": 1259,
+        "a2": 1259,
+        "anchor": "CMDCOUNT",
+        "placement": "before_label",
+        "landmark": [
+          "CMDCOUNT:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "HAVEBAK:",
           "DB 0",
-          "",
           "KEEPFILES:",
           "DB 0",
-          "",
           "CLEANFAIL:",
-          "DB 0",
-          ""
+          "DB 0"
         ],
-        "context": [
-          "OWNTMP:",
-          "DB 0",
-          ""
-        ],
-        "after": [
-          "CMDCOUNT:",
-          "DW 0"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 1326,
-        "a2": 1326,
+        "a1": 1245,
+        "a2": 1245,
+        "anchor": "RDPOS",
+        "placement": "before_label",
+        "landmark": [
+          "RDPOS:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "RECOVERMSG:",
           "DB 82,101,99,111,118,101,114,121,58,32,105,110,115,112,101,99",
           "DB 116,32,65,83,77,65,46,84,77,80,32,97,110,100,32,82",
-          "DB 69,83,85,76,84,46,66,65,75,13,10,36",
-          ""
+          "DB 69,83,85,76,84,46,66,65,75,13,10,36"
         ],
-        "context": [
-          "BAKNAME:",
-          "DB 82,69,83,85,76,84,46,66,65,75,0",
-          ""
-        ],
-        "after": [
-          "RDPOS:",
-          "DW 0"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 997,
-        "a2": 997,
+        "a1": 956,
+        "a2": 956,
+        "anchor": "FLUSHDONE",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "FLUSHDONE:",
+          "POP DX",
+          "POP CX",
+          "POP BX",
+          "POP AX"
+        ],
         "old": [],
         "new": [
           "RET",
-          "",
           "CLEANUP:",
           "MOV AL,[INOPEN]",
           "CMP AL,0",
@@ -712,19 +722,32 @@
           "MOV [CLEANFAIL],AL",
           "CLEANEND:"
         ],
-        "context": [
-          "POP CX",
-          "POP BX",
-          "POP AX"
-        ],
-        "after": [
-          "RET",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 944,
-        "a2": 944,
+        "a1": 905,
+        "a2": 905,
+        "anchor": "ERROR",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "ERROR:",
+          "MOV [ERRCODE],AL",
+          "MOV DX,ERRMSG",
+          "CALL TEXT",
+          "MOV AX,[LINENO]",
+          "CALL NUMBER",
+          "MOV DX,CODEMSG",
+          "CALL TEXT",
+          "MOV AL,[ERRCODE]",
+          "ADD AL,48",
+          "MOV DL,AL",
+          "MOV AH,2",
+          "INT 21H",
+          "MOV DX,NEWLINE",
+          "CALL TEXT"
+        ],
         "old": [],
         "new": [
           "MOV AL,[CLEANFAIL]",
@@ -738,34 +761,28 @@
           "CALL TEXT",
           "ERROREXIT:"
         ],
-        "context": [
-          "INT 21H",
-          "MOV DX,NEWLINE",
-          "CALL TEXT"
-        ],
-        "after": [
-          "MOV AX,4C01H",
-          "INT 21H"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 931,
-        "a2": 931,
+        "a1": 892,
+        "a2": 892,
+        "anchor": "ERROR",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "ERROR:",
+          "MOV [ERRCODE],AL"
+        ],
         "old": [],
         "new": [
           "CALL CLEANUP"
         ],
-        "context": [
-          "",
-          "ERROR:",
-          "MOV [ERRCODE],AL"
-        ],
-        "after": [
-          "MOV DX,ERRMSG",
-          "CALL TEXT"
-        ]
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 5,
@@ -775,8 +792,14 @@
     "base": "A04.ASM",
     "changes": [
       {
-        "a1": 1010,
-        "a2": 1010,
+        "a1": 968,
+        "a2": 968,
+        "anchor": "CLEANUP",
+        "placement": "before_label",
+        "landmark": [
+          "CLEANUP:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "EXISTS:",
@@ -811,37 +834,30 @@
           "MOV AX,8",
           "JMP ERROR",
           "PREFLIGHTOK:",
-          "RET",
-          ""
+          "RET"
         ],
-        "context": [
-          "POP AX",
-          "RET",
-          ""
-        ],
-        "after": [
-          "CLEANUP:",
-          "MOV AL,[INOPEN]"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 9,
-        "a2": 9,
+        "a1": 8,
+        "a2": 8,
+        "anchor": "ROOM",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "ROOM:",
+          "CALL CMDFILES"
+        ],
         "old": [],
         "new": [
           "CALL PREFLIGHT"
         ],
-        "context": [
-          "JMP ERROR",
-          "ROOM:",
-          "CALL CMDFILES"
-        ],
-        "after": [
-          "MOV AX,0",
-          "MOV [RDPOS],AX"
-        ]
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 6,
@@ -851,8 +867,14 @@
     "base": "A05.ASM",
     "changes": [
       {
-        "a1": 1045,
-        "a2": 1045,
+        "a1": 1002,
+        "a2": 1002,
+        "anchor": "CLEANUP",
+        "placement": "before_label",
+        "landmark": [
+          "CLEANUP:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "COMMIT:",
@@ -906,56 +928,55 @@
           "MOV AL,0",
           "MOV [HAVEBAK],AL",
           "COMMITDONE:",
-          "RET",
-          ""
+          "RET"
         ],
-        "context": [
-          "PREFLIGHTOK:",
-          "RET",
-          ""
-        ],
-        "after": [
-          "CLEANUP:",
-          "MOV AL,[INOPEN]"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 34,
-        "a2": 35,
+        "a1": 33,
+        "a2": 34,
+        "anchor": "COPYDONE",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "COPYDONE:",
+          "CALL CLOSEFILE",
+          "CALL FLUSH",
+          "CALL CLOSEOUT",
+          "MOV DX,OKMSG",
+          "CALL TEXT"
+        ],
         "old": [
           "MOV SI,TMPNAME"
         ],
         "new": [
           "MOV SI,RESNAME"
         ],
-        "context": [
-          "CALL CLOSEOUT",
-          "MOV DX,OKMSG",
-          "CALL TEXT"
-        ],
-        "after": [
-          "CALL CMDTEXT",
-          "MOV DL,32"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 32,
-        "a2": 32,
-        "old": [],
-        "new": [
-          "CALL COMMIT"
-        ],
+        "a1": 31,
+        "a2": 31,
+        "anchor": "COPYDONE",
+        "placement": "after_context",
+        "landmark": [],
         "context": [
+          "COPYDONE:",
           "CALL CLOSEFILE",
           "CALL FLUSH",
           "CALL CLOSEOUT"
         ],
-        "after": [
-          "MOV DX,OKMSG",
-          "CALL TEXT"
-        ]
+        "old": [],
+        "new": [
+          "CALL COMMIT"
+        ],
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 7,
@@ -965,44 +986,74 @@
     "base": "A06.ASM",
     "changes": [
       {
-        "a1": 1479,
-        "a2": 1479,
+        "a1": 1390,
+        "a2": 1390,
+        "anchor": "INOPEN",
+        "placement": "before_label",
+        "landmark": [
+          "INOPEN:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "ENDPC:",
-          "DW 0",
-          ""
+          "DW 0"
         ],
-        "context": [
-          "OUTHANDLE:",
-          "DW 0",
-          ""
-        ],
-        "after": [
-          "INOPEN:",
-          "DB 0"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 45,
-        "a2": 45,
-        "old": [],
-        "new": [
-          "GOOD:"
-        ],
+        "a1": 44,
+        "a2": 44,
+        "anchor": "COPYDONE",
+        "placement": "after_context",
+        "landmark": [],
         "context": [
+          "COPYDONE:",
+          "CALL CLOSEFILE",
+          "CALL FLUSH",
+          "CALL CLOSEOUT",
+          "CALL COMMIT",
+          "MOV DX,OKMSG",
+          "CALL TEXT",
+          "MOV SI,RESNAME",
+          "CALL CMDTEXT",
+          "MOV DL,32",
+          "MOV AH,2",
+          "INT 21H",
+          "MOV AX,[PC]",
+          "SUB AX,100H",
           "CALL NUMBER",
           "MOV DX,BYTEMSG",
           "CALL TEXT"
         ],
-        "after": [
-          "MOV AX,4C00H",
-          "INT 21H"
-        ]
+        "old": [],
+        "new": [
+          "GOOD:"
+        ],
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 19,
-        "a2": 30,
+        "a1": 18,
+        "a2": 29,
+        "anchor": "ROOM",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "ROOM:",
+          "CALL CMDFILES",
+          "CALL PREFLIGHT",
+          "MOV AX,0",
+          "MOV [RDPOS],AX",
+          "MOV [RDLEN],AX",
+          "MOV [OUTCNT],AX",
+          "MOV [LINENO],AX",
+          "MOV AX,100H",
+          "MOV [PC],AX",
+          "MOV AL,2",
+          "MOV [PASS],AL"
+        ],
         "old": [
           "CALL CREATEOUT",
           "CALL OPENFILE",
@@ -1027,19 +1078,24 @@
           "JMP ERROR",
           "PASSVALID:"
         ],
-        "context": [
-          "MOV [PC],AX",
-          "MOV AL,2",
-          "MOV [PASS],AL"
-        ],
-        "after": [
-          "CALL FLUSH",
-          "CALL CLOSEOUT"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 14,
-        "a2": 17,
+        "a1": 13,
+        "a2": 16,
+        "anchor": "ROOM",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "ROOM:",
+          "CALL CMDFILES",
+          "CALL PREFLIGHT",
+          "MOV AX,0",
+          "MOV [RDPOS],AX",
+          "MOV [RDLEN],AX",
+          "MOV [OUTCNT],AX"
+        ],
         "old": [
           "MOV [LINENO],AX",
           "MOV AX,100H",
@@ -1069,19 +1125,21 @@
           "MOV AX,[PC]",
           "MOV [ENDPC],AX"
         ],
-        "context": [
-          "MOV [RDPOS],AX",
-          "MOV [RDLEN],AX",
-          "MOV [OUTCNT],AX"
-        ],
-        "after": [
-          "MOV AL,2",
-          "MOV [PASS],AL"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 11,
-        "a2": 11,
+        "a1": 10,
+        "a2": 10,
+        "anchor": "ROOM",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "ROOM:",
+          "CALL CMDFILES",
+          "CALL PREFLIGHT",
+          "MOV AX,0"
+        ],
         "old": [],
         "new": [
           "MOV [SYMC],AX",
@@ -1093,35 +1151,30 @@
           "MOV AX,0",
           "MOV [LINENO],AX"
         ],
-        "context": [
-          "CALL CMDFILES",
-          "CALL PREFLIGHT",
-          "MOV AX,0"
-        ],
-        "after": [
-          "MOV [RDPOS],AX",
-          "MOV [RDLEN],AX"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 10,
-        "a2": 10,
-        "old": [],
-        "new": [
-          "MOV AL,1",
-          "MOV [PASS],AL"
-        ],
+        "a1": 9,
+        "a2": 9,
+        "anchor": "ROOM",
+        "placement": "after_context",
+        "landmark": [],
         "context": [
           "ROOM:",
           "CALL CMDFILES",
           "CALL PREFLIGHT"
         ],
-        "after": [
-          "MOV AX,0",
-          "MOV [RDPOS],AX"
-        ]
+        "old": [],
+        "new": [
+          "MOV AL,1",
+          "MOV [PASS],AL"
+        ],
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 8,
@@ -1131,43 +1184,54 @@
     "base": "A07.ASM",
     "changes": [
       {
-        "a1": 213,
-        "a2": 213,
-        "old": [],
-        "new": [
-          "READLIMIT:"
-        ],
+        "a1": 207,
+        "a2": 207,
+        "anchor": "READFAIL",
+        "placement": "after_context",
+        "landmark": [],
         "context": [
           "READFAIL:",
           "MOV DX,[LINENO]",
           "INC DX"
         ],
-        "after": [
-          "MOV [LINENO],DX",
-          "JMP ERROR"
-        ]
+        "old": [],
+        "new": [
+          "READLIMIT:"
+        ],
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 212,
-        "a2": 212,
+        "a1": 206,
+        "a2": 206,
+        "anchor": "READFAIL",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "READFAIL:",
+          "MOV DX,[LINENO]"
+        ],
         "old": [],
         "new": [
           "CMP DX,0FFFFH",
           "JE READLIMIT"
         ],
-        "context": [
-          "MOV AX,6",
-          "READFAIL:",
-          "MOV DX,[LINENO]"
-        ],
-        "after": [
-          "INC DX",
-          "MOV [LINENO],DX"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 197,
-        "a2": 199,
+        "a1": 191,
+        "a2": 193,
+        "anchor": "LINEEND",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "LINEEND:",
+          "MOV AL,0",
+          "STOSB",
+          "MOV AX,[LINENO]",
+          "INC AX"
+        ],
         "old": [
           "CMP AX,4000",
           "JA READFULL"
@@ -1179,17 +1243,11 @@
           "JMP ERROR",
           "LINECOUNTSAFE:"
         ],
-        "context": [
-          "STOSB",
-          "MOV AX,[LINENO]",
-          "INC AX"
-        ],
-        "after": [
-          "MOV [LINENO],AX",
-          "MOV AX,1"
-        ]
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 9,
@@ -1199,519 +1257,616 @@
     "base": "A08.ASM",
     "changes": [
       {
-        "a1": 1027,
-        "a2": 1028,
+        "a1": 986,
+        "a2": 987,
+        "anchor": "FLUSH",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "FLUSH:",
+          "PUSH AX",
+          "PUSH BX",
+          "PUSH CX",
+          "PUSH DX",
+          "MOV CX,[OUTCNT]",
+          "CMP CX,0",
+          "JE FLUSHDONE",
+          "MOV BX,[OUTHANDLE]"
+        ],
         "old": [
           "MOV DX,6000H"
         ],
         "new": [
           "MOV DX,4600H"
         ],
-        "context": [
-          "CMP CX,0",
-          "JE FLUSHDONE",
-          "MOV BX,[OUTHANDLE]"
-        ],
-        "after": [
-          "MOV AH,40H",
-          "INT 21H"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 905,
-        "a2": 906,
+        "a1": 870,
+        "a2": 871,
+        "anchor": "EMITROOM",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "EMITROOM:",
+          "MOV AH,[PASS]",
+          "CMP AH,2",
+          "JNE COUNTBYTE",
+          "MOV BX,[OUTCNT]"
+        ],
         "old": [
           "ADD BX,6000H"
         ],
         "new": [
           "ADD BX,4600H"
         ],
-        "context": [
-          "CMP AH,2",
-          "JNE COUNTBYTE",
-          "MOV BX,[OUTCNT]"
-        ],
-        "after": [
-          "MOV [BX],AL",
-          "MOV BX,[OUTCNT]"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 740,
-        "a2": 741,
-        "old": [
-          "MOV AL,[2300H]"
-        ],
-        "new": [
-          "MOV AL,[4080H]"
-        ],
+        "a1": 716,
+        "a2": 717,
+        "anchor": "TWOOPERANDS",
+        "placement": "after_context",
+        "landmark": [],
         "context": [
+          "TWOOPERANDS:",
+          "CALL OPERAND",
+          "MOV AL,[KIND]",
+          "MOV [K1],AL",
+          "MOV AL,[WIDTH]",
+          "MOV [W1],AL",
+          "MOV AL,[REG]",
+          "MOV [R1],AL",
           "MOV AX,[VAL]",
           "MOV [V1],AX",
           "CALL SCAN"
         ],
-        "after": [
-          "CMP AL,44",
-          "JNE TWOBAD"
-        ]
-      },
-      {
-        "a1": 721,
-        "a2": 722,
         "old": [
           "MOV AL,[2300H]"
         ],
         "new": [
           "MOV AL,[4080H]"
         ],
+        "after": [],
+        "end_anchor": null
+      },
+      {
+        "a1": 698,
+        "a2": 699,
+        "anchor": "FINISH",
+        "placement": "after_context",
+        "landmark": [],
         "context": [
-          "",
           "FINISH:",
           "CALL SCAN"
         ],
-        "after": [
-          "CMP AL,0",
-          "JE FINISHED"
-        ]
-      },
-      {
-        "a1": 643,
-        "a2": 644,
         "old": [
           "MOV AL,[2300H]"
         ],
         "new": [
           "MOV AL,[4080H]"
         ],
+        "after": [],
+        "end_anchor": null
+      },
+      {
+        "a1": 626,
+        "a2": 627,
+        "anchor": "DATASEP",
+        "placement": "after_context",
+        "landmark": [],
         "context": [
-          "CALL BYTEVALUE",
           "DATASEP:",
           "CALL SCAN"
         ],
-        "after": [
-          "CMP AL,44",
-          "JE DATAITEM"
-        ]
-      },
-      {
-        "a1": 562,
-        "a2": 563,
         "old": [
           "MOV AL,[2300H]"
         ],
         "new": [
           "MOV AL,[4080H]"
         ],
+        "after": [],
+        "end_anchor": null
+      },
+      {
+        "a1": 546,
+        "a2": 547,
+        "anchor": "STATEMENT",
+        "placement": "after_context",
+        "landmark": [],
         "context": [
-          "",
           "STATEMENT:",
           "CALL SCAN"
         ],
-        "after": [
-          "CMP AL,0",
-          "JNE STWORD"
-        ]
-      },
-      {
-        "a1": 550,
-        "a2": 551,
         "old": [
           "MOV AL,[2300H]"
         ],
         "new": [
           "MOV AL,[4080H]"
         ],
+        "after": [],
+        "end_anchor": null
+      },
+      {
+        "a1": 535,
+        "a2": 536,
+        "anchor": "MEMORYEND",
+        "placement": "after_context",
+        "landmark": [],
         "context": [
-          "MOV [REG],AL",
           "MEMORYEND:",
           "CALL SCAN"
         ],
-        "after": [
-          "CMP AL,93",
-          "JE MEMORYOK"
-        ]
+        "old": [
+          "MOV AL,[2300H]"
+        ],
+        "new": [
+          "MOV AL,[4080H]"
+        ],
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 537,
-        "a2": 538,
+        "a1": 522,
+        "a2": 523,
+        "anchor": "MEMORY",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "MEMORY:",
+          "CALL SCAN",
+          "MOV AX,[2300H]",
+          "CMP AX,5842H",
+          "JNE DIRECTMEM"
+        ],
         "old": [
           "MOV AL,[2302H]"
         ],
         "new": [
           "MOV AL,[4082H]"
         ],
-        "context": [
-          "MOV AX,[2300H]",
-          "CMP AX,5842H",
-          "JNE DIRECTMEM"
-        ],
-        "after": [
-          "CMP AL,0",
-          "JNE DIRECTMEM"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 534,
-        "a2": 535,
+        "a1": 519,
+        "a2": 520,
+        "anchor": "MEMORY",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "MEMORY:",
+          "CALL SCAN"
+        ],
         "old": [
           "MOV AX,[2300H]"
         ],
         "new": [
           "MOV AX,[4080H]"
         ],
-        "context": [
-          "",
-          "MEMORY:",
-          "CALL SCAN"
-        ],
-        "after": [
-          "CMP AX,5842H",
-          "JNE DIRECTMEM"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 507,
-        "a2": 508,
+        "a1": 493,
+        "a2": 494,
+        "anchor": "OPERAND",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "OPERAND:",
+          "CALL SCAN"
+        ],
         "old": [
           "MOV AL,[2300H]"
         ],
         "new": [
           "MOV AL,[4080H]"
         ],
-        "context": [
-          "",
-          "OPERAND:",
-          "CALL SCAN"
-        ],
-        "after": [
-          "CMP AL,91",
-          "JE MEMORY"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 473,
-        "a2": 474,
+        "a1": 460,
+        "a2": 461,
+        "anchor": "VALUEBAD",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "VALUEBAD:",
+          "MOV AX,3",
+          "JMP ERROR",
+          "DEFINE:",
+          "CALL VALIDNAME",
+          "CALL REGISTER",
+          "CMP AX,0FFFFH",
+          "JNE DEFINEBAD",
+          "MOV BX,3000H",
+          "MOV CX,[SYMC]",
+          "MOV AX,20",
+          "CALL LOOK",
+          "MOV AL,[PASS]",
+          "CMP AL,1",
+          "JNE CHECKDEFINE",
+          "CMP BX,0",
+          "JNE DEFINEBAD",
+          "MOV AX,[SYMC]",
+          "CMP AX,256",
+          "JAE TABLEFULL",
+          "MOV DI,[SYMNEXT]",
+          "PUSH SI"
+        ],
         "old": [
           "MOV SI,2300H"
         ],
         "new": [
           "MOV SI,4080H"
         ],
-        "context": [
-          "JAE TABLEFULL",
-          "MOV DI,[SYMNEXT]",
-          "PUSH SI"
-        ],
-        "after": [
-          "CALL COPYZ",
-          "POP SI"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 469,
-        "a2": 470,
+        "a1": 456,
+        "a2": 457,
+        "anchor": "VALUEBAD",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "VALUEBAD:",
+          "MOV AX,3",
+          "JMP ERROR",
+          "DEFINE:",
+          "CALL VALIDNAME",
+          "CALL REGISTER",
+          "CMP AX,0FFFFH",
+          "JNE DEFINEBAD",
+          "MOV BX,3000H",
+          "MOV CX,[SYMC]",
+          "MOV AX,20",
+          "CALL LOOK",
+          "MOV AL,[PASS]",
+          "CMP AL,1",
+          "JNE CHECKDEFINE",
+          "CMP BX,0",
+          "JNE DEFINEBAD",
+          "MOV AX,[SYMC]"
+        ],
         "old": [
           "CMP AX,256"
         ],
         "new": [
           "CMP AX,2048"
         ],
-        "context": [
-          "CMP BX,0",
-          "JNE DEFINEBAD",
-          "MOV AX,[SYMC]"
-        ],
-        "after": [
-          "JAE TABLEFULL",
-          "MOV DI,[SYMNEXT]"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 459,
-        "a2": 460,
-        "old": [
-          "MOV BX,3000H"
-        ],
-        "new": [
-          "MOV BX,5000H"
-        ],
+        "a1": 446,
+        "a2": 447,
+        "anchor": "VALUEBAD",
+        "placement": "after_context",
+        "landmark": [],
         "context": [
+          "VALUEBAD:",
+          "MOV AX,3",
+          "JMP ERROR",
+          "DEFINE:",
+          "CALL VALIDNAME",
           "CALL REGISTER",
           "CMP AX,0FFFFH",
           "JNE DEFINEBAD"
         ],
-        "after": [
-          "MOV CX,[SYMC]",
-          "MOV AX,20"
-        ]
-      },
-      {
-        "a1": 435,
-        "a2": 436,
         "old": [
           "MOV BX,3000H"
         ],
         "new": [
           "MOV BX,5000H"
         ],
+        "after": [],
+        "end_anchor": null
+      },
+      {
+        "a1": 423,
+        "a2": 424,
+        "anchor": "SYMBOLVALUE",
+        "placement": "after_context",
+        "landmark": [],
         "context": [
+          "SYMBOLVALUE:",
+          "CALL VALIDNAME",
           "CALL REGISTER",
           "CMP AX,0FFFFH",
           "JNE VALUEBAD"
         ],
-        "after": [
-          "MOV CX,[SYMC]",
-          "MOV AX,20"
-        ]
+        "old": [
+          "MOV BX,3000H"
+        ],
+        "new": [
+          "MOV BX,5000H"
+        ],
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 369,
-        "a2": 370,
+        "a1": 358,
+        "a2": 359,
+        "anchor": "LITERAL",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "LITERAL:",
+          "PUSH SI",
+          "MOV SI,2300H",
+          "MOV DI,[TOKLEN]"
+        ],
         "old": [
           "ADD DI,2300H"
         ],
         "new": [
           "ADD DI,4080H"
         ],
-        "context": [
-          "PUSH SI",
-          "MOV SI,2300H",
-          "MOV DI,[TOKLEN]"
-        ],
-        "after": [
-          "MOV BX,DI",
-          "DEC BX"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 367,
-        "a2": 368,
+        "a1": 356,
+        "a2": 357,
+        "anchor": "LITERAL",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "LITERAL:",
+          "PUSH SI"
+        ],
         "old": [
           "MOV SI,2300H"
         ],
         "new": [
           "MOV SI,4080H"
         ],
-        "context": [
-          "JMP SYMBOLVALUE",
-          "LITERAL:",
-          "PUSH SI"
-        ],
-        "after": [
-          "MOV DI,[TOKLEN]",
-          "ADD DI,2300H"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 358,
-        "a2": 359,
+        "a1": 347,
+        "a2": 348,
+        "anchor": "SYMBOLBAD",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "SYMBOLBAD:",
+          "MOV AX,3",
+          "JMP ERROR",
+          "VALUE:"
+        ],
         "old": [
           "MOV AL,[2300H]"
         ],
         "new": [
           "MOV AL,[4080H]"
         ],
-        "context": [
-          "JMP ERROR",
-          "",
-          "VALUE:"
-        ],
-        "after": [
-          "CMP AL,48",
-          "JB WORDVALUE"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 327,
-        "a2": 328,
-        "old": [
-          "MOV SI,2300H"
-        ],
-        "new": [
-          "MOV SI,4080H"
-        ],
+        "a1": 317,
+        "a2": 318,
+        "anchor": "VALIDNAME",
+        "placement": "after_context",
+        "landmark": [],
         "context": [
-          "",
           "VALIDNAME:",
           "PUSH SI"
         ],
-        "after": [
-          "LODSB",
-          "CMP AL,95"
-        ]
-      },
-      {
-        "a1": 285,
-        "a2": 286,
         "old": [
           "MOV SI,2300H"
         ],
         "new": [
           "MOV SI,4080H"
         ],
+        "after": [],
+        "end_anchor": null
+      },
+      {
+        "a1": 277,
+        "a2": 278,
+        "anchor": "LOOKNEXT",
+        "placement": "after_context",
+        "landmark": [],
         "context": [
+          "LOOKNEXT:",
           "CMP CX,0",
           "JE LOOKMISS",
           "MOV DI,BP"
         ],
-        "after": [
-          "LOOKCHAR:",
-          "LODSB"
-        ]
+        "old": [
+          "MOV SI,2300H"
+        ],
+        "new": [
+          "MOV SI,4080H"
+        ],
+        "after": [],
+        "end_anchor": "LOOKCHAR"
       },
       {
-        "a1": 265,
-        "a2": 266,
+        "a1": 258,
+        "a2": 259,
+        "anchor": "SCANDONE",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "SCANDONE:",
+          "MOV AX,DI"
+        ],
         "old": [
           "SUB AX,2300H"
         ],
         "new": [
           "SUB AX,4080H"
         ],
-        "context": [
-          "DEC SI",
-          "SCANDONE:",
-          "MOV AX,DI"
-        ],
-        "after": [
-          "MOV [TOKLEN],AX",
-          "MOV AL,0"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 257,
-        "a2": 258,
+        "a1": 250,
+        "a2": 251,
+        "anchor": "SCANMORE",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "SCANMORE:",
+          "LODSB",
+          "CMP AL,0",
+          "JE SCANBACK",
+          "CMP AL,32",
+          "JE SCANBACK",
+          "CMP AL,59",
+          "JE SCANBACK",
+          "CMP AL,44",
+          "JE SCANBACK",
+          "CMP AL,58",
+          "JE SCANBACK",
+          "CMP AL,91",
+          "JE SCANBACK",
+          "CMP AL,93",
+          "JE SCANBACK"
+        ],
         "old": [
           "CMP DI,2310H"
         ],
         "new": [
           "CMP DI,4090H"
         ],
-        "context": [
-          "JE SCANBACK",
-          "CMP AL,93",
-          "JE SCANBACK"
-        ],
-        "after": [
-          "JAE TOKENBAD",
-          "STOSB"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 223,
-        "a2": 224,
+        "a1": 216,
+        "a2": 217,
+        "anchor": "SCAN",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "SCAN:"
+        ],
         "old": [
           "MOV DI,2300H"
         ],
         "new": [
           "MOV DI,4080H"
         ],
-        "context": [
-          "JMP ERROR",
-          "",
-          "SCAN:"
-        ],
-        "after": [
-          "SCANSPACE:",
-          "LODSB"
-        ]
+        "after": [],
+        "end_anchor": "SCANSPACE"
       },
       {
-        "a1": 136,
-        "a2": 137,
+        "a1": 130,
+        "a2": 131,
+        "anchor": "READLINE",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "READLINE:"
+        ],
         "old": [
           "MOV DI,2200H"
         ],
         "new": [
           "MOV DI,4000H"
         ],
-        "context": [
-          "RET",
-          "",
-          "READLINE:"
-        ],
-        "after": [
-          "MOV BP,0",
-          "MOV AL,[ENDED]"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 123,
-        "a2": 124,
+        "a1": 118,
+        "a2": 119,
+        "anchor": "BUFFERBYTE",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "BUFFERBYTE:",
+          "MOV BX,[RDPOS]"
+        ],
         "old": [
           "ADD BX,5000H"
         ],
         "new": [
           "ADD BX,4200H"
         ],
-        "context": [
-          "JE BUFFEREND",
-          "BUFFERBYTE:",
-          "MOV BX,[RDPOS]"
-        ],
-        "after": [
-          "MOV AL,[BX]",
-          "MOV [CHAR],AL"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 109,
-        "a2": 110,
+        "a1": 104,
+        "a2": 105,
+        "anchor": "NEXTBYTE",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "NEXTBYTE:",
+          "MOV AX,[RDPOS]",
+          "MOV DX,[RDLEN]",
+          "CMP AX,DX",
+          "JB BUFFERBYTE",
+          "MOV BX,[HANDLE]"
+        ],
         "old": [
           "MOV DX,5000H"
         ],
         "new": [
           "MOV DX,4200H"
         ],
-        "context": [
-          "CMP AX,DX",
-          "JB BUFFERBYTE",
-          "MOV BX,[HANDLE]"
-        ],
-        "after": [
-          "MOV CX,1024",
-          "MOV AH,3FH"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 36,
-        "a2": 37,
+        "a1": 35,
+        "a2": 36,
+        "anchor": "NEXTLINE",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "NEXTLINE:",
+          "CALL READLINE",
+          "CMP AX,0",
+          "JE PASSEND"
+        ],
         "old": [
           "MOV SI,2200H"
         ],
         "new": [
           "MOV SI,4000H"
         ],
-        "context": [
-          "CALL READLINE",
-          "CMP AX,0",
-          "JE PASSEND"
-        ],
-        "after": [
-          "CALL STATEMENT",
-          "JMP NEXTLINE"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 14,
-        "a2": 15,
+        "a1": 13,
+        "a2": 14,
+        "anchor": "ROOM",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "ROOM:",
+          "CALL CMDFILES",
+          "CALL PREFLIGHT",
+          "MOV AL,1",
+          "MOV [PASS],AL",
+          "MOV AX,0",
+          "MOV [SYMC],AX"
+        ],
         "old": [
           "MOV AX,3000H"
         ],
         "new": [
           "MOV AX,5000H"
         ],
-        "context": [
-          "MOV [PASS],AL",
-          "MOV AX,0",
-          "MOV [SYMC],AX"
-        ],
-        "after": [
-          "MOV [SYMNEXT],AX",
-          "PASSSTART:"
-        ]
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 10,
@@ -1721,49 +1876,50 @@
     "base": "A09.ASM",
     "changes": [
       {
-        "a1": 1534,
-        "a2": 1534,
+        "a1": 1438,
+        "a2": 1438,
+        "anchor": "CMDCOUNT",
+        "placement": "before_label",
+        "landmark": [
+          "CMDCOUNT:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "PREFIX:",
           "DB 0",
-          "",
           "P1:",
-          "DB 0",
-          ""
+          "DB 0"
         ],
-        "context": [
-          "CLEANFAIL:",
-          "DB 0",
-          ""
-        ],
-        "after": [
-          "CMDCOUNT:",
-          "DW 0"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 1516,
-        "a2": 1516,
+        "a1": 1426,
+        "a2": 1426,
+        "anchor": "INOPEN",
+        "placement": "before_label",
+        "landmark": [
+          "INOPEN:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "SEGCODE:",
-          "DW 0",
-          ""
+          "DW 0"
         ],
-        "context": [
-          "ENDPC:",
-          "DW 0",
-          ""
-        ],
-        "after": [
-          "INOPEN:",
-          "DB 0"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 1455,
-        "a2": 1455,
+        "a1": 1377,
+        "a2": 1377,
+        "anchor": "OPTAB",
+        "placement": "before_label",
+        "landmark": [
+          "OPTAB:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "DB 69,83,0,16",
@@ -1771,19 +1927,18 @@
           "DB 83,83,0,18",
           "DB 68,83,0,19"
         ],
-        "context": [
-          "DB 66,80,0,13",
-          "DB 83,73,0,14",
-          "DB 68,73,0,15"
-        ],
-        "after": [
-          "",
-          "OPTAB:"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 1169,
-        "a2": 1169,
+        "a1": 1124,
+        "a2": 1124,
+        "anchor": "CMDINIT",
+        "placement": "before_label",
+        "landmark": [
+          "CMDINIT:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "SEGOPERAND:",
@@ -1805,7 +1960,6 @@
           "MOV AL,4",
           "MOV [KIND],AL",
           "RET",
-          "",
           "SEGMOV:",
           "MOV AL,[K1]",
           "CMP AL,4",
@@ -1843,22 +1997,20 @@
           "CALL EMIT",
           "RET",
           "SEGBAD:",
-          "JMP TWOBAD",
-          ""
+          "JMP TWOBAD"
         ],
-        "context": [
-          "CLEANEND:",
-          "RET",
-          ""
-        ],
-        "after": [
-          "CMDINIT:",
-          "MOV SI,81H"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 847,
-        "a2": 847,
+        "a1": 817,
+        "a2": 817,
+        "anchor": "STOREOK",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "STOREOK:"
+        ],
         "old": [],
         "new": [
           "MOV AL,[P1]",
@@ -1867,19 +2019,18 @@
           "CALL EMIT",
           "STOREPREFIX:"
         ],
-        "context": [
-          "MOV AX,1",
-          "JMP ERROR",
-          "STOREOK:"
-        ],
-        "after": [
-          "MOV AL,[WIDTH]",
-          "ADD AL,136"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 825,
-        "a2": 825,
+        "a1": 796,
+        "a2": 796,
+        "anchor": "LOADMEM",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "LOADMEM:"
+        ],
         "old": [],
         "new": [
           "MOV AL,[PREFIX]",
@@ -1888,22 +2039,21 @@
           "CALL EMIT",
           "LOADPREFIX:"
         ],
-        "context": [
-          "JMP EMITWORD",
-          "",
-          "LOADMEM:"
-        ],
-        "after": [
-          "MOV AL,[W1]",
-          "ADD AL,138"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 779,
-        "a2": 779,
+        "a1": 755,
+        "a2": 755,
+        "anchor": "MOVOPERANDS",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "MOVOPERANDS:",
+          "MOV AL,[K1]"
+        ],
         "old": [],
         "new": [
-          "MOV AL,[K1]",
           "CMP AL,4",
           "JNE MOVNOTSEG",
           "JMP SEGMOV",
@@ -1912,39 +2062,55 @@
           "CMP AL,4",
           "JNE MOVNOTSRC",
           "JMP SEGMOV",
-          "MOVNOTSRC:"
+          "MOVNOTSRC:",
+          "MOV AL,[K1]"
         ],
-        "context": [
-          "JMP ERROR",
-          "",
-          "MOVOPERANDS:"
-        ],
-        "after": [
-          "MOV AL,[K1]",
-          "CMP AL,2"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 737,
-        "a2": 737,
+        "a1": 713,
+        "a2": 713,
+        "anchor": "TWOOPERANDS",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "TWOOPERANDS:",
+          "CALL OPERAND",
+          "MOV AL,[KIND]",
+          "MOV [K1],AL",
+          "MOV AL,[WIDTH]",
+          "MOV [W1],AL",
+          "MOV AL,[REG]",
+          "MOV [R1],AL"
+        ],
         "old": [],
         "new": [
           "MOV AL,[PREFIX]",
           "MOV [P1],AL"
         ],
-        "context": [
-          "MOV [W1],AL",
-          "MOV AL,[REG]",
-          "MOV [R1],AL"
-        ],
-        "after": [
-          "MOV AX,[VAL]",
-          "MOV [V1],AX"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 513,
-        "a2": 513,
+        "a1": 499,
+        "a2": 499,
+        "anchor": "DEFINEBAD",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "DEFINEBAD:",
+          "MOV AX,3",
+          "JMP ERROR",
+          "OPERAND:",
+          "CALL SCAN",
+          "MOV AL,[4080H]",
+          "CMP AL,91",
+          "JE MEMORY",
+          "CALL REGISTER",
+          "CMP AX,0FFFFH",
+          "JE IMMEDIATE"
+        ],
         "old": [],
         "new": [
           "CMP AX,16",
@@ -1952,54 +2118,54 @@
           "JMP SEGOPERAND",
           "NORMALREGISTER:"
         ],
-        "context": [
-          "CALL REGISTER",
-          "CMP AX,0FFFFH",
-          "JE IMMEDIATE"
-        ],
-        "after": [
-          "MOV DL,AL",
-          "AND AL,7"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 506,
-        "a2": 506,
+        "a1": 492,
+        "a2": 492,
+        "anchor": "DEFINEBAD",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "DEFINEBAD:",
+          "MOV AX,3",
+          "JMP ERROR",
+          "OPERAND:"
+        ],
         "old": [],
         "new": [
           "MOV AL,0",
           "MOV [PREFIX],AL"
         ],
-        "context": [
-          "JMP ERROR",
-          "",
-          "OPERAND:"
-        ],
-        "after": [
-          "CALL SCAN",
-          "MOV AL,[4080H]"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 312,
-        "a2": 313,
+        "a1": 303,
+        "a2": 304,
+        "anchor": "LOOKMISS",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "LOOKMISS:",
+          "MOV BX,0",
+          "POP SI",
+          "RET",
+          "REGISTER:",
+          "MOV BX,REGTAB"
+        ],
         "old": [
           "MOV CX,16"
         ],
         "new": [
           "MOV CX,20"
         ],
-        "context": [
-          "",
-          "REGISTER:",
-          "MOV BX,REGTAB"
-        ],
-        "after": [
-          "MOV AX,4",
-          "CALL LOOK"
-        ]
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 11,
@@ -2009,8 +2175,14 @@
     "base": "A10.ASM",
     "changes": [
       {
-        "a1": 1206,
-        "a2": 1206,
+        "a1": 1161,
+        "a2": 1161,
+        "anchor": "SEGREGISTER",
+        "placement": "before_label",
+        "landmark": [
+          "SEGREGISTER:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "SEGES:",
@@ -2025,36 +2197,36 @@
           "MOV [PREFIX],AL",
           "RET"
         ],
-        "context": [
-          "JNE SEGREGISTER",
-          "POP AX",
-          "JMP TWOBAD"
-        ],
-        "after": [
-          "SEGREGISTER:",
-          "POP SI"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 1205,
-        "a2": 1205,
+        "a1": 1160,
+        "a2": 1160,
+        "anchor": "SEGOPERAND",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "SEGOPERAND:",
+          "MOV [SEGCODE],AX",
+          "PUSH SI",
+          "CALL SCAN",
+          "MOV AL,[4080H]",
+          "CMP AL,58",
+          "JNE SEGREGISTER",
+          "POP AX"
+        ],
         "old": [],
         "new": [
           "MOV AX,[SEGCODE]",
           "CMP AX,16",
           "JE SEGES"
         ],
-        "context": [
-          "CMP AL,58",
-          "JNE SEGREGISTER",
-          "POP AX"
-        ],
-        "after": [
-          "JMP TWOBAD",
-          "SEGREGISTER:"
-        ]
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 12,
@@ -2062,7 +2234,8 @@
     "collection": "asma0",
     "page": "12-proving-the-seed-handoff.md",
     "base": "A11.ASM",
-    "changes": []
+    "changes": [],
+    "edit_style": "labels"
   },
   {
     "number": 13,
@@ -3181,7 +3354,8 @@
           "MOV AL,1"
         ]
       }
-    ]
+    ],
+    "edit_style": "positions"
   },
   {
     "number": 14,
@@ -3284,7 +3458,8 @@
           "MOV AL,1"
         ]
       }
-    ]
+    ],
+    "edit_style": "positions"
   },
   {
     "number": 15,
@@ -3460,7 +3635,8 @@
           "MOV AX,8192"
         ]
       }
-    ]
+    ],
+    "edit_style": "positions"
   },
   {
     "number": 16,
@@ -3604,7 +3780,8 @@
           "PUSH SI"
         ]
       }
-    ]
+    ],
+    "edit_style": "positions"
   },
   {
     "number": 17,
@@ -4489,7 +4666,8 @@
           "MOV AL,1"
         ]
       }
-    ]
+    ],
+    "edit_style": "positions"
   },
   {
     "number": 18,
@@ -5051,7 +5229,8 @@
           "JMP NEXTLINE"
         ]
       }
-    ]
+    ],
+    "edit_style": "positions"
   },
   {
     "number": 19,
@@ -5330,7 +5509,8 @@
           "MOV [RDLEN],AX"
         ]
       }
-    ]
+    ],
+    "edit_style": "positions"
   },
   {
     "number": 20,
@@ -5713,7 +5893,8 @@
           "JAE ZREADLINE6"
         ]
       }
-    ]
+    ],
+    "edit_style": "positions"
   },
   {
     "number": 21,
@@ -6124,7 +6305,8 @@
           "CMP AL,48"
         ]
       }
-    ]
+    ],
+    "edit_style": "positions"
   },
   {
     "number": 22,
@@ -6376,7 +6558,8 @@
           "MOV AL,[0CC00H]"
         ]
       }
-    ]
+    ],
+    "edit_style": "positions"
   },
   {
     "number": 23,
@@ -6496,7 +6679,8 @@
           "CALL LOOK"
         ]
       }
-    ]
+    ],
+    "edit_style": "positions"
   },
   {
     "number": 24,
@@ -6630,7 +6814,8 @@
           "CALL LOOK"
         ]
       }
-    ]
+    ],
+    "edit_style": "positions"
   },
   {
     "number": 25,
@@ -6886,7 +7071,8 @@
           "MOV AX,[0CC00H]"
         ]
       }
-    ]
+    ],
+    "edit_style": "positions"
   },
   {
     "number": 26,
@@ -7207,7 +7393,8 @@
           "MOV [PREFIX],AL"
         ]
       }
-    ]
+    ],
+    "edit_style": "positions"
   },
   {
     "number": 27,
@@ -7491,7 +7678,8 @@
           "MOV AX,[0CC00H]"
         ]
       }
-    ]
+    ],
+    "edit_style": "positions"
   },
   {
     "number": 28,
@@ -7744,7 +7932,8 @@
           "MOV [EXWIDTH],AL"
         ]
       }
-    ]
+    ],
+    "edit_style": "positions"
   },
   {
     "number": 29,
@@ -7965,7 +8154,8 @@
           "MOV [MEMDISP],AX"
         ]
       }
-    ]
+    ],
+    "edit_style": "positions"
   },
   {
     "number": 30,
@@ -8375,7 +8565,8 @@
           "CMP AL,4"
         ]
       }
-    ]
+    ],
+    "edit_style": "positions"
   },
   {
     "number": 31,
@@ -8586,7 +8777,8 @@
           "MOV AL,[TYPE]"
         ]
       }
-    ]
+    ],
+    "edit_style": "positions"
   },
   {
     "number": 32,
@@ -8695,7 +8887,8 @@
           "CALL LOOK"
         ]
       }
-    ]
+    ],
+    "edit_style": "positions"
   },
   {
     "number": 33,
@@ -8772,7 +8965,8 @@
           "ADD DX,3"
         ]
       }
-    ]
+    ],
+    "edit_style": "positions"
   },
   {
     "number": 36,
@@ -8872,7 +9066,8 @@
           "CALL LOOK"
         ]
       }
-    ]
+    ],
+    "edit_style": "positions"
   },
   {
     "number": 37,
@@ -8998,7 +9193,8 @@
           "CALL LOOK"
         ]
       }
-    ]
+    ],
+    "edit_style": "positions"
   },
   {
     "number": 40,
@@ -9006,6 +9202,7 @@
     "collection": "asm86a",
     "page": "40-proving-the-larger-assembler.md",
     "base": "A37.ASM",
-    "changes": []
+    "changes": [],
+    "edit_style": "positions"
   }
 ]

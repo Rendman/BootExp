@@ -19,49 +19,34 @@ A failed close or delete sets CLEANFAIL. The error report includes a recovery no
 
 ## Enter the source
 
-Copy `A03.ASM` to `A04.ASM`. Apply the following edits **from the bottom of the old file upward**. Physical positions locate an edit in the unchanged old file; use the nearby label and printed context to identify it. Keep all other source. The Z labels are ordinary implementation labels for explicit short-branch bridges.
+Copy `A03.ASM` to `A04.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1 near `OWNTMP:`
+### Change 1 · `CMDCOUNT:`
 
-Unchanged source immediately before this edit:
+Find the unique label `CMDCOUNT:`. Insert the new source immediately before this existing label:
 
 ```asm
-OWNTMP:
-DB 0
+CMDCOUNT:
 ```
-
-Insert after old physical line 1347.
 
 Insert:
 
 ```asm
 HAVEBAK:
 DB 0
-
 KEEPFILES:
 DB 0
-
 CLEANFAIL:
 DB 0
 ```
 
-The following old source stays in place:
+### Change 2 · `RDPOS:`
+
+Find the unique label `RDPOS:`. Insert the new source immediately before this existing label:
 
 ```asm
-CMDCOUNT:
-DW 0
+RDPOS:
 ```
-
-### Change 2 near `BAKNAME:`
-
-Unchanged source immediately before this edit:
-
-```asm
-BAKNAME:
-DB 82,69,83,85,76,84,46,66,65,75,0
-```
-
-Insert after old physical line 1326.
 
 Insert:
 
@@ -72,30 +57,24 @@ DB 116,32,65,83,77,65,46,84,77,80,32,97,110,100,32,82
 DB 69,83,85,76,84,46,66,65,75,13,10,36
 ```
 
-The following old source stays in place:
+### Change 3 · `FLUSHDONE:`
+
+Find the unique label `FLUSHDONE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-RDPOS:
-DW 0
-```
-
-### Change 3 near `FLUSHDONE:`
-
-Unchanged source immediately before this edit:
-
-```asm
+FLUSHDONE:
+POP DX
 POP CX
 POP BX
 POP AX
 ```
 
-Insert after old physical line 997.
+The edit begins immediately after that unchanged block.
 
 Insert:
 
 ```asm
 RET
-
 CLEANUP:
 MOV AL,[INOPEN]
 CMP AL,0
@@ -132,23 +111,29 @@ MOV [CLEANFAIL],AL
 CLEANEND:
 ```
 
-The following old source stays in place:
+### Change 4 · `ERROR:`
+
+Find the unique label `ERROR:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-RET
-```
-
-### Change 4 near `ERROR:`
-
-Unchanged source immediately before this edit:
-
-```asm
+ERROR:
+MOV [ERRCODE],AL
+MOV DX,ERRMSG
+CALL TEXT
+MOV AX,[LINENO]
+CALL NUMBER
+MOV DX,CODEMSG
+CALL TEXT
+MOV AL,[ERRCODE]
+ADD AL,48
+MOV DL,AL
+MOV AH,2
 INT 21H
 MOV DX,NEWLINE
 CALL TEXT
 ```
 
-Insert after old physical line 944.
+The edit begins immediately after that unchanged block.
 
 Insert:
 
@@ -165,36 +150,21 @@ CALL TEXT
 ERROREXIT:
 ```
 
-The following old source stays in place:
+### Change 5 · `ERROR:`
+
+Find the unique label `ERROR:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV AX,4C01H
-INT 21H
-```
-
-### Change 5 near `ERROR:`
-
-Unchanged source immediately before this edit:
-
-```asm
-
 ERROR:
 MOV [ERRCODE],AL
 ```
 
-Insert after old physical line 931.
+The edit begins immediately after that unchanged block.
 
 Insert:
 
 ```asm
 CALL CLEANUP
-```
-
-The following old source stays in place:
-
-```asm
-MOV DX,ERRMSG
-CALL TEXT
 ```
 
 ## Build the stopping point

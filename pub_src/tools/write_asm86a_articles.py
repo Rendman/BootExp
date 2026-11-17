@@ -69,19 +69,24 @@ for case in cases:
   t=t.replace('+++\n\n',f'aliases = [\"/bootstrap/asm86a/{page[:-3]}/\"]\n+++\n\n',1)
   (ROOT/'site/content/bootstrap/asm86'/page).unlink(missing_ok=True)
  t+=f'Copy `{oldfile}` to `{name}.ASM`. '
- edits=[o for o in SequenceMatcher(None,previous,lines,autojunk=False).get_opcodes() if o[0]!='equal'];changes=[]
- if edits:t+='Apply the following edits **from the bottom of the old file upward**. Physical positions locate an edit in the unchanged old file; use the nearby label and printed context to identify it. Keep all other source. The Z labels are ordinary implementation labels for explicit short-branch bridges.\n\n'
- else:t+='The tested source is retained without edits. This stopping point proves the executable handoff.\n\n'
- for i,(_,a,b,c,d) in enumerate(reversed(edits),1):
-  before=previous[max(0,a-3):a];after=previous[b:b+2];old=previous[a:b];new=lines[c:d];labels=[v for v in previous[:a] if v.endswith(':')]
-  t+=f'### Change {i}'+(' near `'+labels[-1]+'`' if labels else ' at the entry')+'\n\n'
-  if before:t+='Unchanged source immediately before this edit:\n\n'+fence('asm','\n'.join(before))
-  if old:t+=f'Remove this exact source at old physical positions {a+1}–{b}:\n\n'+fence('asm','\n'.join(old))
-  else:t+=f'Insert after old physical line {a}.\n\n'
-  if new:t+=('Replace it with:\n\n' if old else 'Insert:\n\n')+fence('asm','\n'.join(new))
-  else:t+='There is no replacement source.\n\n'
-  if after:t+='The following old source stays in place:\n\n'+fence('asm','\n'.join(after))
-  changes.append(dict(a1=a,a2=b,old=old,new=new,context=before,after=after))
+ if n<=12:
+  from assembly_edits import patch as label_patch
+  printed,changes=label_patch(previous,lines)
+  t+=printed
+ else:
+  edits=[o for o in SequenceMatcher(None,previous,lines,autojunk=False).get_opcodes() if o[0]!='equal'];changes=[]
+  if edits:t+='Apply the following edits **from the bottom of the old file upward**. Physical positions locate an edit in the unchanged old file; use the nearby label and printed context to identify it. Keep all other source. The Z labels are ordinary implementation labels for explicit short-branch bridges.\n\n'
+  else:t+='The tested source is retained without edits. This stopping point proves the executable handoff.\n\n'
+  for i,(_,a,b,c,d) in enumerate(reversed(edits),1):
+   before=previous[max(0,a-3):a];after=previous[b:b+2];old=previous[a:b];new=lines[c:d];labels=[v for v in previous[:a] if v.endswith(':')]
+   t+=f'### Change {i}'+(' near `'+labels[-1]+'`' if labels else ' at the entry')+'\n\n'
+   if before:t+='Unchanged source immediately before this edit:\n\n'+fence('asm','\n'.join(before))
+   if old:t+=f'Remove this exact source at old physical positions {a+1}–{b}:\n\n'+fence('asm','\n'.join(old))
+   else:t+=f'Insert after old physical line {a}.\n\n'
+   if new:t+=('Replace it with:\n\n' if old else 'Insert:\n\n')+fence('asm','\n'.join(new))
+   else:t+='There is no replacement source.\n\n'
+   if after:t+='The following old source stays in place:\n\n'+fence('asm','\n'.join(after))
+   changes.append(dict(a1=a,a2=b,old=old,new=new,context=before,after=after))
  t+='## Build the stopping point\n\n'
  if n<=12:
   t+=f'Copy `{name}.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK {case["binary_bytes"]:05} bytes` and PASS. This uses the preceding published ASM86, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM {name}.COM`.\n\n'
@@ -147,7 +152,7 @@ for case in cases:
   routes=sorted(set(routes)-{'/bootstrap/'+collection+'/'+page[:-3]+'/'})
   t=re.sub(r'^aliases = .*\n','',t,flags=re.M)
   t=t.replace('+++\n\n','aliases = '+json.dumps(routes)+'\n+++\n\n',1)
- write_page((C/page),t);patches.append(dict(number=n,chapter=chapter,collection=collection,page=page,base=oldfile,changes=changes));previous=lines;previous_number=n
+ write_page((C/page),t);patches.append(dict(number=n,chapter=chapter,collection=collection,page=page,base=oldfile,changes=changes,edit_style='labels' if n<=12 else 'positions'));previous=lines;previous_number=n
 (Q/'article-patches.json').write_text(json.dumps(patches,indent=2)+'\n')
 # Whole-program examples and their measured rejection edits.
 t=front('27 · Complete assembly programs',27,'Strings, a stack frame, a distant conditional, and explicit byte movement.','ASM86A.ZIP')

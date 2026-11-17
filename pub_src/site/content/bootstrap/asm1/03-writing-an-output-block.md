@@ -19,85 +19,58 @@ FLUSH preserves AX, BX, CX, and DX. It checks DOS carry and the actual written c
 
 ## Enter the source
 
-Copy `A02.ASM` to `A03.ASM`. Apply the following edits **from the bottom of the old file upward**. Physical positions locate an edit in the unchanged old file; use the nearby label and printed context to identify it. Keep all other source. The Z labels are ordinary implementation labels for explicit short-branch bridges.
+Copy `A02.ASM` to `A03.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1 near `INOPEN:`
+### Change 1 · `OUTPTR:`
 
-Unchanged source immediately before this edit:
+Find the unique label `OUTPTR:`. The old block below starts at that label.
 
-```asm
-INOPEN:
-DB 0
-```
-
-Remove this exact source at old physical positions 1322–1323:
+Replace this existing source:
 
 ```asm
 OUTPTR:
 DW 24576
 ```
 
-Replace it with:
+With:
 
 ```asm
 OUTOPEN:
 DB 0
-
 OWNTMP:
 DB 0
 ```
 
-The following old source stays in place:
+Keep the following `CMDCOUNT:` label and the source after it in place.
+
+### Change 2 · `INOPEN:`
+
+Find the unique label `INOPEN:`. Insert the new source immediately before this existing label:
 
 ```asm
-
-CMDCOUNT:
+INOPEN:
 ```
-
-### Change 2 near `RDLEN:`
-
-Unchanged source immediately before this edit:
-
-```asm
-RDLEN:
-DW 0
-```
-
-Insert after old physical line 1318.
 
 Insert:
 
 ```asm
 OUTCNT:
 DW 0
-
 OUTHANDLE:
 DW 0
 ```
 
-The following old source stays in place:
+### Change 3 · `CMDINIT:`
+
+Find the unique label `CMDINIT:`. Insert the new source immediately before this existing label:
 
 ```asm
-INOPEN:
-DB 0
+CMDINIT:
 ```
-
-### Change 3 near `ERROR:`
-
-Unchanged source immediately before this edit:
-
-```asm
-CALL TEXT
-MOV AX,4C01H
-INT 21H
-```
-
-Insert after old physical line 984.
 
 Insert:
 
 ```asm
-
 CREATEOUT:
 MOV DX,TMPNAME
 MOV CX,0
@@ -121,7 +94,6 @@ OUTPUTCLOSED:
 MOV AL,0
 MOV [OUTOPEN],AL
 RET
-
 FLUSH:
 PUSH AX
 PUSH BX
@@ -151,24 +123,11 @@ POP AX
 RET
 ```
 
-The following old source stays in place:
+### Change 4 · `IMAGEFULL:`
 
-```asm
+Find the unique label `IMAGEFULL:`. The old block below starts at that label.
 
-CMDINIT:
-```
-
-### Change 4 near `COUNTBYTE:`
-
-Unchanged source immediately before this edit:
-
-```asm
-POP BX
-POP AX
-RET
-```
-
-Remove this exact source at old physical positions 920–922:
+Remove this existing source:
 
 ```asm
 IMAGEFULL:
@@ -176,26 +135,22 @@ MOV AX,5
 JMP ERROR
 ```
 
-There is no replacement source.
+Keep the following `COPYZ:` label and the source after it in place.
 
-The following old source stays in place:
+### Change 5 · `COUNTBYTE:`
 
-```asm
-
-COPYZ:
-```
-
-### Change 5 near `COUNTBYTE:`
-
-Unchanged source immediately before this edit:
+Find the unique label `COUNTBYTE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+COUNTBYTE:
 MOV BX,[PC]
 INC BX
 MOV [PC],BX
 ```
 
-Remove this exact source at old physical positions 914–916:
+The edit begins immediately after that unchanged block.
+
+Remove this existing source:
 
 ```asm
 MOV BX,[OUTPTR]
@@ -203,26 +158,13 @@ INC BX
 MOV [OUTPTR],BX
 ```
 
-There is no replacement source.
+### Change 6 · `COUNTBYTE:`
 
-The following old source stays in place:
-
-```asm
-POP BX
-POP AX
-```
-
-### Change 6 near `EMIT:`
-
-Unchanged source immediately before this edit:
+Find the unique label `COUNTBYTE:`. Insert the new source immediately before this existing label:
 
 ```asm
-JNE COUNTBYTE
-MOV BX,[OUTPTR]
-MOV [BX],AL
+COUNTBYTE:
 ```
-
-Insert after old physical line 909.
 
 Insert:
 
@@ -235,61 +177,58 @@ JB COUNTBYTE
 CALL FLUSH
 ```
 
-The following old source stays in place:
+### Change 7 · `EMIT:`
+
+Find the unique label `EMIT:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-COUNTBYTE:
+EMIT:
+PUSH AX
+PUSH BX
 MOV BX,[PC]
-```
-
-### Change 7 near `EMIT:`
-
-Unchanged source immediately before this edit:
-
-```asm
+CMP BX,2100H
+JAE IMAGEFULL
 MOV AH,[PASS]
 CMP AH,2
 JNE COUNTBYTE
 ```
 
-Remove this exact source at old physical positions 908–908:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 MOV BX,[OUTPTR]
 ```
 
-Replace it with:
+With:
 
 ```asm
 MOV BX,[OUTCNT]
 ADD BX,6000H
 ```
 
-The following old source stays in place:
+### Change 8 · `EMIT:`
+
+Find the unique label `EMIT:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV [BX],AL
-COUNTBYTE:
-```
-
-### Change 8 near `EMIT:`
-
-Unchanged source immediately before this edit:
-
-```asm
+EMIT:
 PUSH AX
 PUSH BX
 MOV BX,[PC]
 ```
 
-Remove this exact source at old physical positions 903–904:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 CMP BX,2100H
 JAE IMAGEFULL
 ```
 
-Replace it with:
+With:
 
 ```asm
 CMP BX,0F000H
@@ -299,16 +238,9 @@ JMP ERROR
 EMITROOM:
 ```
 
-The following old source stays in place:
+### Change 9 · `INPUTCLOSED:`
 
-```asm
-MOV AH,[PASS]
-CMP AH,2
-```
-
-### Change 9 near `INPUTCLOSED:`
-
-Unchanged source immediately before this edit:
+Find the unique label `INPUTCLOSED:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 INPUTCLOSED:
@@ -316,11 +248,12 @@ MOV AL,0
 MOV [INOPEN],AL
 ```
 
-Remove this exact source at old physical positions 72–113:
+The edit begins immediately after that unchanged block.
+
+Remove this existing source:
 
 ```asm
 RET
-
 WRITEOUT:
 MOV DX,RESNAME
 MOV CX,0
@@ -363,25 +296,18 @@ MOV DX,BYTEMSG
 CALL TEXT
 ```
 
-There is no replacement source.
+### Change 10 · `PASSEND:`
 
-The following old source stays in place:
-
-```asm
-RET
-```
-
-### Change 10 near `PASSEND:`
-
-Unchanged source immediately before this edit:
+Find the unique label `PASSEND:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-JMP NEXTLINE
 PASSEND:
 CALL CLOSEFILE
 ```
 
-Remove this exact source at old physical positions 37–43:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 MOV AL,[PASS]
@@ -393,7 +319,7 @@ CALL WRITEOUT
 GOOD:
 ```
 
-Replace it with:
+With:
 
 ```asm
 CALL FLUSH
@@ -412,16 +338,9 @@ MOV DX,BYTEMSG
 CALL TEXT
 ```
 
-The following old source stays in place:
+### Change 11 · `NEXTLINE:`
 
-```asm
-MOV AX,4C00H
-INT 21H
-```
-
-### Change 11 near `NEXTLINE:`
-
-Unchanged source immediately before this edit:
+Find the unique label `NEXTLINE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 NEXTLINE:
@@ -429,7 +348,9 @@ CALL READLINE
 CMP AX,0
 ```
 
-Remove this exact source at old physical positions 31–35:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE PASSEND
@@ -439,7 +360,7 @@ JMP NEXTLINE
 PASSEND:
 ```
 
-Replace it with:
+With:
 
 ```asm
 JE COPYDONE
@@ -449,47 +370,27 @@ JMP COPYBYTE
 COPYDONE:
 ```
 
-The following old source stays in place:
+### Change 12 · `NEXTLINE:`
 
-```asm
-CALL CLOSEFILE
-MOV AL,[PASS]
-```
+Find the unique label `NEXTLINE:`. The old block below starts at that label.
 
-### Change 12 near `PASSSTART:`
-
-Unchanged source immediately before this edit:
-
-```asm
-MOV [ENDED],AL
-MOV [SKIPLF],AL
-CALL OPENFILE
-```
-
-Remove this exact source at old physical positions 28–29:
+Replace this existing source:
 
 ```asm
 NEXTLINE:
 CALL READLINE
 ```
 
-Replace it with:
+With:
 
 ```asm
 COPYBYTE:
 CALL NEXTBYTE
 ```
 
-The following old source stays in place:
+### Change 13 · `PASSSTART:`
 
-```asm
-CMP AX,0
-JE PASSEND
-```
-
-### Change 13 near `PASSSTART:`
-
-Unchanged source immediately before this edit:
+Find the unique label `PASSSTART:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 PASSSTART:
@@ -497,7 +398,9 @@ MOV AX,100H
 MOV [PC],AX
 ```
 
-Remove this exact source at old physical positions 19–26:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 MOV AX,6000H
@@ -510,7 +413,7 @@ MOV [ENDED],AL
 MOV [SKIPLF],AL
 ```
 
-Replace it with:
+With:
 
 ```asm
 MOV AL,2
@@ -518,24 +421,21 @@ MOV [PASS],AL
 CALL CREATEOUT
 ```
 
-The following old source stays in place:
+### Change 14 · `ROOM:`
+
+Find the unique label `ROOM:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CALL OPENFILE
-NEXTLINE:
-```
-
-### Change 14 near `ROOM:`
-
-Unchanged source immediately before this edit:
-
-```asm
+ROOM:
+CALL CMDFILES
 MOV AL,1
 MOV [PASS],AL
 MOV AX,0
 ```
 
-Remove this exact source at old physical positions 13–16:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 MOV [SYMC],AX
@@ -544,7 +444,7 @@ MOV [SYMNEXT],AX
 PASSSTART:
 ```
 
-Replace it with:
+With:
 
 ```asm
 MOV [RDPOS],AX
@@ -553,37 +453,22 @@ MOV [OUTCNT],AX
 MOV [LINENO],AX
 ```
 
-The following old source stays in place:
+### Change 15 · `ROOM:`
+
+Find the unique label `ROOM:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV AX,100H
-MOV [PC],AX
-```
-
-### Change 15 near `ROOM:`
-
-Unchanged source immediately before this edit:
-
-```asm
-JMP ERROR
 ROOM:
 CALL CMDFILES
 ```
 
-Remove this exact source at old physical positions 10–11:
+The edit begins immediately after that unchanged block.
+
+Remove this existing source:
 
 ```asm
 MOV AL,1
 MOV [PASS],AL
-```
-
-There is no replacement source.
-
-The following old source stays in place:
-
-```asm
-MOV AX,0
-MOV [SYMC],AX
 ```
 
 ## Build the stopping point

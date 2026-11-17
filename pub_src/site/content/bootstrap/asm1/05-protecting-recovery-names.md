@@ -19,18 +19,15 @@ The checks occur before CREATEOUT. A reserved file is not silently erased. Inspe
 
 ## Enter the source
 
-Copy `A04.ASM` to `A05.ASM`. Apply the following edits **from the bottom of the old file upward**. Physical positions locate an edit in the unchanged old file; use the nearby label and printed context to identify it. Keep all other source. The Z labels are ordinary implementation labels for explicit short-branch bridges.
+Copy `A04.ASM` to `A05.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1 near `FLUSHDONE:`
+### Change 1 · `CLEANUP:`
 
-Unchanged source immediately before this edit:
+Find the unique label `CLEANUP:`. Insert the new source immediately before this existing label:
 
 ```asm
-POP AX
-RET
+CLEANUP:
 ```
-
-Insert after old physical line 1010.
 
 Insert:
 
@@ -70,36 +67,21 @@ PREFLIGHTOK:
 RET
 ```
 
-The following old source stays in place:
+### Change 2 · `ROOM:`
+
+Find the unique label `ROOM:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CLEANUP:
-MOV AL,[INOPEN]
-```
-
-### Change 2 near `ROOM:`
-
-Unchanged source immediately before this edit:
-
-```asm
-JMP ERROR
 ROOM:
 CALL CMDFILES
 ```
 
-Insert after old physical line 9.
+The edit begins immediately after that unchanged block.
 
 Insert:
 
 ```asm
 CALL PREFLIGHT
-```
-
-The following old source stays in place:
-
-```asm
-MOV AX,0
-MOV [RDPOS],AX
 ```
 
 ## Build the stopping point

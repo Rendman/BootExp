@@ -26,45 +26,30 @@ The chosen result must also differ from the running checkpoint's executable name
 
 ## Enter the source
 
-Copy A01C.ASM to A01D.ASM. Apply these edits from the bottom of the old file upward. Physical positions locate the old source; the context identifies the exact edit. Keep all other source.
+Copy A01C.ASM to A01D.ASM. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1
+### Change 1 · `OUTPTR:`
 
-Unchanged source immediately before the edit:
+Find the unique label `OUTPTR:`. Insert the new source immediately before this existing label:
 
 ```asm
-
-RESNAME:
-DB 82,69,83,85,76,84,46,67,79,77,0,0,0
+OUTPTR:
 ```
-
-Insert after old physical line 1207.
 
 Insert:
 
 ```asm
-
 BAKNAME:
 DB 82,69,83,85,76,84,46,66,65,75,0
 ```
 
-The following old source stays in place:
+### Change 2 · `RESNAME:`
+
+Find the unique label `RESNAME:`. Insert the new source immediately before this existing label:
 
 ```asm
-
-OUTPTR:
+RESNAME:
 ```
-
-### Change 2
-
-Unchanged source immediately before the edit:
-
-```asm
-SRCNAME:
-DB 83,79,85,82,67,69,46,65,83,77,0,0,0
-```
-
-Insert after old physical line 1205.
 
 Insert:
 
@@ -73,29 +58,17 @@ TMPNAME:
 DB 65,83,77,65,46,84,77,80,0
 ```
 
-The following old source stays in place:
+### Change 3 · `OKMSG:`
+
+Find the unique label `OKMSG:`. Insert the new source immediately before this existing label:
 
 ```asm
-RESNAME:
-DB 82,69,83,85,76,84,46,67,79,77,0,0,0
+OKMSG:
 ```
-
-### Change 3
-
-Unchanged source immediately before the edit:
-
-```asm
-CMDBAD:
-MOV AX,65535
-RET
-```
-
-Insert after old physical line 1070.
 
 Insert:
 
 ```asm
-
 CMDMATCH:
 LODSB
 MOV BX,DI
@@ -110,7 +83,6 @@ RET
 CMDNO:
 MOV AX,0
 RET
-
 CMDFILES:
 CALL CMDINIT
 CMP AX,0
@@ -164,23 +136,11 @@ MOV AX,9
 JMP ERROR
 ```
 
-The following old source stays in place:
+### Change 4 · `CMDPROBE:`
 
-```asm
+Find the unique label `CMDPROBE:`. The old block below starts at that label.
 
-OKMSG:
-```
-
-### Change 4
-
-Unchanged source immediately before the edit:
-
-```asm
-MOV AX,4C01H
-INT 21H
-```
-
-Remove old physical positions 955–966:
+Remove this existing source:
 
 ```asm
 CMDPROBE:
@@ -196,42 +156,28 @@ MOV AX,4C00H
 INT 21H
 ```
 
-There is no replacement source.
+Keep the following `CMDINIT:` label and the source after it in place.
 
-The following old source stays in place:
+### Change 5 · `ROOM:`
 
-```asm
-CMDINIT:
-MOV SI,81H
-```
-
-### Change 5
-
-Unchanged source immediately before the edit:
+Find the unique label `ROOM:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV AX,7
-JMP ERROR
 ROOM:
 ```
 
-Remove old physical positions 9–9:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 CALL CMDPROBE
 ```
 
-Replace with:
+With:
 
 ```asm
 CALL CMDFILES
-```
-
-The following old source stays in place:
-
-```asm
-MOV AL,1
-MOV [PASS],AL
 ```
 
 ## Build this stopping point

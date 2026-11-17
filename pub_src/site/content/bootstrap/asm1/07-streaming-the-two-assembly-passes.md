@@ -19,18 +19,15 @@ PC describes the target; OUTCNT describes the current block. They are independen
 
 ## Enter the source
 
-Copy `A06.ASM` to `A07.ASM`. Apply the following edits **from the bottom of the old file upward**. Physical positions locate an edit in the unchanged old file; use the nearby label and printed context to identify it. Keep all other source. The Z labels are ordinary implementation labels for explicit short-branch bridges.
+Copy `A06.ASM` to `A07.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1 near `OUTHANDLE:`
+### Change 1 · `INOPEN:`
 
-Unchanged source immediately before this edit:
+Find the unique label `INOPEN:`. Insert the new source immediately before this existing label:
 
 ```asm
-OUTHANDLE:
-DW 0
+INOPEN:
 ```
-
-Insert after old physical line 1479.
 
 Insert:
 
@@ -39,24 +36,31 @@ ENDPC:
 DW 0
 ```
 
-The following old source stays in place:
+### Change 2 · `COPYDONE:`
+
+Find the unique label `COPYDONE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-INOPEN:
-DB 0
-```
-
-### Change 2 near `COPYDONE:`
-
-Unchanged source immediately before this edit:
-
-```asm
+COPYDONE:
+CALL CLOSEFILE
+CALL FLUSH
+CALL CLOSEOUT
+CALL COMMIT
+MOV DX,OKMSG
+CALL TEXT
+MOV SI,RESNAME
+CALL CMDTEXT
+MOV DL,32
+MOV AH,2
+INT 21H
+MOV AX,[PC]
+SUB AX,100H
 CALL NUMBER
 MOV DX,BYTEMSG
 CALL TEXT
 ```
 
-Insert after old physical line 45.
+The edit begins immediately after that unchanged block.
 
 Insert:
 
@@ -64,24 +68,28 @@ Insert:
 GOOD:
 ```
 
-The following old source stays in place:
+### Change 3 · `ROOM:`
+
+Find the unique label `ROOM:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV AX,4C00H
-INT 21H
-```
-
-### Change 3 near `ROOM:`
-
-Unchanged source immediately before this edit:
-
-```asm
+ROOM:
+CALL CMDFILES
+CALL PREFLIGHT
+MOV AX,0
+MOV [RDPOS],AX
+MOV [RDLEN],AX
+MOV [OUTCNT],AX
+MOV [LINENO],AX
+MOV AX,100H
 MOV [PC],AX
 MOV AL,2
 MOV [PASS],AL
 ```
 
-Remove this exact source at old physical positions 20–30:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 CALL CREATEOUT
@@ -97,7 +105,7 @@ COPYDONE:
 CALL CLOSEFILE
 ```
 
-Replace it with:
+With:
 
 ```asm
 JMP PASSSTART
@@ -111,24 +119,23 @@ JMP ERROR
 PASSVALID:
 ```
 
-The following old source stays in place:
+### Change 4 · `ROOM:`
+
+Find the unique label `ROOM:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CALL FLUSH
-CALL CLOSEOUT
-```
-
-### Change 4 near `ROOM:`
-
-Unchanged source immediately before this edit:
-
-```asm
+ROOM:
+CALL CMDFILES
+CALL PREFLIGHT
+MOV AX,0
 MOV [RDPOS],AX
 MOV [RDLEN],AX
 MOV [OUTCNT],AX
 ```
 
-Remove this exact source at old physical positions 15–17:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 MOV [LINENO],AX
@@ -136,7 +143,7 @@ MOV AX,100H
 MOV [PC],AX
 ```
 
-Replace it with:
+With:
 
 ```asm
 MOV [ENDED],AL
@@ -163,24 +170,18 @@ MOV AX,[PC]
 MOV [ENDPC],AX
 ```
 
-The following old source stays in place:
+### Change 5 · `ROOM:`
+
+Find the unique label `ROOM:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV AL,2
-MOV [PASS],AL
-```
-
-### Change 5 near `ROOM:`
-
-Unchanged source immediately before this edit:
-
-```asm
+ROOM:
 CALL CMDFILES
 CALL PREFLIGHT
 MOV AX,0
 ```
 
-Insert after old physical line 11.
+The edit begins immediately after that unchanged block.
 
 Insert:
 
@@ -195,16 +196,9 @@ MOV AX,0
 MOV [LINENO],AX
 ```
 
-The following old source stays in place:
+### Change 6 · `ROOM:`
 
-```asm
-MOV [RDPOS],AX
-MOV [RDLEN],AX
-```
-
-### Change 6 near `ROOM:`
-
-Unchanged source immediately before this edit:
+Find the unique label `ROOM:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 ROOM:
@@ -212,20 +206,13 @@ CALL CMDFILES
 CALL PREFLIGHT
 ```
 
-Insert after old physical line 10.
+The edit begins immediately after that unchanged block.
 
 Insert:
 
 ```asm
 MOV AL,1
 MOV [PASS],AL
-```
-
-The following old source stays in place:
-
-```asm
-MOV AX,0
-MOV [RDPOS],AX
 ```
 
 ## Build the stopping point

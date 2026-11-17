@@ -19,46 +19,32 @@ The seed implementation still uses only instructions accepted by ASM0. It encode
 
 ## Enter the source
 
-Copy `A09.ASM` to `A10.ASM`. Apply the following edits **from the bottom of the old file upward**. Physical positions locate an edit in the unchanged old file; use the nearby label and printed context to identify it. Keep all other source. The Z labels are ordinary implementation labels for explicit short-branch bridges.
+Copy `A09.ASM` to `A10.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1 near `CLEANFAIL:`
+### Change 1 · `CMDCOUNT:`
 
-Unchanged source immediately before this edit:
+Find the unique label `CMDCOUNT:`. Insert the new source immediately before this existing label:
 
 ```asm
-CLEANFAIL:
-DB 0
+CMDCOUNT:
 ```
-
-Insert after old physical line 1534.
 
 Insert:
 
 ```asm
 PREFIX:
 DB 0
-
 P1:
 DB 0
 ```
 
-The following old source stays in place:
+### Change 2 · `INOPEN:`
+
+Find the unique label `INOPEN:`. Insert the new source immediately before this existing label:
 
 ```asm
-CMDCOUNT:
-DW 0
+INOPEN:
 ```
-
-### Change 2 near `ENDPC:`
-
-Unchanged source immediately before this edit:
-
-```asm
-ENDPC:
-DW 0
-```
-
-Insert after old physical line 1516.
 
 Insert:
 
@@ -67,24 +53,13 @@ SEGCODE:
 DW 0
 ```
 
-The following old source stays in place:
+### Change 3 · `OPTAB:`
+
+Find the unique label `OPTAB:`. Insert the new source immediately before this existing label:
 
 ```asm
-INOPEN:
-DB 0
+OPTAB:
 ```
-
-### Change 3 near `REGTAB:`
-
-Unchanged source immediately before this edit:
-
-```asm
-DB 66,80,0,13
-DB 83,73,0,14
-DB 68,73,0,15
-```
-
-Insert after old physical line 1455.
 
 Insert:
 
@@ -95,23 +70,13 @@ DB 83,83,0,18
 DB 68,83,0,19
 ```
 
-The following old source stays in place:
+### Change 4 · `CMDINIT:`
+
+Find the unique label `CMDINIT:`. Insert the new source immediately before this existing label:
 
 ```asm
-
-OPTAB:
+CMDINIT:
 ```
-
-### Change 4 near `CLEANEND:`
-
-Unchanged source immediately before this edit:
-
-```asm
-CLEANEND:
-RET
-```
-
-Insert after old physical line 1169.
 
 Insert:
 
@@ -135,7 +100,6 @@ MOV [WIDTH],AL
 MOV AL,4
 MOV [KIND],AL
 RET
-
 SEGMOV:
 MOV AL,[K1]
 CMP AL,4
@@ -176,24 +140,15 @@ SEGBAD:
 JMP TWOBAD
 ```
 
-The following old source stays in place:
+### Change 5 · `STOREOK:`
+
+Find the unique label `STOREOK:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMDINIT:
-MOV SI,81H
-```
-
-### Change 5 near `STOREOK:`
-
-Unchanged source immediately before this edit:
-
-```asm
-MOV AX,1
-JMP ERROR
 STOREOK:
 ```
 
-Insert after old physical line 847.
+The edit begins immediately after that unchanged block.
 
 Insert:
 
@@ -205,24 +160,15 @@ CALL EMIT
 STOREPREFIX:
 ```
 
-The following old source stays in place:
+### Change 6 · `LOADMEM:`
+
+Find the unique label `LOADMEM:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV AL,[WIDTH]
-ADD AL,136
-```
-
-### Change 6 near `LOADMEM:`
-
-Unchanged source immediately before this edit:
-
-```asm
-JMP EMITWORD
-
 LOADMEM:
 ```
 
-Insert after old physical line 825.
+The edit begins immediately after that unchanged block.
 
 Insert:
 
@@ -234,29 +180,20 @@ CALL EMIT
 LOADPREFIX:
 ```
 
-The following old source stays in place:
+### Change 7 · `MOVOPERANDS:`
+
+Find the unique label `MOVOPERANDS:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV AL,[W1]
-ADD AL,138
-```
-
-### Change 7 near `MOVOPERANDS:`
-
-Unchanged source immediately before this edit:
-
-```asm
-JMP ERROR
-
 MOVOPERANDS:
+MOV AL,[K1]
 ```
 
-Insert after old physical line 779.
+The edit begins immediately after that unchanged block.
 
 Insert:
 
 ```asm
-MOV AL,[K1]
 CMP AL,4
 JNE MOVNOTSEG
 JMP SEGMOV
@@ -266,26 +203,25 @@ CMP AL,4
 JNE MOVNOTSRC
 JMP SEGMOV
 MOVNOTSRC:
-```
-
-The following old source stays in place:
-
-```asm
 MOV AL,[K1]
-CMP AL,2
 ```
 
-### Change 8 near `TWOOPERANDS:`
+### Change 8 · `TWOOPERANDS:`
 
-Unchanged source immediately before this edit:
+Find the unique label `TWOOPERANDS:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+TWOOPERANDS:
+CALL OPERAND
+MOV AL,[KIND]
+MOV [K1],AL
+MOV AL,[WIDTH]
 MOV [W1],AL
 MOV AL,[REG]
 MOV [R1],AL
 ```
 
-Insert after old physical line 737.
+The edit begins immediately after that unchanged block.
 
 Insert:
 
@@ -294,24 +230,25 @@ MOV AL,[PREFIX]
 MOV [P1],AL
 ```
 
-The following old source stays in place:
+### Change 9 · `DEFINEBAD:`
+
+Find the unique label `DEFINEBAD:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV AX,[VAL]
-MOV [V1],AX
-```
-
-### Change 9 near `OPERAND:`
-
-Unchanged source immediately before this edit:
-
-```asm
+DEFINEBAD:
+MOV AX,3
+JMP ERROR
+OPERAND:
+CALL SCAN
+MOV AL,[4080H]
+CMP AL,91
+JE MEMORY
 CALL REGISTER
 CMP AX,0FFFFH
 JE IMMEDIATE
 ```
 
-Insert after old physical line 513.
+The edit begins immediately after that unchanged block.
 
 Insert:
 
@@ -322,24 +259,18 @@ JMP SEGOPERAND
 NORMALREGISTER:
 ```
 
-The following old source stays in place:
+### Change 10 · `DEFINEBAD:`
+
+Find the unique label `DEFINEBAD:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV DL,AL
-AND AL,7
-```
-
-### Change 10 near `OPERAND:`
-
-Unchanged source immediately before this edit:
-
-```asm
+DEFINEBAD:
+MOV AX,3
 JMP ERROR
-
 OPERAND:
 ```
 
-Insert after old physical line 506.
+The edit begins immediately after that unchanged block.
 
 Insert:
 
@@ -348,40 +279,31 @@ MOV AL,0
 MOV [PREFIX],AL
 ```
 
-The following old source stays in place:
+### Change 11 · `LOOKMISS:`
+
+Find the unique label `LOOKMISS:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CALL SCAN
-MOV AL,[4080H]
-```
-
-### Change 11 near `REGISTER:`
-
-Unchanged source immediately before this edit:
-
-```asm
-
+LOOKMISS:
+MOV BX,0
+POP SI
+RET
 REGISTER:
 MOV BX,REGTAB
 ```
 
-Remove this exact source at old physical positions 313–313:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 MOV CX,16
 ```
 
-Replace it with:
+With:
 
 ```asm
 MOV CX,20
-```
-
-The following old source stays in place:
-
-```asm
-MOV AX,4
-CALL LOOK
 ```
 
 ## Build the stopping point

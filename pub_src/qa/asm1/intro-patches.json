@@ -6,22 +6,17 @@
     "chapter": 1,
     "changes": [
       {
-        "a1": 1080,
-        "a2": 1080,
-        "old": [],
-        "new": [
-          ""
-        ],
+        "a1": 754,
+        "a2": 755,
+        "anchor": "IMMEDVALUE",
+        "placement": "after_context",
+        "landmark": [],
         "context": [
-          "DB 74,78,69,0,0,0,8,117",
-          "DB 74,66,69,0,0,0,8,118",
-          "DB 74,65,0,0,0,0,8,119"
+          "IMMEDVALUE:",
+          "MOV AL,[W1]",
+          "CMP AL,0",
+          "MOV AX,[VAL]"
         ],
-        "after": []
-      },
-      {
-        "a1": 783,
-        "a2": 784,
         "old": [
           "JE BYTEVALUE"
         ],
@@ -30,19 +25,36 @@
           "JMP BYTEVALUE",
           "IMMEDWORD:"
         ],
-        "context": [
-          "MOV AL,[W1]",
-          "CMP AL,0",
-          "MOV AX,[VAL]"
-        ],
-        "after": [
-          "JMP EMITWORD",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 83,
-        "a2": 84,
+        "a1": 78,
+        "a2": 79,
+        "anchor": "WRITEOUT",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "WRITEOUT:",
+          "MOV DX,RESNAME",
+          "MOV CX,0",
+          "MOV AH,3CH",
+          "INT 21H",
+          "JB FILEBAD",
+          "MOV [HANDLE],AX",
+          "MOV BX,AX",
+          "MOV CX,[PC]",
+          "SUB CX,100H",
+          "MOV DX,6000H",
+          "MOV AH,40H",
+          "INT 21H",
+          "JB FILEBAD",
+          "CMP AX,CX",
+          "JNE FILEBAD",
+          "MOV BX,[HANDLE]",
+          "MOV AH,3EH",
+          "INT 21H"
+        ],
         "old": [
           "JB FILEBAD"
         ],
@@ -51,19 +63,32 @@
           "JMP FILEBAD",
           "ZWRITEOUT4:"
         ],
-        "context": [
-          "MOV BX,[HANDLE]",
-          "MOV AH,3EH",
-          "INT 21H"
-        ],
-        "after": [
-          "MOV DX,OKMSG",
-          "CALL TEXT"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 79,
-        "a2": 80,
+        "a1": 74,
+        "a2": 75,
+        "anchor": "WRITEOUT",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "WRITEOUT:",
+          "MOV DX,RESNAME",
+          "MOV CX,0",
+          "MOV AH,3CH",
+          "INT 21H",
+          "JB FILEBAD",
+          "MOV [HANDLE],AX",
+          "MOV BX,AX",
+          "MOV CX,[PC]",
+          "SUB CX,100H",
+          "MOV DX,6000H",
+          "MOV AH,40H",
+          "INT 21H",
+          "JB FILEBAD",
+          "CMP AX,CX"
+        ],
         "old": [
           "JNE FILEBAD"
         ],
@@ -72,19 +97,30 @@
           "JMP FILEBAD",
           "ZWRITEOUT3:"
         ],
-        "context": [
-          "INT 21H",
-          "JB FILEBAD",
-          "CMP AX,CX"
-        ],
-        "after": [
-          "MOV BX,[HANDLE]",
-          "MOV AH,3EH"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 77,
-        "a2": 78,
+        "a1": 72,
+        "a2": 73,
+        "anchor": "WRITEOUT",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "WRITEOUT:",
+          "MOV DX,RESNAME",
+          "MOV CX,0",
+          "MOV AH,3CH",
+          "INT 21H",
+          "JB FILEBAD",
+          "MOV [HANDLE],AX",
+          "MOV BX,AX",
+          "MOV CX,[PC]",
+          "SUB CX,100H",
+          "MOV DX,6000H",
+          "MOV AH,40H",
+          "INT 21H"
+        ],
         "old": [
           "JB FILEBAD"
         ],
@@ -93,19 +129,22 @@
           "JMP FILEBAD",
           "ZWRITEOUT2:"
         ],
-        "context": [
-          "MOV DX,6000H",
-          "MOV AH,40H",
-          "INT 21H"
-        ],
-        "after": [
-          "CMP AX,CX",
-          "JNE FILEBAD"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 69,
-        "a2": 70,
+        "a1": 64,
+        "a2": 65,
+        "anchor": "WRITEOUT",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "WRITEOUT:",
+          "MOV DX,RESNAME",
+          "MOV CX,0",
+          "MOV AH,3CH",
+          "INT 21H"
+        ],
         "old": [
           "JB FILEBAD"
         ],
@@ -114,19 +153,21 @@
           "JMP FILEBAD",
           "ZWRITEOUT1:"
         ],
-        "context": [
-          "MOV CX,0",
-          "MOV AH,3CH",
-          "INT 21H"
-        ],
-        "after": [
-          "MOV [HANDLE],AX",
-          "MOV BX,AX"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 61,
-        "a2": 62,
+        "a1": 57,
+        "a2": 58,
+        "anchor": "CLOSEFILE",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "CLOSEFILE:",
+          "MOV BX,[HANDLE]",
+          "MOV AH,3EH",
+          "INT 21H"
+        ],
         "old": [
           "JB FILEBAD"
         ],
@@ -135,30 +176,8 @@
           "JMP FILEBAD",
           "INPUTCLOSED:"
         ],
-        "context": [
-          "MOV BX,[HANDLE]",
-          "MOV AH,3EH",
-          "INT 21H"
-        ],
-        "after": [
-          "RET",
-          ""
-        ]
-      },
-      {
-        "a1": 0,
-        "a2": 1,
-        "old": [
-          "; ASM86 construction checkpoint. Plain BOOTASM source."
-        ],
-        "new": [
-          "; ASM86A construction checkpoint."
-        ],
-        "context": [],
-        "after": [
-          "START:",
-          "CLD"
-        ]
+        "after": [],
+        "end_anchor": null
       }
     ]
   },
@@ -169,86 +188,103 @@
     "chapter": 2,
     "changes": [
       {
-        "a1": 1093,
-        "a2": 1093,
+        "a1": 1018,
+        "a2": 1018,
+        "anchor": "OPTAB",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "OPTAB:",
+          "DB 68,66,0,0,0,0,1,0",
+          "DB 68,87,0,0,0,0,1,1",
+          "DB 82,69,84,0,0,0,2,195",
+          "DB 67,76,68,0,0,0,2,252",
+          "DB 76,79,68,83,66,0,2,172",
+          "DB 83,84,79,83,66,0,2,170",
+          "DB 77,79,86,0,0,0,3,0",
+          "DB 65,68,68,0,0,0,4,0",
+          "DB 79,82,0,0,0,0,4,1",
+          "DB 65,78,68,0,0,0,4,4",
+          "DB 83,85,66,0,0,0,4,5",
+          "DB 67,77,80,0,0,0,4,7",
+          "DB 73,78,67,0,0,0,5,64",
+          "DB 68,69,67,0,0,0,5,72",
+          "DB 80,85,83,72,0,0,5,80",
+          "DB 80,79,80,0,0,0,5,88",
+          "DB 73,78,84,0,0,0,6,205",
+          "DB 67,65,76,76,0,0,7,232",
+          "DB 74,77,80,0,0,0,7,233",
+          "DB 74,66,0,0,0,0,8,114",
+          "DB 74,65,69,0,0,0,8,115",
+          "DB 74,69,0,0,0,0,8,116",
+          "DB 74,78,69,0,0,0,8,117",
+          "DB 74,66,69,0,0,0,8,118",
+          "DB 74,65,0,0,0,0,8,119"
+        ],
         "old": [],
         "new": [
           "SRCNAME:",
           "DB 83,79,85,82,67,69,46,65,83,77,0,0,0",
-          "",
           "RESNAME:",
           "DB 82,69,83,85,76,84,46,67,79,77,0,0,0",
-          "",
           "OUTPTR:",
-          "DW 24576",
-          ""
+          "DW 24576"
         ],
-        "context": [
-          "DB 74,66,69,0,0,0,8,118",
-          "DB 74,65,0,0,0,0,8,119",
-          ""
-        ],
-        "after": []
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 987,
-        "a2": 990,
+        "a1": 935,
+        "a2": 937,
+        "anchor": "PC",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "PC:",
+          "DW 256"
+        ],
         "old": [
-          "",
           "OUTPTR:",
           "DW 24576"
         ],
         "new": [],
-        "context": [
-          "",
-          "PC:",
-          "DW 256"
-        ],
-        "after": [
-          "",
-          "SYMC:"
-        ]
+        "after": [],
+        "end_anchor": "SYMC"
       },
       {
-        "a1": 973,
-        "a2": 979,
+        "a1": 925,
+        "a2": 929,
+        "anchor": "FNAME",
+        "placement": "at_label",
+        "landmark": [],
+        "context": [],
         "old": [
           "FNAME:",
           "DB 83,79,85,82,67,69,46,65,83,77,0",
-          "",
           "RESNAME:",
-          "DB 82,69,83,85,76,84,46,67,79,77,0",
-          ""
+          "DB 82,69,83,85,76,84,46,67,79,77,0"
         ],
         "new": [],
-        "context": [
-          "",
-          "DIVEND:",
-          ""
-        ],
-        "after": [
-          "HANDLE:",
-          "DW 0"
-        ]
+        "after": [],
+        "end_anchor": "HANDLE"
       },
       {
-        "a1": 48,
-        "a2": 49,
+        "a1": 45,
+        "a2": 46,
+        "anchor": "OPENFILE",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "OPENFILE:"
+        ],
         "old": [
           "MOV DX,FNAME"
         ],
         "new": [
           "MOV DX,SRCNAME"
         ],
-        "context": [
-          "JMP ERROR",
-          "",
-          "OPENFILE:"
-        ],
-        "after": [
-          "MOV AX,3D00H",
-          "INT 21H"
-        ]
+        "after": [],
+        "end_anchor": null
       }
     ]
   },
@@ -259,31 +295,38 @@
     "chapter": 3,
     "changes": [
       {
-        "a1": 1093,
-        "a2": 1093,
+        "a1": 1018,
+        "a2": 1018,
+        "anchor": "OUTPTR",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "OUTPTR:",
+          "DW 24576"
+        ],
         "old": [],
         "new": [
           "CMDCOUNT:",
           "DW 0",
-          "",
           "CMDPTR:",
           "DW 0",
-          "",
           "CMDBUF:",
           "DB 0,0,0,0,0,0,0,0,0,0,0,0,0",
           "DB 0,0,0,0,0,0,0,0,0,0,0,0,0",
           "DB 0,0,0,0,0,0,0,0,0,0,0,0,0"
         ],
-        "context": [
-          "OUTPTR:",
-          "DW 24576",
-          ""
-        ],
-        "after": []
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 953,
-        "a2": 953,
+        "a1": 912,
+        "a2": 912,
+        "anchor": "OKMSG",
+        "placement": "before_label",
+        "landmark": [
+          "OKMSG:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "CMDPROBE:",
@@ -297,7 +340,6 @@
           "PROBEOK:",
           "MOV AX,4C00H",
           "INT 21H",
-          "",
           "CMDINIT:",
           "MOV SI,81H",
           "MOV DI,CMDBUF",
@@ -401,35 +443,26 @@
           "RET",
           "CMDBAD:",
           "MOV AX,65535",
-          "RET",
-          ""
+          "RET"
         ],
-        "context": [
-          "MOV AX,4C01H",
-          "INT 21H",
-          ""
-        ],
-        "after": [
-          "OKMSG:",
-          "DB 79,75,32,36"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 8,
-        "a2": 8,
+        "a1": 7,
+        "a2": 7,
+        "anchor": "ROOM",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "ROOM:"
+        ],
         "old": [],
         "new": [
           "CALL CMDPROBE"
         ],
-        "context": [
-          "MOV AX,7",
-          "JMP ERROR",
-          "ROOM:"
-        ],
-        "after": [
-          "MOV AL,1",
-          "MOV [PASS],AL"
-        ]
+        "after": [],
+        "end_anchor": null
       }
     ]
   },
@@ -440,49 +473,50 @@
     "chapter": 4,
     "changes": [
       {
-        "a1": 1207,
-        "a2": 1207,
+        "a1": 1132,
+        "a2": 1132,
+        "anchor": "OUTPTR",
+        "placement": "before_label",
+        "landmark": [
+          "OUTPTR:"
+        ],
+        "context": [],
         "old": [],
         "new": [
-          "",
           "BAKNAME:",
           "DB 82,69,83,85,76,84,46,66,65,75,0"
         ],
-        "context": [
-          "",
-          "RESNAME:",
-          "DB 82,69,83,85,76,84,46,67,79,77,0,0,0"
-        ],
-        "after": [
-          "",
-          "OUTPTR:"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 1205,
-        "a2": 1205,
+        "a1": 1130,
+        "a2": 1130,
+        "anchor": "RESNAME",
+        "placement": "before_label",
+        "landmark": [
+          "RESNAME:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "TMPNAME:",
-          "DB 65,83,77,65,46,84,77,80,0",
-          ""
+          "DB 65,83,77,65,46,84,77,80,0"
         ],
-        "context": [
-          "SRCNAME:",
-          "DB 83,79,85,82,67,69,46,65,83,77,0,0,0",
-          ""
-        ],
-        "after": [
-          "RESNAME:",
-          "DB 82,69,83,85,76,84,46,67,79,77,0,0,0"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 1070,
-        "a2": 1070,
+        "a1": 1028,
+        "a2": 1028,
+        "anchor": "OKMSG",
+        "placement": "before_label",
+        "landmark": [
+          "OKMSG:"
+        ],
+        "context": [],
         "old": [],
         "new": [
-          "",
           "CMDMATCH:",
           "LODSB",
           "MOV BX,DI",
@@ -497,7 +531,6 @@
           "CMDNO:",
           "MOV AX,0",
           "RET",
-          "",
           "CMDFILES:",
           "CALL CMDINIT",
           "CMP AX,0",
@@ -550,19 +583,16 @@
           "MOV AX,9",
           "JMP ERROR"
         ],
-        "context": [
-          "CMDBAD:",
-          "MOV AX,65535",
-          "RET"
-        ],
-        "after": [
-          "",
-          "OKMSG:"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 954,
-        "a2": 966,
+        "a1": 913,
+        "a2": 924,
+        "anchor": "CMDPROBE",
+        "placement": "at_label",
+        "landmark": [],
+        "context": [],
         "old": [
           "CMDPROBE:",
           "MOV AX,0",
@@ -574,38 +604,29 @@
           "JMP ERROR",
           "PROBEOK:",
           "MOV AX,4C00H",
-          "INT 21H",
-          ""
+          "INT 21H"
         ],
         "new": [],
-        "context": [
-          "MOV AX,4C01H",
-          "INT 21H",
-          ""
-        ],
-        "after": [
-          "CMDINIT:",
-          "MOV SI,81H"
-        ]
+        "after": [],
+        "end_anchor": "CMDINIT"
       },
       {
-        "a1": 8,
-        "a2": 9,
+        "a1": 7,
+        "a2": 8,
+        "anchor": "ROOM",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "ROOM:"
+        ],
         "old": [
           "CALL CMDPROBE"
         ],
         "new": [
           "CALL CMDFILES"
         ],
-        "context": [
-          "MOV AX,7",
-          "JMP ERROR",
-          "ROOM:"
-        ],
-        "after": [
-          "MOV AL,1",
-          "MOV [PASS],AL"
-        ]
+        "after": [],
+        "end_anchor": null
       }
     ]
   },
@@ -616,8 +637,14 @@
     "chapter": 5,
     "changes": [
       {
-        "a1": 1126,
-        "a2": 1126,
+        "a1": 1082,
+        "a2": 1082,
+        "anchor": "OKMSG",
+        "placement": "before_label",
+        "landmark": [
+          "OKMSG:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "CMDTEXT:",
@@ -629,22 +656,22 @@
           "INT 21H",
           "JMP CMDTEXT",
           "CMDTEXTEND:",
-          "RET",
-          ""
+          "RET"
         ],
-        "context": [
-          "MOV AX,9",
-          "JMP ERROR",
-          ""
-        ],
-        "after": [
-          "OKMSG:",
-          "DB 79,75,32,36"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 97,
-        "a2": 97,
+        "a1": 92,
+        "a2": 92,
+        "anchor": "ZWRITEOUT4",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "ZWRITEOUT4:",
+          "MOV DX,OKMSG",
+          "CALL TEXT"
+        ],
         "old": [],
         "new": [
           "MOV SI,RESNAME",
@@ -653,15 +680,8 @@
           "MOV AH,2",
           "INT 21H"
         ],
-        "context": [
-          "ZWRITEOUT4:",
-          "MOV DX,OKMSG",
-          "CALL TEXT"
-        ],
-        "after": [
-          "MOV AX,[PC]",
-          "SUB AX,100H"
-        ]
+        "after": [],
+        "end_anchor": null
       }
     ]
   },
@@ -672,59 +692,56 @@
     "chapter": 6,
     "changes": [
       {
-        "a1": 1285,
-        "a2": 1285,
+        "a1": 1205,
+        "a2": 1205,
+        "anchor": "OUTPTR",
+        "placement": "before_label",
+        "landmark": [
+          "OUTPTR:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "INOPEN:",
-          "DB 0",
-          ""
+          "DB 0"
         ],
-        "context": [
-          "BAKNAME:",
-          "DB 82,69,83,85,76,84,46,66,65,75,0",
-          ""
-        ],
-        "after": [
-          "OUTPTR:",
-          "DW 24576"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 65,
-        "a2": 65,
+        "a1": 61,
+        "a2": 61,
+        "anchor": "INPUTCLOSED",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "INPUTCLOSED:"
+        ],
         "old": [],
         "new": [
           "MOV AL,0",
           "MOV [INOPEN],AL"
         ],
-        "context": [
-          "JAE INPUTCLOSED",
-          "JMP FILEBAD",
-          "INPUTCLOSED:"
-        ],
-        "after": [
-          "RET",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "a1": 56,
-        "a2": 56,
+        "a1": 53,
+        "a2": 53,
+        "anchor": "INPUTOPEN",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "INPUTOPEN:",
+          "MOV [HANDLE],AX"
+        ],
         "old": [],
         "new": [
           "MOV AL,1",
           "MOV [INOPEN],AL"
         ],
-        "context": [
-          "JMP FILEBAD",
-          "INPUTOPEN:",
-          "MOV [HANDLE],AX"
-        ],
-        "after": [
-          "RET",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       }
     ]
   }

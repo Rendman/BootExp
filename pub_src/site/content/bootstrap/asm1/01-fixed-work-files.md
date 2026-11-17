@@ -23,19 +23,15 @@ The required successor, ASM86, uses XOR while hashing symbol names. Teaching it 
 
 ## Enter the source
 
-Copy `A01F.ASM` to `A01.ASM`. Apply the following edits **from the bottom of the old file upward**. Physical positions locate an edit in the unchanged old file; use the nearby label and printed context to identify it. Keep all other source. The Z labels are ordinary implementation labels for explicit short-branch bridges.
+Copy `A01F.ASM` to `A01.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1 near `OPTAB:`
+### Change 1 · `SRCNAME:`
 
-Unchanged source immediately before this edit:
+Find the unique label `SRCNAME:`. Insert the new source immediately before this existing label:
 
 ```asm
-DB 74,78,69,0,0,0,8,117
-DB 74,66,69,0,0,0,8,118
-DB 74,65,0,0,0,0,8,119
+SRCNAME:
 ```
-
-Insert after old physical line 1276.
 
 Insert:
 
@@ -43,16 +39,9 @@ Insert:
 DB 88,79,82,0,0,0,4,6
 ```
 
-The following old source stays in place:
+### Change 2 · `INSTRUCTION:`
 
-```asm
-
-SRCNAME:
-```
-
-### Change 2 near `INSTRUCTION:`
-
-Unchanged source immediately before this edit:
+Find the unique label `INSTRUCTION:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 INSTRUCTION:
@@ -60,23 +49,18 @@ DEC SI
 MOV BX,OPTAB
 ```
 
-Remove this exact source at old physical positions 564–564:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 MOV CX,25
 ```
 
-Replace it with:
+With:
 
 ```asm
 MOV CX,26
-```
-
-The following old source stays in place:
-
-```asm
-MOV AX,8
-CALL LOOK
 ```
 
 ## Build the stopping point

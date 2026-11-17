@@ -24,18 +24,15 @@ This changes the report, not the selected file, instruction language, or emitted
 
 ## Enter the source
 
-Copy A01D.ASM to A01E.ASM. Apply these edits from the bottom of the old file upward. Physical positions locate the old source; the context identifies the exact edit. Keep all other source.
+Copy A01D.ASM to A01E.ASM. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1
+### Change 1 · `OKMSG:`
 
-Unchanged source immediately before the edit:
+Find the unique label `OKMSG:`. Insert the new source immediately before this existing label:
 
 ```asm
-MOV AX,9
-JMP ERROR
+OKMSG:
 ```
-
-Insert after old physical line 1126.
 
 Insert:
 
@@ -52,16 +49,9 @@ CMDTEXTEND:
 RET
 ```
 
-The following old source stays in place:
+### Change 2 · `ZWRITEOUT4:`
 
-```asm
-OKMSG:
-DB 79,75,32,36
-```
-
-### Change 2
-
-Unchanged source immediately before the edit:
+Find the unique label `ZWRITEOUT4:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 ZWRITEOUT4:
@@ -69,7 +59,7 @@ MOV DX,OKMSG
 CALL TEXT
 ```
 
-Insert after old physical line 97.
+The edit begins immediately after that unchanged block.
 
 Insert:
 
@@ -79,13 +69,6 @@ CALL CMDTEXT
 MOV DL,32
 MOV AH,2
 INT 21H
-```
-
-The following old source stays in place:
-
-```asm
-MOV AX,[PC]
-SUB AX,100H
 ```
 
 ## Build this stopping point

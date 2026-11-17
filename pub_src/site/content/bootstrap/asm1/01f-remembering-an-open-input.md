@@ -24,18 +24,15 @@ The new byte lives between BAKNAME and OUTPTR. OUTPTR still contains 6000H, and 
 
 ## Enter the source
 
-Copy A01E.ASM to A01F.ASM. Apply these edits from the bottom of the old file upward. Physical positions locate the old source; the context identifies the exact edit. Keep all other source.
+Copy A01E.ASM to A01F.ASM. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1
+### Change 1 · `OUTPTR:`
 
-Unchanged source immediately before the edit:
+Find the unique label `OUTPTR:`. Insert the new source immediately before this existing label:
 
 ```asm
-BAKNAME:
-DB 82,69,83,85,76,84,46,66,65,75,0
+OUTPTR:
 ```
-
-Insert after old physical line 1285.
 
 Insert:
 
@@ -44,24 +41,15 @@ INOPEN:
 DB 0
 ```
 
-The following old source stays in place:
+### Change 2 · `INPUTCLOSED:`
+
+Find the unique label `INPUTCLOSED:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-OUTPTR:
-DW 24576
-```
-
-### Change 2
-
-Unchanged source immediately before the edit:
-
-```asm
-JAE INPUTCLOSED
-JMP FILEBAD
 INPUTCLOSED:
 ```
 
-Insert after old physical line 65.
+The edit begins immediately after that unchanged block.
 
 Insert:
 
@@ -70,35 +58,22 @@ MOV AL,0
 MOV [INOPEN],AL
 ```
 
-The following old source stays in place:
+### Change 3 · `INPUTOPEN:`
+
+Find the unique label `INPUTOPEN:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-RET
-```
-
-### Change 3
-
-Unchanged source immediately before the edit:
-
-```asm
-JMP FILEBAD
 INPUTOPEN:
 MOV [HANDLE],AX
 ```
 
-Insert after old physical line 56.
+The edit begins immediately after that unchanged block.
 
 Insert:
 
 ```asm
 MOV AL,1
 MOV [INOPEN],AL
-```
-
-The following old source stays in place:
-
-```asm
-RET
 ```
 
 ## Build this stopping point

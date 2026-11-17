@@ -30,7 +30,7 @@ COPY ASM0.COM ASMKEEP.COM
 
 ASMKEEP is the original ASM0 and uses fixed SOURCE.ASM and RESULT.COM. It accepts an 8192-byte image, 256 definitions, 4000 physical lines, and 120 characters per line. The six opening A01A through A01F sources and every A01 through A12 source fit that builder. Copy the checkpoint to SOURCE.ASM, run CHECK ASMKEEP, require the stated OK count and PASS, then copy RESULT.COM to the checkpoint executable name.
 
-Each article copies the preceding source under the next filename and gives exact edits from the bottom upward. Preserve both the source and executable after each stopping test. The article number and saved source name are separate locators; keep the printed disk filenames exactly as given.
+Each article copies the preceding source under the next filename and gives edits in the order they should be applied. Find the named label, including its colon, and confirm the complete definition on its own source line. Follow the unchanged locator block to the edit point; type only the insertion or replacement. No physical line numbers are needed, and blank lines or comment-only notes may differ in your copy. Preserve both the source and executable after each stopping test. The article number and saved source name are separate locators; keep the printed disk filenames exactly as given.
 
 ## The opening checkpoints
 

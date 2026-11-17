@@ -20,47 +20,41 @@ The driver clears both fields at the start of each pass. NEXTBYTE changes AX, BX
 
 ## Enter the source
 
-Copy `A01.ASM` to `A02.ASM`. Apply the following edits **from the bottom of the old file upward**. Physical positions locate an edit in the unchanged old file; use the nearby label and printed context to identify it. Keep all other source. The Z labels are ordinary implementation labels for explicit short-branch bridges.
+Copy `A01.ASM` to `A02.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1 near `BAKNAME:`
+### Change 1 · `INOPEN:`
 
-Unchanged source immediately before this edit:
+Find the unique label `INOPEN:`. Insert the new source immediately before this existing label:
 
 ```asm
-BAKNAME:
-DB 82,69,83,85,76,84,46,66,65,75,0
+INOPEN:
 ```
-
-Insert after old physical line 1290.
 
 Insert:
 
 ```asm
 RDPOS:
 DW 0
-
 RDLEN:
 DW 0
 ```
 
-The following old source stays in place:
+### Change 2 · `NEXTBYTE:`
+
+Find the unique label `NEXTBYTE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-INOPEN:
-DB 0
-```
-
-### Change 2 near `NEXTBYTE:`
-
-Unchanged source immediately before this edit:
-
-```asm
+NEXTBYTE:
+MOV BX,[HANDLE]
+MOV CX,1
 MOV DX,CHAR
 MOV AH,3FH
 INT 21H
 ```
 
-Remove this exact source at old physical positions 120–123:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JAE BYTEOK
@@ -69,7 +63,7 @@ JMP ERROR
 BYTEOK:
 ```
 
-Replace it with:
+With:
 
 ```asm
 JAE REFILLED
@@ -94,54 +88,40 @@ BUFFEREND:
 MOV AX,0
 ```
 
-The following old source stays in place:
+### Change 3 · `NEXTBYTE:`
+
+Find the unique label `NEXTBYTE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-RET
-```
-
-### Change 3 near `NEXTBYTE:`
-
-Unchanged source immediately before this edit:
-
-```asm
-
 NEXTBYTE:
 MOV BX,[HANDLE]
 ```
 
-Remove this exact source at old physical positions 116–117:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 MOV CX,1
 MOV DX,CHAR
 ```
 
-Replace it with:
+With:
 
 ```asm
 MOV DX,5000H
 MOV CX,1024
 ```
 
-The following old source stays in place:
+### Change 4 · `NEXTBYTE:`
+
+Find the unique label `NEXTBYTE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV AH,3FH
-INT 21H
-```
-
-### Change 4 near `NEXTBYTE:`
-
-Unchanged source immediately before this edit:
-
-```asm
-RET
-
 NEXTBYTE:
 ```
 
-Insert after old physical line 114.
+The edit begins immediately after that unchanged block.
 
 Insert:
 
@@ -152,37 +132,27 @@ CMP AX,DX
 JB BUFFERBYTE
 ```
 
-The following old source stays in place:
+### Change 5 · `PASSSTART:`
+
+Find the unique label `PASSSTART:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV BX,[HANDLE]
-MOV CX,1
-```
-
-### Change 5 near `PASSSTART:`
-
-Unchanged source immediately before this edit:
-
-```asm
+PASSSTART:
+MOV AX,100H
+MOV [PC],AX
+MOV AX,6000H
 MOV [OUTPTR],AX
 MOV AX,0
 MOV [LINENO],AX
 ```
 
-Insert after old physical line 22.
+The edit begins immediately after that unchanged block.
 
 Insert:
 
 ```asm
 MOV [RDPOS],AX
 MOV [RDLEN],AX
-```
-
-The following old source stays in place:
-
-```asm
-MOV [ENDED],AL
-MOV [SKIPLF],AL
 ```
 
 ## Build the stopping point

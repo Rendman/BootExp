@@ -19,11 +19,11 @@ READLINE still treats CR/LF as one ending, accepts bare CR or LF and a final unt
 
 ## Enter the source
 
-Copy `A07.ASM` to `A08.ASM`. Apply the following edits **from the bottom of the old file upward**. Physical positions locate an edit in the unchanged old file; use the nearby label and printed context to identify it. Keep all other source. The Z labels are ordinary implementation labels for explicit short-branch bridges.
+Copy `A07.ASM` to `A08.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1 near `READFAIL:`
+### Change 1 · `READFAIL:`
 
-Unchanged source immediately before this edit:
+Find the unique label `READFAIL:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 READFAIL:
@@ -31,7 +31,7 @@ MOV DX,[LINENO]
 INC DX
 ```
 
-Insert after old physical line 213.
+The edit begins immediately after that unchanged block.
 
 Insert:
 
@@ -39,24 +39,16 @@ Insert:
 READLIMIT:
 ```
 
-The following old source stays in place:
+### Change 2 · `READFAIL:`
+
+Find the unique label `READFAIL:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV [LINENO],DX
-JMP ERROR
-```
-
-### Change 2 near `READFAIL:`
-
-Unchanged source immediately before this edit:
-
-```asm
-MOV AX,6
 READFAIL:
 MOV DX,[LINENO]
 ```
 
-Insert after old physical line 212.
+The edit begins immediately after that unchanged block.
 
 Insert:
 
@@ -65,31 +57,28 @@ CMP DX,0FFFFH
 JE READLIMIT
 ```
 
-The following old source stays in place:
+### Change 3 · `LINEEND:`
+
+Find the unique label `LINEEND:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-INC DX
-MOV [LINENO],DX
-```
-
-### Change 3 near `LINEEND:`
-
-Unchanged source immediately before this edit:
-
-```asm
+LINEEND:
+MOV AL,0
 STOSB
 MOV AX,[LINENO]
 INC AX
 ```
 
-Remove this exact source at old physical positions 198–199:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 CMP AX,4000
 JA READFULL
 ```
 
-Replace it with:
+With:
 
 ```asm
 CMP AX,0
@@ -97,13 +86,6 @@ JNE LINECOUNTSAFE
 MOV AX,5
 JMP ERROR
 LINECOUNTSAFE:
-```
-
-The following old source stays in place:
-
-```asm
-MOV [LINENO],AX
-MOV AX,1
 ```
 
 ## Build the stopping point
