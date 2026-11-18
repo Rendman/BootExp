@@ -317,11 +317,13 @@ VIEW.BAS must report A10.COM length 3705 bytes. Keep that executable and source 
 Create T10.ASM as plain ASCII with COPY CON or an editor. Finish COPY CON with Ctrl-Z and Enter:
 
 ```asm
-MOV DL,41H
-MOV AH,2
-INT 21H
-MOV AX,4C00H
-INT 21H
+MOV AX,ES
+MOV BX,CS
+MOV CX,SS
+MOV DX,DS
+MOV ES,AX
+MOV SS,CX
+MOV DS,DX
 ```
 
 ```dos
@@ -331,24 +333,36 @@ CHECK A10 T10.ASM RESULT.COM
 Require:
 
 ```text
-OK RESULT.COM 00011 bytes
+OK RESULT.COM 00014 bytes
 PASS
 ```
 
-In VIEW.BAS, inspect RESULT.COM. Require length **11 bytes** and these complete contents:
+In VIEW.BAS, inspect RESULT.COM. Require length **14 bytes** and these complete contents:
 
 ```text
-B2 41 B4 02 CD 21 B8 00 4C CD 21
+8C C0 8C CB 8C D1 8C DA 8E C0 8E D1 8E DA
 ```
 
-The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
+The first four pairs read ES, CS, SS and DS with opcode 8CH. The last three write ES, SS and DS with opcode 8EH. The ordinary-register bits vary as well, so a fixed ModR/M byte cannot pass the whole fixture. CS is tested as a source only; it is not a legal destination.
+
+| Source instruction | Emitted bytes |
+|---|---|
+| `MOV AX,ES` | `8C C0` |
+| `MOV BX,CS` | `8C CB` |
+| `MOV CX,SS` | `8C D1` |
+| `MOV DX,DS` | `8C DA` |
+| `MOV ES,AX` | `8E C0` |
+| `MOV SS,CX` | `8E D1` |
+| `MOV DS,DX` | `8E DA` |
+
+This fixture is an encoding fragment, not a complete DOS program. Inspect its bytes; do not run RESULT.COM.
 
 ## A rejection check
 
 Create X10.ASM with this separate source:
 
 ```asm
-MOV AX,AL
+MOV CS,AX
 ```
 
 ```dos
@@ -364,8 +378,18 @@ FAIL
 
 The accepted RESULT.COM must remain unchanged. Keep a copy and compare it with C:\DOS\FC.EXE /B if in doubt. Require a fresh OK before using any output.
 
+MOV CS,AX must fail because MOV cannot load CS. Then replace X10.ASM with each width check below, one at a time, and rerun the same command. Each must report ERROR 00001 CODE 1 and FAIL, preserving the accepted result.
+
+```asm
+MOV AL,ES
+```
+
+```asm
+MOV ES,AL
+```
+
 An unexpected PASS fails this rejection test.
 
 ## If the result differs
 
-Check the saved argument names and terminators, handle ownership flags, reader cursors at each pass, and the current output count. Inspect file length as well as the leading bytes. A copied data file is not an executable proof.
+Check the four appended REGTAB records, the register kind and width, and SEGMOV's 8CH/8EH choice. The segment number belongs in the ModR/M register field; the ordinary word-register number belongs in its r/m field. The colon lookahead must restore SI for a standalone segment operand.

@@ -100,6 +100,10 @@ for case in cases:
  t+=fence('dos',f'CHECK {name}')+'Require:\n\n'+fence('text',case.get('prefix','').replace('\r\n','\n')+f'OK {case.get("output_file","RESULT.COM")} {case["target_bytes"]:05} bytes\nPASS')
  target=case.get('output_file','RESULT.COM');shown=case['target_hex'].split()[:32]
  t+=f'In VIEW.BAS, inspect {target}. Require length **{case["target_bytes"]} bytes** and '+('these complete contents' if case['target_bytes']<=32 else 'these first thirty-two bytes')+':\n\n'+fence('text',' '.join(shown))
+ if case.get('inspection_rows'):
+  t+=case['inspection_note']+'\n\n| Source instruction | Emitted bytes |\n|---|---|\n'
+  t+=''.join(f'| `{source}` | `{encoded}` |\n' for source,encoded in case['inspection_rows'])+'\n'
+  t+='This fixture is an encoding fragment, not a complete DOS program. Inspect its bytes; do not run RESULT.COM.\n\n'
  if case.get('self_build'):
   alias='ASMA0' if n==12 else 'ASM86A'
   t+='Compare the first self-produced executable with the preserved original, then use that new generation to assemble the same source once more:\n\n'+fence('dos',f'FC /B {alias}.COM RESULT.COM\nCOPY RESULT.COM GEN1.COM\nCHECK GEN1\nFC /B {alias}.COM RESULT.COM')
@@ -108,7 +112,7 @@ for case in cases:
   if n==12:t+='Continue with the separate [ASM86A collection](../../asm86a/index.html). For its construction builds, ASMA0.COM is the preceding builder. ASMKEEP.COM remains the original ASM86. ASM1 accepts PSP filenames; ASM0 keeps its fixed work files. Preserve each builder under its own name.\n\n'
   else:t+=fence('dos','COPY ASM86A.COM ASMAKEEP.COM')+'ASMAKEEP.COM is the preserved command-line assembler. ASMKEEP.COM still names the original ASM86.\n\n'
  else:
-  t+='The byte inspection is the stopping check for this encoding exercise. Keep the result as data.\n\n'
+  if not case.get('inspection_rows'):t+='The byte inspection is the stopping check for this encoding exercise. Keep the result as data.\n\n'
   if n in STORY_AFTER_CHECKS:t+=STORY_AFTER_CHECKS[n]+'\n\n'
  t+='## A rejection check\n\n';bad=case['bad']
  if n in [3,4,5]:t+='After inspecting the successful copy, delete ASMA.TMP. It belongs to this copy exercise.\n\n'
@@ -120,6 +124,9 @@ for case in cases:
  if n==3:t+='This early writer creates an empty ASMA.TMP before discovering the missing source. Inspect it and delete it before another run. RESULT.COM must be unchanged.\n\n'
  elif n in [4,5]:t+='The pre-existing RESULT.COM must remain unchanged. A missing-source failure must remove only the temporary file this run owned.\n\n'
  else:t+='The accepted RESULT.COM must remain unchanged. Keep a copy and compare it with FC /B if in doubt. Require a fresh OK before using any output.\n\n'
+ if case.get('extra_rejections'):
+  t+=case['rejection_note']+'\n\n'
+  for extra in case['extra_rejections']:t+=fence('asm',extra['text'])
  if n in [9,17]:
   limit=2048 if n==9 else 8192
   t+='## Fill the symbol table\n\nEnter SYMS.BAS as a source-text exercise:\n\n'+fence('basic',(W/'SYMS.BAS').read_text().replace('10 N=8192',f'10 N={limit}'))
@@ -132,6 +139,8 @@ for case in cases:
   t+='## Reach the image boundary\n\nMake LIMIT.ASM containing `RESB 61184`. Run CHECK A23 LIMIT.ASM RESULT.COM. Require `OK RESULT.COM 61184 bytes` and PASS. VIEW.BAS must show length 61184 and zero bytes. This is storage data, never a runnable program. Preserve it; change the count to 61185 and repeat. Require `ERROR 0000000001 CODE 5` and FAIL, with the previous result unchanged. The target limit is independent of the assembler\'s output-block size.\n\n'
  t+='An unexpected PASS fails this rejection test.\n\n## If the result differs\n\n'
  if n==1:t+='Check the six spelling bytes, the table count of twenty-six, class four and selector six. Register widths must agree. The existing arithmetic encoder supplies the instruction bytes.\n'
+ elif n==10:t+='Check the four appended REGTAB records, the register kind and width, and SEGMOV\'s 8CH/8EH choice. The segment number belongs in the ModR/M register field; the ordinary word-register number belongs in its r/m field. The colon lookahead must restore SI for a standalone segment operand.\n'
+ elif n==11:t+='Check SEGOPERAND\'s saved cursor and ES-only selector, PREFIX for the current operand, and P1 for the first operand. OPERAND must clear PREFIX on each new operand; a store must use saved P1. A spare 26H on an ordinary access reveals a prefix that was not cleared.\n'
  elif n<13:t+='Check the saved argument names and terminators, handle ownership flags, reader cursors at each pass, and the current output count. Inspect file length as well as the leading bytes. A copied data file is not an executable proof.\n'
  elif n<20:t+='Check ES at helper exits, the saved page segment and offset, record padding, and the complete spelling comparison. Check carry after every DOS memory call. A successful allocation does not initialize its contents.\n'
  elif n<25:t+='Check saved expression values across EMIT, the unresolved-reference flag, and fixed statement lengths in both passes. Quoted text bypasses mnemonic folding. A reserve count must be checked before multiplication or output.\n'

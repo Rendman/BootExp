@@ -196,20 +196,64 @@
     "description": "Teach an instruction form before using it in a successor.",
     "why": "Allocated workspace needs a way to select a segment, but the seed itself can remain in one segment.",
     "explain": "REGISTER adds ES, CS, SS, and DS after the sixteen ordinary registers. OPERAND marks them as a distinct kind. SEGMOV emits 8CH for a segment source or 8EH for a segment destination, with the segment field and ordinary word-register field in ModR/M. CS is never accepted as a destination.\n\nThe seed implementation still uses only instructions accepted by ASM86. It encodes these forms as output for another program; it does not yet execute them. Register widths and mixed segment/ordinary forms are checked explicitly.",
-    "fixture": "MOV DL,41H\nMOV AH,2\nINT 21H\nMOV AX,4C00H\nINT 21H\n",
-    "expected": "B241B402CD21B8004CCD21",
-    "program_output": "A",
+    "fixture": "MOV AX,ES\nMOV BX,CS\nMOV CX,SS\nMOV DX,DS\nMOV ES,AX\nMOV SS,CX\nMOV DS,DX\n",
+    "expected": "8CC08CCB8CD18CDA8EC08ED18EDA",
+    "program_output": null,
     "program_exit": 0,
     "bad": {
       "kind": "source",
-      "text": "MOV AX,AL\n",
+      "text": "MOV CS,AX\n",
       "line": 1,
       "code": 1
     },
     "binary_bytes": 3705,
-    "target_bytes": 11,
-    "target_hex": "B2 41 B4 02 CD 21 B8 00 4C CD 21",
-    "builder": "ASM86"
+    "target_bytes": 14,
+    "target_hex": "8C C0 8C CB 8C D1 8C DA 8E C0 8E D1 8E DA",
+    "builder": "ASM86",
+    "extra_rejections": [
+      {
+        "text": "MOV AL,ES\n",
+        "line": 1,
+        "code": 1
+      },
+      {
+        "text": "MOV ES,AL\n",
+        "line": 1,
+        "code": 1
+      }
+    ],
+    "inspection_rows": [
+      [
+        "MOV AX,ES",
+        "8C C0"
+      ],
+      [
+        "MOV BX,CS",
+        "8C CB"
+      ],
+      [
+        "MOV CX,SS",
+        "8C D1"
+      ],
+      [
+        "MOV DX,DS",
+        "8C DA"
+      ],
+      [
+        "MOV ES,AX",
+        "8E C0"
+      ],
+      [
+        "MOV SS,CX",
+        "8E D1"
+      ],
+      [
+        "MOV DS,DX",
+        "8E DA"
+      ]
+    ],
+    "inspection_note": "The first four pairs read ES, CS, SS and DS with opcode 8CH. The last three write ES, SS and DS with opcode 8EH. The ordinary-register bits vary as well, so a fixed ModR/M byte cannot pass the whole fixture. CS is tested as a source only; it is not a legal destination.",
+    "rejection_note": "MOV CS,AX must fail because MOV cannot load CS. Then replace X10.ASM with each width check below, one at a time, and rerun the same command. Each must report ERROR 00001 CODE 1 and FAIL, preserving the accepted result."
   },
   {
     "number": 11,
@@ -217,20 +261,60 @@
     "description": "Emit a segment prefix on the existing memory forms.",
     "why": "A word in another allocated segment needs both an offset and a segment selection.",
     "explain": "SEGOPERAND distinguishes a standalone segment register from ES: followed by a memory operand. It saves and restores the source cursor when a colon is absent. PREFIX belongs to the current operand; P1 saves it for the first operand.\n\nLOADMEM and STOREMEM emit prefix 26H before the ordinary MOV encoding. An ES override changes the selected memory segment, not the offset or operand width. At this seed stopping point only ES is accepted as a memory override.",
-    "fixture": "MOV DL,41H\nMOV AH,2\nINT 21H\nMOV AX,4C00H\nINT 21H\n",
-    "expected": "B241B402CD21B8004CCD21",
-    "program_output": "A",
+    "fixture": "MOV AX,ES:[BX]\nMOV AX,[BX]\nMOV ES:[1234H],DX\nMOV [1234H],DX\nMOV AL,ES:[1234H]\nMOV ES:[BX],AL\n",
+    "expected": "268B078B07268916341289163412268A063412268807",
+    "program_output": null,
     "program_exit": 0,
     "bad": {
       "kind": "source",
-      "text": "MOV AX,AL\n",
+      "text": "MOV AX,DS:[BX]\n",
       "line": 1,
       "code": 1
     },
     "binary_bytes": 3740,
-    "target_bytes": 11,
-    "target_hex": "B2 41 B4 02 CD 21 B8 00 4C CD 21",
-    "builder": "ASM86"
+    "target_bytes": 22,
+    "target_hex": "26 8B 07 8B 07 26 89 16 34 12 89 16 34 12 26 8A 06 34 12 26 88 07",
+    "builder": "ASM86",
+    "extra_rejections": [
+      {
+        "text": "MOV AX,CS:[BX]\n",
+        "line": 1,
+        "code": 1
+      },
+      {
+        "text": "MOV AX,SS:[BX]\n",
+        "line": 1,
+        "code": 1
+      }
+    ],
+    "inspection_rows": [
+      [
+        "MOV AX,ES:[BX]",
+        "26 8B 07"
+      ],
+      [
+        "MOV AX,[BX]",
+        "8B 07"
+      ],
+      [
+        "MOV ES:[1234H],DX",
+        "26 89 16 34 12"
+      ],
+      [
+        "MOV [1234H],DX",
+        "89 16 34 12"
+      ],
+      [
+        "MOV AL,ES:[1234H]",
+        "26 8A 06 34 12"
+      ],
+      [
+        "MOV ES:[BX],AL",
+        "26 88 07"
+      ]
+    ],
+    "inspection_note": "Read the result in the groups below. The ES accesses begin with 26H. The ordinary load immediately after the first ES load must begin with 8BH, and the ordinary store after the ES store must begin with 89H. Neither may inherit 26H. The last two instructions also check byte width and the opposite direct/BX address choices.",
+    "rejection_note": "DS is a valid segment-register operand, but DS: is not an accepted memory override in this seed. Then replace X11.ASM with each unsupported override below, one at a time, and rerun the same command. Each must report ERROR 00001 CODE 1 and FAIL, preserving the accepted result."
   },
   {
     "number": 12,

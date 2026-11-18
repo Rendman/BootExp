@@ -1,0 +1,2 @@
+PASS A10: ASM86 build, exact acceptance, rejection and prior-output preservation, inspected data or self-build
+PASS A11: ASM86 build, exact acceptance, rejection and prior-output preservation, inspected data or self-build

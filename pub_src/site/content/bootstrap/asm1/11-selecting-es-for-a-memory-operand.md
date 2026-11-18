@@ -81,11 +81,12 @@ VIEW.BAS must report A11.COM length 3740 bytes. Keep that executable and source 
 Create T11.ASM as plain ASCII with COPY CON or an editor. Finish COPY CON with Ctrl-Z and Enter:
 
 ```asm
-MOV DL,41H
-MOV AH,2
-INT 21H
-MOV AX,4C00H
-INT 21H
+MOV AX,ES:[BX]
+MOV AX,[BX]
+MOV ES:[1234H],DX
+MOV [1234H],DX
+MOV AL,ES:[1234H]
+MOV ES:[BX],AL
 ```
 
 ```dos
@@ -95,24 +96,35 @@ CHECK A11 T11.ASM RESULT.COM
 Require:
 
 ```text
-OK RESULT.COM 00011 bytes
+OK RESULT.COM 00022 bytes
 PASS
 ```
 
-In VIEW.BAS, inspect RESULT.COM. Require length **11 bytes** and these complete contents:
+In VIEW.BAS, inspect RESULT.COM. Require length **22 bytes** and these complete contents:
 
 ```text
-B2 41 B4 02 CD 21 B8 00 4C CD 21
+26 8B 07 8B 07 26 89 16 34 12 89 16 34 12 26 8A 06 34 12 26 88 07
 ```
 
-The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
+Read the result in the groups below. The ES accesses begin with 26H. The ordinary load immediately after the first ES load must begin with 8BH, and the ordinary store after the ES store must begin with 89H. Neither may inherit 26H. The last two instructions also check byte width and the opposite direct/BX address choices.
+
+| Source instruction | Emitted bytes |
+|---|---|
+| `MOV AX,ES:[BX]` | `26 8B 07` |
+| `MOV AX,[BX]` | `8B 07` |
+| `MOV ES:[1234H],DX` | `26 89 16 34 12` |
+| `MOV [1234H],DX` | `89 16 34 12` |
+| `MOV AL,ES:[1234H]` | `26 8A 06 34 12` |
+| `MOV ES:[BX],AL` | `26 88 07` |
+
+This fixture is an encoding fragment, not a complete DOS program. Inspect its bytes; do not run RESULT.COM.
 
 ## A rejection check
 
 Create X11.ASM with this separate source:
 
 ```asm
-MOV AX,AL
+MOV AX,DS:[BX]
 ```
 
 ```dos
@@ -128,8 +140,18 @@ FAIL
 
 The accepted RESULT.COM must remain unchanged. Keep a copy and compare it with C:\DOS\FC.EXE /B if in doubt. Require a fresh OK before using any output.
 
+DS is a valid segment-register operand, but DS: is not an accepted memory override in this seed. Then replace X11.ASM with each unsupported override below, one at a time, and rerun the same command. Each must report ERROR 00001 CODE 1 and FAIL, preserving the accepted result.
+
+```asm
+MOV AX,CS:[BX]
+```
+
+```asm
+MOV AX,SS:[BX]
+```
+
 An unexpected PASS fails this rejection test.
 
 ## If the result differs
 
-Check the saved argument names and terminators, handle ownership flags, reader cursors at each pass, and the current output count. Inspect file length as well as the leading bytes. A copied data file is not an executable proof.
+Check SEGOPERAND's saved cursor and ES-only selector, PREFIX for the current operand, and P1 for the first operand. OPERAND must clear PREFIX on each new operand; a store must use saved P1. A spare 26H on an ordinary access reveals a prefix that was not cleared.

@@ -34,6 +34,14 @@ for stage,case in zip(json.loads((Q/'article-patches.json').read_text()),cases):
   assert (W/f'T{n:02}.ASM').read_text()==case['fixture'].replace('\r\n','\n'),(n,'fixture source')
  if case['bad']['kind']=='source':
   assert case['bad']['text'].rstrip('\n') in re.findall(r'```asm\n(.*?)\n```',text,re.S),(n,'rejection source')
+ if n in (10,11):
+  assert case['program_output'] is None and 'do not run RESULT.COM' in text
+  assert [source for source,encoded in case['inspection_rows']]==case['fixture'].splitlines()
+  assert b''.join(bytes.fromhex(encoded) for source,encoded in case['inspection_rows'])==bytes.fromhex(case['expected'])
+  for source,encoded in case['inspection_rows']:assert f'| `{source}` | `{encoded}` |' in text
+  for extra in case['extra_rejections']:
+   assert extra['text'].rstrip('\n') in re.findall(r'```asm\n(.*?)\n```',text,re.S)
+  assert 'preserving the accepted result' in text
  assert not re.search(r'\b(?:contains|requires)\s+\*?\*?\d+\s+(?:required\s+)?(?:BASIC|source|assembly)?\s*lines',text,re.I),(n,'editorial line announcement')
 assert (W/'ASMA0.ASM').read_bytes()==(W/'A12.ASM').read_bytes()
 assert (W/'ASM86A.ASM').read_bytes()==(W/'A40.ASM').read_bytes()

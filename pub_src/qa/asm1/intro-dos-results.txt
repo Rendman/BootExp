@@ -1,2 +1,4 @@
 PASS DOS 3.10: ASM0 builds all six focused ASM1 checkpoints and the separate XOR step; all byte/status fixtures agree.
 PASS DOS 3.10: ASM0 builds the final ASM1; two self-built generations reproduce every byte of its established executable.
+PASS DOS 3.10 A10: four segment sources, three legal destinations, forbidden CS destination and both byte-register rejections.
+PASS DOS 3.10 A11: ES-prefixed byte/word loads/stores, cleared prefixes on ordinary accesses and rejected DS/CS/SS overrides; every rejection preserves the accepted bytes.

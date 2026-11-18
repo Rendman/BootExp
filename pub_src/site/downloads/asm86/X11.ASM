@@ -1,1 +1,1 @@
-MOV AX,AL
+MOV AX,DS:[BX]
