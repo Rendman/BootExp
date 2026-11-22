@@ -13,6 +13,9 @@ ASM86.ASM   Complete assembler, identical to A40.ASM; built by ASM1.
 A13 through A33, A36, A37, A40: twenty-four construction checkpoints.
 A12.ASM: identical to the verified ASM1 prerequisite.
 Tnn.ASM and Xnn.ASM: acceptance and rejection inputs where applicable.
+M13.ASM, M14.ASM, M15.ASM: separate memory diagnostic copies.
+Their articles print labelled edits and exact diagnostic messages.
+Keep A13-A15 unchanged for the continuing construction.
 VIEW.BAS inspects bytes; CHECK.BAT forwards filename arguments.
 HELLO.ASM, FRAME.ASM, BRIDGE.ASM, COPYTEXT.ASM: complete programs.
 LONGSRC.BAS and SYMS.BAS: BASIC generators of source text only.

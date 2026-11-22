@@ -1620,7 +1620,357 @@ COPY RESULT.COM A13.COM
 
 VIEW.BAS must report A13.COM length 4095 bytes. Keep that executable and source together.
 
-## Acceptance check
+## Check the new memory routines
+
+The small T input below checks that ordinary assembly still works. For a direct check of the added routines, make a separate diagnostic copy. Keep the accepted construction source and executable for the next article.
+
+Copy `A13.ASM` to `M13.ASM`. The [complete diagnostic source](../../../downloads/tools/asm86/M13.ASM) is also available. Apply the edits to your own typed source to check your routines; the download is a reference copy. These edits use labels and existing source as locators; no physical line numbers are needed.
+
+The diagnostic fills all 8192 bucket bytes with A5H just before MEMCLEAR, then verifies every word became zero. It writes different markers at both ends of each symbol page, reads them back after all eight pages have been written, and checks the hash block was not aliased. Before allocation it asks DOS for the largest free block; after MEMFREE it requires the same answer, zero saved segment descriptors, and no cleanup failure. DOS function 48H with BX=FFFFH must fail and return the largest available paragraph count in BX; the request cannot fit in conventional memory.
+
+Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
+
+### Diagnostic edit 1 · `CMDINIT:`
+
+Find the unique label `CMDINIT:`. Insert the new source immediately before this existing label:
+
+```asm
+CMDINIT:
+```
+
+Insert:
+
+```asm
+PROBEBASE:
+MOV BX,0FFFFH
+MOV AH,48H
+INT 21H
+JB PROBEBASEOK
+JMP PROBEFAIL
+PROBEBASEOK:
+MOV [PROBEFREE],BX
+RET
+PROBEDIRTY:
+PUSH AX
+PUSH BX
+PUSH CX
+MOV AX,0A5A5H
+MOV CX,4096
+PROBEDIRTYLOOP:
+MOV ES:[BX],AX
+ADD BX,2
+DEC CX
+JNE PROBEDIRTYLOOP
+POP CX
+POP BX
+POP AX
+RET
+PROBEMEM:
+MOV AX,[MEMCOUNT]
+MOV DX,9
+CALL PROBEEQUAL
+MOV AX,ES
+MOV DX,CS
+CALL PROBEEQUAL
+MOV AX,[HASHSEG]
+MOV ES,AX
+MOV BX,0
+MOV CX,4096
+PROBEZERO:
+MOV AX,ES:[BX]
+MOV DX,0
+CALL PROBEEQUAL
+ADD BX,2
+DEC CX
+JNE PROBEZERO
+MOV SI,MEMSEGS
+MOV BP,8
+MOV DI,1
+PROBEPAGES:
+MOV BX,SI
+MOV AX,[BX]
+MOV ES,AX
+MOV BX,0
+MOV AX,DI
+MOV ES:[BX],AX
+MOV BX,40958
+ADD AX,100H
+MOV ES:[BX],AX
+ADD SI,2
+INC DI
+DEC BP
+JNE PROBEPAGES
+MOV SI,MEMSEGS
+MOV BP,8
+MOV DI,1
+PROBEPAGECHECK:
+MOV BX,SI
+MOV AX,[BX]
+MOV ES,AX
+MOV BX,0
+MOV AX,ES:[BX]
+MOV DX,DI
+CALL PROBEEQUAL
+MOV BX,40958
+MOV AX,ES:[BX]
+ADD DX,100H
+CALL PROBEEQUAL
+ADD SI,2
+INC DI
+DEC BP
+JNE PROBEPAGECHECK
+MOV AX,[HASHSEG]
+MOV ES,AX
+MOV BX,0
+MOV AX,ES:[BX]
+MOV DX,0
+CALL PROBEEQUAL
+MOV AX,CS
+MOV ES,AX
+MOV DX,PROBEALLOK
+CALL TEXT
+RET
+PROBEFREED:
+MOV AX,[MEMCOUNT]
+MOV DX,[PROBELIMIT]
+CMP DX,0
+JNE PROBEFREECOUNT
+MOV DX,9
+PROBEFREECOUNT:
+CALL PROBEEQUAL
+MOV AL,[CLEANFAIL]
+MOV AH,0
+MOV DX,0
+CALL PROBEEQUAL
+MOV AX,ES
+MOV DX,CS
+CALL PROBEEQUAL
+MOV SI,MEMSEGS
+MOV CX,9
+PROBEDESC:
+MOV BX,SI
+MOV AX,[BX]
+MOV DX,0
+CALL PROBEEQUAL
+ADD SI,2
+DEC CX
+JNE PROBEDESC
+MOV BX,0FFFFH
+MOV AH,48H
+INT 21H
+JB PROBEFREEQUERY
+JMP PROBEFAIL
+PROBEFREEQUERY:
+MOV AX,BX
+MOV DX,[PROBEFREE]
+CALL PROBEEQUAL
+MOV DX,PROBEFREEOK
+CALL TEXT
+RET
+PROBEFREE:
+DW 0
+PROBELIMIT:
+DW 0
+PROBEALLOK:
+DB 77,69,77,79,82,89,32,67,76,69,65,82,32,65,78,68,32,80,65,71,69,83,32,80,65,83,83,13,10,36
+PROBEFREEOK:
+DB 77,69,77,79,82,89,32,82,69,76,69,65,83,69,32,80,65,83,83,13,10,36
+PROBEEQUAL:
+CMP AX,DX
+JE PROBEEQUALOK
+JMP PROBEFAIL
+PROBEEQUALOK:
+RET
+PROBEFAIL:
+MOV AX,CS
+MOV ES,AX
+CALL MEMFREE
+MOV DX,PROBEFAILMSG
+CALL TEXT
+MOV AX,4C01H
+INT 21H
+PROBEFAILMSG:
+DB 77,69,77,79,82,89,32,84,69,83,84,32,70,65,73,76,69,68,13,10,36
+```
+
+### Diagnostic edit 2 · `ALLOCBLOCK:`
+
+Find the unique label `ALLOCBLOCK:`, then follow this unchanged source through its last displayed instruction:
+
+```asm
+ALLOCBLOCK:
+```
+
+The edit begins immediately after that unchanged block.
+
+Insert:
+
+```asm
+MOV AX,[PROBELIMIT]
+CMP AX,0
+JE PROBEALLOCATE
+MOV DX,[MEMCOUNT]
+CMP AX,DX
+JNE PROBEALLOCATE
+MOV BX,0FFFFH
+PROBEALLOCATE:
+```
+
+### Diagnostic edit 3 · `MEMALLOCLOOP:`
+
+Find the unique label `MEMALLOCLOOP:`, then follow this unchanged source through its last displayed instruction:
+
+```asm
+MEMALLOCLOOP:
+PUSH CX
+MOV BX,0A00H
+CALL ALLOCBLOCK
+POP CX
+DEC CX
+JNE MEMALLOCLOOP
+MOV BX,200H
+CALL ALLOCBLOCK
+MOV AX,[HASHSEG]
+MOV ES,AX
+MOV BX,0
+```
+
+The edit begins immediately after that unchanged block.
+
+Insert:
+
+```asm
+CALL PROBEDIRTY
+```
+
+### Diagnostic edit 4 · `MEMSHRUNK:`
+
+Find the unique label `MEMSHRUNK:`, then follow this unchanged source through its last displayed instruction:
+
+```asm
+MEMSHRUNK:
+```
+
+The edit begins immediately after that unchanged block.
+
+Insert:
+
+```asm
+CALL PROBEBASE
+```
+
+### Diagnostic edit 5 · `ERROR:`
+
+Find the unique label `ERROR:`, then follow this unchanged source through its last displayed instruction:
+
+```asm
+ERROR:
+MOV [ERRCODE],AL
+CALL CLEANUP
+```
+
+The edit begins immediately after that unchanged block.
+
+Insert:
+
+```asm
+MOV AX,[PROBELIMIT]
+CMP AX,0
+JNE PROBEEXPECTED
+JMP PROBEFAIL
+PROBEEXPECTED:
+MOV AL,[ERRCODE]
+MOV AH,0
+MOV DX,7
+CALL PROBEEQUAL
+CALL PROBEFREED
+```
+
+### Diagnostic edit 6 · `PASSVALID:`
+
+Find the unique label `PASSVALID:`, then follow this unchanged source through its last displayed instruction:
+
+```asm
+PASSVALID:
+CALL FLUSH
+CALL CLOSEOUT
+CALL COMMIT
+CALL MEMFREE
+```
+
+The edit begins immediately after that unchanged block.
+
+Insert:
+
+```asm
+CALL PROBEFREED
+```
+
+### Diagnostic edit 7 · `ROOM:`
+
+Find the unique label `ROOM:`, then follow this unchanged source through its last displayed instruction:
+
+```asm
+ROOM:
+CALL CMDFILES
+CALL MEMINIT
+```
+
+The edit begins immediately after that unchanged block.
+
+Insert:
+
+```asm
+CALL PROBEMEM
+```
+
+### Build and run M13
+
+```dos
+CHECK ASM1 M13.ASM M13.COM
+CHECK M13 T13.ASM RESULT.COM
+```
+
+Require `OK M13.COM 04551 bytes` and PASS from the build. The diagnostic run must show:
+
+```text
+MEMORY CLEAR AND PAGES PASS
+MEMORY RELEASE PASS
+OK RESULT.COM 00011 bytes
+PASS
+```
+
+MEMORY TEST FAILED, an unexpected error, or a missing diagnostic message fails this check.
+
+### Stop partway through allocation
+
+In M13.ASM find this exact declaration:
+
+```asm
+PROBELIMIT:
+DW 0
+```
+
+Change only its word to `DW 2` and save the copy as F13.ASM. The third allocation now requests FFFFH paragraphs, so DOS must reject it after two successful page allocations. The ordinary ERROR and CLEANUP path must free both pages before the diagnostic compares the largest free block with its saved value.
+
+```dos
+CHECK ASM1 F13.ASM F13.COM
+CHECK F13 T13.ASM RESULT.COM
+```
+
+The build must succeed with the same size as M13.COM. The run must display:
+
+```text
+MEMORY RELEASE PASS
+ERROR 00000 CODE 7
+FAIL
+```
+
+FAIL is the intended process status for this forced allocation error. Require MEMORY RELEASE PASS as well: CODE 7 alone does not demonstrate cleanup. An existing RESULT.COM must remain unchanged. Repeat with limits 1 through 8 to exercise every partially completed allocation count. Do not carry any of these diagnostic edits into A14.ASM.
+
+Continue the construction from your accepted A13.ASM, not M13.ASM.
+
+## Ordinary assembly regression check
 
 Create T13.ASM as plain ASCII with COPY CON or an editor. Finish COPY CON with Ctrl-Z and Enter:
 

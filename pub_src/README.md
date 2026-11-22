@@ -64,6 +64,8 @@ EDIT86 follows LINK86. tools/edit86.ril and edit86_runtime.asm are authored sour
 
 Regenerate in this order: prepare_edit86_platform.py, build_edit86.py, qa/edit86/services.py, qa/edit86/test_checkpoints.py, qa/edit86/test_editor.py, tools/write_edit86_articles.py, package_sources.py. Run qa/edit86/test_storage.py after packaging for actual-source round trips, large columns, undo capacity and service-boundary checks. The publication check reconstructs the printed compiler, translator, binding and editor edits. qa/edit86/test_editor.py covers byte-preserving saves, all navigation/edit operations, large/page-boundary files, exact capacity, recovery, injected DOS failures and memory cleanup. tools/verify_edit86_dos.py separately exercises the actual editor on DOS 3.10 with an 84,000-byte document and BIOS keyboard/video. Its generated test disks and executable images are ignored and never packaged. The final EDIT86 image is 22,920 bytes; its requested program blocks total 336 KiB plus DOS/environment overhead. No disk paging is implemented.
 
+The separate M13/M14/M15 diagnostic copies test the early ASM86 memory helpers without changing A13-A15 or the later construction edits. tools/asm86_memory_checks.py arranges the authored checks and prints label/context edits for the three articles. qa/asm86/test_memory_checks.py builds them with the preserved seed, reconstructs the labelled edits with extra comments and spacing, exercises eight partial-allocation failures, and checks that thirteen deliberately broken helpers fail. Run that check before write_asm86a_articles.py to refresh memory-checks.json and the measured diagnostic build sizes. Package with package_asm86a.py and package_reader_names.py. qa/asm86/verify_memory_checks_dos.py independently builds and runs the diagnostics on private DOS 3.10 disks; it never opens the reader's VHD. Diagnostic executables are not archive members.
+
 ## Verification commands
 
 Run from the repository root. PC-BASIC requires Python 3.11; the locally installed interpreter is in tools/python-pcbasic207. CPU execution and static inspection use the retained dependencies under tools/python. With uv, prefix BASIC commands with `uv run --offline --python 3.11 --no-project`.
@@ -73,6 +75,8 @@ python3.11 pub_src/qa/test_bootasm.py
 python3.11 pub_src/qa/asm0/bootstrap.py
 python3 pub_src/qa/asm0/test_asm86.py
 python3 pub_src/qa/asm86/test_checkpoints.py
+python3 pub_src/qa/asm86/test_memory_checks.py
+python3 pub_src/qa/asm86/verify_memory_checks_dos.py
 python3 pub_src/qa/toolchain/common.py
 python3 pub_src/qa/toolchain/test_ir_extensions.py
 python3 pub_src/qa/ir86/test_assembler_handoff.py

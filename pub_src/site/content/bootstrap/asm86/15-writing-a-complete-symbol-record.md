@@ -249,7 +249,374 @@ COPY RESULT.COM A15.COM
 
 VIEW.BAS must report A15.COM length 4327 bytes. Keep that executable and source together.
 
-## Acceptance check
+## Check the new memory routines
+
+The small T input below checks that ordinary assembly still works. For a direct check of the added routines, make a separate diagnostic copy. Keep the accepted construction source and executable for the next article.
+
+Copy `A15.ASM` to `M15.ASM`. The [complete diagnostic source](../../../downloads/tools/asm86/M15.ASM) is also available. Apply the edits to your own typed source to check your routines; the download is a reference copy. These edits use labels and existing source as locators; no physical line numbers are needed.
+
+The test fills record 1026 with A5H and places guard bytes before and after it. It writes a 31-character spelling, value 1234H, link 8192 and kind 1 into bucket offset 8190. It independently selects page 1, offset 40 and compares all forty bytes against a literal expected record. It then overwrites the spelling with Q, changes the fields and dirties the pass flags; every name-padding and flag byte must become zero. Both runs verify the guards, the bucket head, its neighbor and bucket zero. The long spelling exercises the record writer directly; it does not extend the seed parser's accepted identifier length.
+
+Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
+
+### Diagnostic edit 1 · `CMDINIT:`
+
+Find the unique label `CMDINIT:`. Insert the new source immediately before this existing label:
+
+```asm
+CMDINIT:
+```
+
+Insert:
+
+```asm
+PROBELONG:
+DB 65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80
+DB 81,82,83,84,85,86,87,88,89,90,65,66,67,68,69,0
+PROBESHORT:
+DB 81,0
+PROBEEXPECT1:
+DB 65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80
+DB 81,82,83,84,85,86,87,88,89,90,65,66,67,68,69,0
+DW 1234H,8192,0,1
+PROBEEXPECT2:
+DB 81,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+DW 0BEEFH,1025,0,0
+PROBERECOK:
+DB 82,69,67,79,82,68,32,70,73,69,76,68,83,32,65,78,68,32,71,85,65,82,68,83,32,80,65,83,83,13,10,36
+PROBEEQUAL:
+CMP AX,DX
+JE PROBEEQUALOK
+JMP PROBEFAIL
+PROBEEQUALOK:
+RET
+PROBEFAIL:
+MOV AX,CS
+MOV ES,AX
+CALL MEMFREE
+MOV DX,PROBEFAILMSG
+CALL TEXT
+MOV AX,4C01H
+INT 21H
+PROBEFAILMSG:
+DB 77,69,77,79,82,89,32,84,69,83,84,32,70,65,73,76,69,68,13,10,36
+```
+
+### Diagnostic edit 2 · `EARLYTEST:`
+
+Find the unique label `EARLYTEST:`, then follow this unchanged source through its last displayed instruction:
+
+```asm
+EARLYTEST:
+PUSH SI
+MOV SI,TESTNAME
+MOV DI,4080H
+CALL COPYZ
+POP SI
+MOV AX,8192
+MOV [SYMID],AX
+MOV AX,12345
+MOV [DEFVALUE],AX
+MOV AX,0
+MOV [DEFTYPE],AX
+MOV [HEADID],AX
+MOV [BUCKET],AX
+MOV AX,[SYMID]
+CALL RECORDWRITE
+MOV AX,8192
+CALL SYMPTR
+ADD BX,32
+MOV AX,ES:[BX]
+```
+
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
+
+```asm
+MOV DX,CS
+MOV ES,DX
+CMP AX,12345
+JE EARLYPASS
+MOV AX,7
+JMP ERROR
+EARLYPASS:
+```
+
+With:
+
+```asm
+MOV DX,1026
+CALL PROBEEQUAL
+MOV BX,8188
+MOV AX,ES:[BX]
+MOV DX,55AAH
+CALL PROBEEQUAL
+MOV BX,0
+MOV AX,ES:[BX]
+MOV DX,0
+CALL PROBEEQUAL
+```
+
+### Diagnostic edit 3 · `EARLYTEST:`
+
+Find the unique label `EARLYTEST:`, then follow this unchanged source through its last displayed instruction:
+
+```asm
+EARLYTEST:
+PUSH SI
+MOV SI,TESTNAME
+MOV DI,4080H
+CALL COPYZ
+POP SI
+MOV AX,8192
+MOV [SYMID],AX
+MOV AX,12345
+MOV [DEFVALUE],AX
+MOV AX,0
+MOV [DEFTYPE],AX
+MOV [HEADID],AX
+MOV [BUCKET],AX
+MOV AX,[SYMID]
+CALL RECORDWRITE
+```
+
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
+
+```asm
+MOV AX,8192
+CALL SYMPTR
+ADD BX,32
+```
+
+With:
+
+```asm
+MOV SI,PROBEEXPECT1
+CALL PROBERECORD
+CALL PROBERECPAGE
+MOV BX,76
+MOV AX,0FFFFH
+MOV ES:[BX],AX
+MOV AX,CS
+MOV ES,AX
+MOV SI,PROBESHORT
+MOV DI,4080H
+CALL COPYZ
+MOV AX,0BEEFH
+MOV [DEFVALUE],AX
+MOV AX,1025
+MOV [HEADID],AX
+MOV AX,0
+MOV [DEFTYPE],AX
+MOV AX,[SYMID]
+CALL RECORDWRITE
+MOV SI,PROBEEXPECT2
+CALL PROBERECORD
+MOV AX,CS
+MOV ES,AX
+MOV DX,PROBERECOK
+CALL TEXT
+RET
+PROBERECPAGE:
+MOV BX,MEMSEGS
+ADD BX,2
+MOV AX,[BX]
+MOV ES,AX
+RET
+PROBERECORD:
+CALL PROBERECPAGE
+MOV BX,40
+MOV CX,40
+PROBERECBYTE:
+LODSB
+MOV AH,0
+MOV DL,ES:[BX]
+MOV DH,0
+CALL PROBEEQUAL
+INC BX
+DEC CX
+JNE PROBERECBYTE
+MOV BX,39
+MOV AL,ES:[BX]
+MOV AH,0
+MOV DX,5AH
+CALL PROBEEQUAL
+MOV BX,80
+MOV AL,ES:[BX]
+MOV AH,0
+MOV DX,6BH
+CALL PROBEEQUAL
+MOV AX,[HASHSEG]
+MOV ES,AX
+MOV BX,8190
+```
+
+### Diagnostic edit 4 · `EARLYTEST:`
+
+Find the unique label `EARLYTEST:`, then follow this unchanged source through its last displayed instruction:
+
+```asm
+EARLYTEST:
+PUSH SI
+MOV SI,TESTNAME
+MOV DI,4080H
+CALL COPYZ
+POP SI
+MOV AX,8192
+MOV [SYMID],AX
+MOV AX,12345
+MOV [DEFVALUE],AX
+MOV AX,0
+MOV [DEFTYPE],AX
+```
+
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
+
+```asm
+MOV [HEADID],AX
+```
+
+With:
+
+```asm
+MOV AX,8190
+```
+
+### Diagnostic edit 5 · `EARLYTEST:`
+
+Find the unique label `EARLYTEST:`, then follow this unchanged source through its last displayed instruction:
+
+```asm
+EARLYTEST:
+PUSH SI
+MOV SI,TESTNAME
+MOV DI,4080H
+CALL COPYZ
+POP SI
+MOV AX,8192
+```
+
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
+
+```asm
+MOV [SYMID],AX
+MOV AX,12345
+MOV [DEFVALUE],AX
+MOV AX,0
+```
+
+With:
+
+```asm
+MOV [HEADID],AX
+MOV AX,1
+```
+
+### Diagnostic edit 6 · `EARLYTEST:`
+
+Find the unique label `EARLYTEST:`, then follow this unchanged source through its last displayed instruction:
+
+```asm
+EARLYTEST:
+PUSH SI
+MOV SI,TESTNAME
+MOV DI,4080H
+CALL COPYZ
+```
+
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
+
+```asm
+POP SI
+```
+
+With:
+
+```asm
+MOV AX,1026
+MOV [SYMID],AX
+MOV AX,1234H
+MOV [DEFVALUE],AX
+```
+
+### Diagnostic edit 7 · `EARLYTEST:`
+
+Find the unique label `EARLYTEST:`, then follow this unchanged source through its last displayed instruction:
+
+```asm
+EARLYTEST:
+```
+
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
+
+```asm
+PUSH SI
+MOV SI,TESTNAME
+```
+
+With:
+
+```asm
+CALL PROBERECPAGE
+MOV BX,39
+MOV AL,5AH
+MOV ES:[BX],AL
+MOV BX,80
+MOV AL,6BH
+MOV ES:[BX],AL
+MOV BX,40
+MOV CX,40
+MOV AL,0A5H
+PROBERECDIRTY:
+MOV ES:[BX],AL
+INC BX
+DEC CX
+JNE PROBERECDIRTY
+MOV AX,[HASHSEG]
+MOV ES,AX
+MOV BX,8188
+MOV AX,55AAH
+MOV ES:[BX],AX
+MOV BX,8190
+MOV AX,8192
+MOV ES:[BX],AX
+MOV AX,CS
+MOV ES,AX
+MOV SI,PROBELONG
+```
+
+### Build and run M15
+
+```dos
+CHECK ASM1 M15.ASM M15.COM
+CHECK M15 T15.ASM RESULT.COM
+```
+
+Require `OK M15.COM 04739 bytes` and PASS from the build. The diagnostic run must show:
+
+```text
+RECORD FIELDS AND GUARDS PASS
+OK RESULT.COM 00011 bytes
+PASS
+```
+
+MEMORY TEST FAILED, an unexpected error, or a missing diagnostic message fails this check.
+
+Continue the construction from your accepted A15.ASM, not M15.ASM.
+
+## Ordinary assembly regression check
 
 Create T15.ASM as plain ASCII with COPY CON or an editor. Finish COPY CON with Ctrl-Z and Enter:
 

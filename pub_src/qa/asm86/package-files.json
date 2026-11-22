@@ -83,5 +83,8 @@
   "HELLO.ASM",
   "FRAME.ASM",
   "BRIDGE.ASM",
-  "COPYTEXT.ASM"
+  "COPYTEXT.ASM",
+  "M13.ASM",
+  "M14.ASM",
+  "M15.ASM"
 ]

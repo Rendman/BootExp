@@ -2,6 +2,8 @@
 from pathlib import Path
 import json,shutil,zipfile
 ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/asm86';D=ROOT/'site/downloads/asm86';D.mkdir(parents=True,exist_ok=True)
+from asm86_memory_checks import prepare as prepare_memory_checks
+prepare_memory_checks()
 for name in ['BOOTASM.BAS','VIEW.BAS','CHECK.BAT']:shutil.copyfile(ROOT/'workbench/bootasm'/name,W/name)
 shutil.copyfile(ROOT/'workbench/asm0/ASM86.ASM',W/'ASM86.ASM')
 facts=json.loads((ROOT/'qa/asm86/checkpoints.json').read_text())
@@ -22,6 +24,9 @@ ASM86A.ASM   Complete assembler, identical to A40.ASM; built by ASMA0.
 A13 through A33, A36, A37, A40: twenty-four construction checkpoints.
 A12.ASM: identical to the verified ASMA0 prerequisite.
 Tnn.ASM and Xnn.ASM: acceptance and rejection inputs where applicable.
+M13.ASM, M14.ASM, M15.ASM: separate memory diagnostic copies.
+Their articles print labelled edits and exact diagnostic messages.
+Keep A13-A15 unchanged for the continuing construction.
 VIEW.BAS and CHECK.BAT: unchanged viewer and immediate DOS checker.
 HELLO.ASM, FRAME.ASM, BRIDGE.ASM, COPYTEXT.ASM: complete programs.
 LONGSRC.BAS and SYMS.BAS: BASIC generators of source text only.
@@ -65,7 +70,7 @@ for c in json.loads((ROOT/'qa/asm86/checkpoints.json').read_text()):
  files.append(f'A{n:02}.ASM')
  if c.get('fixture') is not None:files.append(f'T{n:02}.ASM')
  if c['bad']['kind']=='source':files.append(f'X{n:02}.ASM')
-files+=['HELLO.ASM','FRAME.ASM','BRIDGE.ASM','COPYTEXT.ASM']
+files+=['HELLO.ASM','FRAME.ASM','BRIDGE.ASM','COPYTEXT.ASM','M13.ASM','M14.ASM','M15.ASM']
 from command_files import package
 package(W)
 for name in files:shutil.copyfile(W/name,D/name)

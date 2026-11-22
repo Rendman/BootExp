@@ -48,6 +48,11 @@ for stage,case in zip(json.loads((Q/'article-patches.json').read_text()),cases):
    assert extra['text'].rstrip('\n') in re.findall(r'```asm\n(.*?)\n```',text,re.S)
   assert 'preserving the accepted result' in text
  assert not re.search(r'\b(?:contains|requires)\s+\*?\*?\d+\s+(?:required\s+)?(?:BASIC|source|assembly)?\s*lines',text,re.I),(n,'editorial line announcement')
+ if n in (13,14,15):
+  from asm86_memory_checks import article as memory_article,diagnostic
+  assert memory_article(n) in text,(n,'memory diagnostic instructions differ')
+  assert (W/f'M{n}.ASM').read_text()==diagnostic(n,(W/f'A{n}.ASM').read_text()),(n,'diagnostic copy differs')
+  assert '## Ordinary assembly regression check' in text
 assert (W/'ASMA0.ASM').read_bytes()==(W/'A12.ASM').read_bytes()
 assert (W/'ASM86A.ASM').read_bytes()==(W/'A40.ASM').read_bytes()
 for name,group in [('BOOTASM.BAS','bootasm'),('VIEW.BAS','bootasm'),('ASM86.ASM','asm86')]:assert (W/name).read_bytes()==(ROOT/'workbench'/directory_name(group)/name).read_bytes(),name

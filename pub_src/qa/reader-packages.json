@@ -306,7 +306,10 @@
       "HELLO.ASM": "HELLO.ASM",
       "FRAME.ASM": "FRAME.ASM",
       "BRIDGE.ASM": "BRIDGE.ASM",
-      "COPYTEXT.ASM": "COPYTEXT.ASM"
+      "COPYTEXT.ASM": "COPYTEXT.ASM",
+      "M13.ASM": "M13.ASM",
+      "M14.ASM": "M14.ASM",
+      "M15.ASM": "M15.ASM"
     }
   },
   "ir86": {

@@ -98,7 +98,11 @@ for case in cases:
  else:
   t+=fence('dos',f'COPY {name}.ASM SOURCE.ASM\nCHECK ASMA0')+f'Require `OK RESULT.COM {case["binary_bytes"]:05} bytes` and PASS. Preserve this executable before using its fixed output name:\n\n'+fence('dos',f'COPY RESULT.COM {name}.COM')
  if n>12:t+=f'VIEW.BAS must report {name}.COM length {case["binary_bytes"]} bytes. '
- t+='Keep that executable and source together.\n\n## Acceptance check\n\n'
+ t+='Keep that executable and source together.\n\n'
+ if n in (13,14,15):
+  from asm86_memory_checks import article as memory_article
+  t+=memory_article(n)
+ t+=('## Ordinary assembly regression check\n\n' if n in (13,14,15) else '## Acceptance check\n\n')
  if case.get('fixture_ref'):
   alias=case['fixture_ref'];t+=fence('dos',f'COPY {name}.ASM {alias}\nCOPY {name}.COM {Path(alias).stem}.COM\nCOPY {alias} SOURCE.ASM')
  else:

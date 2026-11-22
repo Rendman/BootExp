@@ -1,0 +1,14 @@
+{
+  "13": {
+    "binary_bytes": 4551,
+    "output": "MEMORY CLEAR AND PAGES PASS\r\nMEMORY RELEASE PASS\r\nOK RESULT.COM 00011 bytes\r\n"
+  },
+  "14": {
+    "binary_bytes": 4364,
+    "output": "PAGE BOUNDARIES PASS\r\nOK RESULT.COM 00011 bytes\r\n"
+  },
+  "15": {
+    "binary_bytes": 4739,
+    "output": "RECORD FIELDS AND GUARDS PASS\r\nOK RESULT.COM 00011 bytes\r\n"
+  }
+}
