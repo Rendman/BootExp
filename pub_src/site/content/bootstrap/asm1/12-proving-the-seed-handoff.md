@@ -11,6 +11,8 @@ url = "/bootstrap/asma0/12-proving-the-seed-handoff/"
 
 I save the accepted source as ASM1.ASM and keep the copy ASM0 built. I've changed how the assembler reads, writes and uses its workspace. I want the same evidence I required of ASM0: two self-built copies that match the preserved executable byte for byte.
 
+**Starting source:** `A11.ASM`. **Save as:** `A12.ASM`. **Build with:** `ASMKEEP.COM`.
+
 ## The working parts
 
 The source is the preceding tested checkpoint, saved here under a permanent seed name. ASM0 builds it directly. ASM1 then reads that selected source and writes RESULT.COM, and must reproduce its own executable. A second generation must match too.
@@ -25,7 +27,7 @@ Copy `A11.ASM` to `A12.ASM`. The instructions and data are retained without edit
 
 Copy `A12.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK 03740 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM A12.COM`.
 
-VIEW.BAS must report A12.COM length 3740 bytes. Keep that executable and source together.
+Keep that executable and source together.
 
 ## Acceptance check
 
@@ -91,4 +93,4 @@ An unexpected PASS fails this rejection test.
 
 ## If the result differs
 
-Check the saved argument names and terminators, handle ownership flags, reader cursors at each pass, and the current output count. Inspect file length as well as the leading bytes. A copied data file is not an executable proof.
+Use the same unchanged ASM1 source for both self-builds and compare whole files with C:\DOS\FC.EXE /B. Keep the ASM0-built original separate from RESULT.COM and from both generated copies.

@@ -11,6 +11,8 @@ url = "/bootstrap/asm86/04-opening-and-closing-a-file/"
 
 In BASIC, opening the source was one statement. Now I have to ask DOS for it and keep the handle DOS returns. I'll start by opening `SOURCE.ASM` for reading and closing it again, with the file itself left alone.
 
+**Starting source:** `AS03.ASM`. **Save as:** `AS04.ASM`. **Build with:** `BOOTASM.BAS`.
+
 ## How it works
 
 FNAME contains the zero-terminated name SOURCE.ASM. Use COPY to select a source before running the assembler; no console input is read. OPENFILE passes FNAME in DS:DX to DOS function 3DH with AL=0 for read-only access. On success AX is the handle, a small number which DOS uses to identify the open file. HANDLE retains it. The carry flag reports an error; JAE takes the carry-clear success path, while the near jump reaches FILEBAD on failure.
@@ -21,75 +23,57 @@ OPENFILE changes AX, DX, the flags, and HANDLE. CLOSEFILE uses BX and AH and cha
 
 ## Source changes
 
-Copy `AS03.ASM` to `AS04.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS03.ASM` to `AS04.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1: following `ERRCODE:`
+### Change 1 · `READYMSG:`
 
-Unchanged code immediately before this edit:
+Find the unique label `READYMSG:`. The old block below starts at that label.
 
-```asm
-ERRCODE:
-DB 0
-
-```
-
-Remove these exact old lines (physical lines 90–91 of `AS03.ASM`):
+Replace this existing source:
 
 ```asm
 READYMSG:
 DB 82,69,65,68,89,13,10,36
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 OPENMSG:
 DB 79,112,101,110,101,100,13,10,36
 ```
 
-### Change 2: following `DIVEND:`
+### Change 2 · `LINENO:`
 
-Unchanged code immediately before this edit:
+Find the unique label `LINENO:`. Insert the new source immediately before this existing label:
 
 ```asm
-
-DIVEND:
-
+LINENO:
 ```
 
-Insert after old physical line 83, before the following old line.
-
-Insert this source:
+Insert:
 
 ```asm
 FNAME:
 DB 83,79,85,82,67,69,46,65,83,77,0
-
 HANDLE:
 DW 0
-
 ```
 
-### Change 3: following `GOOD:`
+### Change 3 · `TEXT:`
 
-Unchanged code immediately before this edit:
+Find the unique label `TEXT:`. Insert the new source immediately before this existing label:
 
 ```asm
-GOOD:
-MOV AX,4C00H
-INT 21H
+TEXT:
 ```
 
-Insert after old physical line 13, before the following old line.
-
-Insert this source:
+Insert:
 
 ```asm
-
 FILEBAD:
 MOV AX,6
 JMP ERROR
-
 OPENFILE:
 MOV DX,FNAME
 MOV AX,3D00H
@@ -99,7 +83,6 @@ JMP FILEBAD
 INPUTOPEN:
 MOV [HANDLE],AX
 RET
-
 CLOSEFILE:
 MOV BX,[HANDLE]
 MOV AH,3EH
@@ -108,23 +91,23 @@ JB FILEBAD
 RET
 ```
 
-### Change 4: following `ROOM:`
+### Change 4 · `ROOM:`
 
-Unchanged code immediately before this edit:
+Find the unique label `ROOM:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV AX,7
-JMP ERROR
 ROOM:
 ```
 
-Remove these exact old lines (physical lines 9–9 of `AS03.ASM`):
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 MOV DX,READYMSG
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 CALL OPENFILE
@@ -184,4 +167,4 @@ FAIL
 
 ## If the result differs
 
-Check the edited blocks against their old context, then compare the complete source. A wrong record count or a missing zero terminator can make a correct token look absent. Check brackets and commas in the test input, and read the reported physical line before changing an instruction.
+Check the zero after SOURCE.ASM and save the handle returned in AX only after a successful open. Both open and close must test carry before another instruction changes the flags.

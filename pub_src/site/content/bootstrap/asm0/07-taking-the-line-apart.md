@@ -11,6 +11,8 @@ url = "/bootstrap/asm86/07-taking-the-line-apart/"
 
 I can get a complete line into memory. Now I need to keep my place while reading `DB 1,2`: the name, the values, and the comma are different pieces. I'll give the scanner one job: return the next piece and remember where reading should continue.
 
+**Starting source:** `AS06.ASM`. **Save as:** `AS07.ASM`. **Build with:** `BOOTASM.BAS`.
+
 ## How it works
 
 SCAN takes SI as the current position in the zero-terminated line. It skips spaces and returns one token at 2300H, a zero byte after it, and its length in TOKLEN. SI remains at the next separator or at the end marker. A zero token length means end of statement. The routine changes AX and DI as well as SI and TOKLEN.
@@ -23,41 +25,38 @@ The driver displays each token between brackets. It saves SI while ZTEXT walks t
 
 ## Source changes
 
-Copy `AS06.ASM` to `AS07.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS06.ASM` to `AS07.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1: following `LINENO:`
+### Change 1 · `ENDED:`
 
-Unchanged code immediately before this edit:
+Find the unique label `ENDED:`. Insert the new source immediately before this existing label:
 
 ```asm
-LINENO:
-DW 0
-
+ENDED:
 ```
 
-Insert after old physical line 228, before the following old line.
-
-Insert this source:
+Insert:
 
 ```asm
 TOKLEN:
 DW 0
-
 ```
 
-### Change 2: following `READFAIL:`
+### Change 2 · `READFAIL:`
 
-Unchanged code immediately before this edit:
+Find the unique label `READFAIL:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+READFAIL:
+MOV DX,[LINENO]
+INC DX
 MOV [LINENO],DX
 JMP ERROR
-
 ```
 
-Insert after old physical line 139, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 SCAN:
@@ -114,44 +113,57 @@ JMP SCANDONE
 TOKENBAD:
 MOV AX,1
 JMP ERROR
-
 ```
 
-### Change 3: following `DRIVERLINE:`
+### Change 3 · `DRIVERLINE:`
 
-Unchanged code immediately before this edit:
+Find the unique label `DRIVERLINE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+DRIVERLINE:
+CALL READLINE
+CMP AX,0
+JE DRIVERDONE
+MOV SI,2200H
+MOV SI,2200H
 CALL ZTEXT
 MOV DX,NEWLINE
 CALL TEXT
 ```
 
-Remove these exact old lines (physical lines 19–19 of `AS06.ASM`):
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JMP DRIVERLINE
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 JMP TRACETOKEN
 ```
 
-### Change 4: following `DRIVERLINE:`
+Keep the following `DRIVERDONE:` label and the source after it in place.
 
-Unchanged code immediately before this edit:
+### Change 4 · `DRIVERLINE:`
+
+Find the unique label `DRIVERLINE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+DRIVERLINE:
+CALL READLINE
+CMP AX,0
+JE DRIVERDONE
 MOV SI,2200H
 MOV SI,2200H
 CALL ZTEXT
 ```
 
-Insert after old physical line 16, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 POP SI
@@ -160,23 +172,27 @@ MOV AH,2
 INT 21H
 ```
 
-### Change 5: following `DRIVERLINE:`
+### Change 5 · `DRIVERLINE:`
 
-Unchanged code immediately before this edit:
+Find the unique label `DRIVERLINE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+DRIVERLINE:
+CALL READLINE
 CMP AX,0
 JE DRIVERDONE
 MOV SI,2200H
 ```
 
-Remove these exact old lines (physical lines 15–15 of `AS06.ASM`):
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 MOV SI,2200H
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 TRACETOKEN:
@@ -252,4 +268,4 @@ FAIL
 
 ## If the result differs
 
-Check the edited blocks against their old context, then compare the complete source. A wrong record count or a missing zero terminator can make a correct token look absent. Check brackets and commas in the test input, and read the reported physical line before changing an instruction.
+Check that punctuation is returned separately and that a semicolon ends the statement. Save the line cursor SI while ZTEXT displays the token; otherwise scanning resumes in the token buffer.

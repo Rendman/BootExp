@@ -11,6 +11,8 @@ url = "/bootstrap/asma0/11-selecting-es-for-a-memory-operand/"
 
 Selecting a segment register is only part of addressing storage elsewhere. A memory instruction must also use that segment. I'll add the explicit `ES:` spelling and follow the extra prefix byte into the output, keeping the ordinary offset and width rules in place.
 
+**Starting source:** `A10.ASM`. **Save as:** `A11.ASM`. **Build with:** `ASMKEEP.COM`.
+
 ## The working parts
 
 SEGOPERAND distinguishes a standalone segment register from ES: followed by a memory operand. It saves and restores the source cursor when a colon is absent. PREFIX belongs to the current operand; P1 saves it for the first operand.
@@ -74,7 +76,7 @@ JE SEGES
 
 Copy `A11.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK 03740 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM A11.COM`.
 
-VIEW.BAS must report A11.COM length 3740 bytes. Keep that executable and source together.
+Keep that executable and source together.
 
 ## Acceptance check
 

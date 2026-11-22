@@ -20,6 +20,7 @@ After success, COPY RESULT.COM AS01.COM preserves the executable.
 Require BASIC's OK and byte count; SYSTEM returns to DOS.
 CHECK AS01 executes that complete checkpoint and prints PASS or FAIL.
 Keep BOOTKEEP.BAS and a tested BASIC-built ASMKEEP.COM separately.
+After both self-builds match, COPY SELF.COM ASM0.COM installs the tool.
 
 AS01 through AS28 are complete executable tools or diagnostics.
 Their output fixtures are usually data or encoding exercises: inspect

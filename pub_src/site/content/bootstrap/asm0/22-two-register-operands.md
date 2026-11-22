@@ -11,6 +11,8 @@ url = "/bootstrap/asm86/22-two-register-operands/"
 
 We shall let MOV copy between registers of equal width, using the saved first operand and the newly read second operand.
 
+**Starting source:** `AS21.ASM`. **Save as:** `AS22.ASM`. **Build with:** `BOOTASM.BAS`.
+
 ## How it works
 
 KIND=1 for the second operand selects MOVREG. SAMEWIDTH compares W1 with WIDTH and selects syntax code 1 if a byte and a word register were mixed. No extension or truncation rule is implied.
@@ -21,24 +23,19 @@ TIMES8 changes only AL and flags. SAMEWIDTH changes AL, DL, and flags; the calle
 
 ## Source changes
 
-Copy `AS21.ASM` to `AS22.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS21.ASM` to `AS22.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1: following `IMMEDVALUE:`
+### Change 1 · `TIMES8:`
 
-Unchanged code immediately before this edit:
+Find the unique label `TIMES8:`. Insert the new source immediately before this existing label:
 
 ```asm
-MOV AX,[VAL]
-JE BYTEVALUE
-JMP EMITWORD
+TIMES8:
 ```
 
-Insert after old physical line 618, before the following old line.
-
-Insert this source:
+Insert:
 
 ```asm
-
 SAMEWIDTH:
 MOV AL,[W1]
 MOV DL,[WIDTH]
@@ -50,19 +47,15 @@ WIDTHOK:
 RET
 ```
 
-### Change 2: following `MOVOPERANDS:`
+### Change 2 · `IMMEDVALUE:`
 
-Unchanged code immediately before this edit:
+Find the unique label `IMMEDVALUE:`. Insert the new source immediately before this existing label:
 
 ```asm
-CALL EMIT
-JMP IMMEDVALUE
-
+IMMEDVALUE:
 ```
 
-Insert after old physical line 612, before the following old line.
-
-Insert this source:
+Insert:
 
 ```asm
 MOVREG:
@@ -71,7 +64,6 @@ MOV AL,[W1]
 ADD AL,138
 CALL EMIT
 JMP REGMOD
-
 REGMOD:
 MOV AL,[R1]
 CALL TIMES8
@@ -80,22 +72,23 @@ ADD AL,DL
 ADD AL,192
 CALL EMIT
 RET
-
 ```
 
-### Change 3: following `MOVOPERANDS:`
+### Change 3 · `MOVOPERANDS:`
 
-Unchanged code immediately before this edit:
+Find the unique label `MOVOPERANDS:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+MOVOPERANDS:
+MOV AL,[K1]
 CMP AL,1
 JNE TWOBAD
 MOV AL,[KIND]
 ```
 
-Insert after old physical line 602, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 CMP AL,1
@@ -170,4 +163,4 @@ FAIL
 
 ## If the result differs
 
-Check the edited blocks against their old context, then compare the complete source. A wrong record count or a missing zero terminator can make a correct token look absent. Check brackets and commas in the test input, and read the reported physical line before changing an instruction.
+Check SAMEWIDTH before constructing ModR/M. The destination belongs in bits 5–3 and the source in bits 2–0; reload any encoding value changed by the width check.

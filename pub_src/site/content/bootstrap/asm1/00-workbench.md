@@ -30,7 +30,7 @@ COPY ASM0.COM ASMKEEP.COM
 
 ASMKEEP is the original ASM0 and uses fixed SOURCE.ASM and RESULT.COM. It accepts an 8192-byte image, 256 definitions, 4000 physical lines, and 120 characters per line. The six opening A01A through A01F sources and every A01 through A12 source fit that builder. Copy the checkpoint to SOURCE.ASM, run CHECK ASMKEEP, require the stated OK count and PASS, then copy RESULT.COM to the checkpoint executable name.
 
-Each article copies the preceding source under the next filename and gives edits in the order they should be applied. Find the named label, including its colon, and confirm the complete definition on its own source line. Follow the unchanged locator block to the edit point; type only the insertion or replacement. No physical line numbers are needed, and blank lines or comment-only notes may differ in your copy. Preserve both the source and executable after each stopping test. The article number and saved source name are separate locators; keep the printed disk filenames exactly as given.
+Each article copies the preceding source under the next filename and gives edits in the order they should be applied. Find the named label, including its colon, and confirm the complete definition on its own source line. Follow the unchanged locator block to the edit point; type only the insertion or replacement. No physical line numbers are needed, and blank lines or comment-only notes may differ in your copy. Preserve both the source and executable after each stopping test. Keep the Tnn.ASM test inputs beside them as known examples for checking retained behavior. Article numbers identify the reading order; source names identify disk files. For example, article 08 starts with A01.ASM and finishes A02.ASM. Each construction article states both filenames and its builder. Keep the printed disk filenames exactly as given. The workbench is unnumbered; articles 01–18 are construction, 19 is the reference and 20 contains complete programs.
 
 ## The opening checkpoints
 
@@ -46,12 +46,12 @@ From A01D onward, pass filenames directly:
 CHECK A01 T01.ASM RESULT.COM
 ```
 
-The checkpoint executable is the diagnostic or assembler being tested. RESULT.COM is its output, which must be saved under a separate name before another assembly. The byte-copy exercises explicitly inspect their output as data; execute an output only when its article identifies a complete program.
+The checkpoint executable is the diagnostic or assembler being tested. When RESULT.COM is used as its output, save that accepted file under the program's own name before another assembly. The byte-copy exercises explicitly inspect their output as data; execute an output only when its article identifies a complete program.
 
-| Name | Role |
+| Name or default | Role |
 |---|---|
-| SOURCE.ASM | Disk source reopened for both passes |
-| RESULT.COM | Published result |
+| SOURCE.ASM | Default input name; the selected source is reopened for both passes |
+| RESULT.COM | Default output name; publication uses the selected result name |
 | ASMA.TMP | Temporary output owned by the current run |
 | RESULT.BAK | Previous result during publication |
 

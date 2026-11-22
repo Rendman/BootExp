@@ -11,6 +11,8 @@ url = "/bootstrap/asm86/13-the-db-directive/"
 
 The trial inputs have been rows of numbers. I want to put a familiar line such as `DB 41H,42H,43H` in `SOURCE.ASM` and have ASM0 read it. The scanner, table search, value reader and output buffer can now do that job together.
 
+**Starting source:** `AS12.ASM`. **Save as:** `AS13.ASM`. **Build with:** `BOOTASM.BAS`.
+
 ## How it works
 
 STATEMENT takes SI at the beginning of a cleaned line. An empty token is an empty statement. Otherwise LOOK searches OPTAB, now containing the DB record. The record supplies TYPE, which selects the handler, and OP, its small parameter. The record count is an explicit part of the search.
@@ -23,88 +25,69 @@ The first complete byte statement can now hold a row of data. Unknown mnemonics 
 
 ## Source changes
 
-Copy `AS12.ASM` to `AS13.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS12.ASM` to `AS13.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1: following `ERRCODE:`
+### Change 1 · `ERRCODE:`
 
-Unchanged code immediately before this edit:
+Find the unique label `ERRCODE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-
 ERRCODE:
 DB 0
 ```
 
-Insert after old physical line 454, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
-
 OPTAB:
 DB 68,66,0,0,0,0,1,0
 ```
 
-### Change 2: following `CHAR:`
+### Change 2 · `ERRCODE:`
 
-Unchanged code immediately before this edit:
+Find the unique label `ERRCODE:`. Insert the new source immediately before this existing label:
 
 ```asm
-CHAR:
-DB 0
-
+ERRCODE:
 ```
 
-Insert after old physical line 452, before the following old line.
-
-Insert this source:
+Insert:
 
 ```asm
 TYPE:
 DB 0
-
 OP:
 DB 0
-
 ```
 
-### Change 3: following `TOKLEN:`
+### Change 3 · `PASS:`
 
-Unchanged code immediately before this edit:
+Find the unique label `PASS:`. Insert the new source immediately before this existing label:
 
 ```asm
-TOKLEN:
-DW 0
-
+PASS:
 ```
 
-Insert after old physical line 440, before the following old line.
-
-Insert this source:
+Insert:
 
 ```asm
 STRIDE:
 DW 0
-
 ```
 
-### Change 4: following `FINISH:`
+### Change 4 · `FINISHED:`
 
-Unchanged code immediately before this edit:
+Find the unique label `FINISHED:`. The old block below starts at that label.
 
-```asm
-JE FINISHED
-MOV AX,1
-JMP ERROR
-```
-
-Remove these exact old lines (physical lines 311–311 of `AS12.ASM`):
+Replace this existing source:
 
 ```asm
 FINISHED:
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 STOPFOUND:
@@ -124,7 +107,6 @@ JMP SYNTAXBAD
 SYNTAXBAD:
 MOV AX,1
 JMP ERROR
-
 DATAITEM:
 CALL SCAN
 CALL VALUE
@@ -138,23 +120,26 @@ CMP AL,0
 JNE SYNTAXBAD
 ```
 
-### Change 5: following `FINISH:`
+### Change 5 · `FINISH:`
 
-Unchanged code immediately before this edit:
+Find the unique label `FINISH:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+FINISH:
 CALL SCAN
 MOV AL,[2300H]
 CMP AL,0
 ```
 
-Remove these exact old lines (physical lines 308–308 of `AS12.ASM`):
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE FINISHED
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 JNE STWORD
@@ -168,41 +153,35 @@ CMP BX,0
 JNE STOPFOUND
 ```
 
-### Change 6: following `NUMBERBAD:`
+### Change 6 · `FINISH:`
 
-Unchanged code immediately before this edit:
+Find the unique label `FINISH:`. The old block below starts at that label.
 
-```asm
-MOV AX,2
-JMP ERROR
-
-```
-
-Remove these exact old lines (physical lines 304–304 of `AS12.ASM`):
+Replace this existing source:
 
 ```asm
 FINISH:
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 STATEMENT:
 ```
 
-### Change 7: following `TOKENBAD:`
+### Change 7 · `TOKENBAD:`
 
-Unchanged code immediately before this edit:
+Find the unique label `TOKENBAD:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+TOKENBAD:
 MOV AX,1
 JMP ERROR
-
 ```
 
-Insert after old physical line 230, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 LOOK:
@@ -237,20 +216,23 @@ LOOKMISS:
 MOV BX,0
 POP SI
 RET
-
 ```
 
-### Change 8: following `DRIVERLINE:`
+### Change 8 · `DRIVERLINE:`
 
-Unchanged code immediately before this edit:
+Find the unique label `DRIVERLINE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+DRIVERLINE:
+CALL READLINE
 CMP AX,0
 JE DRIVERDONE
 MOV SI,2200H
 ```
 
-Remove these exact old lines (physical lines 21–26 of `AS12.ASM`):
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 CALL SCAN
@@ -261,7 +243,7 @@ JMP DRIVERLINE
 DRIVERDONE:
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 CALL STATEMENT
@@ -269,9 +251,9 @@ JMP NEXTLINE
 PASSEND:
 ```
 
-### Change 9: following `DRIVERLINE:`
+### Change 9 · `DRIVERLINE:`
 
-Unchanged code immediately before this edit:
+Find the unique label `DRIVERLINE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 DRIVERLINE:
@@ -279,53 +261,53 @@ CALL READLINE
 CMP AX,0
 ```
 
-Remove these exact old lines (physical lines 19–19 of `AS12.ASM`):
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE DRIVERDONE
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 JE PASSEND
 ```
 
-### Change 10: following `ROOM:`
+### Change 10 · `DRIVERLINE:`
 
-Unchanged code immediately before this edit:
+Find the unique label `DRIVERLINE:`. The old block below starts at that label.
 
-```asm
-MOV AX,6000H
-MOV [OUTPTR],AX
-CALL OPENFILE
-```
-
-Remove these exact old lines (physical lines 16–16 of `AS12.ASM`):
+Replace this existing source:
 
 ```asm
 DRIVERLINE:
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 NEXTLINE:
 ```
 
-### Change 11: following `ROOM:`
+### Change 11 · `ROOM:`
 
-Unchanged code immediately before this edit:
+Find the unique label `ROOM:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+ROOM:
+MOV AL,2
+MOV [PASS],AL
+MOV AX,100H
 MOV [PC],AX
 MOV AX,6000H
 MOV [OUTPTR],AX
 ```
 
-Insert after old physical line 14, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 MOV AX,0
@@ -334,9 +316,9 @@ MOV [ENDED],AL
 MOV [SKIPLF],AL
 ```
 
-### Change 12: following `ROOM:`
+### Change 12 · `ROOM:`
 
-Unchanged code immediately before this edit:
+Find the unique label `ROOM:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 ROOM:
@@ -344,9 +326,9 @@ MOV AL,2
 MOV [PASS],AL
 ```
 
-Insert after old physical line 10, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 PASSSTART:
@@ -418,4 +400,4 @@ FAIL
 
 ## If the result differs
 
-Check the edited blocks against their old context, then compare the complete source. A wrong record count or a missing zero terminator can make a correct token look absent. Check brackets and commas in the test input, and read the reported physical line before changing an instruction.
+Check the counted DB table record and the dispatch class. DATAITEM must require a new value after every comma, including a comma at the end of the line.

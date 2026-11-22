@@ -11,6 +11,8 @@ url = "/bootstrap/asm86/21-a-register-and-an-immediate/"
 
 We shall add MOV with a register destination and a numeric or named immediate value.
 
+**Starting source:** `AS20.ASM`. **Save as:** `AS21.ASM`. **Build with:** `BOOTASM.BAS`.
+
 ## How it works
 
 OPERAND scans one operand and tries REGISTER first. A register code supplies its number, REG, and width, WIDTH: zero for byte or one for word. KIND=1 identifies a register. A token which is not a register is read through VALUE and stored in VAL with KIND=3. The source cursor SI remains just after the operand.
@@ -23,98 +25,86 @@ The routine changes the operand fields, parser scratch registers, and output sta
 
 ## Source changes
 
-Copy `AS20.ASM` to `AS21.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS20.ASM` to `AS21.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1: following `OPTAB:`
+### Change 1 · `OPTAB:`
 
-Unchanged code immediately before this edit:
+Find the unique label `OPTAB:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+OPTAB:
+DB 68,66,0,0,0,0,1,0
+DB 68,87,0,0,0,0,1,1
+DB 82,69,84,0,0,0,2,195
 DB 67,76,68,0,0,0,2,252
 DB 76,79,68,83,66,0,2,172
 DB 83,84,79,83,66,0,2,170
 ```
 
-Insert after old physical line 750, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 DB 77,79,86,0,0,0,3,0
 ```
 
-### Change 2: following `OP:`
+### Change 2 · `OP:`
 
-Unchanged code immediately before this edit:
+Find the unique label `OP:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-DB 0
-
 OP:
 ```
 
-Insert after old physical line 720, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 DB 0
-
 KIND:
 DB 0
-
 WIDTH:
 DB 0
-
 REG:
 DB 0
-
 K1:
 DB 0
-
 W1:
 DB 0
-
 R1:
 ```
 
-### Change 3: following `STRIDE:`
+### Change 3 · `PASS:`
 
-Unchanged code immediately before this edit:
+Find the unique label `PASS:`. Insert the new source immediately before this existing label:
 
 ```asm
-STRIDE:
-DW 0
-
+PASS:
 ```
 
-Insert after old physical line 704, before the following old line.
-
-Insert this source:
+Insert:
 
 ```asm
 VAL:
 DW 0
-
 ```
 
-### Change 4: following `FINISHED:`
+### Change 4 · `FINISHED:`
 
-Unchanged code immediately before this edit:
+Find the unique label `FINISHED:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV AX,1
-JMP ERROR
 FINISHED:
 ```
 
-Insert after old physical line 551, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 RET
-
 TWOOPERANDS:
 CALL OPERAND
 MOV AL,[KIND]
@@ -132,7 +122,6 @@ JMP MOVOPERANDS
 TWOBAD:
 MOV AX,1
 JMP ERROR
-
 MOVOPERANDS:
 MOV AL,[K1]
 CMP AL,1
@@ -147,37 +136,35 @@ MOV DL,[R1]
 ADD AL,DL
 CALL EMIT
 JMP IMMEDVALUE
-
 IMMEDVALUE:
 MOV AL,[W1]
 CMP AL,0
 MOV AX,[VAL]
 JE BYTEVALUE
 JMP EMITWORD
-
 TIMES8:
 ADD AL,AL
 ADD AL,AL
 ADD AL,AL
 ```
 
-### Change 5: following `STNEXT2:`
+### Change 5 · `STNEXT2:`
 
-Unchanged code immediately before this edit:
+Find the unique label `STNEXT2:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CALL FIXED
-RET
 STNEXT2:
 ```
 
-Remove these exact old lines (physical lines 514–514 of `AS20.ASM`):
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JMP SYNTAXBAD
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 CALL TWOOPERANDS
@@ -185,9 +172,11 @@ CALL FINISH
 RET
 ```
 
-### Change 6: following `INSTRUCTION:`
+Keep the following `SYNTAXBAD:` label and the source after it in place.
 
-Unchanged code immediately before this edit:
+### Change 6 · `INSTRUCTION:`
+
+Find the unique label `INSTRUCTION:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 INSTRUCTION:
@@ -195,31 +184,29 @@ DEC SI
 MOV BX,OPTAB
 ```
 
-Remove these exact old lines (physical lines 489–489 of `AS20.ASM`):
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 MOV CX,6
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 MOV CX,7
 ```
 
-### Change 7: following `DEFINEBAD:`
+### Change 7 · `STATEMENT:`
 
-Unchanged code immediately before this edit:
+Find the unique label `STATEMENT:`. Insert the new source immediately before this existing label:
 
 ```asm
-MOV AX,3
-JMP ERROR
-
+STATEMENT:
 ```
 
-Insert after old physical line 469, before the following old line.
-
-Insert this source:
+Insert:
 
 ```asm
 OPERAND:
@@ -245,7 +232,6 @@ MOV [VAL],AX
 MOV AL,3
 MOV [KIND],AL
 RET
-
 ```
 
 ## Build and stop
@@ -315,4 +301,4 @@ FAIL
 
 ## If the result differs
 
-Check the edited blocks against their old context, then compare the complete source. A wrong record count or a missing zero terminator can make a correct token look absent. Check brackets and commas in the test input, and read the reported physical line before changing an instruction.
+Check K1, W1 and R1 after reading the second operand. The destination width selects B0H or B8H and the immediate width; a byte value must pass BYTEVALUE without truncation.

@@ -11,6 +11,8 @@ url = "/bootstrap/asma0/10-encoding-segment-register-moves/"
 
 My memory sketch still fits inside one segment. Reading the segment-register MOV forms in the processor manual shows me how another program could select storage elsewhere. I'll teach ASM1 to encode those forms using instructions ASM0 already accepts.
 
+**Starting source:** `A09.ASM`. **Save as:** `A10.ASM`. **Build with:** `ASMKEEP.COM`.
+
 ## The working parts
 
 REGISTER adds ES, CS, SS, and DS after the sixteen ordinary registers. OPERAND marks them as a distinct kind. SEGMOV emits 8CH for a segment source or 8EH for a segment destination, with the segment field and ordinary word-register field in ModR/M. CS is never accepted as a destination.
@@ -310,7 +312,7 @@ MOV CX,20
 
 Copy `A10.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK 03705 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM A10.COM`.
 
-VIEW.BAS must report A10.COM length 3705 bytes. Keep that executable and source together.
+Keep that executable and source together.
 
 ## Acceptance check
 

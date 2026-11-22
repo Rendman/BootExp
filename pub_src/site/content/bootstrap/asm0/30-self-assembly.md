@@ -10,6 +10,8 @@ url = "/bootstrap/asm86/30-self-assembly/"
 
 I put `ASM0.ASM` in the place where the small test files have been. This time the input describes the assembler itself. BOOTASM will give me a known starting copy; I want to see whether that copy can turn the same source into another identical executable.
 
+**Starting source:** `AS28.ASM`. **Save as:** `ASM0.ASM`. **Build with:** `BOOTASM.BAS`.
+
 There is no source addition here. ASM0.ASM is the saved AS28.ASM. Preserve that exact source for both native generations.
 
 ## Keep the BASIC-built copy
@@ -52,6 +54,16 @@ C:\DOS\FC.EXE /B SELF.COM AGAIN.COM
 ```
 
 Both generated files must be exactly 2,431 bytes and match every byte of the BASIC-built executable. A failed assembly is not a new generation, even if an older RESULT.COM remains on disk.
+
+## Save the working assembler
+
+After both comparisons report no differences, install the verified native copy under its working name:
+
+```dos
+COPY SELF.COM ASM0.COM
+```
+
+ASM0.COM is the assembler used by the reference and example pages. Keep ASMKEEP.COM as the untouched BASIC-built copy.
 
 ## Check a failure through the native copy
 

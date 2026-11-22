@@ -11,6 +11,8 @@ url = "/bootstrap/asma0/08-a-longer-source-count/"
 
 I look at the comments and labels in my source: much of what I type never becomes an instruction byte. The block reader can keep going through a long file, but its line counter still stops at 4000. I'll extend that counter's permitted range while keeping a check against wraparound.
 
+**Starting source:** `A07.ASM`. **Save as:** `A08.ASM`. **Build with:** `ASMKEEP.COM`.
+
 ## The working parts
 
 READLINE permits up to 65535 physical lines per pass instead of the earlier 4000. It checks before a count can wrap; at this limit the diagnostic remains saturated at the last representable line. Width remains 120 characters.
@@ -92,18 +94,14 @@ LINECOUNTSAFE:
 
 Copy `A08.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK 03466 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM A08.COM`.
 
-VIEW.BAS must report A08.COM length 3466 bytes. Keep that executable and source together.
+Keep that executable and source together.
 
 ## Acceptance check
 
-Create T08.ASM as plain ASCII with COPY CON or an editor. Finish COPY CON with Ctrl-Z and Enter:
+Reuse the earlier input unchanged:
 
-```asm
-MOV DL,41H
-MOV AH,2
-INT 21H
-MOV AX,4C00H
-INT 21H
+```dos
+COPY T02.ASM T08.ASM
 ```
 
 ```dos
@@ -123,31 +121,48 @@ In VIEW.BAS, inspect RESULT.COM. Require length **11 bytes** and these complete 
 B2 41 B4 02 CD 21 B8 00 4C CD 21
 ```
 
-The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
+The byte inspection checks the accepted result. Keep it as data.
 
-## A rejection check
+## Pass the old line-count limit
 
-Create X08.ASM with this separate source:
+Reuse STREAM.BAS from the block-reader exercise. Run GWBASIC STREAM.BAS, then replace these two BASIC lines:
 
-```asm
-MOV AX,AL
+```basic
+10 N=4000
+40 PRINT #1,";"
 ```
+
+Leave line 60 as `60 PRINT #1,"DB 66"`. Save this version under its own name, then run it:
+
+```basic
+SAVE "LINES.BAS",A
+RUN
+SYSTEM
+```
+
+Require LONG.ASM READY before leaving BASIC. The source now has 4000 comment lines and one DB statement: 4001 physical lines with one emitted byte. STREAM.BAS retains the earlier block exercise; LINES.BAS retains these comment-generating lines.
 
 ```dos
-CHECK A08 X08.ASM RESULT.COM
+CHECK A08 LONG.ASM RESULT.COM
 ```
 
-Require:
+Require `OK RESULT.COM 00001 bytes` and PASS. VIEW.BAS must show exactly `42`. A07 stops at this source's line 4001 with code 5; A08 must reach the data statement.
 
-```text
-ERROR 00001 CODE 1
-FAIL
+## Check the representable limit
+
+Run GWBASIC LINES.BAS. At its prompt set line 10 to `10 N=65534`, RUN, and return to DOS with SYSTEM. This creates 65535 physical lines, including the final DB statement. Run the same CHECK command: require `OK RESULT.COM 00001 bytes` and PASS, with exactly `42` in VIEW.BAS.
+
+Preserve that accepted result with `COPY RESULT.COM HOLD.COM`. Run GWBASIC LINES.BAS again, set line 10 to `10 N=65535`, RUN and return with SYSTEM. There are now 65536 physical lines:
+
+```dos
+CHECK A08 LONG.ASM RESULT.COM
+C:\DOS\FC.EXE /B HOLD.COM RESULT.COM
 ```
 
-The accepted RESULT.COM must remain unchanged. Keep a copy and compare it with C:\DOS\FC.EXE /B if in doubt. Require a fresh OK before using any output.
+Require `ERROR 65535 CODE 5` and FAIL, followed by FC reporting no differences. The line report remains at 65535 because the counter cannot represent 65536; it must never wrap to zero. Run the saved LINES.BAS again and return with SYSTEM to restore its 4001-line input. Keep these outputs as data.
 
 An unexpected PASS fails this rejection test.
 
 ## If the result differs
 
-Check the saved argument names and terminators, handle ownership flags, reader cursors at each pass, and the current output count. Inspect file length as well as the leading bytes. A copied data file is not an executable proof.
+Check the limit before LINENO wraps from FFFFH to zero. The rejection report stays at 65535 because a 16-bit counter cannot represent the next line.

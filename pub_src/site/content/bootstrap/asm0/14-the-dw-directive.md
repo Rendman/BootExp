@@ -11,6 +11,8 @@ url = "/bootstrap/asm86/14-the-dw-directive/"
 
 DW adds a word-sized data item without changing the meaning of DB or the value reader.
 
+**Starting source:** `AS13.ASM`. **Save as:** `AS14.ASM`. **Build with:** `BOOTASM.BAS`.
+
 ## How it works
 
 OPTAB gains the DW record, with class one and parameter one. DATAITEM uses that parameter to choose BYTEVALUE or EMITWORD. The dispatcher still calls the same data handler.
@@ -21,42 +23,36 @@ The order is little-endian: 1234H becomes 34 12. No alignment byte is inserted b
 
 ## Source changes
 
-Copy `AS13.ASM` to `AS14.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS13.ASM` to `AS14.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1: following `OPTAB:`
+### Change 1 · `OPTAB:`
 
-Unchanged code immediately before this edit:
+Find the unique label `OPTAB:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-
 OPTAB:
 DB 68,66,0,0,0,0,1,0
 ```
 
-Insert after old physical line 537, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 DB 68,87,0,0,0,0,1,1
 ```
 
-### Change 2: following `BYTEVALUE:`
+### Change 2 · `EMIT:`
 
-Unchanged code immediately before this edit:
+Find the unique label `EMIT:`. Insert the new source immediately before this existing label:
 
 ```asm
-JBE EMIT
-MOV AX,4
-JMP ERROR
+EMIT:
 ```
 
-Insert after old physical line 389, before the following old line.
-
-Insert this source:
+Insert:
 
 ```asm
-
 EMITWORD:
 PUSH AX
 CALL EMIT
@@ -66,9 +62,9 @@ POP AX
 RET
 ```
 
-### Change 3: following `DATAITEM:`
+### Change 3 · `DATAITEM:`
 
-Unchanged code immediately before this edit:
+Find the unique label `DATAITEM:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 DATAITEM:
@@ -76,9 +72,9 @@ CALL SCAN
 CALL VALUE
 ```
 
-Insert after old physical line 374, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 MOV DL,[OP]
@@ -89,23 +85,24 @@ JMP DATASEP
 DATABYTE:
 ```
 
-### Change 4: following `STWORD:`
+### Change 4 · `STWORD:`
 
-Unchanged code immediately before this edit:
+Find the unique label `STWORD:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-RET
 STWORD:
 MOV BX,OPTAB
 ```
 
-Remove these exact old lines (physical lines 347–347 of `AS13.ASM`):
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 MOV CX,1
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 MOV CX,2
@@ -178,4 +175,4 @@ FAIL
 
 ## If the result differs
 
-Check the edited blocks against their old context, then compare the complete source. A wrong record count or a missing zero terminator can make a correct token look absent. Check brackets and commas in the test input, and read the reported physical line before changing an instruction.
+Check the DW parameter and the two calls to EMIT. The low byte is written first; saving AX across the operation keeps the original high byte available.

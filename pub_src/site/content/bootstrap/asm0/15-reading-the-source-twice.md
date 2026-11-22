@@ -11,6 +11,8 @@ url = "/bootstrap/asm86/15-reading-the-source-twice/"
 
 BOOTASM taught me why two passes are useful. In assembly I also have to make the second pass start cleanly: reset the counters, clear the reader's end-of-file state, and reopen the source. Counting the same text twice should give the same positions.
 
+**Starting source:** `AS14.ASM`. **Save as:** `AS15.ASM`. **Build with:** `BOOTASM.BAS`.
+
 ## How it works
 
 PASS begins at one. PASSSTART resets PC, OUTPTR, LINENO, ENDED, and SKIPLF before reopening the source. A closed input handle is not reused as though its file position had reset; OPENFILE obtains a fresh handle.
@@ -23,21 +25,20 @@ The visible byte check is deliberately unchanged. Reading twice must not duplica
 
 ## Source changes
 
-Copy `AS14.ASM` to `AS15.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS14.ASM` to `AS15.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1: following `PASSEND:`
+### Change 1 · `PASSEND:`
 
-Unchanged code immediately before this edit:
+Find the unique label `PASSEND:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-JMP NEXTLINE
 PASSEND:
 CALL CLOSEFILE
 ```
 
-Insert after old physical line 29, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 MOV AL,[PASS]
@@ -47,23 +48,23 @@ CMP AL,3
 JB PASSSTART
 ```
 
-### Change 2: following `ROOM:`
+### Change 2 · `ROOM:`
 
-Unchanged code immediately before this edit:
+Find the unique label `ROOM:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV AX,7
-JMP ERROR
 ROOM:
 ```
 
-Remove these exact old lines (physical lines 9–9 of `AS14.ASM`):
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 MOV AL,2
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 MOV AL,1
@@ -136,4 +137,4 @@ FAIL
 
 ## If the result differs
 
-Check the edited blocks against their old context, then compare the complete source. A wrong record count or a missing zero terminator can make a correct token look absent. Check brackets and commas in the test input, and read the reported physical line before changing an instruction.
+Check every PASSSTART reset and reopen the input after closing it. Pass one counts and pass two stores; neither pass should append another copy to the output buffer.

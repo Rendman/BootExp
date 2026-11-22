@@ -33,7 +33,7 @@ def apply_label_edits(program,stage,text):
   if e.get('end_anchor'):assert program[at+len(old)]==e['end_anchor']+':'
   program[at:at+len(old)]=new
  # The editing instructions must be usable without margin or physical lines.
- editing=text.split('## Enter the source\n\n')[1].split('## Build')[0]
+ editing=re.split(r'## (?:Enter the source|Source changes)\n\n',text)[1].split('## Build')[0]
  assert not re.search(r'physical (?:positions?|lines?)|old physical|old line \d|positions \d',editing,re.I)
  return program
 
@@ -52,7 +52,8 @@ def reconstruct():
   previous=['; Workbench note','']+previous
   previous=apply_label_edits(previous,stage,text)
   assert previous==code((ROOT/'workbench/asm1'/stage['source']).read_text().splitlines())
-  assert f'OK {s["binary_bytes"]:05} bytes' in text and 'VIEW.BAS' in text
+  assert f'OK {s["binary_bytes"]:05} bytes' in text
+  if s['mode']!='probe':assert 'VIEW.BAS' in text
   if s['mode']=='probe':
    assert 'CHECK A01C in.asm out.com' in text and 'ERROR 00000 CODE 9' in text
   else:

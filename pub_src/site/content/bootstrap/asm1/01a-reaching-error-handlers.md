@@ -11,6 +11,8 @@ url = "/bootstrap/asma0/01a-reaching-error-handlers/"
 
 I start with ASM0's accepted source and mark the branches that will need room as I enlarge its routines. I can make a distant condition out of two instructions that ASM0 already knows.
 
+**Starting source:** `ASM0.ASM`. **Save as:** `A01A.ASM`. **Build with:** `ASMKEEP.COM`.
+
 ## What this step adds
 
 Six existing conditional branches become an opposite short condition followed by a near JMP. The accepted instruction table stays at twenty-five records. The assembler still reads SOURCE.ASM and writes RESULT.COM.
@@ -19,7 +21,7 @@ An 8086 conditional jump has a signed byte displacement, measured from the follo
 
 These are explicit source bridges. We are not adding a new long-conditional spelling to the assembler. The file paths use JAE to skip an error JMP when carry is clear; the short-write test uses JE to skip its error JMP when the counts agree. INPUTCLOSED and the four ZWRITEOUT labels name those nearby landing points. IMMEDWORD makes the byte-versus-word immediate choice with the same pattern. The Z labels are ordinary labels, not generated instruction forms.
 
-Some branches already fit their present routines. We choose the wider source pattern here so later report and file-handling additions do not rely on that spare reach. No new error category or encoding routine is introduced. Comments and blank lines are left to the reader; they emit no bytes.
+Some branches already fit their present routines. The wider source pattern removes their dependence on that spare reach. No new error category or encoding routine is introduced. Comments and blank lines are left to the reader; they emit no bytes.
 
 
 ## Enter the source
@@ -232,7 +234,7 @@ CHECK ASMKEEP
 COPY RESULT.COM A01A.COM
 ```
 
-Require the preceding ASM0 to report `OK 02449 bytes` and CHECK to report PASS before preserving the result. VIEW.BAS must show A01A.COM length 2449 bytes. Keep the source and executable together.
+Require the preceding ASM0 to report `OK 02449 bytes` and CHECK to report PASS before preserving the result. Keep the source and executable together.
 
 ## Check the addition
 

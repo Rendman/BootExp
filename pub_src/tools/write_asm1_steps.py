@@ -1,6 +1,6 @@
 """Publish the small source edits leading from ASM0 to the named-file assembler."""
 from pathlib import Path
-from assembly_edits import patch
+from assembly_edits import patch,source_note
 import json
 from asm1_steps import ROOT,BASE,STEPS
 from command_files import CHECKER
@@ -21,7 +21,7 @@ An 8086 conditional jump has a signed byte displacement, measured from the follo
 
 These are explicit source bridges. We are not adding a new long-conditional spelling to the assembler. The file paths use JAE to skip an error JMP when carry is clear; the short-write test uses JE to skip its error JMP when the counts agree. INPUTCLOSED and the four ZWRITEOUT labels name those nearby landing points. IMMEDWORD makes the byte-versus-word immediate choice with the same pattern. The Z labels are ordinary labels, not generated instruction forms.
 
-Some branches already fit their present routines. We choose the wider source pattern here so later report and file-handling additions do not rely on that spare reach. No new error category or encoding routine is introduced. Comments and blank lines are left to the reader; they emit no bytes.
+Some branches already fit their present routines. The wider source pattern removes their dependence on that spare reach. No new error category or encoding routine is introduced. Comments and blank lines are left to the reader; they emit no bytes.
 ''',
 'A01B':'''I will need two independently saved names. Before reading the command line, I give each name a place in the assembler's data and follow the existing file calls to those places.
 
@@ -29,7 +29,7 @@ Some branches already fit their present routines. We choose the wider source pat
 
 SRCNAME replaces FNAME as the source-name label. OPENFILE loads its address into DX. RESNAME remains the address used by WRITEOUT. Both names still contain SOURCE.ASM and RESULT.COM, so this checkpoint uses fixed files and accepts no filename arguments yet.
 
-Each record now has thirteen bytes: at most eight base characters, one dot, three extension characters, and a terminating zero. The remaining zero bytes are capacity for a later, longer selected spelling. They are not characters in the default name. DOS open/create services expect the address of the first character and stop at the zero.
+Each record now has thirteen bytes: at most eight base characters, one dot, three extension characters, and a terminating zero. The remaining zero bytes provide capacity for longer 8.3 spellings. They are not characters in the default name. DOS open/create services expect the address of the first character and stop at the zero.
 
 The name records move after OPTAB, and OUTPTR moves beside them. Moving a variable changes the address of its storage, which the assembler resolves from its label. It does not change the word held there: 24576 is still 6000H, the start of the existing complete-image output buffer. The buffer has not moved or become a stream.
 
@@ -43,7 +43,7 @@ DOS supplies a Program Segment Prefix before the program's 0100H entry. The byte
 
 CMDINIT sets SI to 81H and CX to the saved length. Each consumed character decrements CX. It never searches beyond that count for a zero. A length of 127 or more is rejected; the supported DOS tail is at most 126 bytes. CMDSKIP consumes spaces and tabs between names.
 
-CMDCOUNT counts name slots as they are begun; malformed input makes the whole parse fail. CMDPTR remembers the start of the current destination slot, while DI advances through its characters. CMDBUF contains three thirteen-byte slots. The third lets the common reader retain an extra name; the assembler's later selection routine will accept exactly two or none. A fourth name is rejected before another slot can be written.
+CMDCOUNT counts name slots as they are begun; malformed input makes the whole parse fail. CMDPTR remembers the start of the current destination slot, while DI advances through its characters. CMDBUF contains three thirteen-byte slots. The third lets the common reader retain an extra name so its caller can check the argument count. A fourth name is rejected before another slot can be written.
 
 For each name BX counts characters in the current part and DX holds that part's limit: eight for the base, then three for the extension. CMDDOT permits one dot after a nonempty base, switches the limit, and requires a nonempty extension. CMDEND writes a zero and advances the saved slot pointer by thirteen. Empty parts and a second dot fail.
 
@@ -53,7 +53,7 @@ On success CMDINIT returns the count in AX. On failure it returns 65535. It chan
 
 ## The temporary startup probe
 
-At ROOM the driver calls CMDPROBE before initializing either pass. CMDPROBE clears LINENO, calls CMDINIT and returns DOS success only for a count of two. A malformed spelling or another count enters the existing ERROR routine with category 9. PROBEOK returns DOS status zero. The probe exits through DOS rather than returning to its caller. The original driver and source parser remain below its call, ready for reuse, but are not reached at this stopping point. No file is opened or created. This two-name expectation belongs to the probe; the next step replaces its startup call and restores the no-argument defaults without retyping the driver.
+At ROOM the driver calls CMDPROBE before initializing either pass. CMDPROBE clears LINENO, calls CMDINIT and returns DOS success only for a count of two. A malformed spelling or another count enters the existing ERROR routine with category 9. PROBEOK returns DOS status zero. The probe exits through DOS rather than returning to its caller. The original driver and source parser remain below its call, ready for reuse, but are not reached at this stopping point. No file is opened or created. This two-name expectation belongs to the probe, which does not use the assembly driver's default filenames.
 
 Replace CHECK.BAT so it forwards the tail to its program:
 
@@ -66,11 +66,11 @@ CMDFILES calls CMDINIT once. Zero names keep the known SOURCE.ASM and RESULT.COM
 
 CMDMATCH compares two complete zero-terminated spellings. SI and DI advance through the names; BX and AH are scratch. AX is one for equality and zero for inequality. A shared prefix alone is not equality. Because CMDINIT folds letters before copying, differently cased spellings of the same filename compare equal.
 
-Five comparisons reject source=result, source=temporary, source=backup, result=temporary and result=backup. TMPNAME names ASMA.TMP; BAKNAME names RESULT.BAK. Those names are reserved now for the streamed writer and publication routines that will follow. These comparisons check selected spellings; they do not inspect or create recovery files. Existing-recovery-file detection is a later stopping point.
+Five comparisons reject source=result, source=temporary, source=backup, result=temporary and result=backup. TMPNAME names ASMA.TMP; BAKNAME names RESULT.BAK. Those names are reserved internal work names, distinct from the selected source and result. These comparisons check selected spellings; they do not inspect or create recovery files. Existing files under those names are not checked by this helper.
 
 Remove CMDPROBE and its startup call. The retained driver calls CMDFILES after its stack check and before pass counters or file services. The helper changes the working registers, so those counters are initialized afterward. OPENFILE and WRITEOUT already use the two name-buffer addresses. Both input passes still finish before output creation.
 
-The chosen result must also differ from the running checkpoint's executable name. Keep the builder under its own saved name. Use only unquoted 8.3 names in the current directory. This checkpoint still reports just OK and the byte count; the next step adds the result spelling to that report.
+The chosen result must also differ from the running checkpoint's executable name. Keep the builder under its own saved name. Use only unquoted 8.3 names in the current directory. This checkpoint reports just OK and the byte count.
 ''',
 'A01E':'''The assembler can write the selected file, but its success line still leaves me to remember which name I supplied. I want that line to identify the result I should inspect.
 
@@ -92,7 +92,7 @@ INOPEN is one byte, initially zero. OPENFILE first checks that DOS function 3DH 
 
 CLOSEFILE passes the saved handle to DOS function 3EH and checks carry. Only a successful close reaches INPUTCLOSED and stores zero. A failed close takes FILEBAD with the flag still set, rather than falsely recording that the file was closed. The handle word itself may still contain its old number after a close; INOPEN is what describes its lifetime.
 
-This checkpoint records ownership state; it does not yet add cleanup, deletion or recovery behavior. The existing ERROR path still returns to DOS, which releases the process's handles. The later cleanup article will consume INOPEN to decide whether to attempt an explicit close. Output ownership needs its own flags when the streamed writer is introduced.
+This checkpoint records ownership state; it does not yet add cleanup, deletion or recovery behavior. The existing ERROR path still returns to DOS, which releases the process's handles. The flag records whether an explicit close is still needed, independently of the old number retained in HANDLE.
 
 The new byte lives between BAKNAME and OUTPTR. OUTPTR still contains 6000H, and the complete-image output buffer remains in use. No opcode-table record is added here.
 ''',
@@ -103,11 +103,12 @@ def publish():
  for index,s in enumerate(facts,1):
   name=s['id'];lines=(W/(name+'.ASM')).read_text().splitlines()
   meta=dict(title=f'{index:02} · '+s['title'],weight=index,description=s['description'],download=name+'.ASM',download_group='tools/asm1',reader_names=1,command_examples='literal')
-  t='+++\n'+''.join(k+' = '+json.dumps(v)+'\n' for k,v in meta.items())+'+++\n\n'+EXPLANATIONS[name]+'\n\n## Enter the source\n\n'
+  opening,body=EXPLANATIONS[name].split('\n\n',1)
+  t='+++\n'+''.join(k+' = '+json.dumps(v)+'\n' for k,v in meta.items())+'+++\n\n'+opening+'\n\n'+source_note(oldfile,name+'.ASM','ASMKEEP.COM')+body+'\n\n## Enter the source\n\n'
   t+=f'Copy {oldfile} to {name}.ASM. '
   edits,changes=patch(previous,lines);t+=edits
   t+='## Build this stopping point\n\n'+fence('dos',f'COPY {name}.ASM SOURCE.ASM\nCHECK ASMKEEP\nCOPY RESULT.COM {name}.COM')
-  t+=f'Require the preceding ASM0 to report `OK {s["binary_bytes"]:05} bytes` and CHECK to report PASS before preserving the result. VIEW.BAS must show {name}.COM length {s["binary_bytes"]} bytes. Keep the source and executable together.\n\n'
+  t+=f'Require the preceding ASM0 to report `OK {s["binary_bytes"]:05} bytes` and CHECK to report PASS before preserving the result. Keep the source and executable together.\n\n'
   t+='## Check the addition\n\n'
   if s['mode']=='probe':
    t+=fence('dos','CHECK A01C in.asm out.com')+'Require PASS and no program text before it. The names need not exist: this driver makes no file calls. Repeat with tabs between the names; require PASS.\n\n'
@@ -119,7 +120,8 @@ def publish():
    t+=fence('dos',commands)
    report=f'OK {result} {s["target_bytes"]:05} bytes' if name in ['A01E','A01F'] else f'OK {s["target_bytes"]:05} bytes'
    t+='Require:\n\n'+fence('text',report+'\nPASS')
-   t+=f'VIEW.BAS must show {result} length {s["target_bytes"]} bytes and these complete contents:\n\n'+fence('text',s['target_hex'])
+   unit='byte' if s['target_bytes']==1 else 'bytes'
+   t+=f'VIEW.BAS must show {result} length {s["target_bytes"]} {unit} and these complete contents:\n\n'+fence('text',s['target_hex'])
    t+='The file is an encoding check; inspect it rather than executing it.\n\n'
   if name=='A01D':t+='Run `CHECK A01D T01D.ASM`, then `CHECK A01D T01D.ASM t01d.asm`. Each must report `ERROR 00000 CODE 9` and FAIL before a file is opened. Preserve CHOSEN.COM. With no arguments, A01D still assembles SOURCE.ASM to RESULT.COM.\n\n'
   if name=='A01F':

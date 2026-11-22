@@ -11,6 +11,8 @@ url = "/bootstrap/asm86/24-assembling-a-dos-request/"
 
 I've already used BOOTASM to make a character appear on the screen. This time I want the new assembler to translate the `MOV` and `INT` instructions itself. I'll still use BOOTASM to build that assembler before asking it to assemble the test program.
 
+**Starting source:** `AS23.ASM`. **Save as:** `AS24.ASM`. **Build with:** `BOOTASM.BAS`.
+
 ## How it works
 
 INTERRUPT reads one value, saves AX while it emits CDH, then passes the restored value through BYTEVALUE. That bound check is essential: the interrupt number occupies one byte. FINISH rejects another token.
@@ -21,44 +23,60 @@ INTERRUPT changes VALUE's scratch registers, AX, PC, OUTPTR, and flags. Its temp
 
 ## Source changes
 
-Copy `AS23.ASM` to `AS24.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS23.ASM` to `AS24.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1: following `OPTAB:`
+### Change 1 · `OPTAB:`
 
-Unchanged code immediately before this edit:
+Find the unique label `OPTAB:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+OPTAB:
+DB 68,66,0,0,0,0,1,0
+DB 68,87,0,0,0,0,1,1
+DB 82,69,84,0,0,0,2,195
+DB 67,76,68,0,0,0,2,252
+DB 76,79,68,83,66,0,2,172
+DB 83,84,79,83,66,0,2,170
+DB 77,79,86,0,0,0,3,0
+DB 73,78,67,0,0,0,5,64
 DB 68,69,67,0,0,0,5,72
 DB 80,85,83,72,0,0,5,80
 DB 80,79,80,0,0,0,5,88
 ```
 
-Insert after old physical line 895, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 DB 73,78,84,0,0,0,6,205
 ```
 
-### Change 2: following `SINGLE:`
+### Change 2 · `SINGLE:`
 
-Unchanged code immediately before this edit:
+Find the unique label `SINGLE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+SINGLE:
+CALL SCAN
+CALL REGISTER
+CMP AX,8
+JB SYNTAXBAD
+CMP AX,15
+JA SYNTAXBAD
+SUB AL,8
 MOV DL,[OP]
 ADD AL,DL
 CALL EMIT
 ```
 
-Insert after old physical line 585, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 CALL FINISH
 RET
-
 INTERRUPT:
 CALL SCAN
 CALL VALUE
@@ -69,19 +87,17 @@ POP AX
 CALL BYTEVALUE
 ```
 
-### Change 3: following `STNEXT5:`
+### Change 3 · `STNEXT5:`
 
-Unchanged code immediately before this edit:
+Find the unique label `STNEXT5:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CALL SINGLE
-RET
 STNEXT5:
 ```
 
-Insert after old physical line 542, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 CMP AL,6
@@ -91,9 +107,9 @@ RET
 STNEXT6:
 ```
 
-### Change 4: following `INSTRUCTION:`
+### Change 4 · `INSTRUCTION:`
 
-Unchanged code immediately before this edit:
+Find the unique label `INSTRUCTION:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 INSTRUCTION:
@@ -101,13 +117,15 @@ DEC SI
 MOV BX,OPTAB
 ```
 
-Remove these exact old lines (physical lines 513–513 of `AS23.ASM`):
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 MOV CX,11
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 MOV CX,12
@@ -185,4 +203,4 @@ FAIL
 
 ## If the result differs
 
-Check the edited blocks against their old context, then compare the complete source. A wrong record count or a missing zero terminator can make a correct token look absent. Check brackets and commas in the test input, and read the reported physical line before changing an instruction.
+Save the interrupt value while emitting CDH, then restore it for BYTEVALUE. The runnable test must load AH for each DOS service and finish with AX=4C00H.

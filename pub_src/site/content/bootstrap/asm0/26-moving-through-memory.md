@@ -11,6 +11,8 @@ url = "/bootstrap/asm86/26-moving-through-memory/"
 
 We shall add bracketed MOV operands without adding an expression parser or the processor's entire addressing vocabulary.
 
+**Starting source:** `AS25.ASM`. **Save as:** `AS26.ASM`. **Build with:** `BOOTASM.BAS`.
+
 ## How it works
 
 An opening bracket selects MEMORY. The inner token BX selects r/m=7; every other inner token is a value or label and selects r/m=6 with a direct word offset. A closing bracket is required. KIND=2 identifies memory, REG holds that r/m number, and VAL holds the direct offset when needed.
@@ -23,44 +25,34 @@ These routines change the operand fields, VALUE and lookup scratch state, AL and
 
 ## Source changes
 
-Copy `AS25.ASM` to `AS26.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS25.ASM` to `AS26.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1: following `VAL:`
+### Change 1 · `PASS:`
 
-Unchanged code immediately before this edit:
+Find the unique label `PASS:`. Insert the new source immediately before this existing label:
 
 ```asm
-VAL:
-DW 0
-
+PASS:
 ```
 
-Insert after old physical line 871, before the following old line.
-
-Insert this source:
+Insert:
 
 ```asm
 V1:
 DW 0
-
 ```
 
-### Change 2: following `IMMEDVALUE:`
+### Change 2 · `SAMEWIDTH:`
 
-Unchanged code immediately before this edit:
+Find the unique label `SAMEWIDTH:`. Insert the new source immediately before this existing label:
 
 ```asm
-MOV AX,[VAL]
-JE BYTEVALUE
-JMP EMITWORD
+SAMEWIDTH:
 ```
 
-Insert after old physical line 700, before the following old line.
-
-Insert this source:
+Insert:
 
 ```asm
-
 LOADMEM:
 MOV AL,[W1]
 ADD AL,138
@@ -76,7 +68,6 @@ MOV AX,[VAL]
 CALL EMITWORD
 LOADEND:
 RET
-
 STOREMEM:
 MOV AL,[KIND]
 CMP AL,1
@@ -100,43 +91,48 @@ STOREEND:
 RET
 ```
 
-### Change 3: following `MOVOPERANDS:`
+### Change 3 · `MOVOPERANDS:`
 
-Unchanged code immediately before this edit:
+Find the unique label `MOVOPERANDS:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+MOVOPERANDS:
+MOV AL,[K1]
+CMP AL,1
+JNE TWOBAD
 MOV AL,[KIND]
 CMP AL,1
 JE MOVREG
 ```
 
-Remove these exact old lines (physical lines 669–670 of `AS25.ASM`):
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 CMP AL,3
 JNE TWOBAD
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 CMP AL,2
 JE LOADMEM
 ```
 
-### Change 4: following `MOVOPERANDS:`
+### Change 4 · `MOVOPERANDS:`
 
-Unchanged code immediately before this edit:
+Find the unique label `MOVOPERANDS:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-
 MOVOPERANDS:
 MOV AL,[K1]
 ```
 
-Insert after old physical line 663, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 CMP AL,2
@@ -145,43 +141,48 @@ JMP STOREMEM
 MOVDESTREG:
 ```
 
-### Change 5: following `TWOOPERANDS:`
+### Change 5 · `TWOOPERANDS:`
 
-Unchanged code immediately before this edit:
+Find the unique label `TWOOPERANDS:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+TWOOPERANDS:
+CALL OPERAND
+MOV AL,[KIND]
+MOV [K1],AL
+MOV AL,[WIDTH]
 MOV [W1],AL
 MOV AL,[REG]
 MOV [R1],AL
 ```
 
-Insert after old physical line 622, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 MOV AX,[VAL]
 MOV [V1],AX
 ```
 
-### Change 6: following `IMMEDIATE:`
+### Change 6 · `IMMEDIATE:`
 
-Unchanged code immediately before this edit:
+Find the unique label `IMMEDIATE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+IMMEDIATE:
 CALL VALUE
 MOV [VAL],AX
 MOV AL,3
 ```
 
-Insert after old physical line 490, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 MOV [KIND],AL
 RET
-
 MEMORY:
 CALL SCAN
 MOV AX,[2300H]
@@ -209,19 +210,18 @@ MEMORYOK:
 MOV AL,2
 ```
 
-### Change 7: following `OPERAND:`
+### Change 7 · `OPERAND:`
 
-Unchanged code immediately before this edit:
+Find the unique label `OPERAND:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-
 OPERAND:
 CALL SCAN
 ```
 
-Insert after old physical line 471, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 MOV AL,[2300H]
@@ -298,4 +298,4 @@ FAIL
 
 ## If the result differs
 
-Check the edited blocks against their old context, then compare the complete source. A wrong record count or a missing zero terminator can make a correct token look absent. Check brackets and commas in the test input, and read the reported physical line before changing an instruction.
+Check the saved first operand V1 for a direct store. Direct addressing requires a word offset after ModR/M; [BX] does not. The ordinary register supplies the memory width.

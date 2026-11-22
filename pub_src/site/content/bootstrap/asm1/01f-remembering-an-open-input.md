@@ -11,13 +11,15 @@ url = "/bootstrap/asma0/01f-remembering-an-open-input/"
 
 A handle word keeps the number DOS returned. That number alone cannot tell a later cleanup routine whether the handle is still open. I give the input file its own small state flag.
 
+**Starting source:** `A01E.ASM`. **Save as:** `A01F.ASM`. **Build with:** `ASMKEEP.COM`.
+
 ## What this step adds
 
 INOPEN is one byte, initially zero. OPENFILE first checks that DOS function 3DH succeeded and saves the returned handle. Only then does it store one in INOPEN. A failed open leaves zero.
 
 CLOSEFILE passes the saved handle to DOS function 3EH and checks carry. Only a successful close reaches INPUTCLOSED and stores zero. A failed close takes FILEBAD with the flag still set, rather than falsely recording that the file was closed. The handle word itself may still contain its old number after a close; INOPEN is what describes its lifetime.
 
-This checkpoint records ownership state; it does not yet add cleanup, deletion or recovery behavior. The existing ERROR path still returns to DOS, which releases the process's handles. The later cleanup article will consume INOPEN to decide whether to attempt an explicit close. Output ownership needs its own flags when the streamed writer is introduced.
+This checkpoint records ownership state; it does not yet add cleanup, deletion or recovery behavior. The existing ERROR path still returns to DOS, which releases the process's handles. The flag records whether an explicit close is still needed, independently of the old number retained in HANDLE.
 
 The new byte lives between BAKNAME and OUTPTR. OUTPTR still contains 6000H, and the complete-image output buffer remains in use. No opcode-table record is added here.
 
@@ -84,7 +86,7 @@ CHECK ASMKEEP
 COPY RESULT.COM A01F.COM
 ```
 
-Require the preceding ASM0 to report `OK 02931 bytes` and CHECK to report PASS before preserving the result. VIEW.BAS must show A01F.COM length 2931 bytes. Keep the source and executable together.
+Require the preceding ASM0 to report `OK 02931 bytes` and CHECK to report PASS before preserving the result. Keep the source and executable together.
 
 ## Check the addition
 
@@ -105,7 +107,7 @@ OK CLOSED.COM 00001 bytes
 PASS
 ```
 
-VIEW.BAS must show CLOSED.COM length 1 bytes and these complete contents:
+VIEW.BAS must show CLOSED.COM length 1 byte and these complete contents:
 
 ```text
 C3

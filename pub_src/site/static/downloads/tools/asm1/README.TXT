@@ -13,6 +13,8 @@ ASM1.ASM: complete seed, identical to A12.ASM.
 Tnn.ASM and Xnn.ASM: exact acceptance/rejection inputs where applicable.
 VIEW.BAS inspects bytes; CHECK.BAT forwards filename arguments.
 SYMS.BAS: source-text generator for the 2048-definition exercise.
+STREAM.BAS: source-text generator for block and source-count exercises.
+LINES.BAS: saved comment-generating version from the source-count lesson.
 HELLO.ASM, MEMORY.ASM, COUNT.ASM: complete executable examples.
 
 Use your own DOS 3.10 and period GW-BASIC interpreter; note its banner.

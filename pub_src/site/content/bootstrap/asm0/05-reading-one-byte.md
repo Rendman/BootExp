@@ -11,6 +11,8 @@ url = "/bootstrap/asm86/05-reading-one-byte/"
 
 We shall read the source a byte at a time and display exactly the bytes read. This isolates file input from parsing.
 
+**Starting source:** `AS04.ASM`. **Save as:** `AS05.ASM`. **Build with:** `BOOTASM.BAS`.
+
 ## How it works
 
 NEXTBYTE requests one byte with DOS function 3FH: BX is HANDLE, CX is one, and DS:DX points at CHAR. Carry indicates a file error. With carry clear, AX is the number of bytes read: one for a character, zero for end of file. CHAR is meaningful only when AX is one.
@@ -23,65 +25,52 @@ At this checkpoint no case conversion or comment handling is performed. The sour
 
 ## Source changes
 
-Copy `AS04.ASM` to `AS05.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS04.ASM` to `AS05.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1: following `ERRCODE:`
+### Change 1 · `OPENMSG:`
 
-Unchanged code immediately before this edit:
+Find the unique label `OPENMSG:`. The old block below starts at that label.
 
-```asm
-
-ERRCODE:
-DB 0
-```
-
-Remove these exact old lines (physical lines 118–120 of `AS04.ASM`):
+Remove this existing source:
 
 ```asm
-
 OPENMSG:
 DB 79,112,101,110,101,100,13,10,36
 ```
 
-No replacement lines are needed.
+### Change 2 · `ERRCODE:`
 
-### Change 2: following `LINENO:`
-
-Unchanged code immediately before this edit:
+Find the unique label `ERRCODE:`. Insert the new source immediately before this existing label:
 
 ```asm
-LINENO:
-DW 0
-
+ERRCODE:
 ```
 
-Insert after old physical line 115, before the following old line.
-
-Insert this source:
+Insert:
 
 ```asm
 CHAR:
 DB 0
-
 ```
 
-### Change 3: following `CLOSEFILE:`
+### Change 3 · `CLOSEFILE:`
 
-Unchanged code immediately before this edit:
+Find the unique label `CLOSEFILE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+CLOSEFILE:
+MOV BX,[HANDLE]
 MOV AH,3EH
 INT 21H
 JB FILEBAD
 ```
 
-Insert after old physical line 35, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 RET
-
 NEXTBYTE:
 MOV BX,[HANDLE]
 MOV CX,1
@@ -94,9 +83,9 @@ JMP ERROR
 BYTEOK:
 ```
 
-### Change 4: following `ROOM:`
+### Change 4 · `ROOM:`
 
-Unchanged code immediately before this edit:
+Find the unique label `ROOM:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 ROOM:
@@ -104,28 +93,29 @@ CALL OPENFILE
 CALL CLOSEFILE
 ```
 
-Remove these exact old lines (physical lines 11–12 of `AS04.ASM`):
+The edit begins immediately after that unchanged block.
+
+Remove this existing source:
 
 ```asm
 MOV DX,OPENMSG
 CALL TEXT
 ```
 
-No replacement lines are needed.
+Keep the following `GOOD:` label and the source after it in place.
 
-### Change 5: following `ROOM:`
+### Change 5 · `ROOM:`
 
-Unchanged code immediately before this edit:
+Find the unique label `ROOM:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-JMP ERROR
 ROOM:
 CALL OPENFILE
 ```
 
-Insert after old physical line 9, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 DUMPBYTE:
@@ -191,4 +181,4 @@ FAIL
 
 ## If the result differs
 
-Check the edited blocks against their old context, then compare the complete source. A wrong record count or a missing zero terminator can make a correct token look absent. Check brackets and commas in the test input, and read the reported physical line before changing an instruction.
+Test the returned AX count before using CHAR: a zero count means EOF and leaves no new character to print. Check that the driver closes the source after its reading loop.

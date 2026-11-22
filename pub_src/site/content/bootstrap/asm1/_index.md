@@ -24,7 +24,7 @@ I'll call this next assembler **ASM1**. I want it to read and write through smal
 - **Larger assembly capacity:** Retain 2,048 symbols and emit as many as 61,184 bytes so the seed can build a substantially larger assembler.
 - **XOR:** Add one arithmetic-table record so the successor assembler can hash symbol names; explain its spelling, dispatch class and operation selector in a separate step.
 - **Segment access:** Add segment-register MOV and ES overrides on the existing MOV memory forms so the assembler can work with separately allocated storage.
-- **Checked publication:** Write a temporary file and use backup/recovery names so rejected source does not replace an accepted RESULT.COM.
+- **Checked publication:** Write a temporary file and use backup/recovery names so rejected source does not replace the accepted result.
 
 **Removing:** The complete-image output buffer; streaming removes the resident output-size bottleneck. SOURCE.ASM/RESULT.COM remain no-argument defaults; COPY is still needed when building with ASM0. ES, CS, SS and DS also become reserved names so labels cannot be confused with the new segment-register operands.
 
@@ -32,7 +32,7 @@ I'll call this next assembler **ASM1**. I want it to read and write through smal
 
 This collection constructs a tool that can handle a source and output larger than its own resident image. Branch reach, filename storage, PSP reading, file selection, result reporting, input-handle state and XOR each receive a separate opening step. The construction then adds bounded input and output blocks, two passes, temporary-file ownership and recoverable publication. The completed seed has 2,048 symbols in its original segment and the segment-access forms needed to build ASM86.
 
-Eighteen construction checkpoints finish at ASM1.ASM. A workbench guide, a seed language and memory reference, and three complete programs accompany them. The language remains small enough to be implemented within the preceding ASM0's bounds. The processor remains the 8086/8088 and the output remains DOS `.COM`.
+Eighteen construction checkpoints finish at ASM1.ASM. The unnumbered workbench comes first; article 19 is the seed language and memory reference, and article 20 contains three complete programs. The language remains small enough to be implemented within the preceding ASM0's bounds. The processor remains the 8086/8088 and the output remains DOS `.COM`.
 
 The opening sequence keeps each change visible:
 

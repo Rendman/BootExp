@@ -34,6 +34,8 @@ Sources are plain ASCII with DOS CR/LF line endings and short filenames. `COPY C
 
 Both BOOTASM and ASM0 read SOURCE.ASM and write RESULT.COM. Select a source with COPY, require fresh success, and copy the accepted result to the program name before using the work files again.
 
+Article numbers identify the reading order. Saved source names identify disk files: article 17, for example, finishes AS17.ASM. The workbench is unnumbered; the construction and self-assembly occupy articles 01–29, followed by reference 30 and programs 31.
+
 ## The native memory arrangement
 
 The native program requires a complete 64 KB segment, with the normal entry stack at FFFEH. It checks SP before using its buffers and reports code 7 if that requirement is not met. Code and static data occupy the low part of the segment; fixed buffers are kept clear of them:

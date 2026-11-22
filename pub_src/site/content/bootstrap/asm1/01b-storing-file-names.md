@@ -11,11 +11,13 @@ url = "/bootstrap/asma0/01b-storing-file-names/"
 
 I will need two independently saved names. Before reading the command line, I give each name a place in the assembler's data and follow the existing file calls to those places.
 
+**Starting source:** `A01A.ASM`. **Save as:** `A01B.ASM`. **Build with:** `ASMKEEP.COM`.
+
 ## What this step adds
 
 SRCNAME replaces FNAME as the source-name label. OPENFILE loads its address into DX. RESNAME remains the address used by WRITEOUT. Both names still contain SOURCE.ASM and RESULT.COM, so this checkpoint uses fixed files and accepts no filename arguments yet.
 
-Each record now has thirteen bytes: at most eight base characters, one dot, three extension characters, and a terminating zero. The remaining zero bytes are capacity for a later, longer selected spelling. They are not characters in the default name. DOS open/create services expect the address of the first character and stop at the zero.
+Each record now has thirteen bytes: at most eight base characters, one dot, three extension characters, and a terminating zero. The remaining zero bytes provide capacity for longer 8.3 spellings. They are not characters in the default name. DOS open/create services expect the address of the first character and stop at the zero.
 
 The name records move after OPTAB, and OUTPTR moves beside them. Moving a variable changes the address of its storage, which the assembler resolves from its label. It does not change the word held there: 24576 is still 6000H, the start of the existing complete-image output buffer. The buffer has not moved or become a stream.
 
@@ -137,7 +139,7 @@ CHECK ASMKEEP
 COPY RESULT.COM A01B.COM
 ```
 
-Require the preceding ASM0 to report `OK 02453 bytes` and CHECK to report PASS before preserving the result. VIEW.BAS must show A01B.COM length 2453 bytes. Keep the source and executable together.
+Require the preceding ASM0 to report `OK 02453 bytes` and CHECK to report PASS before preserving the result. Keep the source and executable together.
 
 ## Check the addition
 

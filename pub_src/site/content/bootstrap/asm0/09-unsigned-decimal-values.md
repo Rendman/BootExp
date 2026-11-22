@@ -11,6 +11,8 @@ url = "/bootstrap/asm86/09-unsigned-decimal-values/"
 
 A token of decimal digits must become a word without accepting a sign, an expression, or an overflow.
 
+**Starting source:** `AS08.ASM`. **Save as:** `AS09.ASM`. **Build with:** `BOOTASM.BAS`.
+
 ## How it works
 
 VALUE takes the token at 2300H and returns its unsigned value in AX. It preserves the source cursor SI by saving it on the stack. The numeric work uses CX as the accumulated value, DX as the next digit, and DI as the end of the token. AX, BX, CX, DX, DI, BP, and flags are scratch state.
@@ -23,60 +25,38 @@ The diagnostic driver reads one number per line. It saves AX while FINISH checks
 
 ## Source changes
 
-Copy `AS08.ASM` to `AS09.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS08.ASM` to `AS09.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1: following `ERRCODE:`
+### Change 1 · `OPTAB:`
 
-Unchanged code immediately before this edit:
+Find the unique label `OPTAB:`. The old block below starts at that label.
 
-```asm
-
-ERRCODE:
-DB 0
-```
-
-Remove these exact old lines (physical lines 348–351 of `AS08.ASM`):
+Remove this existing source:
 
 ```asm
-
 OPTAB:
 DB 68,66,0,0,0,0,1,0
 DB 68,87,0,0,0,0,1,1
 ```
 
-No replacement lines are needed.
+### Change 2 · `STRIDE:`
 
-### Change 2: following `TOKLEN:`
+Find the unique label `STRIDE:`. The old block below starts at that label.
 
-Unchanged code immediately before this edit:
-
-```asm
-TOKLEN:
-DW 0
-
-```
-
-Remove these exact old lines (physical lines 334–336 of `AS08.ASM`):
+Remove this existing source:
 
 ```asm
 STRIDE:
 DW 0
-
 ```
 
-No replacement lines are needed.
+Keep the following `ENDED:` label and the source after it in place.
 
-### Change 3: following `LOOKFOUND:`
+### Change 3 · `LOOKMISS:`
 
-Unchanged code immediately before this edit:
+Find the unique label `LOOKMISS:`. The old block below starts at that label.
 
-```asm
-MOV BX,BP
-POP SI
-RET
-```
-
-Remove these exact old lines (physical lines 238–241 of `AS08.ASM`):
+Replace this existing source:
 
 ```asm
 LOOKMISS:
@@ -85,7 +65,7 @@ POP SI
 RET
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 NUMBERBAD:
@@ -93,17 +73,20 @@ MOV AX,2
 JMP ERROR
 ```
 
-### Change 4: following `LOOKCHAR:`
+Keep the following `FINISH:` label and the source after it in place.
 
-Unchanged code immediately before this edit:
+### Change 4 · `LOOKCHAR:`
+
+Find the unique label `LOOKCHAR:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV SI,2300H
 LOOKCHAR:
 LODSB
 ```
 
-Remove these exact old lines (physical lines 221–235 of `AS08.ASM`):
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 MOV BX,DI
@@ -123,7 +106,7 @@ LOOKFOUND:
 MOV BX,BP
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 SUB AL,48
@@ -153,23 +136,17 @@ JB DIGIT
 MOV AX,CX
 ```
 
-### Change 5: following `LOOKNEXT:`
+### Change 5 · `LOOKCHAR:`
 
-Unchanged code immediately before this edit:
+Find the unique label `LOOKCHAR:`. The old block below starts at that label.
 
-```asm
-JE LOOKMISS
-MOV DI,BP
-MOV SI,2300H
-```
-
-Remove these exact old lines (physical lines 219–219 of `AS08.ASM`):
+Replace this existing source:
 
 ```asm
 LOOKCHAR:
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 MOV DI,[TOKLEN]
@@ -182,9 +159,9 @@ MOV CX,0
 DIGIT:
 ```
 
-### Change 6: following `LOOK:`
+### Change 6 · `LOOK:`
 
-Unchanged code immediately before this edit:
+Find the unique label `LOOK:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 LOOK:
@@ -192,7 +169,9 @@ MOV [STRIDE],AX
 PUSH SI
 ```
 
-Remove these exact old lines (physical lines 213–217 of `AS08.ASM`):
+The edit begins immediately after that unchanged block.
+
+Remove this existing source:
 
 ```asm
 MOV BP,BX
@@ -202,26 +181,18 @@ JE LOOKMISS
 MOV DI,BP
 ```
 
-No replacement lines are needed.
+### Change 7 · `LOOK:`
 
-### Change 7: following `TOKENBAD:`
+Find the unique label `LOOK:`. The old block below starts at that label.
 
-Unchanged code immediately before this edit:
-
-```asm
-MOV AX,1
-JMP ERROR
-
-```
-
-Remove these exact old lines (physical lines 210–211 of `AS08.ASM`):
+Replace this existing source:
 
 ```asm
 LOOK:
 MOV [STRIDE],AX
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 VALUE:
@@ -235,17 +206,22 @@ JMP NUMBERBAD
 LITERAL:
 ```
 
-### Change 8: following `DRIVERLINE:`
+### Change 8 · `DRIVERLINE:`
 
-Unchanged code immediately before this edit:
+Find the unique label `DRIVERLINE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+DRIVERLINE:
+CALL READLINE
+CMP AX,0
 JE DRIVERDONE
 MOV SI,2200H
 CALL SCAN
 ```
 
-Remove these exact old lines (physical lines 16–27 of `AS08.ASM`):
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 MOV BX,OPTAB
@@ -262,7 +238,7 @@ MOV AL,[BX]
 MOV AH,0
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 CALL VALUE
@@ -326,4 +302,4 @@ FAIL
 
 ## If the result differs
 
-Check the edited blocks against their old context, then compare the complete source. A wrong record count or a missing zero terminator can make a correct token look absent. Check brackets and commas in the test input, and read the reported physical line before changing an instruction.
+Check the decimal overflow comparison before multiplication and the final digit at 6553. VALUE must restore SI so FINISH can inspect the rest of the same statement.

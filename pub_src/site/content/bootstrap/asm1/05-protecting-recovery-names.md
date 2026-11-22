@@ -11,6 +11,8 @@ url = "/bootstrap/asma0/05-protecting-recovery-names/"
 
 I have given the temporary file a fixed name, but finding that name on disk does not tell me where it came from. It might be left from an interrupted run. I want the program to stop and let me inspect it before creating anything under the same name.
 
+**Starting source:** `A04.ASM`. **Save as:** `A05.ASM`. **Build with:** `ASMKEEP.COM`.
+
 ## The working parts
 
 EXISTS opens an ordinary fixed disk name read-only, closes it if found, and returns one; only file-not-found returns zero. Other DOS failures remain errors. PREFLIGHT checks ASMA.TMP and RESULT.BAK and reports category eight if either is present.
@@ -88,14 +90,14 @@ CALL PREFLIGHT
 
 Copy `A05.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK 03257 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM A05.COM`.
 
-VIEW.BAS must report A05.COM length 3257 bytes. Keep that executable and source together.
+Keep that executable and source together.
 
 ## Acceptance check
 
-Create T05.ASM as plain ASCII with COPY CON or an editor. Finish COPY CON with Ctrl-Z and Enter:
+Reuse the earlier input unchanged:
 
-```text
-ABC
+```dos
+COPY T03.ASM T05.ASM
 ```
 
 ```dos
@@ -115,7 +117,7 @@ In VIEW.BAS, inspect ASMA.TMP. Require length **5 bytes** and these complete con
 41 42 43 0D 0A
 ```
 
-The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
+These are the copied text bytes, including their line ending. Inspect the result as data.
 
 ## A rejection check
 
@@ -135,10 +137,10 @@ ERROR 00000 CODE 8
 FAIL
 ```
 
-The pre-existing RESULT.COM must remain unchanged. A missing-source failure must remove only the temporary file this run owned.
+PREFLIGHT must leave both the pre-existing RESULT.COM and the unowned ASMA.TMP unchanged. No output file should be created or removed by this rejected run.
 
 An unexpected PASS fails this rejection test.
 
 ## If the result differs
 
-Check the saved argument names and terminators, handle ownership flags, reader cursors at each pass, and the current output count. Inspect file length as well as the leading bytes. A copied data file is not an executable proof.
+Run PREFLIGHT before CREATEOUT. A reserved file is evidence to inspect, not permission to truncate it. Remove only the RECOVERY file deliberately created for this test.

@@ -11,6 +11,8 @@ url = "/bootstrap/asm86/10-hexadecimal-values/"
 
 We shall extend VALUE to recognize hexadecimal while retaining the same unsigned-word result and overflow checks.
 
+**Starting source:** `AS09.ASM`. **Save as:** `AS10.ASM`. **Build with:** `BOOTASM.BAS`.
+
 ## How it works
 
 The final character is examined before the digit loop. H selects base sixteen and is excluded from the digits to be read. Otherwise BP remains ten. A value must still begin with a decimal digit: write 0FFH, not FFH.
@@ -21,21 +23,17 @@ VALUE's input, result, preserved SI, and scratch registers are unchanged. No BAS
 
 ## Source changes
 
-Copy `AS09.ASM` to `AS10.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS09.ASM` to `AS10.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1: following `DECDIGIT:`
+### Change 1 · `ADDDIGIT:`
 
-Unchanged code immediately before this edit:
+Find the unique label `ADDDIGIT:`. Insert the new source immediately before this existing label:
 
 ```asm
-ADD AX,AX
-ADD AX,AX
-ADD CX,AX
+ADDDIGIT:
 ```
 
-Insert after old physical line 238, before the following old line.
-
-Insert this source:
+Insert:
 
 ```asm
 JMP ADDDIGIT
@@ -48,38 +46,45 @@ ADD CX,CX
 ADD CX,CX
 ```
 
-### Change 2: following `DIGITOK:`
+### Change 2 · `DIGITOK:`
 
-Unchanged code immediately before this edit:
+Find the unique label `DIGITOK:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+DIGITOK:
+MOV AH,0
 MOV DX,AX
 CMP DX,BP
 JAE NUMBERBAD
 ```
 
-Insert after old physical line 226, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 CMP BP,16
 JE HEXDIGIT
 ```
 
-### Change 3: following `DIGIT:`
+### Change 3 · `NUMBERSTART:`
 
-Unchanged code immediately before this edit:
+Find the unique label `NUMBERSTART:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+NUMBERSTART:
+CMP SI,DI
+JE NUMBERBAD
+MOV CX,0
+DIGIT:
 LODSB
 SUB AL,48
 CMP AL,9
 ```
 
-Insert after old physical line 220, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 JBE DIGITOK
@@ -89,19 +94,15 @@ JB NUMBERBAD
 CMP AL,15
 ```
 
-### Change 4: following `LITERAL:`
+### Change 4 · `NUMBERSTART:`
 
-Unchanged code immediately before this edit:
+Find the unique label `NUMBERSTART:`. Insert the new source immediately before this existing label:
 
 ```asm
-MOV DI,[TOKLEN]
-ADD DI,2300H
-MOV BP,10
+NUMBERSTART:
 ```
 
-Insert after old physical line 212, before the following old line.
-
-Insert this source:
+Insert:
 
 ```asm
 CMP AL,72
@@ -110,19 +111,21 @@ MOV BP,16
 DEC DI
 ```
 
-### Change 5: following `LITERAL:`
+### Change 5 · `LITERAL:`
 
-Unchanged code immediately before this edit:
+Find the unique label `LITERAL:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+LITERAL:
+PUSH SI
 MOV SI,2300H
 MOV DI,[TOKLEN]
 ADD DI,2300H
 ```
 
-Insert after old physical line 211, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 MOV BX,DI
@@ -188,4 +191,4 @@ FAIL
 
 ## If the result differs
 
-Check the edited blocks against their old context, then compare the complete source. A wrong record count or a missing zero terminator can make a correct token look absent. Check brackets and commas in the test input, and read the reported physical line before changing an instruction.
+Check that the trailing H is excluded from the digit loop and that a hexadecimal token begins with a decimal digit. Decimal and hexadecimal overflow use different pre-multiplication bounds.

@@ -11,6 +11,8 @@ url = "/bootstrap/asm86/25-arithmetic-and-comparisons/"
 
 Five related instruction families can share the operand reader and much of their encoding work.
 
+**Starting source:** `AS24.ASM`. **Save as:** `AS25.ASM`. **Build with:** `BOOTASM.BAS`.
+
 ## How it works
 
 The class-four parameters are the processor's group numbers: ADD=0, OR=1, AND=4, SUB=5, and CMP=7. They are not a consecutive numbering invented by this assembler.
@@ -23,21 +25,26 @@ ADD and SUB store their arithmetic result; CMP sets subtraction flags without st
 
 ## Source changes
 
-Copy `AS24.ASM` to `AS25.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS24.ASM` to `AS25.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1: following `OPTAB:`
+### Change 1 · `OPTAB:`
 
-Unchanged code immediately before this edit:
+Find the unique label `OPTAB:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+OPTAB:
+DB 68,66,0,0,0,0,1,0
+DB 68,87,0,0,0,0,1,1
+DB 82,69,84,0,0,0,2,195
+DB 67,76,68,0,0,0,2,252
 DB 76,79,68,83,66,0,2,172
 DB 83,84,79,83,66,0,2,170
 DB 77,79,86,0,0,0,3,0
 ```
 
-Insert after old physical line 907, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 DB 65,68,68,0,0,0,4,0
@@ -47,23 +54,35 @@ DB 83,85,66,0,0,0,4,5
 DB 67,77,80,0,0,0,4,7
 ```
 
-### Change 2: following `TWOOPERANDS:`
+### Change 2 · `TWOOPERANDS:`
 
-Unchanged code immediately before this edit:
+Find the unique label `TWOOPERANDS:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+TWOOPERANDS:
+CALL OPERAND
+MOV AL,[KIND]
+MOV [K1],AL
+MOV AL,[WIDTH]
+MOV [W1],AL
+MOV AL,[REG]
+MOV [R1],AL
+CALL SCAN
+MOV AL,[2300H]
 CMP AL,44
 JNE TWOBAD
 CALL OPERAND
 ```
 
-Remove these exact old lines (physical lines 628–628 of `AS24.ASM`):
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JMP MOVOPERANDS
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 MOV AL,[TYPE]
@@ -98,9 +117,11 @@ CALL EMIT
 JMP REGMOD
 ```
 
-### Change 3: following `INSTRUCTION:`
+Keep the following `TWOBAD:` label and the source after it in place.
 
-Unchanged code immediately before this edit:
+### Change 3 · `INSTRUCTION:`
+
+Find the unique label `INSTRUCTION:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 INSTRUCTION:
@@ -108,13 +129,15 @@ DEC SI
 MOV BX,OPTAB
 ```
 
-Remove these exact old lines (physical lines 513–513 of `AS24.ASM`):
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 MOV CX,12
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 MOV CX,17
@@ -190,4 +213,4 @@ FAIL
 
 ## If the result differs
 
-Check the edited blocks against their old context, then compare the complete source. A wrong record count or a missing zero terminator can make a correct token look absent. Check brackets and commas in the test input, and read the reported physical line before changing an instruction.
+Check the arithmetic group numbers rather than assigning consecutive table selectors. Register forms and full-width immediate forms use different opcode calculations; CMP emits an operation that changes flags without storing a result.

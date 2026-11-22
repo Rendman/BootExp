@@ -12,6 +12,8 @@ url = "/bootstrap/asm86/08-looking-up-a-table-entry/"
 
 In BASIC I kept instruction names in a chain of IF statements. In assembly I want one search routine and a small table it can walk. I'll try that routine on `DB` and `DW` before using it inside the parser.
 
+**Starting source:** `AS07.ASM`. **Save as:** `AS08.ASM`. **Build with:** `BOOTASM.BAS`.
+
 ## How it works
 
 LOOK takes BX as the first record, CX as the record count, and AX as the record size in bytes. Each record begins with a zero-terminated name. It returns the matching record's address in BX, or zero if no record matches. It preserves SI, the source cursor, and changes AX, BX, CX, DX, DI, BP, STRIDE, and flags.
@@ -24,60 +26,47 @@ The search count is checked before reading a record, including a count of zero. 
 
 ## Source changes
 
-Copy `AS07.ASM` to `AS08.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS07.ASM` to `AS08.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1: following `ERRCODE:`
+### Change 1 · `ERRCODE:`
 
-Unchanged code immediately before this edit:
+Find the unique label `ERRCODE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-
 ERRCODE:
 DB 0
 ```
 
-Insert after old physical line 310, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
-
 OPTAB:
 DB 68,66,0,0,0,0,1,0
 DB 68,87,0,0,0,0,1,1
 ```
 
-### Change 2: following `TOKLEN:`
+### Change 2 · `ENDED:`
 
-Unchanged code immediately before this edit:
+Find the unique label `ENDED:`. Insert the new source immediately before this existing label:
 
 ```asm
-TOKLEN:
-DW 0
-
+ENDED:
 ```
 
-Insert after old physical line 299, before the following old line.
-
-Insert this source:
+Insert:
 
 ```asm
 STRIDE:
 DW 0
-
 ```
 
-### Change 3: following `ERROR:`
+### Change 3 · `ZTEXT:`
 
-Unchanged code immediately before this edit:
+Find the unique label `ZTEXT:`. The old block below starts at that label.
 
-```asm
-MOV AX,4C01H
-INT 21H
-
-```
-
-Remove these exact old lines (physical lines 263–273 of `AS07.ASM`):
+Remove this existing source:
 
 ```asm
 ZTEXT:
@@ -90,24 +79,19 @@ INT 21H
 JMP ZTEXT
 ZDONE:
 RET
-
 ```
 
-No replacement lines are needed.
+Keep the following `ERRMSG:` label and the source after it in place.
 
-### Change 4: following `TOKENBAD:`
+### Change 4 · `TEXT:`
 
-Unchanged code immediately before this edit:
+Find the unique label `TEXT:`. Insert the new source immediately before this existing label:
 
 ```asm
-MOV AX,1
-JMP ERROR
-
+TEXT:
 ```
 
-Insert after old physical line 207, before the following old line.
-
-Insert this source:
+Insert:
 
 ```asm
 LOOK:
@@ -142,7 +126,6 @@ LOOKMISS:
 MOV BX,0
 POP SI
 RET
-
 FINISH:
 CALL SCAN
 MOV AL,[2300H]
@@ -152,42 +135,60 @@ MOV AX,1
 JMP ERROR
 FINISHED:
 RET
-
 ```
 
-### Change 5: following `TRACETOKEN:`
+### Change 5 · `TRACETOKEN:`
 
-Unchanged code immediately before this edit:
+Find the unique label `TRACETOKEN:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+TRACETOKEN:
+CALL SCAN
+MOV AL,[2300H]
+CMP AL,0
+JE DRIVERLINE
+MOV DL,91
+MOV AH,2
+INT 21H
+PUSH SI
+MOV SI,2300H
+CALL ZTEXT
+POP SI
+MOV DL,93
+MOV AH,2
 INT 21H
 MOV DX,NEWLINE
 CALL TEXT
 ```
 
-Remove these exact old lines (physical lines 32–32 of `AS07.ASM`):
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JMP TRACETOKEN
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 JMP DRIVERLINE
 ```
 
-### Change 6: following `TRACETOKEN:`
+Keep the following `DRIVERDONE:` label and the source after it in place.
 
-Unchanged code immediately before this edit:
+### Change 6 · `TRACETOKEN:`
+
+Find the unique label `TRACETOKEN:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV SI,2200H
 TRACETOKEN:
 CALL SCAN
 ```
 
-Remove these exact old lines (physical lines 17–29 of `AS07.ASM`):
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 MOV AL,[2300H]
@@ -205,7 +206,7 @@ MOV AH,2
 INT 21H
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 MOV BX,OPTAB
@@ -226,23 +227,15 @@ POP AX
 CALL NUMBER
 ```
 
-### Change 7: following `DRIVERLINE:`
+### Change 7 · `TRACETOKEN:`
 
-Unchanged code immediately before this edit:
+Find the unique label `TRACETOKEN:`. The old block below starts at that label.
 
-```asm
-CMP AX,0
-JE DRIVERDONE
-MOV SI,2200H
-```
-
-Remove these exact old lines (physical lines 15–15 of `AS07.ASM`):
+Remove this existing source:
 
 ```asm
 TRACETOKEN:
 ```
-
-No replacement lines are needed.
 
 ## Build and stop
 
@@ -302,4 +295,4 @@ FAIL
 
 ## If the result differs
 
-Check the edited blocks against their old context, then compare the complete source. A wrong record count or a missing zero terminator can make a correct token look absent. Check brackets and commas in the test input, and read the reported physical line before changing an instruction.
+Check the eight-byte record stride and the explicit record count. LOOK must compare both zero terminators; accepting a prefix would confuse a short name with a longer one.

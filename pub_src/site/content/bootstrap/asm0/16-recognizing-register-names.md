@@ -11,6 +11,8 @@ url = "/bootstrap/asm86/16-recognizing-register-names/"
 
 Register names must be recognizable before they can be used as operands or rejected as labels. We shall add their small dictionary to the token lookup.
 
+**Starting source:** `AS15.ASM`. **Save as:** `AS16.ASM`. **Build with:** `BOOTASM.BAS`.
+
 ## How it works
 
 REGTAB contains sixteen four-byte records: two name characters, a zero, and an encoding number. Codes zero through seven denote byte registers AL, CL, DL, BL, AH, CH, DH, and BH. Codes eight through fifteen denote word registers AX, CX, DX, BX, SP, BP, SI, and DI.
@@ -21,21 +23,17 @@ For this checkpoint, a recognized register in a data value is rejected with symb
 
 ## Source changes
 
-Copy `AS15.ASM` to `AS16.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS15.ASM` to `AS16.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1: following `ERRCODE:`
+### Change 1 · `OPTAB:`
 
-Unchanged code immediately before this edit:
+Find the unique label `OPTAB:`. Insert the new source immediately before this existing label:
 
 ```asm
-ERRCODE:
-DB 0
-
+OPTAB:
 ```
 
-Insert after old physical line 554, before the following old line.
-
-Insert this source:
+Insert:
 
 ```asm
 REGTAB:
@@ -55,22 +53,17 @@ DB 83,80,0,12
 DB 66,80,0,13
 DB 83,73,0,14
 DB 68,73,0,15
-
 ```
 
-### Change 2: following `WORDVALUE:`
+### Change 2 · `LITERAL:`
 
-Unchanged code immediately before this edit:
+Find the unique label `LITERAL:`. Insert the new source immediately before this existing label:
 
 ```asm
-JBE LITERAL
-WORDVALUE:
-JMP NUMBERBAD
+LITERAL:
 ```
 
-Insert after old physical line 278, before the following old line.
-
-Insert this source:
+Insert:
 
 ```asm
 RESERVEDNUM:
@@ -78,19 +71,17 @@ MOV AX,3
 JMP ERROR
 ```
 
-### Change 3: following `WORDVALUE:`
+### Change 3 · `WORDVALUE:`
 
-Unchanged code immediately before this edit:
+Find the unique label `WORDVALUE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMP AL,57
-JBE LITERAL
 WORDVALUE:
 ```
 
-Insert after old physical line 277, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 CALL REGISTER
@@ -98,19 +89,20 @@ CMP AX,0FFFFH
 JNE RESERVEDNUM
 ```
 
-### Change 4: following `LOOKMISS:`
+### Change 4 · `LOOKMISS:`
 
-Unchanged code immediately before this edit:
+Find the unique label `LOOKMISS:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+LOOKMISS:
+MOV BX,0
 POP SI
 RET
-
 ```
 
-Insert after old physical line 270, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 REGISTER:
@@ -127,7 +119,6 @@ RET
 NOREGISTER:
 MOV AX,0FFFFH
 RET
-
 ```
 
 ## Build and stop
@@ -162,7 +153,7 @@ OK 00001 bytes
 PASS
 ```
 
-Inspect `RESULT.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `RESULT.COM`, and require a length of **1 bytes** with these hexadecimal bytes:
+Inspect `RESULT.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `RESULT.COM`, and require a length of **1 byte** with these hexadecimal bytes:
 
 ```text
 41
@@ -196,4 +187,4 @@ FAIL
 
 ## If the result differs
 
-Check the edited blocks against their old context, then compare the complete source. A wrong record count or a missing zero terminator can make a correct token look absent. Check brackets and commas in the test input, and read the reported physical line before changing an instruction.
+Check the four-byte register records and the distinction between AL's valid code zero and the miss result FFFFH. A recognized register in a data value must take the symbol-error path.

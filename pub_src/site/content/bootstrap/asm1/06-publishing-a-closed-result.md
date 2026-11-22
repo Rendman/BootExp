@@ -11,9 +11,11 @@ url = "/bootstrap/asma0/06-publishing-a-closed-result/"
 
 The copied bytes are safely in a closed temporary file. I want to give that file the result name while keeping a way back if a rename fails. I write the three filenames in my notebook and follow where the accepted copy would be after each DOS call.
 
+**Starting source:** `A05.ASM`. **Save as:** `A06.ASM`. **Build with:** `ASMKEEP.COM`.
+
 ## The working parts
 
-COMMIT moves an older RESULT.COM to RESULT.BAK, renames ASMA.TMP to RESULT.COM, then removes the backup. HAVEBAK and OWNTMP record the state of that sequence. If publication fails after the backup move, restoration is attempted; failed restoration retains both recovery files.
+COMMIT moves an older selected result to RESULT.BAK, renames ASMA.TMP to the selected result name, then removes the backup. With no filename arguments, that result name is RESULT.COM. HAVEBAK and OWNTMP record the state of that sequence. If publication fails after the backup move, restoration is attempted; failed restoration retains both recovery files.
 
 A failed backup removal also prevents OK. DOS rename is not atomic replacement, so the recovery names are explicit. The driver here still copies test data. RESULT.COM from this checkpoint is inspected with VIEW.BAS and must not be executed.
 
@@ -136,14 +138,14 @@ CALL COMMIT
 
 Copy `A06.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK 03378 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM A06.COM`.
 
-VIEW.BAS must report A06.COM length 3378 bytes. Keep that executable and source together.
+Keep that executable and source together.
 
 ## Acceptance check
 
-Create T06.ASM as plain ASCII with COPY CON or an editor. Finish COPY CON with Ctrl-Z and Enter:
+Reuse the earlier input unchanged:
 
-```text
-ABC
+```dos
+COPY T03.ASM T06.ASM
 ```
 
 ```dos
@@ -163,7 +165,7 @@ In VIEW.BAS, inspect RESULT.COM. Require length **5 bytes** and these complete c
 41 42 43 0D 0A
 ```
 
-The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
+These are the copied text bytes, including their line ending. Inspect the result as data.
 
 ## A rejection check
 
@@ -187,4 +189,4 @@ An unexpected PASS fails this rejection test.
 
 ## If the result differs
 
-Check the saved argument names and terminators, handle ownership flags, reader cursors at each pass, and the current output count. Inspect file length as well as the leading bytes. A copied data file is not an executable proof.
+Trace HAVEBAK and OWNTMP through each rename. The temporary output must be closed before publication, and a failed replacement must attempt to restore the saved result.

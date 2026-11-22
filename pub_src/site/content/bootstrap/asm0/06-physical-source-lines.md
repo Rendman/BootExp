@@ -11,6 +11,8 @@ url = "/bootstrap/asm86/06-physical-source-lines/"
 
 A parser needs complete source lines. We shall collect a line in a fixed buffer and return an explicit end-of-file indication.
 
+**Starting source:** `AS05.ASM`. **Save as:** `AS06.ASM`. **Build with:** `BOOTASM.BAS`.
+
 ## How it works
 
 READLINE stores text at 2200H, followed by a zero byte. DI is the next free destination; BP counts physical characters. AX=1 means a line is ready and AX=0 means there is no more source. The routine changes the ordinary working registers and the ENDED, SKIPLF, and LINENO fields.
@@ -25,44 +27,34 @@ The diagnostic driver prints each completed line with ZTEXT. It is a text reader
 
 ## Source changes
 
-Copy `AS05.ASM` to `AS06.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS05.ASM` to `AS06.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1: following `LINENO:`
+### Change 1 · `CHAR:`
 
-Unchanged code immediately before this edit:
+Find the unique label `CHAR:`. Insert the new source immediately before this existing label:
 
 ```asm
-LINENO:
-DW 0
-
+CHAR:
 ```
 
-Insert after old physical line 134, before the following old line.
-
-Insert this source:
+Insert:
 
 ```asm
 ENDED:
 DB 0
-
 SKIPLF:
 DB 0
-
 ```
 
-### Change 2: following `ERROR:`
+### Change 2 · `ERRMSG:`
 
-Unchanged code immediately before this edit:
+Find the unique label `ERRMSG:`. Insert the new source immediately before this existing label:
 
 ```asm
-MOV AX,4C01H
-INT 21H
-
+ERRMSG:
 ```
 
-Insert after old physical line 111, before the following old line.
-
-Insert this source:
+Insert:
 
 ```asm
 ZTEXT:
@@ -75,25 +67,22 @@ INT 21H
 JMP ZTEXT
 ZDONE:
 RET
-
 ```
 
-### Change 3: following `BYTEOK:`
+### Change 3 · `BYTEOK:`
 
-Unchanged code immediately before this edit:
+Find the unique label `BYTEOK:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-JMP ERROR
 BYTEOK:
 RET
 ```
 
-Insert after old physical line 55, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
-
 READLINE:
 MOV DI,2200H
 MOV BP,0
@@ -176,9 +165,9 @@ MOV [LINENO],DX
 JMP ERROR
 ```
 
-### Change 4: following `DUMPBYTE:`
+### Change 4 · `DUMPBYTE:`
 
-Unchanged code immediately before this edit:
+Find the unique label `DUMPBYTE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 DUMPBYTE:
@@ -186,7 +175,9 @@ CALL NEXTBYTE
 CMP AX,0
 ```
 
-Remove these exact old lines (physical lines 13–18 of `AS05.ASM`):
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE DUMPEND
@@ -197,7 +188,7 @@ JMP DUMPBYTE
 DUMPEND:
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 JE DRIVERDONE
@@ -210,24 +201,18 @@ JMP DRIVERLINE
 DRIVERDONE:
 ```
 
-### Change 5: following `ROOM:`
+### Change 5 · `DUMPBYTE:`
 
-Unchanged code immediately before this edit:
+Find the unique label `DUMPBYTE:`. The old block below starts at that label.
 
-```asm
-JMP ERROR
-ROOM:
-CALL OPENFILE
-```
-
-Remove these exact old lines (physical lines 10–11 of `AS05.ASM`):
+Replace this existing source:
 
 ```asm
 DUMPBYTE:
 CALL NEXTBYTE
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 DRIVERLINE:
@@ -294,4 +279,4 @@ FAIL
 
 ## If the result differs
 
-Check the edited blocks against their old context, then compare the complete source. A wrong record count or a missing zero terminator can make a correct token look absent. Check brackets and commas in the test input, and read the reported physical line before changing an instruction.
+Check ENDED and SKIPLF, especially the CR/LF pair and the final line without an ending. The 120-character bound applies to the entire physical line, including comments; its zero terminator needs the extra byte.

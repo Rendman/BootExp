@@ -11,6 +11,8 @@ url = "/bootstrap/asm86/18-recording-an-address/"
 
 The parser can recognize a label line. I want ASM0 to remember what that label means after it has read past it. I'll store the spelling and the current address together, then check that address when the second pass reaches the same name.
 
+**Starting source:** `AS17.ASM`. **Save as:** `AS18.ASM`. **Build with:** `BOOTASM.BAS`.
+
 ## How it works
 
 SYMC counts the records in use and SYMNEXT points at the next free slot, initially 3000H. A symbol record occupies twenty bytes: seventeen bytes for a name and zero terminator, one padding byte, and a word value at offset eighteen. The table's 256 records occupy 3000H through 43FFH.
@@ -23,44 +25,34 @@ Only names and their addresses are being recorded here; data operands remain num
 
 ## Source changes
 
-Copy `AS17.ASM` to `AS18.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS17.ASM` to `AS18.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1: following `OUTPTR:`
+### Change 1 · `TOKLEN:`
 
-Unchanged code immediately before this edit:
+Find the unique label `TOKLEN:`. Insert the new source immediately before this existing label:
 
 ```asm
-OUTPTR:
-DW 24576
-
+TOKLEN:
 ```
 
-Insert after old physical line 611, before the following old line.
-
-Insert this source:
+Insert:
 
 ```asm
 SYMC:
 DW 0
-
 SYMNEXT:
 DW 12288
-
 ```
 
-### Change 2: following `IMAGEFULL:`
+### Change 2 · `TEXT:`
 
-Unchanged code immediately before this edit:
+Find the unique label `TEXT:`. Insert the new source immediately before this existing label:
 
 ```asm
-MOV AX,5
-JMP ERROR
-
+TEXT:
 ```
 
-Insert after old physical line 518, before the following old line.
-
-Insert this source:
+Insert:
 
 ```asm
 COPYZ:
@@ -69,45 +61,41 @@ STOSB
 CMP AL,0
 JNE COPYZ
 RET
-
 ```
 
-### Change 3: following `DEFINE:`
+### Change 3 · `SPELLGOOD:`
 
-Unchanged code immediately before this edit:
+Find the unique label `SPELLGOOD:`. The old block below starts at that label.
 
-```asm
-JE SPELLGOOD
-MOV AX,3
-JMP ERROR
-```
-
-Remove these exact old lines (physical lines 404–405 of `AS17.ASM`):
+Remove this existing source:
 
 ```asm
 SPELLGOOD:
 RET
 ```
 
-No replacement lines are needed.
+Keep the following `STATEMENT:` label and the source after it in place.
 
-### Change 4: following `DEFINE:`
+### Change 4 · `DEFINE:`
 
-Unchanged code immediately before this edit:
+Find the unique label `DEFINE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+DEFINE:
 CALL VALIDNAME
 CALL REGISTER
 CMP AX,0FFFFH
 ```
 
-Remove these exact old lines (physical lines 401–401 of `AS17.ASM`):
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE SPELLGOOD
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 JNE DEFINEBAD
@@ -156,19 +144,15 @@ JMP ERROR
 DEFINEBAD:
 ```
 
-### Change 5: following `ROOM:`
+### Change 5 · `PASSSTART:`
 
-Unchanged code immediately before this edit:
+Find the unique label `PASSSTART:`. Insert the new source immediately before this existing label:
 
 ```asm
-ROOM:
-MOV AL,1
-MOV [PASS],AL
+PASSSTART:
 ```
 
-Insert after old physical line 10, before the following old line.
-
-Insert this source:
+Insert:
 
 ```asm
 MOV AX,0
@@ -211,7 +195,7 @@ OK 00001 bytes
 PASS
 ```
 
-Inspect `RESULT.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `RESULT.COM`, and require a length of **1 bytes** with these hexadecimal bytes:
+Inspect `RESULT.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `RESULT.COM`, and require a length of **1 byte** with these hexadecimal bytes:
 
 ```text
 41
@@ -247,4 +231,4 @@ FAIL
 
 ## If the result differs
 
-Check the edited blocks against their old context, then compare the complete source. A wrong record count or a missing zero terminator can make a correct token look absent. Check brackets and commas in the test input, and read the reported physical line before changing an instruction.
+Check the twenty-byte symbol stride and the value at byte offset eighteen. Initialize SYMC and SYMNEXT once, outside PASSSTART, so the first-pass table survives the second pass.

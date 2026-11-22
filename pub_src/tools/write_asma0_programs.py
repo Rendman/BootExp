@@ -20,7 +20,9 @@ notes={'HELLO':'DOS function 9 prints the bytes ending at the dollar marker. DB 
 for r in json.loads((ROOT/'qa/asm1/examples.json').read_text()):
  name=r['name'];t+='## '+name+'\n\nSave '+name+'.ASM:\n\n'+fence('asm',(W/(name+'.ASM')).read_text())+notes[name]+'\n\n'
  t+=fence('dos',f'COPY {name}.ASM SOURCE.ASM\nCHECK ASMA0')+f'Require `OK RESULT.COM {r["binary_bytes"]:05} bytes` and PASS. VIEW.BAS must report length {r["binary_bytes"]} and '+('these complete bytes' if r['binary_bytes']<=32 else 'these first thirty-two bytes')+':\n\n'+fence('text',r['hex'])
- t+=fence('dos',f'COPY RESULT.COM {name}.COM\nCHECK {name}')+'It displays '+json.dumps(r['output'])+' and the checker reports PASS. Here `\\r\\n` denotes carriage return and line feed.\n\n'
+ display=r['output'].rstrip('\r\n')
+ ending=', followed by carriage return and line feed,' if r['output'].endswith('\r\n') else ''
+ t+=fence('dos',f'COPY RESULT.COM {name}.COM\nCHECK {name}')+f'It displays `{display}`{ending} and the checker reports PASS.\n\n'
  t+='For a separate rejection, copy the source to BAD.ASM and replace the first `'+r['bad_before']+'` with `'+r['bad_after']+'`. Run CHECK ASMA0 BAD.ASM RESULT.COM. Require '+f'`ERROR {r["bad_line"]:05} CODE {r["bad_code"]}` and FAIL. The accepted RESULT.COM must remain unchanged. An unexpected PASS fails this test. Restore the accepted source before building again.\n\n'
 t+='The completed seed source and its matching self-builds are the handoff to the separate ASM86A collection. Keep ASMA0.COM and ASMA0.ASM with their tested examples.\n'
 write_page((C/'14-programs.md'),t)

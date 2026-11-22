@@ -28,16 +28,20 @@
         ],
         "context": []
       }
-    ]
+    ],
+    "edit_style": "complete"
   },
   {
     "number": 2,
     "page": "02-numbers-in-the-report.md",
     "changes": [
       {
-        "tag": "replace",
-        "a1": 14,
-        "a2": 16,
+        "a1": 11,
+        "a2": 13,
+        "anchor": "HELLOMSG",
+        "placement": "at_label",
+        "landmark": [],
+        "context": [],
         "old": [
           "HELLOMSG:",
           "DB 65,83,77,48,13,10,36"
@@ -74,25 +78,25 @@
           "POP BX",
           "POP AX",
           "RET",
-          "",
           "NEWLINE:",
           "DB 13,10,36",
-          "",
           "DIVISORS:",
           "DW 10000,1000,100,10,1",
-          "",
           "DIVEND:"
         ],
-        "context": [
-          "INT 21H",
-          "RET",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "replace",
-        "a1": 3,
-        "a2": 4,
+        "a1": 2,
+        "a2": 3,
+        "anchor": "START",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "START:",
+          "CLD"
+        ],
         "old": [
           "MOV DX,HELLOMSG"
         ],
@@ -109,44 +113,46 @@
           "CALL NUMBER",
           "MOV DX,NEWLINE"
         ],
-        "context": [
-          "; ASM86 construction checkpoint. Plain BOOTASM source.",
-          "START:",
-          "CLD"
-        ]
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 3,
     "page": "03-a-clear-failure-report.md",
     "changes": [
       {
-        "tag": "insert",
-        "a1": 63,
-        "a2": 63,
+        "a1": 57,
+        "a2": 57,
+        "anchor": "DIVEND",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "DIVEND:"
+        ],
         "old": [],
         "new": [
-          "",
           "LINENO:",
           "DW 0",
-          "",
           "ERRCODE:",
           "DB 0",
-          "",
           "READYMSG:",
           "DB 82,69,65,68,89,13,10,36"
         ],
-        "context": [
-          "DW 10000,1000,100,10,1",
-          "",
-          "DIVEND:"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 56,
-        "a2": 56,
+        "a1": 52,
+        "a2": 52,
+        "anchor": "NEWLINE",
+        "placement": "before_label",
+        "landmark": [
+          "NEWLINE:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "ERROR:",
@@ -166,24 +172,24 @@
           "CALL TEXT",
           "MOV AX,4C01H",
           "INT 21H",
-          "",
           "ERRMSG:",
           "DB 69,82,82,79,82,32,36",
-          "",
           "CODEMSG:",
-          "DB 32,67,79,68,69,32,36",
-          ""
+          "DB 32,67,79,68,69,32,36"
         ],
-        "context": [
-          "POP AX",
-          "RET",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "replace",
-        "a1": 3,
-        "a2": 14,
+        "a1": 2,
+        "a2": 13,
+        "anchor": "START",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "START:",
+          "CLD"
+        ],
         "old": [
           "MOV AX,0",
           "CALL NUMBER",
@@ -205,22 +211,23 @@
           "ROOM:",
           "MOV DX,READYMSG"
         ],
-        "context": [
-          "; ASM86 construction checkpoint. Plain BOOTASM source.",
-          "START:",
-          "CLD"
-        ]
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 4,
     "page": "04-opening-and-closing-a-file.md",
     "changes": [
       {
-        "tag": "replace",
-        "a1": 89,
-        "a2": 91,
+        "a1": 77,
+        "a2": 79,
+        "anchor": "READYMSG",
+        "placement": "at_label",
+        "landmark": [],
+        "context": [],
         "old": [
           "READYMSG:",
           "DB 82,69,65,68,89,13,10,36"
@@ -229,42 +236,42 @@
           "OPENMSG:",
           "DB 79,112,101,110,101,100,13,10,36"
         ],
-        "context": [
-          "ERRCODE:",
-          "DB 0",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 83,
-        "a2": 83,
+        "a1": 73,
+        "a2": 73,
+        "anchor": "LINENO",
+        "placement": "before_label",
+        "landmark": [
+          "LINENO:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "FNAME:",
           "DB 83,79,85,82,67,69,46,65,83,77,0",
-          "",
           "HANDLE:",
-          "DW 0",
-          ""
+          "DW 0"
         ],
-        "context": [
-          "",
-          "DIVEND:",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 13,
-        "a2": 13,
+        "a1": 12,
+        "a2": 12,
+        "anchor": "TEXT",
+        "placement": "before_label",
+        "landmark": [
+          "TEXT:"
+        ],
+        "context": [],
         "old": [],
         "new": [
-          "",
           "FILEBAD:",
           "MOV AX,6",
           "JMP ERROR",
-          "",
           "OPENFILE:",
           "MOV DX,FNAME",
           "MOV AX,3D00H",
@@ -274,7 +281,6 @@
           "INPUTOPEN:",
           "MOV [HANDLE],AX",
           "RET",
-          "",
           "CLOSEFILE:",
           "MOV BX,[HANDLE]",
           "MOV AH,3EH",
@@ -282,16 +288,18 @@
           "JB FILEBAD",
           "RET"
         ],
-        "context": [
-          "GOOD:",
-          "MOV AX,4C00H",
-          "INT 21H"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "replace",
-        "a1": 8,
-        "a2": 9,
+        "a1": 7,
+        "a2": 8,
+        "anchor": "ROOM",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "ROOM:"
+        ],
         "old": [
           "MOV DX,READYMSG"
         ],
@@ -300,58 +308,64 @@
           "CALL CLOSEFILE",
           "MOV DX,OPENMSG"
         ],
-        "context": [
-          "MOV AX,7",
-          "JMP ERROR",
-          "ROOM:"
-        ]
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 5,
     "page": "05-reading-one-byte.md",
     "changes": [
       {
-        "tag": "delete",
-        "a1": 117,
-        "a2": 120,
+        "a1": 101,
+        "a2": 103,
+        "anchor": "OPENMSG",
+        "placement": "at_label",
+        "landmark": [],
+        "context": [],
         "old": [
-          "",
           "OPENMSG:",
           "DB 79,112,101,110,101,100,13,10,36"
         ],
         "new": [],
-        "context": [
-          "",
-          "ERRCODE:",
-          "DB 0"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 115,
-        "a2": 115,
+        "a1": 99,
+        "a2": 99,
+        "anchor": "ERRCODE",
+        "placement": "before_label",
+        "landmark": [
+          "ERRCODE:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "CHAR:",
-          "DB 0",
-          ""
+          "DB 0"
         ],
-        "context": [
-          "LINENO:",
-          "DW 0",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 35,
-        "a2": 35,
+        "a1": 31,
+        "a2": 31,
+        "anchor": "CLOSEFILE",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "CLOSEFILE:",
+          "MOV BX,[HANDLE]",
+          "MOV AH,3EH",
+          "INT 21H",
+          "JB FILEBAD"
+        ],
         "old": [],
         "new": [
           "RET",
-          "",
           "NEXTBYTE:",
           "MOV BX,[HANDLE]",
           "MOV CX,1",
@@ -363,31 +377,38 @@
           "JMP ERROR",
           "BYTEOK:"
         ],
-        "context": [
-          "MOV AH,3EH",
-          "INT 21H",
-          "JB FILEBAD"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "delete",
-        "a1": 10,
-        "a2": 12,
+        "a1": 9,
+        "a2": 11,
+        "anchor": "ROOM",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "ROOM:",
+          "CALL OPENFILE",
+          "CALL CLOSEFILE"
+        ],
         "old": [
           "MOV DX,OPENMSG",
           "CALL TEXT"
         ],
         "new": [],
-        "context": [
-          "ROOM:",
-          "CALL OPENFILE",
-          "CALL CLOSEFILE"
-        ]
+        "after": [],
+        "end_anchor": "GOOD"
       },
       {
-        "tag": "insert",
-        "a1": 9,
-        "a2": 9,
+        "a1": 8,
+        "a2": 8,
+        "anchor": "ROOM",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "ROOM:",
+          "CALL OPENFILE"
+        ],
         "old": [],
         "new": [
           "DUMPBYTE:",
@@ -400,41 +421,44 @@
           "JMP DUMPBYTE",
           "DUMPEND:"
         ],
-        "context": [
-          "JMP ERROR",
-          "ROOM:",
-          "CALL OPENFILE"
-        ]
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 6,
     "page": "06-physical-source-lines.md",
     "changes": [
       {
-        "tag": "insert",
-        "a1": 134,
-        "a2": 134,
+        "a1": 117,
+        "a2": 117,
+        "anchor": "CHAR",
+        "placement": "before_label",
+        "landmark": [
+          "CHAR:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "ENDED:",
           "DB 0",
-          "",
           "SKIPLF:",
-          "DB 0",
-          ""
+          "DB 0"
         ],
-        "context": [
-          "LINENO:",
-          "DW 0",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 111,
-        "a2": 111,
+        "a1": 102,
+        "a2": 102,
+        "anchor": "ERRMSG",
+        "placement": "before_label",
+        "landmark": [
+          "ERRMSG:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "ZTEXT:",
@@ -446,22 +470,23 @@
           "INT 21H",
           "JMP ZTEXT",
           "ZDONE:",
-          "RET",
-          ""
+          "RET"
         ],
-        "context": [
-          "MOV AX,4C01H",
-          "INT 21H",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 55,
-        "a2": 55,
+        "a1": 50,
+        "a2": 50,
+        "anchor": "BYTEOK",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "BYTEOK:",
+          "RET"
+        ],
         "old": [],
         "new": [
-          "",
           "READLINE:",
           "MOV DI,2200H",
           "MOV BP,0",
@@ -543,16 +568,20 @@
           "MOV [LINENO],DX",
           "JMP ERROR"
         ],
-        "context": [
-          "JMP ERROR",
-          "BYTEOK:",
-          "RET"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "replace",
-        "a1": 12,
-        "a2": 18,
+        "a1": 11,
+        "a2": 17,
+        "anchor": "DUMPBYTE",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "DUMPBYTE:",
+          "CALL NEXTBYTE",
+          "CMP AX,0"
+        ],
         "old": [
           "JE DUMPEND",
           "MOV DL,[CHAR]",
@@ -571,16 +600,16 @@
           "JMP DRIVERLINE",
           "DRIVERDONE:"
         ],
-        "context": [
-          "DUMPBYTE:",
-          "CALL NEXTBYTE",
-          "CMP AX,0"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "replace",
-        "a1": 9,
-        "a2": 11,
+        "a1": 8,
+        "a2": 10,
+        "anchor": "DUMPBYTE",
+        "placement": "at_label",
+        "landmark": [],
+        "context": [],
         "old": [
           "DUMPBYTE:",
           "CALL NEXTBYTE"
@@ -589,38 +618,46 @@
           "DRIVERLINE:",
           "CALL READLINE"
         ],
-        "context": [
-          "JMP ERROR",
-          "ROOM:",
-          "CALL OPENFILE"
-        ]
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 7,
     "page": "07-taking-the-line-apart.md",
     "changes": [
       {
-        "tag": "insert",
-        "a1": 228,
-        "a2": 228,
+        "a1": 209,
+        "a2": 209,
+        "anchor": "ENDED",
+        "placement": "before_label",
+        "landmark": [
+          "ENDED:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "TOKLEN:",
-          "DW 0",
-          ""
+          "DW 0"
         ],
-        "context": [
-          "LINENO:",
-          "DW 0",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 139,
-        "a2": 139,
+        "a1": 132,
+        "a2": 132,
+        "anchor": "READFAIL",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "READFAIL:",
+          "MOV DX,[LINENO]",
+          "INC DX",
+          "MOV [LINENO],DX",
+          "JMP ERROR"
+        ],
         "old": [],
         "new": [
           "SCAN:",
@@ -676,35 +713,52 @@
           "JMP SCANDONE",
           "TOKENBAD:",
           "MOV AX,1",
-          "JMP ERROR",
-          ""
+          "JMP ERROR"
         ],
-        "context": [
-          "MOV [LINENO],DX",
-          "JMP ERROR",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "replace",
-        "a1": 18,
-        "a2": 19,
+        "a1": 17,
+        "a2": 18,
+        "anchor": "DRIVERLINE",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "DRIVERLINE:",
+          "CALL READLINE",
+          "CMP AX,0",
+          "JE DRIVERDONE",
+          "MOV SI,2200H",
+          "MOV SI,2200H",
+          "CALL ZTEXT",
+          "MOV DX,NEWLINE",
+          "CALL TEXT"
+        ],
         "old": [
           "JMP DRIVERLINE"
         ],
         "new": [
           "JMP TRACETOKEN"
         ],
-        "context": [
-          "CALL ZTEXT",
-          "MOV DX,NEWLINE",
-          "CALL TEXT"
-        ]
+        "after": [],
+        "end_anchor": "DRIVERDONE"
       },
       {
-        "tag": "insert",
-        "a1": 16,
-        "a2": 16,
+        "a1": 15,
+        "a2": 15,
+        "anchor": "DRIVERLINE",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "DRIVERLINE:",
+          "CALL READLINE",
+          "CMP AX,0",
+          "JE DRIVERDONE",
+          "MOV SI,2200H",
+          "MOV SI,2200H",
+          "CALL ZTEXT"
+        ],
         "old": [],
         "new": [
           "POP SI",
@@ -712,16 +766,22 @@
           "MOV AH,2",
           "INT 21H"
         ],
-        "context": [
-          "MOV SI,2200H",
-          "MOV SI,2200H",
-          "CALL ZTEXT"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "replace",
-        "a1": 14,
-        "a2": 15,
+        "a1": 13,
+        "a2": 14,
+        "anchor": "DRIVERLINE",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "DRIVERLINE:",
+          "CALL READLINE",
+          "CMP AX,0",
+          "JE DRIVERDONE",
+          "MOV SI,2200H"
+        ],
         "old": [
           "MOV SI,2200H"
         ],
@@ -737,55 +797,59 @@
           "PUSH SI",
           "MOV SI,2300H"
         ],
-        "context": [
-          "CMP AX,0",
-          "JE DRIVERDONE",
-          "MOV SI,2200H"
-        ]
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 8,
     "page": "08-looking-up-a-table-entry.md",
     "changes": [
       {
-        "tag": "insert",
-        "a1": 310,
-        "a2": 310,
+        "a1": 286,
+        "a2": 286,
+        "anchor": "ERRCODE",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "ERRCODE:",
+          "DB 0"
+        ],
         "old": [],
         "new": [
-          "",
           "OPTAB:",
           "DB 68,66,0,0,0,0,1,0",
           "DB 68,87,0,0,0,0,1,1"
         ],
-        "context": [
-          "",
-          "ERRCODE:",
-          "DB 0"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 299,
-        "a2": 299,
+        "a1": 278,
+        "a2": 278,
+        "anchor": "ENDED",
+        "placement": "before_label",
+        "landmark": [
+          "ENDED:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "STRIDE:",
-          "DW 0",
-          ""
+          "DW 0"
         ],
-        "context": [
-          "TOKLEN:",
-          "DW 0",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "delete",
-        "a1": 262,
-        "a2": 273,
+        "a1": 251,
+        "a2": 261,
+        "anchor": "ZTEXT",
+        "placement": "at_label",
+        "landmark": [],
+        "context": [],
         "old": [
           "ZTEXT:",
           "LODSB",
@@ -796,20 +860,21 @@
           "INT 21H",
           "JMP ZTEXT",
           "ZDONE:",
-          "RET",
-          ""
+          "RET"
         ],
         "new": [],
-        "context": [
-          "MOV AX,4C01H",
-          "INT 21H",
-          ""
-        ]
+        "after": [],
+        "end_anchor": "ERRMSG"
       },
       {
-        "tag": "insert",
-        "a1": 207,
-        "a2": 207,
+        "a1": 199,
+        "a2": 199,
+        "anchor": "TEXT",
+        "placement": "before_label",
+        "landmark": [
+          "TEXT:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "LOOK:",
@@ -844,7 +909,6 @@
           "MOV BX,0",
           "POP SI",
           "RET",
-          "",
           "FINISH:",
           "CALL SCAN",
           "MOV AL,[2300H]",
@@ -853,35 +917,55 @@
           "MOV AX,1",
           "JMP ERROR",
           "FINISHED:",
-          "RET",
-          ""
+          "RET"
         ],
-        "context": [
-          "MOV AX,1",
-          "JMP ERROR",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "replace",
-        "a1": 31,
-        "a2": 32,
+        "a1": 30,
+        "a2": 31,
+        "anchor": "TRACETOKEN",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "TRACETOKEN:",
+          "CALL SCAN",
+          "MOV AL,[2300H]",
+          "CMP AL,0",
+          "JE DRIVERLINE",
+          "MOV DL,91",
+          "MOV AH,2",
+          "INT 21H",
+          "PUSH SI",
+          "MOV SI,2300H",
+          "CALL ZTEXT",
+          "POP SI",
+          "MOV DL,93",
+          "MOV AH,2",
+          "INT 21H",
+          "MOV DX,NEWLINE",
+          "CALL TEXT"
+        ],
         "old": [
           "JMP TRACETOKEN"
         ],
         "new": [
           "JMP DRIVERLINE"
         ],
-        "context": [
-          "INT 21H",
-          "MOV DX,NEWLINE",
-          "CALL TEXT"
-        ]
+        "after": [],
+        "end_anchor": "DRIVERDONE"
       },
       {
-        "tag": "replace",
-        "a1": 16,
-        "a2": 29,
+        "a1": 15,
+        "a2": 28,
+        "anchor": "TRACETOKEN",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "TRACETOKEN:",
+          "CALL SCAN"
+        ],
         "old": [
           "MOV AL,[2300H]",
           "CMP AL,0",
@@ -915,69 +999,68 @@
           "POP AX",
           "CALL NUMBER"
         ],
-        "context": [
-          "MOV SI,2200H",
-          "TRACETOKEN:",
-          "CALL SCAN"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "delete",
-        "a1": 14,
-        "a2": 15,
+        "a1": 13,
+        "a2": 14,
+        "anchor": "TRACETOKEN",
+        "placement": "at_label",
+        "landmark": [],
+        "context": [],
         "old": [
           "TRACETOKEN:"
         ],
         "new": [],
-        "context": [
-          "CMP AX,0",
-          "JE DRIVERDONE",
-          "MOV SI,2200H"
-        ]
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 9,
     "page": "09-unsigned-decimal-values.md",
     "changes": [
       {
-        "tag": "delete",
-        "a1": 347,
-        "a2": 351,
+        "a1": 321,
+        "a2": 324,
+        "anchor": "OPTAB",
+        "placement": "at_label",
+        "landmark": [],
+        "context": [],
         "old": [
-          "",
           "OPTAB:",
           "DB 68,66,0,0,0,0,1,0",
           "DB 68,87,0,0,0,0,1,1"
         ],
         "new": [],
-        "context": [
-          "",
-          "ERRCODE:",
-          "DB 0"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "delete",
-        "a1": 333,
-        "a2": 336,
+        "a1": 311,
+        "a2": 313,
+        "anchor": "STRIDE",
+        "placement": "at_label",
+        "landmark": [],
+        "context": [],
         "old": [
           "STRIDE:",
-          "DW 0",
-          ""
+          "DW 0"
         ],
         "new": [],
-        "context": [
-          "TOKLEN:",
-          "DW 0",
-          ""
-        ]
+        "after": [],
+        "end_anchor": "ENDED"
       },
       {
-        "tag": "replace",
-        "a1": 237,
-        "a2": 241,
+        "a1": 229,
+        "a2": 233,
+        "anchor": "LOOKMISS",
+        "placement": "at_label",
+        "landmark": [],
+        "context": [],
         "old": [
           "LOOKMISS:",
           "MOV BX,0",
@@ -989,16 +1072,19 @@
           "MOV AX,2",
           "JMP ERROR"
         ],
-        "context": [
-          "MOV BX,BP",
-          "POP SI",
-          "RET"
-        ]
+        "after": [],
+        "end_anchor": "FINISH"
       },
       {
-        "tag": "replace",
-        "a1": 220,
-        "a2": 235,
+        "a1": 212,
+        "a2": 227,
+        "anchor": "LOOKCHAR",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "LOOKCHAR:",
+          "LODSB"
+        ],
         "old": [
           "MOV BX,DI",
           "MOV DL,[BX]",
@@ -1043,16 +1129,16 @@
           "JB DIGIT",
           "MOV AX,CX"
         ],
-        "context": [
-          "MOV SI,2300H",
-          "LOOKCHAR:",
-          "LODSB"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "replace",
-        "a1": 218,
-        "a2": 219,
+        "a1": 210,
+        "a2": 211,
+        "anchor": "LOOKCHAR",
+        "placement": "at_label",
+        "landmark": [],
+        "context": [],
         "old": [
           "LOOKCHAR:"
         ],
@@ -1066,16 +1152,20 @@
           "MOV CX,0",
           "DIGIT:"
         ],
-        "context": [
-          "JE LOOKMISS",
-          "MOV DI,BP",
-          "MOV SI,2300H"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "delete",
-        "a1": 212,
-        "a2": 217,
+        "a1": 204,
+        "a2": 209,
+        "anchor": "LOOK",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "LOOK:",
+          "MOV [STRIDE],AX",
+          "PUSH SI"
+        ],
         "old": [
           "MOV BP,BX",
           "LOOKNEXT:",
@@ -1084,16 +1174,16 @@
           "MOV DI,BP"
         ],
         "new": [],
-        "context": [
-          "LOOK:",
-          "MOV [STRIDE],AX",
-          "PUSH SI"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "replace",
-        "a1": 209,
-        "a2": 211,
+        "a1": 201,
+        "a2": 203,
+        "anchor": "LOOK",
+        "placement": "at_label",
+        "landmark": [],
+        "context": [],
         "old": [
           "LOOK:",
           "MOV [STRIDE],AX"
@@ -1109,16 +1199,23 @@
           "JMP NUMBERBAD",
           "LITERAL:"
         ],
-        "context": [
-          "MOV AX,1",
-          "JMP ERROR",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "replace",
-        "a1": 15,
-        "a2": 27,
+        "a1": 14,
+        "a2": 26,
+        "anchor": "DRIVERLINE",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "DRIVERLINE:",
+          "CALL READLINE",
+          "CMP AX,0",
+          "JE DRIVERDONE",
+          "MOV SI,2200H",
+          "CALL SCAN"
+        ],
         "old": [
           "MOV BX,OPTAB",
           "MOV CX,2",
@@ -1136,22 +1233,25 @@
         "new": [
           "CALL VALUE"
         ],
-        "context": [
-          "JE DRIVERDONE",
-          "MOV SI,2200H",
-          "CALL SCAN"
-        ]
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 10,
     "page": "10-hexadecimal-values.md",
     "changes": [
       {
-        "tag": "insert",
-        "a1": 238,
-        "a2": 238,
+        "a1": 230,
+        "a2": 230,
+        "anchor": "ADDDIGIT",
+        "placement": "before_label",
+        "landmark": [
+          "ADDDIGIT:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "JMP ADDDIGIT",
@@ -1163,31 +1263,46 @@
           "ADD CX,CX",
           "ADD CX,CX"
         ],
-        "context": [
-          "ADD AX,AX",
-          "ADD AX,AX",
-          "ADD CX,AX"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 226,
-        "a2": 226,
+        "a1": 218,
+        "a2": 218,
+        "anchor": "DIGITOK",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "DIGITOK:",
+          "MOV AH,0",
+          "MOV DX,AX",
+          "CMP DX,BP",
+          "JAE NUMBERBAD"
+        ],
         "old": [],
         "new": [
           "CMP BP,16",
           "JE HEXDIGIT"
         ],
-        "context": [
-          "MOV DX,AX",
-          "CMP DX,BP",
-          "JAE NUMBERBAD"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 220,
-        "a2": 220,
+        "a1": 212,
+        "a2": 212,
+        "anchor": "NUMBERSTART",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "NUMBERSTART:",
+          "CMP SI,DI",
+          "JE NUMBERBAD",
+          "MOV CX,0",
+          "DIGIT:",
+          "LODSB",
+          "SUB AL,48",
+          "CMP AL,9"
+        ],
         "old": [],
         "new": [
           "JBE DIGITOK",
@@ -1196,16 +1311,18 @@
           "JB NUMBERBAD",
           "CMP AL,15"
         ],
-        "context": [
-          "LODSB",
-          "SUB AL,48",
-          "CMP AL,9"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 212,
-        "a2": 212,
+        "a1": 204,
+        "a2": 204,
+        "anchor": "NUMBERSTART",
+        "placement": "before_label",
+        "landmark": [
+          "NUMBERSTART:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "CMP AL,72",
@@ -1213,105 +1330,118 @@
           "MOV BP,16",
           "DEC DI"
         ],
-        "context": [
-          "MOV DI,[TOKLEN]",
-          "ADD DI,2300H",
-          "MOV BP,10"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 211,
-        "a2": 211,
+        "a1": 203,
+        "a2": 203,
+        "anchor": "LITERAL",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "LITERAL:",
+          "PUSH SI",
+          "MOV SI,2300H",
+          "MOV DI,[TOKLEN]",
+          "ADD DI,2300H"
+        ],
         "old": [],
         "new": [
           "MOV BX,DI",
           "DEC BX",
           "MOV AL,[BX]"
         ],
-        "context": [
-          "MOV SI,2300H",
-          "MOV DI,[TOKLEN]",
-          "ADD DI,2300H"
-        ]
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 11,
     "page": "11-collecting-output-bytes.md",
     "changes": [
       {
-        "tag": "insert",
-        "a1": 373,
-        "a2": 373,
+        "a1": 348,
+        "a2": 348,
+        "anchor": "ERRCODE",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "ERRCODE:",
+          "DB 0"
+        ],
         "old": [],
         "new": [
-          "",
           "BUFFERMSG:",
           "DB 66,117,102,102,101,114,101,100,32,36"
         ],
-        "context": [
-          "",
-          "ERRCODE:",
-          "DB 0"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 361,
-        "a2": 361,
+        "a1": 340,
+        "a2": 340,
+        "anchor": "ENDED",
+        "placement": "before_label",
+        "landmark": [
+          "ENDED:"
+        ],
+        "context": [],
         "old": [],
         "new": [
-          "",
           "PASS:",
           "DB 1"
         ],
-        "context": [
-          "",
-          "TOKLEN:",
-          "DW 0"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 359,
-        "a2": 359,
+        "a1": 338,
+        "a2": 338,
+        "anchor": "TOKLEN",
+        "placement": "before_label",
+        "landmark": [
+          "TOKLEN:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "PC:",
           "DW 256",
-          "",
           "OUTPTR:",
-          "DW 24576",
-          ""
+          "DW 24576"
         ],
-        "context": [
-          "LINENO:",
-          "DW 0",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 336,
-        "a2": 336,
+        "a1": 323,
+        "a2": 323,
+        "anchor": "ERRMSG",
+        "placement": "before_label",
+        "landmark": [
+          "ERRMSG:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "BYTEMSG:",
-          "DB 32,98,121,116,101,115,13,10,36",
-          ""
+          "DB 32,98,121,116,101,115,13,10,36"
         ],
-        "context": [
-          "MOV AX,4C01H",
-          "INT 21H",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 281,
-        "a2": 281,
+        "a1": 271,
+        "a2": 271,
+        "anchor": "TEXT",
+        "placement": "before_label",
+        "landmark": [
+          "TEXT:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "BYTEVALUE:",
@@ -1319,7 +1449,6 @@
           "JBE EMIT",
           "MOV AX,4",
           "JMP ERROR",
-          "",
           "EMIT:",
           "PUSH AX",
           "PUSH BX",
@@ -1343,19 +1472,20 @@
           "RET",
           "IMAGEFULL:",
           "MOV AX,5",
-          "JMP ERROR",
-          ""
+          "JMP ERROR"
         ],
-        "context": [
-          "FINISHED:",
-          "RET",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 25,
-        "a2": 25,
+        "a1": 24,
+        "a2": 24,
+        "anchor": "GOOD",
+        "placement": "before_label",
+        "landmark": [
+          "GOOD:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "MOV DX,BUFFERMSG",
@@ -1366,16 +1496,26 @@
           "MOV DX,BYTEMSG",
           "CALL TEXT"
         ],
-        "context": [
-          "JMP DRIVERLINE",
-          "DRIVERDONE:",
-          "CALL CLOSEFILE"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "delete",
-        "a1": 18,
-        "a2": 22,
+        "a1": 17,
+        "a2": 21,
+        "anchor": "DRIVERLINE",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "DRIVERLINE:",
+          "CALL READLINE",
+          "CMP AX,0",
+          "JE DRIVERDONE",
+          "MOV SI,2200H",
+          "CALL SCAN",
+          "CALL VALUE",
+          "PUSH AX",
+          "CALL FINISH"
+        ],
         "old": [
           "POP AX",
           "CALL NUMBER",
@@ -1383,32 +1523,42 @@
           "CALL TEXT"
         ],
         "new": [],
-        "context": [
-          "CALL VALUE",
-          "PUSH AX",
-          "CALL FINISH"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "replace",
-        "a1": 16,
-        "a2": 17,
+        "a1": 15,
+        "a2": 16,
+        "anchor": "DRIVERLINE",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "DRIVERLINE:",
+          "CALL READLINE",
+          "CMP AX,0",
+          "JE DRIVERDONE",
+          "MOV SI,2200H",
+          "CALL SCAN",
+          "CALL VALUE"
+        ],
         "old": [
           "PUSH AX"
         ],
         "new": [
           "CALL BYTEVALUE"
         ],
-        "context": [
-          "MOV SI,2200H",
-          "CALL SCAN",
-          "CALL VALUE"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 8,
-        "a2": 8,
+        "a1": 7,
+        "a2": 7,
+        "anchor": "ROOM",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "ROOM:"
+        ],
         "old": [],
         "new": [
           "MOV AL,2",
@@ -1418,74 +1568,81 @@
           "MOV AX,6000H",
           "MOV [OUTPTR],AX"
         ],
-        "context": [
-          "MOV AX,7",
-          "JMP ERROR",
-          "ROOM:"
-        ]
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 12,
     "page": "12-writing-the-image.md",
     "changes": [
       {
-        "tag": "delete",
-        "a1": 425,
-        "a2": 428,
+        "a1": 394,
+        "a2": 396,
+        "anchor": "BUFFERMSG",
+        "placement": "at_label",
+        "landmark": [],
+        "context": [],
         "old": [
-          "",
           "BUFFERMSG:",
           "DB 66,117,102,102,101,114,101,100,32,36"
         ],
         "new": [],
-        "context": [
-          "",
-          "ERRCODE:",
-          "DB 0"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 395,
-        "a2": 395,
+        "a1": 374,
+        "a2": 374,
+        "anchor": "HANDLE",
+        "placement": "before_label",
+        "landmark": [
+          "HANDLE:"
+        ],
+        "context": [],
         "old": [],
         "new": [
-          "",
           "RESNAME:",
           "DB 82,69,83,85,76,84,46,67,79,77,0"
         ],
-        "context": [
-          "",
-          "FNAME:",
-          "DB 83,79,85,82,67,69,46,65,83,77,0"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 376,
-        "a2": 376,
+        "a1": 361,
+        "a2": 361,
+        "anchor": "BYTEMSG",
+        "placement": "before_label",
+        "landmark": [
+          "BYTEMSG:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "OKMSG:",
-          "DB 79,75,32,36",
-          ""
+          "DB 79,75,32,36"
         ],
-        "context": [
-          "MOV AX,4C01H",
-          "INT 21H",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 57,
-        "a2": 57,
+        "a1": 53,
+        "a2": 53,
+        "anchor": "CLOSEFILE",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "CLOSEFILE:",
+          "MOV BX,[HANDLE]",
+          "MOV AH,3EH",
+          "INT 21H",
+          "JB FILEBAD"
+        ],
         "old": [],
         "new": [
           "RET",
-          "",
           "WRITEOUT:",
           "MOV DX,RESNAME",
           "MOV CX,0",
@@ -1514,16 +1671,19 @@
           "MOV DX,BYTEMSG",
           "CALL TEXT"
         ],
-        "context": [
-          "MOV AH,3EH",
-          "INT 21H",
-          "JB FILEBAD"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "replace",
-        "a1": 27,
-        "a2": 34,
+        "a1": 26,
+        "a2": 33,
+        "anchor": "DRIVERDONE",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "DRIVERDONE:",
+          "CALL CLOSEFILE"
+        ],
         "old": [
           "MOV DX,BUFFERMSG",
           "CALL TEXT",
@@ -1536,73 +1696,77 @@
         "new": [
           "CALL WRITEOUT"
         ],
-        "context": [
-          "JMP DRIVERLINE",
-          "DRIVERDONE:",
-          "CALL CLOSEFILE"
-        ]
+        "after": [],
+        "end_anchor": "GOOD"
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 13,
     "page": "13-the-db-directive.md",
     "changes": [
       {
-        "tag": "insert",
-        "a1": 454,
-        "a2": 454,
+        "a1": 420,
+        "a2": 420,
+        "anchor": "ERRCODE",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "ERRCODE:",
+          "DB 0"
+        ],
         "old": [],
         "new": [
-          "",
           "OPTAB:",
           "DB 68,66,0,0,0,0,1,0"
         ],
-        "context": [
-          "",
-          "ERRCODE:",
-          "DB 0"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 452,
-        "a2": 452,
+        "a1": 418,
+        "a2": 418,
+        "anchor": "ERRCODE",
+        "placement": "before_label",
+        "landmark": [
+          "ERRCODE:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "TYPE:",
           "DB 0",
-          "",
           "OP:",
-          "DB 0",
-          ""
+          "DB 0"
         ],
-        "context": [
-          "CHAR:",
-          "DB 0",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 440,
-        "a2": 440,
+        "a1": 410,
+        "a2": 410,
+        "anchor": "PASS",
+        "placement": "before_label",
+        "landmark": [
+          "PASS:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "STRIDE:",
-          "DW 0",
-          ""
+          "DW 0"
         ],
-        "context": [
-          "TOKLEN:",
-          "DW 0",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "replace",
-        "a1": 310,
-        "a2": 311,
+        "a1": 300,
+        "a2": 301,
+        "anchor": "FINISHED",
+        "placement": "at_label",
+        "landmark": [],
+        "context": [],
         "old": [
           "FINISHED:"
         ],
@@ -1624,7 +1788,6 @@
           "SYNTAXBAD:",
           "MOV AX,1",
           "JMP ERROR",
-          "",
           "DATAITEM:",
           "CALL SCAN",
           "CALL VALUE",
@@ -1637,16 +1800,21 @@
           "CMP AL,0",
           "JNE SYNTAXBAD"
         ],
-        "context": [
-          "JE FINISHED",
-          "MOV AX,1",
-          "JMP ERROR"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "replace",
-        "a1": 307,
-        "a2": 308,
+        "a1": 297,
+        "a2": 298,
+        "anchor": "FINISH",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "FINISH:",
+          "CALL SCAN",
+          "MOV AL,[2300H]",
+          "CMP AL,0"
+        ],
         "old": [
           "JE FINISHED"
         ],
@@ -1661,32 +1829,36 @@
           "CMP BX,0",
           "JNE STOPFOUND"
         ],
-        "context": [
-          "CALL SCAN",
-          "MOV AL,[2300H]",
-          "CMP AL,0"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "replace",
-        "a1": 303,
-        "a2": 304,
+        "a1": 293,
+        "a2": 294,
+        "anchor": "FINISH",
+        "placement": "at_label",
+        "landmark": [],
+        "context": [],
         "old": [
           "FINISH:"
         ],
         "new": [
           "STATEMENT:"
         ],
-        "context": [
-          "MOV AX,2",
-          "JMP ERROR",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 230,
-        "a2": 230,
+        "a1": 221,
+        "a2": 221,
+        "anchor": "TOKENBAD",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "TOKENBAD:",
+          "MOV AX,1",
+          "JMP ERROR"
+        ],
         "old": [],
         "new": [
           "LOOK:",
@@ -1720,19 +1892,24 @@
           "LOOKMISS:",
           "MOV BX,0",
           "POP SI",
-          "RET",
-          ""
+          "RET"
         ],
-        "context": [
-          "MOV AX,1",
-          "JMP ERROR",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "replace",
-        "a1": 20,
-        "a2": 26,
+        "a1": 19,
+        "a2": 25,
+        "anchor": "DRIVERLINE",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "DRIVERLINE:",
+          "CALL READLINE",
+          "CMP AX,0",
+          "JE DRIVERDONE",
+          "MOV SI,2200H"
+        ],
         "old": [
           "CALL SCAN",
           "CALL VALUE",
@@ -1746,48 +1923,60 @@
           "JMP NEXTLINE",
           "PASSEND:"
         ],
-        "context": [
-          "CMP AX,0",
-          "JE DRIVERDONE",
-          "MOV SI,2200H"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "replace",
-        "a1": 18,
-        "a2": 19,
+        "a1": 17,
+        "a2": 18,
+        "anchor": "DRIVERLINE",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "DRIVERLINE:",
+          "CALL READLINE",
+          "CMP AX,0"
+        ],
         "old": [
           "JE DRIVERDONE"
         ],
         "new": [
           "JE PASSEND"
         ],
-        "context": [
-          "DRIVERLINE:",
-          "CALL READLINE",
-          "CMP AX,0"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "replace",
-        "a1": 15,
-        "a2": 16,
+        "a1": 14,
+        "a2": 15,
+        "anchor": "DRIVERLINE",
+        "placement": "at_label",
+        "landmark": [],
+        "context": [],
         "old": [
           "DRIVERLINE:"
         ],
         "new": [
           "NEXTLINE:"
         ],
-        "context": [
-          "MOV AX,6000H",
-          "MOV [OUTPTR],AX",
-          "CALL OPENFILE"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 14,
-        "a2": 14,
+        "a1": 13,
+        "a2": 13,
+        "anchor": "ROOM",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "ROOM:",
+          "MOV AL,2",
+          "MOV [PASS],AL",
+          "MOV AX,100H",
+          "MOV [PC],AX",
+          "MOV AX,6000H",
+          "MOV [OUTPTR],AX"
+        ],
         "old": [],
         "new": [
           "MOV AX,0",
@@ -1795,53 +1984,62 @@
           "MOV [ENDED],AL",
           "MOV [SKIPLF],AL"
         ],
-        "context": [
-          "MOV [PC],AX",
-          "MOV AX,6000H",
-          "MOV [OUTPTR],AX"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 10,
-        "a2": 10,
-        "old": [],
-        "new": [
-          "PASSSTART:"
-        ],
+        "a1": 9,
+        "a2": 9,
+        "anchor": "ROOM",
+        "placement": "after_context",
+        "landmark": [],
         "context": [
           "ROOM:",
           "MOV AL,2",
           "MOV [PASS],AL"
-        ]
+        ],
+        "old": [],
+        "new": [
+          "PASSSTART:"
+        ],
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 14,
     "page": "14-the-dw-directive.md",
     "changes": [
       {
-        "tag": "insert",
-        "a1": 537,
-        "a2": 537,
+        "a1": 497,
+        "a2": 497,
+        "anchor": "OPTAB",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "OPTAB:",
+          "DB 68,66,0,0,0,0,1,0"
+        ],
         "old": [],
         "new": [
           "DB 68,87,0,0,0,0,1,1"
         ],
-        "context": [
-          "",
-          "OPTAB:",
-          "DB 68,66,0,0,0,0,1,0"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 389,
-        "a2": 389,
+        "a1": 376,
+        "a2": 376,
+        "anchor": "EMIT",
+        "placement": "before_label",
+        "landmark": [
+          "EMIT:"
+        ],
+        "context": [],
         "old": [],
         "new": [
-          "",
           "EMITWORD:",
           "PUSH AX",
           "CALL EMIT",
@@ -1850,16 +2048,20 @@
           "POP AX",
           "RET"
         ],
-        "context": [
-          "JBE EMIT",
-          "MOV AX,4",
-          "JMP ERROR"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 374,
-        "a2": 374,
+        "a1": 362,
+        "a2": 362,
+        "anchor": "DATAITEM",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "DATAITEM:",
+          "CALL SCAN",
+          "CALL VALUE"
+        ],
         "old": [],
         "new": [
           "MOV DL,[OP]",
@@ -1869,38 +2071,45 @@
           "JMP DATASEP",
           "DATABYTE:"
         ],
-        "context": [
-          "DATAITEM:",
-          "CALL SCAN",
-          "CALL VALUE"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "replace",
-        "a1": 346,
-        "a2": 347,
+        "a1": 335,
+        "a2": 336,
+        "anchor": "STWORD",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "STWORD:",
+          "MOV BX,OPTAB"
+        ],
         "old": [
           "MOV CX,1"
         ],
         "new": [
           "MOV CX,2"
         ],
-        "context": [
-          "RET",
-          "STWORD:",
-          "MOV BX,OPTAB"
-        ]
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 15,
     "page": "15-reading-the-source-twice.md",
     "changes": [
       {
-        "tag": "insert",
-        "a1": 29,
-        "a2": 29,
+        "a1": 28,
+        "a2": 28,
+        "anchor": "PASSEND",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "PASSEND:",
+          "CALL CLOSEFILE"
+        ],
         "old": [],
         "new": [
           "MOV AL,[PASS]",
@@ -1909,38 +2118,43 @@
           "CMP AL,3",
           "JB PASSSTART"
         ],
-        "context": [
-          "JMP NEXTLINE",
-          "PASSEND:",
-          "CALL CLOSEFILE"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "replace",
-        "a1": 8,
-        "a2": 9,
+        "a1": 7,
+        "a2": 8,
+        "anchor": "ROOM",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "ROOM:"
+        ],
         "old": [
           "MOV AL,2"
         ],
         "new": [
           "MOV AL,1"
         ],
-        "context": [
-          "MOV AX,7",
-          "JMP ERROR",
-          "ROOM:"
-        ]
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 16,
     "page": "16-recognizing-register-names.md",
     "changes": [
       {
-        "tag": "insert",
-        "a1": 554,
-        "a2": 554,
+        "a1": 513,
+        "a2": 513,
+        "anchor": "OPTAB",
+        "placement": "before_label",
+        "landmark": [
+          "OPTAB:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "REGTAB:",
@@ -1959,51 +2173,59 @@
           "DB 83,80,0,12",
           "DB 66,80,0,13",
           "DB 83,73,0,14",
-          "DB 68,73,0,15",
-          ""
+          "DB 68,73,0,15"
         ],
-        "context": [
-          "ERRCODE:",
-          "DB 0",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 278,
-        "a2": 278,
+        "a1": 268,
+        "a2": 268,
+        "anchor": "LITERAL",
+        "placement": "before_label",
+        "landmark": [
+          "LITERAL:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "RESERVEDNUM:",
           "MOV AX,3",
           "JMP ERROR"
         ],
-        "context": [
-          "JBE LITERAL",
-          "WORDVALUE:",
-          "JMP NUMBERBAD"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 277,
-        "a2": 277,
+        "a1": 267,
+        "a2": 267,
+        "anchor": "WORDVALUE",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "WORDVALUE:"
+        ],
         "old": [],
         "new": [
           "CALL REGISTER",
           "CMP AX,0FFFFH",
           "JNE RESERVEDNUM"
         ],
-        "context": [
-          "CMP AL,57",
-          "JBE LITERAL",
-          "WORDVALUE:"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 270,
-        "a2": 270,
+        "a1": 260,
+        "a2": 260,
+        "anchor": "LOOKMISS",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "LOOKMISS:",
+          "MOV BX,0",
+          "POP SI",
+          "RET"
+        ],
         "old": [],
         "new": [
           "REGISTER:",
@@ -2019,29 +2241,36 @@
           "RET",
           "NOREGISTER:",
           "MOV AX,0FFFFH",
-          "RET",
-          ""
+          "RET"
         ],
-        "context": [
-          "POP SI",
-          "RET",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 17,
     "page": "17-checking-a-label-line.md",
     "changes": [
       {
-        "tag": "insert",
-        "a1": 414,
-        "a2": 414,
+        "a1": 401,
+        "a2": 401,
+        "anchor": "DATASEP",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "DATASEP:",
+          "CALL SCAN",
+          "MOV AL,[2300H]",
+          "CMP AL,44",
+          "JE DATAITEM",
+          "CMP AL,0",
+          "JNE SYNTAXBAD"
+        ],
         "old": [],
         "new": [
           "RET",
-          "",
           "FINISH:",
           "CALL SCAN",
           "MOV AL,[2300H]",
@@ -2051,16 +2280,18 @@
           "JMP ERROR",
           "FINISHED:"
         ],
-        "context": [
-          "JE DATAITEM",
-          "CMP AL,0",
-          "JNE SYNTAXBAD"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 371,
-        "a2": 371,
+        "a1": 359,
+        "a2": 359,
+        "anchor": "STWORD",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "STWORD:"
+        ],
         "old": [],
         "new": [
           "AFTERWORD:",
@@ -2075,16 +2306,18 @@
           "INSTRUCTION:",
           "DEC SI"
         ],
-        "context": [
-          "JNE STWORD",
-          "RET",
-          "STWORD:"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 364,
-        "a2": 364,
+        "a1": 352,
+        "a2": 352,
+        "anchor": "STATEMENT",
+        "placement": "before_label",
+        "landmark": [
+          "STATEMENT:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "DEFINE:",
@@ -2095,19 +2328,22 @@
           "MOV AX,3",
           "JMP ERROR",
           "SPELLGOOD:",
-          "RET",
-          ""
+          "RET"
         ],
-        "context": [
-          "MOV AX,2",
-          "JMP ERROR",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 285,
-        "a2": 285,
+        "a1": 274,
+        "a2": 274,
+        "anchor": "NOREGISTER",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "NOREGISTER:",
+          "MOV AX,0FFFFH",
+          "RET"
+        ],
         "old": [],
         "new": [
           "VALIDNAME:",
@@ -2140,44 +2376,46 @@
           "RET",
           "SYMBOLBAD:",
           "MOV AX,3",
-          "JMP ERROR",
-          ""
+          "JMP ERROR"
         ],
-        "context": [
-          "MOV AX,0FFFFH",
-          "RET",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 18,
     "page": "18-recording-an-address.md",
     "changes": [
       {
-        "tag": "insert",
-        "a1": 611,
-        "a2": 611,
+        "a1": 575,
+        "a2": 575,
+        "anchor": "TOKLEN",
+        "placement": "before_label",
+        "landmark": [
+          "TOKLEN:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "SYMC:",
           "DW 0",
-          "",
           "SYMNEXT:",
-          "DW 12288",
-          ""
+          "DW 12288"
         ],
-        "context": [
-          "OUTPTR:",
-          "DW 24576",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 518,
-        "a2": 518,
+        "a1": 498,
+        "a2": 498,
+        "anchor": "TEXT",
+        "placement": "before_label",
+        "landmark": [
+          "TEXT:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "COPYZ:",
@@ -2185,34 +2423,38 @@
           "STOSB",
           "CMP AL,0",
           "JNE COPYZ",
-          "RET",
-          ""
+          "RET"
         ],
-        "context": [
-          "MOV AX,5",
-          "JMP ERROR",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "delete",
-        "a1": 403,
-        "a2": 405,
+        "a1": 390,
+        "a2": 392,
+        "anchor": "SPELLGOOD",
+        "placement": "at_label",
+        "landmark": [],
+        "context": [],
         "old": [
           "SPELLGOOD:",
           "RET"
         ],
         "new": [],
-        "context": [
-          "JE SPELLGOOD",
-          "MOV AX,3",
-          "JMP ERROR"
-        ]
+        "after": [],
+        "end_anchor": "STATEMENT"
       },
       {
-        "tag": "replace",
-        "a1": 400,
-        "a2": 401,
+        "a1": 387,
+        "a2": 388,
+        "anchor": "DEFINE",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "DEFINE:",
+          "CALL VALIDNAME",
+          "CALL REGISTER",
+          "CMP AX,0FFFFH"
+        ],
         "old": [
           "JE SPELLGOOD"
         ],
@@ -2262,16 +2504,18 @@
           "JMP ERROR",
           "DEFINEBAD:"
         ],
-        "context": [
-          "CALL VALIDNAME",
-          "CALL REGISTER",
-          "CMP AX,0FFFFH"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 10,
-        "a2": 10,
+        "a1": 9,
+        "a2": 9,
+        "anchor": "PASSSTART",
+        "placement": "before_label",
+        "landmark": [
+          "PASSSTART:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "MOV AX,0",
@@ -2279,28 +2523,31 @@
           "MOV AX,3000H",
           "MOV [SYMNEXT],AX"
         ],
-        "context": [
-          "ROOM:",
-          "MOV AL,1",
-          "MOV [PASS],AL"
-        ]
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 19,
     "page": "19-using-a-named-value.md",
     "changes": [
       {
-        "tag": "replace",
-        "a1": 398,
-        "a2": 399,
+        "a1": 386,
+        "a2": 387,
+        "anchor": "NUMBERBAD",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "NUMBERBAD:",
+          "MOV AX,2"
+        ],
         "old": [
           "JMP ERROR"
         ],
         "new": [
           "JMP ERROR",
-          "",
           "SYMBOLVALUE:",
           "CALL VALIDNAME",
           "CALL REGISTER",
@@ -2325,16 +2572,18 @@
           "MOV AX,3",
           "JMP ERROR"
         ],
-        "context": [
-          "RET",
-          "NUMBERBAD:",
-          "MOV AX,2"
-        ]
+        "after": [],
+        "end_anchor": "DEFINE"
       },
       {
-        "tag": "replace",
-        "a1": 328,
-        "a2": 335,
+        "a1": 316,
+        "a2": 323,
+        "anchor": "WORDVALUE",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "WORDVALUE:"
+        ],
         "old": [
           "CALL REGISTER",
           "CMP AX,0FFFFH",
@@ -2347,22 +2596,27 @@
         "new": [
           "JMP SYMBOLVALUE"
         ],
-        "context": [
-          "CMP AL,57",
-          "JBE LITERAL",
-          "WORDVALUE:"
-        ]
+        "after": [],
+        "end_anchor": "LITERAL"
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 20,
     "page": "20-fixed-instruction-bytes.md",
     "changes": [
       {
-        "tag": "insert",
-        "a1": 735,
-        "a2": 735,
+        "a1": 685,
+        "a2": 685,
+        "anchor": "OPTAB",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "OPTAB:",
+          "DB 68,66,0,0,0,0,1,0",
+          "DB 68,87,0,0,0,0,1,1"
+        ],
         "old": [],
         "new": [
           "DB 82,69,84,0,0,0,2,195",
@@ -2370,35 +2624,44 @@
           "DB 76,79,68,83,66,0,2,172",
           "DB 83,84,79,83,66,0,2,170"
         ],
-        "context": [
-          "OPTAB:",
-          "DB 68,66,0,0,0,0,1,0",
-          "DB 68,87,0,0,0,0,1,1"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 530,
-        "a2": 530,
+        "a1": 514,
+        "a2": 514,
+        "anchor": "DATASEP",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "DATASEP:",
+          "CALL SCAN",
+          "MOV AL,[2300H]",
+          "CMP AL,44",
+          "JE DATAITEM",
+          "CMP AL,0",
+          "JNE SYNTAXBAD"
+        ],
         "old": [],
         "new": [
           "RET",
-          "",
           "FIXED:",
           "MOV AL,[OP]",
           "CALL EMIT",
           "CALL FINISH"
         ],
-        "context": [
-          "JE DATAITEM",
-          "CMP AL,0",
-          "JNE SYNTAXBAD"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 508,
-        "a2": 508,
+        "a1": 493,
+        "a2": 493,
+        "anchor": "STNEXT1",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "STNEXT1:"
+        ],
         "old": [],
         "new": [
           "CMP AL,2",
@@ -2407,103 +2670,114 @@
           "RET",
           "STNEXT2:"
         ],
-        "context": [
-          "CALL DATAITEM",
-          "RET",
-          "STNEXT1:"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "replace",
-        "a1": 488,
-        "a2": 489,
+        "a1": 473,
+        "a2": 474,
+        "anchor": "INSTRUCTION",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "INSTRUCTION:",
+          "DEC SI",
+          "MOV BX,OPTAB"
+        ],
         "old": [
           "MOV CX,2"
         ],
         "new": [
           "MOV CX,6"
         ],
-        "context": [
-          "INSTRUCTION:",
-          "DEC SI",
-          "MOV BX,OPTAB"
-        ]
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 21,
     "page": "21-a-register-and-an-immediate.md",
     "changes": [
       {
-        "tag": "insert",
-        "a1": 750,
-        "a2": 750,
+        "a1": 699,
+        "a2": 699,
+        "anchor": "OPTAB",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "OPTAB:",
+          "DB 68,66,0,0,0,0,1,0",
+          "DB 68,87,0,0,0,0,1,1",
+          "DB 82,69,84,0,0,0,2,195",
+          "DB 67,76,68,0,0,0,2,252",
+          "DB 76,79,68,83,66,0,2,172",
+          "DB 83,84,79,83,66,0,2,170"
+        ],
         "old": [],
         "new": [
           "DB 77,79,86,0,0,0,3,0"
         ],
-        "context": [
-          "DB 67,76,68,0,0,0,2,252",
-          "DB 76,79,68,83,66,0,2,172",
-          "DB 83,84,79,83,66,0,2,170"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 720,
-        "a2": 720,
+        "a1": 672,
+        "a2": 672,
+        "anchor": "OP",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "OP:"
+        ],
         "old": [],
         "new": [
           "DB 0",
-          "",
           "KIND:",
           "DB 0",
-          "",
           "WIDTH:",
           "DB 0",
-          "",
           "REG:",
           "DB 0",
-          "",
           "K1:",
           "DB 0",
-          "",
           "W1:",
           "DB 0",
-          "",
           "R1:"
         ],
-        "context": [
-          "DB 0",
-          "",
-          "OP:"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 704,
-        "a2": 704,
+        "a1": 661,
+        "a2": 661,
+        "anchor": "PASS",
+        "placement": "before_label",
+        "landmark": [
+          "PASS:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "VAL:",
-          "DW 0",
-          ""
+          "DW 0"
         ],
-        "context": [
-          "STRIDE:",
-          "DW 0",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 551,
-        "a2": 551,
+        "a1": 533,
+        "a2": 533,
+        "anchor": "FINISHED",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "FINISHED:"
+        ],
         "old": [],
         "new": [
           "RET",
-          "",
           "TWOOPERANDS:",
           "CALL OPERAND",
           "MOV AL,[KIND]",
@@ -2521,7 +2795,6 @@
           "TWOBAD:",
           "MOV AX,1",
           "JMP ERROR",
-          "",
           "MOVOPERANDS:",
           "MOV AL,[K1]",
           "CMP AL,1",
@@ -2536,29 +2809,29 @@
           "ADD AL,DL",
           "CALL EMIT",
           "JMP IMMEDVALUE",
-          "",
           "IMMEDVALUE:",
           "MOV AL,[W1]",
           "CMP AL,0",
           "MOV AX,[VAL]",
           "JE BYTEVALUE",
           "JMP EMITWORD",
-          "",
           "TIMES8:",
           "ADD AL,AL",
           "ADD AL,AL",
           "ADD AL,AL"
         ],
-        "context": [
-          "MOV AX,1",
-          "JMP ERROR",
-          "FINISHED:"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "replace",
-        "a1": 513,
-        "a2": 514,
+        "a1": 498,
+        "a2": 499,
+        "anchor": "STNEXT2",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "STNEXT2:"
+        ],
         "old": [
           "JMP SYNTAXBAD"
         ],
@@ -2567,32 +2840,38 @@
           "CALL FINISH",
           "RET"
         ],
-        "context": [
-          "CALL FIXED",
-          "RET",
-          "STNEXT2:"
-        ]
+        "after": [],
+        "end_anchor": "SYNTAXBAD"
       },
       {
-        "tag": "replace",
-        "a1": 488,
-        "a2": 489,
+        "a1": 473,
+        "a2": 474,
+        "anchor": "INSTRUCTION",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "INSTRUCTION:",
+          "DEC SI",
+          "MOV BX,OPTAB"
+        ],
         "old": [
           "MOV CX,6"
         ],
         "new": [
           "MOV CX,7"
         ],
-        "context": [
-          "INSTRUCTION:",
-          "DEC SI",
-          "MOV BX,OPTAB"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 469,
-        "a2": 469,
+        "a1": 454,
+        "a2": 454,
+        "anchor": "STATEMENT",
+        "placement": "before_label",
+        "landmark": [
+          "STATEMENT:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "OPERAND:",
@@ -2617,28 +2896,29 @@
           "MOV [VAL],AX",
           "MOV AL,3",
           "MOV [KIND],AL",
-          "RET",
-          ""
+          "RET"
         ],
-        "context": [
-          "MOV AX,3",
-          "JMP ERROR",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 22,
     "page": "22-two-register-operands.md",
     "changes": [
       {
-        "tag": "insert",
-        "a1": 618,
-        "a2": 618,
+        "a1": 596,
+        "a2": 596,
+        "anchor": "TIMES8",
+        "placement": "before_label",
+        "landmark": [
+          "TIMES8:"
+        ],
+        "context": [],
         "old": [],
         "new": [
-          "",
           "SAMEWIDTH:",
           "MOV AL,[W1]",
           "MOV DL,[WIDTH]",
@@ -2649,16 +2929,18 @@
           "WIDTHOK:",
           "RET"
         ],
-        "context": [
-          "MOV AX,[VAL]",
-          "JE BYTEVALUE",
-          "JMP EMITWORD"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 612,
-        "a2": 612,
+        "a1": 590,
+        "a2": 590,
+        "anchor": "IMMEDVALUE",
+        "placement": "before_label",
+        "landmark": [
+          "IMMEDVALUE:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "MOVREG:",
@@ -2667,7 +2949,6 @@
           "ADD AL,138",
           "CALL EMIT",
           "JMP REGMOD",
-          "",
           "REGMOD:",
           "MOV AL,[R1]",
           "CALL TIMES8",
@@ -2675,40 +2956,55 @@
           "ADD AL,DL",
           "ADD AL,192",
           "CALL EMIT",
-          "RET",
-          ""
+          "RET"
         ],
-        "context": [
-          "CALL EMIT",
-          "JMP IMMEDVALUE",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 602,
-        "a2": 602,
+        "a1": 581,
+        "a2": 581,
+        "anchor": "MOVOPERANDS",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "MOVOPERANDS:",
+          "MOV AL,[K1]",
+          "CMP AL,1",
+          "JNE TWOBAD",
+          "MOV AL,[KIND]"
+        ],
         "old": [],
         "new": [
           "CMP AL,1",
           "JE MOVREG"
         ],
-        "context": [
-          "CMP AL,1",
-          "JNE TWOBAD",
-          "MOV AL,[KIND]"
-        ]
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 23,
     "page": "23-single-register-families.md",
     "changes": [
       {
-        "tag": "insert",
-        "a1": 872,
-        "a2": 872,
+        "a1": 806,
+        "a2": 806,
+        "anchor": "OPTAB",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "OPTAB:",
+          "DB 68,66,0,0,0,0,1,0",
+          "DB 68,87,0,0,0,0,1,1",
+          "DB 82,69,84,0,0,0,2,195",
+          "DB 67,76,68,0,0,0,2,252",
+          "DB 76,79,68,83,66,0,2,172",
+          "DB 83,84,79,83,66,0,2,170",
+          "DB 77,79,86,0,0,0,3,0"
+        ],
         "old": [],
         "new": [
           "DB 73,78,67,0,0,0,5,64",
@@ -2716,22 +3012,24 @@
           "DB 80,85,83,72,0,0,5,80",
           "DB 80,79,80,0,0,0,5,88"
         ],
-        "context": [
-          "DB 76,79,68,83,66,0,2,172",
-          "DB 83,84,79,83,66,0,2,170",
-          "DB 77,79,86,0,0,0,3,0"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 565,
-        "a2": 565,
+        "a1": 547,
+        "a2": 547,
+        "anchor": "FIXED",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "FIXED:",
+          "MOV AL,[OP]"
+        ],
         "old": [],
         "new": [
           "CALL EMIT",
           "CALL FINISH",
           "RET",
-          "",
           "SINGLE:",
           "CALL SCAN",
           "CALL REGISTER",
@@ -2743,16 +3041,18 @@
           "MOV DL,[OP]",
           "ADD AL,DL"
         ],
-        "context": [
-          "",
-          "FIXED:",
-          "MOV AL,[OP]"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 537,
-        "a2": 537,
+        "a1": 521,
+        "a2": 521,
+        "anchor": "STNEXT2",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "STNEXT2:"
+        ],
         "old": [],
         "new": [
           "CMP AL,5",
@@ -2761,57 +3061,86 @@
           "RET",
           "STNEXT5:"
         ],
-        "context": [
-          "CALL FIXED",
-          "RET",
-          "STNEXT2:"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "replace",
-        "a1": 512,
-        "a2": 513,
+        "a1": 496,
+        "a2": 497,
+        "anchor": "INSTRUCTION",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "INSTRUCTION:",
+          "DEC SI",
+          "MOV BX,OPTAB"
+        ],
         "old": [
           "MOV CX,7"
         ],
         "new": [
           "MOV CX,11"
         ],
-        "context": [
-          "INSTRUCTION:",
-          "DEC SI",
-          "MOV BX,OPTAB"
-        ]
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 24,
     "page": "24-assembling-a-dos-request.md",
     "changes": [
       {
-        "tag": "insert",
-        "a1": 895,
-        "a2": 895,
+        "a1": 828,
+        "a2": 828,
+        "anchor": "OPTAB",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "OPTAB:",
+          "DB 68,66,0,0,0,0,1,0",
+          "DB 68,87,0,0,0,0,1,1",
+          "DB 82,69,84,0,0,0,2,195",
+          "DB 67,76,68,0,0,0,2,252",
+          "DB 76,79,68,83,66,0,2,172",
+          "DB 83,84,79,83,66,0,2,170",
+          "DB 77,79,86,0,0,0,3,0",
+          "DB 73,78,67,0,0,0,5,64",
+          "DB 68,69,67,0,0,0,5,72",
+          "DB 80,85,83,72,0,0,5,80",
+          "DB 80,79,80,0,0,0,5,88"
+        ],
         "old": [],
         "new": [
           "DB 73,78,84,0,0,0,6,205"
         ],
-        "context": [
-          "DB 68,69,67,0,0,0,5,72",
-          "DB 80,85,83,72,0,0,5,80",
-          "DB 80,79,80,0,0,0,5,88"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 585,
-        "a2": 585,
+        "a1": 566,
+        "a2": 566,
+        "anchor": "SINGLE",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "SINGLE:",
+          "CALL SCAN",
+          "CALL REGISTER",
+          "CMP AX,8",
+          "JB SYNTAXBAD",
+          "CMP AX,15",
+          "JA SYNTAXBAD",
+          "SUB AL,8",
+          "MOV DL,[OP]",
+          "ADD AL,DL",
+          "CALL EMIT"
+        ],
         "old": [],
         "new": [
           "CALL FINISH",
           "RET",
-          "",
           "INTERRUPT:",
           "CALL SCAN",
           "CALL VALUE",
@@ -2821,16 +3150,18 @@
           "POP AX",
           "CALL BYTEVALUE"
         ],
-        "context": [
-          "MOV DL,[OP]",
-          "ADD AL,DL",
-          "CALL EMIT"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 542,
-        "a2": 542,
+        "a1": 526,
+        "a2": 526,
+        "anchor": "STNEXT5",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "STNEXT5:"
+        ],
         "old": [],
         "new": [
           "CMP AL,6",
@@ -2839,38 +3170,52 @@
           "RET",
           "STNEXT6:"
         ],
-        "context": [
-          "CALL SINGLE",
-          "RET",
-          "STNEXT5:"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "replace",
-        "a1": 512,
-        "a2": 513,
+        "a1": 496,
+        "a2": 497,
+        "anchor": "INSTRUCTION",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "INSTRUCTION:",
+          "DEC SI",
+          "MOV BX,OPTAB"
+        ],
         "old": [
           "MOV CX,11"
         ],
         "new": [
           "MOV CX,12"
         ],
-        "context": [
-          "INSTRUCTION:",
-          "DEC SI",
-          "MOV BX,OPTAB"
-        ]
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 25,
     "page": "25-arithmetic-and-comparisons.md",
     "changes": [
       {
-        "tag": "insert",
-        "a1": 907,
-        "a2": 907,
+        "a1": 839,
+        "a2": 839,
+        "anchor": "OPTAB",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "OPTAB:",
+          "DB 68,66,0,0,0,0,1,0",
+          "DB 68,87,0,0,0,0,1,1",
+          "DB 82,69,84,0,0,0,2,195",
+          "DB 67,76,68,0,0,0,2,252",
+          "DB 76,79,68,83,66,0,2,172",
+          "DB 83,84,79,83,66,0,2,170",
+          "DB 77,79,86,0,0,0,3,0"
+        ],
         "old": [],
         "new": [
           "DB 65,68,68,0,0,0,4,0",
@@ -2879,16 +3224,30 @@
           "DB 83,85,66,0,0,0,4,5",
           "DB 67,77,80,0,0,0,4,7"
         ],
-        "context": [
-          "DB 76,79,68,83,66,0,2,172",
-          "DB 83,84,79,83,66,0,2,170",
-          "DB 77,79,86,0,0,0,3,0"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "replace",
-        "a1": 627,
-        "a2": 628,
+        "a1": 605,
+        "a2": 606,
+        "anchor": "TWOOPERANDS",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "TWOOPERANDS:",
+          "CALL OPERAND",
+          "MOV AL,[KIND]",
+          "MOV [K1],AL",
+          "MOV AL,[WIDTH]",
+          "MOV [W1],AL",
+          "MOV AL,[REG]",
+          "MOV [R1],AL",
+          "CALL SCAN",
+          "MOV AL,[2300H]",
+          "CMP AL,44",
+          "JNE TWOBAD",
+          "CALL OPERAND"
+        ],
         "old": [
           "JMP MOVOPERANDS"
         ],
@@ -2924,57 +3283,64 @@
           "CALL EMIT",
           "JMP REGMOD"
         ],
-        "context": [
-          "CMP AL,44",
-          "JNE TWOBAD",
-          "CALL OPERAND"
-        ]
+        "after": [],
+        "end_anchor": "TWOBAD"
       },
       {
-        "tag": "replace",
-        "a1": 512,
-        "a2": 513,
+        "a1": 496,
+        "a2": 497,
+        "anchor": "INSTRUCTION",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "INSTRUCTION:",
+          "DEC SI",
+          "MOV BX,OPTAB"
+        ],
         "old": [
           "MOV CX,12"
         ],
         "new": [
           "MOV CX,17"
         ],
-        "context": [
-          "INSTRUCTION:",
-          "DEC SI",
-          "MOV BX,OPTAB"
-        ]
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 26,
     "page": "26-moving-through-memory.md",
     "changes": [
       {
-        "tag": "insert",
-        "a1": 871,
-        "a2": 871,
+        "a1": 817,
+        "a2": 817,
+        "anchor": "PASS",
+        "placement": "before_label",
+        "landmark": [
+          "PASS:"
+        ],
+        "context": [],
         "old": [],
         "new": [
           "V1:",
-          "DW 0",
-          ""
+          "DW 0"
         ],
-        "context": [
-          "VAL:",
-          "DW 0",
-          ""
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 700,
-        "a2": 700,
+        "a1": 674,
+        "a2": 674,
+        "anchor": "SAMEWIDTH",
+        "placement": "before_label",
+        "landmark": [
+          "SAMEWIDTH:"
+        ],
+        "context": [],
         "old": [],
         "new": [
-          "",
           "LOADMEM:",
           "MOV AL,[W1]",
           "ADD AL,138",
@@ -2990,7 +3356,6 @@
           "CALL EMITWORD",
           "LOADEND:",
           "RET",
-          "",
           "STOREMEM:",
           "MOV AL,[KIND]",
           "CMP AL,1",
@@ -3013,16 +3378,24 @@
           "STOREEND:",
           "RET"
         ],
-        "context": [
-          "MOV AX,[VAL]",
-          "JE BYTEVALUE",
-          "JMP EMITWORD"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "replace",
-        "a1": 668,
-        "a2": 670,
+        "a1": 645,
+        "a2": 647,
+        "anchor": "MOVOPERANDS",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "MOVOPERANDS:",
+          "MOV AL,[K1]",
+          "CMP AL,1",
+          "JNE TWOBAD",
+          "MOV AL,[KIND]",
+          "CMP AL,1",
+          "JE MOVREG"
+        ],
         "old": [
           "CMP AL,3",
           "JNE TWOBAD"
@@ -3031,16 +3404,19 @@
           "CMP AL,2",
           "JE LOADMEM"
         ],
-        "context": [
-          "MOV AL,[KIND]",
-          "CMP AL,1",
-          "JE MOVREG"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 663,
-        "a2": 663,
+        "a1": 640,
+        "a2": 640,
+        "anchor": "MOVOPERANDS",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "MOVOPERANDS:",
+          "MOV AL,[K1]"
+        ],
         "old": [],
         "new": [
           "CMP AL,2",
@@ -3048,36 +3424,49 @@
           "JMP STOREMEM",
           "MOVDESTREG:"
         ],
-        "context": [
-          "",
-          "MOVOPERANDS:",
-          "MOV AL,[K1]"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 622,
-        "a2": 622,
+        "a1": 600,
+        "a2": 600,
+        "anchor": "TWOOPERANDS",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "TWOOPERANDS:",
+          "CALL OPERAND",
+          "MOV AL,[KIND]",
+          "MOV [K1],AL",
+          "MOV AL,[WIDTH]",
+          "MOV [W1],AL",
+          "MOV AL,[REG]",
+          "MOV [R1],AL"
+        ],
         "old": [],
         "new": [
           "MOV AX,[VAL]",
           "MOV [V1],AX"
         ],
-        "context": [
-          "MOV [W1],AL",
-          "MOV AL,[REG]",
-          "MOV [R1],AL"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 490,
-        "a2": 490,
+        "a1": 475,
+        "a2": 475,
+        "anchor": "IMMEDIATE",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "IMMEDIATE:",
+          "CALL VALUE",
+          "MOV [VAL],AX",
+          "MOV AL,3"
+        ],
         "old": [],
         "new": [
           "MOV [KIND],AL",
           "RET",
-          "",
           "MEMORY:",
           "CALL SCAN",
           "MOV AX,[2300H]",
@@ -3104,58 +3493,89 @@
           "MEMORYOK:",
           "MOV AL,2"
         ],
-        "context": [
-          "CALL VALUE",
-          "MOV [VAL],AX",
-          "MOV AL,3"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 471,
-        "a2": 471,
+        "a1": 456,
+        "a2": 456,
+        "anchor": "OPERAND",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "OPERAND:",
+          "CALL SCAN"
+        ],
         "old": [],
         "new": [
           "MOV AL,[2300H]",
           "CMP AL,91",
           "JE MEMORY"
         ],
-        "context": [
-          "",
-          "OPERAND:",
-          "CALL SCAN"
-        ]
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 27,
     "page": "27-near-calls-and-jumps.md",
     "changes": [
       {
-        "tag": "insert",
-        "a1": 1024,
-        "a2": 1024,
+        "a1": 952,
+        "a2": 952,
+        "anchor": "OPTAB",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "OPTAB:",
+          "DB 68,66,0,0,0,0,1,0",
+          "DB 68,87,0,0,0,0,1,1",
+          "DB 82,69,84,0,0,0,2,195",
+          "DB 67,76,68,0,0,0,2,252",
+          "DB 76,79,68,83,66,0,2,172",
+          "DB 83,84,79,83,66,0,2,170",
+          "DB 77,79,86,0,0,0,3,0",
+          "DB 65,68,68,0,0,0,4,0",
+          "DB 79,82,0,0,0,0,4,1",
+          "DB 65,78,68,0,0,0,4,4",
+          "DB 83,85,66,0,0,0,4,5",
+          "DB 67,77,80,0,0,0,4,7",
+          "DB 73,78,67,0,0,0,5,64",
+          "DB 68,69,67,0,0,0,5,72",
+          "DB 80,85,83,72,0,0,5,80",
+          "DB 80,79,80,0,0,0,5,88",
+          "DB 73,78,84,0,0,0,6,205"
+        ],
         "old": [],
         "new": [
           "DB 67,65,76,76,0,0,7,232",
           "DB 74,77,80,0,0,0,7,233"
         ],
-        "context": [
-          "DB 80,85,83,72,0,0,5,80",
-          "DB 80,79,80,0,0,0,5,88",
-          "DB 73,78,84,0,0,0,6,205"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 632,
-        "a2": 632,
+        "a1": 611,
+        "a2": 611,
+        "anchor": "INTERRUPT",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "INTERRUPT:",
+          "CALL SCAN",
+          "CALL VALUE",
+          "PUSH AX",
+          "MOV AL,205",
+          "CALL EMIT",
+          "POP AX",
+          "CALL BYTEVALUE"
+        ],
         "old": [],
         "new": [
           "CALL FINISH",
           "RET",
-          "",
           "NEARJUMP:",
           "CALL SCAN",
           "CALL VALUE",
@@ -3168,16 +3588,18 @@
           "POP AX",
           "CALL EMITWORD"
         ],
-        "context": [
-          "CALL EMIT",
-          "POP AX",
-          "CALL BYTEVALUE"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 578,
-        "a2": 578,
+        "a1": 561,
+        "a2": 561,
+        "anchor": "STNEXT6",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "STNEXT6:"
+        ],
         "old": [],
         "new": [
           "CMP AL,7",
@@ -3186,38 +3608,64 @@
           "RET",
           "STNEXT7:"
         ],
-        "context": [
-          "CALL INTERRUPT",
-          "RET",
-          "STNEXT6:"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "replace",
-        "a1": 543,
-        "a2": 544,
+        "a1": 526,
+        "a2": 527,
+        "anchor": "INSTRUCTION",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "INSTRUCTION:",
+          "DEC SI",
+          "MOV BX,OPTAB"
+        ],
         "old": [
           "MOV CX,17"
         ],
         "new": [
           "MOV CX,19"
         ],
-        "context": [
-          "INSTRUCTION:",
-          "DEC SI",
-          "MOV BX,OPTAB"
-        ]
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   },
   {
     "number": 28,
     "page": "28-short-conditional-branches.md",
     "changes": [
       {
-        "tag": "insert",
-        "a1": 1045,
-        "a2": 1045,
+        "a1": 972,
+        "a2": 972,
+        "anchor": "OPTAB",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "OPTAB:",
+          "DB 68,66,0,0,0,0,1,0",
+          "DB 68,87,0,0,0,0,1,1",
+          "DB 82,69,84,0,0,0,2,195",
+          "DB 67,76,68,0,0,0,2,252",
+          "DB 76,79,68,83,66,0,2,172",
+          "DB 83,84,79,83,66,0,2,170",
+          "DB 77,79,86,0,0,0,3,0",
+          "DB 65,68,68,0,0,0,4,0",
+          "DB 79,82,0,0,0,0,4,1",
+          "DB 65,78,68,0,0,0,4,4",
+          "DB 83,85,66,0,0,0,4,5",
+          "DB 67,77,80,0,0,0,4,7",
+          "DB 73,78,67,0,0,0,5,64",
+          "DB 68,69,67,0,0,0,5,72",
+          "DB 80,85,83,72,0,0,5,80",
+          "DB 80,79,80,0,0,0,5,88",
+          "DB 73,78,84,0,0,0,6,205",
+          "DB 67,65,76,76,0,0,7,232",
+          "DB 74,77,80,0,0,0,7,233"
+        ],
         "old": [],
         "new": [
           "DB 74,66,0,0,0,0,8,114",
@@ -3227,21 +3675,32 @@
           "DB 74,66,69,0,0,0,8,118",
           "DB 74,65,0,0,0,0,8,119"
         ],
-        "context": [
-          "DB 73,78,84,0,0,0,6,205",
-          "DB 67,65,76,76,0,0,7,232",
-          "DB 74,77,80,0,0,0,7,233"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 651,
-        "a2": 651,
+        "a1": 629,
+        "a2": 629,
+        "anchor": "NEARJUMP",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "NEARJUMP:",
+          "CALL SCAN",
+          "CALL VALUE",
+          "MOV DX,[PC]",
+          "ADD DX,3",
+          "SUB AX,DX",
+          "PUSH AX",
+          "MOV AL,[OP]",
+          "CALL EMIT",
+          "POP AX",
+          "CALL EMITWORD"
+        ],
         "old": [],
         "new": [
           "CALL FINISH",
           "RET",
-          "",
           "SHORTJUMP:",
           "CALL SCAN",
           "CALL VALUE",
@@ -3264,16 +3723,18 @@
           "POP AX",
           "CALL EMIT"
         ],
-        "context": [
-          "CALL EMIT",
-          "POP AX",
-          "CALL EMITWORD"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "insert",
-        "a1": 583,
-        "a2": 583,
+        "a1": 566,
+        "a2": 566,
+        "anchor": "STNEXT7",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "STNEXT7:"
+        ],
         "old": [],
         "new": [
           "CMP AL,8",
@@ -3282,28 +3743,30 @@
           "RET",
           "STNEXT8:"
         ],
-        "context": [
-          "CALL NEARJUMP",
-          "RET",
-          "STNEXT7:"
-        ]
+        "after": [],
+        "end_anchor": null
       },
       {
-        "tag": "replace",
-        "a1": 543,
-        "a2": 544,
+        "a1": 526,
+        "a2": 527,
+        "anchor": "INSTRUCTION",
+        "placement": "after_context",
+        "landmark": [],
+        "context": [
+          "INSTRUCTION:",
+          "DEC SI",
+          "MOV BX,OPTAB"
+        ],
         "old": [
           "MOV CX,19"
         ],
         "new": [
           "MOV CX,25"
         ],
-        "context": [
-          "INSTRUCTION:",
-          "DEC SI",
-          "MOV BX,OPTAB"
-        ]
+        "after": [],
+        "end_anchor": null
       }
-    ]
+    ],
+    "edit_style": "labels"
   }
 ]

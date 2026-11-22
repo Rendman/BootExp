@@ -11,6 +11,8 @@ url = "/bootstrap/asma0/09-a-larger-seed-workspace/"
 
 With the whole-image output buffer gone, I can give more room to names. I redraw the memory sketch before moving anything, marking the line, token, two file blocks, symbol records and stack. Each needs its own part of the segment.
 
+**Starting source:** `A08.ASM`. **Save as:** `A09.ASM`. **Build with:** `ASMKEEP.COM`.
+
 ## The working parts
 
 The seed moves its line to 4000H, token to 4080H, input block to 4200H, output block to 4600H, and symbol table to 5000H. The 2048 twenty-byte records end at EFFFH. The upper 4 KB remain reserved for the stack.
@@ -746,18 +748,14 @@ MOV AX,5000H
 
 Copy `A09.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK 03466 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM A09.COM`.
 
-VIEW.BAS must report A09.COM length 3466 bytes. Keep that executable and source together.
+Keep that executable and source together.
 
 ## Acceptance check
 
-Create T09.ASM as plain ASCII with COPY CON or an editor. Finish COPY CON with Ctrl-Z and Enter:
+Reuse the earlier input unchanged:
 
-```asm
-MOV DL,41H
-MOV AH,2
-INT 21H
-MOV AX,4C00H
-INT 21H
+```dos
+COPY T02.ASM T09.ASM
 ```
 
 ```dos
@@ -777,7 +775,7 @@ In VIEW.BAS, inspect RESULT.COM. Require length **11 bytes** and these complete 
 B2 41 B4 02 CD 21 B8 00 4C CD 21
 ```
 
-The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
+The byte inspection checks the accepted result. Keep it as data.
 
 ## A rejection check
 
@@ -823,4 +821,4 @@ An unexpected PASS fails this rejection test.
 
 ## If the result differs
 
-Check the saved argument names and terminators, handle ownership flags, reader cursors at each pass, and the current output count. Inspect file length as well as the leading bytes. A copied data file is not an executable proof.
+Check every relocated line, token and block-buffer address, along with the twenty-byte symbol stride. The 2048th record ends at EFFFH; the next definition must fail before touching the stack reservation.

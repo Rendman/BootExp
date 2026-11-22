@@ -1,5 +1,5 @@
 +++
-title = "Three complete programs"
+title = "31 \u00b7 Three complete programs"
 weight = 31
 description = "Use console output, a data byte, and a counted loop in short runnable examples."
 download = "ASM0.ZIP"

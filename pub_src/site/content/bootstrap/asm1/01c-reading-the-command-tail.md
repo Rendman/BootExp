@@ -11,13 +11,15 @@ url = "/bootstrap/asma0/01c-reading-the-command-tail/"
 
 The file names are still in their default buffers. I place a temporary probe call before the assembly driver so I can check the PSP reader before allowing it to open a disk file.
 
+**Starting source:** `A01B.ASM`. **Save as:** `A01C.ASM`. **Build with:** `ASMKEEP.COM`.
+
 ## What this step adds
 
 DOS supplies a Program Segment Prefix before the program's 0100H entry. The byte at 80H is the command-tail length, and the bytes beginning at 81H are the tail itself. The program name is not part of that tail. At entry DS and ES select this same segment. CLD makes LODSB and STOSB advance their pointers.
 
 CMDINIT sets SI to 81H and CX to the saved length. Each consumed character decrements CX. It never searches beyond that count for a zero. A length of 127 or more is rejected; the supported DOS tail is at most 126 bytes. CMDSKIP consumes spaces and tabs between names.
 
-CMDCOUNT counts name slots as they are begun; malformed input makes the whole parse fail. CMDPTR remembers the start of the current destination slot, while DI advances through its characters. CMDBUF contains three thirteen-byte slots. The third lets the common reader retain an extra name; the assembler's later selection routine will accept exactly two or none. A fourth name is rejected before another slot can be written.
+CMDCOUNT counts name slots as they are begun; malformed input makes the whole parse fail. CMDPTR remembers the start of the current destination slot, while DI advances through its characters. CMDBUF contains three thirteen-byte slots. The third lets the common reader retain an extra name so its caller can check the argument count. A fourth name is rejected before another slot can be written.
 
 For each name BX counts characters in the current part and DX holds that part's limit: eight for the base, then three for the extension. CMDDOT permits one dot after a nonempty base, switches the limit, and requires a nonempty extension. CMDEND writes a zero and advances the saved slot pointer by thirteen. Empty parts and a second dot fail.
 
@@ -27,7 +29,7 @@ On success CMDINIT returns the count in AX. On failure it returns 65535. It chan
 
 ## The temporary startup probe
 
-At ROOM the driver calls CMDPROBE before initializing either pass. CMDPROBE clears LINENO, calls CMDINIT and returns DOS success only for a count of two. A malformed spelling or another count enters the existing ERROR routine with category 9. PROBEOK returns DOS status zero. The probe exits through DOS rather than returning to its caller. The original driver and source parser remain below its call, ready for reuse, but are not reached at this stopping point. No file is opened or created. This two-name expectation belongs to the probe; the next step replaces its startup call and restores the no-argument defaults without retyping the driver.
+At ROOM the driver calls CMDPROBE before initializing either pass. CMDPROBE clears LINENO, calls CMDINIT and returns DOS success only for a count of two. A malformed spelling or another count enters the existing ERROR routine with category 9. PROBEOK returns DOS status zero. The probe exits through DOS rather than returning to its caller. The original driver and source parser remain below its call, ready for reuse, but are not reached at this stopping point. No file is opened or created. This two-name expectation belongs to the probe, which does not use the assembly driver's default filenames.
 
 Replace CHECK.BAT so it forwards the tail to its program:
 
@@ -234,7 +236,7 @@ CHECK ASMKEEP
 COPY RESULT.COM A01C.COM
 ```
 
-Require the preceding ASM0 to report `OK 02743 bytes` and CHECK to report PASS before preserving the result. VIEW.BAS must show A01C.COM length 2743 bytes. Keep the source and executable together.
+Require the preceding ASM0 to report `OK 02743 bytes` and CHECK to report PASS before preserving the result. Keep the source and executable together.
 
 ## Check the addition
 

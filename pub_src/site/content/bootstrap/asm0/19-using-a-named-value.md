@@ -11,6 +11,8 @@ url = "/bootstrap/asm86/19-using-a-named-value/"
 
 The table can now retain an address. I want to put `TEXT` into an operand and let the value reader find it, including when the definition follows the use. I can keep meaningful names in the source instead of copied addresses.
 
+**Starting source:** `AS18.ASM`. **Save as:** `AS19.ASM`. **Build with:** `BOOTASM.BAS`.
+
 ## How it works
 
 A token beginning with a decimal digit remains a number. Other tokens enter SYMBOLVALUE, which validates the name, rejects register names, and searches the symbol table. A match returns the word at record offset eighteen in AX.
@@ -23,29 +25,29 @@ Our test emits a word before the byte it names. TEXT therefore has loaded offset
 
 ## Source changes
 
-Copy `AS18.ASM` to `AS19.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS18.ASM` to `AS19.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1: following `NUMBERBAD:`
+### Change 1 · `NUMBERBAD:`
 
-Unchanged code immediately before this edit:
+Find the unique label `NUMBERBAD:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-RET
 NUMBERBAD:
 MOV AX,2
 ```
 
-Remove these exact old lines (physical lines 399–399 of `AS18.ASM`):
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JMP ERROR
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 JMP ERROR
-
 SYMBOLVALUE:
 CALL VALIDNAME
 CALL REGISTER
@@ -71,19 +73,19 @@ MOV AX,3
 JMP ERROR
 ```
 
-The first `JMP ERROR` in this replacement still terminates `NUMBERBAD`; the final `JMP ERROR` terminates `VALUEBAD`. Keep both. The existing blank line and `DEFINE:` must follow the final jump.
+Keep the following `DEFINE:` label and the source after it in place.
 
-### Change 2: following `WORDVALUE:`
+### Change 2 · `WORDVALUE:`
 
-Unchanged code immediately before this edit:
+Find the unique label `WORDVALUE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMP AL,57
-JBE LITERAL
 WORDVALUE:
 ```
 
-Remove these exact old lines (physical lines 329–335 of `AS18.ASM`):
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 CALL REGISTER
@@ -95,11 +97,13 @@ MOV AX,3
 JMP ERROR
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 JMP SYMBOLVALUE
 ```
+
+Keep the following `LITERAL:` label and the source after it in place.
 
 ## Build and stop
 
@@ -171,4 +175,4 @@ FAIL
 
 ## If the result differs
 
-Check the edited blocks against their old context, then compare the complete source. A wrong record count or a missing zero terminator can make a correct token look absent. Check brackets and commas in the test input, and read the reported physical line before changing an instruction.
+Keep both the numeric and symbol error exits. VALUE must restore the source cursor after lookup. A forward reference is provisional only on pass one; pass two must find its definition before output is written.

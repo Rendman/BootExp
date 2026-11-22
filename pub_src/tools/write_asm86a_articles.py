@@ -3,6 +3,9 @@ from project_paths import directory_name
 from publication_names import write_page
 from pathlib import Path
 from difflib import SequenceMatcher
+from assembly_edits import source_note
+from assembler_article_notes import ASM1_NOTES
+from assembler_stream_checks import exercise
 import json,re,tomllib
 ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/asm86';Q=ROOT/'qa/asm86';C=ROOT/'site/content/bootstrap/asm86';C.mkdir(parents=True,exist_ok=True)
 cases=json.loads((Q/'checkpoints.json').read_text());examples=json.loads((Q/'examples.json').read_text())
@@ -64,7 +67,9 @@ previous=(ROOT/'workbench/asm1/A01F.ASM').read_text().splitlines();patches=[];pr
 chapters={c['number']:i for i,c in enumerate([r for r in cases if r['number']>12],1)}
 for case in cases:
  n=case['number'];collection='asma0' if n<=12 else 'asm86a';chapter=n+6 if n<=12 else chapters[n];C=ROOT/'site/content/bootstrap'/directory_name(collection);C.mkdir(parents=True,exist_ok=True);name=f'A{n:02}';oldfile='A01F.ASM' if n==1 else 'ASMA0.ASM' if n==13 else f'A{previous_number:02}.ASM';lines=(W/(name+'.ASM')).read_text().splitlines();page='01-fixed-work-files.md' if n==1 else f'{n:02}-{slug(case["title"])}.md'
- t=front(f'{chapter:02} · '+case['title'],chapter,case['description'],name+'.ASM',case.get('cartoon'))+STORY_OPENINGS.get(n,case['why'])+'\n\n## The working parts\n\n'+case['explain']+'\n\n## Enter the source\n\n'
+ t=front(f'{chapter:02} · '+case['title'],chapter,case['description'],name+'.ASM',case.get('cartoon'))+STORY_OPENINGS.get(n,case['why'])+'\n\n'
+ if n<=12:t+=source_note(oldfile,name+'.ASM','ASMKEEP.COM')
+ t+='## The working parts\n\n'+case['explain']+'\n\n## Enter the source\n\n'
  if n<=12:
   t=t.replace('+++\n\n',f'aliases = [\"/bootstrap/asm86a/{page[:-3]}/\"]\n+++\n\n',1)
   (ROOT/'site/content/bootstrap/asm86'/page).unlink(missing_ok=True)
@@ -92,11 +97,16 @@ for case in cases:
   t+=f'Copy `{name}.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK {case["binary_bytes"]:05} bytes` and PASS. This uses the preceding published ASM86, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM {name}.COM`.\n\n'
  else:
   t+=fence('dos',f'COPY {name}.ASM SOURCE.ASM\nCHECK ASMA0')+f'Require `OK RESULT.COM {case["binary_bytes"]:05} bytes` and PASS. Preserve this executable before using its fixed output name:\n\n'+fence('dos',f'COPY RESULT.COM {name}.COM')
- t+=f'VIEW.BAS must report {name}.COM length {case["binary_bytes"]} bytes. Keep that executable and source together.\n\n## Acceptance check\n\n'
+ if n>12:t+=f'VIEW.BAS must report {name}.COM length {case["binary_bytes"]} bytes. '
+ t+='Keep that executable and source together.\n\n## Acceptance check\n\n'
  if case.get('fixture_ref'):
   alias=case['fixture_ref'];t+=fence('dos',f'COPY {name}.ASM {alias}\nCOPY {name}.COM {Path(alias).stem}.COM\nCOPY {alias} SOURCE.ASM')
  else:
-  t+=f'Create T{n:02}.ASM as plain ASCII with COPY CON or an editor. Finish COPY CON with Ctrl-Z and Enter:\n\n'+fence('asm' if n not in range(3,7) else 'text',case['fixture'].replace('\r\n','\n'))+fence('dos',f'COPY T{n:02}.ASM SOURCE.ASM')
+  repeated={4:3,5:3,6:3,7:2,8:2,9:2}
+  if n in repeated:
+   t+=f'Reuse the earlier input unchanged:\n\n'+fence('dos',f'COPY T{repeated[n]:02}.ASM T{n:02}.ASM\nCOPY T{n:02}.ASM SOURCE.ASM')
+  else:
+   t+=f'Create T{n:02}.ASM as plain ASCII with COPY CON or an editor. Finish COPY CON with Ctrl-Z and Enter:\n\n'+fence('asm' if n not in range(3,7) else 'text',case['fixture'].replace('\r\n','\n'))+fence('dos',f'COPY T{n:02}.ASM SOURCE.ASM')
  t+=fence('dos',f'CHECK {name}')+'Require:\n\n'+fence('text',case.get('prefix','').replace('\r\n','\n')+f'OK {case.get("output_file","RESULT.COM")} {case["target_bytes"]:05} bytes\nPASS')
  target=case.get('output_file','RESULT.COM');shown=case['target_hex'].split()[:32]
  t+=f'In VIEW.BAS, inspect {target}. Require length **{case["target_bytes"]} bytes** and '+('these complete contents' if case['target_bytes']<=32 else 'these first thirty-two bytes')+':\n\n'+fence('text',' '.join(shown))
@@ -112,18 +122,23 @@ for case in cases:
   if n==12:t+='Continue with the separate [ASM86A collection](../../asm86a/index.html). For its construction builds, ASMA0.COM is the preceding builder. ASMKEEP.COM remains the original ASM86. ASM1 accepts PSP filenames; ASM0 keeps its fixed work files. Preserve each builder under its own name.\n\n'
   else:t+=fence('dos','COPY ASM86A.COM ASMAKEEP.COM')+'ASMAKEEP.COM is the preserved command-line assembler. ASMKEEP.COM still names the original ASM86.\n\n'
  else:
-  if not case.get('inspection_rows'):t+='The byte inspection is the stopping check for this encoding exercise. Keep the result as data.\n\n'
+  if not case.get('inspection_rows'):
+   if n>12:t+='The byte inspection is the stopping check for this encoding exercise. Keep the result as data.\n\n'
+   else:t+=('These are the copied text bytes, including their line ending. Inspect the result as data.\n\n' if n in range(3,7) else 'The byte inspection checks the accepted result. Keep it as data.\n\n')
   if n in STORY_AFTER_CHECKS:t+=STORY_AFTER_CHECKS[n]+'\n\n'
- t+='## A rejection check\n\n';bad=case['bad']
- if n in [3,4,5]:t+='After inspecting the successful copy, delete ASMA.TMP. It belongs to this copy exercise.\n\n'
- if bad['kind']=='source':
-  t+=f'Create X{n:02}.ASM with this separate source:\n\n'+fence('asm',bad['text'])+fence('dos',f'COPY X{n:02}.ASM SOURCE.ASM\nCHECK {name}')
- elif bad['kind']=='missing':t+=fence('dos',f'REN SOURCE.ASM HOLD.ASM\nCHECK {name}')+'Choose an unused HOLD.ASM name before renaming. Restore HOLD.ASM to the selected fixture name afterward.\n\n'
- else:t+=fence('dos',f'ECHO RECOVERY>ASMA.TMP\nCHECK {name}')+'TYPE ASMA.TMP afterward: its RECOVERY text must be unchanged. After inspection, delete this deliberately created test file.\n\n'
- t+='Require:\n\n'+fence('text',case.get('prefix','').replace('\r\n','\n')+f'ERROR {bad["line"]:0{10 if n>=19 else 5}} CODE {bad["code"]}\nFAIL')
- if n==3:t+='This early writer creates an empty ASMA.TMP before discovering the missing source. Inspect it and delete it before another run. RESULT.COM must be unchanged.\n\n'
- elif n in [4,5]:t+='The pre-existing RESULT.COM must remain unchanged. A missing-source failure must remove only the temporary file this run owned.\n\n'
- else:t+='The accepted RESULT.COM must remain unchanged. Keep a copy and compare it with FC /B if in doubt. Require a fresh OK before using any output.\n\n'
+ t+=exercise(n)
+ if n not in (2,8):
+  t+='## A rejection check\n\n';bad=case['bad']
+  if n in [3,4,5]:t+='After inspecting the successful copy, delete ASMA.TMP. It belongs to this copy exercise.\n\n'
+  if bad['kind']=='source':
+   t+=f'Create X{n:02}.ASM with this separate source:\n\n'+fence('asm',bad['text'])+fence('dos',f'COPY X{n:02}.ASM SOURCE.ASM\nCHECK {name}')
+  elif bad['kind']=='missing':t+=fence('dos',f'REN SOURCE.ASM HOLD.ASM\nCHECK {name}')+'Choose an unused HOLD.ASM name before renaming. Restore HOLD.ASM to the selected fixture name afterward.\n\n'
+  else:t+=fence('dos',f'ECHO RECOVERY>ASMA.TMP\nCHECK {name}')+'TYPE ASMA.TMP afterward: its RECOVERY text must be unchanged. After inspection, delete this deliberately created test file.\n\n'
+  t+='Require:\n\n'+fence('text',case.get('prefix','').replace('\r\n','\n')+f'ERROR {bad["line"]:0{10 if n>=19 else 5}} CODE {bad["code"]}\nFAIL')
+  if n==3:t+='This early writer creates an empty ASMA.TMP before discovering the missing source. Inspect it and delete it before another run. RESULT.COM must be unchanged.\n\n'
+  elif n==4:t+='The pre-existing RESULT.COM must remain unchanged. A missing-source failure must remove only the temporary file this run owned.\n\n'
+  elif n==5:t+='PREFLIGHT must leave both the pre-existing RESULT.COM and the unowned ASMA.TMP unchanged. No output file should be created or removed by this rejected run.\n\n'
+  else:t+='The accepted RESULT.COM must remain unchanged. Keep a copy and compare it with FC /B if in doubt. Require a fresh OK before using any output.\n\n'
  if case.get('extra_rejections'):
   t+=case['rejection_note']+'\n\n'
   for extra in case['extra_rejections']:t+=fence('asm',extra['text'])
@@ -138,10 +153,9 @@ for case in cases:
  if n==23:
   t+='## Reach the image boundary\n\nMake LIMIT.ASM containing `RESB 61184`. Run CHECK A23 LIMIT.ASM RESULT.COM. Require `OK RESULT.COM 61184 bytes` and PASS. VIEW.BAS must show length 61184 and zero bytes. This is storage data, never a runnable program. Preserve it; change the count to 61185 and repeat. Require `ERROR 0000000001 CODE 5` and FAIL, with the previous result unchanged. The target limit is independent of the assembler\'s output-block size.\n\n'
  t+='An unexpected PASS fails this rejection test.\n\n## If the result differs\n\n'
- if n==1:t+='Check the six spelling bytes, the table count of twenty-six, class four and selector six. Register widths must agree. The existing arithmetic encoder supplies the instruction bytes.\n'
+ if n in ASM1_NOTES:t+=ASM1_NOTES[n]+'\n'
  elif n==10:t+='Check the four appended REGTAB records, the register kind and width, and SEGMOV\'s 8CH/8EH choice. The segment number belongs in the ModR/M register field; the ordinary word-register number belongs in its r/m field. The colon lookahead must restore SI for a standalone segment operand.\n'
  elif n==11:t+='Check SEGOPERAND\'s saved cursor and ES-only selector, PREFIX for the current operand, and P1 for the first operand. OPERAND must clear PREFIX on each new operand; a store must use saved P1. A spare 26H on an ordinary access reveals a prefix that was not cleared.\n'
- elif n<13:t+='Check the saved argument names and terminators, handle ownership flags, reader cursors at each pass, and the current output count. Inspect file length as well as the leading bytes. A copied data file is not an executable proof.\n'
  elif n<20:t+='Check ES at helper exits, the saved page segment and offset, record padding, and the complete spelling comparison. Check carry after every DOS memory call. A successful allocation does not initialize its contents.\n'
  elif n<25:t+='Check saved expression values across EMIT, the unresolved-reference flag, and fixed statement lengths in both passes. Quoted text bypasses mnemonic folding. A reserve count must be checked before multiplication or output.\n'
  else:t+='Check descriptor width, segment selection, ModR/M bits, displacement order, and registers changed by EMIT. Use the printed bytes to distinguish a parser mistake from an encoding mistake. Keep the branch size the same in both passes.\n'

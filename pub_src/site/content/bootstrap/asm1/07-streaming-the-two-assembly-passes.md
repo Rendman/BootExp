@@ -11,11 +11,13 @@ url = "/bootstrap/asma0/07-streaming-the-two-assembly-passes/"
 
 I have checked the writer with copied characters. Now I can put the parser back in the path and send it assembly source again. Pass one will count the instruction bytes; pass two will feed them to the block writer as they are made.
 
+**Starting source:** `A06.ASM`. **Save as:** `A07.ASM`. **Build with:** `ASMKEEP.COM`.
+
 ## The working parts
 
 Pass one records definitions and counts instruction bytes without writing. Its final PC is saved in ENDPC. Pass two creates the temporary output, reopens the source, emits incrementally, and must finish at the same PC. FLUSH, CLOSEOUT, and COMMIT run only after successful source close.
 
-PC describes the target; OUTCNT describes the current block. They are independent. Input, parser, or range errors remove this run's temporary file and preserve an older RESULT.COM. The accepted language remains the published ASM0 vocabulary.
+PC describes the target; OUTCNT describes the current block. They are independent. Input, parser, or range errors remove this run's temporary file and preserve the older selected result. The accepted language is ASM0's vocabulary plus the XOR forms introduced in A01.ASM.
 
 ## Enter the source
 
@@ -219,18 +221,14 @@ MOV [PASS],AL
 
 Copy `A07.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK 03454 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM A07.COM`.
 
-VIEW.BAS must report A07.COM length 3454 bytes. Keep that executable and source together.
+Keep that executable and source together.
 
 ## Acceptance check
 
-Create T07.ASM as plain ASCII with COPY CON or an editor. Finish COPY CON with Ctrl-Z and Enter:
+Reuse the earlier input unchanged:
 
-```asm
-MOV DL,41H
-MOV AH,2
-INT 21H
-MOV AX,4C00H
-INT 21H
+```dos
+COPY T02.ASM T07.ASM
 ```
 
 ```dos
@@ -250,7 +248,7 @@ In VIEW.BAS, inspect RESULT.COM. Require length **11 bytes** and these complete 
 B2 41 B4 02 CD 21 B8 00 4C CD 21
 ```
 
-The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
+The byte inspection checks the accepted result. Keep it as data.
 
 The instruction bytes match the earlier result. I trace them from the parser through EMIT to the disk file; they no longer accumulate in a buffer for the whole program. I can erase that buffer from the memory sketch.
 
@@ -279,4 +277,4 @@ An unexpected PASS fails this rejection test.
 
 ## If the result differs
 
-Check the saved argument names and terminators, handle ownership flags, reader cursors at each pass, and the current output count. Inspect file length as well as the leading bytes. A copied data file is not an executable proof.
+Reset the input cursors and PC for each pass. Save ENDPC after pass one, create output only for pass two and compare the final position before flushing and publishing.

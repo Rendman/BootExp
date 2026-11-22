@@ -42,7 +42,7 @@ OVERVIEWS = {
    '**Larger assembly capacity:** Retain 2,048 symbols and emit as many as 61,184 bytes so the seed can build a substantially larger assembler.',
    '**XOR:** Add one arithmetic-table record so the successor assembler can hash symbol names; explain its spelling, dispatch class and operation selector in a separate step.',
    '**Segment access:** Add segment-register MOV and ES overrides on the existing MOV memory forms so the assembler can work with separately allocated storage.',
-   '**Checked publication:** Write a temporary file and use backup/recovery names so rejected source does not replace an accepted RESULT.COM.',
+   '**Checked publication:** Write a temporary file and use backup/recovery names so rejected source does not replace the accepted result.',
   ],
   'The complete-image output buffer; streaming removes the resident output-size bottleneck. SOURCE.ASM/RESULT.COM remain no-argument defaults; COPY is still needed when building with ASM0. ES, CS, SS and DS also become reserved names so labels cannot be confused with the new segment-register operands.'),
  'asm86a': (

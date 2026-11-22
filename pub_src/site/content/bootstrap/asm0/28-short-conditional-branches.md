@@ -12,6 +12,8 @@ url = "/bootstrap/asm86/28-short-conditional-branches/"
 
 Conditional jumps are still missing from the language ASM0 accepts, although I have used them throughout its source. I'll add the short conditions and their distance checks. Then I can look at the whole assembler listing and ask whether every line is within its vocabulary.
 
+**Starting source:** `AS27.ASM`. **Save as:** `AS28.ASM`. **Build with:** `BOOTASM.BAS`.
+
 ## How it works
 
 Class eight carries the condition opcode: 72H through 77H for unsigned comparisons. JE and JNE test equality for either interpretation. The reference gives the flag expressions for every accepted spelling.
@@ -26,21 +28,38 @@ The complete test displays 0, 1, and 2. CMP DL,33H sets the flags for JB; no fla
 
 ## Source changes
 
-Copy `AS27.ASM` to `AS28.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS27.ASM` to `AS28.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1: following `OPTAB:`
+### Change 1 · `OPTAB:`
 
-Unchanged code immediately before this edit:
+Find the unique label `OPTAB:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+OPTAB:
+DB 68,66,0,0,0,0,1,0
+DB 68,87,0,0,0,0,1,1
+DB 82,69,84,0,0,0,2,195
+DB 67,76,68,0,0,0,2,252
+DB 76,79,68,83,66,0,2,172
+DB 83,84,79,83,66,0,2,170
+DB 77,79,86,0,0,0,3,0
+DB 65,68,68,0,0,0,4,0
+DB 79,82,0,0,0,0,4,1
+DB 65,78,68,0,0,0,4,4
+DB 83,85,66,0,0,0,4,5
+DB 67,77,80,0,0,0,4,7
+DB 73,78,67,0,0,0,5,64
+DB 68,69,67,0,0,0,5,72
+DB 80,85,83,72,0,0,5,80
+DB 80,79,80,0,0,0,5,88
 DB 73,78,84,0,0,0,6,205
 DB 67,65,76,76,0,0,7,232
 DB 74,77,80,0,0,0,7,233
 ```
 
-Insert after old physical line 1045, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 DB 74,66,0,0,0,0,8,114
@@ -51,24 +70,31 @@ DB 74,66,69,0,0,0,8,118
 DB 74,65,0,0,0,0,8,119
 ```
 
-### Change 2: following `NEARJUMP:`
+### Change 2 · `NEARJUMP:`
 
-Unchanged code immediately before this edit:
+Find the unique label `NEARJUMP:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+NEARJUMP:
+CALL SCAN
+CALL VALUE
+MOV DX,[PC]
+ADD DX,3
+SUB AX,DX
+PUSH AX
+MOV AL,[OP]
 CALL EMIT
 POP AX
 CALL EMITWORD
 ```
 
-Insert after old physical line 651, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 CALL FINISH
 RET
-
 SHORTJUMP:
 CALL SCAN
 CALL VALUE
@@ -92,19 +118,17 @@ POP AX
 CALL EMIT
 ```
 
-### Change 3: following `STNEXT7:`
+### Change 3 · `STNEXT7:`
 
-Unchanged code immediately before this edit:
+Find the unique label `STNEXT7:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CALL NEARJUMP
-RET
 STNEXT7:
 ```
 
-Insert after old physical line 583, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 CMP AL,8
@@ -114,9 +138,9 @@ RET
 STNEXT8:
 ```
 
-### Change 4: following `INSTRUCTION:`
+### Change 4 · `INSTRUCTION:`
 
-Unchanged code immediately before this edit:
+Find the unique label `INSTRUCTION:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 INSTRUCTION:
@@ -124,13 +148,15 @@ DEC SI
 MOV BX,OPTAB
 ```
 
-Remove these exact old lines (physical lines 544–544 of `AS27.ASM`):
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 MOV CX,19
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 MOV CX,25
@@ -210,4 +236,4 @@ FAIL
 
 ## If the result differs
 
-Check the edited blocks against their old context, then compare the complete source. A wrong record count or a missing zero terminator can make a correct token look absent. Check brackets and commas in the test input, and read the reported physical line before changing an instruction.
+Compute short reach from PC plus two. Check the signed-byte range on pass two and emit only its low byte. In a runnable loop, the conditional must use the flags from its intended comparison.

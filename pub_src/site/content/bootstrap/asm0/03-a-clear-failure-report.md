@@ -10,6 +10,8 @@ url = "/bootstrap/asm86/03-a-clear-failure-report/"
 
 BASIC has been reporting my mistakes with a line number. The assembly program will need an error path of its own, with a reason I can recognize and a failure status DOS can pass to CHECK.BAT. I want that path ready before the source reader starts doing real work.
 
+**Starting source:** `AS02.ASM`. **Save as:** `AS03.ASM`. **Build with:** `BOOTASM.BAS`.
+
 ## How it works
 
 ERROR takes a small reason code in AX. It saves AL in ERRCODE before displaying any text, then prints ERROR, the five-digit LINENO value, and CODE followed by the reason digit. It finishes with DOS function 4CH and return code one. DOS closes the process's files on termination.
@@ -22,47 +24,38 @@ To exercise the rejection exit on an otherwise roomy machine, save a separate co
 
 ## Source changes
 
-Copy `AS02.ASM` to `AS03.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS02.ASM` to `AS03.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1: following `DIVEND:`
+### Change 1 · `DIVEND:`
 
-Unchanged code immediately before this edit:
+Find the unique label `DIVEND:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-DW 10000,1000,100,10,1
-
 DIVEND:
 ```
 
-Insert after old physical line 63, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
-
 LINENO:
 DW 0
-
 ERRCODE:
 DB 0
-
 READYMSG:
 DB 82,69,65,68,89,13,10,36
 ```
 
-### Change 2: following `PRINTDIGIT:`
+### Change 2 · `NEWLINE:`
 
-Unchanged code immediately before this edit:
+Find the unique label `NEWLINE:`. Insert the new source immediately before this existing label:
 
 ```asm
-POP AX
-RET
-
+NEWLINE:
 ```
 
-Insert after old physical line 56, before the following old line.
-
-Insert this source:
+Insert:
 
 ```asm
 ERROR:
@@ -82,26 +75,24 @@ MOV DX,NEWLINE
 CALL TEXT
 MOV AX,4C01H
 INT 21H
-
 ERRMSG:
 DB 69,82,82,79,82,32,36
-
 CODEMSG:
 DB 32,67,79,68,69,32,36
-
 ```
 
-### Change 3: following `START:`
+### Change 3 · `START:`
 
-Unchanged code immediately before this edit:
+Find the unique label `START:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-; ASM86 construction checkpoint. Plain BOOTASM source.
 START:
 CLD
 ```
 
-Remove these exact old lines (physical lines 4–14 of `AS02.ASM`):
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 MOV AX,0
@@ -117,7 +108,7 @@ CALL NUMBER
 MOV DX,NEWLINE
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 CMP SP,0FFFEH
@@ -165,4 +156,4 @@ FAIL
 
 ## If the result differs
 
-Check the decimal character bytes, the dollar-sign terminators, and the order of saved registers. A RET must match a CALL; the top-level exit uses DOS function 4CH.
+Save the reason in ERRCODE before TEXT or NUMBER is called. If the normal program reports code 7, check its entry SP requirement; keep the deliberately altered stack test in SMALL.ASM.

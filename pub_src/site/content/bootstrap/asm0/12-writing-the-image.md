@@ -11,6 +11,8 @@ url = "/bootstrap/asm86/12-writing-the-image/"
 
 I have a buffer I can inspect. Now I need DOS to make the file from it. In BASIC I wrote one-byte records; here I can ask DOS to write the collected block and tell me how much it accepted.
 
+**Starting source:** `AS11.ASM`. **Save as:** `AS12.ASM`. **Build with:** `BOOTASM.BAS`.
+
 ## How it works
 
 WRITEOUT passes the fixed RESULT.COM name at RESNAME to DOS function 3CH. CX=0 requests an ordinary file. Creation truncates an existing file exactly; there is no BASIC sequential-file end marker or .COM header.
@@ -23,85 +25,67 @@ Input errors leave an older output untouched because creation has not occurred. 
 
 ## Source changes
 
-Copy `AS11.ASM` to `AS12.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS11.ASM` to `AS12.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1: following `ERRCODE:`
+### Change 1 · `BUFFERMSG:`
 
-Unchanged code immediately before this edit:
+Find the unique label `BUFFERMSG:`. The old block below starts at that label.
 
-```asm
-
-ERRCODE:
-DB 0
-```
-
-Remove these exact old lines (physical lines 426–428 of `AS11.ASM`):
+Remove this existing source:
 
 ```asm
-
 BUFFERMSG:
 DB 66,117,102,102,101,114,101,100,32,36
 ```
 
-No replacement lines are needed.
+### Change 2 · `HANDLE:`
 
-### Change 2: following `FNAME:`
-
-Unchanged code immediately before this edit:
+Find the unique label `HANDLE:`. Insert the new source immediately before this existing label:
 
 ```asm
-
-FNAME:
-DB 83,79,85,82,67,69,46,65,83,77,0
+HANDLE:
 ```
 
-Insert after old physical line 395, before the following old line.
-
-Insert this source:
+Insert:
 
 ```asm
-
 RESNAME:
 DB 82,69,83,85,76,84,46,67,79,77,0
 ```
 
-### Change 3: following `ERROR:`
+### Change 3 · `BYTEMSG:`
 
-Unchanged code immediately before this edit:
+Find the unique label `BYTEMSG:`. Insert the new source immediately before this existing label:
 
 ```asm
-MOV AX,4C01H
-INT 21H
-
+BYTEMSG:
 ```
 
-Insert after old physical line 376, before the following old line.
-
-Insert this source:
+Insert:
 
 ```asm
 OKMSG:
 DB 79,75,32,36
-
 ```
 
-### Change 4: following `CLOSEFILE:`
+### Change 4 · `CLOSEFILE:`
 
-Unchanged code immediately before this edit:
+Find the unique label `CLOSEFILE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+CLOSEFILE:
+MOV BX,[HANDLE]
 MOV AH,3EH
 INT 21H
 JB FILEBAD
 ```
 
-Insert after old physical line 57, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 RET
-
 WRITEOUT:
 MOV DX,RESNAME
 MOV CX,0
@@ -131,17 +115,18 @@ MOV DX,BYTEMSG
 CALL TEXT
 ```
 
-### Change 5: following `DRIVERDONE:`
+### Change 5 · `DRIVERDONE:`
 
-Unchanged code immediately before this edit:
+Find the unique label `DRIVERDONE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-JMP DRIVERLINE
 DRIVERDONE:
 CALL CLOSEFILE
 ```
 
-Remove these exact old lines (physical lines 28–34 of `AS11.ASM`):
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 MOV DX,BUFFERMSG
@@ -153,11 +138,13 @@ MOV DX,BYTEMSG
 CALL TEXT
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 CALL WRITEOUT
 ```
+
+Keep the following `GOOD:` label and the source after it in place.
 
 ## Build and stop
 
@@ -226,4 +213,4 @@ FAIL
 
 ## If the result differs
 
-Check the edited blocks against their old context, then compare the complete source. A wrong record count or a missing zero terminator can make a correct token look absent. Check brackets and commas in the test input, and read the reported physical line before changing an instruction.
+Check that the DOS write count is PC minus 0100H, not PC itself. Test both carry and AX against the requested count, then check the close; an older OK report cannot establish that this write succeeded.

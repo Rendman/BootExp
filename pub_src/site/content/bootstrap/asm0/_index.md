@@ -26,7 +26,7 @@ I'll call it **ASM0**. BOOTASM will build its first executable. I want to reach 
 
 ## The construction
 
-This is the assembly construction, on the same 8086/8088 and DOS workbench. It begins with a short message program. File handles, physical lines, tokens, tables, numeric values, labels, and instruction encodings each receive their own stopping point. Twenty-eight construction checkpoints lead to the self-assembly test. A language reference and three complete programs close the collection.
+This is the assembly construction, on the same 8086/8088 and DOS workbench. It begins with a short message program. File handles, physical lines, tokens, tables, numeric values, labels, and instruction encodings each receive their own stopping point. Articles 01–28 construct the saved checkpoints. Article 29 proves self-assembly and saves ASM0.COM; reference 30 and the three complete programs in article 31 close the collection.
 
 The accepted language stays deliberately small: byte and word data, register operations, two simple memory forms, and selected control transfers. ASM0 is neither a complete Intel assembler nor a change of processor. Its native implementation raises the output limit to 8,192 bytes and supplies a DOS success or failure status. The exact language and resource contract provide the foundation for ASM1, the streaming seed used to build ASM86.
 

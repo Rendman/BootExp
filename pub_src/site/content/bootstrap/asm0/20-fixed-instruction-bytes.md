@@ -11,6 +11,8 @@ url = "/bootstrap/asm86/20-fixed-instruction-bytes/"
 
 We shall add machine instructions whose complete encodings are one fixed byte each.
 
+**Starting source:** `AS19.ASM`. **Save as:** `AS20.ASM`. **Build with:** `BOOTASM.BAS`.
+
 ## How it works
 
 The new OPTAB records have class two and carry their opcode in the parameter byte. FIXED sends that byte through EMIT, then calls FINISH to reject an extra operand.
@@ -21,11 +23,11 @@ FIXED changes AL, PC, OUTPTR, and the scanner scratch state. It receives its opc
 
 ## Source changes
 
-Copy `AS19.ASM` to `AS20.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS19.ASM` to `AS20.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1: following `OPTAB:`
+### Change 1 · `OPTAB:`
 
-Unchanged code immediately before this edit:
+Find the unique label `OPTAB:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 OPTAB:
@@ -33,9 +35,9 @@ DB 68,66,0,0,0,0,1,0
 DB 68,87,0,0,0,0,1,1
 ```
 
-Insert after old physical line 735, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 DB 82,69,84,0,0,0,2,195
@@ -44,42 +46,43 @@ DB 76,79,68,83,66,0,2,172
 DB 83,84,79,83,66,0,2,170
 ```
 
-### Change 2: following `DATASEP:`
+### Change 2 · `DATASEP:`
 
-Unchanged code immediately before this edit:
+Find the unique label `DATASEP:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+DATASEP:
+CALL SCAN
+MOV AL,[2300H]
+CMP AL,44
 JE DATAITEM
 CMP AL,0
 JNE SYNTAXBAD
 ```
 
-Insert after old physical line 530, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 RET
-
 FIXED:
 MOV AL,[OP]
 CALL EMIT
 CALL FINISH
 ```
 
-### Change 3: following `STNEXT1:`
+### Change 3 · `STNEXT1:`
 
-Unchanged code immediately before this edit:
+Find the unique label `STNEXT1:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CALL DATAITEM
-RET
 STNEXT1:
 ```
 
-Insert after old physical line 508, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 CMP AL,2
@@ -89,9 +92,9 @@ RET
 STNEXT2:
 ```
 
-### Change 4: following `INSTRUCTION:`
+### Change 4 · `INSTRUCTION:`
 
-Unchanged code immediately before this edit:
+Find the unique label `INSTRUCTION:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 INSTRUCTION:
@@ -99,13 +102,15 @@ DEC SI
 MOV BX,OPTAB
 ```
 
-Remove these exact old lines (physical lines 489–489 of `AS19.ASM`):
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 MOV CX,2
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 MOV CX,6
@@ -180,4 +185,4 @@ FAIL
 
 ## If the result differs
 
-Check the edited blocks against their old context, then compare the complete source. A wrong record count or a missing zero terminator can make a correct token look absent. Check brackets and commas in the test input, and read the reported physical line before changing an instruction.
+Check each class-two table parameter against the expected opcode. FIXED emits that byte and FINISH rejects an extra operand. These fragments have no prepared stack or index registers for execution.

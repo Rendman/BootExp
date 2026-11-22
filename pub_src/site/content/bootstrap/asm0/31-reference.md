@@ -1,5 +1,5 @@
 +++
-title = "ASM0 reference"
+title = "30 \u00b7 ASM0 reference"
 weight = 30
 description = "The native assembler's source grammar, byte encodings, memory contract, and diagnostics."
 download = "ASM0.ASM"
@@ -152,7 +152,7 @@ ASM0 checks emitted length, source bounds, symbol bounds, and its own entry stac
 
 | Code | Meaning and likely cause |
 |---|---|
-| 1 | Syntax: unknown instruction, punctuation, extra operand, token too long, wrong register width/class, or bad base name |
+| 1 | Syntax: unknown instruction, punctuation, extra operand, token too long, wrong register width/class |
 | 2 | Numeric spelling or overflow: malformed numeric digits or a value above 65535 |
 | 3 | Symbol/value: malformed name, missing value, reserved register name, undefined reference, duplicate definition, or changed definition address |
 | 4 | Range: byte above 255 or conditional displacement outside -128 through +127 |
@@ -164,4 +164,4 @@ A token beginning with a digit follows numeric checks; another token follows nam
 
 ## Printed references
 
-Consult Intel Corporation, *The 8086 Family User's Manual*, October 1979, Chapter 2 and the instruction encoding tables. For the file and console interfaces consult the MS-DOS 3.10 programmer's reference supplied for the machine, INT 21H functions 02H, 09H, 0AH, 3CH, 3DH, 3EH, 3FH, 40H, and 4CH. Check the exact manual printing against your DOS distribution. Those manuals describe more facilities than this assembler accepts.
+Consult Intel Corporation, *The 8086 Family User's Manual*, October 1979, Chapter 2 and the instruction encoding tables. For the file and console interfaces consult the MS-DOS 3.10 programmer's reference supplied for the machine, INT 21H functions 02H, 09H, 3CH, 3DH, 3EH, 3FH, 40H, and 4CH. Check the exact manual printing against your DOS distribution. Those manuals describe more facilities than this assembler accepts.

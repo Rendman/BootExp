@@ -11,6 +11,8 @@ url = "/bootstrap/asma0/01-fixed-work-files/"
 
 I have followed the names from the PSP to the file services and into the success report. Now I turn to the arithmetic table. The next assembler will hash names, and I need to account for the XOR instruction it will use.
 
+**Starting source:** `A01F.ASM`. **Save as:** `A01.ASM`. **Build with:** `ASMKEEP.COM`.
+
 ## The working parts
 
 The preceding A01F source already selects PSP filenames, reports the selected result and records input-handle state. This step adds only XOR recognition. The instruction-table count changes from twenty-five to twenty-six, and one eight-byte record is appended before SRCNAME.
@@ -67,7 +69,7 @@ MOV CX,26
 
 Copy `A01.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK 02939 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM A01.COM`.
 
-VIEW.BAS must report A01.COM length 2939 bytes. Keep that executable and source together.
+Keep that executable and source together.
 
 ## Acceptance check
 
@@ -97,7 +99,7 @@ In VIEW.BAS, inspect RESULT.COM. Require length **11 bytes** and these complete 
 32 C0 33 C3 80 F0 80 81 F0 34 12
 ```
 
-The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
+The byte inspection checks the accepted result. Keep it as data.
 
 ## A rejection check
 

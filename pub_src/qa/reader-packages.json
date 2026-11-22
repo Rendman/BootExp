@@ -167,6 +167,8 @@
       "VIEW.BAS": "VIEW.BAS",
       "CHECK.BAT": "CHECK.BAT",
       "SYMS.BAS": "SYMS.BAS",
+      "STREAM.BAS": "STREAM.BAS",
+      "LINES.BAS": "LINES.BAS",
       "README.TXT": "README.TXT",
       "A01A.ASM": "A01A.ASM",
       "T01A.ASM": "T01A.ASM",

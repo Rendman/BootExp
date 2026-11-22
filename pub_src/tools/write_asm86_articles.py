@@ -1,7 +1,8 @@
 """Lay out the authored explanations and exact source edits for publication."""
 from publication_names import write_page
 from pathlib import Path
-from difflib import SequenceMatcher
+from assembly_edits import patch,source_note
+from assembler_article_notes import ASM0_NOTES
 import json,re,tomllib
 ROOT=Path(__file__).resolve().parents[1]
 WORK=ROOT/'workbench/asm0';CONTENT=ROOT/'site/content/bootstrap/asm0'
@@ -36,7 +37,7 @@ def front(title,weight,description,download,cartoon=None):
  if cartoon:s+=f'cartoon = "{cartoon}"\n'
  return s+'+++\n\n'
 def view(name,raw):
- return (f'Inspect `{name}.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `{name}.COM`, and require a length of **{len(raw)} bytes** with these hexadecimal bytes:\n\n'
+ return (f'Inspect `{name}.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `{name}.COM`, and require a length of **{len(raw)} '+('byte' if len(raw)==1 else 'bytes')+'** with these hexadecimal bytes:\n\n'
          +fence('text',' '.join(f'{b:02X}' for b in raw))+'Use `SYSTEM` to return to DOS.\n\n')
 # Keep earlier construction addresses as aliases when removing a whole lesson.
 oldpages={}
@@ -51,30 +52,15 @@ previous=[];patches=[]
 for case in CASES:
  n=case['number'];name=f'AS{n:02}';test=f'T{n:02}';source=(WORK/case['source']).read_text();lines=source.splitlines()
  text=front(f'{n:02} · '+case['title'],n,case['description'],case['source'],case['cartoon'])+STORY_OPENINGS.get(n,case['why'])+'\n\n'
+ text+=source_note(f'AS{n-1:02}.ASM' if n>1 else None,name+'.ASM','BOOTASM.BAS')
  text+='## How it works\n\n'+case['explain']+'\n\n## Source changes\n\n'
  changes=[]
  if n==1:
   text+='Enter this complete source as `AS01.ASM`. The labels and instruction lines are actual source; there are no printed margin numbers.\n\n'+fence('asm',source)
   changes=[dict(tag='insert',a1=0,a2=0,old=[],new=lines,context=[])]
  else:
-  text+=f'Copy `AS{n-1:02}.ASM` to `{name}.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.\n\n'
-  ops=[op for op in SequenceMatcher(None,previous,lines,autojunk=False).get_opcodes() if op[0]!='equal']
-  if n==19:
-   # Show both error exits instead of reusing an unprinted trailing jump.
-   ops=[('replace',a1,a2+1,b1,b2+1) if tag=='insert' and previous[a1:a1+1]==['JMP ERROR'] else (tag,a1,a2,b1,b2) for tag,a1,a2,b1,b2 in ops]
-  for i,(tag,a1,a2,b1,b2) in enumerate(reversed(ops),1):
-   old=previous[a1:a2];new=lines[b1:b2];context=previous[max(0,a1-3):a1]
-   labels=[s for s in previous[:a1] if re.fullmatch('[A-Z][A-Z0-9_]*:',s)]
-   location=f'following `{labels[-1]}`' if labels else 'at the beginning'
-   text+=f'### Change {i}: {location}\n\n'
-   if context:text+='Unchanged code immediately before this edit:\n\n'+fence('asm','\n'.join(context),keep=True)
-   if old:text+=f'Remove these exact old lines (physical lines {a1+1}–{a2} of `AS{n-1:02}.ASM`):\n\n'+fence('asm','\n'.join(old),keep=True)
-   else:text+=f'Insert after old physical line {a1}, before the following old line.\n\n'
-   if new:text+=('Put this source in their place:\n\n' if old else 'Insert this source:\n\n')+fence('asm','\n'.join(new),keep=True)
-   else:text+='No replacement lines are needed.\n\n'
-   if n==19 and old==['JMP ERROR']:
-    text+='The first `JMP ERROR` in this replacement still terminates `NUMBERBAD`; the final `JMP ERROR` terminates `VALUEBAD`. Keep both. The existing blank line and `DEFINE:` must follow the final jump.\n\n'
-   changes.append(dict(tag=tag,a1=a1,a2=a2,old=old,new=new,context=context))
+  text+=f'Copy `AS{n-1:02}.ASM` to `{name}.ASM`. '
+  printed,changes=patch(previous,lines,complete_error_exits=(n==19));text+=printed
  text+='## Build and stop\n\n'
  text+=f'Use the BASIC assembler prepared in the workbench guide:\n\n'+fence('dos',f'COPY {name}.ASM SOURCE.ASM\nGWBASIC BOOTASM.BAS')
  text+=f'Require `OK RESULT.COM {case["binary_bytes"]} bytes`; BASIC may add spaces around the count. If the build reports an error, stop and compare the edited source. Use `SYSTEM` to return to DOS, then `COPY RESULT.COM {name}.COM`. Save this source and executable as a working stopping point.\n\n'
@@ -104,13 +90,12 @@ for case in CASES:
   text+='Require this diagnostic followed by the checker\'s `FAIL`:\n\n'+fence('text',f'ERROR {bad["line"]:05} CODE {bad["code"]}\nFAIL')
   text+='`PASS` here means the rejection did not happen. Do not use an older output file as evidence of acceptance; require a new `OK` before inspecting output.\n\n'
  text+='## If the result differs\n\n'
- if n<4:text+='Check the decimal character bytes, the dollar-sign terminators, and the order of saved registers. A RET must match a CALL; the top-level exit uses DOS function 4CH.\n'
- else:text+='Check the edited blocks against their old context, then compare the complete source. A wrong record count or a missing zero terminator can make a correct token look absent. Check brackets and commas in the test input, and read the reported physical line before changing an instruction.\n'
+ text+=ASM0_NOTES[n]+'\n'
  filename=f'{n:02}-{slug(case["title"])}.md'
  routes=sorted(set(oldpages.get(slug(case['title']),[]))-{'/bootstrap/asm86/'+Path(filename).stem+'/'})
  if routes:text=text.replace('+++\n\n','aliases = '+json.dumps(routes)+'\n+++\n\n',1)
  write_page(CONTENT/filename,text)
- patches.append(dict(number=n,page=filename,changes=changes))
+ patches.append(dict(number=n,page=filename,changes=changes,edit_style='complete' if n==1 else 'labels'))
  previous=lines
 (ROOT/'qa/asm0/article-patches.json').write_text(json.dumps(patches,indent=2)+'\n')
 print('Prepared 28 construction articles and their exact printed-edit record.')

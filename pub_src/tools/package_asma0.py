@@ -2,12 +2,15 @@
 from project_paths import directory_name
 from pathlib import Path
 import json,shutil,zipfile
+from assembler_article_notes import STREAM_SOURCE
 ROOT=Path(__file__).resolve().parents[1];W=ROOT/'workbench/asm1';D=ROOT/'site/downloads/asm1';Q=ROOT/'qa/asm1'
 for p in [W,D,Q]:p.mkdir(parents=True,exist_ok=True)
 for name,group in [('BOOTASM.BAS','bootasm'),('ASM86.ASM','asm86'),('VIEW.BAS','bootasm'),('CHECK.BAT','bootasm'),('ASMA0.ASM','asm86a')]:shutil.copyfile(ROOT/'workbench'/directory_name(group)/name,W/name)
 syms=(ROOT/'workbench/asm86/SYMS.BAS').read_text().replace('10 N=8192','10 N=2048');(W/'SYMS.BAS').write_bytes(syms.replace('\n','\r\n').encode('ascii'))
+(W/'STREAM.BAS').write_bytes(STREAM_SOURCE.replace('\n','\r\n').encode('ascii'))
+(W/'LINES.BAS').write_bytes(STREAM_SOURCE.replace('N=1024','N=4000').replace('"DB 65"','";"').replace('\n','\r\n').encode('ascii'))
 intro=json.loads((Q/'intro.json').read_text())
-files=['BOOTASM.BAS','ASM86.ASM','ASMA0.ASM','VIEW.BAS','CHECK.BAT','SYMS.BAS','README.TXT']
+files=['BOOTASM.BAS','ASM86.ASM','ASMA0.ASM','VIEW.BAS','CHECK.BAT','SYMS.BAS','STREAM.BAS','LINES.BAS','README.TXT']
 for step in intro:
  files.append(step['id']+'.ASM')
  if 'fixture' in step:files.append('T'+step['id'][1:]+'.ASM')
@@ -36,6 +39,8 @@ ASMA0.ASM: complete seed, identical to A12.ASM.
 Tnn.ASM and Xnn.ASM: exact acceptance/rejection inputs where applicable.
 VIEW.BAS and CHECK.BAT: unchanged inspection and DOS status helpers.
 SYMS.BAS: source-text generator for the 2048-definition exercise.
+STREAM.BAS: source-text generator for block and source-count exercises.
+LINES.BAS: saved comment-generating version from the source-count lesson.
 HELLO.ASM, MEMORY.ASM, COUNT.ASM: complete executable examples.
 
 Use your own DOS 3.10 and period GW-BASIC interpreter; note its banner.

@@ -11,6 +11,8 @@ url = "/bootstrap/asm86/27-near-calls-and-jumps/"
 
 I've been writing `CALL` and `JMP` in ASM0's implementation all along, because BOOTASM can assemble them. ASM0 itself still cannot read those instructions. I want its accepted language to catch up with the source I'm using to write it.
 
+**Starting source:** `AS26.ASM`. **Save as:** `AS27.ASM`. **Build with:** `BOOTASM.BAS`.
+
 ## How it works
 
 Class seven carries E8H for CALL or E9H for JMP. NEARJUMP reads the destination, subtracts PC plus three, and emits the opcode and a word displacement. The 8086/8088 subtraction already wraps into the unsigned sixteen-bit pattern needed for a backward transfer.
@@ -23,45 +25,64 @@ The complete test calls SAY, which displays C, then returns to the termination c
 
 ## Source changes
 
-Copy `AS26.ASM` to `AS27.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS26.ASM` to `AS27.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1: following `OPTAB:`
+### Change 1 · `OPTAB:`
 
-Unchanged code immediately before this edit:
+Find the unique label `OPTAB:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+OPTAB:
+DB 68,66,0,0,0,0,1,0
+DB 68,87,0,0,0,0,1,1
+DB 82,69,84,0,0,0,2,195
+DB 67,76,68,0,0,0,2,252
+DB 76,79,68,83,66,0,2,172
+DB 83,84,79,83,66,0,2,170
+DB 77,79,86,0,0,0,3,0
+DB 65,68,68,0,0,0,4,0
+DB 79,82,0,0,0,0,4,1
+DB 65,78,68,0,0,0,4,4
+DB 83,85,66,0,0,0,4,5
+DB 67,77,80,0,0,0,4,7
+DB 73,78,67,0,0,0,5,64
+DB 68,69,67,0,0,0,5,72
 DB 80,85,83,72,0,0,5,80
 DB 80,79,80,0,0,0,5,88
 DB 73,78,84,0,0,0,6,205
 ```
 
-Insert after old physical line 1024, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 DB 67,65,76,76,0,0,7,232
 DB 74,77,80,0,0,0,7,233
 ```
 
-### Change 2: following `INTERRUPT:`
+### Change 2 · `INTERRUPT:`
 
-Unchanged code immediately before this edit:
+Find the unique label `INTERRUPT:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+INTERRUPT:
+CALL SCAN
+CALL VALUE
+PUSH AX
+MOV AL,205
 CALL EMIT
 POP AX
 CALL BYTEVALUE
 ```
 
-Insert after old physical line 632, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 CALL FINISH
 RET
-
 NEARJUMP:
 CALL SCAN
 CALL VALUE
@@ -75,19 +96,17 @@ POP AX
 CALL EMITWORD
 ```
 
-### Change 3: following `STNEXT6:`
+### Change 3 · `STNEXT6:`
 
-Unchanged code immediately before this edit:
+Find the unique label `STNEXT6:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CALL INTERRUPT
-RET
 STNEXT6:
 ```
 
-Insert after old physical line 578, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 CMP AL,7
@@ -97,9 +116,9 @@ RET
 STNEXT7:
 ```
 
-### Change 4: following `INSTRUCTION:`
+### Change 4 · `INSTRUCTION:`
 
-Unchanged code immediately before this edit:
+Find the unique label `INSTRUCTION:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 INSTRUCTION:
@@ -107,13 +126,15 @@ DEC SI
 MOV BX,OPTAB
 ```
 
-Remove these exact old lines (physical lines 544–544 of `AS26.ASM`):
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 MOV CX,17
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 MOV CX,19
@@ -192,4 +213,4 @@ FAIL
 
 ## If the result differs
 
-Check the edited blocks against their old context, then compare the complete source. A wrong record count or a missing zero terminator can make a correct token look absent. Check brackets and commas in the test input, and read the reported physical line before changing an instruction.
+Compute the displacement from PC plus three and retain it while emitting E8H or E9H. For CALL, the called routine must restore its saved words before RET uses the return offset.

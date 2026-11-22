@@ -43,7 +43,7 @@ COPY RESULT.COM HELLO.COM
 CHECK HELLO
 ```
 
-It displays "Hello\r\n" and the checker reports PASS. Here `\r\n` denotes carriage return and line feed.
+It displays `Hello`, followed by carriage return and line feed, and the checker reports PASS.
 
 For a separate rejection, copy the source to BAD.ASM and replace the first `INT 21H` with `INT 256`. Run CHECK ASM1 BAD.ASM RESULT.COM. Require `ERROR 00003 CODE 4` and FAIL. The accepted RESULT.COM must remain unchanged. An unexpected PASS fails this test. Restore the accepted source before building again.
 
@@ -83,7 +83,7 @@ COPY RESULT.COM MEMORY.COM
 CHECK MEMORY
 ```
 
-It displays "M" and the checker reports PASS. Here `\r\n` denotes carriage return and line feed.
+It displays `M` and the checker reports PASS.
 
 For a separate rejection, copy the source to BAD.ASM and replace the first `MOV AL,[BX]` with `MOV AX,AL`. Run CHECK ASM1 BAD.ASM RESULT.COM. Require `ERROR 00002 CODE 1` and FAIL. The accepted RESULT.COM must remain unchanged. An unexpected PASS fails this test. Restore the accepted source before building again.
 
@@ -120,7 +120,7 @@ COPY RESULT.COM COUNT.COM
 CHECK COUNT
 ```
 
-It displays "012" and the checker reports PASS. Here `\r\n` denotes carriage return and line feed.
+It displays `012` and the checker reports PASS.
 
 For a separate rejection, copy the source to BAD.ASM and replace the first `JB AGAIN` with `JB 400H`. Run CHECK ASM1 BAD.ASM RESULT.COM. Require `ERROR 00007 CODE 4` and FAIL. The accepted RESULT.COM must remain unchanged. An unexpected PASS fails this test. Restore the accepted source before building again.
 

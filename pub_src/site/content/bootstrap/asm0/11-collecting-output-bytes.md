@@ -11,6 +11,8 @@ url = "/bootstrap/asm86/11-collecting-output-bytes/"
 
 I can read values from the source and turn them into words in a register. Before I create an output file, I want somewhere to keep the bytes I have accepted. An error near the end of the source should not make me throw away a working program.
 
+**Starting source:** `AS10.ASM`. **Save as:** `AS11.ASM`. **Build with:** `BOOTASM.BAS`.
+
 ## How it works
 
 PC begins at 0100H, the loaded address of the first .COM byte. OUTPTR begins at 6000H, the location of the output buffer in the assembler's own segment. These are different addresses with different purposes. Every emitted byte advances both by one.
@@ -23,104 +25,82 @@ This checkpoint accepts one numeric byte value per line, checks the end of each 
 
 ## Source changes
 
-Copy `AS10.ASM` to `AS11.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS10.ASM` to `AS11.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1: following `ERRCODE:`
+### Change 1 · `ERRCODE:`
 
-Unchanged code immediately before this edit:
+Find the unique label `ERRCODE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-
 ERRCODE:
 DB 0
 ```
 
-Insert after old physical line 373, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
-
 BUFFERMSG:
 DB 66,117,102,102,101,114,101,100,32,36
 ```
 
-### Change 2: following `TOKLEN:`
+### Change 2 · `ENDED:`
 
-Unchanged code immediately before this edit:
+Find the unique label `ENDED:`. Insert the new source immediately before this existing label:
 
 ```asm
-
-TOKLEN:
-DW 0
+ENDED:
 ```
 
-Insert after old physical line 361, before the following old line.
-
-Insert this source:
+Insert:
 
 ```asm
-
 PASS:
 DB 1
 ```
 
-### Change 3: following `LINENO:`
+### Change 3 · `TOKLEN:`
 
-Unchanged code immediately before this edit:
+Find the unique label `TOKLEN:`. Insert the new source immediately before this existing label:
 
 ```asm
-LINENO:
-DW 0
-
+TOKLEN:
 ```
 
-Insert after old physical line 359, before the following old line.
-
-Insert this source:
+Insert:
 
 ```asm
 PC:
 DW 256
-
 OUTPTR:
 DW 24576
-
 ```
 
-### Change 4: following `ERROR:`
+### Change 4 · `ERRMSG:`
 
-Unchanged code immediately before this edit:
+Find the unique label `ERRMSG:`. Insert the new source immediately before this existing label:
 
 ```asm
-MOV AX,4C01H
-INT 21H
-
+ERRMSG:
 ```
 
-Insert after old physical line 336, before the following old line.
-
-Insert this source:
+Insert:
 
 ```asm
 BYTEMSG:
 DB 32,98,121,116,101,115,13,10,36
-
 ```
 
-### Change 5: following `FINISHED:`
+### Change 5 · `TEXT:`
 
-Unchanged code immediately before this edit:
+Find the unique label `TEXT:`. Insert the new source immediately before this existing label:
 
 ```asm
-FINISHED:
-RET
-
+TEXT:
 ```
 
-Insert after old physical line 281, before the following old line.
-
-Insert this source:
+Insert:
 
 ```asm
 BYTEVALUE:
@@ -128,7 +108,6 @@ CMP AX,255
 JBE EMIT
 MOV AX,4
 JMP ERROR
-
 EMIT:
 PUSH AX
 PUSH BX
@@ -153,22 +132,17 @@ RET
 IMAGEFULL:
 MOV AX,5
 JMP ERROR
-
 ```
 
-### Change 6: following `DRIVERDONE:`
+### Change 6 · `GOOD:`
 
-Unchanged code immediately before this edit:
+Find the unique label `GOOD:`. Insert the new source immediately before this existing label:
 
 ```asm
-JMP DRIVERLINE
-DRIVERDONE:
-CALL CLOSEFILE
+GOOD:
 ```
 
-Insert after old physical line 25, before the following old line.
-
-Insert this source:
+Insert:
 
 ```asm
 MOV DX,BUFFERMSG
@@ -180,17 +154,25 @@ MOV DX,BYTEMSG
 CALL TEXT
 ```
 
-### Change 7: following `DRIVERLINE:`
+### Change 7 · `DRIVERLINE:`
 
-Unchanged code immediately before this edit:
+Find the unique label `DRIVERLINE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+DRIVERLINE:
+CALL READLINE
+CMP AX,0
+JE DRIVERDONE
+MOV SI,2200H
+CALL SCAN
 CALL VALUE
 PUSH AX
 CALL FINISH
 ```
 
-Remove these exact old lines (physical lines 19–22 of `AS10.ASM`):
+The edit begins immediately after that unchanged block.
+
+Remove this existing source:
 
 ```asm
 POP AX
@@ -199,43 +181,45 @@ MOV DX,NEWLINE
 CALL TEXT
 ```
 
-No replacement lines are needed.
+### Change 8 · `DRIVERLINE:`
 
-### Change 8: following `DRIVERLINE:`
-
-Unchanged code immediately before this edit:
+Find the unique label `DRIVERLINE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+DRIVERLINE:
+CALL READLINE
+CMP AX,0
+JE DRIVERDONE
 MOV SI,2200H
 CALL SCAN
 CALL VALUE
 ```
 
-Remove these exact old lines (physical lines 17–17 of `AS10.ASM`):
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 PUSH AX
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 CALL BYTEVALUE
 ```
 
-### Change 9: following `ROOM:`
+### Change 9 · `ROOM:`
 
-Unchanged code immediately before this edit:
+Find the unique label `ROOM:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV AX,7
-JMP ERROR
 ROOM:
 ```
 
-Insert after old physical line 8, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 MOV AL,2
@@ -303,4 +287,4 @@ FAIL
 
 ## If the result differs
 
-Check the edited blocks against their old context, then compare the complete source. A wrong record count or a missing zero terminator can make a correct token look absent. Check brackets and commas in the test input, and read the reported physical line before changing an instruction.
+Keep target PC distinct from resident OUTPTR. EMIT must check capacity before storing, and BYTEVALUE must reject a word above 255 before copying AL. This checkpoint reports a count without writing RESULT.COM.

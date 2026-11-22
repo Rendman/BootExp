@@ -11,17 +11,19 @@ url = "/bootstrap/asma0/01d-selecting-the-work-files/"
 
 The reader can retain names without touching disk. I replace the temporary probe call with file selection and connect those retained spellings to the two existing file services.
 
+**Starting source:** `A01C.ASM`. **Save as:** `A01D.ASM`. **Build with:** `ASMKEEP.COM`.
+
 ## What this step adds
 
 CMDFILES calls CMDINIT once. Zero names keep the known SOURCE.ASM and RESULT.COM defaults. Exactly two names are copied from the first and second CMDBUF slots into SRCNAME and RESNAME with the existing COPYZ routine. Any other count, including CMDINIT's 65535 failure value, enters ERROR with category 9.
 
 CMDMATCH compares two complete zero-terminated spellings. SI and DI advance through the names; BX and AH are scratch. AX is one for equality and zero for inequality. A shared prefix alone is not equality. Because CMDINIT folds letters before copying, differently cased spellings of the same filename compare equal.
 
-Five comparisons reject source=result, source=temporary, source=backup, result=temporary and result=backup. TMPNAME names ASMA.TMP; BAKNAME names RESULT.BAK. Those names are reserved now for the streamed writer and publication routines that will follow. These comparisons check selected spellings; they do not inspect or create recovery files. Existing-recovery-file detection is a later stopping point.
+Five comparisons reject source=result, source=temporary, source=backup, result=temporary and result=backup. TMPNAME names ASMA.TMP; BAKNAME names RESULT.BAK. Those names are reserved internal work names, distinct from the selected source and result. These comparisons check selected spellings; they do not inspect or create recovery files. Existing files under those names are not checked by this helper.
 
 Remove CMDPROBE and its startup call. The retained driver calls CMDFILES after its stack check and before pass counters or file services. The helper changes the working registers, so those counters are initialized afterward. OPENFILE and WRITEOUT already use the two name-buffer addresses. Both input passes still finish before output creation.
 
-The chosen result must also differ from the running checkpoint's executable name. Keep the builder under its own saved name. Use only unquoted 8.3 names in the current directory. This checkpoint still reports just OK and the byte count; the next step adds the result spelling to that report.
+The chosen result must also differ from the running checkpoint's executable name. Keep the builder under its own saved name. Use only unquoted 8.3 names in the current directory. This checkpoint reports just OK and the byte count.
 
 
 ## Enter the source
@@ -188,7 +190,7 @@ CHECK ASMKEEP
 COPY RESULT.COM A01D.COM
 ```
 
-Require the preceding ASM0 to report `OK 02890 bytes` and CHECK to report PASS before preserving the result. VIEW.BAS must show A01D.COM length 2890 bytes. Keep the source and executable together.
+Require the preceding ASM0 to report `OK 02890 bytes` and CHECK to report PASS before preserving the result. Keep the source and executable together.
 
 ## Check the addition
 

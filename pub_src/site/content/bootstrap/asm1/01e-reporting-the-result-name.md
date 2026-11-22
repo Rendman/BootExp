@@ -11,6 +11,8 @@ url = "/bootstrap/asma0/01e-reporting-the-result-name/"
 
 The assembler can write the selected file, but its success line still leaves me to remember which name I supplied. I want that line to identify the result I should inspect.
 
+**Starting source:** `A01D.ASM`. **Save as:** `A01E.ASM`. **Build with:** `ASMKEEP.COM`.
+
 ## What this step adds
 
 CMDTEXT prints a zero-terminated string addressed by SI. LODSB fetches each byte; zero returns to the caller. Each other byte goes through DL to DOS function 2. SI advances, AX and DX are scratch, and CLD at startup supplies the forward direction.
@@ -79,7 +81,7 @@ CHECK ASMKEEP
 COPY RESULT.COM A01E.COM
 ```
 
-Require the preceding ASM0 to report `OK 02918 bytes` and CHECK to report PASS before preserving the result. VIEW.BAS must show A01E.COM length 2918 bytes. Keep the source and executable together.
+Require the preceding ASM0 to report `OK 02918 bytes` and CHECK to report PASS before preserving the result. Keep the source and executable together.
 
 ## Check the addition
 

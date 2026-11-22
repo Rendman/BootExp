@@ -28,11 +28,11 @@ Supply input and result names on the command line; no prompt is needed:
 CHECK ASM1 HELLO.ASM RESULT.COM
 ```
 
-Pass one reads and validates while recording definitions and counting output. Pass two closes and reopens the same source, checks label values and the final image length, resolves forward values, and streams ASMA.TMP. Keep the selected source unchanged throughout both passes. The checks detect some changes, not every possible same-size edit.
+Pass one reads and validates while recording definitions and counting output. After pass one closes the input, pass two reopens the same source, checks label values and the final image length, resolves forward values, and streams ASMA.TMP. Keep the selected source unchanged throughout both passes. The checks detect some changes, not every possible same-size edit.
 
 The reader and writer each use a 1024-byte block. A short positive read is consumed and followed by another refill; zero means file EOF. A nonempty flush checks both DOS carry and actual progress. The final partial block and close must succeed before publication. The assembler retains neither the whole source nor the whole emitted image.
 
-A pre-existing ASMA.TMP or RESULT.BAK prevents a completed seed run. After successful output close, an old RESULT.COM is renamed to RESULT.BAK; ASMA.TMP is renamed to RESULT.COM; then the backup is removed. Failed publication attempts restoration and retains recovery files when restoration fails. DOS rename is not atomic replacement. Inspect recovery files before renaming or deleting them.
+A pre-existing ASMA.TMP or RESULT.BAK prevents a completed seed run. After successful output close, an old selected result is renamed to RESULT.BAK; ASMA.TMP is renamed to the selected result name; then the backup is removed. RESULT.COM is the default result name. Failed publication attempts restoration and retains recovery files when restoration fails. DOS rename is not atomic replacement. Inspect recovery files before renaming or deleting them.
 
 Source rejection closes owned handles and removes only this run's temporary output, preserving the accepted result. Cleanup failures prevent OK and can print a recovery notice. Always require a fresh OK and PASS before using output.
 

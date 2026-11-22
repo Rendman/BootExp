@@ -11,6 +11,8 @@ url = "/bootstrap/asm86/17-checking-a-label-line/"
 
 A label has a syntax of its own. We shall recognize that syntax before giving definitions storage in a symbol table.
 
+**Starting source:** `AS16.ASM`. **Save as:** `AS17.ASM`. **Build with:** `BOOTASM.BAS`.
+
 ## How it works
 
 After the first token, STATEMENT looks past spaces for a colon. A colon selects DEFINE; otherwise the cursor is put back at the first operand character and mnemonic lookup proceeds normally. FINISH requires the label to occupy the statement by itself. A comment may follow it.
@@ -21,25 +23,28 @@ At this stopping point DEFINE checks spelling and returns without storing an add
 
 ## Source changes
 
-Copy `AS16.ASM` to `AS17.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS16.ASM` to `AS17.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1: following `DATASEP:`
+### Change 1 · `DATASEP:`
 
-Unchanged code immediately before this edit:
+Find the unique label `DATASEP:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+DATASEP:
+CALL SCAN
+MOV AL,[2300H]
+CMP AL,44
 JE DATAITEM
 CMP AL,0
 JNE SYNTAXBAD
 ```
 
-Insert after old physical line 414, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 RET
-
 FINISH:
 CALL SCAN
 MOV AL,[2300H]
@@ -50,19 +55,17 @@ JMP ERROR
 FINISHED:
 ```
 
-### Change 2: following `STWORD:`
+### Change 2 · `STWORD:`
 
-Unchanged code immediately before this edit:
+Find the unique label `STWORD:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-JNE STWORD
-RET
 STWORD:
 ```
 
-Insert after old physical line 371, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 AFTERWORD:
@@ -78,19 +81,15 @@ INSTRUCTION:
 DEC SI
 ```
 
-### Change 3: following `NUMBERBAD:`
+### Change 3 · `STATEMENT:`
 
-Unchanged code immediately before this edit:
+Find the unique label `STATEMENT:`. Insert the new source immediately before this existing label:
 
 ```asm
-MOV AX,2
-JMP ERROR
-
+STATEMENT:
 ```
 
-Insert after old physical line 364, before the following old line.
-
-Insert this source:
+Insert:
 
 ```asm
 DEFINE:
@@ -102,22 +101,21 @@ MOV AX,3
 JMP ERROR
 SPELLGOOD:
 RET
-
 ```
 
-### Change 4: following `NOREGISTER:`
+### Change 4 · `NOREGISTER:`
 
-Unchanged code immediately before this edit:
+Find the unique label `NOREGISTER:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+NOREGISTER:
 MOV AX,0FFFFH
 RET
-
 ```
 
-Insert after old physical line 285, before the following old line.
+The edit begins immediately after that unchanged block.
 
-Insert this source:
+Insert:
 
 ```asm
 VALIDNAME:
@@ -151,7 +149,6 @@ RET
 SYMBOLBAD:
 MOV AX,3
 JMP ERROR
-
 ```
 
 ## Build and stop
@@ -187,7 +184,7 @@ OK 00001 bytes
 PASS
 ```
 
-Inspect `RESULT.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `RESULT.COM`, and require a length of **1 bytes** with these hexadecimal bytes:
+Inspect `RESULT.COM` with the workbench viewer. At DOS run `GWBASIC VIEW.BAS`, enter `RESULT.COM`, and require a length of **1 byte** with these hexadecimal bytes:
 
 ```text
 41
@@ -222,4 +219,4 @@ FAIL
 
 ## If the result differs
 
-Check the edited blocks against their old context, then compare the complete source. A wrong record count or a missing zero terminator can make a correct token look absent. Check brackets and commas in the test input, and read the reported physical line before changing an instruction.
+Check the first-character rule separately from the remaining name characters. A label must finish its statement after the colon. DEFINE checks spelling here; it does not yet retain definitions.

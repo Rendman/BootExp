@@ -10,6 +10,8 @@ url = "/bootstrap/asm86/01-a-message-from-assembly/"
 
 The name `ASM0` will be its first report. For now that is all this program does. I want to assemble it with BOOTASM, return to DOS, and check that the message routine and the exit work.
 
+**Starting source:** new listing. **Save as:** `AS01.ASM`. **Build with:** `BOOTASM.BAS`.
+
 ## How it works
 
 The source uses the same MOV, CALL, RET, and INT forms accepted by BOOTASM. DX receives the offset of HELLOMSG. DOS function 09H displays its bytes until it reaches the dollar-sign code 36; the 13 and 10 move the cursor to the next line. The dollar sign is a terminator, not part of the displayed message.
@@ -67,4 +69,4 @@ I save `AS01.ASM` with its executable. It is a small assembly program I can trac
 
 ## If the result differs
 
-Check the decimal character bytes, the dollar-sign terminators, and the order of saved registers. A RET must match a CALL; the top-level exit uses DOS function 4CH.
+Check HELLOMSG for the dollar terminator and the explicit carriage-return/line-feed bytes. TEXT returns with RET; GOOD terminates through DOS function 4CH.

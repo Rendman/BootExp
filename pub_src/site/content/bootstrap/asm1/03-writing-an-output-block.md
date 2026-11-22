@@ -11,9 +11,11 @@ url = "/bootstrap/asma0/03-writing-an-output-block/"
 
 The output buffer still has to hold every byte of the assembled program. I want to write a block when it fills and reuse that space. I'll first try the writer by copying a few characters from one file to another, with the parser left out of the path.
 
+**Starting source:** `A02.ASM`. **Save as:** `A03.ASM`. **Build with:** `ASMKEEP.COM`.
+
 ## The working parts
 
-This checkpoint is a byte-copy diagnostic. The parser remains in the source but the driver does not call it. CREATEOUT opens ASMA.TMP, EMIT stores one byte into the 1024-byte output block, and FLUSH writes a full or final partial block. PC counts bytes from the chosen 0100H origin and refuses an image beyond EFFFH.
+This checkpoint is a byte-copy diagnostic. The parser remains in the source but the driver does not call it. CREATEOUT opens ASMA.TMP, EMIT stores one byte into the 1024-byte output block, and FLUSH writes a full or final partial block. PC begins at the chosen 0100H origin. The last permitted loaded byte is at EFFFH, allowing at most 61,184 emitted bytes.
 
 FLUSH preserves AX, BX, CX, and DX. It checks DOS carry and the actual written count; zero buffered bytes cause no DOS write. CLOSEOUT checks the final close. This diagnostic may overwrite ASMA.TMP and leaves that file after success. Its contents are data, not a program to execute.
 
@@ -475,7 +477,7 @@ MOV [PASS],AL
 
 Copy `A03.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK 03027 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM A03.COM`.
 
-VIEW.BAS must report A03.COM length 3027 bytes. Keep that executable and source together.
+Keep that executable and source together.
 
 ## Acceptance check
 
@@ -502,9 +504,20 @@ In VIEW.BAS, inspect ASMA.TMP. Require length **5 bytes** and these complete con
 41 42 43 0D 0A
 ```
 
-The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
+These are the copied text bytes, including their line ending. Inspect the result as data.
 
 The viewer shows `41 42 43 0D 0A`, matching the characters and line ending I put in the source file. I can trace this small copy through the reader, the output block and DOS before involving instruction encoding again.
+
+## Flush full blocks and a final partial block
+
+Use the valid LONG.ASM made with STREAM.BAS: 1024 lines containing DB 65, then DB 66. If it is absent, run GWBASIC STREAM.BAS, require LONG.ASM READY and return with SYSTEM. This driver copies the source bytes without interpreting assembly or treating Control-Z as a source ending.
+
+```dos
+CHECK A03 LONG.ASM RESULT.COM
+C:\DOS\FC.EXE /B LONG.ASM ASMA.TMP
+```
+
+Require `OK ASMA.TMP 07176 bytes` and PASS, followed by FC reporting no differences. VIEW.BAS must show ASMA.TMP length 7176. Seven full output blocks and an eight-byte tail are required; a missing final flush or a repeated block changes the comparison. Keep this result as data. RESULT.COM is still the saved assembler executable from the construction build.
 
 ## A rejection check
 
@@ -530,4 +543,4 @@ An unexpected PASS fails this rejection test.
 
 ## If the result differs
 
-Check the saved argument names and terminators, handle ownership flags, reader cursors at each pass, and the current output count. Inspect file length as well as the leading bytes. A copied data file is not an executable proof.
+Check that a full block is flushed before another byte is stored and that the final partial block is flushed before close. FLUSH must preserve the caller's byte and counters and verify the actual write count.

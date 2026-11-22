@@ -10,6 +10,8 @@ url = "/bootstrap/asm86/02-numbers-in-the-report/"
 
 I can ask BASIC to print a value without thinking about the processor's registers. Here I have to decide where the value goes and what the printing routine may change. I want to be able to print a count without losing the caller's working values.
 
+**Starting source:** `AS01.ASM`. **Save as:** `AS02.ASM`. **Build with:** `BOOTASM.BAS`.
+
 ## How it works
 
 NUMBER takes its value in AX and preserves every word register. The five PUSH instructions save AX, BX, CX, DX, and SI; the POP instructions restore them in reverse order. DI and BP are not touched. The routine uses ten stack bytes for its saved registers, in addition to its return address.
@@ -20,26 +22,20 @@ Function 02H displays the character in DL. The arithmetic remainder stays in CX,
 
 ## Source changes
 
-Copy `AS01.ASM` to `AS02.ASM`. Make the following changes **from the bottom of the old file upward**, in the order printed here. This keeps the old physical line positions valid. Positions count every line, including blank lines; they are locators, not source to type. The nearby label and unchanged context identify each place. Retain everything else.
+Copy `AS01.ASM` to `AS02.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Change 1: following `TEXT:`
+### Change 1 · `HELLOMSG:`
 
-Unchanged code immediately before this edit:
+Find the unique label `HELLOMSG:`. The old block below starts at that label.
 
-```asm
-INT 21H
-RET
-
-```
-
-Remove these exact old lines (physical lines 15–16 of `AS01.ASM`):
+Replace this existing source:
 
 ```asm
 HELLOMSG:
 DB 65,83,77,48,13,10,36
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 NUMBER:
@@ -73,33 +69,31 @@ POP CX
 POP BX
 POP AX
 RET
-
 NEWLINE:
 DB 13,10,36
-
 DIVISORS:
 DW 10000,1000,100,10,1
-
 DIVEND:
 ```
 
-### Change 2: following `START:`
+### Change 2 · `START:`
 
-Unchanged code immediately before this edit:
+Find the unique label `START:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-; ASM86 construction checkpoint. Plain BOOTASM source.
 START:
 CLD
 ```
 
-Remove these exact old lines (physical lines 4–4 of `AS01.ASM`):
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 MOV DX,HELLOMSG
 ```
 
-Put this source in their place:
+With:
 
 ```asm
 MOV AX,0
@@ -141,4 +135,4 @@ PASS
 
 ## If the result differs
 
-Check the decimal character bytes, the dollar-sign terminators, and the order of saved registers. A RET must match a CALL; the top-level exit uses DOS function 4CH.
+Check the five divisors and the order of the saved registers in NUMBER. The remainder belongs in CX while DOS prints DL; retaining it in AL would lose it during the DOS call.

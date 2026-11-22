@@ -9,9 +9,18 @@ def code_lines(lines):
 
 def fence(lines):return '```asm\n'+'\n'.join(lines)+'\n```\n\n'
 
-def patch(previous,lines):
+def source_note(previous,current,builder):
+ start=f'`{previous}`' if previous else 'new listing'
+ return f'**Starting source:** {start}. **Save as:** `{current}`. **Build with:** `{builder}`.\n\n'
+
+def patch(previous,lines,complete_error_exits=False):
  previous=code_lines(previous);lines=code_lines(lines)
  edits=[op for op in SequenceMatcher(None,previous,lines,autojunk=False).get_opcodes() if op[0]!='equal']
+ if complete_error_exits:
+  # Show both complete error paths when a new path would otherwise reuse
+  # an unprinted, textually identical JMP from the old path.
+  edits=[(tag,a,b+1,c,d+1) if tag=='insert' and previous[a:b+1]==['JMP ERROR'] and lines[d:d+1]==['JMP ERROR']
+         else (tag,a,b,c,d) for tag,a,b,c,d in edits]
  if not edits:return 'The instructions and data are retained without edits. This stopping point proves the executable handoff.\n\n',[]
  text=('Apply the changes in the order shown, working upward through the old source. '
        'Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. '

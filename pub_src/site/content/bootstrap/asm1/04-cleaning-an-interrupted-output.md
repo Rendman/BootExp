@@ -11,9 +11,11 @@ url = "/bootstrap/asma0/04-cleaning-an-interrupted-output/"
 
 The copy writer creates its temporary file before opening the source. If that open fails, an empty file remains. I need to keep track of which handles are open and which file this run created, so the error routine can clean up after itself.
 
+**Starting source:** `A03.ASM`. **Save as:** `A04.ASM`. **Build with:** `ASMKEEP.COM`.
+
 ## The working parts
 
-ERROR saves its category before CLEANUP can change AX. INOPEN and OUTOPEN describe live handles; OWNTMP says whether this run created ASMA.TMP. Cleanup closes the owned handles and removes its own temporary file. It never deletes RESULT.COM.
+ERROR saves its category before CLEANUP can change AX. INOPEN and OUTOPEN describe live handles; OWNTMP says whether this run created ASMA.TMP. Cleanup closes the owned handles and removes its own temporary file. It preserves the accepted result under the selected name.
 
 A failed close or delete sets CLEANFAIL. The error report includes a recovery notice when files may need inspection. Cleanup does not recurse into ERROR. The copy driver still leaves ASMA.TMP after success, but a failed input open now removes its newly created empty temporary file.
 
@@ -171,14 +173,14 @@ CALL CLEANUP
 
 Copy `A04.ASM` to `SOURCE.ASM`, run `CHECK ASMKEEP`, and require `OK 03188 bytes` and PASS. This uses the preceding published ASM0, not the new checkpoint. Preserve the accepted executable with `COPY RESULT.COM A04.COM`.
 
-VIEW.BAS must report A04.COM length 3188 bytes. Keep that executable and source together.
+Keep that executable and source together.
 
 ## Acceptance check
 
-Create T04.ASM as plain ASCII with COPY CON or an editor. Finish COPY CON with Ctrl-Z and Enter:
+Reuse the earlier input unchanged:
 
-```text
-ABC
+```dos
+COPY T03.ASM T04.ASM
 ```
 
 ```dos
@@ -198,7 +200,7 @@ In VIEW.BAS, inspect ASMA.TMP. Require length **5 bytes** and these complete con
 41 42 43 0D 0A
 ```
 
-The byte inspection is the stopping check for this encoding exercise. Keep the result as data.
+These are the copied text bytes, including their line ending. Inspect the result as data.
 
 ## A rejection check
 
@@ -224,4 +226,4 @@ An unexpected PASS fails this rejection test.
 
 ## If the result differs
 
-Check the saved argument names and terminators, handle ownership flags, reader cursors at each pass, and the current output count. Inspect file length as well as the leading bytes. A copied data file is not an executable proof.
+Set ownership flags only after successful DOS calls. ERROR must save its category before CLEANUP changes AX; cleanup must neither recurse through ERROR nor delete a temporary file owned by another run.
