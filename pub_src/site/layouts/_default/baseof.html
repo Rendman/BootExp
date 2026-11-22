@@ -4,11 +4,18 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{{ if not .IsHome }}{{ .Title }} · {{ end }}The Bootstrap Project</title>
 <meta name="description" content="{{ .Description | default .Site.Params.description }}">
+<script src="{{ "js/theme.js" | relURL }}"></script>
 <link rel="stylesheet" href="{{ "css/course.css" | relURL }}">
 </head>
 <body>
 <a class="skip" href="#reading">Skip to article</a>
-<header class="masthead"><a href="{{ "bootstrap/index.html" | relURL }}">THE BOOTSTRAP PROJECT</a><span>A PRACTICAL COURSE IN SMALL-SYSTEM SOFTWARE</span></header>
+<header class="masthead">
+<a href="{{ "bootstrap/index.html" | relURL }}">THE BOOTSTRAP PROJECT</a>
+<div class="masthead-tools">
+<span>A PRACTICAL COURSE IN SMALL-SYSTEM SOFTWARE</span>
+<button class="theme-toggle" type="button" aria-pressed="false" hidden><span class="theme-toggle-indicator" aria-hidden="true"></span>Dark mode</button>
+</div>
+</header>
 <div class="page-grid">
 <aside class="sidebar" aria-label="Course navigation">
 <a class="experiment-link{{ if eq .RelPermalink "/bootstrap/" }} current{{ end }}" href="{{ "bootstrap/index.html" | relURL }}">The experiment</a>
