@@ -2,7 +2,7 @@
 DIRECTORY_NAMES={
  'bootasm':'bootasm','asm86':'asm0','asma0':'asm1','asm86a':'asm86',
  'ir86':'ir86','rill':'rill0','rb':'rillboot','rc':'rill',
- 'toolchain':'toolchain','link86':'link86','edit86':'edit86',
+ 'toolchain':'toolchain','link86':'link86','edit86':'edit86','vampire':'vampire',
 }
 def directory_name(collection):return DIRECTORY_NAMES.get(collection,collection)
 def collection_key(directory):

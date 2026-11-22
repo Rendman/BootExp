@@ -50,3 +50,5 @@ This is an original practical course with a 1986 technical setting. It is not a 
 [Linking Our First Modules](link86/index.html) follows the completed RILL-written toolchain. It builds LINK86 in RILL and links two hand-entered text objects, with public names and relative or absolute word references.
 
 [Building Our Screen Editor](edit86/index.html) supplies EDIT86 after LINK86. Its twenty construction steps add screen and key services, a 256 KiB document buffer, a window, editing, undo and search. The text remains in memory while navigating; Save publishes the fixed EDIT.TXT through temporary and backup files.
+
+[Vampire Castle Adventure](vampire/index.html) is an optional excursion after the completed RILL-written toolchain. Build a text adventure in small playable steps, using rooms, objects and puzzles from a BASIC listing. It needs neither LINK86 nor EDIT86 and adds no required rung to the ladder.

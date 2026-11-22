@@ -6,7 +6,7 @@ from project_paths import directory_name
 from publication_names import SERIES,names,filename,reader_text
 C=ROOT/'site/content/bootstrap';D=ROOT/'site/static/downloads/tools'
 manifest=json.loads((ROOT/'qa/reader-packages.json').read_text());count=0
-assert set(manifest)=={'bootasm','asm0','asm1','asm86','ir86','rill0','rillboot','rill','toolchain','link86','edit86'}
+assert set(manifest)=={tool.lower() for tool,_ in SERIES.values()}
 for group,m in manifest.items():
  with zipfile.ZipFile(D/group/m['archive']) as z,zipfile.ZipFile(ROOT/'site/downloads'/directory_name(m['legacy_group'])/m['legacy_archive']) as old:
   assert z.namelist()==list(m['files'])

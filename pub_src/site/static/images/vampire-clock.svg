@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 450" role="img" aria-labelledby="title">
+<title id="title">One command before midnight</title>
+<defs><pattern id="h" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(28)"><path d="M1 0v7" stroke="#777" stroke-width=".8"/></pattern><filter id="p"><feTurbulence baseFrequency=".07" numOctaves="2" seed="21" result="g"/><feDisplacementMap in="SourceGraphic" in2="g" scale="1.2"/></filter></defs>
+<g fill="none" stroke="#282722" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" filter="url(#p)">
+ <path d="M42 399q225-12 433-1t482-4M72 413l110-2m38 0 111 3m282-6 94 3m31 1 125-3"/>
+ <path d="M126 390V184q-29-8-29-26 0-12 17-18V97q0-62 60-62t60 62v43q18 7 18 20 0 18-28 24v206M113 183h125M118 212h110v143H118zM131 223h84v122h-84zM124 374h103m-110 16-9 14 27-1 7-13m61 0 9 13 23 0-8-14" fill="#fff"/>
+ <circle cx="174" cy="111" r="50"/><circle cx="174" cy="111" r="43"/>
+ <path d="M174 72v7m19-2-3 7m19 7-7 4m12 16h-8m3 19-7-4m-9 18-3-7m-16 13v-8m-19 3 3-7m-19-7 7-4m-12-16h8m-3-19 7 4m9-18 3 7M174 111l-4-32m4 32-14-21M174 231v64m-14 14q0-15 15-15t15 15-15 17-15-17"/>
+ <path d="M115 142h119M141 52l7-9m-5 19 9-11M119 228l11 9m-9 8 8 6m91 6 7-8"/>
+ <path d="M311 367l22-84 113-15 124 52-15 47-242 0-13 18 255 3 26-74-138-61-118 15-26 95z" fill="url(#h)"/>
+ <path d="M327 283l-13 74 234 1 15-35-119-48z" fill="#fff"/>
+ <path d="M355 277q-8-39 13-56 24-17 45 7 14 17 3 45M361 237l14 1m17 0 12-1m-25 5-3 9 8 2m-12 9 24-1-5 10-5-9-6 10-4-10" fill="#fff"/>
+ <path d="M353 228q5-22 31-28l51 20-27 13q-17-17-55-5M385 202q31-34 55 5l18 16-23-2m23 1q12 2 8 12-5 9-13 2-6-5 0-11" fill="#fff"/>
+ <path d="M412 274l42-15 53 36-13 40-72-35-11-26M431 274l15 23 19-19m-14 30 17 8m-47-39-25 14-39-1m47 17-45-2-19 7" fill="url(#h)"/>
+ <path d="M529 342l42-48 22 5m-24 48 34-41 19 6m-34-12 7-12 17 9-4 9m4 7 10-11 16 8-5 10"/>
+ <path d="M752 190q-17-28 1-50 20-22 44-2 20 17 8 42l-8 19M752 159l9 1m16-3 9-1m-23 8-2 11 10 1m-7 11q13 5 22-5" fill="#fff"/>
+ <path d="M747 147l-9-8 14-1-1-12 13 5 9-13 10 13 16-1-2 16 14 3-10 12M754 194l-31 25-9 99 80 7 19-112-18-17M756 206l14 21 25-26M731 233l-45 8-29 42m-12-4 11-5 12 9-8 12m81-44-43 8-28 35"/>
+ <path d="M638 277l47 59-7 7-49-57-5-20zM726 321l-13 59-19 17 34 1 22-67m20-6 10 58-4 15 34-1-15-17-6-54M725 302l62 5m-55-45-9 19m70-31-6 32"/>
+ <path d="M505 115q50-26 151-7 45 10 42 39-5 28-49 26l-87-4-33 19 8-29q-46-7-32-44" fill="#fff"/>
+ <path d="M872 372V84h56v288M882 94h35v264h-35M874 174h50m-47 91h49M47 365V88h32v277m-28-263 24-3m-24 98 24-2m-24 82 24-2"/>
+ <path d="M278 384l26-4m292 10 47-8m183 11 26-3m-187-48 17-8M303 111l15-11m-11 24 18-8"/>
+</g>
+<g font-family="Georgia,serif" font-size="18" fill="#282722"><text x="526" y="134">Could we make</text><text x="522" y="157">this turn-based?</text></g>
+</svg>

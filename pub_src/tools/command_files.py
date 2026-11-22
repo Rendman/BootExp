@@ -400,7 +400,7 @@ def command_text(text,group='',batch=False):
  return re.sub(r'```dos\n\s*```\n*','', ''.join(out)) if not batch else ''.join(out)
 
 def publication(group,text,path=None):
- if group in {'bootasm','asm86'}:return text  # metadata key asm86 is ASM0
+ if group in {'bootasm','asm86','vampire'}:return text  # adventure commands are authored explicitly
  # Early construction probes deliberately precede the completed PSP interface.
  # Their examples already spell out the interface of that precise checkpoint.
  if 'command_examples = "literal"' in text.split('+++',2)[1]:return text

@@ -1,0 +1,7 @@
+E
+PUSH BOOKCASE
+D
+GET ROPE
+U
+E
+E

@@ -1,0 +1,674 @@
+[
+  {
+    "number": 1,
+    "source": "V01.RIL",
+    "title": "A castle beyond the compiler",
+    "why": "Print the adventure title and our first room using the completed RILL toolchain.",
+    "accept": "T01.TXT",
+    "expected": [
+      "Vampire Castle Adventure",
+      "You are in the Entrance Hall."
+    ],
+    "alternate": null,
+    "alternate_expected": [],
+    "ir_bytes": 568,
+    "assembly_bytes": 7824,
+    "binary_bytes": 1617,
+    "reports": [
+      "OK RESULT.IR 0000000568\r\n",
+      "OK RESULT.ASM 0000007824 text bytes\r\n",
+      "OK RESULT.COM 01617 bytes\r\n"
+    ],
+    "console": "Vampire Castle Adventure\r\nYou are in the Entrance Hall.\r\n",
+    "alternate_console": ""
+  },
+  {
+    "number": 2,
+    "source": "V02.RIL",
+    "title": "Listening at the gate",
+    "why": "Read bounded command lines from the console or a PSP-selected command file.",
+    "accept": "T02.TXT",
+    "expected": [
+      "hello",
+      "second entry",
+      "End of commands."
+    ],
+    "alternate": "X02.TXT",
+    "alternate_expected": [
+      "Use at most 80 printable characters.",
+      "look"
+    ],
+    "ir_bytes": 4674,
+    "assembly_bytes": 16450,
+    "binary_bytes": 3074,
+    "reports": [
+      "OK RESULT.IR 0000004674\r\n",
+      "OK RESULT.ASM 0000016450 text bytes\r\n",
+      "OK RESULT.COM 03074 bytes\r\n"
+    ],
+    "console": "Vampire Castle Adventure\r\nYou are in the Entrance Hall.\r\n\r\n> hello\r\n\r\n> second entry\r\n\r\n> End of commands.\r\n",
+    "alternate_console": "Vampire Castle Adventure\r\nYou are in the Entrance Hall.\r\n\r\n> Use at most 80 printable characters.\r\n\r\n> look\r\n\r\n> End of commands.\r\n"
+  },
+  {
+    "number": 3,
+    "source": "V03.RIL",
+    "title": "Three letters are enough",
+    "why": "Separate the first and last words, fold case, and recognize LOOK, HELP and QUIT.",
+    "accept": "T03.TXT",
+    "expected": [
+      "Use the first and last words",
+      "I don't know how to do that.",
+      "Goodbye."
+    ],
+    "alternate": "X03.TXT",
+    "alternate_expected": [
+      "You are in the Entrance Hall.",
+      "Goodbye."
+    ],
+    "ir_bytes": 8389,
+    "assembly_bytes": 24948,
+    "binary_bytes": 4437,
+    "reports": [
+      "OK RESULT.IR 0000008389\r\n",
+      "OK RESULT.ASM 0000024948 text bytes\r\n",
+      "OK RESULT.COM 04437 bytes\r\n"
+    ],
+    "console": "Vampire Castle Adventure\r\nYou are in the Entrance Hall.\r\n\r\n>   lOoK   around\r\nYou are in the Entrance Hall.\r\n\r\n> help\r\nUse the first and last words; only three letters count.\r\nLOOK, HELP and QUIT.\r\n\r\n> dance\r\nI don't know how to do that.\r\n\r\n> quit\r\nGoodbye.\r\n",
+    "alternate_console": "Vampire Castle Adventure\r\nYou are in the Entrance Hall.\r\n\r\n>  \r\n\r\n> LOO longer words\r\nYou are in the Entrance Hall.\r\n\r\n> quit\r\nGoodbye.\r\n"
+  },
+  {
+    "number": 4,
+    "source": "V04.RIL",
+    "title": "Four rooms and six directions",
+    "why": "Represent room names and exits as tables, then walk through the first four rooms.",
+    "accept": "T04.TXT",
+    "expected": [
+      "You are in the Library.",
+      "You cannot go that way.",
+      "I don't know how to do that."
+    ],
+    "alternate": "X04.TXT",
+    "alternate_expected": [
+      "You cannot go that way."
+    ],
+    "ir_bytes": 13867,
+    "assembly_bytes": 36794,
+    "binary_bytes": 6512,
+    "reports": [
+      "OK RESULT.IR 0000013867\r\n",
+      "OK RESULT.ASM 0000036794 text bytes\r\n",
+      "OK RESULT.COM 06512 bytes\r\n"
+    ],
+    "console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Entrance Hall.\r\nExits: East West\r\n\r\n> N\r\nYou cannot go that way.\r\n\r\n> GET NORTH\r\nI don't know how to do that.\r\n\r\n> End of commands.\r\n",
+    "alternate_console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nExits: East West\r\n\r\n> GO UP\r\nYou cannot go that way.\r\n\r\n> End of commands.\r\n"
+  },
+  {
+    "number": 5,
+    "source": "V05.RIL",
+    "title": "The upper castle",
+    "why": "Extend the map to the tower, chapel and fireplace rooms.",
+    "accept": "T05.TXT",
+    "expected": [
+      "You are in the Tower.",
+      "You are in the Armory."
+    ],
+    "alternate": "X05.TXT",
+    "alternate_expected": [
+      "You cannot go that way."
+    ],
+    "ir_bytes": 14524,
+    "assembly_bytes": 38180,
+    "binary_bytes": 6721,
+    "reports": [
+      "OK RESULT.IR 0000014524\r\n",
+      "OK RESULT.ASM 0000038180 text bytes\r\n",
+      "OK RESULT.COM 06721 bytes\r\n"
+    ],
+    "console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Armory.\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Tower.\r\nExits: West\r\n\r\n> W\r\n\r\nYou are in the Armory.\r\nExits: East West\r\n\r\n> End of commands.\r\n",
+    "alternate_console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Armory.\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Tower.\r\nExits: West\r\n\r\n> E\r\nYou cannot go that way.\r\n\r\n> End of commands.\r\n"
+  },
+  {
+    "number": 6,
+    "source": "V06.RIL",
+    "title": "A door behind the bookcase",
+    "why": "Add the underground map and reveal a hidden exit by pushing the library bookcase.",
+    "accept": "T06.TXT",
+    "expected": [
+      "A doorway opens behind the bookcase.",
+      "You are in the Hidden Corridor.",
+      "You are in the Storeroom.",
+      "You are in the Study."
+    ],
+    "alternate": "X06.TXT",
+    "alternate_expected": [
+      "Nothing happens.",
+      "You cannot go that way."
+    ],
+    "ir_bytes": 17186,
+    "assembly_bytes": 44492,
+    "binary_bytes": 7653,
+    "reports": [
+      "OK RESULT.IR 0000017186\r\n",
+      "OK RESULT.ASM 0000044492 text bytes\r\n",
+      "OK RESULT.COM 07653 bytes\r\n"
+    ],
+    "console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nExits: East West\r\n\r\n> PUSH BOOKCASE\r\nA doorway opens behind the bookcase.\r\n\r\n> D\r\n\r\nYou are in the Hidden Corridor.\r\nExits: North Up\r\n\r\n> N\r\n\r\nYou are in the Alchemist's Lab.\r\nExits: North South\r\n\r\n> N\r\n\r\nYou are in the Storeroom.\r\nExits: South Up\r\n\r\n> U\r\n\r\nYou are in the Study.\r\nExits: East\r\n\r\n> End of commands.\r\n",
+    "alternate_console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nExits: East West\r\n\r\n> PUSH BOOKCASE\r\nNothing happens.\r\n\r\n> D\r\nYou cannot go that way.\r\n\r\n> End of commands.\r\n"
+  },
+  {
+    "number": 7,
+    "source": "V07.RIL",
+    "title": "Putting things in rooms",
+    "why": "List named objects separately from the room map.",
+    "accept": "T07.TXT",
+    "expected": [
+      "  Timepiece",
+      "  Parchment Scroll"
+    ],
+    "alternate": "X07.TXT",
+    "alternate_expected": [
+      "You are in the Study.",
+      "  Nothing interesting."
+    ],
+    "ir_bytes": 20580,
+    "assembly_bytes": 52082,
+    "binary_bytes": 8928,
+    "reports": [
+      "OK RESULT.IR 0000020580\r\n",
+      "OK RESULT.ASM 0000052082 text bytes\r\n",
+      "OK RESULT.COM 08928 bytes\r\n"
+    ],
+    "console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\nExits: East West\r\n\r\n> LOOK\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\nExits: East West\r\n\r\n> LOOK\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\nExits: East West\r\n\r\n> End of commands.\r\n",
+    "alternate_console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Nothing interesting.\r\nExits: East\r\n\r\n> LOOK\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Nothing interesting.\r\nExits: East\r\n\r\n> End of commands.\r\n"
+  },
+  {
+    "number": 8,
+    "source": "V08.RIL",
+    "title": "Picking up and putting down",
+    "why": "Move objects between a room and the player without copying their descriptions.",
+    "accept": "T08.TXT",
+    "expected": [
+      "Taken: Timepiece.",
+      "You already have it.",
+      "Dropped: Timepiece.",
+      "You cannot see it here."
+    ],
+    "alternate": "X08.TXT",
+    "alternate_expected": [
+      "I don't know that object.",
+      "You do not have it."
+    ],
+    "ir_bytes": 22415,
+    "assembly_bytes": 57112,
+    "binary_bytes": 9684,
+    "reports": [
+      "OK RESULT.IR 0000022415\r\n",
+      "OK RESULT.ASM 0000057112 text bytes\r\n",
+      "OK RESULT.COM 09684 bytes\r\n"
+    ],
+    "console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\nExits: East West\r\n\r\n> GET TIME\r\nTaken: Timepiece.\r\n\r\n> GET TIME\r\nYou already have it.\r\n\r\n> DROP TIME\r\nDropped: Timepiece.\r\n\r\n> GET SCROLL\r\nYou cannot see it here.\r\n\r\n> End of commands.\r\n",
+    "alternate_console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\nExits: East West\r\n\r\n> GET DRAGON\r\nI don't know that object.\r\n\r\n> DROP AXE\r\nYou do not have it.\r\n\r\n> End of commands.\r\n"
+  },
+  {
+    "number": 9,
+    "source": "V09.RIL",
+    "title": "Furnishing the castle",
+    "why": "Enter all twenty-five objects and distinguish possessions from scenery.",
+    "accept": "T09.TXT",
+    "expected": [
+      "  Sign",
+      "  Fire in the Fireplace",
+      "  Cheddar Cheese"
+    ],
+    "alternate": "X09.TXT",
+    "alternate_expected": [
+      "You cannot take that."
+    ],
+    "ir_bytes": 26444,
+    "assembly_bytes": 66805,
+    "binary_bytes": 11112,
+    "reports": [
+      "OK RESULT.IR 0000026444\r\n",
+      "OK RESULT.ASM 0000066805 text bytes\r\n",
+      "OK RESULT.COM 11112 bytes\r\n"
+    ],
+    "console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> LOOK\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> LOOK\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> End of commands.\r\n",
+    "alternate_console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> GET SIGN\r\nYou cannot take that.\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West\r\n\r\n> GET BOOKCASE\r\nYou cannot take that.\r\n\r\n> End of commands.\r\n"
+  },
+  {
+    "number": 10,
+    "source": "V10.RIL",
+    "title": "Seven things in a pocket",
+    "why": "Display the inventory and enforce a seven-object carrying limit.",
+    "accept": "T10.TXT",
+    "expected": [
+      "You cannot carry any more.",
+      "Dropped: Bucket.",
+      "Taken: Crate.",
+      "You are carrying:"
+    ],
+    "alternate": "X10.TXT",
+    "alternate_expected": [
+      "  Nothing."
+    ],
+    "ir_bytes": 27999,
+    "assembly_bytes": 70437,
+    "binary_bytes": 11696,
+    "reports": [
+      "OK RESULT.IR 0000027999\r\n",
+      "OK RESULT.ASM 0000070437 text bytes\r\n",
+      "OK RESULT.COM 11696 bytes\r\n"
+    ],
+    "console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> GET TIME\r\nTaken: Timepiece.\r\n\r\n> W\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> GET WINE\r\nTaken: Wine.\r\n\r\n> GET CHEESE\r\nTaken: Cheddar Cheese.\r\n\r\n> E\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West\r\n\r\n> GET SCROLL\r\nTaken: Parchment Scroll.\r\n\r\n> PUSH BOOKCASE\r\nA doorway opens behind the bookcase.\r\n\r\n> D\r\n\r\nYou are in the Hidden Corridor.\r\nYou see:\r\n  Coil of Rope\r\nExits: North Up\r\n\r\n> GET ROPE\r\nTaken: Coil of Rope.\r\n\r\n> N\r\n\r\nYou are in the Alchemist's Lab.\r\nYou see:\r\n  Flask of Oil\r\nExits: North South\r\n\r\n> GET OIL\r\nTaken: Flask of Oil.\r\n\r\n> N\r\n\r\nYou are in the Storeroom.\r\nYou see:\r\n  Crate\r\n  Bucket\r\nExits: South Up\r\n\r\n> GET BUCKET\r\nTaken: Bucket.\r\n\r\n> GET CRATE\r\nYou cannot carry any more.\r\n\r\n> DROP BUCKET\r\nDropped: Bucket.\r\n\r\n> GET CRATE\r\nTaken: Crate.\r\n\r\n> INVENTORY\r\nYou are carrying:\r\n  Timepiece\r\n  Coil of Rope\r\n  Parchment Scroll\r\n  Flask of Oil\r\n  Crate\r\n  Wine\r\n  Cheddar Cheese\r\n\r\n> End of commands.\r\n",
+    "alternate_console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> INVENTORY\r\nYou are carrying:\r\n  Nothing.\r\n\r\n> End of commands.\r\n"
+  },
+  {
+    "number": 11,
+    "source": "V11.RIL",
+    "title": "Reading the warnings",
+    "why": "Examine reachable objects, including the sign and parchment scroll.",
+    "accept": "T11.TXT",
+    "expected": [
+      "Dracula wakes at midnight.",
+      "Pick up the scroll to read it.",
+      "Not all exits are obvious."
+    ],
+    "alternate": "X11.TXT",
+    "alternate_expected": [
+      "You cannot see it here."
+    ],
+    "ir_bytes": 29456,
+    "assembly_bytes": 75131,
+    "binary_bytes": 12352,
+    "reports": [
+      "OK RESULT.IR 0000029456\r\n",
+      "OK RESULT.ASM 0000075131 text bytes\r\n",
+      "OK RESULT.COM 12352 bytes\r\n"
+    ],
+    "console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> READ THE SIGN\r\nThe sign reads: Dracula wakes at midnight.\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West\r\n\r\n> READ SCROLL\r\nPick up the scroll to read it.\r\n\r\n> GET SCROLL\r\nTaken: Parchment Scroll.\r\n\r\n> READ THE SCROLL\r\nThe scroll reads: Not all exits are obvious.\r\n\r\n> End of commands.\r\n",
+    "alternate_console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> READ AXE\r\nYou cannot see it here.\r\n\r\n> End of commands.\r\n"
+  },
+  {
+    "number": 12,
+    "source": "V12.RIL",
+    "title": "Four hours until midnight",
+    "why": "Advance one minute per command, read the timepiece and end the game at midnight.",
+    "accept": "T12.TXT",
+    "expected": [
+      "Time: 08:02 p.m.",
+      "Time: 08:04 p.m."
+    ],
+    "alternate": "X12.TXT",
+    "alternate_expected": [
+      "It is midnight. Dracula wakes and finds you."
+    ],
+    "ir_bytes": 31639,
+    "assembly_bytes": 80604,
+    "binary_bytes": 13237,
+    "reports": [
+      "OK RESULT.IR 0000031639\r\n",
+      "OK RESULT.ASM 0000080604 text bytes\r\n",
+      "OK RESULT.COM 13237 bytes\r\n"
+    ],
+    "console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> GET TIME\r\nTaken: Timepiece.\r\n\r\n> READ TIME\r\nTime: 08:02 p.m.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> READ TIME\r\nTime: 08:04 p.m.\r\n\r\n> End of commands.\r\n",
+    "alternate_console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nTime passes.\r\n\r\n> WAIT\r\nIt is midnight. Dracula wakes and finds you.\r\n"
+  },
+  {
+    "number": 13,
+    "source": "V13.RIL",
+    "title": "A rope over the parapets",
+    "why": "Ask for a second object and tie the carried rope to the tower parapets.",
+    "accept": "T13.TXT",
+    "expected": [
+      "The rope is tied to the parapets.",
+      "You climb down the rope.",
+      "You are in the Chapel."
+    ],
+    "alternate": "X13.TXT",
+    "alternate_expected": [
+      "You fall from the parapets."
+    ],
+    "ir_bytes": 33847,
+    "assembly_bytes": 86447,
+    "binary_bytes": 14106,
+    "reports": [
+      "OK RESULT.IR 0000033847\r\n",
+      "OK RESULT.ASM 0000086447 text bytes\r\n",
+      "OK RESULT.COM 14106 bytes\r\n"
+    ],
+    "console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West\r\n\r\n> PUSH BOOKCASE\r\nA doorway opens behind the bookcase.\r\n\r\n> D\r\n\r\nYou are in the Hidden Corridor.\r\nYou see:\r\n  Coil of Rope\r\nExits: North Up\r\n\r\n> GET ROPE\r\nTaken: Coil of Rope.\r\n\r\n> U\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> E\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Axe\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Tower.\r\nYou see:\r\n  Sledge Hammer\r\n  Parapets\r\nExits: West\r\n\r\n> TIE ROPE\r\nTo what? PARAPETS\r\nThe rope is tied to the parapets.\r\n\r\n> GO ROPE\r\nYou climb down the rope.\r\n\r\nYou are in the Lower Tower.\r\nYou see:\r\n  Oar\r\nExits: South Up\r\n\r\n> S\r\n\r\nYou are in the Chapel.\r\nYou see:\r\n  Holywater\r\nExits: North Up\r\n\r\n> End of commands.\r\n",
+    "alternate_console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Axe\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Tower.\r\nYou see:\r\n  Sledge Hammer\r\n  Parapets\r\nExits: West\r\n\r\n> GO PARAPETS\r\nYou fall from the parapets.\r\n"
+  },
+  {
+    "number": 14,
+    "source": "V14.RIL",
+    "title": "A bucket of holywater",
+    "why": "Require a carried bucket when collecting holywater in the chapel.",
+    "accept": "T14.TXT",
+    "expected": [
+      "Taken: Holywater.",
+      "  Holywater"
+    ],
+    "alternate": "X14.TXT",
+    "alternate_expected": [
+      "You need to carry the bucket."
+    ],
+    "ir_bytes": 34491,
+    "assembly_bytes": 88087,
+    "binary_bytes": 14360,
+    "reports": [
+      "OK RESULT.IR 0000034491\r\n",
+      "OK RESULT.ASM 0000088087 text bytes\r\n",
+      "OK RESULT.COM 14360 bytes\r\n"
+    ],
+    "console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West\r\n\r\n> PUSH BOOKCASE\r\nA doorway opens behind the bookcase.\r\n\r\n> D\r\n\r\nYou are in the Hidden Corridor.\r\nYou see:\r\n  Coil of Rope\r\nExits: North Up\r\n\r\n> GET ROPE\r\nTaken: Coil of Rope.\r\n\r\n> N\r\n\r\nYou are in the Alchemist's Lab.\r\nYou see:\r\n  Flask of Oil\r\nExits: North South\r\n\r\n> N\r\n\r\nYou are in the Storeroom.\r\nYou see:\r\n  Crate\r\n  Bucket\r\nExits: South Up\r\n\r\n> GET BUCKET\r\nTaken: Bucket.\r\n\r\n> U\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> E\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> E\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Axe\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Tower.\r\nYou see:\r\n  Sledge Hammer\r\n  Parapets\r\nExits: West\r\n\r\n> GET HAMMER\r\nTaken: Sledge Hammer.\r\n\r\n> TIE ROPE\r\nTo what? PARAPETS\r\nThe rope is tied to the parapets.\r\n\r\n> GO ROPE\r\nYou climb down the rope.\r\n\r\nYou are in the Lower Tower.\r\nYou see:\r\n  Oar\r\nExits: South Up\r\n\r\n> GET OAR\r\nTaken: Oar.\r\n\r\n> S\r\n\r\nYou are in the Chapel.\r\nYou see:\r\n  Holywater\r\nExits: North Up\r\n\r\n> GET WATER\r\nIn what? BUCKET\r\nTaken: Holywater.\r\n\r\n> U\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Axe\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> W\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> INVENTORY\r\nYou are carrying:\r\n  Sledge Hammer\r\n  Oar\r\n  Holywater\r\n  Bucket\r\n\r\n> End of commands.\r\n",
+    "alternate_console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West\r\n\r\n> PUSH BOOKCASE\r\nA doorway opens behind the bookcase.\r\n\r\n> D\r\n\r\nYou are in the Hidden Corridor.\r\nYou see:\r\n  Coil of Rope\r\nExits: North Up\r\n\r\n> GET ROPE\r\nTaken: Coil of Rope.\r\n\r\n> U\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> E\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Axe\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Tower.\r\nYou see:\r\n  Sledge Hammer\r\n  Parapets\r\nExits: West\r\n\r\n> TIE ROPE\r\nTo what? PARAPETS\r\nThe rope is tied to the parapets.\r\n\r\n> GO ROPE\r\nYou climb down the rope.\r\n\r\nYou are in the Lower Tower.\r\nYou see:\r\n  Oar\r\nExits: South Up\r\n\r\n> S\r\n\r\nYou are in the Chapel.\r\nYou see:\r\n  Holywater\r\nExits: North Up\r\n\r\n> GET WATER\r\nIn what? BUCKET\r\nYou need to carry the bucket.\r\n\r\n> End of commands.\r\n"
+  },
+  {
+    "number": 15,
+    "source": "V15.RIL",
+    "title": "Putting out the fire",
+    "why": "Consume holywater in the study and make the fireplace safe to enter.",
+    "accept": "T15.TXT",
+    "expected": [
+      "The holywater puts out the fire.",
+      "You are in the Brick Fireplace."
+    ],
+    "alternate": "X15.TXT",
+    "alternate_expected": [
+      "The fire burns you to death."
+    ],
+    "ir_bytes": 35345,
+    "assembly_bytes": 90366,
+    "binary_bytes": 14686,
+    "reports": [
+      "OK RESULT.IR 0000035345\r\n",
+      "OK RESULT.ASM 0000090366 text bytes\r\n",
+      "OK RESULT.COM 14686 bytes\r\n"
+    ],
+    "console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West\r\n\r\n> PUSH BOOKCASE\r\nA doorway opens behind the bookcase.\r\n\r\n> D\r\n\r\nYou are in the Hidden Corridor.\r\nYou see:\r\n  Coil of Rope\r\nExits: North Up\r\n\r\n> GET ROPE\r\nTaken: Coil of Rope.\r\n\r\n> N\r\n\r\nYou are in the Alchemist's Lab.\r\nYou see:\r\n  Flask of Oil\r\nExits: North South\r\n\r\n> N\r\n\r\nYou are in the Storeroom.\r\nYou see:\r\n  Crate\r\n  Bucket\r\nExits: South Up\r\n\r\n> GET BUCKET\r\nTaken: Bucket.\r\n\r\n> U\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> E\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> E\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Axe\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Tower.\r\nYou see:\r\n  Sledge Hammer\r\n  Parapets\r\nExits: West\r\n\r\n> GET HAMMER\r\nTaken: Sledge Hammer.\r\n\r\n> TIE ROPE\r\nTo what? PARAPETS\r\nThe rope is tied to the parapets.\r\n\r\n> GO ROPE\r\nYou climb down the rope.\r\n\r\nYou are in the Lower Tower.\r\nYou see:\r\n  Oar\r\nExits: South Up\r\n\r\n> GET OAR\r\nTaken: Oar.\r\n\r\n> S\r\n\r\nYou are in the Chapel.\r\nYou see:\r\n  Holywater\r\nExits: North Up\r\n\r\n> GET WATER\r\nIn what? BUCKET\r\nTaken: Holywater.\r\n\r\n> U\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Axe\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> W\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> DROP WATER\r\nThe holywater puts out the fire.\r\n\r\n> GO FIRE\r\n\r\nYou are in the Brick Fireplace.\r\nYou see:\r\n  Torch\r\nExits: South\r\n\r\n> End of commands.\r\n",
+    "alternate_console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> GO FIRE\r\nThe fire burns you to death.\r\n"
+  },
+  {
+    "number": 16,
+    "source": "V16.RIL",
+    "title": "Breaking through the bricks",
+    "why": "Use the carried hammer to open a passage from inside the fireplace.",
+    "accept": "T16.TXT",
+    "expected": [
+      "The bricks break away. A passage leads north.",
+      "You are in the Secret Passage."
+    ],
+    "alternate": "X16.TXT",
+    "alternate_expected": [
+      "Nothing happens.",
+      "You cannot go that way."
+    ],
+    "ir_bytes": 37321,
+    "assembly_bytes": 95865,
+    "binary_bytes": 15494,
+    "reports": [
+      "OK RESULT.IR 0000037321\r\n",
+      "OK RESULT.ASM 0000095865 text bytes\r\n",
+      "OK RESULT.COM 15494 bytes\r\n"
+    ],
+    "console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West\r\n\r\n> PUSH BOOKCASE\r\nA doorway opens behind the bookcase.\r\n\r\n> D\r\n\r\nYou are in the Hidden Corridor.\r\nYou see:\r\n  Coil of Rope\r\nExits: North Up\r\n\r\n> GET ROPE\r\nTaken: Coil of Rope.\r\n\r\n> N\r\n\r\nYou are in the Alchemist's Lab.\r\nYou see:\r\n  Flask of Oil\r\nExits: North South\r\n\r\n> N\r\n\r\nYou are in the Storeroom.\r\nYou see:\r\n  Crate\r\n  Bucket\r\nExits: South Up\r\n\r\n> GET BUCKET\r\nTaken: Bucket.\r\n\r\n> U\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> E\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> E\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Axe\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Tower.\r\nYou see:\r\n  Sledge Hammer\r\n  Parapets\r\nExits: West\r\n\r\n> GET HAMMER\r\nTaken: Sledge Hammer.\r\n\r\n> TIE ROPE\r\nTo what? PARAPETS\r\nThe rope is tied to the parapets.\r\n\r\n> GO ROPE\r\nYou climb down the rope.\r\n\r\nYou are in the Lower Tower.\r\nYou see:\r\n  Oar\r\nExits: South Up\r\n\r\n> GET OAR\r\nTaken: Oar.\r\n\r\n> S\r\n\r\nYou are in the Chapel.\r\nYou see:\r\n  Holywater\r\nExits: North Up\r\n\r\n> GET WATER\r\nIn what? BUCKET\r\nTaken: Holywater.\r\n\r\n> U\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Axe\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> W\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> DROP WATER\r\nThe holywater puts out the fire.\r\n\r\n> DROP BUCKET\r\nDropped: Bucket.\r\n\r\n> GO FIRE\r\n\r\nYou are in the Brick Fireplace.\r\nYou see:\r\n  Torch\r\nExits: South\r\n\r\n> HIT FIRE\r\nWith what? HAMMER\r\nThe bricks break away. A passage leads north.\r\n\r\n> N\r\n\r\nYou are in the Secret Passage.\r\nYou see:\r\n  Nothing interesting.\r\nExits: North South West\r\n\r\n> End of commands.\r\n",
+    "alternate_console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West\r\n\r\n> PUSH BOOKCASE\r\nA doorway opens behind the bookcase.\r\n\r\n> D\r\n\r\nYou are in the Hidden Corridor.\r\nYou see:\r\n  Coil of Rope\r\nExits: North Up\r\n\r\n> GET ROPE\r\nTaken: Coil of Rope.\r\n\r\n> N\r\n\r\nYou are in the Alchemist's Lab.\r\nYou see:\r\n  Flask of Oil\r\nExits: North South\r\n\r\n> N\r\n\r\nYou are in the Storeroom.\r\nYou see:\r\n  Crate\r\n  Bucket\r\nExits: South Up\r\n\r\n> GET BUCKET\r\nTaken: Bucket.\r\n\r\n> U\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> E\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> E\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Axe\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Tower.\r\nYou see:\r\n  Sledge Hammer\r\n  Parapets\r\nExits: West\r\n\r\n> GET HAMMER\r\nTaken: Sledge Hammer.\r\n\r\n> TIE ROPE\r\nTo what? PARAPETS\r\nThe rope is tied to the parapets.\r\n\r\n> GO ROPE\r\nYou climb down the rope.\r\n\r\nYou are in the Lower Tower.\r\nYou see:\r\n  Oar\r\nExits: South Up\r\n\r\n> GET OAR\r\nTaken: Oar.\r\n\r\n> S\r\n\r\nYou are in the Chapel.\r\nYou see:\r\n  Holywater\r\nExits: North Up\r\n\r\n> GET WATER\r\nIn what? BUCKET\r\nTaken: Holywater.\r\n\r\n> U\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Axe\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> W\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> DROP WATER\r\nThe holywater puts out the fire.\r\n\r\n> GO FIRE\r\n\r\nYou are in the Brick Fireplace.\r\nYou see:\r\n  Torch\r\nExits: South\r\n\r\n> HIT FIRE\r\nWith what? AXE\r\nNothing happens.\r\n\r\n> N\r\nYou cannot go that way.\r\n\r\n> End of commands.\r\n"
+  },
+  {
+    "number": 17,
+    "source": "V17.RIL",
+    "title": "A torch in the dark",
+    "why": "Hide room contents in unlit underground areas and make the carried torch reveal them.",
+    "accept": "T17.TXT",
+    "expected": [
+      "It is dark. You cannot see.",
+      "Taken: Torch.",
+      "You are in the Secret Passage."
+    ],
+    "alternate": "X17.TXT",
+    "alternate_expected": [
+      "It is too dark to do that."
+    ],
+    "ir_bytes": 38122,
+    "assembly_bytes": 98158,
+    "binary_bytes": 15836,
+    "reports": [
+      "OK RESULT.IR 0000038122\r\n",
+      "OK RESULT.ASM 0000098158 text bytes\r\n",
+      "OK RESULT.COM 15836 bytes\r\n"
+    ],
+    "console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West\r\n\r\n> PUSH BOOKCASE\r\nA doorway opens behind the bookcase.\r\n\r\n> D\r\n\r\nYou are in the Hidden Corridor.\r\nYou see:\r\n  Coil of Rope\r\nExits: North Up\r\n\r\n> GET ROPE\r\nTaken: Coil of Rope.\r\n\r\n> N\r\n\r\nYou are in the Alchemist's Lab.\r\nYou see:\r\n  Flask of Oil\r\nExits: North South\r\n\r\n> N\r\n\r\nYou are in the Storeroom.\r\nYou see:\r\n  Crate\r\n  Bucket\r\nExits: South Up\r\n\r\n> GET BUCKET\r\nTaken: Bucket.\r\n\r\n> U\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> E\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> E\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Axe\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Tower.\r\nYou see:\r\n  Sledge Hammer\r\n  Parapets\r\nExits: West\r\n\r\n> GET HAMMER\r\nTaken: Sledge Hammer.\r\n\r\n> TIE ROPE\r\nTo what? PARAPETS\r\nThe rope is tied to the parapets.\r\n\r\n> GO ROPE\r\nYou climb down the rope.\r\n\r\nYou are in the Lower Tower.\r\nYou see:\r\n  Oar\r\nExits: South Up\r\n\r\n> GET OAR\r\nTaken: Oar.\r\n\r\n> S\r\n\r\nYou are in the Chapel.\r\nYou see:\r\n  Holywater\r\nExits: North Up\r\n\r\n> GET WATER\r\nIn what? BUCKET\r\nTaken: Holywater.\r\n\r\n> U\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Axe\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> W\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> DROP WATER\r\nThe holywater puts out the fire.\r\n\r\n> DROP BUCKET\r\nDropped: Bucket.\r\n\r\n> GO FIRE\r\n\r\nYou are in the Brick Fireplace.\r\nYou see:\r\n  Torch\r\nExits: South\r\n\r\n> HIT FIRE\r\nWith what? HAMMER\r\nThe bricks break away. A passage leads north.\r\n\r\n> N\r\n\r\nYou are in the Secret Passage.\r\nIt is dark. You cannot see.\r\n\r\n> S\r\n\r\nYou are in the Broken Fireplace.\r\nYou see:\r\n  Torch\r\nExits: North South\r\n\r\n> GET TORCH\r\nTaken: Torch.\r\n\r\n> N\r\n\r\nYou are in the Secret Passage.\r\nYou see:\r\n  Nothing interesting.\r\nExits: North South West\r\n\r\n> End of commands.\r\n",
+    "alternate_console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West\r\n\r\n> PUSH BOOKCASE\r\nA doorway opens behind the bookcase.\r\n\r\n> D\r\n\r\nYou are in the Hidden Corridor.\r\nYou see:\r\n  Coil of Rope\r\nExits: North Up\r\n\r\n> GET ROPE\r\nTaken: Coil of Rope.\r\n\r\n> N\r\n\r\nYou are in the Alchemist's Lab.\r\nYou see:\r\n  Flask of Oil\r\nExits: North South\r\n\r\n> N\r\n\r\nYou are in the Storeroom.\r\nYou see:\r\n  Crate\r\n  Bucket\r\nExits: South Up\r\n\r\n> GET BUCKET\r\nTaken: Bucket.\r\n\r\n> U\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> E\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> E\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Axe\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Tower.\r\nYou see:\r\n  Sledge Hammer\r\n  Parapets\r\nExits: West\r\n\r\n> GET HAMMER\r\nTaken: Sledge Hammer.\r\n\r\n> TIE ROPE\r\nTo what? PARAPETS\r\nThe rope is tied to the parapets.\r\n\r\n> GO ROPE\r\nYou climb down the rope.\r\n\r\nYou are in the Lower Tower.\r\nYou see:\r\n  Oar\r\nExits: South Up\r\n\r\n> GET OAR\r\nTaken: Oar.\r\n\r\n> S\r\n\r\nYou are in the Chapel.\r\nYou see:\r\n  Holywater\r\nExits: North Up\r\n\r\n> GET WATER\r\nIn what? BUCKET\r\nTaken: Holywater.\r\n\r\n> U\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Axe\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> W\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> DROP WATER\r\nThe holywater puts out the fire.\r\n\r\n> DROP BUCKET\r\nDropped: Bucket.\r\n\r\n> GO FIRE\r\n\r\nYou are in the Brick Fireplace.\r\nYou see:\r\n  Torch\r\nExits: South\r\n\r\n> HIT FIRE\r\nWith what? HAMMER\r\nThe bricks break away. A passage leads north.\r\n\r\n> N\r\n\r\nYou are in the Secret Passage.\r\nIt is dark. You cannot see.\r\n\r\n> S\r\n\r\nYou are in the Broken Fireplace.\r\nYou see:\r\n  Torch\r\nExits: North South\r\n\r\n> GET TORCH\r\nTaken: Torch.\r\n\r\n> N\r\n\r\nYou are in the Secret Passage.\r\nYou see:\r\n  Nothing interesting.\r\nExits: North South West\r\n\r\n> DROP TORCH\r\nDropped: Torch.\r\n\r\n> LOOK\r\n\r\nYou are in the Secret Passage.\r\nIt is dark. You cannot see.\r\n\r\n> GET TORCH\r\nIt is too dark to do that.\r\n\r\n> End of commands.\r\n"
+  },
+  {
+    "number": 18,
+    "source": "V18.RIL",
+    "title": "Across the underground lake",
+    "why": "Enter the boat, row with the oar and keep track of its current shore.",
+    "accept": "T18.TXT",
+    "expected": [
+      "You are in the Gallery.",
+      "You row across the lake.",
+      "You are in the Underground Lake Chamber."
+    ],
+    "alternate": "X18.TXT",
+    "alternate_expected": [
+      "The ice-cold lake pulls you under."
+    ],
+    "ir_bytes": 39679,
+    "assembly_bytes": 102401,
+    "binary_bytes": 16455,
+    "reports": [
+      "OK RESULT.IR 0000039679\r\n",
+      "OK RESULT.ASM 0000102401 text bytes\r\n",
+      "OK RESULT.COM 16455 bytes\r\n"
+    ],
+    "console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West\r\n\r\n> PUSH BOOKCASE\r\nA doorway opens behind the bookcase.\r\n\r\n> D\r\n\r\nYou are in the Hidden Corridor.\r\nYou see:\r\n  Coil of Rope\r\nExits: North Up\r\n\r\n> GET ROPE\r\nTaken: Coil of Rope.\r\n\r\n> N\r\n\r\nYou are in the Alchemist's Lab.\r\nYou see:\r\n  Flask of Oil\r\nExits: North South\r\n\r\n> N\r\n\r\nYou are in the Storeroom.\r\nYou see:\r\n  Crate\r\n  Bucket\r\nExits: South Up\r\n\r\n> GET BUCKET\r\nTaken: Bucket.\r\n\r\n> U\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> E\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> E\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Axe\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Tower.\r\nYou see:\r\n  Sledge Hammer\r\n  Parapets\r\nExits: West\r\n\r\n> GET HAMMER\r\nTaken: Sledge Hammer.\r\n\r\n> TIE ROPE\r\nTo what? PARAPETS\r\nThe rope is tied to the parapets.\r\n\r\n> GO ROPE\r\nYou climb down the rope.\r\n\r\nYou are in the Lower Tower.\r\nYou see:\r\n  Oar\r\nExits: South Up\r\n\r\n> GET OAR\r\nTaken: Oar.\r\n\r\n> S\r\n\r\nYou are in the Chapel.\r\nYou see:\r\n  Holywater\r\nExits: North Up\r\n\r\n> GET WATER\r\nIn what? BUCKET\r\nTaken: Holywater.\r\n\r\n> U\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Axe\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> W\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> DROP WATER\r\nThe holywater puts out the fire.\r\n\r\n> DROP BUCKET\r\nDropped: Bucket.\r\n\r\n> GO FIRE\r\n\r\nYou are in the Brick Fireplace.\r\nYou see:\r\n  Torch\r\nExits: South\r\n\r\n> HIT FIRE\r\nWith what? HAMMER\r\nThe bricks break away. A passage leads north.\r\n\r\n> N\r\n\r\nYou are in the Secret Passage.\r\nIt is dark. You cannot see.\r\n\r\n> S\r\n\r\nYou are in the Broken Fireplace.\r\nYou see:\r\n  Torch\r\nExits: North South\r\n\r\n> GET TORCH\r\nTaken: Torch.\r\n\r\n> N\r\n\r\nYou are in the Secret Passage.\r\nYou see:\r\n  Nothing interesting.\r\nExits: North South West\r\n\r\n> N\r\n\r\nYou are in the Underground Lake Chamber.\r\nYou see:\r\n  Boat\r\nExits: South\r\n\r\n> GO BOAT\r\n\r\nYou are in the Boat.\r\nYou see:\r\n  Nothing interesting.\r\nExits: South\r\n\r\n> ROW\r\nYou row across the lake.\r\n\r\nYou are in the Gallery.\r\nYou see:\r\n  Tapestry\r\n  Boat\r\nExits:\r\n\r\n> GO BOAT\r\n\r\nYou are in the Boat.\r\nYou see:\r\n  Nothing interesting.\r\nExits: South\r\n\r\n> S\r\n\r\nYou are in the Gallery.\r\nYou see:\r\n  Tapestry\r\n  Boat\r\nExits:\r\n\r\n> GO BOAT\r\n\r\nYou are in the Boat.\r\nYou see:\r\n  Nothing interesting.\r\nExits: South\r\n\r\n> ROW\r\nYou row across the lake.\r\n\r\nYou are in the Underground Lake Chamber.\r\nYou see:\r\n  Boat\r\nExits: South\r\n\r\n> End of commands.\r\n",
+    "alternate_console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West\r\n\r\n> PUSH BOOKCASE\r\nA doorway opens behind the bookcase.\r\n\r\n> D\r\n\r\nYou are in the Hidden Corridor.\r\nYou see:\r\n  Coil of Rope\r\nExits: North Up\r\n\r\n> GET ROPE\r\nTaken: Coil of Rope.\r\n\r\n> N\r\n\r\nYou are in the Alchemist's Lab.\r\nYou see:\r\n  Flask of Oil\r\nExits: North South\r\n\r\n> N\r\n\r\nYou are in the Storeroom.\r\nYou see:\r\n  Crate\r\n  Bucket\r\nExits: South Up\r\n\r\n> GET BUCKET\r\nTaken: Bucket.\r\n\r\n> U\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> E\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> E\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Axe\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Tower.\r\nYou see:\r\n  Sledge Hammer\r\n  Parapets\r\nExits: West\r\n\r\n> GET HAMMER\r\nTaken: Sledge Hammer.\r\n\r\n> TIE ROPE\r\nTo what? PARAPETS\r\nThe rope is tied to the parapets.\r\n\r\n> GO ROPE\r\nYou climb down the rope.\r\n\r\nYou are in the Lower Tower.\r\nYou see:\r\n  Oar\r\nExits: South Up\r\n\r\n> GET OAR\r\nTaken: Oar.\r\n\r\n> S\r\n\r\nYou are in the Chapel.\r\nYou see:\r\n  Holywater\r\nExits: North Up\r\n\r\n> GET WATER\r\nIn what? BUCKET\r\nTaken: Holywater.\r\n\r\n> U\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Axe\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> W\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> DROP WATER\r\nThe holywater puts out the fire.\r\n\r\n> DROP BUCKET\r\nDropped: Bucket.\r\n\r\n> GO FIRE\r\n\r\nYou are in the Brick Fireplace.\r\nYou see:\r\n  Torch\r\nExits: South\r\n\r\n> HIT FIRE\r\nWith what? HAMMER\r\nThe bricks break away. A passage leads north.\r\n\r\n> N\r\n\r\nYou are in the Secret Passage.\r\nIt is dark. You cannot see.\r\n\r\n> S\r\n\r\nYou are in the Broken Fireplace.\r\nYou see:\r\n  Torch\r\nExits: North South\r\n\r\n> GET TORCH\r\nTaken: Torch.\r\n\r\n> N\r\n\r\nYou are in the Secret Passage.\r\nYou see:\r\n  Nothing interesting.\r\nExits: North South West\r\n\r\n> N\r\n\r\nYou are in the Underground Lake Chamber.\r\nYou see:\r\n  Boat\r\nExits: South\r\n\r\n> SWIM\r\nThe ice-cold lake pulls you under.\r\n"
+  },
+  {
+    "number": 19,
+    "source": "V19.RIL",
+    "title": "Making wooden stakes",
+    "why": "Chop the crate with the axe and preserve its identity while changing its use.",
+    "accept": "T19.TXT",
+    "expected": [
+      "The crate splits into wooden stakes.",
+      "  Wooden Stakes"
+    ],
+    "alternate": "X19.TXT",
+    "alternate_expected": [
+      "Nothing happens."
+    ],
+    "ir_bytes": 40591,
+    "assembly_bytes": 104659,
+    "binary_bytes": 16787,
+    "reports": [
+      "OK RESULT.IR 0000040591\r\n",
+      "OK RESULT.ASM 0000104659 text bytes\r\n",
+      "OK RESULT.COM 16787 bytes\r\n"
+    ],
+    "console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West\r\n\r\n> PUSH BOOKCASE\r\nA doorway opens behind the bookcase.\r\n\r\n> D\r\n\r\nYou are in the Hidden Corridor.\r\nYou see:\r\n  Coil of Rope\r\nExits: North Up\r\n\r\n> GET ROPE\r\nTaken: Coil of Rope.\r\n\r\n> N\r\n\r\nYou are in the Alchemist's Lab.\r\nYou see:\r\n  Flask of Oil\r\nExits: North South\r\n\r\n> GET OIL\r\nTaken: Flask of Oil.\r\n\r\n> N\r\n\r\nYou are in the Storeroom.\r\nYou see:\r\n  Crate\r\n  Bucket\r\nExits: South Up\r\n\r\n> GET BUCKET\r\nTaken: Bucket.\r\n\r\n> GET CRATE\r\nTaken: Crate.\r\n\r\n> U\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> E\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> E\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Axe\r\nExits: East West\r\n\r\n> GET AXE\r\nTaken: Axe.\r\n\r\n> E\r\n\r\nYou are in the Tower.\r\nYou see:\r\n  Sledge Hammer\r\n  Parapets\r\nExits: West\r\n\r\n> GET HAMMER\r\nTaken: Sledge Hammer.\r\n\r\n> TIE ROPE\r\nTo what? PARAPETS\r\nThe rope is tied to the parapets.\r\n\r\n> GO ROPE\r\nYou climb down the rope.\r\n\r\nYou are in the Lower Tower.\r\nYou see:\r\n  Oar\r\nExits: South Up\r\n\r\n> GET OAR\r\nTaken: Oar.\r\n\r\n> S\r\n\r\nYou are in the Chapel.\r\nYou see:\r\n  Holywater\r\nExits: North Up\r\n\r\n> GET WATER\r\nIn what? BUCKET\r\nTaken: Holywater.\r\n\r\n> U\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Nothing interesting.\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> W\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> HIT CRATE\r\nWith what? AXE\r\nThe crate splits into wooden stakes.\r\n\r\n> INVENTORY\r\nYou are carrying:\r\n  Sledge Hammer\r\n  Axe\r\n  Oar\r\n  Holywater\r\n  Flask of Oil\r\n  Wooden Stakes\r\n  Bucket\r\n\r\n> End of commands.\r\n",
+    "alternate_console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West\r\n\r\n> PUSH BOOKCASE\r\nA doorway opens behind the bookcase.\r\n\r\n> D\r\n\r\nYou are in the Hidden Corridor.\r\nYou see:\r\n  Coil of Rope\r\nExits: North Up\r\n\r\n> GET ROPE\r\nTaken: Coil of Rope.\r\n\r\n> N\r\n\r\nYou are in the Alchemist's Lab.\r\nYou see:\r\n  Flask of Oil\r\nExits: North South\r\n\r\n> GET OIL\r\nTaken: Flask of Oil.\r\n\r\n> N\r\n\r\nYou are in the Storeroom.\r\nYou see:\r\n  Crate\r\n  Bucket\r\nExits: South Up\r\n\r\n> GET BUCKET\r\nTaken: Bucket.\r\n\r\n> GET CRATE\r\nTaken: Crate.\r\n\r\n> U\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> E\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> E\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Axe\r\nExits: East West\r\n\r\n> GET AXE\r\nTaken: Axe.\r\n\r\n> E\r\n\r\nYou are in the Tower.\r\nYou see:\r\n  Sledge Hammer\r\n  Parapets\r\nExits: West\r\n\r\n> GET HAMMER\r\nTaken: Sledge Hammer.\r\n\r\n> TIE ROPE\r\nTo what? PARAPETS\r\nThe rope is tied to the parapets.\r\n\r\n> GO ROPE\r\nYou climb down the rope.\r\n\r\nYou are in the Lower Tower.\r\nYou see:\r\n  Oar\r\nExits: South Up\r\n\r\n> GET OAR\r\nTaken: Oar.\r\n\r\n> S\r\n\r\nYou are in the Chapel.\r\nYou see:\r\n  Holywater\r\nExits: North Up\r\n\r\n> GET WATER\r\nIn what? BUCKET\r\nTaken: Holywater.\r\n\r\n> U\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Nothing interesting.\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> W\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> HIT CRATE\r\nWith what? HAMMER\r\nNothing happens.\r\n\r\n> End of commands.\r\n"
+  },
+  {
+    "number": 20,
+    "source": "V20.RIL",
+    "title": "Reaching the overhang",
+    "why": "Stand on an intact crate placed in the gallery to reach the overhang.",
+    "accept": "T20.TXT",
+    "expected": [
+      "The overhang is too high.",
+      "You are in the Overhang.",
+      "You are in the Gallery."
+    ],
+    "alternate": "X20.TXT",
+    "alternate_expected": [
+      "The overhang is too high."
+    ],
+    "ir_bytes": 41069,
+    "assembly_bytes": 105856,
+    "binary_bytes": 16970,
+    "reports": [
+      "OK RESULT.IR 0000041069\r\n",
+      "OK RESULT.ASM 0000105856 text bytes\r\n",
+      "OK RESULT.COM 16970 bytes\r\n"
+    ],
+    "console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West\r\n\r\n> PUSH BOOKCASE\r\nA doorway opens behind the bookcase.\r\n\r\n> D\r\n\r\nYou are in the Hidden Corridor.\r\nYou see:\r\n  Coil of Rope\r\nExits: North Up\r\n\r\n> GET ROPE\r\nTaken: Coil of Rope.\r\n\r\n> N\r\n\r\nYou are in the Alchemist's Lab.\r\nYou see:\r\n  Flask of Oil\r\nExits: North South\r\n\r\n> GET OIL\r\nTaken: Flask of Oil.\r\n\r\n> N\r\n\r\nYou are in the Storeroom.\r\nYou see:\r\n  Crate\r\n  Bucket\r\nExits: South Up\r\n\r\n> GET BUCKET\r\nTaken: Bucket.\r\n\r\n> GET CRATE\r\nTaken: Crate.\r\n\r\n> U\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> E\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> E\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Axe\r\nExits: East West\r\n\r\n> GET AXE\r\nTaken: Axe.\r\n\r\n> E\r\n\r\nYou are in the Tower.\r\nYou see:\r\n  Sledge Hammer\r\n  Parapets\r\nExits: West\r\n\r\n> GET HAMMER\r\nTaken: Sledge Hammer.\r\n\r\n> TIE ROPE\r\nTo what? PARAPETS\r\nThe rope is tied to the parapets.\r\n\r\n> GO ROPE\r\nYou climb down the rope.\r\n\r\nYou are in the Lower Tower.\r\nYou see:\r\n  Oar\r\nExits: South Up\r\n\r\n> GET OAR\r\nTaken: Oar.\r\n\r\n> S\r\n\r\nYou are in the Chapel.\r\nYou see:\r\n  Holywater\r\nExits: North Up\r\n\r\n> GET WATER\r\nIn what? BUCKET\r\nTaken: Holywater.\r\n\r\n> U\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Nothing interesting.\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> W\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> DROP WATER\r\nThe holywater puts out the fire.\r\n\r\n> DROP BUCKET\r\nDropped: Bucket.\r\n\r\n> GO FIRE\r\n\r\nYou are in the Brick Fireplace.\r\nYou see:\r\n  Torch\r\nExits: South\r\n\r\n> GET TORCH\r\nTaken: Torch.\r\n\r\n> HIT FIRE\r\nWith what? HAMMER\r\nThe bricks break away. A passage leads north.\r\n\r\n> N\r\n\r\nYou are in the Secret Passage.\r\nYou see:\r\n  Nothing interesting.\r\nExits: North South West\r\n\r\n> N\r\n\r\nYou are in the Underground Lake Chamber.\r\nYou see:\r\n  Boat\r\nExits: South\r\n\r\n> GO BOAT\r\n\r\nYou are in the Boat.\r\nYou see:\r\n  Nothing interesting.\r\nExits: South\r\n\r\n> ROW\r\nYou row across the lake.\r\n\r\nYou are in the Gallery.\r\nYou see:\r\n  Tapestry\r\n  Boat\r\nExits:\r\n\r\n> GO OVERHANG\r\nThe overhang is too high.\r\n\r\n> DROP CRATE\r\nDropped: Crate.\r\n\r\n> GO OVERHANG\r\n\r\nYou are in the Overhang.\r\nYou see:\r\n  Nails\r\nExits: Down\r\n\r\n> D\r\n\r\nYou are in the Gallery.\r\nYou see:\r\n  Crate\r\n  Tapestry\r\n  Boat\r\nExits:\r\n\r\n> End of commands.\r\n",
+    "alternate_console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West\r\n\r\n> PUSH BOOKCASE\r\nA doorway opens behind the bookcase.\r\n\r\n> D\r\n\r\nYou are in the Hidden Corridor.\r\nYou see:\r\n  Coil of Rope\r\nExits: North Up\r\n\r\n> GET ROPE\r\nTaken: Coil of Rope.\r\n\r\n> N\r\n\r\nYou are in the Alchemist's Lab.\r\nYou see:\r\n  Flask of Oil\r\nExits: North South\r\n\r\n> GET OIL\r\nTaken: Flask of Oil.\r\n\r\n> N\r\n\r\nYou are in the Storeroom.\r\nYou see:\r\n  Crate\r\n  Bucket\r\nExits: South Up\r\n\r\n> GET BUCKET\r\nTaken: Bucket.\r\n\r\n> GET CRATE\r\nTaken: Crate.\r\n\r\n> U\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> E\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> E\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Axe\r\nExits: East West\r\n\r\n> GET AXE\r\nTaken: Axe.\r\n\r\n> E\r\n\r\nYou are in the Tower.\r\nYou see:\r\n  Sledge Hammer\r\n  Parapets\r\nExits: West\r\n\r\n> GET HAMMER\r\nTaken: Sledge Hammer.\r\n\r\n> TIE ROPE\r\nTo what? PARAPETS\r\nThe rope is tied to the parapets.\r\n\r\n> GO ROPE\r\nYou climb down the rope.\r\n\r\nYou are in the Lower Tower.\r\nYou see:\r\n  Oar\r\nExits: South Up\r\n\r\n> GET OAR\r\nTaken: Oar.\r\n\r\n> S\r\n\r\nYou are in the Chapel.\r\nYou see:\r\n  Holywater\r\nExits: North Up\r\n\r\n> GET WATER\r\nIn what? BUCKET\r\nTaken: Holywater.\r\n\r\n> U\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Nothing interesting.\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> W\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> DROP WATER\r\nThe holywater puts out the fire.\r\n\r\n> DROP BUCKET\r\nDropped: Bucket.\r\n\r\n> GO FIRE\r\n\r\nYou are in the Brick Fireplace.\r\nYou see:\r\n  Torch\r\nExits: South\r\n\r\n> GET TORCH\r\nTaken: Torch.\r\n\r\n> HIT FIRE\r\nWith what? HAMMER\r\nThe bricks break away. A passage leads north.\r\n\r\n> N\r\n\r\nYou are in the Secret Passage.\r\nYou see:\r\n  Nothing interesting.\r\nExits: North South West\r\n\r\n> N\r\n\r\nYou are in the Underground Lake Chamber.\r\nYou see:\r\n  Boat\r\nExits: South\r\n\r\n> GO BOAT\r\n\r\nYou are in the Boat.\r\nYou see:\r\n  Nothing interesting.\r\nExits: South\r\n\r\n> ROW\r\nYou row across the lake.\r\n\r\nYou are in the Gallery.\r\nYou see:\r\n  Tapestry\r\n  Boat\r\nExits:\r\n\r\n> DROP CRATE\r\nDropped: Crate.\r\n\r\n> HIT CRATE\r\nWith what? AXE\r\nThe crate splits into wooden stakes.\r\n\r\n> GO OVERHANG\r\nThe overhang is too high.\r\n\r\n> End of commands.\r\n"
+  },
+  {
+    "number": 21,
+    "source": "V21.RIL",
+    "title": "Nails behind a tapestry",
+    "why": "Loosen the nails with the hammer and uncover an exit by taking the tapestry.",
+    "accept": "T21.TXT",
+    "expected": [
+      "The tapestry comes loose.",
+      "A hole opens behind the tapestry.",
+      "You are in the Antechamber."
+    ],
+    "alternate": "X21.TXT",
+    "alternate_expected": [
+      "You need the hammer.",
+      "It is nailed to the overhang."
+    ],
+    "ir_bytes": 42135,
+    "assembly_bytes": 108853,
+    "binary_bytes": 17402,
+    "reports": [
+      "OK RESULT.IR 0000042135\r\n",
+      "OK RESULT.ASM 0000108853 text bytes\r\n",
+      "OK RESULT.COM 17402 bytes\r\n"
+    ],
+    "console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West\r\n\r\n> PUSH BOOKCASE\r\nA doorway opens behind the bookcase.\r\n\r\n> D\r\n\r\nYou are in the Hidden Corridor.\r\nYou see:\r\n  Coil of Rope\r\nExits: North Up\r\n\r\n> GET ROPE\r\nTaken: Coil of Rope.\r\n\r\n> N\r\n\r\nYou are in the Alchemist's Lab.\r\nYou see:\r\n  Flask of Oil\r\nExits: North South\r\n\r\n> GET OIL\r\nTaken: Flask of Oil.\r\n\r\n> N\r\n\r\nYou are in the Storeroom.\r\nYou see:\r\n  Crate\r\n  Bucket\r\nExits: South Up\r\n\r\n> GET BUCKET\r\nTaken: Bucket.\r\n\r\n> GET CRATE\r\nTaken: Crate.\r\n\r\n> U\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> E\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> E\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Axe\r\nExits: East West\r\n\r\n> GET AXE\r\nTaken: Axe.\r\n\r\n> E\r\n\r\nYou are in the Tower.\r\nYou see:\r\n  Sledge Hammer\r\n  Parapets\r\nExits: West\r\n\r\n> GET HAMMER\r\nTaken: Sledge Hammer.\r\n\r\n> TIE ROPE\r\nTo what? PARAPETS\r\nThe rope is tied to the parapets.\r\n\r\n> GO ROPE\r\nYou climb down the rope.\r\n\r\nYou are in the Lower Tower.\r\nYou see:\r\n  Oar\r\nExits: South Up\r\n\r\n> GET OAR\r\nTaken: Oar.\r\n\r\n> S\r\n\r\nYou are in the Chapel.\r\nYou see:\r\n  Holywater\r\nExits: North Up\r\n\r\n> GET WATER\r\nIn what? BUCKET\r\nTaken: Holywater.\r\n\r\n> U\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Nothing interesting.\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> W\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> DROP WATER\r\nThe holywater puts out the fire.\r\n\r\n> DROP BUCKET\r\nDropped: Bucket.\r\n\r\n> GO FIRE\r\n\r\nYou are in the Brick Fireplace.\r\nYou see:\r\n  Torch\r\nExits: South\r\n\r\n> GET TORCH\r\nTaken: Torch.\r\n\r\n> HIT FIRE\r\nWith what? HAMMER\r\nThe bricks break away. A passage leads north.\r\n\r\n> N\r\n\r\nYou are in the Secret Passage.\r\nYou see:\r\n  Nothing interesting.\r\nExits: North South West\r\n\r\n> N\r\n\r\nYou are in the Underground Lake Chamber.\r\nYou see:\r\n  Boat\r\nExits: South\r\n\r\n> GO BOAT\r\n\r\nYou are in the Boat.\r\nYou see:\r\n  Nothing interesting.\r\nExits: South\r\n\r\n> ROW\r\nYou row across the lake.\r\n\r\nYou are in the Gallery.\r\nYou see:\r\n  Tapestry\r\n  Boat\r\nExits:\r\n\r\n> DROP CRATE\r\nDropped: Crate.\r\n\r\n> GO OVERHANG\r\n\r\nYou are in the Overhang.\r\nYou see:\r\n  Nails\r\nExits: Down\r\n\r\n> GET NAILS\r\nThe tapestry comes loose.\r\nTaken: Nails.\r\n\r\n> DROP NAILS\r\nDropped: Nails.\r\n\r\n> D\r\n\r\nYou are in the Gallery.\r\nYou see:\r\n  Crate\r\n  Tapestry\r\n  Boat\r\nExits:\r\n\r\n> GET TAPESTRY\r\nA hole opens behind the tapestry.\r\nTaken: Tapestry.\r\n\r\n> DROP TAPESTRY\r\nDropped: Tapestry.\r\n\r\n> GET CRATE\r\nTaken: Crate.\r\n\r\n> HIT CRATE\r\nWith what? AXE\r\nThe crate splits into wooden stakes.\r\n\r\n> DROP AXE\r\nDropped: Axe.\r\n\r\n> N\r\n\r\nYou are in the Antechamber.\r\nYou see:\r\n  Rusty Door\r\nExits: South\r\n\r\n> End of commands.\r\n",
+    "alternate_console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West\r\n\r\n> PUSH BOOKCASE\r\nA doorway opens behind the bookcase.\r\n\r\n> D\r\n\r\nYou are in the Hidden Corridor.\r\nYou see:\r\n  Coil of Rope\r\nExits: North Up\r\n\r\n> GET ROPE\r\nTaken: Coil of Rope.\r\n\r\n> N\r\n\r\nYou are in the Alchemist's Lab.\r\nYou see:\r\n  Flask of Oil\r\nExits: North South\r\n\r\n> GET OIL\r\nTaken: Flask of Oil.\r\n\r\n> N\r\n\r\nYou are in the Storeroom.\r\nYou see:\r\n  Crate\r\n  Bucket\r\nExits: South Up\r\n\r\n> GET BUCKET\r\nTaken: Bucket.\r\n\r\n> GET CRATE\r\nTaken: Crate.\r\n\r\n> U\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> E\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> E\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Axe\r\nExits: East West\r\n\r\n> GET AXE\r\nTaken: Axe.\r\n\r\n> E\r\n\r\nYou are in the Tower.\r\nYou see:\r\n  Sledge Hammer\r\n  Parapets\r\nExits: West\r\n\r\n> GET HAMMER\r\nTaken: Sledge Hammer.\r\n\r\n> TIE ROPE\r\nTo what? PARAPETS\r\nThe rope is tied to the parapets.\r\n\r\n> GO ROPE\r\nYou climb down the rope.\r\n\r\nYou are in the Lower Tower.\r\nYou see:\r\n  Oar\r\nExits: South Up\r\n\r\n> GET OAR\r\nTaken: Oar.\r\n\r\n> S\r\n\r\nYou are in the Chapel.\r\nYou see:\r\n  Holywater\r\nExits: North Up\r\n\r\n> GET WATER\r\nIn what? BUCKET\r\nTaken: Holywater.\r\n\r\n> U\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Nothing interesting.\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> W\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> DROP WATER\r\nThe holywater puts out the fire.\r\n\r\n> DROP BUCKET\r\nDropped: Bucket.\r\n\r\n> GO FIRE\r\n\r\nYou are in the Brick Fireplace.\r\nYou see:\r\n  Torch\r\nExits: South\r\n\r\n> GET TORCH\r\nTaken: Torch.\r\n\r\n> HIT FIRE\r\nWith what? HAMMER\r\nThe bricks break away. A passage leads north.\r\n\r\n> N\r\n\r\nYou are in the Secret Passage.\r\nYou see:\r\n  Nothing interesting.\r\nExits: North South West\r\n\r\n> N\r\n\r\nYou are in the Underground Lake Chamber.\r\nYou see:\r\n  Boat\r\nExits: South\r\n\r\n> GO BOAT\r\n\r\nYou are in the Boat.\r\nYou see:\r\n  Nothing interesting.\r\nExits: South\r\n\r\n> ROW\r\nYou row across the lake.\r\n\r\nYou are in the Gallery.\r\nYou see:\r\n  Tapestry\r\n  Boat\r\nExits:\r\n\r\n> DROP CRATE\r\nDropped: Crate.\r\n\r\n> DROP HAMMER\r\nDropped: Sledge Hammer.\r\n\r\n> GO OVERHANG\r\n\r\nYou are in the Overhang.\r\nYou see:\r\n  Nails\r\nExits: Down\r\n\r\n> GET NAILS\r\nYou need the hammer.\r\n\r\n> D\r\n\r\nYou are in the Gallery.\r\nYou see:\r\n  Sledge Hammer\r\n  Crate\r\n  Tapestry\r\n  Boat\r\nExits:\r\n\r\n> GET TAPESTRY\r\nIt is nailed to the overhang.\r\n\r\n> End of commands.\r\n"
+  },
+  {
+    "number": 22,
+    "source": "V22.RIL",
+    "title": "The rat and the key",
+    "why": "Discover the hidden key and distract its guardian with cheese.",
+    "accept": "T22.TXT",
+    "expected": [
+      "There is a key in the rat's mouth.",
+      "The rat guards the key.",
+      "The rat runs off with the cheese.",
+      "Taken: Key."
+    ],
+    "alternate": "X22.TXT",
+    "alternate_expected": [
+      "You cannot see it here."
+    ],
+    "ir_bytes": 42996,
+    "assembly_bytes": 111302,
+    "binary_bytes": 17751,
+    "reports": [
+      "OK RESULT.IR 0000042996\r\n",
+      "OK RESULT.ASM 0000111302 text bytes\r\n",
+      "OK RESULT.COM 17751 bytes\r\n"
+    ],
+    "console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West\r\n\r\n> PUSH BOOKCASE\r\nA doorway opens behind the bookcase.\r\n\r\n> D\r\n\r\nYou are in the Hidden Corridor.\r\nYou see:\r\n  Coil of Rope\r\nExits: North Up\r\n\r\n> GET ROPE\r\nTaken: Coil of Rope.\r\n\r\n> N\r\n\r\nYou are in the Alchemist's Lab.\r\nYou see:\r\n  Flask of Oil\r\nExits: North South\r\n\r\n> GET OIL\r\nTaken: Flask of Oil.\r\n\r\n> N\r\n\r\nYou are in the Storeroom.\r\nYou see:\r\n  Crate\r\n  Bucket\r\nExits: South Up\r\n\r\n> GET BUCKET\r\nTaken: Bucket.\r\n\r\n> GET CRATE\r\nTaken: Crate.\r\n\r\n> U\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> E\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> E\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Axe\r\nExits: East West\r\n\r\n> GET AXE\r\nTaken: Axe.\r\n\r\n> E\r\n\r\nYou are in the Tower.\r\nYou see:\r\n  Sledge Hammer\r\n  Parapets\r\nExits: West\r\n\r\n> GET HAMMER\r\nTaken: Sledge Hammer.\r\n\r\n> TIE ROPE\r\nTo what? PARAPETS\r\nThe rope is tied to the parapets.\r\n\r\n> GO ROPE\r\nYou climb down the rope.\r\n\r\nYou are in the Lower Tower.\r\nYou see:\r\n  Oar\r\nExits: South Up\r\n\r\n> GET OAR\r\nTaken: Oar.\r\n\r\n> S\r\n\r\nYou are in the Chapel.\r\nYou see:\r\n  Holywater\r\nExits: North Up\r\n\r\n> GET WATER\r\nIn what? BUCKET\r\nTaken: Holywater.\r\n\r\n> U\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Nothing interesting.\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> W\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> DROP WATER\r\nThe holywater puts out the fire.\r\n\r\n> DROP BUCKET\r\nDropped: Bucket.\r\n\r\n> GET CHEESE\r\nTaken: Cheddar Cheese.\r\n\r\n> GO FIRE\r\n\r\nYou are in the Brick Fireplace.\r\nYou see:\r\n  Torch\r\nExits: South\r\n\r\n> GET TORCH\r\nTaken: Torch.\r\n\r\n> HIT FIRE\r\nWith what? HAMMER\r\nThe bricks break away. A passage leads north.\r\n\r\n> N\r\n\r\nYou are in the Secret Passage.\r\nYou see:\r\n  Nothing interesting.\r\nExits: North South West\r\n\r\n> W\r\n\r\nYou are in the Torture Chamber.\r\nYou see:\r\n  Rat\r\nExits: East West\r\n\r\n> LOOK RAT\r\nThere is a key in the rat's mouth.\r\n\r\n> DROP OAR\r\nDropped: Oar.\r\n\r\n> GET KEY\r\nThe rat guards the key.\r\n\r\n> GET OAR\r\nTaken: Oar.\r\n\r\n> DROP CHEESE\r\nDropped: Cheddar Cheese.\r\n\r\n> GET KEY\r\nThe rat runs off with the cheese.\r\nTaken: Key.\r\n\r\n> E\r\n\r\nYou are in the Secret Passage.\r\nYou see:\r\n  Nothing interesting.\r\nExits: North South West\r\n\r\n> N\r\n\r\nYou are in the Underground Lake Chamber.\r\nYou see:\r\n  Boat\r\nExits: South\r\n\r\n> GO BOAT\r\n\r\nYou are in the Boat.\r\nYou see:\r\n  Nothing interesting.\r\nExits: South\r\n\r\n> ROW\r\nYou row across the lake.\r\n\r\nYou are in the Gallery.\r\nYou see:\r\n  Tapestry\r\n  Boat\r\nExits:\r\n\r\n> DROP CRATE\r\nDropped: Crate.\r\n\r\n> GO OVERHANG\r\n\r\nYou are in the Overhang.\r\nYou see:\r\n  Nails\r\nExits: Down\r\n\r\n> GET NAILS\r\nThe tapestry comes loose.\r\nTaken: Nails.\r\n\r\n> DROP NAILS\r\nDropped: Nails.\r\n\r\n> D\r\n\r\nYou are in the Gallery.\r\nYou see:\r\n  Crate\r\n  Tapestry\r\n  Boat\r\nExits:\r\n\r\n> GET TAPESTRY\r\nA hole opens behind the tapestry.\r\nTaken: Tapestry.\r\n\r\n> DROP TAPESTRY\r\nDropped: Tapestry.\r\n\r\n> GET CRATE\r\nTaken: Crate.\r\n\r\n> HIT CRATE\r\nWith what? AXE\r\nThe crate splits into wooden stakes.\r\n\r\n> DROP AXE\r\nDropped: Axe.\r\n\r\n> N\r\n\r\nYou are in the Antechamber.\r\nYou see:\r\n  Rusty Door\r\nExits: South\r\n\r\n> End of commands.\r\n",
+    "alternate_console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> LOOK RAT\r\nYou cannot see it here.\r\n\r\n> End of commands.\r\n"
+  },
+  {
+    "number": 23,
+    "source": "V23.RIL",
+    "title": "Oil on the rusty hinges",
+    "why": "Open the antechamber door with the carried flask of oil.",
+    "accept": "T23.TXT",
+    "expected": [
+      "The rusty door squeaks open.",
+      "You are in the Dracula's Tomb."
+    ],
+    "alternate": "X23.TXT",
+    "alternate_expected": [
+      "You cannot oil that here.",
+      "You cannot go that way."
+    ],
+    "ir_bytes": 43914,
+    "assembly_bytes": 113771,
+    "binary_bytes": 18116,
+    "reports": [
+      "OK RESULT.IR 0000043914\r\n",
+      "OK RESULT.ASM 0000113771 text bytes\r\n",
+      "OK RESULT.COM 18116 bytes\r\n"
+    ],
+    "console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West\r\n\r\n> PUSH BOOKCASE\r\nA doorway opens behind the bookcase.\r\n\r\n> D\r\n\r\nYou are in the Hidden Corridor.\r\nYou see:\r\n  Coil of Rope\r\nExits: North Up\r\n\r\n> GET ROPE\r\nTaken: Coil of Rope.\r\n\r\n> N\r\n\r\nYou are in the Alchemist's Lab.\r\nYou see:\r\n  Flask of Oil\r\nExits: North South\r\n\r\n> GET OIL\r\nTaken: Flask of Oil.\r\n\r\n> N\r\n\r\nYou are in the Storeroom.\r\nYou see:\r\n  Crate\r\n  Bucket\r\nExits: South Up\r\n\r\n> GET BUCKET\r\nTaken: Bucket.\r\n\r\n> GET CRATE\r\nTaken: Crate.\r\n\r\n> U\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> E\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> E\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Axe\r\nExits: East West\r\n\r\n> GET AXE\r\nTaken: Axe.\r\n\r\n> E\r\n\r\nYou are in the Tower.\r\nYou see:\r\n  Sledge Hammer\r\n  Parapets\r\nExits: West\r\n\r\n> GET HAMMER\r\nTaken: Sledge Hammer.\r\n\r\n> TIE ROPE\r\nTo what? PARAPETS\r\nThe rope is tied to the parapets.\r\n\r\n> GO ROPE\r\nYou climb down the rope.\r\n\r\nYou are in the Lower Tower.\r\nYou see:\r\n  Oar\r\nExits: South Up\r\n\r\n> GET OAR\r\nTaken: Oar.\r\n\r\n> S\r\n\r\nYou are in the Chapel.\r\nYou see:\r\n  Holywater\r\nExits: North Up\r\n\r\n> GET WATER\r\nIn what? BUCKET\r\nTaken: Holywater.\r\n\r\n> U\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Nothing interesting.\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> W\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> DROP WATER\r\nThe holywater puts out the fire.\r\n\r\n> DROP BUCKET\r\nDropped: Bucket.\r\n\r\n> GET CHEESE\r\nTaken: Cheddar Cheese.\r\n\r\n> GO FIRE\r\n\r\nYou are in the Brick Fireplace.\r\nYou see:\r\n  Torch\r\nExits: South\r\n\r\n> GET TORCH\r\nTaken: Torch.\r\n\r\n> HIT FIRE\r\nWith what? HAMMER\r\nThe bricks break away. A passage leads north.\r\n\r\n> N\r\n\r\nYou are in the Secret Passage.\r\nYou see:\r\n  Nothing interesting.\r\nExits: North South West\r\n\r\n> W\r\n\r\nYou are in the Torture Chamber.\r\nYou see:\r\n  Rat\r\nExits: East West\r\n\r\n> LOOK RAT\r\nThere is a key in the rat's mouth.\r\n\r\n> DROP OAR\r\nDropped: Oar.\r\n\r\n> GET KEY\r\nThe rat guards the key.\r\n\r\n> GET OAR\r\nTaken: Oar.\r\n\r\n> DROP CHEESE\r\nDropped: Cheddar Cheese.\r\n\r\n> GET KEY\r\nThe rat runs off with the cheese.\r\nTaken: Key.\r\n\r\n> E\r\n\r\nYou are in the Secret Passage.\r\nYou see:\r\n  Nothing interesting.\r\nExits: North South West\r\n\r\n> N\r\n\r\nYou are in the Underground Lake Chamber.\r\nYou see:\r\n  Boat\r\nExits: South\r\n\r\n> GO BOAT\r\n\r\nYou are in the Boat.\r\nYou see:\r\n  Nothing interesting.\r\nExits: South\r\n\r\n> ROW\r\nYou row across the lake.\r\n\r\nYou are in the Gallery.\r\nYou see:\r\n  Tapestry\r\n  Boat\r\nExits:\r\n\r\n> DROP CRATE\r\nDropped: Crate.\r\n\r\n> GO OVERHANG\r\n\r\nYou are in the Overhang.\r\nYou see:\r\n  Nails\r\nExits: Down\r\n\r\n> GET NAILS\r\nThe tapestry comes loose.\r\nTaken: Nails.\r\n\r\n> DROP NAILS\r\nDropped: Nails.\r\n\r\n> D\r\n\r\nYou are in the Gallery.\r\nYou see:\r\n  Crate\r\n  Tapestry\r\n  Boat\r\nExits:\r\n\r\n> GET TAPESTRY\r\nA hole opens behind the tapestry.\r\nTaken: Tapestry.\r\n\r\n> DROP TAPESTRY\r\nDropped: Tapestry.\r\n\r\n> GET CRATE\r\nTaken: Crate.\r\n\r\n> HIT CRATE\r\nWith what? AXE\r\nThe crate splits into wooden stakes.\r\n\r\n> DROP AXE\r\nDropped: Axe.\r\n\r\n> N\r\n\r\nYou are in the Antechamber.\r\nYou see:\r\n  Rusty Door\r\nExits: South\r\n\r\n> OIL DOOR\r\nThe rusty door squeaks open.\r\n\r\n> N\r\n\r\nYou are in the Dracula's Tomb.\r\nYou see:\r\n  Closed Coffin\r\nExits: South\r\n\r\n> End of commands.\r\n",
+    "alternate_console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West\r\n\r\n> PUSH BOOKCASE\r\nA doorway opens behind the bookcase.\r\n\r\n> D\r\n\r\nYou are in the Hidden Corridor.\r\nYou see:\r\n  Coil of Rope\r\nExits: North Up\r\n\r\n> GET ROPE\r\nTaken: Coil of Rope.\r\n\r\n> N\r\n\r\nYou are in the Alchemist's Lab.\r\nYou see:\r\n  Flask of Oil\r\nExits: North South\r\n\r\n> GET OIL\r\nTaken: Flask of Oil.\r\n\r\n> N\r\n\r\nYou are in the Storeroom.\r\nYou see:\r\n  Crate\r\n  Bucket\r\nExits: South Up\r\n\r\n> GET BUCKET\r\nTaken: Bucket.\r\n\r\n> GET CRATE\r\nTaken: Crate.\r\n\r\n> U\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> E\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> E\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Axe\r\nExits: East West\r\n\r\n> GET AXE\r\nTaken: Axe.\r\n\r\n> E\r\n\r\nYou are in the Tower.\r\nYou see:\r\n  Sledge Hammer\r\n  Parapets\r\nExits: West\r\n\r\n> GET HAMMER\r\nTaken: Sledge Hammer.\r\n\r\n> TIE ROPE\r\nTo what? PARAPETS\r\nThe rope is tied to the parapets.\r\n\r\n> GO ROPE\r\nYou climb down the rope.\r\n\r\nYou are in the Lower Tower.\r\nYou see:\r\n  Oar\r\nExits: South Up\r\n\r\n> GET OAR\r\nTaken: Oar.\r\n\r\n> S\r\n\r\nYou are in the Chapel.\r\nYou see:\r\n  Holywater\r\nExits: North Up\r\n\r\n> GET WATER\r\nIn what? BUCKET\r\nTaken: Holywater.\r\n\r\n> U\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Nothing interesting.\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> W\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> DROP WATER\r\nThe holywater puts out the fire.\r\n\r\n> DROP BUCKET\r\nDropped: Bucket.\r\n\r\n> GO FIRE\r\n\r\nYou are in the Brick Fireplace.\r\nYou see:\r\n  Torch\r\nExits: South\r\n\r\n> GET TORCH\r\nTaken: Torch.\r\n\r\n> HIT FIRE\r\nWith what? HAMMER\r\nThe bricks break away. A passage leads north.\r\n\r\n> N\r\n\r\nYou are in the Secret Passage.\r\nYou see:\r\n  Nothing interesting.\r\nExits: North South West\r\n\r\n> N\r\n\r\nYou are in the Underground Lake Chamber.\r\nYou see:\r\n  Boat\r\nExits: South\r\n\r\n> GO BOAT\r\n\r\nYou are in the Boat.\r\nYou see:\r\n  Nothing interesting.\r\nExits: South\r\n\r\n> ROW\r\nYou row across the lake.\r\n\r\nYou are in the Gallery.\r\nYou see:\r\n  Tapestry\r\n  Boat\r\nExits:\r\n\r\n> DROP CRATE\r\nDropped: Crate.\r\n\r\n> GO OVERHANG\r\n\r\nYou are in the Overhang.\r\nYou see:\r\n  Nails\r\nExits: Down\r\n\r\n> GET NAILS\r\nThe tapestry comes loose.\r\nTaken: Nails.\r\n\r\n> DROP NAILS\r\nDropped: Nails.\r\n\r\n> D\r\n\r\nYou are in the Gallery.\r\nYou see:\r\n  Crate\r\n  Tapestry\r\n  Boat\r\nExits:\r\n\r\n> GET TAPESTRY\r\nA hole opens behind the tapestry.\r\nTaken: Tapestry.\r\n\r\n> DROP TAPESTRY\r\nDropped: Tapestry.\r\n\r\n> GET CRATE\r\nTaken: Crate.\r\n\r\n> HIT CRATE\r\nWith what? AXE\r\nThe crate splits into wooden stakes.\r\n\r\n> DROP AXE\r\nDropped: Axe.\r\n\r\n> N\r\n\r\nYou are in the Antechamber.\r\nYou see:\r\n  Rusty Door\r\nExits: South\r\n\r\n> DROP OIL\r\nDropped: Flask of Oil.\r\n\r\n> OIL DOOR\r\nYou cannot oil that here.\r\n\r\n> N\r\nYou cannot go that way.\r\n\r\n> End of commands.\r\n"
+  },
+  {
+    "number": 24,
+    "source": "V24.RIL",
+    "title": "The locked coffin",
+    "why": "Use the carried key to open the coffin and reveal Dracula.",
+    "accept": "T24.TXT",
+    "expected": [
+      "The lid opens. Dracula lies inside."
+    ],
+    "alternate": "X24.TXT",
+    "alternate_expected": [
+      "The coffin is locked."
+    ],
+    "ir_bytes": 45547,
+    "assembly_bytes": 118707,
+    "binary_bytes": 18802,
+    "reports": [
+      "OK RESULT.IR 0000045547\r\n",
+      "OK RESULT.ASM 0000118707 text bytes\r\n",
+      "OK RESULT.COM 18802 bytes\r\n"
+    ],
+    "console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West\r\n\r\n> PUSH BOOKCASE\r\nA doorway opens behind the bookcase.\r\n\r\n> D\r\n\r\nYou are in the Hidden Corridor.\r\nYou see:\r\n  Coil of Rope\r\nExits: North Up\r\n\r\n> GET ROPE\r\nTaken: Coil of Rope.\r\n\r\n> N\r\n\r\nYou are in the Alchemist's Lab.\r\nYou see:\r\n  Flask of Oil\r\nExits: North South\r\n\r\n> GET OIL\r\nTaken: Flask of Oil.\r\n\r\n> N\r\n\r\nYou are in the Storeroom.\r\nYou see:\r\n  Crate\r\n  Bucket\r\nExits: South Up\r\n\r\n> GET BUCKET\r\nTaken: Bucket.\r\n\r\n> GET CRATE\r\nTaken: Crate.\r\n\r\n> U\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> E\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> E\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Axe\r\nExits: East West\r\n\r\n> GET AXE\r\nTaken: Axe.\r\n\r\n> E\r\n\r\nYou are in the Tower.\r\nYou see:\r\n  Sledge Hammer\r\n  Parapets\r\nExits: West\r\n\r\n> GET HAMMER\r\nTaken: Sledge Hammer.\r\n\r\n> TIE ROPE\r\nTo what? PARAPETS\r\nThe rope is tied to the parapets.\r\n\r\n> GO ROPE\r\nYou climb down the rope.\r\n\r\nYou are in the Lower Tower.\r\nYou see:\r\n  Oar\r\nExits: South Up\r\n\r\n> GET OAR\r\nTaken: Oar.\r\n\r\n> S\r\n\r\nYou are in the Chapel.\r\nYou see:\r\n  Holywater\r\nExits: North Up\r\n\r\n> GET WATER\r\nIn what? BUCKET\r\nTaken: Holywater.\r\n\r\n> U\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Nothing interesting.\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> W\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> DROP WATER\r\nThe holywater puts out the fire.\r\n\r\n> DROP BUCKET\r\nDropped: Bucket.\r\n\r\n> GET CHEESE\r\nTaken: Cheddar Cheese.\r\n\r\n> GO FIRE\r\n\r\nYou are in the Brick Fireplace.\r\nYou see:\r\n  Torch\r\nExits: South\r\n\r\n> GET TORCH\r\nTaken: Torch.\r\n\r\n> HIT FIRE\r\nWith what? HAMMER\r\nThe bricks break away. A passage leads north.\r\n\r\n> N\r\n\r\nYou are in the Secret Passage.\r\nYou see:\r\n  Nothing interesting.\r\nExits: North South West\r\n\r\n> W\r\n\r\nYou are in the Torture Chamber.\r\nYou see:\r\n  Rat\r\nExits: East West\r\n\r\n> LOOK RAT\r\nThere is a key in the rat's mouth.\r\n\r\n> DROP OAR\r\nDropped: Oar.\r\n\r\n> GET KEY\r\nThe rat guards the key.\r\n\r\n> GET OAR\r\nTaken: Oar.\r\n\r\n> DROP CHEESE\r\nDropped: Cheddar Cheese.\r\n\r\n> GET KEY\r\nThe rat runs off with the cheese.\r\nTaken: Key.\r\n\r\n> E\r\n\r\nYou are in the Secret Passage.\r\nYou see:\r\n  Nothing interesting.\r\nExits: North South West\r\n\r\n> N\r\n\r\nYou are in the Underground Lake Chamber.\r\nYou see:\r\n  Boat\r\nExits: South\r\n\r\n> GO BOAT\r\n\r\nYou are in the Boat.\r\nYou see:\r\n  Nothing interesting.\r\nExits: South\r\n\r\n> ROW\r\nYou row across the lake.\r\n\r\nYou are in the Gallery.\r\nYou see:\r\n  Tapestry\r\n  Boat\r\nExits:\r\n\r\n> DROP CRATE\r\nDropped: Crate.\r\n\r\n> GO OVERHANG\r\n\r\nYou are in the Overhang.\r\nYou see:\r\n  Nails\r\nExits: Down\r\n\r\n> GET NAILS\r\nThe tapestry comes loose.\r\nTaken: Nails.\r\n\r\n> DROP NAILS\r\nDropped: Nails.\r\n\r\n> D\r\n\r\nYou are in the Gallery.\r\nYou see:\r\n  Crate\r\n  Tapestry\r\n  Boat\r\nExits:\r\n\r\n> GET TAPESTRY\r\nA hole opens behind the tapestry.\r\nTaken: Tapestry.\r\n\r\n> DROP TAPESTRY\r\nDropped: Tapestry.\r\n\r\n> GET CRATE\r\nTaken: Crate.\r\n\r\n> HIT CRATE\r\nWith what? AXE\r\nThe crate splits into wooden stakes.\r\n\r\n> DROP AXE\r\nDropped: Axe.\r\n\r\n> N\r\n\r\nYou are in the Antechamber.\r\nYou see:\r\n  Rusty Door\r\nExits: South\r\n\r\n> OIL DOOR\r\nThe rusty door squeaks open.\r\n\r\n> N\r\n\r\nYou are in the Dracula's Tomb.\r\nYou see:\r\n  Closed Coffin\r\nExits: South\r\n\r\n> OPEN COFFIN\r\nThe lid opens. Dracula lies inside.\r\n\r\n> End of commands.\r\n",
+    "alternate_console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West\r\n\r\n> PUSH BOOKCASE\r\nA doorway opens behind the bookcase.\r\n\r\n> D\r\n\r\nYou are in the Hidden Corridor.\r\nYou see:\r\n  Coil of Rope\r\nExits: North Up\r\n\r\n> GET ROPE\r\nTaken: Coil of Rope.\r\n\r\n> N\r\n\r\nYou are in the Alchemist's Lab.\r\nYou see:\r\n  Flask of Oil\r\nExits: North South\r\n\r\n> GET OIL\r\nTaken: Flask of Oil.\r\n\r\n> N\r\n\r\nYou are in the Storeroom.\r\nYou see:\r\n  Crate\r\n  Bucket\r\nExits: South Up\r\n\r\n> GET BUCKET\r\nTaken: Bucket.\r\n\r\n> GET CRATE\r\nTaken: Crate.\r\n\r\n> U\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> E\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> E\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Axe\r\nExits: East West\r\n\r\n> GET AXE\r\nTaken: Axe.\r\n\r\n> E\r\n\r\nYou are in the Tower.\r\nYou see:\r\n  Sledge Hammer\r\n  Parapets\r\nExits: West\r\n\r\n> GET HAMMER\r\nTaken: Sledge Hammer.\r\n\r\n> TIE ROPE\r\nTo what? PARAPETS\r\nThe rope is tied to the parapets.\r\n\r\n> GO ROPE\r\nYou climb down the rope.\r\n\r\nYou are in the Lower Tower.\r\nYou see:\r\n  Oar\r\nExits: South Up\r\n\r\n> GET OAR\r\nTaken: Oar.\r\n\r\n> S\r\n\r\nYou are in the Chapel.\r\nYou see:\r\n  Holywater\r\nExits: North Up\r\n\r\n> GET WATER\r\nIn what? BUCKET\r\nTaken: Holywater.\r\n\r\n> U\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Nothing interesting.\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> W\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> DROP WATER\r\nThe holywater puts out the fire.\r\n\r\n> DROP BUCKET\r\nDropped: Bucket.\r\n\r\n> GET CHEESE\r\nTaken: Cheddar Cheese.\r\n\r\n> GO FIRE\r\n\r\nYou are in the Brick Fireplace.\r\nYou see:\r\n  Torch\r\nExits: South\r\n\r\n> GET TORCH\r\nTaken: Torch.\r\n\r\n> HIT FIRE\r\nWith what? HAMMER\r\nThe bricks break away. A passage leads north.\r\n\r\n> N\r\n\r\nYou are in the Secret Passage.\r\nYou see:\r\n  Nothing interesting.\r\nExits: North South West\r\n\r\n> W\r\n\r\nYou are in the Torture Chamber.\r\nYou see:\r\n  Rat\r\nExits: East West\r\n\r\n> LOOK RAT\r\nThere is a key in the rat's mouth.\r\n\r\n> DROP OAR\r\nDropped: Oar.\r\n\r\n> GET KEY\r\nThe rat guards the key.\r\n\r\n> GET OAR\r\nTaken: Oar.\r\n\r\n> DROP CHEESE\r\nDropped: Cheddar Cheese.\r\n\r\n> GET KEY\r\nThe rat runs off with the cheese.\r\nTaken: Key.\r\n\r\n> E\r\n\r\nYou are in the Secret Passage.\r\nYou see:\r\n  Nothing interesting.\r\nExits: North South West\r\n\r\n> N\r\n\r\nYou are in the Underground Lake Chamber.\r\nYou see:\r\n  Boat\r\nExits: South\r\n\r\n> GO BOAT\r\n\r\nYou are in the Boat.\r\nYou see:\r\n  Nothing interesting.\r\nExits: South\r\n\r\n> ROW\r\nYou row across the lake.\r\n\r\nYou are in the Gallery.\r\nYou see:\r\n  Tapestry\r\n  Boat\r\nExits:\r\n\r\n> DROP CRATE\r\nDropped: Crate.\r\n\r\n> GO OVERHANG\r\n\r\nYou are in the Overhang.\r\nYou see:\r\n  Nails\r\nExits: Down\r\n\r\n> GET NAILS\r\nThe tapestry comes loose.\r\nTaken: Nails.\r\n\r\n> DROP NAILS\r\nDropped: Nails.\r\n\r\n> D\r\n\r\nYou are in the Gallery.\r\nYou see:\r\n  Crate\r\n  Tapestry\r\n  Boat\r\nExits:\r\n\r\n> GET TAPESTRY\r\nA hole opens behind the tapestry.\r\nTaken: Tapestry.\r\n\r\n> DROP TAPESTRY\r\nDropped: Tapestry.\r\n\r\n> GET CRATE\r\nTaken: Crate.\r\n\r\n> HIT CRATE\r\nWith what? AXE\r\nThe crate splits into wooden stakes.\r\n\r\n> DROP AXE\r\nDropped: Axe.\r\n\r\n> N\r\n\r\nYou are in the Antechamber.\r\nYou see:\r\n  Rusty Door\r\nExits: South\r\n\r\n> OIL DOOR\r\nThe rusty door squeaks open.\r\n\r\n> N\r\n\r\nYou are in the Dracula's Tomb.\r\nYou see:\r\n  Closed Coffin\r\nExits: South\r\n\r\n> DROP KEY\r\nDropped: Key.\r\n\r\n> OPEN COFFIN\r\nThe coffin is locked.\r\n\r\n> End of commands.\r\n"
+  },
+  {
+    "number": 25,
+    "source": "V25.RIL",
+    "title": "Before he wakes",
+    "why": "Finish the adventure with carried wooden stakes, or suffer the result of a wrong weapon.",
+    "accept": "T25.TXT",
+    "expected": [
+      "Congratulations! You have killed Dracula."
+    ],
+    "alternate": "X25.TXT",
+    "alternate_expected": [
+      "Dracula wakes. You have failed."
+    ],
+    "ir_bytes": 46986,
+    "assembly_bytes": 123087,
+    "binary_bytes": 19421,
+    "reports": [
+      "OK RESULT.IR 0000046986\r\n",
+      "OK RESULT.ASM 0000123087 text bytes\r\n",
+      "OK RESULT.COM 19421 bytes\r\n"
+    ],
+    "console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West\r\n\r\n> PUSH BOOKCASE\r\nA doorway opens behind the bookcase.\r\n\r\n> D\r\n\r\nYou are in the Hidden Corridor.\r\nYou see:\r\n  Coil of Rope\r\nExits: North Up\r\n\r\n> GET ROPE\r\nTaken: Coil of Rope.\r\n\r\n> N\r\n\r\nYou are in the Alchemist's Lab.\r\nYou see:\r\n  Flask of Oil\r\nExits: North South\r\n\r\n> GET OIL\r\nTaken: Flask of Oil.\r\n\r\n> N\r\n\r\nYou are in the Storeroom.\r\nYou see:\r\n  Crate\r\n  Bucket\r\nExits: South Up\r\n\r\n> GET BUCKET\r\nTaken: Bucket.\r\n\r\n> GET CRATE\r\nTaken: Crate.\r\n\r\n> U\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> E\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> E\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Axe\r\nExits: East West\r\n\r\n> GET AXE\r\nTaken: Axe.\r\n\r\n> E\r\n\r\nYou are in the Tower.\r\nYou see:\r\n  Sledge Hammer\r\n  Parapets\r\nExits: West\r\n\r\n> GET HAMMER\r\nTaken: Sledge Hammer.\r\n\r\n> TIE ROPE\r\nTo what? PARAPETS\r\nThe rope is tied to the parapets.\r\n\r\n> GO ROPE\r\nYou climb down the rope.\r\n\r\nYou are in the Lower Tower.\r\nYou see:\r\n  Oar\r\nExits: South Up\r\n\r\n> GET OAR\r\nTaken: Oar.\r\n\r\n> S\r\n\r\nYou are in the Chapel.\r\nYou see:\r\n  Holywater\r\nExits: North Up\r\n\r\n> GET WATER\r\nIn what? BUCKET\r\nTaken: Holywater.\r\n\r\n> U\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Nothing interesting.\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> W\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> DROP WATER\r\nThe holywater puts out the fire.\r\n\r\n> DROP BUCKET\r\nDropped: Bucket.\r\n\r\n> GET CHEESE\r\nTaken: Cheddar Cheese.\r\n\r\n> GO FIRE\r\n\r\nYou are in the Brick Fireplace.\r\nYou see:\r\n  Torch\r\nExits: South\r\n\r\n> GET TORCH\r\nTaken: Torch.\r\n\r\n> HIT FIRE\r\nWith what? HAMMER\r\nThe bricks break away. A passage leads north.\r\n\r\n> N\r\n\r\nYou are in the Secret Passage.\r\nYou see:\r\n  Nothing interesting.\r\nExits: North South West\r\n\r\n> W\r\n\r\nYou are in the Torture Chamber.\r\nYou see:\r\n  Rat\r\nExits: East West\r\n\r\n> LOOK RAT\r\nThere is a key in the rat's mouth.\r\n\r\n> DROP OAR\r\nDropped: Oar.\r\n\r\n> GET KEY\r\nThe rat guards the key.\r\n\r\n> GET OAR\r\nTaken: Oar.\r\n\r\n> DROP CHEESE\r\nDropped: Cheddar Cheese.\r\n\r\n> GET KEY\r\nThe rat runs off with the cheese.\r\nTaken: Key.\r\n\r\n> E\r\n\r\nYou are in the Secret Passage.\r\nYou see:\r\n  Nothing interesting.\r\nExits: North South West\r\n\r\n> N\r\n\r\nYou are in the Underground Lake Chamber.\r\nYou see:\r\n  Boat\r\nExits: South\r\n\r\n> GO BOAT\r\n\r\nYou are in the Boat.\r\nYou see:\r\n  Nothing interesting.\r\nExits: South\r\n\r\n> ROW\r\nYou row across the lake.\r\n\r\nYou are in the Gallery.\r\nYou see:\r\n  Tapestry\r\n  Boat\r\nExits:\r\n\r\n> DROP CRATE\r\nDropped: Crate.\r\n\r\n> GO OVERHANG\r\n\r\nYou are in the Overhang.\r\nYou see:\r\n  Nails\r\nExits: Down\r\n\r\n> GET NAILS\r\nThe tapestry comes loose.\r\nTaken: Nails.\r\n\r\n> DROP NAILS\r\nDropped: Nails.\r\n\r\n> D\r\n\r\nYou are in the Gallery.\r\nYou see:\r\n  Crate\r\n  Tapestry\r\n  Boat\r\nExits:\r\n\r\n> GET TAPESTRY\r\nA hole opens behind the tapestry.\r\nTaken: Tapestry.\r\n\r\n> DROP TAPESTRY\r\nDropped: Tapestry.\r\n\r\n> GET CRATE\r\nTaken: Crate.\r\n\r\n> HIT CRATE\r\nWith what? AXE\r\nThe crate splits into wooden stakes.\r\n\r\n> DROP AXE\r\nDropped: Axe.\r\n\r\n> N\r\n\r\nYou are in the Antechamber.\r\nYou see:\r\n  Rusty Door\r\nExits: South\r\n\r\n> OIL DOOR\r\nThe rusty door squeaks open.\r\n\r\n> N\r\n\r\nYou are in the Dracula's Tomb.\r\nYou see:\r\n  Closed Coffin\r\nExits: South\r\n\r\n> OPEN COFFIN\r\nThe lid opens. Dracula lies inside.\r\n\r\n> KILL DRACULA\r\nWith what? STAKES\r\nYou drive a wooden stake into Dracula's heart.\r\nCongratulations! You have killed Dracula.\r\nTime: 08:58 p.m.\r\n",
+    "alternate_console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West\r\n\r\n> PUSH BOOKCASE\r\nA doorway opens behind the bookcase.\r\n\r\n> D\r\n\r\nYou are in the Hidden Corridor.\r\nYou see:\r\n  Coil of Rope\r\nExits: North Up\r\n\r\n> GET ROPE\r\nTaken: Coil of Rope.\r\n\r\n> N\r\n\r\nYou are in the Alchemist's Lab.\r\nYou see:\r\n  Flask of Oil\r\nExits: North South\r\n\r\n> GET OIL\r\nTaken: Flask of Oil.\r\n\r\n> N\r\n\r\nYou are in the Storeroom.\r\nYou see:\r\n  Crate\r\n  Bucket\r\nExits: South Up\r\n\r\n> GET BUCKET\r\nTaken: Bucket.\r\n\r\n> GET CRATE\r\nTaken: Crate.\r\n\r\n> U\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> E\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> E\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Axe\r\nExits: East West\r\n\r\n> GET AXE\r\nTaken: Axe.\r\n\r\n> E\r\n\r\nYou are in the Tower.\r\nYou see:\r\n  Sledge Hammer\r\n  Parapets\r\nExits: West\r\n\r\n> GET HAMMER\r\nTaken: Sledge Hammer.\r\n\r\n> TIE ROPE\r\nTo what? PARAPETS\r\nThe rope is tied to the parapets.\r\n\r\n> GO ROPE\r\nYou climb down the rope.\r\n\r\nYou are in the Lower Tower.\r\nYou see:\r\n  Oar\r\nExits: South Up\r\n\r\n> GET OAR\r\nTaken: Oar.\r\n\r\n> S\r\n\r\nYou are in the Chapel.\r\nYou see:\r\n  Holywater\r\nExits: North Up\r\n\r\n> GET WATER\r\nIn what? BUCKET\r\nTaken: Holywater.\r\n\r\n> U\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Nothing interesting.\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> W\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> DROP WATER\r\nThe holywater puts out the fire.\r\n\r\n> DROP BUCKET\r\nDropped: Bucket.\r\n\r\n> GET CHEESE\r\nTaken: Cheddar Cheese.\r\n\r\n> GO FIRE\r\n\r\nYou are in the Brick Fireplace.\r\nYou see:\r\n  Torch\r\nExits: South\r\n\r\n> GET TORCH\r\nTaken: Torch.\r\n\r\n> HIT FIRE\r\nWith what? HAMMER\r\nThe bricks break away. A passage leads north.\r\n\r\n> N\r\n\r\nYou are in the Secret Passage.\r\nYou see:\r\n  Nothing interesting.\r\nExits: North South West\r\n\r\n> W\r\n\r\nYou are in the Torture Chamber.\r\nYou see:\r\n  Rat\r\nExits: East West\r\n\r\n> LOOK RAT\r\nThere is a key in the rat's mouth.\r\n\r\n> DROP OAR\r\nDropped: Oar.\r\n\r\n> GET KEY\r\nThe rat guards the key.\r\n\r\n> GET OAR\r\nTaken: Oar.\r\n\r\n> DROP CHEESE\r\nDropped: Cheddar Cheese.\r\n\r\n> GET KEY\r\nThe rat runs off with the cheese.\r\nTaken: Key.\r\n\r\n> E\r\n\r\nYou are in the Secret Passage.\r\nYou see:\r\n  Nothing interesting.\r\nExits: North South West\r\n\r\n> N\r\n\r\nYou are in the Underground Lake Chamber.\r\nYou see:\r\n  Boat\r\nExits: South\r\n\r\n> GO BOAT\r\n\r\nYou are in the Boat.\r\nYou see:\r\n  Nothing interesting.\r\nExits: South\r\n\r\n> ROW\r\nYou row across the lake.\r\n\r\nYou are in the Gallery.\r\nYou see:\r\n  Tapestry\r\n  Boat\r\nExits:\r\n\r\n> DROP CRATE\r\nDropped: Crate.\r\n\r\n> GO OVERHANG\r\n\r\nYou are in the Overhang.\r\nYou see:\r\n  Nails\r\nExits: Down\r\n\r\n> GET NAILS\r\nThe tapestry comes loose.\r\nTaken: Nails.\r\n\r\n> DROP NAILS\r\nDropped: Nails.\r\n\r\n> D\r\n\r\nYou are in the Gallery.\r\nYou see:\r\n  Crate\r\n  Tapestry\r\n  Boat\r\nExits:\r\n\r\n> GET TAPESTRY\r\nA hole opens behind the tapestry.\r\nTaken: Tapestry.\r\n\r\n> DROP TAPESTRY\r\nDropped: Tapestry.\r\n\r\n> GET CRATE\r\nTaken: Crate.\r\n\r\n> HIT CRATE\r\nWith what? AXE\r\nThe crate splits into wooden stakes.\r\n\r\n> DROP AXE\r\nDropped: Axe.\r\n\r\n> N\r\n\r\nYou are in the Antechamber.\r\nYou see:\r\n  Rusty Door\r\nExits: South\r\n\r\n> OIL DOOR\r\nThe rusty door squeaks open.\r\n\r\n> N\r\n\r\nYou are in the Dracula's Tomb.\r\nYou see:\r\n  Closed Coffin\r\nExits: South\r\n\r\n> OPEN COFFIN\r\nThe lid opens. Dracula lies inside.\r\n\r\n> KILL DRACULA\r\nWith what? AXE\r\nDracula wakes. You have failed.\r\n"
+  },
+  {
+    "number": 26,
+    "source": "V26.RIL",
+    "title": "Another visit to the castle",
+    "why": "Offer a replay after victory or death and reset the entire mutable world.",
+    "accept": "T26.TXT",
+    "expected": [
+      "Play again (Y/N)?",
+      "Goodbye."
+    ],
+    "alternate": "X26.TXT",
+    "alternate_expected": [
+      "Play again (Y/N)?"
+    ],
+    "ir_bytes": 47783,
+    "assembly_bytes": 126562,
+    "binary_bytes": 19834,
+    "reports": [
+      "OK RESULT.IR 0000047783\r\n",
+      "OK RESULT.ASM 0000126562 text bytes\r\n",
+      "OK RESULT.COM 19834 bytes\r\n"
+    ],
+    "console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West\r\n\r\n> PUSH BOOKCASE\r\nA doorway opens behind the bookcase.\r\n\r\n> D\r\n\r\nYou are in the Hidden Corridor.\r\nYou see:\r\n  Coil of Rope\r\nExits: North Up\r\n\r\n> GET ROPE\r\nTaken: Coil of Rope.\r\n\r\n> N\r\n\r\nYou are in the Alchemist's Lab.\r\nYou see:\r\n  Flask of Oil\r\nExits: North South\r\n\r\n> GET OIL\r\nTaken: Flask of Oil.\r\n\r\n> N\r\n\r\nYou are in the Storeroom.\r\nYou see:\r\n  Crate\r\n  Bucket\r\nExits: South Up\r\n\r\n> GET BUCKET\r\nTaken: Bucket.\r\n\r\n> GET CRATE\r\nTaken: Crate.\r\n\r\n> U\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> E\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> E\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Axe\r\nExits: East West\r\n\r\n> GET AXE\r\nTaken: Axe.\r\n\r\n> E\r\n\r\nYou are in the Tower.\r\nYou see:\r\n  Sledge Hammer\r\n  Parapets\r\nExits: West\r\n\r\n> GET HAMMER\r\nTaken: Sledge Hammer.\r\n\r\n> TIE ROPE\r\nTo what? PARAPETS\r\nThe rope is tied to the parapets.\r\n\r\n> GO ROPE\r\nYou climb down the rope.\r\n\r\nYou are in the Lower Tower.\r\nYou see:\r\n  Oar\r\nExits: South Up\r\n\r\n> GET OAR\r\nTaken: Oar.\r\n\r\n> S\r\n\r\nYou are in the Chapel.\r\nYou see:\r\n  Holywater\r\nExits: North Up\r\n\r\n> GET WATER\r\nIn what? BUCKET\r\nTaken: Holywater.\r\n\r\n> U\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Nothing interesting.\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> W\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> DROP WATER\r\nThe holywater puts out the fire.\r\n\r\n> DROP BUCKET\r\nDropped: Bucket.\r\n\r\n> GET CHEESE\r\nTaken: Cheddar Cheese.\r\n\r\n> GO FIRE\r\n\r\nYou are in the Brick Fireplace.\r\nYou see:\r\n  Torch\r\nExits: South\r\n\r\n> GET TORCH\r\nTaken: Torch.\r\n\r\n> HIT FIRE\r\nWith what? HAMMER\r\nThe bricks break away. A passage leads north.\r\n\r\n> N\r\n\r\nYou are in the Secret Passage.\r\nYou see:\r\n  Nothing interesting.\r\nExits: North South West\r\n\r\n> W\r\n\r\nYou are in the Torture Chamber.\r\nYou see:\r\n  Rat\r\nExits: East West\r\n\r\n> LOOK RAT\r\nThere is a key in the rat's mouth.\r\n\r\n> DROP OAR\r\nDropped: Oar.\r\n\r\n> GET KEY\r\nThe rat guards the key.\r\n\r\n> GET OAR\r\nTaken: Oar.\r\n\r\n> DROP CHEESE\r\nDropped: Cheddar Cheese.\r\n\r\n> GET KEY\r\nThe rat runs off with the cheese.\r\nTaken: Key.\r\n\r\n> E\r\n\r\nYou are in the Secret Passage.\r\nYou see:\r\n  Nothing interesting.\r\nExits: North South West\r\n\r\n> N\r\n\r\nYou are in the Underground Lake Chamber.\r\nYou see:\r\n  Boat\r\nExits: South\r\n\r\n> GO BOAT\r\n\r\nYou are in the Boat.\r\nYou see:\r\n  Nothing interesting.\r\nExits: South\r\n\r\n> ROW\r\nYou row across the lake.\r\n\r\nYou are in the Gallery.\r\nYou see:\r\n  Tapestry\r\n  Boat\r\nExits:\r\n\r\n> DROP CRATE\r\nDropped: Crate.\r\n\r\n> GO OVERHANG\r\n\r\nYou are in the Overhang.\r\nYou see:\r\n  Nails\r\nExits: Down\r\n\r\n> GET NAILS\r\nThe tapestry comes loose.\r\nTaken: Nails.\r\n\r\n> DROP NAILS\r\nDropped: Nails.\r\n\r\n> D\r\n\r\nYou are in the Gallery.\r\nYou see:\r\n  Crate\r\n  Tapestry\r\n  Boat\r\nExits:\r\n\r\n> GET TAPESTRY\r\nA hole opens behind the tapestry.\r\nTaken: Tapestry.\r\n\r\n> DROP TAPESTRY\r\nDropped: Tapestry.\r\n\r\n> GET CRATE\r\nTaken: Crate.\r\n\r\n> HIT CRATE\r\nWith what? AXE\r\nThe crate splits into wooden stakes.\r\n\r\n> DROP AXE\r\nDropped: Axe.\r\n\r\n> N\r\n\r\nYou are in the Antechamber.\r\nYou see:\r\n  Rusty Door\r\nExits: South\r\n\r\n> OIL DOOR\r\nThe rusty door squeaks open.\r\n\r\n> N\r\n\r\nYou are in the Dracula's Tomb.\r\nYou see:\r\n  Closed Coffin\r\nExits: South\r\n\r\n> OPEN COFFIN\r\nThe lid opens. Dracula lies inside.\r\n\r\n> KILL DRACULA\r\nWith what? STAKES\r\nYou drive a wooden stake into Dracula's heart.\r\nCongratulations! You have killed Dracula.\r\nTime: 08:58 p.m.\r\nPlay again (Y/N)? Y\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> LOOK\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> QUIT\r\nGoodbye.\r\n",
+    "alternate_console": "Vampire Castle Adventure\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West\r\n\r\n> PUSH BOOKCASE\r\nA doorway opens behind the bookcase.\r\n\r\n> D\r\n\r\nYou are in the Hidden Corridor.\r\nYou see:\r\n  Coil of Rope\r\nExits: North Up\r\n\r\n> GET ROPE\r\nTaken: Coil of Rope.\r\n\r\n> N\r\n\r\nYou are in the Alchemist's Lab.\r\nYou see:\r\n  Flask of Oil\r\nExits: North South\r\n\r\n> GET OIL\r\nTaken: Flask of Oil.\r\n\r\n> N\r\n\r\nYou are in the Storeroom.\r\nYou see:\r\n  Crate\r\n  Bucket\r\nExits: South Up\r\n\r\n> GET BUCKET\r\nTaken: Bucket.\r\n\r\n> GET CRATE\r\nTaken: Crate.\r\n\r\n> U\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> E\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> E\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> E\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Axe\r\nExits: East West\r\n\r\n> GET AXE\r\nTaken: Axe.\r\n\r\n> E\r\n\r\nYou are in the Tower.\r\nYou see:\r\n  Sledge Hammer\r\n  Parapets\r\nExits: West\r\n\r\n> GET HAMMER\r\nTaken: Sledge Hammer.\r\n\r\n> TIE ROPE\r\nTo what? PARAPETS\r\nThe rope is tied to the parapets.\r\n\r\n> GO ROPE\r\nYou climb down the rope.\r\n\r\nYou are in the Lower Tower.\r\nYou see:\r\n  Oar\r\nExits: South Up\r\n\r\n> GET OAR\r\nTaken: Oar.\r\n\r\n> S\r\n\r\nYou are in the Chapel.\r\nYou see:\r\n  Holywater\r\nExits: North Up\r\n\r\n> GET WATER\r\nIn what? BUCKET\r\nTaken: Holywater.\r\n\r\n> U\r\n\r\nYou are in the Armory.\r\nYou see:\r\n  Nothing interesting.\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Library.\r\nYou see:\r\n  Parchment Scroll\r\n  Bookcase\r\nExits: East West Down\r\n\r\n> W\r\n\r\nYou are in the Entrance Hall.\r\nYou see:\r\n  Timepiece\r\n  Sign\r\nExits: East West\r\n\r\n> W\r\n\r\nYou are in the Study.\r\nYou see:\r\n  Fire in the Fireplace\r\n  Brick Fireplace\r\n  Wine\r\n  Cheddar Cheese\r\nExits: East\r\n\r\n> DROP WATER\r\nThe holywater puts out the fire.\r\n\r\n> DROP BUCKET\r\nDropped: Bucket.\r\n\r\n> GET CHEESE\r\nTaken: Cheddar Cheese.\r\n\r\n> GO FIRE\r\n\r\nYou are in the Brick Fireplace.\r\nYou see:\r\n  Torch\r\nExits: South\r\n\r\n> GET TORCH\r\nTaken: Torch.\r\n\r\n> HIT FIRE\r\nWith what? HAMMER\r\nThe bricks break away. A passage leads north.\r\n\r\n> N\r\n\r\nYou are in the Secret Passage.\r\nYou see:\r\n  Nothing interesting.\r\nExits: North South West\r\n\r\n> W\r\n\r\nYou are in the Torture Chamber.\r\nYou see:\r\n  Rat\r\nExits: East West\r\n\r\n> LOOK RAT\r\nThere is a key in the rat's mouth.\r\n\r\n> DROP OAR\r\nDropped: Oar.\r\n\r\n> GET KEY\r\nThe rat guards the key.\r\n\r\n> GET OAR\r\nTaken: Oar.\r\n\r\n> DROP CHEESE\r\nDropped: Cheddar Cheese.\r\n\r\n> GET KEY\r\nThe rat runs off with the cheese.\r\nTaken: Key.\r\n\r\n> E\r\n\r\nYou are in the Secret Passage.\r\nYou see:\r\n  Nothing interesting.\r\nExits: North South West\r\n\r\n> N\r\n\r\nYou are in the Underground Lake Chamber.\r\nYou see:\r\n  Boat\r\nExits: South\r\n\r\n> GO BOAT\r\n\r\nYou are in the Boat.\r\nYou see:\r\n  Nothing interesting.\r\nExits: South\r\n\r\n> ROW\r\nYou row across the lake.\r\n\r\nYou are in the Gallery.\r\nYou see:\r\n  Tapestry\r\n  Boat\r\nExits:\r\n\r\n> DROP CRATE\r\nDropped: Crate.\r\n\r\n> GO OVERHANG\r\n\r\nYou are in the Overhang.\r\nYou see:\r\n  Nails\r\nExits: Down\r\n\r\n> GET NAILS\r\nThe tapestry comes loose.\r\nTaken: Nails.\r\n\r\n> DROP NAILS\r\nDropped: Nails.\r\n\r\n> D\r\n\r\nYou are in the Gallery.\r\nYou see:\r\n  Crate\r\n  Tapestry\r\n  Boat\r\nExits:\r\n\r\n> GET TAPESTRY\r\nA hole opens behind the tapestry.\r\nTaken: Tapestry.\r\n\r\n> DROP TAPESTRY\r\nDropped: Tapestry.\r\n\r\n> GET CRATE\r\nTaken: Crate.\r\n\r\n> HIT CRATE\r\nWith what? AXE\r\nThe crate splits into wooden stakes.\r\n\r\n> DROP AXE\r\nDropped: Axe.\r\n\r\n> N\r\n\r\nYou are in the Antechamber.\r\nYou see:\r\n  Rusty Door\r\nExits: South\r\n\r\n> OIL DOOR\r\nThe rusty door squeaks open.\r\n\r\n> N\r\n\r\nYou are in the Dracula's Tomb.\r\nYou see:\r\n  Closed Coffin\r\nExits: South\r\n\r\n> OPEN COFFIN\r\nThe lid opens. Dracula lies inside.\r\n\r\n> KILL DRACULA\r\nWith what? STAKES\r\nYou drive a wooden stake into Dracula's heart.\r\nCongratulations! You have killed Dracula.\r\nTime: 08:58 p.m.\r\nPlay again (Y/N)? N\r\n"
+  }
+]

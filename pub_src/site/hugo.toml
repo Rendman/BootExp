@@ -51,3 +51,6 @@ disableKinds = ['taxonomy', 'term', 'RSS', 'sitemap']
   [[module.mounts]]
     source = 'downloads/edit86'
     target = 'static/downloads/edit86'
+  [[module.mounts]]
+    source = 'downloads/vampire'
+    target = 'static/downloads/vampire'

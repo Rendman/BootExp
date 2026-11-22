@@ -1,0 +1,4 @@
+E
+W
+N
+GET NORTH

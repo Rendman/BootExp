@@ -14,7 +14,8 @@ SERIES={
  'rc':('RILL','A Compiler Written in Its Own Language'),
  'toolchain':('TOOLCHAIN','Rebuilding Our Tools in RILL'),
  'link86':('LINK86','Linking Our First Modules'),
- 'edit86':('EDIT86','Building Our Screen Editor')}
+ 'edit86':('EDIT86','Building Our Screen Editor'),
+ 'vampire':('VAMPIRE','Vampire Castle Adventure')}
 WORDS={'ASM86':'ASM0','ASMA0':'ASM1','ASM86A':'ASM86','RB':'RILLBOOT','RC':'RILL'}
 TOKEN=re.compile(r'\b(?:RILL\.(?:IR|ASM|COM|ZIP)|ASM86A|ASMA0|ASM86|RB|RC)\b')
 def names(s):return TOKEN.sub(lambda m:'RILL0'+m[0][4:] if m[0].startswith('RILL.') else WORDS[m[0]],s)
@@ -25,7 +26,7 @@ def filename(name):
  return stem+sep+ext
 def reader_text(group,original,text):
  """Give each canonical archive instructions for its current collection."""
- if group=='edit86':return text
+ if group in {'edit86','vampire'}:return text
  newline='\r\n' if '\r\n' in text else '\n'
  text=names(text.replace('\r\n','\n'))
  if original=='README.TXT':

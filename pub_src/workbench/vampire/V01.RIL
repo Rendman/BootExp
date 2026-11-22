@@ -1,0 +1,17 @@
+// Vampire Castle Adventure.
+
+
+fn main(){
+    say("Vampire Castle Adventure\r\n");
+    say("You are in the Entrance Hall.\r\n");
+    return 0;
+}
+
+fn say(text){
+    while load8(text){
+        putc(load8(text));
+        if status(){exit(1);}
+        text=text+1;
+    }
+    return 0;
+}

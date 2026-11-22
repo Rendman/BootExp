@@ -1,0 +1,1 @@
+PASS optional adventure: 26 exact uniquely anchored printed constructions; command fixtures; optional navigation; 122 ASCII/CRLF/8.3 source-only archive members

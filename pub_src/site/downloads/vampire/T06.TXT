@@ -1,0 +1,6 @@
+E
+PUSH BOOKCASE
+D
+N
+N
+U

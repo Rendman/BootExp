@@ -1,0 +1,30 @@
+PASS V01: project-only three-stage build (1617 bytes); public commands and focused alternate; resources closed
+PASS V02: project-only three-stage build (3074 bytes); public commands and focused alternate; resources closed
+PASS V03: project-only three-stage build (4437 bytes); public commands and focused alternate; resources closed
+PASS V04: project-only three-stage build (6512 bytes); public commands and focused alternate; resources closed
+PASS V05: project-only three-stage build (6721 bytes); public commands and focused alternate; resources closed
+PASS V06: project-only three-stage build (7653 bytes); public commands and focused alternate; resources closed
+PASS V07: project-only three-stage build (8928 bytes); public commands and focused alternate; resources closed
+PASS V08: project-only three-stage build (9684 bytes); public commands and focused alternate; resources closed
+PASS V09: project-only three-stage build (11112 bytes); public commands and focused alternate; resources closed
+PASS V10: project-only three-stage build (11696 bytes); public commands and focused alternate; resources closed
+PASS V11: project-only three-stage build (12352 bytes); public commands and focused alternate; resources closed
+PASS V12: project-only three-stage build (13237 bytes); public commands and focused alternate; resources closed
+PASS V13: project-only three-stage build (14106 bytes); public commands and focused alternate; resources closed
+PASS V14: project-only three-stage build (14360 bytes); public commands and focused alternate; resources closed
+PASS V15: project-only three-stage build (14686 bytes); public commands and focused alternate; resources closed
+PASS V16: project-only three-stage build (15494 bytes); public commands and focused alternate; resources closed
+PASS V17: project-only three-stage build (15836 bytes); public commands and focused alternate; resources closed
+PASS V18: project-only three-stage build (16455 bytes); public commands and focused alternate; resources closed
+PASS V19: project-only three-stage build (16787 bytes); public commands and focused alternate; resources closed
+PASS V20: project-only three-stage build (16970 bytes); public commands and focused alternate; resources closed
+PASS V21: project-only three-stage build (17402 bytes); public commands and focused alternate; resources closed
+PASS V22: project-only three-stage build (17751 bytes); public commands and focused alternate; resources closed
+PASS V23: project-only three-stage build (18116 bytes); public commands and focused alternate; resources closed
+PASS V24: project-only three-stage build (18802 bytes); public commands and focused alternate; resources closed
+PASS V25: project-only three-stage build (19421 bytes); public commands and focused alternate; resources closed
+PASS V26: project-only three-stage build (19834 bytes); public commands and focused alternate; resources closed
+PASS console-selected path; first/last words; whitespace/case; 80/81-byte boundary; bad-byte draining; CR/LF/CR/LF; final line; Control-Z
+PASS command-driven clock: whitespace free; 239 actions accepted; midnight before action 240; QUIT free
+PASS winning route, wrong-weapon death, parapet/fire/lake/midnight deaths; replay restores inventory and concealed map
+PASS EOF during follow-up; missing command file; argument count; injected read failure and owned-handle cleanup

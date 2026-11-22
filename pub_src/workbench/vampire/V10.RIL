@@ -1,0 +1,330 @@
+// Vampire Castle Adventure.
+let mut input=0;
+let mut ended=0;
+let mut skip_lf=0;
+let mut scripted=0;
+let mut length=0;
+let mut words=0;
+let mut playing=1;
+let mut location=1;
+bytes command[81];
+bytes octet[1];
+bytes verb[4];
+bytes noun[4];
+bytes names[40];
+bytes paths[120];
+bytes things[52];
+bytes places[26];
+
+fn main(){
+    say("Vampire Castle Adventure\r\n");
+    startinput();
+    newgame();describe();
+    while playing{
+        say("\r\n> ");
+        let mut got=readline();
+        if got==0{playing=0;}
+        if got==1{
+            parse();
+            if wordis(verb,"QUI"){say("Goodbye.\r\n");playing=0;}
+            else{
+                if words{
+                    act();
+                }
+            }
+        }
+    }
+    close(input);if status(){exit(1);}
+    return 0;
+}
+
+fn say(text){
+    while load8(text){
+        putc(load8(text));
+        if status(){exit(1);}
+        text=text+1;
+    }
+    return 0;
+}
+
+fn startinput(){
+    if argc()>1{say("Use VAMPIRE or VAMPIRE COMMANDS.TXT.\r\n");exit(1);}
+    let mut name="CON";
+    if argc(){name=arg(1);scripted=1;}
+    input=open(name);
+    if status(){say("Cannot open commands.\r\n");exit(1);}
+    return 0;
+}
+
+fn nextbyte(){
+    if ended{return 65535;}
+    let mut count=read(input,octet,1);
+    if status(){say("Cannot read commands.\r\n");close(input);exit(1);}
+    if count==0{ended=1;return 65535;}
+    if octet[0]==26{ended=1;return 65535;}
+    return octet[0];
+}
+
+fn readline(){
+    length=0;
+    let mut bad=0;
+    let mut done=0;
+    while done==0{
+        let mut c=nextbyte();
+        if skip_lf{
+            skip_lf=0;
+            if c==10{c=nextbyte();}
+        }
+        if c==65535{done=1;}
+        else{
+            if (c==13)|(c==10){
+                if c==13{skip_lf=1;}
+                done=1;
+            }else{
+                if c==9{c=32;}
+                if (c<32)|(c>126){bad=1;}
+                if length==80{bad=1;}
+                else{command[length]=c;length=length+1;}
+            }
+        }
+    }
+    command[length]=0;
+    if ended&(length==0)&(bad==0){say("End of commands.\r\n");return 0;}
+    if bad{say("Use at most 80 printable characters.\r\n");return 2;}
+    if scripted{say(command);say("\r\n");}
+    return 1;
+}
+
+fn parse(){
+    let mut i=0;
+    while i<3{verb[i]=32;noun[i]=32;i=i+1;}
+    verb[3]=0;noun[3]=0;words=0;i=0;
+    while i<length{
+        if command[i]==32{i=i+1;}
+        else{
+            let mut dest=noun;
+            if words==0{dest=verb;}
+            let mut n=0;
+            while n<3{store8(dest+n,32);n=n+1;}
+            n=0;let mut stop=0;
+            while (i<length)&(stop==0){
+                if command[i]==32{stop=1;}
+                else{
+                    let mut c=command[i];
+                    if (c>=97)&(c<=122){c=c-32;}
+                    if n<3{store8(dest+n,c);}
+                    n=n+1;i=i+1;
+                }
+            }
+            words=words+1;
+        }
+    }
+    return 0;
+}
+
+fn wordis(p,s){
+    return (load8(p)==load8(s))&
+        (load8(p+1)==load8(s+1))&(load8(p+2)==load8(s+2));
+}
+
+fn act(){
+    if wordis(verb,"HEL"){help();return 0;}
+    if wordis(verb,"INV"){inventory();return 0;}
+    if wordis(verb,"GO ")|wordis(verb,"CLI")|((words==1)&(direction()!=0)){walk();return 0;}
+    if wordis(verb,"LOO"){describe();return 0;}
+    let mut obj=nounid();
+    if wordis(verb,"GET")|wordis(verb,"TAK"){take(obj);return 0;}
+    if wordis(verb,"DRO"){drop(obj);return 0;}
+    if wordis(verb,"PUS"){push(obj);return 0;}
+    say("I don't know how to do that.\r\n");
+    return 0;
+}
+
+fn help(){
+    say("Use the first and last words; only three letters count.\r\n");
+    say("LOOK, HELP and QUIT\r\n");
+    say("GO NORTH or N; also S, E, W, U and D\r\n");
+    say("GET and DROP\r\n");
+    say("INVENTORY\r\n");
+    say("PUSH.\r\n");
+    return 0;
+}
+
+fn room(n,text,north,south,east,west,up,down){
+    store16(names+n*2,text);
+    let mut p=n*6;
+    paths[p]=north;paths[p+1]=south;
+    paths[p+2]=east;paths[p+3]=west;
+    paths[p+4]=up;paths[p+5]=down;
+    return 0;
+}
+
+fn world(){
+    room(1,"Entrance Hall",0,0,3,2,0,0);
+    room(2,"Study",0,0,1,0,0,0);
+    room(3,"Library",0,0,4,1,0,0);
+    room(4,"Armory",0,0,5,3,0,0);
+    room(5,"Tower",0,0,0,4,0,0);
+    room(6,"Lower Tower",0,7,0,0,5,0);
+    room(7,"Chapel",6,0,0,0,4,0);
+    room(8,"Brick Fireplace",0,2,0,0,0,0);
+    room(9,"Hidden Corridor",13,0,0,0,3,0);
+    room(10,"Secret Passage",11,8,0,19,0,0);
+    room(11,"Underground Lake Chamber",0,10,0,0,0,0);
+    room(12,"Boat",0,11,0,0,0,0);
+    room(13,"Alchemist's Lab",14,9,0,0,0,0);
+    room(14,"Storeroom",0,13,0,0,2,0);
+    room(15,"Overhang",0,0,0,0,0,16);
+    room(16,"Gallery",0,0,0,0,0,0);
+    room(17,"Antechamber",0,16,0,0,0,0);
+    room(18,"Dracula's Tomb",0,17,0,0,0,0);
+    room(19,"Torture Chamber",0,0,10,13,0,0);
+    return 0;
+}
+
+fn roomname(n){return load16(names+n*2);}
+
+fn describe(){
+    say("\r\nYou are in the ");say(roomname(location));say(".\r\n");
+    lookitems();
+    say("Exits:");
+    let mut i=0;
+    while i<6{
+        if paths[location*6+i]{say(" ");say(dirname(i+1));}
+        i=i+1;
+    }
+    say("\r\n");
+    return 0;
+}
+
+fn dirname(n){
+    if n==1{return "North";}if n==2{return "South";}
+    if n==3{return "East";}if n==4{return "West";}
+    if n==5{return "Up";}return "Down";
+}
+
+fn direction(){
+    let mut p=noun;
+    if words==1{p=verb;}
+    if wordis(p,"NOR")|wordis(p,"N  "){return 1;}
+    if wordis(p,"SOU")|wordis(p,"S  "){return 2;}
+    if wordis(p,"EAS")|wordis(p,"E  "){return 3;}
+    if wordis(p,"WES")|wordis(p,"W  "){return 4;}
+    if wordis(p,"UP ")|wordis(p,"U  "){return 5;}
+    if wordis(p,"DOW")|wordis(p,"D  "){return 6;}
+    return 0;
+}
+
+fn walk(){
+    let mut d=direction();
+    if d{
+        let mut next=paths[location*6+d-1];
+        if next{location=next;describe();}
+        else{say("You cannot go that way.\r\n");}
+        return 0;
+    }
+    say("You cannot go there.\r\n");
+    return 0;
+}
+
+fn item(n,text,where){store16(things+n*2,text);places[n]=where;return 0;}
+
+fn itemname(n){return load16(things+n*2);}
+
+fn items(){
+    item(1,"Sledge Hammer",5);item(2,"Timepiece",1);
+    item(3,"Coil of Rope",9);item(4,"Parchment Scroll",3);
+    item(5,"Axe",4);item(6,"Oar",6);item(7,"Key",99);
+    item(8,"Holywater",7);item(9,"Flask of Oil",13);
+    item(10,"Crate",14);item(11,"Bucket",14);item(12,"Torch",8);
+    item(13,"Nails",15);item(14,"Tapestry",16);item(15,"Boat",11);
+    item(16,"Rusty Door",17);item(17,"Closed Coffin",18);
+    item(18,"Fire in the Fireplace",2);item(19,"Bookcase",3);
+    item(20,"Sign",1);item(21,"Parapets",5);item(22,"Brick Fireplace",2);
+    item(23,"Rat",19);item(24,"Wine",2);item(25,"Cheddar Cheese",2);
+    return 0;
+}
+
+fn nounid(){
+    if wordis(noun,"HAM")|wordis(noun,"SLE"){return 1;}
+    if wordis(noun,"TIM"){return 2;}
+    if wordis(noun,"ROP"){
+        return 3;
+    }
+    if (location==5)&wordis(noun,"PAR"){return 21;}
+    if wordis(noun,"SCR")|wordis(noun,"PAR"){return 4;}
+    if wordis(noun,"AXE")|wordis(noun,"AX "){return 5;}
+    if wordis(noun,"OAR"){return 6;}if wordis(noun,"KEY"){return 7;}
+    if wordis(noun,"HOL")|wordis(noun,"WAT"){return 8;}
+    if wordis(noun,"FLA")|wordis(noun,"OIL"){return 9;}
+    if wordis(noun,"CRA"){return 10;}
+    if wordis(noun,"BUC"){return 11;}if wordis(noun,"TOR"){return 12;}
+    if wordis(noun,"NAI"){return 13;}if wordis(noun,"TAP"){return 14;}
+    if wordis(noun,"BOA"){return 15;}
+    if wordis(noun,"RUS")|wordis(noun,"DOO"){return 16;}
+    if wordis(noun,"CLO")|wordis(noun,"COF")|wordis(noun,"DRA"){return 17;}
+    if wordis(noun,"BOO"){return 19;}if wordis(noun,"SIG"){return 20;}
+    if wordis(noun,"FIR")|wordis(noun,"BRI"){return 22;}
+    if wordis(noun,"RAT"){return 23;}if wordis(noun,"WIN"){return 24;}
+    if wordis(noun,"CHE"){return 25;}
+    return 0;
+}
+
+fn lookitems(){
+    say("You see:\r\n");
+    let mut i=1;let mut count=0;
+    while i<=25{
+        if places[i]==location{say("  ");say(itemname(i));say("\r\n");count=count+1;}
+        i=i+1;
+    }
+    if count==0{say("  Nothing interesting.\r\n");}
+    return 0;
+}
+
+fn carried(){
+    let mut i=1;let mut count=0;
+    while i<=25{if places[i]==0{count=count+1;}i=i+1;}
+    return count;
+}
+
+fn inventory(){
+    say("You are carrying:\r\n");
+    let mut i=1;
+    while i<=25{
+        if places[i]==0{say("  ");say(itemname(i));say("\r\n");}
+        i=i+1;
+    }
+    if carried()==0{say("  Nothing.\r\n");}
+    return 0;
+}
+
+fn take(obj){
+    if obj==0{say("I don't know that object.\r\n");return 0;}
+    if places[obj]==0{say("You already have it.\r\n");return 0;}
+    if places[obj]!=location{say("You cannot see it here.\r\n");return 0;}
+    if (obj>=15)&(obj<=23){say("You cannot take that.\r\n");return 0;}
+    if carried()==7{say("You cannot carry any more.\r\n");return 0;}
+    places[obj]=0;say("Taken: ");say(itemname(obj));say(".\r\n");
+    return 0;
+}
+
+fn drop(obj){
+    if obj==0{say("I don't know that object.\r\n");return 0;}
+    if places[obj]!=0{say("You do not have it.\r\n");return 0;}
+    places[obj]=location;say("Dropped: ");say(itemname(obj));say(".\r\n");
+    return 0;
+}
+
+fn push(obj){
+    if (obj==19)&(location==3){
+        paths[3*6+5]=9;say("A doorway opens behind the bookcase.\r\n");
+    }else{say("Nothing happens.\r\n");}
+    return 0;
+}
+
+fn newgame(){
+    location=1;playing=1;
+    world();
+    items();
+    return 0;
+}

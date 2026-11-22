@@ -1,0 +1,1 @@
+PASS DOS 3.10: PSP-selected WIN.TXT completes the adventure; DOS CON reads keyboard READ THE SIGN and QUIT; Control-Z ends console input; all return zero

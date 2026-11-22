@@ -2,6 +2,15 @@
 import re
 
 OVERVIEWS = {
+ 'vampire': (
+  [
+   '**An optional RILL application:** Use the completed compiler, translator and assembler to build a text adventure without adding a required rung to the toolchain.',
+   '**A castle represented by tables:** Keep nineteen rooms, six directions and twenty-five objects in ordinary byte storage so exploration changes data rather than the movement code.',
+   '**Commands and connected puzzles:** Recognize short phrases, manage seven carried objects and reach Dracula before a command-driven midnight deadline.',
+   '**Console or saved commands:** Read keyboard input through DOS CON, or select an 8.3 command filename through the portable startup arguments so a walk can be repeated.',
+   '**Small playable stopping points:** Preserve each growing game, with focused checks and reusable journey transcripts.',
+  ],
+  'None of the workbench tools or language features. The adaptation uses plain DOS text in place of the BASIC listing\'s terminal escape effects and returns to DOS instead of loading an external menu program.'),
  'edit86': (
   [
    '**A screen editor written in RILL:** Edit the plain source files used by the workbench, with navigation, insertion, deletion, literal search and bounded undo.',

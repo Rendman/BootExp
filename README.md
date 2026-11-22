@@ -18,6 +18,8 @@ The Hugo source lives in `pub_src/site`; generated pages go to root `public/`. T
 | LINK86 | Linking Our First Modules |
 | EDIT86 | Building Our Screen Editor |
 
+[Vampire Castle Adventure](pub_src/site/content/bootstrap/vampire/_index.md) is an optional application after the completed RILL-written trio. Its 26 playable construction checkpoints adapt the supplied BASIC adventure into RILL, with nineteen rooms, twenty-five objects, connected puzzles, a midnight deadline and replay. It uses the existing language and services and adds no required bootstrap rung. The source-only collection includes reusable command journeys and a separately marked solution.
+
 The tool constructions have their own workbenches, references, complete examples, and source archives. Rebuilding Our Tools in RILL begins after the compiler self-builds and brings the three tools together. Reader downloads use these tool names. Earlier article URLs redirect to their current working parts; the construction pages give the exact checkpoint filenames to save. Directories use the current tool names. Existing article and download URLs remain supported; [pub_src/README.md](pub_src/README.md) explains the layout.
 
 After that chain, LINK86 is built in RILL. Its ten construction checkpoints link two hand-entered ASCII object modules into a COM image, with public symbols, near-relative and absolute word relocations. ASM86 object output is not required by this first linker series.
