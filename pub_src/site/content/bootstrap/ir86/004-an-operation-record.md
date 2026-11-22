@@ -10,6 +10,8 @@ aliases = ["/bootstrap/ir86/04-inspecting-an-instruction-record/", "/bootstrap/i
 
 The assembler used a table to recognize instructions. I want the translator to use the same idea, with a record that says what kind of operand each IR operation needs. I shall begin with `LIT` and inspect its argument class. Once that lookup works, an operation can select both its checks and its output pattern.
 
+**Starting source:** `IR03.ASM`. **Save as:** `IR04.ASM`. **Build with:** `ASMAKEEP.COM`.
+
 ## How it works
 
 Look up the complete mnemonic and inspect its argument-class field.
@@ -395,5 +397,5 @@ IR ERROR 0000000000 CODE 6
 FAIL
 ```
 
-An unexpected PASS fails this check. Keep a copy of the accepted result before testing; it must remain unchanged.
+An unexpected PASS fails this check. This checkpoint creates no result file; an existing selected result must remain untouched.
 

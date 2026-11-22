@@ -10,6 +10,8 @@ aliases = ["/bootstrap/ir86/045-iw-conditions-without-extra-skip-definitions/", 
 
 Arithmetic can produce a value; now a program needs to decide where to go with it. I shall compare two saved values and branch on the result. The IR source will name only its intended destination. The backend will supply the native jump sequence needed to reach that destination.
 
+**Starting source:** `IR08.ASM`. **Save as:** `IR09.ASM`. **Build with:** `ASMAKEEP.COM`.
+
 ## How it works
 
 Use fixed native conditional bridges while keeping branch semantics in the virtual machine.

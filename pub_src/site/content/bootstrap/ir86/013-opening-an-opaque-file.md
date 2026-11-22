@@ -10,6 +10,8 @@ aliases = ["/bootstrap/ir86/049-iw-opening-an-opaque-file/", "/bootstrap/ir86/13
 
 A compiler must read a source file whose name can change from one run to the next. I shall let an IR program obtain a startup filename and ask OPEN for a readable handle. The program will keep an ordinary string pointer and an opaque handle; the entry binding and runtime will manage the DOS details.
 
+**Starting source:** `IR12.ASM`. **Save as:** `IR13.ASM`. **Build with:** `ASMAKEEP.COM`.
+
 ## How it works
 
 Give OPEN an ordinary terminated filename and return a checked handle.

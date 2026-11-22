@@ -35,7 +35,7 @@ COPY RESULT.COM A1.COM
 C:\DOS\FC.EXE /B A0.COM A1.COM
 ```
 
-Require the same OK and PASS before the copy, and no FC differences. SOURCE.ASM remains the complete ASM86 source. Build one more copy:
+Require the same OK and PASS before the copy, and no FC differences. ASM86.ASM remains the complete source; this command uses it directly through the PSP filenames. Build one more copy:
 
 ```dos
 CHECK A1 ASM86.ASM RESULT.COM
@@ -46,3 +46,9 @@ C:\DOS\FC.EXE /B A0.COM A2.COM
 Again require fresh OK and PASS and no differences. All three files have length 6433. Preserve A0.COM as ASMAKEEP.COM, together with ASM86.ASM and the preceding builder sources.
 
 The [complete assembly programs](../43-programs/index.html) exercise counted output, a procedure frame, a distant conditional, and explicit byte movement. Inspect the byte counts before executing each program.
+
+## Carry the source and builder to IR86
+
+Keep ASM86.ASM unchanged and bring it with ASMAKEEP.COM, VIEW.BAS and CHECK.BAT into the IR86 workbench. Begin IR01.ASM by copying that accepted assembler source; the first IR86 article removes the assembly parser and encoders while retaining the file machinery. ASMAKEEP.COM builds the edited source.
+
+Continue with [the IR86 workbench](../../ir86/000-workbench/index.html).

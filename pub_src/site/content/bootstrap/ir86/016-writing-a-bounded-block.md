@@ -10,6 +10,8 @@ aliases = ["/bootstrap/ir86/052-iw-writing-a-bounded-block/", "/bootstrap/ir86/1
 
 The input side can transfer a counted block. I want the output side to make the same promise about actual progress. WRITE will receive a handle, a pointer, and a byte count. The first test asks it to write one byte; a later compiler can use that same operation to flush a whole output buffer.
 
+**Starting source:** `IR15.ASM`. **Save as:** `IR16.ASM`. **Build with:** `ASMAKEEP.COM`.
+
 ## How it works
 
 Check both service status and actual write progress.

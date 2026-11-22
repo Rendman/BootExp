@@ -10,6 +10,8 @@ aliases = ["/bootstrap/ir86/053-iw-closing-a-handle/", "/bootstrap/ir86/17-reser
 
 The generated program can now open, create, read, and write files. It also needs to finish its ownership of a handle explicitly. I shall add CLOSE and retire a slot only when the underlying close succeeds. That leaves a useful distinction between a handle that is finished and a failed operation that still needs attention.
 
+**Starting source:** `IR16.ASM`. **Save as:** `IR17.ASM`. **Build with:** `ASMAKEEP.COM`.
+
 ## How it works
 
 Retire an owned handle only after a successful close.

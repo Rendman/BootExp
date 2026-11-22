@@ -10,6 +10,8 @@ aliases = ["/bootstrap/ir86/02-seeing-the-tokens/", "/bootstrap/ir86/038-iw-toke
 
 I can read the input. Now I need to separate an operation name from its operand without losing my place. I shall try a lowercase `lit 7` and have the scanner show the two tokens it found. Later, quoted text will need its original spelling, so folding a token must leave the raw line available.
 
+**Starting source:** `IR01.ASM`. **Save as:** `IR02.ASM`. **Build with:** `ASMAKEEP.COM`.
+
 ## How it works
 
 Fold token spellings while preserving the raw line for quoted data.
@@ -165,5 +167,5 @@ IR ERROR 0000000000 CODE 6
 FAIL
 ```
 
-An unexpected PASS fails this check. Keep a copy of the accepted result before testing; it must remain unchanged.
+An unexpected PASS fails this check. This checkpoint creates no result file; an existing selected result must remain untouched.
 

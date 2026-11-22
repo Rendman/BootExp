@@ -10,6 +10,8 @@ aliases = ["/bootstrap/ir86/036-streaming-workbench/", "/bootstrap/ir86/059-iw-c
 
 An allocated block is useful only when the program can reach its contents. I shall add byte and word access through a block handle and a byte offset, checking the complete extent before touching storage. The final test puts a word in the last two bytes of a 40 KiB block and reads it back. That is the workspace interface our compiler can now build on.
 
+**Starting source:** `IR22.ASM`. **Save as:** `IR23.ASM`. **Build with:** `ASMAKEEP.COM`.
+
 ## How it works
 
 Validate an opaque block and byte extent before reading or writing a word.
@@ -765,8 +767,10 @@ FAIL
 An unexpected PASS fails this check. Keep a copy of the accepted result before testing; it must remain unchanged.
 
 ```dos
-COPY IR23.COM IRKEEP.COM
+COPY IR23.ASM IR86.ASM
+COPY IR23.COM IR86.COM
+COPY IR86.COM IRKEEP.COM
 COPY IRKEEP.COM IWKEEP.COM
 ```
 
-IR86.ASM and this final source are identical. Continue with [RILL0](../../rill/index.html).
+IR86.ASM and this final source are identical. IR86.COM, IRKEEP.COM and IWKEEP.COM are matching copies of the accepted translator. Continue with [RILL0](../../rill/index.html).

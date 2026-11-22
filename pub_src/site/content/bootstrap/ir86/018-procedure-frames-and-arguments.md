@@ -10,6 +10,8 @@ aliases = ["/bootstrap/ir86/054-iw-procedure-frames-and-arguments/", "/bootstrap
 
 A compiler will need routines that call other routines while keeping their own temporary values. Shared scratch words will soon become difficult to manage. I shall add procedure declarations, parameters, and local slots, with a separate frame for each active call. The test will keep one expression operand while calling a procedure with its own parameter and local.
 
+**Starting source:** `IR17.ASM`. **Save as:** `IR18.ASM`. **Build with:** `ASMAKEEP.COM`.
+
 ## How it works
 
 Name parameter and local slots in IR; leave native frame offsets to the backend.

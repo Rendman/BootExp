@@ -10,6 +10,8 @@ aliases = ["/bootstrap/ir86/051-iw-reading-into-a-buffer/", "/bootstrap/ir86/15-
 
 The file can be opened and the buffer can be declared. Now I want bytes to move between them. READ will take a handle, a buffer address, and a count, then return how many bytes actually arrived. I shall begin by requesting one byte from a known file so the returned progress is easy to check.
 
+**Starting source:** `IR14.ASM`. **Save as:** `IR15.ASM`. **Build with:** `ASMAKEEP.COM`.
+
 ## How it works
 
 Consume a saved handle and pointer, return actual progress, and refill after short reads.

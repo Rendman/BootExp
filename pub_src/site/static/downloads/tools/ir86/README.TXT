@@ -7,11 +7,24 @@ Require each fresh OK and PASS before copying a result to the next tool.
 Sources are ASCII with DOS line endings and 8.3 filenames.
 No executable, interpreter, or outside compiler is included.
 
-ASM0 builds all native checkpoints. SOURCE.ASM -> RESULT.COM.
+The completed ASM86 builds every native checkpoint.
+Bring ASM86.ASM and the tested ASMAKEEP.COM from that workbench.
+ASMAKEEP.COM is the 6433-byte assembler, not the earlier ASMKEEP.COM.
+CHECK ASMAKEEP ASM86.ASM ASTEST.COM must report OK and PASS.
+C:\DOS\FC.EXE /B ASMAKEEP.COM ASTEST.COM must show no differences.
+Keep ASM86.ASM unchanged; copy it to IR01.ASM before editing.
+CHECK ASMAKEEP IR01.ASM RESULT.COM builds the 2534-byte reader.
+Require OK and PASS, then COPY RESULT.COM IR01.COM.
 IR01.ASM through IR23.ASM form one continuing translator.
 IR86.ASM is identical to IR23.ASM.
-The translator uses SOURCE.IR -> RESULT.ASM.
-Preserve IRKEEP.COM and an identical IWKEEP.COM for later workbenches.
+Supply each translator its source and result names on the command line.
+No arguments select SOURCE.IR and RESULT.ASM.
+After the final checks, preserve the source and accepted executable:
+COPY IR23.ASM IR86.ASM
+COPY IR23.COM IR86.COM
+COPY IR86.COM IRKEEP.COM
+COPY IRKEEP.COM IWKEEP.COM
+Keep these matching working copies for the compiler workbenches.
 
 Early helper output can be an incomplete fragment; inspect its bytes.
 Execute only programs identified as complete in their article.

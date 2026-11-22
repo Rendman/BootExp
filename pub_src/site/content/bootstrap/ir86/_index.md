@@ -1,7 +1,7 @@
 +++
 title = "Building an Intermediate Language"
 weight = 5
-description = "ASM86 builds every saved source in this collection. Supply the translator input and output names after its program name; SOURCE.IR and RESULT.ASM remain the no-argument defaults. Preserve the completed translator as IRKEEP.COM; make the identical IWKEEP.COM copy used by later workbenches."
+description = "Carry the tested ASM86 source and builder into one continuing native translator."
 download = "IR86.ASM"
 download_group = "tools/ir86"
 reader_names = 1

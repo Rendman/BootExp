@@ -10,6 +10,8 @@ aliases = ["/bootstrap/ir86/055-iw-word-arithmetic-and-comparison-values/", "/bo
 
 The procedure machinery can carry values between calls. I want the word operations those routines will need for counts, masks, and character tests to have precise results too. This checkpoint completes the arithmetic and comparison set, including unsigned division and relations that produce exactly zero or one.
 
+**Starting source:** `IR18.ASM`. **Save as:** `IR19.ASM`. **Build with:** `ASMAKEEP.COM`.
+
 ## How it works
 
 Define multiply, unsigned quotient/remainder, masked shifts, and zero-or-one relations.

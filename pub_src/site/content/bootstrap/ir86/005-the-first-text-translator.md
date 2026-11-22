@@ -10,6 +10,8 @@ aliases = ["/bootstrap/ir86/041-iw-the-first-text-translator/", "/bootstrap/ir86
 
 The separate pieces are ready to work together. I want to enter a tiny IR program, read the assembly it produces, and assemble that text with the tool we already trust. `LABEL`, `LIT`, and `EXIT` are enough for a complete first program: find MAIN, produce a value, and return a DOS status.
 
+**Starting source:** `IR04.ASM`. **Save as:** `IR05.ASM`. **Build with:** `ASMAKEEP.COM`.
+
 ## How it works
 
 Expand names and literal operands into a complete native assembly file.

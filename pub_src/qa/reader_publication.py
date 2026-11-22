@@ -23,6 +23,11 @@ for group,(tool,title) in SERIES.items():
  assert meta['title']==title and meta['tool_id']==tool and meta['collection_key']==group
  assert meta['download_group']=='tools/'+tool.lower()
  assert (D/tool.lower()/meta['download']).exists()
+irguide=(D/'ir86/README.TXT').read_text()
+assert 'The completed ASM86 builds every native checkpoint.' in irguide
+assert 'ASM0 builds all native' not in irguide
+assert 'CHECK ASMAKEEP ASM86.ASM ASTEST.COM' in irguide
+assert 'copy it to IR01.ASM before editing' in irguide
 for family,group in [('rill-initial-series','rill'),('rill-seed-series','rb'),('rill-self-series','rc')]:
  cases=json.loads((ROOT/'qa/toolchain'/(family+'.json')).read_text())
  for c in cases:

@@ -10,6 +10,8 @@ aliases = ["/bootstrap/ir86/042-iw-declared-storage/", "/bootstrap/ir86/06-subst
 
 A program needs somewhere to keep values after an instruction finishes. I shall add named words and byte buffers, with declarations before the executable body. The first storage test only needs to prove that the declarations reach the assembly file and occupy the expected space; using their contents comes next.
 
+**Starting source:** `IR05.ASM`. **Save as:** `IR06.ASM`. **Build with:** `ASMAKEEP.COM`.
+
 ## How it works
 
 Declare initialized words with WORD and byte extents with BUFFER; emit larger storage with RESB.

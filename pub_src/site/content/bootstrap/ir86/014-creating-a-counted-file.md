@@ -10,6 +10,8 @@ aliases = ["/bootstrap/ir86/050-iw-creating-a-counted-file/", "/bootstrap/ir86/1
 
 Opening an existing file gives us input. I also need a way to start an output file. CREATE will use the same handle table, with a writable slot for the new file. I shall first check that creation succeeds; writing the contents can then be tested separately.
 
+**Starting source:** `IR13.ASM`. **Save as:** `IR14.ASM`. **Build with:** `ASMAKEEP.COM`.
+
 ## How it works
 
 Create writable handles through the same opaque slot table.

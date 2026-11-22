@@ -13,7 +13,7 @@ tokens=read+'SHOWTOKEN:\nCALL SCAN\nMOV AX,[TOKLEN]\nCMP AX,0\nJE READNEXT\nPUSH
 copy=ENTRY+'CALL PREFLIGHT\nCALL OPENFILE\nCALL CREATEOUT\nCOPYBYTE:\nCALL NEXTBYTE\nCMP AX,0\nJE COPYDONE\nMOV AL,[CHAR]\nCALL EMITCHAR\nJMP COPYBYTE\nCOPYDONE:\nCALL CLOSEFILE\nCALL FLUSH\nCALL CLOSEOUT\nCALL COMMIT\nMOV DX,OKMSG\nCALL TEXT\nMOV AX,[TOTALLO]\nMOV DX,[TOTALHI]\nCALL NUMBER32\nMOV DX,BYTEMSG\nCALL TEXT\n'+EXIT
 lookup=read+'CALL SCAN\nMOV BX,IRTAB\nMOV CX,2\nMOV AX,16\nCALL LOOK\nCMP BX,0\nJE SYNTAXBAD\nADD BX,10\nMOV AL,[BX]\nMOV AH,0\nPUSH AX\nCALL FINISH\nPOP AX\nMOV DX,0\nCALL NUMBER32\nMOV DX,NEWLINE\nCALL TEXT\n'+readend
 specs=[
-('A bounded input reader','Read a fixed source through the inherited line reader and checked source counters.','ABC\n','',show),
+('A bounded input reader','Read the selected source through the inherited block reader and checked source counters.','ABC\n','',show),
 ('Tokens without a complete source buffer','Fold token spellings while preserving the raw line for quoted data.','lit 7\n','',tokens),
 ('Publishing streamed assembly text','Copy a byte stream through a checked output block and recoverable publication.','ABC\r\n','',copy),
 ('An operation record','Look up the complete mnemonic and inspect its argument-class field.','LIT\n','LIT HALT',lookup),

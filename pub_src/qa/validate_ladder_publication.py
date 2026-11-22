@@ -1,10 +1,12 @@
 """Reconstruct the required printed construction and verify source-only delivery."""
 from pathlib import Path
 import json,re,sys,tomllib,zipfile
+import runpy
 ROOT=Path(__file__).resolve().parents[1];C=ROOT/'site/content/bootstrap';Q=ROOT/'qa/toolchain'
 sys.path.insert(0,str(ROOT/'tools'))
 from project_paths import directory_name
 from publication_names import filename
+label_checks=runpy.run_path(str(ROOT/'qa/asm1/validate_steps.py'))
 
 def check():
  patches=json.loads((Q/'ladder-article-patches.json').read_text())
@@ -16,11 +18,20 @@ def check():
    elif group=='rb':base=(ROOT/'workbench/rill0/RILL.IR').read_text().splitlines();assert stage['base']=='RILL0.IR'
    else:base=[];assert stage['base'] is None
   else:base=previous[family]
-  sections=re.split(r'### Edit at old physical position \d+\n\n',text)[1:]
-  if base:assert len(sections)==len(stage['changes']),(group,n,'edit count')
+  if stage.get('edit_style')=='labels':
+   varied=['; Reader note','']
+   for line in base:varied+=['  '+line,'']
+   base=label_checks['apply_label_edits'](varied,stage,text)
+   expected=(folder/stage['source']).read_text().splitlines()
+   assert base==label_checks['code'](expected),(group,n,'label reconstruction')
+   base=expected
+   sections=[]
   else:
+   sections=re.split(r'### Edit at old physical position \d+\n\n',text)[1:]
+  if base and stage.get('edit_style')!='labels':assert len(sections)==len(stage['changes']),(group,n,'edit count')
+  elif not base:
    block=re.search(r'```ir\n(.*?)\n```',text,re.S);assert block and block[1].splitlines()==stage['changes'][0]['new']
-  for i,e in enumerate(stage['changes']):
+  for i,e in enumerate(stage['changes'] if stage.get('edit_style')!='labels' else []):
    a,b=e['a1'],e['a2'];assert base[a:b]==e['old'],(group,n,'base differs')
    if sections:
     blocks=re.findall(r'```(?:ir|asm)\n(.*?)\n```',sections[i],re.S)
@@ -33,6 +44,9 @@ def check():
   previous[family]=list(base);counts[family]=counts.get(family,0)+1
  assert counts=={f:len(json.loads((Q/(f+'.json')).read_text())) for f in counts}
  assert (ROOT/'workbench/ir86/IR86.ASM').read_bytes()==(ROOT/'workbench/ir86/IRWIDE.ASM').read_bytes()
+ finish=(C/'ir86/023-checked-block-access.md').read_text()
+ for command in ['COPY IR23.ASM IR86.ASM','COPY IR23.COM IR86.COM','COPY IR86.COM IRKEEP.COM','COPY IRKEEP.COM IWKEEP.COM']:
+  assert command in finish,('missing IR86 handoff alias',command)
  assert (ROOT/'workbench/rill0/RILL.IR').read_text().splitlines()==previous['rill-initial-series']
  assert (ROOT/'workbench/rill0/RILLBOOT.IR').read_text().splitlines()==previous['rill-seed-series']
  # The RILL-written compiler still has its own exact construction.

@@ -10,6 +10,8 @@ aliases = ["/bootstrap/ir86/046-iw-calls-and-returns/", "/bootstrap/ir86/10-load
 
 I can follow a pointer to read a word. I also need to change the word it names. I shall save a destination address on the expression stack, load the new value, and let PUT consume the saved address. Reading X afterward will show whether the store reached the right bytes.
 
+**Starting source:** `IR09.ASM`. **Save as:** `IR10.ASM`. **Build with:** `ASMAKEEP.COM`.
+
 ## How it works
 
 Store a word through a portable pointer and inspect the saved result.

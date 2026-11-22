@@ -10,6 +10,8 @@ aliases = ["/bootstrap/ir86/043-iw-addresses-and-indirect-storage/", "/bootstrap
 
 The declarations now reserve real bytes in the generated program. I want an IR operation to obtain the address of those bytes and another to read a word through it. Our test will fetch the value 65 from X and return it as the program's status. That gives the pointer path an observable result before we add display output.
 
+**Starting source:** `IR06.ASM`. **Save as:** `IR07.ASM`. **Build with:** `ASMAKEEP.COM`.
+
 ## How it works
 
 Keep byte addresses and canonical word loads independent of physical registers.

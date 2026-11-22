@@ -10,6 +10,8 @@ aliases = ["/bootstrap/ir86/058-iw-allocated-block-handles/", "/bootstrap/ir86/2
 
 The compiler's source and symbol records will need workspace beyond the bytes reserved in its main image. I shall add allocation and release through opaque block handles. The first test requests a 40 KiB block and frees it again. Accessing its contents will be a separate step, with bounds carried by the allocation.
 
+**Starting source:** `IR21.ASM`. **Save as:** `IR22.ASM`. **Build with:** `ASMAKEEP.COM`.
+
 ## How it works
 
 Allocate byte extents beyond the main image and release owned blocks.

@@ -10,6 +10,8 @@ aliases = ["/bootstrap/ir86/048-iw-input-bytes-and-eof/", "/bootstrap/ir86/12-a-
 
 A word load was enough for the first storage test. Text and input buffers need one byte at a time. I shall add FETCHB and use it to read the first byte of a declared word, then pass that byte to PUTC. This also gives us a concrete check of the language's low-byte-first storage rule.
 
+**Starting source:** `IR11.ASM`. **Save as:** `IR12.ASM`. **Build with:** `ASMAKEEP.COM`.
+
 ## How it works
 
 Zero-extend one byte from declared storage without a processor register in the source.

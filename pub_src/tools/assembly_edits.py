@@ -13,7 +13,7 @@ def source_note(previous,current,builder):
  start=f'`{previous}`' if previous else 'new listing'
  return f'**Starting source:** {start}. **Save as:** `{current}`. **Build with:** `{builder}`.\n\n'
 
-def patch(previous,lines,complete_error_exits=False):
+def patch(previous,lines,complete_error_exits=False,bounded_deletions=False):
  previous=code_lines(previous);lines=code_lines(lines)
  edits=[op for op in SequenceMatcher(None,previous,lines,autojunk=False).get_opcodes() if op[0]!='equal']
  if complete_error_exits:
@@ -48,7 +48,14 @@ def patch(previous,lines,complete_error_exits=False):
   else:
    text+=f'Find the unique label `{anchor}:`, then follow this unchanged source through its last displayed instruction:\n\n'+fence(before)
    text+='The edit begins immediately after that unchanged block.\n\n'
-  if old:text+=('Replace this existing source:\n\n' if new else 'Remove this existing source:\n\n')+fence(old)
+  ending=[i for i in range(b-1,a+2,-1) if LABEL.fullmatch(previous[i]) and working.count(previous[i])==1]
+  bounded=bool(bounded_deletions and len(old)>30 and ending)
+  old_start=old[:3] if bounded else []
+  old_end=previous[ending[0]:b] if bounded else []
+  if bounded:
+   text+='Remove from the following first source through the ending block below, including both boundaries and everything between them:\n\n'+fence(old_start)
+   text+=f'Find the unique ending label `{old_end[0]}`. The removal ends after this existing source:\n\n'+fence(old_end)
+  elif old:text+=('Replace this existing source:\n\n' if new else 'Remove this existing source:\n\n')+fence(old)
   if new:text+=('With:\n\n' if old else 'Insert:\n\n')+fence(new)
   end_anchor=None
   if old and b<len(previous) and LABEL.fullmatch(previous[b]) and working.count(previous[b])==1:
@@ -56,6 +63,7 @@ def patch(previous,lines,complete_error_exits=False):
    text+=f'Keep the following `{end_anchor}:` label and the source after it in place.\n\n'
   changes.append(dict(a1=a,a2=b,anchor=anchor,placement=placement,landmark=[anchor+':'] if placement=='before_label' else [],
                       context=before,old=old,new=new,after=[],end_anchor=end_anchor))
+  if bounded:changes[-1].update(old_display='label_bounds',old_start=old_start,old_end=old_end)
   working[a:b]=new
  assert working==lines,'Labelled edits do not reproduce the intended source'
  return text,changes

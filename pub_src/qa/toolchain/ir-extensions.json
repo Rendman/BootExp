@@ -2,7 +2,7 @@
   {
     "number": 1,
     "title": "A bounded input reader",
-    "why": "Read a fixed source through the inherited line reader and checked source counters.",
+    "why": "Read the selected source through the inherited block reader and checked source counters.",
     "source": "IW01.ASM",
     "fixture": "ABC\n",
     "diagnostic": true,

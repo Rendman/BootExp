@@ -1,7 +1,7 @@
 +++
 title = "01 \u00b7 A bounded input reader"
 weight = 1
-description = "Read a fixed source through the inherited line reader and checked source counters."
+description = "Read the selected source through the inherited block reader and checked source counters."
 download = "IR01.ASM"
 download_group = "tools/ir86"
 reader_names = 1
@@ -10,256 +10,205 @@ aliases = ["/bootstrap/ir86/01-reading-an-ir-source/", "/bootstrap/ir86/037-iw-a
 
 The assembler already knows how to read a long source a block at a time. I want to carry that working reader into the translator. For this first stopping point, I shall strip away the assembly parser and ask the inherited file machinery to show me a short input line. There is no IR translation yet.
 
+**Starting source:** `ASM86.ASM`. **Save as:** `IR01.ASM`. **Build with:** `ASMAKEEP.COM`.
+
 ## How it works
 
-Read a fixed source through the inherited line reader and checked source counters.
+Read the selected source through the inherited block reader and checked source counters.
+
+The copied source changes jobs. START keeps the full-segment stack check and calls CMDFILES and OPENFILE, then READLINE until EOF. SHOWBYTE displays each character from the completed line; TEXT supplies the line ending. CLOSEFILE finishes the input before the zero-status DOS exit. The first driver creates no output file.
+
+Remove the assembly statement dispatcher, instruction encoders, symbol records, hash table and symbol-page allocation. They describe an assembler's work, which this reader no longer performs. The source retains the scanner, lookup, numeric, file and report helpers; the driver above uses only its reader and display path.
+
+The reader's buffers have explicit new addresses. Keep their pointer constants together with the corresponding capacity checks:
+
+| Offsets | Use |
+|---|---|
+| C800H–CBFFH | Up to 1023 physical line characters and a zero |
+| CC00H–CC3FH | Up to 63 token characters and a zero |
+| D000H–DFFFH | 4096-byte input block |
+| E000H–EFFFH | Reserved 4096-byte output block |
+| F000H–FFFFH | Stack reservation |
+
+NEXTBYTE hands back a buffered byte or EOF. READLINE retains raw character case, normalizes line endings, and checks the physical line length and two-word source counters. The input is reopened by DOS for each new program run; there is no complete source image or allocated symbol workspace in this diagnostic.
 
 The inherited CMDFILES routine obtains two filenames from the PSP before any DOS file operation. Its owned source/result buffers replace only the selected spellings; the streaming reader and publication routines keep their existing interfaces. With no arguments the defaults are SOURCE.IR and RESULT.ASM.
 
 ## Enter the source
 
-Copy ASM86.ASM to IR01.ASM. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.
+Copy `ASM86.ASM` to `IR01.ASM`. Apply the changes in the order shown, working upward through the old source. Use Find to locate each label, including its colon, and confirm that it stands alone on a source line. The locator blocks are existing source: leave them in place and type only the stated insertion or replacement. Blank lines and comment-only lines may differ in your copy.
 
-### Edit at old physical position 2870
+### Change 1 · `CLEANFAIL:`
 
-Unchanged source before the edit:
-
-```asm
-DW 15,16960,1,34464,0,10000
-DW 0,1000,0,100,0,10
-DW 0,1
-```
-
-Remove:
+Find the unique label `CLEANFAIL:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-
-```
-
-The following old source remains:
-
-```asm
-DIV32END:
-```
-
-### Edit at old physical position 2740
-
-Unchanged source before the edit:
-
-```asm
-DB 0
-
 CLEANFAIL:
 ```
 
-Remove the complete old physical range 2740–2841. Its first source is:
+The edit begins immediately after that unchanged block.
+
+Remove from the following first source through the ending block below, including both boundaries and everything between them:
 
 ```asm
 DB 0
-
 PREFIX:
+DB 0
 ```
 
-Its last source is:
+Find the unique ending label `REGFIELD:`. The removal ends after this existing source:
 
 ```asm
-DB 0
-
 REGFIELD:
 ```
 
-Remove both boundaries and all source between them.
+### Change 2 · `OUTHANDLE:`
 
-The following old source remains:
-
-```asm
-DB 0
-```
-
-### Edit at old physical position 2716
-
-Unchanged source before the edit:
+Find the unique label `OUTHANDLE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-DW 0
-
 OUTHANDLE:
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Remove this existing source:
 
 ```asm
 DW 0
-
 ENDPC:
 DW 0
-
 SEGCODE:
 ```
 
-The following old source remains:
+### Change 3 · `RECOVERMSG:`
+
+Find the unique label `RECOVERMSG:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-DW 0
-```
-
-### Edit at old physical position 2703
-
-Unchanged source before the edit:
-
-```asm
-
 RECOVERMSG:
 DB 82,101,99,111,118,101,114,121,58,32,105,110,115,112,101,99
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 DB 116,32,65,83,77,65,46,84,77,80,32,97,110,100,32,82
 DB 69,83,85,76,84,46,66,65,75,13,10,36
 ```
 
-Insert in its place:
+With:
 
 ```asm
 DB 116,32,73,82,84,88,46,84,77,80,32,97,110,100,32,73
 DB 82,82,69,83,46,66,65,75,13,10,36
 ```
 
-The following old source remains:
+Keep the following `RDPOS:` label and the source after it in place.
+
+### Change 4 · `BAKNAME:`
+
+Find the unique label `BAKNAME:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-
-RDPOS:
-```
-
-### Edit at old physical position 2699
-
-Unchanged source before the edit:
-
-```asm
-DB 82,69,83,85,76,84,46,67,79,77,0,0,0
-
 BAKNAME:
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 DB 82,69,83,85,76,84,46,66,65,75,0
 ```
 
-Insert in its place:
+With:
 
 ```asm
 DB 73,82,82,69,83,46,66,65,75,0
 ```
 
-The following old source remains:
+Keep the following `RECOVERMSG:` label and the source after it in place.
+
+### Change 5 · `RESNAME:`
+
+Find the unique label `RESNAME:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-
-RECOVERMSG:
-```
-
-### Edit at old physical position 2696
-
-Unchanged source before the edit:
-
-```asm
-DB 65,83,77,65,46,84,77,80,0
-
 RESNAME:
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 DB 82,69,83,85,76,84,46,67,79,77,0,0,0
 ```
 
-Insert in its place:
+With:
 
 ```asm
 DB 82,69,83,85,76,84,46,65,83,77,0,0,0
 ```
 
-The following old source remains:
+Keep the following `BAKNAME:` label and the source after it in place.
+
+### Change 6 · `TMPNAME:`
+
+Find the unique label `TMPNAME:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-
-BAKNAME:
-```
-
-### Edit at old physical position 2693
-
-Unchanged source before the edit:
-
-```asm
-DB 83,79,85,82,67,69,46,65,83,77,0,0,0
-
 TMPNAME:
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 DB 65,83,77,65,46,84,77,80,0
 ```
 
-Insert in its place:
+With:
 
 ```asm
 DB 73,82,84,88,46,84,77,80,0
 ```
 
-The following old source remains:
+Keep the following `RESNAME:` label and the source after it in place.
+
+### Change 7 · `SRCNAME:`
+
+Find the unique label `SRCNAME:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-
-RESNAME:
-```
-
-### Edit at old physical position 2690
-
-Unchanged source before the edit:
-
-```asm
-DB 74,67,0,0,0,0,8,114
-
 SRCNAME:
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 DB 83,79,85,82,67,69,46,65,83,77,0,0,0
 ```
 
-Insert in its place:
+With:
 
 ```asm
 DB 83,79,85,82,67,69,46,73,82,0,0,0,0
 ```
 
-The following old source remains:
+Keep the following `TMPNAME:` label and the source after it in place.
 
-```asm
+### Change 8 · `REGTAB:`
 
-TMPNAME:
-```
+Find the unique label `REGTAB:`. The old block below starts at that label.
 
-### Edit at old physical position 2631
-
-Unchanged source before the edit:
-
-```asm
-ERRCODE:
-DB 0
-```
-
-Remove the complete old physical range 2631–2688. Its first source is:
+Remove from the following first source through the ending block below, including both boundaries and everything between them:
 
 ```asm
 REGTAB:
@@ -267,203 +216,156 @@ DB 65,76,0,0
 DB 67,76,0,1
 ```
 
-Its last source is:
+Find the unique ending label `OPTAB:`. The removal ends after this existing source:
 
 ```asm
+OPTAB:
+DB 68,66,0,0,0,0,1,0
+DB 68,87,0,0,0,0,1,1
+DB 82,69,84,0,0,0,2,195
+DB 67,76,68,0,0,0,2,252
+DB 76,79,68,83,66,0,2,172
+DB 83,84,79,83,66,0,2,170
+DB 77,79,86,0,0,0,3,0
+DB 65,68,68,0,0,0,4,0
+DB 79,82,0,0,0,0,4,1
+DB 65,78,68,0,0,0,4,4
+DB 83,85,66,0,0,0,4,5
+DB 67,77,80,0,0,0,4,7
+DB 73,78,67,0,0,0,5,64
+DB 68,69,67,0,0,0,5,72
+DB 80,85,83,72,0,0,5,80
+DB 80,79,80,0,0,0,5,88
+DB 73,78,84,0,0,0,6,205
+DB 67,65,76,76,0,0,7,232
+DB 74,77,80,0,0,0,7,233
+DB 74,66,0,0,0,0,8,114
+DB 74,65,69,0,0,0,8,115
+DB 74,69,0,0,0,0,8,116
+DB 74,78,69,0,0,0,8,117
+DB 74,66,69,0,0,0,8,118
+DB 74,65,0,0,0,0,8,119
+DB 88,79,82,0,0,0,4,6
+DB 82,69,83,66,0,0,12,0
+DB 82,69,83,87,0,0,12,1
+DB 76,69,65,0,0,0,11,0
+DB 77,85,76,0,0,0,9,4
+DB 68,73,86,0,0,0,9,6
+DB 83,72,76,0,0,0,10,4
 DB 83,72,82,0,0,0,10,5
 DB 74,67,0,0,0,0,8,114
 ```
 
-Remove both boundaries and all source between them.
+Keep the following `SRCNAME:` label and the source after it in place.
 
-The following old source remains:
+### Change 9 · `TYPE:`
 
-```asm
-SRCNAME:
-DB 83,79,85,82,67,69,46,65,83,77,0,0,0
-```
+Find the unique label `TYPE:`. The old block below starts at that label.
 
-### Edit at old physical position 2604
-
-Unchanged source before the edit:
-
-```asm
-CHAR:
-DB 0
-```
-
-Remove:
+Remove this existing source:
 
 ```asm
 TYPE:
 DB 0
-
 OP:
 DB 0
-
 KIND:
 DB 0
-
 WIDTH:
 DB 0
-
 REG:
 DB 0
-
 K1:
 DB 0
-
 W1:
 DB 0
-
 R1:
 DB 0
 ```
 
-The following old source remains:
+Keep the following `ERRCODE:` label and the source after it in place.
+
+### Change 10 · `VAL:`
+
+Find the unique label `VAL:`. The old block below starts at that label.
+
+Remove this existing source:
 
 ```asm
-ERRCODE:
-DB 0
-```
-
-### Edit at old physical position 2585
-
-Unchanged source before the edit:
-
-```asm
-
-STRIDE:
-DW 0
-```
-
-Remove:
-
-```asm
-
 VAL:
 DW 0
-
 V1:
 DW 0
-
 PASS:
 DB 1
 ```
 
-The following old source remains:
+Keep the following `ENDED:` label and the source after it in place.
 
-```asm
+### Change 11 · `LINENO:`
 
-ENDED:
-```
-
-### Edit at old physical position 2574
-
-Unchanged source before the edit:
+Find the unique label `LINENO:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 LINENO:
 DW 0
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Remove this existing source:
 
 ```asm
 PC:
 DW 256
-
 SYMC:
 DW 0
 ```
 
-The following old source remains:
+Keep the following `TOKLEN:` label and the source after it in place.
+
+### Change 12 · `ERRMSG:`
+
+Find the unique label `ERRMSG:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-TOKLEN:
-DW 0
-```
-
-### Edit at old physical position 2565
-
-Unchanged source before the edit:
-
-```asm
-
-DIVISORS:
-DW 10000,1000,100,10,1
-```
-
-Remove:
-
-```asm
-
-```
-
-The following old source remains:
-
-```asm
-DIVEND:
-```
-
-### Edit at old physical position 2555
-
-Unchanged source before the edit:
-
-```asm
-DB 32,98,121,116,101,115,13,10,36
-
 ERRMSG:
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 DB 69,82,82,79,82,32,36
 ```
 
-Insert in its place:
+With:
 
 ```asm
 DB 73,82,32,69,82,82,79,82,32,36
 ```
 
-The following old source remains:
+Keep the following `CODEMSG:` label and the source after it in place.
 
-```asm
+### Change 13 · `OKMSG:`
 
-CODEMSG:
-```
+Find the unique label `OKMSG:`. The old block below starts at that label.
 
-### Edit at old physical position 2548
-
-Unchanged source before the edit:
-
-```asm
-CMDTEXTEND:
-RET
-```
-
-Remove:
+Remove this existing source:
 
 ```asm
 OKMSG:
 DB 79,75,32,36
-
 BYTEMSG:
 DB 32,98,121,116,101,115,13,10,36
 ```
 
-The following old source remains:
+Keep the following `ERRMSG:` label and the source after it in place.
 
-```asm
-ERRMSG:
-DB 69,82,82,79,82,32,36
-```
+### Change 14 · `CMDTEXT:`
 
-### Edit at old physical position 2540
-
-Unchanged source before the edit:
+Find the unique label `CMDTEXT:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 CMDTEXT:
@@ -471,123 +373,130 @@ LODSB
 CMP AL,0
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE CMDTEXTEND
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR CMDTEXTEND
 ```
 
-The following old source remains:
+### Change 15 · `ZCMDFILES4:`
+
+Find the unique label `ZCMDFILES4:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV DL,AL
-MOV AH,2
-```
-
-### Edit at old physical position 2530
-
-Unchanged source before the edit:
-
-```asm
+ZCMDFILES4:
+MOV SI,SRCNAME
 MOV DI,BAKNAME
 CALL CMDMATCH
 CMP AX,0
-```
-
-Remove:
-
-```asm
 JNE CMDFAIL
-```
-
-Insert in its place:
-
-```asm
-JNE NEAR CMDFAIL
-```
-
-The following old source remains:
-
-```asm
-CMDREADY:
-RET
-```
-
-### Edit at old physical position 2525
-
-Unchanged source before the edit:
-
-```asm
-MOV DI,TMPNAME
-CALL CMDMATCH
-CMP AX,0
-```
-
-Remove:
-
-```asm
-JNE CMDFAIL
-```
-
-Insert in its place:
-
-```asm
-JNE NEAR CMDFAIL
-```
-
-The following old source remains:
-
-```asm
-MOV SI,RESNAME
-MOV DI,BAKNAME
-```
-
-### Edit at old physical position 2520
-
-Unchanged source before the edit:
-
-```asm
-MOV DI,BAKNAME
-CALL CMDMATCH
-CMP AX,0
-```
-
-Remove:
-
-```asm
-JNE CMDFAIL
-```
-
-Insert in its place:
-
-```asm
-JNE NEAR CMDFAIL
-```
-
-The following old source remains:
-
-```asm
 MOV SI,RESNAME
 MOV DI,TMPNAME
+CALL CMDMATCH
+CMP AX,0
+JNE CMDFAIL
+MOV SI,RESNAME
+MOV DI,BAKNAME
+CALL CMDMATCH
+CMP AX,0
 ```
 
-### Edit at old physical position 2513
+The edit begins immediately after that unchanged block.
 
-Unchanged source before the edit:
+Replace this existing source:
 
 ```asm
+JNE CMDFAIL
+```
+
+With:
+
+```asm
+JNE NEAR CMDFAIL
+```
+
+Keep the following `CMDREADY:` label and the source after it in place.
+
+### Change 16 · `ZCMDFILES4:`
+
+Find the unique label `ZCMDFILES4:`, then follow this unchanged source through its last displayed instruction:
+
+```asm
+ZCMDFILES4:
+MOV SI,SRCNAME
+MOV DI,BAKNAME
+CALL CMDMATCH
+CMP AX,0
+JNE CMDFAIL
+MOV SI,RESNAME
 MOV DI,TMPNAME
 CALL CMDMATCH
 CMP AX,0
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
+
+```asm
+JNE CMDFAIL
+```
+
+With:
+
+```asm
+JNE NEAR CMDFAIL
+```
+
+### Change 17 · `ZCMDFILES4:`
+
+Find the unique label `ZCMDFILES4:`, then follow this unchanged source through its last displayed instruction:
+
+```asm
+ZCMDFILES4:
+MOV SI,SRCNAME
+MOV DI,BAKNAME
+CALL CMDMATCH
+CMP AX,0
+```
+
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
+
+```asm
+JNE CMDFAIL
+```
+
+With:
+
+```asm
+JNE NEAR CMDFAIL
+```
+
+### Change 18 · `ZCMDFILES3:`
+
+Find the unique label `ZCMDFILES3:`, then follow this unchanged source through its last displayed instruction:
+
+```asm
+ZCMDFILES3:
+MOV SI,SRCNAME
+MOV DI,TMPNAME
+CALL CMDMATCH
+CMP AX,0
+```
+
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE ZCMDFILES4
@@ -595,30 +504,34 @@ JMP CMDFAIL
 ZCMDFILES4:
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JNE NEAR CMDFAIL
 ```
 
-The following old source remains:
+### Change 19 · `ZCMDFILES2:`
+
+Find the unique label `ZCMDFILES2:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+ZCMDFILES2:
+MOV SI,CMDBUF
+MOV DI,SRCNAME
+CALL COPYZ
+MOV SI,CMDBUF
+ADD SI,13
+MOV DI,RESNAME
+CALL COPYZ
 MOV SI,SRCNAME
-MOV DI,BAKNAME
-```
-
-### Edit at old physical position 2506
-
-Unchanged source before the edit:
-
-```asm
 MOV DI,RESNAME
 CALL CMDMATCH
 CMP AX,0
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE ZCMDFILES3
@@ -626,30 +539,24 @@ JMP CMDFAIL
 ZCMDFILES3:
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JNE NEAR CMDFAIL
 ```
 
-The following old source remains:
+### Change 20 · `ZCMDFILES1:`
+
+Find the unique label `ZCMDFILES1:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV SI,SRCNAME
-MOV DI,TMPNAME
-```
-
-### Edit at old physical position 2492
-
-Unchanged source before the edit:
-
-```asm
-JMP CMDREADY
 ZCMDFILES1:
 CMP AX,2
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE ZCMDFILES2
@@ -657,22 +564,15 @@ JMP CMDFAIL
 ZCMDFILES2:
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JNE NEAR CMDFAIL
 ```
 
-The following old source remains:
+### Change 21 · `CMDFILES:`
 
-```asm
-MOV SI,CMDBUF
-MOV DI,SRCNAME
-```
-
-### Edit at old physical position 2488
-
-Unchanged source before the edit:
+Find the unique label `CMDFILES:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 CMDFILES:
@@ -680,7 +580,9 @@ CALL CMDINIT
 CMP AX,0
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JNE ZCMDFILES1
@@ -688,117 +590,108 @@ JMP CMDREADY
 ZCMDFILES1:
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR CMDREADY
 ```
 
-The following old source remains:
+### Change 22 · `CMDMATCH:`
+
+Find the unique label `CMDMATCH:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMP AX,2
-JE ZCMDFILES2
-```
-
-### Edit at old physical position 2478
-
-Unchanged source before the edit:
-
-```asm
+CMDMATCH:
+LODSB
+MOV BX,DI
+MOV AH,[BX]
+CMP AL,AH
 JNE CMDNO
 INC DI
 CMP AL,0
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JNE CMDMATCH
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JNE NEAR CMDMATCH
 ```
 
-The following old source remains:
+### Change 23 · `CMDMATCH:`
+
+Find the unique label `CMDMATCH:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV AX,1
-RET
-```
-
-### Edit at old physical position 2475
-
-Unchanged source before the edit:
-
-```asm
+CMDMATCH:
+LODSB
 MOV BX,DI
 MOV AH,[BX]
 CMP AL,AH
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JNE CMDNO
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JNE NEAR CMDNO
 ```
 
-The following old source remains:
+### Change 24 · `CMDEND:`
+
+Find the unique label `CMDEND:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-INC DI
-CMP AL,0
-```
-
-### Edit at old physical position 2456
-
-Unchanged source before the edit:
-
-```asm
-ZCMDINIT9:
 CMDEND:
 CMP BX,0
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE CMDBAD
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR CMDBAD
 ```
 
-The following old source remains:
+### Change 25 · `CMDNEXT:`
+
+Find the unique label `CMDNEXT:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV AL,0
-STOSB
-```
-
-### Edit at old physical position 2451
-
-Unchanged source before the edit:
-
-```asm
+CMDNEXT:
+CMP CX,0
+JE CMDEND
+LODSB
+DEC CX
 CMP AL,32
 JE CMDEND
 CMP AL,9
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE ZCMDINIT9
@@ -806,88 +699,76 @@ JMP CMDCHAR
 ZCMDINIT9:
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JNE NEAR CMDCHAR
 ```
 
-The following old source remains:
+Keep the following `CMDEND:` label and the source after it in place.
+
+### Change 26 · `CMDNEXT:`
+
+Find the unique label `CMDNEXT:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMDEND:
-CMP BX,0
-```
-
-### Edit at old physical position 2449
-
-Unchanged source before the edit:
-
-```asm
+CMDNEXT:
+CMP CX,0
+JE CMDEND
 LODSB
 DEC CX
 CMP AL,32
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE CMDEND
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR CMDEND
 ```
 
-The following old source remains:
+### Change 27 · `CMDNEXT:`
+
+Find the unique label `CMDNEXT:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMP AL,9
-JE ZCMDINIT9
-```
-
-### Edit at old physical position 2445
-
-Unchanged source before the edit:
-
-```asm
-STOSB
 CMDNEXT:
 CMP CX,0
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE CMDEND
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR CMDEND
 ```
 
-The following old source remains:
+### Change 28 · `ZCMDINIT7:`
+
+Find the unique label `ZCMDINIT7:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-LODSB
-DEC CX
-```
-
-### Edit at old physical position 2437
-
-Unchanged source before the edit:
-
-```asm
-JMP CMDBAD
 ZCMDINIT7:
 CMP BX,0
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JNE ZCMDINIT8
@@ -895,30 +776,24 @@ JMP CMDBAD
 ZCMDINIT8:
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR CMDBAD
 ```
 
-The following old source remains:
+### Change 29 · `CMDDOT:`
+
+Find the unique label `CMDDOT:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV DX,3
-MOV BX,0
-```
-
-### Edit at old physical position 2433
-
-Unchanged source before the edit:
-
-```asm
-JMP CMDNEXT
 CMDDOT:
 CMP DX,8
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE ZCMDINIT7
@@ -926,22 +801,15 @@ JMP CMDBAD
 ZCMDINIT7:
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JNE NEAR CMDBAD
 ```
 
-The following old source remains:
+### Change 30 · `CMDPUT:`
 
-```asm
-CMP BX,0
-JNE ZCMDINIT8
-```
-
-### Edit at old physical position 2426
-
-Unchanged source before the edit:
+Find the unique label `CMDPUT:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 CMDPUT:
@@ -949,7 +817,9 @@ INC BX
 CMP BX,DX
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JBE ZCMDINIT6
@@ -957,30 +827,26 @@ JMP CMDBAD
 ZCMDINIT6:
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JA NEAR CMDBAD
 ```
 
-The following old source remains:
+### Change 31 · `CMDEXTRA:`
+
+Find the unique label `CMDEXTRA:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-STOSB
-JMP CMDNEXT
-```
-
-### Edit at old physical position 2420
-
-Unchanged source before the edit:
-
-```asm
+CMDEXTRA:
 CMP AL,95
 JE CMDPUT
 CMP AL,45
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE ZCMDINIT5
@@ -988,233 +854,197 @@ JMP CMDBAD
 ZCMDINIT5:
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JNE NEAR CMDBAD
 ```
 
-The following old source remains:
+Keep the following `CMDPUT:` label and the source after it in place.
+
+### Change 32 · `CMDEXTRA:`
+
+Find the unique label `CMDEXTRA:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMDPUT:
-INC BX
-```
-
-### Edit at old physical position 2418
-
-Unchanged source before the edit:
-
-```asm
-JBE CMDPUT
 CMDEXTRA:
 CMP AL,95
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE CMDPUT
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR CMDPUT
 ```
 
-The following old source remains:
+### Change 33 · `CMDNUM:`
+
+Find the unique label `CMDNUM:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMP AL,45
-JE ZCMDINIT5
-```
-
-### Edit at old physical position 2415
-
-Unchanged source before the edit:
-
-```asm
+CMDNUM:
 CMP AL,48
 JB CMDEXTRA
 CMP AL,57
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JBE CMDPUT
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JBE NEAR CMDPUT
 ```
 
-The following old source remains:
+Keep the following `CMDEXTRA:` label and the source after it in place.
+
+### Change 34 · `CMDNUM:`
+
+Find the unique label `CMDNUM:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMDEXTRA:
-CMP AL,95
-```
-
-### Edit at old physical position 2413
-
-Unchanged source before the edit:
-
-```asm
-JBE CMDPUT
 CMDNUM:
 CMP AL,48
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JB CMDEXTRA
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JB NEAR CMDEXTRA
 ```
 
-The following old source remains:
+### Change 35 · `CMDUP:`
+
+Find the unique label `CMDUP:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMP AL,57
-JBE CMDPUT
-```
-
-### Edit at old physical position 2410
-
-Unchanged source before the edit:
-
-```asm
+CMDUP:
 CMP AL,65
 JB CMDNUM
 CMP AL,90
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JBE CMDPUT
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JBE NEAR CMDPUT
 ```
 
-The following old source remains:
+Keep the following `CMDNUM:` label and the source after it in place.
+
+### Change 36 · `CMDUP:`
+
+Find the unique label `CMDUP:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMDNUM:
-CMP AL,48
-```
-
-### Edit at old physical position 2408
-
-Unchanged source before the edit:
-
-```asm
-SUB AL,32
 CMDUP:
 CMP AL,65
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JB CMDNUM
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JB NEAR CMDNUM
 ```
 
-The following old source remains:
+### Change 37 · `ZCMDINIT4:`
+
+Find the unique label `ZCMDINIT4:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMP AL,90
-JBE CMDPUT
-```
-
-### Edit at old physical position 2404
-
-Unchanged source before the edit:
-
-```asm
+ZCMDINIT4:
 CMP AL,97
 JB CMDUP
 CMP AL,122
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JA CMDUP
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JA NEAR CMDUP
 ```
 
-The following old source remains:
+### Change 38 · `ZCMDINIT4:`
+
+Find the unique label `ZCMDINIT4:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-SUB AL,32
-CMDUP:
-```
-
-### Edit at old physical position 2402
-
-Unchanged source before the edit:
-
-```asm
-JMP CMDDOT
 ZCMDINIT4:
 CMP AL,97
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JB CMDUP
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JB NEAR CMDUP
 ```
 
-The following old source remains:
+### Change 39 · `CMDCHAR:`
+
+Find the unique label `CMDCHAR:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMP AL,122
-JA CMDUP
-```
-
-### Edit at old physical position 2398
-
-Unchanged source before the edit:
-
-```asm
-MOV DX,8
 CMDCHAR:
 CMP AL,46
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JNE ZCMDINIT4
@@ -1222,30 +1052,31 @@ JMP CMDDOT
 ZCMDINIT4:
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR CMDDOT
 ```
 
-The following old source remains:
+### Change 40 · `ZCMDINIT2:`
+
+Find the unique label `ZCMDINIT2:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMP AL,97
-JB CMDUP
-```
-
-### Edit at old physical position 2389
-
-Unchanged source before the edit:
-
-```asm
+ZCMDINIT2:
+LODSB
+DEC CX
+CMP AL,32
+JE CMDSKIP
+CMP AL,9
 JE CMDSKIP
 MOV BX,[CMDCOUNT]
 CMP BX,3
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JB ZCMDINIT3
@@ -1253,88 +1084,76 @@ JMP CMDBAD
 ZCMDINIT3:
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JAE NEAR CMDBAD
 ```
 
-The following old source remains:
+### Change 41 · `ZCMDINIT2:`
+
+Find the unique label `ZCMDINIT2:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-INC BX
-MOV [CMDCOUNT],BX
-```
-
-### Edit at old physical position 2386
-
-Unchanged source before the edit:
-
-```asm
+ZCMDINIT2:
+LODSB
+DEC CX
 CMP AL,32
 JE CMDSKIP
 CMP AL,9
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE CMDSKIP
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR CMDSKIP
 ```
 
-The following old source remains:
+### Change 42 · `ZCMDINIT2:`
+
+Find the unique label `ZCMDINIT2:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV BX,[CMDCOUNT]
-CMP BX,3
-```
-
-### Edit at old physical position 2384
-
-Unchanged source before the edit:
-
-```asm
+ZCMDINIT2:
 LODSB
 DEC CX
 CMP AL,32
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE CMDSKIP
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR CMDSKIP
 ```
 
-The following old source remains:
+### Change 43 · `CMDSKIP:`
+
+Find the unique label `CMDSKIP:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMP AL,9
-JE CMDSKIP
-```
-
-### Edit at old physical position 2378
-
-Unchanged source before the edit:
-
-```asm
-ZCMDINIT1:
 CMDSKIP:
 CMP CX,0
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JNE ZCMDINIT2
@@ -1342,30 +1161,30 @@ JMP CMDDONE
 ZCMDINIT2:
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR CMDDONE
 ```
 
-The following old source remains:
+### Change 44 · `CMDINIT:`
+
+Find the unique label `CMDINIT:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-LODSB
-DEC CX
-```
-
-### Edit at old physical position 2373
-
-Unchanged source before the edit:
-
-```asm
+CMDINIT:
+MOV SI,81H
+MOV DI,CMDBUF
+MOV [CMDPTR],DI
+MOV AL,[80H]
 MOV AH,0
 MOV CX,AX
 CMP CX,127
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JB ZCMDINIT1
@@ -1373,38 +1192,27 @@ JMP CMDBAD
 ZCMDINIT1:
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JAE NEAR CMDBAD
 ```
 
-The following old source remains:
+Keep the following `CMDSKIP:` label and the source after it in place.
+
+### Change 45 · `ATOM:`
+
+Find the unique label `ATOM:`. The old block below starts at that label.
+
+Remove from the following first source through the ending block below, including both boundaries and everything between them:
 
 ```asm
-CMDSKIP:
-CMP CX,0
-```
-
-### Edit at old physical position 1884
-
-Unchanged source before the edit:
-
-```asm
-POP BX
-POP AX
-RET
-```
-
-Remove the complete old physical range 1884–2363. Its first source is:
-
-```asm
-
 ATOM:
 MOV AL,[0CC00H]
+CMP AL,48
 ```
 
-Its last source is:
+Find the unique ending label `SHIFTRANGE:`. The removal ends after this existing source:
 
 ```asm
 SHIFTRANGE:
@@ -1412,26 +1220,25 @@ MOV AX,4
 JMP ERROR
 ```
 
-Remove both boundaries and all source between them.
+Keep the following `CMDINIT:` label and the source after it in place.
 
-The following old source remains:
+### Change 46 · `N32DIGIT:`
 
-```asm
-
-CMDINIT:
-```
-
-### Edit at old physical position 1875
-
-Unchanged source before the edit:
+Find the unique label `N32DIGIT:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+N32DIGIT:
+MOV DL,CL
+ADD DL,48
+MOV AH,2
 INT 21H
 ADD SI,4
 CMP SI,DIV32END
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JAE ZNUMBER323
@@ -1439,59 +1246,53 @@ JMP N32PLACE
 ZNUMBER323:
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JB NEAR N32PLACE
 ```
 
-The following old source remains:
+### Change 47 · `N32TAKE:`
+
+Find the unique label `N32TAKE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-POP SI
-POP DX
-```
-
-### Edit at old physical position 1857
-
-Unchanged source before the edit:
-
-```asm
+N32TAKE:
+MOV AX,[N32LO]
 MOV DX,[D32LO]
 SUB AX,DX
 MOV [N32LO],AX
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JAE N32NOBORROW
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JAE NEAR N32NOBORROW
 ```
 
-The following old source remains:
+### Change 48 · `ZNUMBER321:`
+
+Find the unique label `ZNUMBER321:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV AX,[N32HI]
-DEC AX
-```
-
-### Edit at old physical position 1849
-
-Unchanged source before the edit:
-
-```asm
+ZNUMBER321:
+JA N32TAKE
 MOV AX,[N32LO]
 MOV DX,[D32LO]
 CMP AX,DX
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JAE ZNUMBER322
@@ -1499,30 +1300,28 @@ JMP N32DIGIT
 ZNUMBER322:
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JB NEAR N32DIGIT
 ```
 
-The following old source remains:
+Keep the following `N32TAKE:` label and the source after it in place.
+
+### Change 49 · `N32SUB:`
+
+Find the unique label `N32SUB:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-N32TAKE:
-MOV AX,[N32LO]
-```
-
-### Edit at old physical position 1842
-
-Unchanged source before the edit:
-
-```asm
+N32SUB:
 MOV AX,[N32HI]
 MOV DX,[D32HI]
 CMP AX,DX
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JAE ZNUMBER321
@@ -1531,52 +1330,43 @@ ZNUMBER321:
 JA N32TAKE
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JB NEAR N32DIGIT
 JA NEAR N32TAKE
 ```
 
-The following old source remains:
+### Change 50 · `COUNTINPUT:`
+
+Find the unique label `COUNTINPUT:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV AX,[N32LO]
-MOV DX,[D32LO]
-```
-
-### Edit at old physical position 1810
-
-Unchanged source before the edit:
-
-```asm
+COUNTINPUT:
+MOV AX,[INBYTES]
+CMP AX,0FFFFH
 JNE INPUTLOW
 MOV AX,[INBYTEHI]
 CMP AX,0FFFFH
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE COUNTFULL
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR COUNTFULL
 ```
 
-The following old source remains:
+### Change 51 · `COUNTINPUT:`
 
-```asm
-INC AX
-MOV [INBYTEHI],AX
-```
-
-### Edit at old physical position 1807
-
-Unchanged source before the edit:
+Find the unique label `COUNTINPUT:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 COUNTINPUT:
@@ -1584,57 +1374,50 @@ MOV AX,[INBYTES]
 CMP AX,0FFFFH
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JNE INPUTLOW
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JNE NEAR INPUTLOW
 ```
 
-The following old source remains:
+### Change 52 · `COUNTLINE:`
+
+Find the unique label `COUNTLINE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV AX,[INBYTEHI]
+COUNTLINE:
+MOV AX,[LINENO]
 CMP AX,0FFFFH
-```
-
-### Edit at old physical position 1790
-
-Unchanged source before the edit:
-
-```asm
 JNE LINELOW
 MOV AX,[LINEHI]
 CMP AX,0FFFFH
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE COUNTFULL
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR COUNTFULL
 ```
 
-The following old source remains:
+### Change 53 · `COUNTLINE:`
 
-```asm
-INC AX
-MOV [LINEHI],AX
-```
-
-### Edit at old physical position 1787
-
-Unchanged source before the edit:
+Find the unique label `COUNTLINE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 COUNTLINE:
@@ -1642,119 +1425,128 @@ MOV AX,[LINENO]
 CMP AX,0FFFFH
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JNE LINELOW
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JNE NEAR LINELOW
 ```
 
-The following old source remains:
+### Change 54 · `CLEANEND:`
+
+Find the unique label `CLEANEND:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV AX,[LINEHI]
-CMP AX,0FFFFH
-```
-
-### Edit at old physical position 1569
-
-Unchanged source before the edit:
-
-```asm
-MOV AL,1
-MOV [CLEANFAIL],AL
 CLEANEND:
 ```
 
-Remove the complete old physical range 1569–1781. Its first source is:
+The edit begins immediately after that unchanged block.
+
+Remove from the following first source through the ending block below, including both boundaries and everything between them:
 
 ```asm
 CALL MEMFREE
 RET
+MEMINIT:
 ```
 
-Its last source is:
+Find the unique ending label `DEFINITIONCLEAR:`. The removal ends after this existing source:
 
 ```asm
+DEFINITIONCLEAR:
+STOSB
+DEC CX
+JNE DEFINITIONCLEAR
+MOV DI,[RECORDPTR]
+PUSH SI
+MOV SI,0CC00H
+CALL COPYZ
+POP SI
+MOV BX,[RECORDPTR]
+ADD BX,32
+MOV AX,[DEFVALUE]
+MOV ES:[BX],AX
+ADD BX,2
+MOV AX,[HEADID]
+MOV ES:[BX],AX
+ADD BX,4
+MOV AX,[DEFTYPE]
+MOV ES:[BX],AX
+MOV AX,[HASHSEG]
+MOV ES,AX
 MOV BX,[BUCKET]
 MOV AX,[SYMID]
 MOV ES:[BX],AX
 ```
 
-Remove both boundaries and all source between them.
+### Change 55 · `CLEANTEMP:`
 
-The following old source remains:
-
-```asm
-RET
-```
-
-### Edit at old physical position 1565
-
-Unchanged source before the edit:
+Find the unique label `CLEANTEMP:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+CLEANTEMP:
+MOV AL,[OWNTMP]
+CMP AL,0
+JE CLEANEND
+MOV AL,[KEEPFILES]
+CMP AL,0
+JNE CLEANEND
 MOV DX,TMPNAME
 MOV AH,41H
 INT 21H
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JAE CLEANEND
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JAE NEAR CLEANEND
 ```
 
-The following old source remains:
+### Change 56 · `CLEANTEMP:`
+
+Find the unique label `CLEANTEMP:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV AL,1
-MOV [CLEANFAIL],AL
-```
-
-### Edit at old physical position 1561
-
-Unchanged source before the edit:
-
-```asm
+CLEANTEMP:
+MOV AL,[OWNTMP]
+CMP AL,0
 JE CLEANEND
 MOV AL,[KEEPFILES]
 CMP AL,0
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JNE CLEANEND
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JNE NEAR CLEANEND
 ```
 
-The following old source remains:
+### Change 57 · `CLEANTEMP:`
 
-```asm
-MOV DX,TMPNAME
-MOV AH,41H
-```
-
-### Edit at old physical position 1558
-
-Unchanged source before the edit:
+Find the unique label `CLEANTEMP:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 CLEANTEMP:
@@ -1762,57 +1554,51 @@ MOV AL,[OWNTMP]
 CMP AL,0
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE CLEANEND
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR CLEANEND
 ```
 
-The following old source remains:
+### Change 58 · `CLEANOUTPUT:`
+
+Find the unique label `CLEANOUTPUT:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV AL,[KEEPFILES]
+CLEANOUTPUT:
+MOV AL,[OUTOPEN]
 CMP AL,0
-```
-
-### Edit at old physical position 1552
-
-Unchanged source before the edit:
-
-```asm
+JE CLEANTEMP
 MOV BX,[OUTHANDLE]
 MOV AH,3EH
 INT 21H
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JAE CLEANTEMP
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JAE NEAR CLEANTEMP
 ```
 
-The following old source remains:
+### Change 59 · `CLEANOUTPUT:`
 
-```asm
-MOV AL,1
-MOV [CLEANFAIL],AL
-```
-
-### Edit at old physical position 1548
-
-Unchanged source before the edit:
+Find the unique label `CLEANOUTPUT:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 CLEANOUTPUT:
@@ -1820,57 +1606,51 @@ MOV AL,[OUTOPEN]
 CMP AL,0
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE CLEANTEMP
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR CLEANTEMP
 ```
 
-The following old source remains:
+### Change 60 · `CLEANUP:`
+
+Find the unique label `CLEANUP:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV BX,[OUTHANDLE]
-MOV AH,3EH
-```
-
-### Edit at old physical position 1542
-
-Unchanged source before the edit:
-
-```asm
+CLEANUP:
+MOV AL,[INOPEN]
+CMP AL,0
+JE CLEANOUTPUT
 MOV BX,[HANDLE]
 MOV AH,3EH
 INT 21H
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JAE CLEANOUTPUT
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JAE NEAR CLEANOUTPUT
 ```
 
-The following old source remains:
+### Change 61 · `CLEANUP:`
 
-```asm
-MOV AL,1
-MOV [CLEANFAIL],AL
-```
-
-### Edit at old physical position 1538
-
-Unchanged source before the edit:
+Find the unique label `CLEANUP:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 CLEANUP:
@@ -1878,115 +1658,108 @@ MOV AL,[INOPEN]
 CMP AL,0
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE CLEANOUTPUT
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR CLEANOUTPUT
 ```
 
-The following old source remains:
+### Change 62 · `PUBLISHED:`
+
+Find the unique label `PUBLISHED:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV BX,[HANDLE]
-MOV AH,3EH
-```
-
-### Edit at old physical position 1527
-
-Unchanged source before the edit:
-
-```asm
+PUBLISHED:
+MOV AL,0
+MOV [OWNTMP],AL
+MOV AL,[HAVEBAK]
+CMP AL,0
+JE COMMITDONE
 MOV DX,BAKNAME
 MOV AH,41H
 INT 21H
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JAE BACKREMOVED
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JAE NEAR BACKREMOVED
 ```
 
-The following old source remains:
+### Change 63 · `PUBLISHED:`
+
+Find the unique label `PUBLISHED:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-JMP FILEBAD
-BACKREMOVED:
-```
-
-### Edit at old physical position 1523
-
-Unchanged source before the edit:
-
-```asm
+PUBLISHED:
+MOV AL,0
 MOV [OWNTMP],AL
 MOV AL,[HAVEBAK]
 CMP AL,0
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE COMMITDONE
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR COMMITDONE
 ```
 
-The following old source remains:
+### Change 64 · `ZCOMMIT1:`
+
+Find the unique label `ZCOMMIT1:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+ZCOMMIT1:
+MOV AL,[HAVEBAK]
+CMP AL,0
+JE PUBLISHFAIL
 MOV DX,BAKNAME
-MOV AH,41H
-```
-
-### Edit at old physical position 1509
-
-Unchanged source before the edit:
-
-```asm
 MOV DI,RESNAME
 MOV AH,56H
 INT 21H
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JAE RESTORED
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JAE NEAR RESTORED
 ```
 
-The following old source remains:
+### Change 65 · `ZCOMMIT1:`
 
-```asm
-MOV AL,1
-MOV [KEEPFILES],AL
-```
-
-### Edit at old physical position 1504
-
-Unchanged source before the edit:
+Find the unique label `ZCOMMIT1:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 ZCOMMIT1:
@@ -1994,36 +1767,35 @@ MOV AL,[HAVEBAK]
 CMP AL,0
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE PUBLISHFAIL
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR PUBLISHFAIL
 ```
 
-The following old source remains:
+### Change 66 · `PUBLISH:`
+
+Find the unique label `PUBLISH:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV DX,BAKNAME
-MOV DI,RESNAME
-```
-
-### Edit at old physical position 1499
-
-Unchanged source before the edit:
-
-```asm
+PUBLISH:
+MOV DX,TMPNAME
 MOV DI,RESNAME
 MOV AH,56H
 INT 21H
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JB ZCOMMIT1
@@ -2031,232 +1803,215 @@ JMP PUBLISHED
 ZCOMMIT1:
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JAE NEAR PUBLISHED
 ```
 
-The following old source remains:
+### Change 67 · `COMMIT:`
+
+Find the unique label `COMMIT:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV AL,[HAVEBAK]
-CMP AL,0
-```
-
-### Edit at old physical position 1489
-
-Unchanged source before the edit:
-
-```asm
+COMMIT:
+MOV DX,RESNAME
+CALL EXISTS
+CMP AX,0
+JE PUBLISH
+MOV DX,RESNAME
 MOV DI,BAKNAME
 MOV AH,56H
 INT 21H
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JAE BACKEDUP
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JAE NEAR BACKEDUP
 ```
 
-The following old source remains:
+### Change 68 · `COMMIT:`
+
+Find the unique label `COMMIT:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-JMP FILEBAD
-BACKEDUP:
-```
-
-### Edit at old physical position 1484
-
-Unchanged source before the edit:
-
-```asm
+COMMIT:
 MOV DX,RESNAME
 CALL EXISTS
 CMP AX,0
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE PUBLISH
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR PUBLISH
 ```
 
-The following old source remains:
+### Change 69 · `PREFLIGHT:`
+
+Find the unique label `PREFLIGHT:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV DX,RESNAME
-MOV DI,BAKNAME
-```
-
-### Edit at old physical position 1473
-
-Unchanged source before the edit:
-
-```asm
+PREFLIGHT:
+MOV DX,TMPNAME
+CALL EXISTS
+CMP AX,0
+JNE NAMEBUSY
 MOV DX,BAKNAME
 CALL EXISTS
 CMP AX,0
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE PREFLIGHTOK
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR PREFLIGHTOK
 ```
 
-The following old source remains:
+Keep the following `NAMEBUSY:` label and the source after it in place.
+
+### Change 70 · `PREFLIGHT:`
+
+Find the unique label `PREFLIGHT:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-NAMEBUSY:
-MOV AX,8
-```
-
-### Edit at old physical position 1469
-
-Unchanged source before the edit:
-
-```asm
+PREFLIGHT:
 MOV DX,TMPNAME
 CALL EXISTS
 CMP AX,0
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JNE NAMEBUSY
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JNE NEAR NAMEBUSY
 ```
 
-The following old source remains:
+### Change 71 · `FILEEXISTS:`
+
+Find the unique label `FILEEXISTS:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV DX,BAKNAME
-CALL EXISTS
-```
-
-### Edit at old physical position 1457
-
-Unchanged source before the edit:
-
-```asm
+FILEEXISTS:
 MOV BX,AX
 MOV AH,3EH
 INT 21H
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JAE EXISTSCLOSED
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JAE NEAR EXISTSCLOSED
 ```
 
-The following old source remains:
+### Change 72 · `FLUSHDONE:`
+
+Find the unique label `FLUSHDONE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-JMP FILEBAD
-EXISTSCLOSED:
-```
-
-### Edit at old physical position 1451
-
-Unchanged source before the edit:
-
-```asm
+FLUSHDONE:
+POP DX
+POP CX
+POP BX
+POP AX
+RET
+EXISTS:
+MOV AX,3D00H
 INT 21H
 JAE FILEEXISTS
 CMP AX,2
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE FILENONE
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR FILENONE
 ```
 
-The following old source remains:
+### Change 73 · `FLUSHDONE:`
+
+Find the unique label `FLUSHDONE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-JMP FILEBAD
-FILEEXISTS:
-```
-
-### Edit at old physical position 1449
-
-Unchanged source before the edit:
-
-```asm
+FLUSHDONE:
+POP DX
+POP CX
+POP BX
+POP AX
+RET
 EXISTS:
 MOV AX,3D00H
 INT 21H
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JAE FILEEXISTS
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JAE NEAR FILEEXISTS
 ```
 
-The following old source remains:
+### Change 74 · `CREATEOUT:`
 
-```asm
-CMP AX,2
-JE FILENONE
-```
+Find the unique label `CREATEOUT:`. The old block below starts at that label.
 
-### Edit at old physical position 1394
-
-Unchanged source before the edit:
-
-```asm
-MOV AX,4C01H
-INT 21H
-```
-
-Remove the complete old physical range 1394–1445. Its first source is:
+Remove from the following first source through the ending block below, including both boundaries and everything between them:
 
 ```asm
 CREATEOUT:
@@ -2264,203 +2019,195 @@ MOV DX,TMPNAME
 MOV CX,0
 ```
 
-Its last source is:
+Find the unique ending label `FLUSHDONE:`. The removal ends after this existing source:
 
 ```asm
+FLUSHDONE:
+POP DX
+POP CX
+POP BX
 POP AX
 RET
 ```
 
-Remove both boundaries and all source between them.
+Keep the following `EXISTS:` label and the source after it in place.
 
-The following old source remains:
+### Change 75 · `ERROR:`
 
-```asm
-EXISTS:
-MOV AX,3D00H
-```
-
-### Edit at old physical position 1387
-
-Unchanged source before the edit:
+Find the unique label `ERROR:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+ERROR:
+MOV [ERRCODE],AL
+CALL CLEANUP
+MOV DX,ERRMSG
+CALL TEXT
+MOV AX,[LINENO]
+MOV DX,[LINEHI]
+CALL NUMBER32
+MOV DX,CODEMSG
+CALL TEXT
+MOV AL,[ERRCODE]
+ADD AL,48
+MOV DL,AL
+MOV AH,2
+INT 21H
+MOV DX,NEWLINE
+CALL TEXT
+MOV AL,[CLEANFAIL]
+MOV DL,[KEEPFILES]
+OR AL,DL
 MOV DL,[HAVEBAK]
 OR AL,DL
 CMP AL,0
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE ERROREXIT
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR ERROREXIT
 ```
 
-The following old source remains:
+### Change 76 · `PRINTDIGIT:`
+
+Find the unique label `PRINTDIGIT:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV DX,RECOVERMSG
-CALL TEXT
-```
-
-### Edit at old physical position 1356
-
-Unchanged source before the edit:
-
-```asm
+PRINTDIGIT:
+MOV DL,AL
+MOV AH,2
 INT 21H
 ADD SI,2
 CMP SI,DIVEND
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JB NEXTPLACE
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JB NEAR NEXTPLACE
 ```
 
-The following old source remains:
+### Change 77 · `SUBTRACT:`
+
+Find the unique label `SUBTRACT:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-POP SI
-POP DX
-```
-
-### Edit at old physical position 1346
-
-Unchanged source before the edit:
-
-```asm
-MOV AL,48
 SUBTRACT:
 CMP CX,DX
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JB PRINTDIGIT
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JB NEAR PRINTDIGIT
 ```
 
-The following old source remains:
+### Change 78 · `COPYZ:`
+
+Find the unique label `COPYZ:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-SUB CX,DX
-ADD AL,1
-```
-
-### Edit at old physical position 1324
-
-Unchanged source before the edit:
-
-```asm
+COPYZ:
 LODSB
 STOSB
 CMP AL,0
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JNE COPYZ
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JNE NEAR COPYZ
 ```
 
-The following old source remains:
+### Change 79 · `FINISHED:`
+
+Find the unique label `FINISHED:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-RET
-```
-
-### Edit at old physical position 1120
-
-Unchanged source before the edit:
-
-```asm
-MOV AX,1
-JMP ERROR
 FINISHED:
 ```
 
-Remove the complete old physical range 1120–1317. Its first source is:
+The edit begins immediately after that unchanged block.
+
+Remove from the following first source through the ending block below, including both boundaries and everything between them:
 
 ```asm
 RET
-
 TWOOPERANDS:
+CALL OPERAND
 ```
 
-Its last source is:
+Find the unique ending label `COUNTBYTE:`. The removal ends after this existing source:
 
 ```asm
+COUNTBYTE:
+MOV BX,[PC]
+INC BX
 MOV [PC],BX
 POP BX
 POP AX
 ```
 
-Remove both boundaries and all source between them.
+### Change 80 · `FINISH:`
 
-The following old source remains:
-
-```asm
-RET
-```
-
-### Edit at old physical position 1116
-
-Unchanged source before the edit:
+Find the unique label `FINISH:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
+FINISH:
 CALL SCAN
 MOV AL,[0CC00H]
 CMP AL,0
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE FINISHED
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR FINISHED
 ```
 
-The following old source remains:
+### Change 81 · `VALUEBAD:`
 
-```asm
-MOV AX,1
-JMP ERROR
-```
-
-### Edit at old physical position 530
-
-Unchanged source before the edit:
+Find the unique label `VALUEBAD:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 VALUEBAD:
@@ -2468,42 +2215,35 @@ MOV AX,3
 JMP ERROR
 ```
 
-Remove the complete old physical range 530–1110. Its first source is:
+The edit begins immediately after that unchanged block.
+
+Remove from the following first source through the ending block below, including both boundaries and everything between them:
 
 ```asm
-
 DEFINE:
 CALL VALIDNAME
+CALL REGISTER
 ```
 
-Its last source is:
+Find the unique ending label `SHORTOK:`. The removal ends after this existing source:
 
 ```asm
+SHORTOK:
+PUSH AX
+MOV AL,[OP]
+CALL EMIT
 POP AX
 CALL EMIT
 JMP FINISH
 ```
 
-Remove both boundaries and all source between them.
+Keep the following `FINISH:` label and the source after it in place.
 
-The following old source remains:
+### Change 82 · `EXPRESSIONADD:`
 
-```asm
+Find the unique label `EXPRESSIONADD:`. The old block below starts at that label.
 
-FINISH:
-```
-
-### Edit at old physical position 432
-
-Unchanged source before the edit:
-
-```asm
-POP SI
-POP AX
-RET
-```
-
-Remove the complete old physical range 432–528. Its first source is:
+Remove from the following first source through the ending block below, including both boundaries and everything between them:
 
 ```asm
 EXPRESSIONADD:
@@ -2511,55 +2251,48 @@ POP AX
 CALL SCAN
 ```
 
-Its last source is:
+Find the unique ending label `VALUEBAD:`. The removal ends after this existing source:
 
 ```asm
-RET
 VALUEBAD:
 MOV AX,3
 ```
 
-Remove both boundaries and all source between them.
-
-Insert in its place:
+With:
 
 ```asm
 NUMBERBAD:
 MOV AX,2
 ```
 
-The following old source remains:
+### Change 83 · `EXPRESSIONLOOP:`
+
+Find the unique label `EXPRESSIONLOOP:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-JMP ERROR
-```
-
-### Edit at old physical position 430
-
-Unchanged source before the edit:
-
-```asm
+EXPRESSIONLOOP:
+PUSH AX
+PUSH SI
+CALL SCAN
+MOV AL,[0CC00H]
+CMP AL,43
+JE EXPRESSIONADD
 CMP AL,45
 JE EXPRESSIONSUB
 POP SI
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Remove this existing source:
 
 ```asm
 POP AX
 ```
 
-The following old source remains:
+### Change 84 · `EXPRESSIONLOOP:`
 
-```asm
-RET
-EXPRESSIONADD:
-```
-
-### Edit at old physical position 423
-
-Unchanged source before the edit:
+Find the unique label `EXPRESSIONLOOP:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 EXPRESSIONLOOP:
@@ -2567,7 +2300,9 @@ PUSH AX
 PUSH SI
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 CALL SCAN
@@ -2578,7 +2313,7 @@ CMP AL,45
 JE EXPRESSIONSUB
 ```
 
-Insert in its place:
+With:
 
 ```asm
 MOV SI,0CC00H
@@ -2640,23 +2375,11 @@ JB NEAR DIGIT
 MOV AX,CX
 ```
 
-The following old source remains:
+### Change 85 · `VALUE:`
 
-```asm
-POP SI
-POP AX
-```
+Find the unique label `VALUE:`. The old block below starts at that label.
 
-### Edit at old physical position 418
-
-Unchanged source before the edit:
-
-```asm
-MOV AX,3
-JMP ERROR
-```
-
-Remove:
+Replace this existing source:
 
 ```asm
 VALUE:
@@ -2665,7 +2388,7 @@ EXPRESSIONLOOP:
 PUSH AX
 ```
 
-Insert in its place:
+With:
 
 ```asm
 ATOM:
@@ -2679,161 +2402,159 @@ JMP NUMBERBAD
 LITERAL:
 ```
 
-The following old source remains:
+### Change 86 · `NAMEVALID:`
+
+Find the unique label `NAMEVALID:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-PUSH SI
-CALL SCAN
-```
-
-### Edit at old physical position 409
-
-Unchanged source before the edit:
-
-```asm
+NAMEVALID:
+LODSB
+CMP AL,0
+JE NAMEVALIDEND
+CMP AL,95
+JE NAMEVALID
+CMP AL,48
+JB SYMBOLBAD
+CMP AL,57
+JBE NAMEVALID
 CMP AL,65
 JB SYMBOLBAD
 CMP AL,90
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JBE NAMEVALID
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JBE NEAR NAMEVALID
 ```
 
-The following old source remains:
+### Change 87 · `NAMEVALID:`
+
+Find the unique label `NAMEVALID:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-JMP SYMBOLBAD
-NAMEVALIDEND:
-```
-
-### Edit at old physical position 407
-
-Unchanged source before the edit:
-
-```asm
+NAMEVALID:
+LODSB
+CMP AL,0
+JE NAMEVALIDEND
+CMP AL,95
+JE NAMEVALID
+CMP AL,48
+JB SYMBOLBAD
 CMP AL,57
 JBE NAMEVALID
 CMP AL,65
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JB SYMBOLBAD
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JB NEAR SYMBOLBAD
 ```
 
-The following old source remains:
+### Change 88 · `NAMEVALID:`
+
+Find the unique label `NAMEVALID:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMP AL,90
-JBE NAMEVALID
-```
-
-### Edit at old physical position 405
-
-Unchanged source before the edit:
-
-```asm
+NAMEVALID:
+LODSB
+CMP AL,0
+JE NAMEVALIDEND
+CMP AL,95
+JE NAMEVALID
 CMP AL,48
 JB SYMBOLBAD
 CMP AL,57
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JBE NAMEVALID
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JBE NEAR NAMEVALID
 ```
 
-The following old source remains:
+### Change 89 · `NAMEVALID:`
+
+Find the unique label `NAMEVALID:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMP AL,65
-JB SYMBOLBAD
-```
-
-### Edit at old physical position 403
-
-Unchanged source before the edit:
-
-```asm
+NAMEVALID:
+LODSB
+CMP AL,0
+JE NAMEVALIDEND
 CMP AL,95
 JE NAMEVALID
 CMP AL,48
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JB SYMBOLBAD
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JB NEAR SYMBOLBAD
 ```
 
-The following old source remains:
+### Change 90 · `NAMEVALID:`
+
+Find the unique label `NAMEVALID:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMP AL,57
-JBE NAMEVALID
-```
-
-### Edit at old physical position 401
-
-Unchanged source before the edit:
-
-```asm
+NAMEVALID:
+LODSB
 CMP AL,0
 JE NAMEVALIDEND
 CMP AL,95
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE NAMEVALID
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR NAMEVALID
 ```
 
-The following old source remains:
+### Change 91 · `NAMEVALID:`
 
-```asm
-CMP AL,48
-JB SYMBOLBAD
-```
-
-### Edit at old physical position 399
-
-Unchanged source before the edit:
+Find the unique label `NAMEVALID:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 NAMEVALID:
@@ -2841,36 +2562,32 @@ LODSB
 CMP AL,0
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE NAMEVALIDEND
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR NAMEVALIDEND
 ```
 
-The following old source remains:
+### Change 92 · `ZVALIDNAM1:`
+
+Find the unique label `ZVALIDNAM1:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMP AL,95
-JE NAMEVALID
-```
-
-### Edit at old physical position 393
-
-Unchanged source before the edit:
-
-```asm
-JMP SYMBOLBAD
 ZVALIDNAM1:
 CMP AL,90
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JBE ZVALIDNAM2
@@ -2878,30 +2595,31 @@ JMP SYMBOLBAD
 ZVALIDNAM2:
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JA NEAR SYMBOLBAD
 ```
 
-The following old source remains:
+Keep the following `NAMEVALID:` label and the source after it in place.
+
+### Change 93 · `NAMELIMIT:`
+
+Find the unique label `NAMELIMIT:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-NAMEVALID:
+NAMELIMIT:
+PUSH SI
+MOV SI,0CC00H
 LODSB
-```
-
-### Edit at old physical position 389
-
-Unchanged source before the edit:
-
-```asm
 CMP AL,95
 JE NAMEVALID
 CMP AL,65
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JAE ZVALIDNAM1
@@ -2909,51 +2627,41 @@ JMP SYMBOLBAD
 ZVALIDNAM1:
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JB NEAR SYMBOLBAD
 ```
 
-The following old source remains:
+### Change 94 · `NAMELIMIT:`
+
+Find the unique label `NAMELIMIT:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMP AL,90
-JBE ZVALIDNAM2
-```
-
-### Edit at old physical position 387
-
-Unchanged source before the edit:
-
-```asm
+NAMELIMIT:
+PUSH SI
 MOV SI,0CC00H
 LODSB
 CMP AL,95
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE NAMEVALID
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR NAMEVALID
 ```
 
-The following old source remains:
+### Change 95 · `VALIDNAME:`
 
-```asm
-CMP AL,65
-JAE ZVALIDNAM1
-```
-
-### Edit at old physical position 380
-
-Unchanged source before the edit:
+Find the unique label `VALIDNAME:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 VALIDNAME:
@@ -2961,35 +2669,34 @@ MOV AX,[TOKLEN]
 CMP AX,31
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JBE NAMELIMIT
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JBE NEAR NAMELIMIT
 ```
 
-The following old source remains:
+### Change 96 · `LOOKMISS:`
+
+Find the unique label `LOOKMISS:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-JMP SYMBOLBAD
-NAMELIMIT:
-```
-
-### Edit at old physical position 362
-
-Unchanged source before the edit:
-
-```asm
+LOOKMISS:
+MOV BX,0
 POP SI
 RET
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Remove this existing source:
 
 ```asm
 REGISTER:
@@ -3008,82 +2715,74 @@ MOV AX,0FFFFH
 RET
 ```
 
-The following old source remains:
+Keep the following `VALIDNAME:` label and the source after it in place.
+
+### Change 97 · `LOOKCHAR:`
+
+Find the unique label `LOOKCHAR:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-VALIDNAME:
-MOV AX,[TOKLEN]
-```
-
-### Edit at old physical position 345
-
-Unchanged source before the edit:
-
-```asm
+LOOKCHAR:
+LODSB
+MOV BX,DI
+MOV DL,[BX]
 CMP AL,DL
 JNE LOOKSTEP
 CMP AL,0
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE LOOKFOUND
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR LOOKFOUND
 ```
 
-The following old source remains:
+### Change 98 · `LOOKCHAR:`
+
+Find the unique label `LOOKCHAR:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-INC DI
-JMP LOOKCHAR
-```
-
-### Edit at old physical position 343
-
-Unchanged source before the edit:
-
-```asm
+LOOKCHAR:
+LODSB
 MOV BX,DI
 MOV DL,[BX]
 CMP AL,DL
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JNE LOOKSTEP
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JNE NEAR LOOKSTEP
 ```
 
-The following old source remains:
+### Change 99 · `LOOKNEXT:`
+
+Find the unique label `LOOKNEXT:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMP AL,0
-JE LOOKFOUND
-```
-
-### Edit at old physical position 333
-
-Unchanged source before the edit:
-
-```asm
-MOV BP,BX
 LOOKNEXT:
 CMP CX,0
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JNE ZLOOK1
@@ -3091,254 +2790,255 @@ JMP LOOKMISS
 ZLOOK1:
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR LOOKMISS
 ```
 
-The following old source remains:
+### Change 100 · `ZSCAN4:`
+
+Find the unique label `ZSCAN4:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV DI,BP
-MOV SI,0CC00H
-```
-
-### Edit at old physical position 322
-
-Unchanged source before the edit:
-
-```asm
+ZSCAN4:
+CMP AL,58
+JE SEPARATORRET
+CMP AL,91
+JE SEPARATORRET
+CMP AL,93
+JE SEPARATORRET
+CMP AL,43
+JE SEPARATORRET
+CMP AL,45
+JE SEPARATORRET
+CMP AL,40
+JE SEPARATORRET
 CMP AL,41
 JE SEPARATORRET
 CMP AL,34
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE SEPARATORRET
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR SEPARATORRET
 ```
 
-The following old source remains:
+### Change 101 · `ZSCAN4:`
+
+Find the unique label `ZSCAN4:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV AH,0
-SEPARATORRET:
-```
-
-### Edit at old physical position 320
-
-Unchanged source before the edit:
-
-```asm
+ZSCAN4:
+CMP AL,58
+JE SEPARATORRET
+CMP AL,91
+JE SEPARATORRET
+CMP AL,93
+JE SEPARATORRET
+CMP AL,43
+JE SEPARATORRET
+CMP AL,45
+JE SEPARATORRET
 CMP AL,40
 JE SEPARATORRET
 CMP AL,41
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE SEPARATORRET
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR SEPARATORRET
 ```
 
-The following old source remains:
+### Change 102 · `ZSCAN4:`
+
+Find the unique label `ZSCAN4:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMP AL,34
+ZSCAN4:
+CMP AL,58
 JE SEPARATORRET
-```
-
-### Edit at old physical position 318
-
-Unchanged source before the edit:
-
-```asm
+CMP AL,91
+JE SEPARATORRET
+CMP AL,93
+JE SEPARATORRET
+CMP AL,43
+JE SEPARATORRET
 CMP AL,45
 JE SEPARATORRET
 CMP AL,40
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE SEPARATORRET
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR SEPARATORRET
 ```
 
-The following old source remains:
+### Change 103 · `ZSCAN4:`
+
+Find the unique label `ZSCAN4:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMP AL,41
+ZSCAN4:
+CMP AL,58
 JE SEPARATORRET
-```
-
-### Edit at old physical position 316
-
-Unchanged source before the edit:
-
-```asm
+CMP AL,91
+JE SEPARATORRET
+CMP AL,93
+JE SEPARATORRET
 CMP AL,43
 JE SEPARATORRET
 CMP AL,45
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE SEPARATORRET
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR SEPARATORRET
 ```
 
-The following old source remains:
+### Change 104 · `ZSCAN4:`
+
+Find the unique label `ZSCAN4:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMP AL,40
+ZSCAN4:
+CMP AL,58
 JE SEPARATORRET
-```
-
-### Edit at old physical position 314
-
-Unchanged source before the edit:
-
-```asm
+CMP AL,91
+JE SEPARATORRET
 CMP AL,93
 JE SEPARATORRET
 CMP AL,43
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE SEPARATORRET
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR SEPARATORRET
 ```
 
-The following old source remains:
+### Change 105 · `ZSCAN4:`
+
+Find the unique label `ZSCAN4:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMP AL,45
+ZSCAN4:
+CMP AL,58
 JE SEPARATORRET
-```
-
-### Edit at old physical position 312
-
-Unchanged source before the edit:
-
-```asm
 CMP AL,91
 JE SEPARATORRET
 CMP AL,93
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE SEPARATORRET
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR SEPARATORRET
 ```
 
-The following old source remains:
+### Change 106 · `ZSCAN4:`
+
+Find the unique label `ZSCAN4:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMP AL,43
-JE SEPARATORRET
-```
-
-### Edit at old physical position 310
-
-Unchanged source before the edit:
-
-```asm
+ZSCAN4:
 CMP AL,58
 JE SEPARATORRET
 CMP AL,91
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE SEPARATORRET
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR SEPARATORRET
 ```
 
-The following old source remains:
+### Change 107 · `ZSCAN4:`
+
+Find the unique label `ZSCAN4:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMP AL,93
-JE SEPARATORRET
-```
-
-### Edit at old physical position 308
-
-Unchanged source before the edit:
-
-```asm
-JMP SEPARATORRET
 ZSCAN4:
 CMP AL,58
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE SEPARATORRET
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR SEPARATORRET
 ```
 
-The following old source remains:
+### Change 108 · `SEPARATOR:`
 
-```asm
-CMP AL,91
-JE SEPARATORRET
-```
-
-### Edit at old physical position 304
-
-Unchanged source before the edit:
+Find the unique label `SEPARATOR:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 SEPARATOR:
@@ -3346,7 +3046,9 @@ MOV AH,1
 CMP AL,44
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JNE ZSCAN4
@@ -3354,225 +3056,215 @@ JMP SEPARATORRET
 ZSCAN4:
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR SEPARATORRET
 ```
 
-The following old source remains:
+### Change 109 · `TOKENCHAR:`
+
+Find the unique label `TOKENCHAR:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMP AL,58
-JE SEPARATORRET
-```
-
-### Edit at old physical position 297
-
-Unchanged source before the edit:
-
-```asm
+TOKENCHAR:
 CMP AL,97
 JB TOKENKEPT
 CMP AL,122
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JA TOKENKEPT
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JA NEAR TOKENKEPT
 ```
 
-The following old source remains:
+### Change 110 · `TOKENCHAR:`
+
+Find the unique label `TOKENCHAR:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-SUB AL,32
-TOKENKEPT:
-```
-
-### Edit at old physical position 295
-
-Unchanged source before the edit:
-
-```asm
-JMP ERROR
 TOKENCHAR:
 CMP AL,97
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JB TOKENKEPT
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JB NEAR TOKENKEPT
 ```
 
-The following old source remains:
+### Change 111 · `SCANMORE:`
+
+Find the unique label `SCANMORE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMP AL,122
-JA TOKENKEPT
-```
-
-### Edit at old physical position 274
-
-Unchanged source before the edit:
-
-```asm
+SCANMORE:
+LODSB
+CMP AL,0
+JE SCANBACK
+CMP AL,32
+JE SCANBACK
+CMP AL,9
+JE SCANBACK
+CMP AL,59
+JE SCANBACK
+CALL SEPARATOR
 CMP AH,1
 JE SCANBACK
 CMP DI,0CC3FH
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JAE TOKENBAD
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JAE NEAR TOKENBAD
 ```
 
-The following old source remains:
+### Change 112 · `SCANMORE:`
+
+Find the unique label `SCANMORE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CALL TOKENCHAR
-STOSB
-```
-
-### Edit at old physical position 272
-
-Unchanged source before the edit:
-
-```asm
+SCANMORE:
+LODSB
+CMP AL,0
+JE SCANBACK
+CMP AL,32
+JE SCANBACK
+CMP AL,9
+JE SCANBACK
+CMP AL,59
 JE SCANBACK
 CALL SEPARATOR
 CMP AH,1
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE SCANBACK
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR SCANBACK
 ```
 
-The following old source remains:
+### Change 113 · `SCANMORE:`
+
+Find the unique label `SCANMORE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMP DI,0CC3FH
-JAE TOKENBAD
-```
-
-### Edit at old physical position 269
-
-Unchanged source before the edit:
-
-```asm
+SCANMORE:
+LODSB
+CMP AL,0
+JE SCANBACK
+CMP AL,32
+JE SCANBACK
 CMP AL,9
 JE SCANBACK
 CMP AL,59
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE SCANBACK
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR SCANBACK
 ```
 
-The following old source remains:
+### Change 114 · `SCANMORE:`
+
+Find the unique label `SCANMORE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CALL SEPARATOR
-CMP AH,1
-```
-
-### Edit at old physical position 267
-
-Unchanged source before the edit:
-
-```asm
+SCANMORE:
+LODSB
+CMP AL,0
+JE SCANBACK
 CMP AL,32
 JE SCANBACK
 CMP AL,9
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE SCANBACK
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR SCANBACK
 ```
 
-The following old source remains:
+### Change 115 · `SCANMORE:`
+
+Find the unique label `SCANMORE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMP AL,59
-JE SCANBACK
-```
-
-### Edit at old physical position 265
-
-Unchanged source before the edit:
-
-```asm
+SCANMORE:
+LODSB
 CMP AL,0
 JE SCANBACK
 CMP AL,32
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE SCANBACK
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR SCANBACK
 ```
 
-The following old source remains:
+### Change 116 · `SCANMORE:`
 
-```asm
-CMP AL,9
-JE SCANBACK
-```
-
-### Edit at old physical position 263
-
-Unchanged source before the edit:
+Find the unique label `SCANMORE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 SCANMORE:
@@ -3580,36 +3272,35 @@ LODSB
 CMP AL,0
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE SCANBACK
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR SCANBACK
 ```
 
-The following old source remains:
+### Change 117 · `ZSCAN2:`
+
+Find the unique label `ZSCAN2:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMP AL,32
-JE SCANBACK
-```
-
-### Edit at old physical position 257
-
-Unchanged source before the edit:
-
-```asm
+ZSCAN2:
+CALL TOKENCHAR
 STOSB
 CALL SEPARATOR
 CMP AH,1
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JNE ZSCAN3
@@ -3617,30 +3308,26 @@ JMP SCANDONE
 ZSCAN3:
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR SCANDONE
 ```
 
-The following old source remains:
+Keep the following `SCANMORE:` label and the source after it in place.
+
+### Change 118 · `ZSCAN1:`
+
+Find the unique label `ZSCAN1:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-SCANMORE:
-LODSB
-```
-
-### Edit at old physical position 250
-
-Unchanged source before the edit:
-
-```asm
-JMP SCANEND
 ZSCAN1:
 CMP AL,59
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JNE ZSCAN2
@@ -3648,30 +3335,29 @@ JMP SCANEND
 ZSCAN2:
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR SCANEND
 ```
 
-The following old source remains:
+### Change 119 · `SCANSPACE:`
+
+Find the unique label `SCANSPACE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CALL TOKENCHAR
-STOSB
-```
-
-### Edit at old physical position 246
-
-Unchanged source before the edit:
-
-```asm
+SCANSPACE:
+LODSB
+CMP AL,32
+JE SCANSPACE
 CMP AL,9
 JE SCANSPACE
 CMP AL,0
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JNE ZSCAN1
@@ -3679,51 +3365,41 @@ JMP SCANEND
 ZSCAN1:
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR SCANEND
 ```
 
-The following old source remains:
+### Change 120 · `SCANSPACE:`
+
+Find the unique label `SCANSPACE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMP AL,59
-JNE ZSCAN2
-```
-
-### Edit at old physical position 244
-
-Unchanged source before the edit:
-
-```asm
+SCANSPACE:
+LODSB
 CMP AL,32
 JE SCANSPACE
 CMP AL,9
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE SCANSPACE
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR SCANSPACE
 ```
 
-The following old source remains:
+### Change 121 · `SCANSPACE:`
 
-```asm
-CMP AL,0
-JNE ZSCAN1
-```
-
-### Edit at old physical position 242
-
-Unchanged source before the edit:
+Find the unique label `SCANSPACE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 SCANSPACE:
@@ -3731,57 +3407,50 @@ LODSB
 CMP AL,32
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE SCANSPACE
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR SCANSPACE
 ```
 
-The following old source remains:
+### Change 122 · `ENDFILE:`
+
+Find the unique label `ENDFILE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMP AL,9
-JE SCANSPACE
-```
-
-### Edit at old physical position 216
-
-Unchanged source before the edit:
-
-```asm
+ENDFILE:
 MOV AL,1
 MOV [ENDED],AL
 CMP BP,0
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE EMPTYEND
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR EMPTYEND
 ```
 
-The following old source remains:
+Keep the following `LINEEND:` label and the source after it in place.
 
-```asm
-LINEEND:
-MOV AL,0
-```
+### Change 123 · `LINEFEED:`
 
-### Edit at old physical position 204
-
-Unchanged source before the edit:
+Find the unique label `LINEFEED:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 LINEFEED:
@@ -3789,36 +3458,32 @@ MOV AL,[SKIPLF]
 CMP AL,0
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE LINEEND
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR LINEEND
 ```
 
-The following old source remains:
+### Change 124 · `ZREADLINE6:`
+
+Find the unique label `ZREADLINE6:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV AL,0
-MOV [SKIPLF],AL
-```
-
-### Edit at old physical position 194
-
-Unchanged source before the edit:
-
-```asm
-JMP READBAD
 ZREADLINE6:
 CMP AL,126
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JBE ZREADLINE7
@@ -3826,30 +3491,28 @@ JMP READBAD
 ZREADLINE7:
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JA NEAR READBAD
 ```
 
-The following old source remains:
+Keep the following `KEEPCHAR:` label and the source after it in place.
+
+### Change 125 · `ZREADLINE5:`
+
+Find the unique label `ZREADLINE5:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-KEEPCHAR:
-STOSB
-```
-
-### Edit at old physical position 190
-
-Unchanged source before the edit:
-
-```asm
+ZREADLINE5:
 CMP AL,9
 JE KEEPCHAR
 CMP AL,32
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JAE ZREADLINE6
@@ -3857,59 +3520,47 @@ JMP READBAD
 ZREADLINE6:
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JB NEAR READBAD
 ```
 
-The following old source remains:
+### Change 126 · `ZREADLINE5:`
+
+Find the unique label `ZREADLINE5:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMP AL,126
-JBE ZREADLINE7
-```
-
-### Edit at old physical position 188
-
-Unchanged source before the edit:
-
-```asm
-JMP READFULL
 ZREADLINE5:
 CMP AL,9
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE KEEPCHAR
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR KEEPCHAR
 ```
 
-The following old source remains:
+### Change 127 · `ZREADLINE4:`
+
+Find the unique label `ZREADLINE4:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMP AL,32
-JAE ZREADLINE6
-```
-
-### Edit at old physical position 184
-
-Unchanged source before the edit:
-
-```asm
-JMP ENDFILE
 ZREADLINE4:
 CMP BP,1023
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JB ZREADLINE5
@@ -3917,30 +3568,24 @@ JMP READFULL
 ZREADLINE5:
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JAE NEAR READFULL
 ```
 
-The following old source remains:
+### Change 128 · `ZREADLINE3:`
+
+Find the unique label `ZREADLINE3:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMP AL,9
-JE KEEPCHAR
-```
-
-### Edit at old physical position 180
-
-Unchanged source before the edit:
-
-```asm
-JMP CARRIAGE
 ZREADLINE3:
 CMP AL,26
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JNE ZREADLINE4
@@ -3948,30 +3593,26 @@ JMP ENDFILE
 ZREADLINE4:
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR ENDFILE
 ```
 
-The following old source remains:
+### Change 129 · `ZREADLINE2:`
+
+Find the unique label `ZREADLINE2:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-CMP BP,1023
-JB ZREADLINE5
-```
-
-### Edit at old physical position 176
-
-Unchanged source before the edit:
-
-```asm
+ZREADLINE2:
 MOV AH,0
 MOV [SKIPLF],AH
 CMP AL,13
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JNE ZREADLINE3
@@ -3979,22 +3620,15 @@ JMP CARRIAGE
 ZREADLINE3:
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR CARRIAGE
 ```
 
-The following old source remains:
+### Change 130 · `ZREADLINE1:`
 
-```asm
-CMP AL,26
-JNE ZREADLINE4
-```
-
-### Edit at old physical position 170
-
-Unchanged source before the edit:
+Find the unique label `ZREADLINE1:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 ZREADLINE1:
@@ -4002,7 +3636,9 @@ MOV AL,[CHAR]
 CMP AL,10
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JNE ZREADLINE2
@@ -4010,22 +3646,15 @@ JMP LINEFEED
 ZREADLINE2:
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR LINEFEED
 ```
 
-The following old source remains:
+### Change 131 · `READCHAR:`
 
-```asm
-MOV AH,0
-MOV [SKIPLF],AH
-```
-
-### Edit at old physical position 165
-
-Unchanged source before the edit:
+Find the unique label `READCHAR:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 READCHAR:
@@ -4033,7 +3662,9 @@ CALL NEXTBYTE
 CMP AX,0
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JNE ZREADLINE1
@@ -4041,145 +3672,131 @@ JMP ENDFILE
 ZREADLINE1:
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR ENDFILE
 ```
 
-The following old source remains:
+### Change 132 · `READLINE:`
+
+Find the unique label `READLINE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV AL,[CHAR]
-CMP AL,10
-```
-
-### Edit at old physical position 159
-
-Unchanged source before the edit:
-
-```asm
+READLINE:
+MOV DI,0C800H
 MOV BP,0
 MOV AL,[ENDED]
 CMP AL,0
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE READCHAR
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR READCHAR
 ```
 
-The following old source remains:
+### Change 133 · `REFILLED:`
+
+Find the unique label `REFILLED:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-MOV AX,0
-RET
-```
-
-### Edit at old physical position 138
-
-Unchanged source before the edit:
-
-```asm
+REFILLED:
+MOV [RDLEN],AX
 MOV DX,0
 MOV [RDPOS],DX
 CMP AX,0
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE BUFFEREND
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JE NEAR BUFFEREND
 ```
 
-The following old source remains:
+Keep the following `BUFFERBYTE:` label and the source after it in place.
+
+### Change 134 · `NEXTBYTE:`
+
+Find the unique label `NEXTBYTE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-BUFFERBYTE:
-MOV BX,[RDPOS]
-```
-
-### Edit at old physical position 131
-
-Unchanged source before the edit:
-
-```asm
+NEXTBYTE:
+MOV AX,[RDPOS]
+MOV DX,[RDLEN]
+CMP AX,DX
+JB BUFFERBYTE
+MOV BX,[HANDLE]
+MOV DX,0D000H
 MOV CX,4096
 MOV AH,3FH
 INT 21H
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JAE REFILLED
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JAE NEAR REFILLED
 ```
 
-The following old source remains:
+### Change 135 · `NEXTBYTE:`
+
+Find the unique label `NEXTBYTE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-JMP FILEBAD
-REFILLED:
-```
-
-### Edit at old physical position 125
-
-Unchanged source before the edit:
-
-```asm
+NEXTBYTE:
 MOV AX,[RDPOS]
 MOV DX,[RDLEN]
 CMP AX,DX
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JB BUFFERBYTE
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JB NEAR BUFFERBYTE
 ```
 
-The following old source remains:
+### Change 136 · `NEXTBYTE:`
+
+Find the unique label `NEXTBYTE:`. Insert the new source immediately before this existing label:
 
 ```asm
-MOV BX,[HANDLE]
-MOV DX,0D000H
+NEXTBYTE:
 ```
 
-### Edit at old physical position 121
-
-Unchanged source before the edit:
-
-```asm
-MOV [INOPEN],AL
-RET
-```
-
-Insert in its place:
+Insert:
 
 ```asm
 CREATEOUT:
@@ -4205,7 +3822,6 @@ OUTPUTCLOSED:
 MOV AL,0
 MOV [OUTOPEN],AL
 RET
-
 FLUSH:
 PUSH AX
 PUSH BX
@@ -4235,82 +3851,61 @@ POP AX
 RET
 ```
 
-The following old source remains:
+### Change 137 · `CLOSEFILE:`
+
+Find the unique label `CLOSEFILE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-NEXTBYTE:
-MOV AX,[RDPOS]
-```
-
-### Edit at old physical position 114
-
-Unchanged source before the edit:
-
-```asm
+CLOSEFILE:
 MOV BX,[HANDLE]
 MOV AH,3EH
 INT 21H
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JAE INPUTCLOSED
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JAE NEAR INPUTCLOSED
 ```
 
-The following old source remains:
+### Change 138 · `OPENFILE:`
+
+Find the unique label `OPENFILE:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
-JMP FILEBAD
-INPUTCLOSED:
-```
-
-### Edit at old physical position 102
-
-Unchanged source before the edit:
-
-```asm
+OPENFILE:
 MOV DX,SRCNAME
 MOV AX,3D00H
 INT 21H
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JAE INPUTOPEN
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JAE NEAR INPUTOPEN
 ```
 
-The following old source remains:
+### Change 139 · `ROOM:`
 
-```asm
-JMP FILEBAD
-INPUTOPEN:
-```
+Find the unique label `ROOM:`. The old block below starts at that label.
 
-### Edit at old physical position 8
-
-Unchanged source before the edit:
-
-```asm
-JE ROOM
-MOV AX,7
-JMP ERROR
-```
-
-Remove the complete old physical range 8–92. Its first source is:
+Remove from the following first source through the ending block below, including both boundaries and everything between them:
 
 ```asm
 ROOM:
@@ -4318,7 +3913,7 @@ CALL CMDFILES
 CALL MEMINIT
 ```
 
-Its last source is:
+Find the unique ending label `GOOD:`. The removal ends after this existing source:
 
 ```asm
 GOOD:
@@ -4326,18 +3921,11 @@ MOV AX,4C00H
 INT 21H
 ```
 
-Remove both boundaries and all source between them.
+Keep the following `FILEBAD:` label and the source after it in place.
 
-The following old source remains:
+### Change 140 · `START:`
 
-```asm
-
-FILEBAD:
-```
-
-### Edit at old physical position 5
-
-Unchanged source before the edit:
+Find the unique label `START:`, then follow this unchanged source through its last displayed instruction:
 
 ```asm
 START:
@@ -4345,13 +3933,15 @@ CLD
 CMP SP,0FFFEH
 ```
 
-Remove:
+The edit begins immediately after that unchanged block.
+
+Replace this existing source:
 
 ```asm
 JE ROOM
 ```
 
-Insert in its place:
+With:
 
 ```asm
 JNE NEAR MEMORYBAD
@@ -4379,34 +3969,6 @@ CALL CLOSEFILE
 MOV AX,4C00H
 INT 21H
 MEMORYBAD:
-```
-
-The following old source remains:
-
-```asm
-MOV AX,7
-JMP ERROR
-```
-
-### Edit at old physical position 1
-
-Remove:
-
-```asm
-; ASM86A construction checkpoint.
-```
-
-Insert in its place:
-
-```asm
-; IR86 streaming native translator. Built with ASM86A.
-```
-
-The following old source remains:
-
-```asm
-START:
-CLD
 ```
 
 ## Build and check
@@ -4451,5 +4013,5 @@ IR ERROR 0000000000 CODE 6
 FAIL
 ```
 
-An unexpected PASS fails this check. Keep a copy of the accepted result before testing; it must remain unchanged.
+An unexpected PASS fails this check. This checkpoint creates no result file; an existing selected result must remain untouched.
 

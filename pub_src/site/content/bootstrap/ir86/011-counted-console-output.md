@@ -10,6 +10,8 @@ aliases = ["/bootstrap/ir86/047-iw-counted-console-output/", "/bootstrap/ir86/11
 
 So far I have used the program's exit status to see what its calculations did. I want the generated program to put a character on the screen. PUTC will be our first small service binding: the IR supplies a byte value, and the runtime performs the output and remembers whether it succeeded.
 
+**Starting source:** `IR10.ASM`. **Save as:** `IR11.ASM`. **Build with:** `ASMAKEEP.COM`.
+
 ## How it works
 
 Bind PUTC and persistent STATUS to checked byte output.

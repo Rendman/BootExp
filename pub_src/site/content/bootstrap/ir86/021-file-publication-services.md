@@ -10,6 +10,8 @@ aliases = ["/bootstrap/ir86/057-iw-file-publication-services/", "/bootstrap/ir86
 
 Writing an output file is only part of finishing a compiler run. I want the compiler to be able to check a name, remove an obsolete file, and rename a completed temporary file into place. These services will give the later compiler the same tools for protecting accepted output that our native workbench already uses.
 
+**Starting source:** `IR20.ASM`. **Save as:** `IR21.ASM`. **Build with:** `ASMAKEEP.COM`.
+
 ## How it works
 
 Normalize existence, deletion, and rename without exposing DOS error values.

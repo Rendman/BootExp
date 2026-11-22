@@ -10,6 +10,8 @@ aliases = ["/bootstrap/ir86/03-buffering-assembly-text/", "/bootstrap/ir86/039-i
 
 The scanner can tell me what it read, but the finished translator must leave an assembly file on disk. I shall exercise the output path with a simple copy before asking it to generate instructions. The temporary-file and recovery rules inherited from the assembler will protect the last accepted result here too.
 
+**Starting source:** `IR02.ASM`. **Save as:** `IR03.ASM`. **Build with:** `ASMAKEEP.COM`.
+
 ## How it works
 
 Copy a byte stream through a checked output block and recoverable publication.

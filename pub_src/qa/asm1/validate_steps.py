@@ -16,7 +16,8 @@ def apply_label_edits(program,stage,text):
   assert f'Find the unique label `{label}`' in section,(stage['page'],'missing label instruction')
   assert program.count(label)==1,(stage['page'],'ambiguous label',label)
   blocks=re.findall(r'```asm\n(.*?)\n```',section,re.S)
-  keys=(['landmark'] if e['placement']=='before_label' else ['context'])+['old','new']
+  bounded=e.get('old_display')=='label_bounds'
+  keys=(['landmark'] if e['placement']=='before_label' else ['context'])+(['old_start','old_end'] if bounded else ['old'])+['new']
   keys=[key for key in keys if e[key]]
   expected=['\n'.join(e[key]) for key in keys]
   assert blocks[:len(expected)]==expected,(stage['page'],'printed edit differs')
@@ -28,7 +29,16 @@ def apply_label_edits(program,stage,text):
    at+=len(context)
   elif e['placement']=='before_label':assert printed['landmark']==[label]
   else:assert e['placement']=='at_label'
-  old=printed.get('old',[]);new=printed.get('new',[])
+  if bounded:
+   first,last=printed['old_start'],printed['old_end'];end_label=last[0]
+   assert program.count(end_label)==1 and f'Find the unique ending label `{end_label}`' in section
+   end=program.index(end_label)
+   assert end>=at and program[end:end+len(last)]==last
+   assert program[at:at+len(first)]==first
+   old=program[at:end+len(last)]
+   assert old==e['old'],(stage['page'],'bounded deletion differs')
+  else:old=printed.get('old',[])
+  new=printed.get('new',[])
   assert program[at:at+len(old)]==old,(stage['page'],'old source differs')
   if e.get('end_anchor'):assert program[at+len(old)]==e['end_anchor']+':'
   program[at:at+len(old)]=new

@@ -10,6 +10,8 @@ aliases = ["/bootstrap/ir86/056-iw-quoted-literal-data/", "/bootstrap/ir86/20-an
 
 A filename or diagnostic is awkward to spell as a row of numeric bytes. I shall let IR source contain quoted text and return a pointer to its terminated bytes. The generated code must branch around that inline storage as it runs. Our first literal will be small enough to follow from its spelling to the displayed character.
 
+**Starting source:** `IR19.ASM`. **Save as:** `IR20.ASM`. **Build with:** `ASMAKEEP.COM`.
+
 ## How it works
 
 Preserve case and escape bytes while branching around inline constant storage.

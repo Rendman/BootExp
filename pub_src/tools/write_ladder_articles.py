@@ -5,7 +5,8 @@ from difflib import SequenceMatcher
 import json,re,tomllib
 from publication_names import ROOT,SERIES,filename,HELP_TITLES,write_page
 from compiler_profiles import profile,render
-from ir86_story import COVER as IR_COVER, WORKBENCH as IR_WORKBENCH, OPENINGS as IR_OPENINGS, AFTER_CHECKS as IR_AFTER_CHECKS
+from ir86_story import COVER as IR_COVER, WORKBENCH as IR_WORKBENCH, OPENINGS as IR_OPENINGS, AFTER_CHECKS as IR_AFTER_CHECKS, READER as IR_READER
+from assembly_edits import patch as assembly_patch,source_note
 C=ROOT/'site/content/bootstrap';Q=ROOT/'qa/toolchain';W=ROOT/'workbench/toolchain'
 def fence(k,s):return '```'+k+'\n'+s.replace('\r\n','\n').rstrip('\n')+'\n```\n\n'
 def slug(s):return re.sub('[^a-z0-9]+','-',s.lower()).strip('-')
@@ -32,7 +33,7 @@ def edits(old,new,condense=False):
  return t,changes
 
 GUIDES={
- 'ir86':('ASM86 builds every saved source in this collection. Supply the translator input and output names after its program name; SOURCE.IR and RESULT.ASM remain the no-argument defaults. Preserve the completed translator as IRKEEP.COM; make the identical IWKEEP.COM copy used by later workbenches.','IR86.ASM','IR86.ZIP'),
+ 'ir86':('ASM86 builds every saved source in this collection. Supply the translator input and output names after its program name; SOURCE.IR and RESULT.ASM remain the no-argument defaults. At the final checkpoint save IR86.ASM and IR86.COM, then preserve identical IRKEEP.COM and IWKEEP.COM working copies.','IR86.ASM','IR86.ZIP'),
  'rill':('Begin with the completed ASM86 and native IR86 workbenches. Every compiler checkpoint is written in IR86. Pass its source name and RESULT.ASM to IRKEEP, then pass RESULT.ASM and RESULT.COM to ASMAKEEP. The finished RILL0 accepts its own input and output filenames.','RILL0.IR','RILL0.ZIP'),
  'rb':('Begin with the completed RILL0. Copy RILL0.IR to RB01.IR and continue editing its working compiler. Use IRKEEP and ASMAKEEP for every build. Each saved compiler accepts the earlier language while gaining one capability.','RILLBOOT.IR','RILLBOOT.ZIP')}
 EXPLAIN={
@@ -70,14 +71,15 @@ for group,family,folder,prefix in [('ir86','ir-extensions',ROOT/'workbench/ir86'
    alias_for[destination].append(route)
   p.unlink()
  source,download,archive=GUIDES[group]
- cover=front(group,SERIES[group][1],list(SERIES).index(group)+1,source,download,cover=True)
+ summary='Carry the tested ASM86 source and builder into one continuing native translator.' if group=='ir86' else source
+ cover=front(group,SERIES[group][1],list(SERIES).index(group)+1,summary,download,cover=True)
  if group=='ir86':body=IR_COVER
  elif group=='rill':body='Build a small compiler in the processor-independent IR language. Its scanner, record layout, local bindings, streamed emitter, and parser are the working parts that RILLBOOT extends. The first language has one fn main(), mutable local words, + and -, unsigned comparisons, assignments, if/else, while, putc, status, exit, and return.'
  else:body='Continue the completed RILL0 source. Add word arithmetic, masks, strings, global storage, procedures, and the file and workspace services needed to compile the RILL compiler. Every continuation remains a working compiler for its preceding subset. The seed deliberately omits XOR, left shift, unary minus, bitwise complement, explicit address-of, and unused intrinsic wrappers; RILL adds the operations needed by the later tool sources.'
  write_page(dest/'_index.md',cover+body+'\n\nRead the workbench first. The [source collection](../../downloads/tools/'+SERIES[group][0].lower()+'/'+archive+') contains plain source and test files.\n')
  work='000-workbench.md';routes=sorted(set(alias_for[0])-{'/bootstrap/'+group+'/000-workbench/'})
- text=front(group,'The '+SERIES[group][0]+' workbench',0,source,archive,routes)+(IR_WORKBENCH if group=='ir86' else '')+source+'\n\nKeep VIEW.BAS and the argument-forwarding CHECK.BAT from ASM1. Work in an ordinary DOS hard-disk directory. Give each tool its input and output filenames on the command line. No arguments select the established defaults. Use unquoted 8.3 names in the current directory, without paths or switches; input, result and recovery names must be distinct. Require a fresh OK and PASS before using an output in the next stage.\n\n'
- if group=='ir86':text+=fence('dos','COPY IR01.ASM SOURCE.ASM\nCHECK ASMAKEEP\nCOPY RESULT.COM IR01.COM')
+ text=front(group,'The '+SERIES[group][0]+' workbench',0,summary,archive,routes)+(IR_WORKBENCH if group=='ir86' else '')+source+'\n\nKeep VIEW.BAS and the argument-forwarding CHECK.BAT from ASM1. Work in an ordinary DOS hard-disk directory. Give each tool its input and output filenames on the command line. No arguments select the established defaults. Use unquoted 8.3 names in the current directory, without paths or switches; input, result and recovery names must be distinct. Require a fresh OK and PASS before using an output in the next stage.\n\n'
+ if group=='ir86':text+='After entering IR01.ASM from the first article:\n\n'+fence('dos','CHECK ASMAKEEP IR01.ASM RESULT.COM')+'Require `OK RESULT.COM 02534 bytes` and PASS before saving the accepted reader:\n\n'+fence('dos','COPY RESULT.COM IR01.COM')
  else:text+=fence('dos','COPY '+cases[0]['source']+' SOURCE.IR\nCHECK IRKEEP\nCOPY RESULT.ASM SOURCE.ASM\nCHECK ASMAKEEP\nCOPY RESULT.COM '+prefix+'01.COM')
  text+='An early stopping point may produce a fragment rather than a complete program. Inspect its length and bytes with VIEW.BAS; execute it only when the article gives a complete program. Recovery names protect an interrupted publication: inspect them before trying again.\n'
  write_page(dest/work,text)
@@ -92,17 +94,20 @@ for group,family,folder,prefix in [('ir86','ir-extensions',ROOT/'workbench/ir86'
   explanation=description if group=='rb' else EXPLAIN.get(c.get('key'),description)
   if group=='rill' and c['key']=='LEX':explanation={'punctuation':'Skip whitespace and line comments, and recognize punctuation and paired operators. Identifier, number, and string paths still reject input in this checkpoint.', 'names':'Copy each complete identifier into IDENT, fold its letters to uppercase, and enforce the 24-character bound. Punctuation remains available; numeric and quoted tokens still reject input.', 'numbers':'Accumulate decimal VALUE only after checking that the next digit fits a word. TOK identifies a number; CH retains the first following character. Names and punctuation keep their earlier behavior; strings are still rejected.'}[c['variant']]
   if group=='rill' and c['key']=='PRIMARY':explanation='Compile numeric literals and parenthesized expressions through the existing EXPR routine. Name and call paths are still rejected.' if c['variant']=='values' else 'Resolve a local binding or builtin name and save its metadata before scanning further. Numeric and parenthesized primaries remain available. Argument parsing still reaches the rejecting CALLARGS stub in this checkpoint.'
-  if group=='ir86':text+=IR_OPENINGS[n]+'\n\n## How it works\n\n'
+  if group=='ir86':text+=IR_OPENINGS[n]+'\n\n'+source_note(oldname,src,'ASMAKEEP.COM')+'## How it works\n\n'
   text+=explanation+'\n\n'
-  if group=='ir86' and n==1:text+='The inherited CMDFILES routine obtains two filenames from the PSP before any DOS file operation. Its owned source/result buffers replace only the selected spellings; the streaming reader and publication routines keep their existing interfaces. With no arguments the defaults are SOURCE.IR and RESULT.ASM.\n\n'
+  if group=='ir86' and n==1:text+=IR_READER+'The inherited CMDFILES routine obtains two filenames from the PSP before any DOS file operation. Its owned source/result buffers replace only the selected spellings; the streaming reader and publication routines keep their existing interfaces. With no arguments the defaults are SOURCE.IR and RESULT.ASM.\n\n'
   if group=='ir86' and n==13:text+='ARGC returns the number of command arguments. ARG takes a one-based argument index in A and returns a stable, zero-terminated byte-addressed string, with STATUS indicating success or failure. An invalid index returns zero and failed status. The entry binding copies and validates the PSP tail before MAIN; up to three unquoted 8.3 filename arguments fit the owned slots. The IR program sees strings and counts, not PSP offsets or processor registers. Follow CMDINIT in the emitted runtime and the small R_ARGC/R_ARG entries.\n\n'
   if group=='rill' and c['key']=='NEXT':text+='FILEARG and FILESAME select the source through ARGC and ARG. Their default names are used only when there is no command tail. The first file-using driver obtains its selected name before OPEN; the same helpers are retained by later file-using checkpoints. Invalid counts, equal input/output names and reserved recovery names exit with failure before output creation. The native PSP handling remains in IR86, outside this compiler implementation.\n\n'
   if group=='rb' and n==9:text+='Add argc() and arg(n) to the portable builtin table alongside the counted file services. They emit ARGC and ARG. The compiler itself already uses those operations through FILEARG; this step lets RILL programs obtain their own file arguments. Indexing begins at one, and STATUS must be checked before using a failed ARG result.\n\n'
   if group=='rb':text+='Retain every earlier language feature. This checkpoint edits the complete compiler; it does not replace it with a helper-only driver.\n\n'
   text+='## Enter the source\n\n'
-  if oldname:text+=f'Copy {oldname} to {src}. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.\n\n'
+  if group=='ir86' and n==1:text+=f'Copy `{oldname}` to `{src}`. '
+  elif oldname:text+=f'Copy {oldname} to {src}. Apply the following edits from the bottom of the old file upward, using the old physical positions and unchanged context. Keep all other source.\n\n'
   else:text+='Create '+src+' as plain text:\n\n'
-  edit,changes=edits(old,new,condense=group=='ir86' and n==1);text+=edit.replace('```source','```asm' if group=='ir86' else '```ir')
+  if group=='ir86' and n==1:edit,changes=assembly_patch(old,new,bounded_deletions=True)
+  else:edit,changes=edits(old,new)
+  text+=edit.replace('```source','```asm' if group=='ir86' else '```ir')
   text+='## Build and check\n\n'
   if group=='ir86':text+=fence('dos',f'COPY {src} SOURCE.ASM\nCHECK ASMAKEEP')
   else:text+=fence('dos',f'COPY {src} SOURCE.IR\nCHECK IRKEEP\nCOPY RESULT.ASM SOURCE.ASM\nCHECK ASMAKEEP')
@@ -140,12 +145,15 @@ for group,family,folder,prefix in [('ir86','ir-extensions',ROOT/'workbench/ir86'
     ext='IR' if group=='ir86' else 'RIL';badname=f'X{n:02}.{ext}' if group!='rb' else f'XRB{n:02}.{ext}'
     text+='Save this separate rejected source as '+badname+':\n\n'+fence('ir' if group=='ir86' else 'rill',c['bad'])+fence('dos',f'CHECK {name} {badname} RESULT.'+('ASM' if group=='ir86' else 'IR'))
    else:text+='Choose an absent disk filename, ABSENT.'+('IR' if group=='ir86' else 'RIL')+', and run:\n\n'+fence('dos',f'CHECK {name} ABSENT.'+('IR' if group=='ir86' else 'RIL')+' RESULT.'+('ASM' if group=='ir86' else 'IR'))
-   text+='Require:\n\n'+fence('text',c['error']+'FAIL')+'An unexpected PASS fails this check. Keep a copy of the accepted result before testing; it must remain unchanged.\n\n'
+   text+='Require:\n\n'+fence('text',c['error']+'FAIL')+'An unexpected PASS fails this check. '
+   text+=('This checkpoint creates no result file; an existing selected result must remain untouched.\n\n' if group=='ir86' and n in (1,2,4) else 'Keep a copy of the accepted result before testing; it must remain unchanged.\n\n')
   if n==len(cases):
-   if group=='ir86':text+=fence('dos',f'COPY {name}.COM IRKEEP.COM\nCOPY IRKEEP.COM IWKEEP.COM')+'IR86.ASM and this final source are identical. Continue with [RILL0](../../rill/index.html).\n'
+   if group=='ir86':text+=fence('dos',f'COPY {name}.ASM IR86.ASM\nCOPY {name}.COM IR86.COM\nCOPY IR86.COM IRKEEP.COM\nCOPY IRKEEP.COM IWKEEP.COM')+'IR86.ASM and this final source are identical. IR86.COM, IRKEEP.COM and IWKEEP.COM are matching copies of the accepted translator. Continue with [RILL0](../../rill/index.html).\n'
    elif group=='rill':text+=fence('dos',f'COPY {name}.COM RLKEEP.COM')+'RILL0.IR is this final source. Continue by editing it in [RILLBOOT](../../rb/index.html).\n'
    else:text+=fence('dos',f'COPY {name}.COM RILLBOOT.COM')+'RILLBOOT.IR is this final source. Continue with the [compiler written in RILL](../../rc/index.html).\n'
-  write_page(dest/page,text);patches.append(dict(family=family,number=n,collection=group,page=page,base=oldname,kind='asm' if group=='ir86' else 'ir',source=src,folder=str(folder.relative_to(ROOT)),changes=changes));old=new;oldname=src
+  record=dict(family=family,number=n,collection=group,page=page,base=oldname,kind='asm' if group=='ir86' else 'ir',source=src,folder=str(folder.relative_to(ROOT)),changes=changes)
+  if group=='ir86' and n==1:record['edit_style']='labels'
+  write_page(dest/page,text);patches.append(record);old=new;oldname=src
  # Exact minimal contract, separate from the target implementation.
  aliases=sorted(set(alias_for[len(cases)+1]+alias_for[len(cases)+2]) - {'/bootstrap/'+group+'/900-language-reference/'})
  text=front(group,SERIES[group][0]+' language reference',900,'The accepted language and its bounded implementation.',download,aliases)

@@ -17,10 +17,37 @@ WORKBENCH = (
     "I have a working assembler and a way to inspect its output. For the next tool I want another visible "
     "stopping point between the source I enter and the bytes DOS executes: an assembly file I can read. "
     "IR86 will write that file, and the preserved ASM86 will turn it into a program.\n\n"
+    "## Carry the tested assembler forward\n\n"
+    "Bring ASM86.ASM and ASMAKEEP.COM from the completed ASM86 workbench into the directory used for this collection. "
+    "ASM86.ASM is the accepted A40 source; ASMAKEEP.COM is the 6,433-byte assembler preserved after its two self-build comparisons. "
+    "Keep that source untouched. ASMKEEP.COM names the earlier ASM0 and is not the builder used here.\n\n"
+    "Before editing a copy, check the source and executable together:\n\n"
+    "```dos\nCHECK ASMAKEEP ASM86.ASM ASTEST.COM\nC:\\DOS\\FC.EXE /B ASMAKEEP.COM ASTEST.COM\n```\n\n"
+    "Require OK ASTEST.COM 06433 bytes and PASS before the comparison. FC must report no differences. "
+    "This checks the same preserved assembler and source that begin the construction.\n\n"
     "## Building the translator\n\n"
     "The first four checkpoints prepare the reader, scanner, writer, and operation records separately. "
     "The fifth joins them into a small translator. From there we keep extending the same source until it can "
     "support the compiler. I shall save each accepted translator with its source so there is a working place to return to.\n\n"
+)
+
+READER = (
+    "The copied source changes jobs. START keeps the full-segment stack check and calls CMDFILES and OPENFILE, "
+    "then READLINE until EOF. SHOWBYTE displays each character from the completed line; TEXT supplies the line ending. "
+    "CLOSEFILE finishes the input before the zero-status DOS exit. The first driver creates no output file.\n\n"
+    "Remove the assembly statement dispatcher, instruction encoders, symbol records, hash table and symbol-page allocation. "
+    "They describe an assembler's work, which this reader no longer performs. The source retains the scanner, lookup, numeric, "
+    "file and report helpers; the driver above uses only its reader and display path.\n\n"
+    "The reader's buffers have explicit new addresses. Keep their pointer constants together with the corresponding capacity checks:\n\n"
+    "| Offsets | Use |\n|---|---|\n"
+    "| C800H–CBFFH | Up to 1023 physical line characters and a zero |\n"
+    "| CC00H–CC3FH | Up to 63 token characters and a zero |\n"
+    "| D000H–DFFFH | 4096-byte input block |\n"
+    "| E000H–EFFFH | Reserved 4096-byte output block |\n"
+    "| F000H–FFFFH | Stack reservation |\n\n"
+    "NEXTBYTE hands back a buffered byte or EOF. READLINE retains raw character case, normalizes line endings, "
+    "and checks the physical line length and two-word source counters. The input is reopened by DOS for each new program run; "
+    "there is no complete source image or allocated symbol workspace in this diagnostic.\n\n"
 )
 
 OPENINGS = {

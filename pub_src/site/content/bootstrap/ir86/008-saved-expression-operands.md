@@ -10,6 +10,8 @@ aliases = ["/bootstrap/ir86/044-iw-saved-expression-operands/", "/bootstrap/ir86
 
 One accumulator can hold the current value, but a calculation often needs to keep an earlier value while finding the next one. I shall add a checked expression stack. The test saves seven, loads another seven, and subtracts them. This is the arrangement a compiler can later use for the two sides of an expression.
 
+**Starting source:** `IR07.ASM`. **Save as:** `IR08.ASM`. **Build with:** `ASMAKEEP.COM`.
+
 ## How it works
 
 Check push/pop depth and apply word arithmetic before a control boundary.
