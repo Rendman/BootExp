@@ -4,8 +4,8 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{{ if not .IsHome }}{{ .Title }} · {{ end }}The Bootstrap Project</title>
 <meta name="description" content="{{ .Description | default .Site.Params.description }}">
-<script src="{{ "js/theme.js" | relURL }}"></script>
-<link rel="stylesheet" href="{{ "css/course.css" | relURL }}">
+<script src="{{ "js/theme.js" | relURL }}?v={{ readFile "static/js/theme.js" | sha256 }}"></script>
+<link rel="stylesheet" href="{{ "css/course.css" | relURL }}?v={{ readFile "static/css/course.css" | sha256 }}">
 </head>
 <body>
 <a class="skip" href="#reading">Skip to article</a>

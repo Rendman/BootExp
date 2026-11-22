@@ -1,7 +1,8 @@
 (() => {
   const storageKey = "bootstrap-theme";
   const root = document.documentElement;
-  const systemTheme = window.matchMedia("(prefers-color-scheme: dark)");
+  const systemTheme = typeof window.matchMedia === "function"
+    ? window.matchMedia("(prefers-color-scheme: dark)") : null;
   let preference;
   let toggle;
 
@@ -13,7 +14,7 @@
   }
 
   function applyTheme() {
-    const dark = preference ? preference === "dark" : systemTheme.matches;
+    const dark = preference ? preference === "dark" : Boolean(systemTheme && systemTheme.matches);
     root.dataset.theme = dark ? "dark" : "light";
     if (toggle) {
       toggle.setAttribute("aria-pressed", String(dark));
@@ -23,7 +24,11 @@
 
   // Apply before the stylesheet loads to avoid flashing the wrong theme.
   applyTheme();
-  systemTheme.addEventListener("change", applyTheme);
+  if (systemTheme && typeof systemTheme.addEventListener === "function") {
+    systemTheme.addEventListener("change", applyTheme);
+  } else if (systemTheme && typeof systemTheme.addListener === "function") {
+    systemTheme.addListener(applyTheme);
+  }
   window.addEventListener("storage", (event) => {
     if (event.key !== storageKey && event.key !== null) return;
     preference = event.newValue === "light" || event.newValue === "dark"
@@ -31,7 +36,7 @@
     applyTheme();
   });
 
-  document.addEventListener("DOMContentLoaded", () => {
+  function initializeToggle() {
     toggle = document.querySelector(".theme-toggle");
     if (!toggle) return;
     toggle.addEventListener("click", () => {
@@ -45,5 +50,12 @@
     });
     applyTheme();
     toggle.hidden = false;
-  });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initializeToggle, { once: true });
+  } else {
+    initializeToggle();
+  }
+  window.addEventListener("pageshow", applyTheme);
 })();
